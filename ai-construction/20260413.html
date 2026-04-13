@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260413_AI社員化プロジェクト_設計方針まとめ - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 1.8; overflow-y: auto; }
+.main h1 { font-size: 1.75rem; margin-top: 0; }
+.main h2 { font-size: 1.4rem; margin-top: 2rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 1.5rem; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; }
+.main li { margin: 0.3rem 0; }
+.main a { color: #0d6efd; text-decoration: none; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+</style>
+</head>
+<body>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260413.html" class="sidebar-item active"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>AI社員化プロジェクト 設計方針まとめ</h1>
+<p>このドキュメントは、2026年4月13日のAI構築に関する設計ディスカッションをまとめたものです。<br />
+チームメンバーへの共有と、今後のエージェント構築の指針として使ってください。</p>
+<h2>結論：少数から始めて1体ずつ確実に増やす</h2>
+<p>世界の先行事例（Gartner・Microsoft調査）では、最初から多数のエージェントを並べた組織の40%以上が2年以内に失敗しています。成功しているのは「1体ずつ確実に機能させてから増やす」組織です。</p>
+<p>エージェントを増やすことは「人を増やす」のとは違い、エージェント間の調整コストが非線形に増大します。5体のエージェントは、1体と比べて25倍の管理コストになりうると言われています。</p>
+<p>増やす判断基準はこの3つだけです：</p>
+<ol>
+<li>「特化」が必要なとき（この業務には専門知識が要る）</li>
+<li>「並列処理」が必要なとき（同時に複数タスクをこなす必要がある）</li>
+<li>「セキュリティ境界」が必要なとき（データを分離しなければならない）</li>
+</ol>
+<p>この3つのどれにも当てはまらなければ、1体のエージェントを強化する方が正解です。</p>
+<h2>スキルとエージェントの違い</h2>
+<p>混同しやすいので整理します。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>スキル</th>
+<th>エージェント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>何か</td>
+<td>やり方を書いたカード（手順書）</td>
+<td>役割を持った担当者</td>
+</tr>
+<tr>
+<td>誰が動かすか</td>
+<td>人間が「やって」と言う</td>
+<td>自分で判断して動く</td>
+</tr>
+<tr>
+<td>記憶</td>
+<td>ない（毎回リセット）</td>
+<td>ある（文脈を引き継げる）</td>
+</tr>
+<tr>
+<td>トリガー</td>
+<td>手動</td>
+<td>イベント・スケジュール・手動すべて可</td>
+</tr>
+</tbody>
+</table>
+<p>「スキルをエージェントに移す」というより「スキルをエージェントの中に組み込む」が正確な表現です。既存のスキルファイルは捨てるものではなく、エージェントの「作業手順」としてそのまま転用できます。</p>
+<h2>1エージェント・複数タスク・確認付きモデル</h2>
+<p>エージェントを業務の数だけ分けると、管理コストが爆発します。<br />
+正しい設計は「1体の中に複数タスクを定義し、最初は確認ゲートをつけて運用する」です。</p>
+<p>これは「Supervised Autonomy（監督付き自律）」と呼ばれる業界標準のパターンです。</p>
+<table>
+<thead>
+<tr>
+<th>フェーズ</th>
+<th>動き方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「見習い」</td>
+<td>毎ステップ確認を求める</td>
+</tr>
+<tr>
+<td>「半人前」</td>
+<td>完了後に報告、差し戻し可</td>
+</tr>
+<tr>
+<td>「一人前」</td>
+<td>自動実行、異常時のみ通知</td>
+</tr>
+<tr>
+<td>「熟練」</td>
+<td>完全自動、ログだけ残す</td>
+</tr>
+</tbody>
+</table>
+<p>同じタスクを「修正なし」で10回連続通過したら確認を外す。「修正あり」が連続2回来たらタスク定義を見直す。この数字基準で判断します。</p>
+<h2>フォルダ構造の設計</h2>
+<p>ナレッジ・社員仕様書・成果物の3つは性質が違う別物です。混在させると全部が腐ります。</p>
+<pre><code>knowledge/                  ← 唯一の真実（ここだけ更新する）
+  LP添削/
+    原則.md
+    チェックリスト.md
+    事例/
+  セールス/
+  プロモ設計/
+
+agents/                     ← ナレッジを参照するだけ（コピーしない）
+  LP添削担当/
+    agent.md                ← knowledge/LP添削/ を参照
+    tasks/
+  ナレッジ管理担当/          ← 全体のバランスを見る
+    agent.md
+
+deliverables/               ← クライアント・受講生に渡す成果物テンプレ
+  LP添削レポート/
+  マニュアル/
+</code></pre>
+<p>各エージェントフォルダの中には以下を定義します：</p>
+<pre><code>agents/会議サポート担当/
+  ├── agent.md          ← 役割・人格・基本方針（1エージェント）
+  ├── task_文字起こし.md
+  ├── task_議事録生成.md
+  └── task_セールス分析.md
+</code></pre>
+<h2>ナレッジ管理の鉄則：Single Source of Truth</h2>
+<p>ナレッジが分散・置いてけぼりになる根本原因は「ナレッジが複数箇所にコピーされていること」です。</p>
+<p>解決策はシンプルです。ナレッジは1箇所にだけ書き、エージェント仕様書はそこを「指さす」だけにします。コピーしない。</p>
+<p>「ナレッジ管理担当」エージェントを1体設置することで、以下が自動化できます：</p>
+<ul>
+<li>新しいLoom動画が処理されたとき、どの社員仕様書が影響を受けるか通知する</li>
+<li>各社員仕様書が参照しているナレッジのバージョンが最新か定期チェックする</li>
+<li>ナレッジが更新されたのに社員仕様書が古いまま、という「ズレ」を検知して報告する</li>
+</ul>
+<h2>インプット・アウトプット・ナレッジの関係</h2>
+<p>添削業務を例に整理します。</p>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>内容</th>
+<th>保存方針</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>インプット</td>
+<td>クライアントのLP草稿（XMind・Googleドキュメント）</td>
+<td>案件フォルダに一時保存（後回しでいい）</td>
+</tr>
+<tr>
+<td>アウトプット</td>
+<td>田中さんのLoomフィードバック</td>
+<td>文字起こし→knowledge/に格納</td>
+</tr>
+<tr>
+<td>ナレッジ</td>
+<td>「このパターンにはこう指摘する」という判断基準</td>
+<td>knowledge/に集約・永続管理</td>
+</tr>
+</tbody>
+</table>
+<p>Loom動画の文字起こしから始めるのが最速です。インプットデータの整理を先にしようとすると止まります。</p>
+<h2>ツールの使い分け</h2>
+<table>
+<thead>
+<tr>
+<th>ツール</th>
+<th>得意なこと</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cursor</td>
+<td>画面を見ながら直接触る。人間が主役。仕様書を書く・育てる。</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td>仕様書を読んで実行する。自動化・バッチ処理が主役。</td>
+</tr>
+</tbody>
+</table>
+<p>社員の <code>agent.md</code> を書くのはCursorで人間が行い、その仕様書を読んで実際に動かすのはClaude Codeという分業が自然です。</p>
+<h2>エージェントのトリガー（起動方法）</h2>
+<p>現在のCursorでの「3時間に1回チェック」と同等の仕組みは、以下の方法で実現できます。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>PCが閉じていても動く</th>
+<th>ローカルファイルを触れる</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Code スケジューラ（CronCreate）</td>
+<td>〇</td>
+<td>△</td>
+<td>クラウド実行。API・GitHub連携向き</td>
+</tr>
+<tr>
+<td>GitHub Actions</td>
+<td>〇</td>
+<td>×</td>
+<td>リポジトリ内のみ。すでに一部動いている</td>
+</tr>
+<tr>
+<td>Mac launchd</td>
+<td>×</td>
+<td>〇</td>
+<td>PC起動中のみ。ローカルファイル処理向き</td>
+</tr>
+</tbody>
+</table>
+<p>当面はMac launchdで十分動きます。完全自動化にはクラウド実行との組み合わせが必要ですが、それは後の話です。</p>
+<h2>チームへの役割分担</h2>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>担当内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(a) 社員育成担当</td>
+<td>業務知識をエージェントに移植する。<code>agent.md</code> を書く・育てる・テストする。</td>
+</tr>
+<tr>
+<td>(b) 基盤構築担当</td>
+<td>エージェントが使うツール・API・MCP連携を作る。</td>
+</tr>
+<tr>
+<td>田中さん</td>
+<td>全体構造の設計・クオリティチェック・手本エージェントの作成。</td>
+</tr>
+</tbody>
+</table>
+<p>(a)は「AIに詳しい人」でなくてもできます。「その業務を一番よくわかっている人」が担うべきです。エージェントのコードは書けなくていい。<code>agent.md</code> に「こういうときはこうする」を日本語で書けるかどうかが基準です。</p>
+<p>(b)が作ったMCP連携やAPIを、(a)が育てたエージェントが呼び出す構図になります。</p>
+<h2>スタッフへの課題設定</h2>
+<p>「AIを勉強してください」より「AI社員を1人育ててください」の方が機能します。</p>
+<table>
+<thead>
+<tr>
+<th>指示</th>
+<th>問題点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIを勉強してください</td>
+<td>完了定義なし・成果物なし</td>
+</tr>
+<tr>
+<td>ナレッジを溜めてください</td>
+<td>完了定義なし・フィードバックなし</td>
+</tr>
+<tr>
+<td>AI社員を1人育ててください</td>
+<td>完了定義あり・動けば成功・動かなければ改善点が見える</td>
+</tr>
+</tbody>
+</table>
+<p>スタッフへの具体的な指示例：</p>
+<pre><code>あなたが今担当している業務の中で、
+「毎週必ず発生する作業」を1つ選んでください。
+
+その作業を担当するAI社員を1人作ってください。
+以下の3つを書けば完成です：
+
+1. この社員は何をする人か（1〜2文）
+2. 作業の手順（箇条書き）
+3. うまくいったかどうかの判断基準
+</code></pre>
+<p>田中さんが先に「議事録作成の社員」「セールスフィードバック用の社員」の2体を手本として作り、「これを参考に各自1体作ってね」という形にすると、スタッフが一番動きやすくなります。</p>
+<h2>今急ぐべき優先順</h2>
+<ol>
+<li><code>knowledge/</code> フォルダを新設して、LP添削のナレッジを1つ移す</li>
+<li><code>agents/ナレッジ管理担当/</code> を定義する（ナレッジと仕様書のズレを検知する役割）</li>
+<li>手本エージェント（議事録・セールスフィードバック）を2体作る</li>
+<li>スタッフに「AI社員を1人育てる」課題を渡す</li>
+</ol>
+<p>一気に整理しようとすると止まります。まずLoom動画を1本文字起こしして、3つのパターンを <code>knowledge/</code> に書くことが最初のサイクルです。</p>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-04-13)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 4FX9KM2R<br />
+Generated by: 田中祐一</p>
+</main>
+</body>
+</html>
