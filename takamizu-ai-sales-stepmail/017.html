@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>設計戦略図 - たかみず 次世代型AIセールス プッシュメルマガ</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 1.8; overflow-y: auto; }
+.main h1 { font-size: 1.75rem; margin-top: 0; }
+.main h2 { font-size: 1.4rem; margin-top: 2rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 1.5rem; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; }
+.main li { margin: 0.3rem 0; }
+.main a { color: #0d6efd; text-decoration: none; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+</style>
+</head>
+<body>
+<nav class="sidebar">
+<h3>たかみず 次世代型AIセールス プッシュメルマガ</h3>
+<a href="001.html" class="sidebar-item"><span class="date">2026年05月05日</span> 00_オプトイン自動返信</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年05月05日</span> 01_オプト後3時間</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年05月05日</span> 02_day1_朝08-00</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年05月05日</span> 03_day1_夜20-00</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年05月05日</span> 04_day2_朝08-00</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年05月05日</span> 05_day2_夜20-00</a>
+<a href="007.html" class="sidebar-item"><span class="date">2026年05月05日</span> 06_day3_朝08-00</a>
+<a href="008.html" class="sidebar-item"><span class="date">2026年05月05日</span> 07_day3_夜20-00</a>
+<a href="009.html" class="sidebar-item"><span class="date">2026年05月05日</span> 08_day4_朝08-00</a>
+<a href="010.html" class="sidebar-item"><span class="date">2026年05月05日</span> 09_day4_夜20-00</a>
+<a href="011.html" class="sidebar-item"><span class="date">2026年05月05日</span> 10_day5_朝08-00</a>
+<a href="012.html" class="sidebar-item"><span class="date">2026年05月05日</span> 11_day5_夜20-00</a>
+<a href="013.html" class="sidebar-item"><span class="date">2026年05月05日</span> 12_day6_朝08-00</a>
+<a href="014.html" class="sidebar-item"><span class="date">2026年05月05日</span> 13_day6_夜20-00</a>
+<a href="015.html" class="sidebar-item"><span class="date">2026年05月05日</span> 14_day7_朝08-00</a>
+<a href="016.html" class="sidebar-item"><span class="date">2026年05月05日</span> 15_day7_夜20-00</a>
+<a href="017.html" class="sidebar-item active"><span class="date">2026年05月05日</span> 設計戦略図</a>
+</nav>
+<main class="main">
+<h1>次世代型AIセールス プッシュメルマガ 設計戦略図</h1>
+<p>ドキュメント最終更新: 2026-05-05</p>
+<p>このメルマガ群（オプトイン自動返信＋オプト後3時間＋Day1〜Day7×2通／合計16通）の戦略設計図。<br />
+個別の本文を書く前の「全体最適」の見取り図。本文編集の判断はすべてこの図に照らして行う。</p>
+<p>参照ファイル:<br />
+- 案件マスター: <code>21_プロジェクト一覧/たかみず/マスターデータ/案件マスター_魔法の45分セールステンプレート.md</code><br />
+- お客様の声: <code>21_プロジェクト一覧/たかみず/その他データ/お客様の声.md</code><br />
+- ファネル全体像: <code>21_プロジェクト一覧/たかみず/プロモ案件/次世代型AIセールス/ファネル設計_全体像.md</code><br />
+- サンキューページ: <code>21_プロジェクト一覧/たかみず/プロモ案件/次世代型AIセールス/ファネルページ/20260504_サンキューページライティング案.md</code><br />
+- プロモ動画台本: <code>21_プロジェクト一覧/たかみず/プロモ案件/次世代型AIセールス/プロモ動画/20260429_次世代型AIセールス_プロモ動画台本_約5分.md</code></p>
+<h2>1. このメルマガの位置づけ</h2>
+<p>ファネル上の役割:</p>
+<pre><code>[広告] → [オプトインLP] → [サンキューページ]
+                              ├─ 動画（10分）
+                              └─ LINEオープンチャット参加
+                                    ↓
+                       [このプッシュメルマガ 16通]
+                       ＋[オープンチャット投稿（たかみず音声＋田中テキスト）]
+                                    ↓
+                              [体験セミナー]
+                                    ↓
+                              [個別相談 → 成約]
+</code></pre>
+<p>メルマガ単独で完結させない。オープンチャットへ確実に流し込み、オープンチャット側のリアルタイム巻き込み（音声・カウントダウン）と二重で温める設計。</p>
+<h2>2. メルマガ単体のミッション（KPIの逆算）</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>目標</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>動画視聴完了率</td>
+<td>70%以上</td>
+<td>「順番」哲学を腹落ちさせる入口</td>
+</tr>
+<tr>
+<td>オープンチャット参加率</td>
+<td>60%以上</td>
+<td>体験セミナー誘導の母集団</td>
+</tr>
+<tr>
+<td>体験セミナー申込率（オプトインからの最終）</td>
+<td>10%以上</td>
+<td>ファネル全体KPI（既存45分は4月4%。これを倍以上に）</td>
+</tr>
+</tbody>
+</table>
+<p>メルマガが直接ノックすべき数字は「動画視聴率」と「オープンチャット参加率」の2つ。体験セミナー申込はオープンチャット側が主担当。</p>
+<h2>3. ターゲット読者像（案件マスターより）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ペルソナ</td>
+<td>セールスに苦手意識がある女性起業家</td>
+</tr>
+<tr>
+<td>ステージ</td>
+<td>月商10万〜100万円</td>
+</tr>
+<tr>
+<td>痛み</td>
+<td>ノウハウは学んだのに売れない</td>
+</tr>
+<tr>
+<td>自己評価</td>
+<td>「センスがないのかも」と自分を責めている</td>
+</tr>
+<tr>
+<td>過去の試行</td>
+<td>SNS集客・ノウハウ系講座・テンプレ収集</td>
+</tr>
+<tr>
+<td>言われたい</td>
+<td>「あなたのせいじゃない。順番がズレているだけ」</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 7日間の心理ステージ設計（受け手をどこへ運ぶか）</h2>
+<p>7日間で読者を「センスがないと自分を責めている地点」から「セールスはギフト。動く側に立つ」地点まで運ぶ。</p>
+<table>
+<thead>
+<tr>
+<th>フェーズ</th>
+<th>期間</th>
+<th>心理ゴール</th>
+<th>主要な信念転換</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 1: 入口の信念転換</td>
+<td>Day1〜Day2</td>
+<td>「自分のせいじゃなかった」と肩の力が抜ける</td>
+<td>売れない＝センスじゃなく順番／AIは楽するためじゃない</td>
+</tr>
+<tr>
+<td>Phase 2: スキル領域の常識転換</td>
+<td>Day2〜Day3</td>
+<td>セールスの中身が「売る技術」から「ギフトの時間」に切り替わる</td>
+<td>ヒアリングは数じゃない／クロージングは売り込みじゃない／セールスはギフト</td>
+</tr>
+<tr>
+<td>Phase 3: 自分の壁の直面化</td>
+<td>Day4〜Day5</td>
+<td>自分が止まっていた本当の理由に気づく</td>
+<td>価格は覚悟／神トークでは売れない／逃げ腰の正体は意識の方向</td>
+</tr>
+<tr>
+<td>Phase 4: 構造的なリターン</td>
+<td>Day6</td>
+<td>「整えると、家族・紹介・自分時間が戻る」と未来が見える</td>
+<td>リピート紹介の構造／自分を後回しにしない</td>
+</tr>
+<tr>
+<td>Phase 5: 行動分岐</td>
+<td>Day7</td>
+<td>「ここで動く側に立つ」と覚悟が決まる</td>
+<td>知識→行動／動く人と動かない人の1年後</td>
+</tr>
+</tbody>
+</table>
+<h2>5. 全16通の役割マップ</h2>
+<p>各通に「お客様の声を最低1点」入れる方針。証明の積み上げを毎日続ける。<br />
+「お客様の声」欄の表記:<br />
+- 主役型: その通の中心ストーリーとして長めに展開<br />
+- 補強型: パラダイムを支える証拠として中盤に短く挿入<br />
+- 名言型: 一行〜数行の短い引用を本文の節目に</p>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>配信</th>
+<th>心理ゴール</th>
+<th>主要パラダイム</th>
+<th>使うストーリー素材</th>
+<th>お客様の声（型／事例）</th>
+<th>CTA強度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>オプトイン直後</td>
+<td>登録は完了していない／ここで2つだけやる</td>
+<td>セールスはギフト</td>
+<td>導入のみ</td>
+<td>名言型: 「無料コンサル、有料級すぎる」（短く1行で信頼の入口）</td>
+<td>強（必須2点）</td>
+</tr>
+<tr>
+<td>01</td>
+<td>オプト後3時間</td>
+<td>動画未視聴の取り戻し</td>
+<td>売れない人ほど「順番」がズレている</td>
+<td>「あの3時間で人生が変わった」未視聴で1年遠回り</td>
+<td>補強型: 薬剤師（月数万→1ヶ月7桁）を「動いた人の側」として短く</td>
+<td>強（再送リマインド）</td>
+</tr>
+<tr>
+<td>02</td>
+<td>Day1朝</td>
+<td>センターピンはセールス</td>
+<td>集客でも商品でもなく、センターピンはセールス</td>
+<td>コロナで全リスケ→3名検証→売上爆発</td>
+<td>主役型（後段）: Yさん（拗ねていた→3ヶ月200万円）。「順番」体現の代表として</td>
+<td>中</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Day1夜</td>
+<td>楽するためのAIではない</td>
+<td>怒り起点／お客様に本気で向き合うためのAI</td>
+<td>3分でAI台本を作って撃沈した受講生</td>
+<td>補強型: スピカウンセラー（押し売り思い込みが解けた瞬間）／名言型: 「言いづらいことも指摘してもらえた」</td>
+<td>中</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Day2朝</td>
+<td>ヒアリングは数より深さ</td>
+<td>共鳴の二段：痛みの代弁→真実への光</td>
+<td>質問リスト30個暗記で5%だった人</td>
+<td>主役型: スピカウンセラー（クロージング未経験→66万円）。Before/Afterで深く見せる</td>
+<td>中</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Day2夜</td>
+<td>クロージングは決断のサポート</td>
+<td>売り込みではなく「2つの未来」を渡す</td>
+<td>たかみず本人「いくらですか」で固まった夜</td>
+<td>補強型: スピカウンセラー「初日45万＋翌日12万」／名言型: 「強み発掘・寄り添い力」</td>
+<td>中</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Day3朝</td>
+<td>セールスはギフト（哲学の核）</td>
+<td>決めるのはお客様／20万人と向き合った原点</td>
+<td>百貨店時代・喪服／入学式／独立スーツの節目</td>
+<td>補強型: 8年連続1位・返品2回（20年で）の権威／名言型: まゆっきさん「塾長、売れました！」</td>
+<td>中</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Day3夜</td>
+<td>入口設計で7割決まる</td>
+<td>集客を増やす前に入口を整える</td>
+<td>1日5件の無料相談で空っぽだった人</td>
+<td>主役型: Yさん（拗ねていた→3ヶ月200万円）。「順番が変わったら結果が出た」を中心に展開</td>
+<td>中強</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Day4朝</td>
+<td>価格は覚悟でしか言えない</td>
+<td>自信のなさじゃない／お客様への責任の覚悟</td>
+<td>3万円単発で疲弊したシングルマザー</td>
+<td>主役型: 薬剤師（月数万→1ヶ月7桁）。「ステージごと変わる」を価格覚悟と紐付け／名言型: 「投資の3倍回収」</td>
+<td>中強</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Day4夜</td>
+<td>神トークでは売れない</td>
+<td>マインドの土台→技術の順番</td>
+<td>スクショ50枚集めて1件しか決まらない人</td>
+<td>主役型: なみさん（販売やめようか→店長）。「気づきで変わる」／名言型: 「変えるではなく加える」</td>
+<td>中</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Day5朝</td>
+<td>役割で立つ／自信ではない</td>
+<td>意識を自分→お客様へ向け直す</td>
+<td>百貨店新人時代「あなたおすすめある？」で固まった日</td>
+<td>主役型: 福田さん（教えを胸に→ロープレ大会店代表）。「生き方ごと役割で立つ」</td>
+<td>中</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Day5夜</td>
+<td>整えると家庭が整う</td>
+<td>ビジネスを頑張る＝家族を削る、はズレ</td>
+<td>「ママ、最近笑ってないね」と言われた夜</td>
+<td>主役型: まゆっきさん（瞑想で売れた）。朝の整え→売上の小さな成功体験／名言型: 「言いづらいことも指摘」</td>
+<td>中</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Day6朝</td>
+<td>リピート・紹介の構造</td>
+<td>良いセールスは次のお客様を連れてくる</td>
+<td>1人のお客様から1年で10人へ広がった</td>
+<td>主役型: Yさん再登場（紹介・継続の文脈で別角度）／名言型: 「投資以上を期間内に」</td>
+<td>中強</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Day6夜</td>
+<td>自分を後回しにしない</td>
+<td>ご自分への向き合い方＝お客様への向き合い方</td>
+<td>たかみず本人「土曜夜10時に夫との朝ごはんをキャンセルした夜」</td>
+<td>補強型: スピカウンセラー再登場（自己尊重→クロージングが楽しくなった文脈）／名言型: 「無料コンサル、有料級」</td>
+<td>中</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Day7朝</td>
+<td>知識→行動の橋渡し</td>
+<td>7日間の総括／使って初めて自分のもの</td>
+<td>7日間で渡したピースを一行ずつ振り返る</td>
+<td>主役型（総括）: Yさん200万・薬剤師7桁・スピカウンセラー66万・なみさん店長・福田さんロープレを5点ダイジェスト</td>
+<td>強（朝のうちに完了）</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Day7夜</td>
+<td>動く人と動かない人の分岐</td>
+<td>タイミングは動いた人にだけ降りる</td>
+<td>1年前ここで動いたゆりこさん vs 動かなかったけいこさん</td>
+<td>補強型: 「動いた人」の代表として薬剤師（1ヶ月で7桁）を短く差す。けいこさん側は構造のみ</td>
+<td>最強（最終リマインド）</td>
+</tr>
+</tbody>
+</table>
+<h2>6. お客様の声の出現頻度・配置設計</h2>
+<h3>6.1 全体方針</h3>
+<p>「本当かな？」を毎通崩していくため、声を「ほぼ毎通」に分散して入れる。15日連続で誰かの変化を見せる、というのが基本姿勢。</p>
+<table>
+<thead>
+<tr>
+<th>出現密度</th>
+<th>通数</th>
+<th>比率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主役型（中心ストーリーで長く展開）</td>
+<td>9通</td>
+<td>56%</td>
+</tr>
+<tr>
+<td>補強型（中盤で証拠として短く挿入）</td>
+<td>5通</td>
+<td>31%</td>
+</tr>
+<tr>
+<td>名言型（短い感想を節目に置く・主役/補強と重複可）</td>
+<td>8通</td>
+<td>50%</td>
+</tr>
+<tr>
+<td>お客様の声を含む通の合計</td>
+<td>16通中16通</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<p>各通に「主役型 or 補強型」のいずれかを最低1点。さらに半数の通には「名言型」を別途追加して、本文の節目に短い証拠を散らす。</p>
+<h3>6.2 事例ごとの登場回数（重複させて記憶に焼く）</h3>
+<table>
+<thead>
+<tr>
+<th>事例</th>
+<th>登場回数</th>
+<th>登場通</th>
+<th>文脈の出し分け</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yさん（拗ねていた→3ヶ月200万円）</td>
+<td>3</td>
+<td>Day1朝・Day3夜・Day6朝（＋Day7朝総括）</td>
+<td>①順番論／②入口設計／③紹介の構造／④総括</td>
+</tr>
+<tr>
+<td>薬剤師（月数万→1ヶ月7桁）</td>
+<td>3〜4</td>
+<td>オプト後3時間・Day4朝・Day7朝総括・Day7夜</td>
+<td>①動いた人の側／②価格覚悟／③総括／④動く人代表</td>
+</tr>
+<tr>
+<td>スピカウンセラー（66万円）</td>
+<td>3</td>
+<td>Day1夜・Day2朝・Day2夜・Day6夜・Day7朝総括</td>
+<td>①押し売り思い込み解除／②ヒアリング主役／③クロージング補強／④自己尊重→楽しい／⑤総括</td>
+</tr>
+<tr>
+<td>なみさん（販売やめようか→店長）</td>
+<td>2</td>
+<td>Day4夜・Day7朝総括</td>
+<td>①気づきで変わる／②総括</td>
+</tr>
+<tr>
+<td>福田さん（教えを胸に→ロープレ大会店代表）</td>
+<td>2</td>
+<td>Day5朝・Day7朝総括</td>
+<td>①役割で立つ／②総括</td>
+</tr>
+<tr>
+<td>まゆっきさん（瞑想で売れた）</td>
+<td>2</td>
+<td>Day3朝（名言）・Day5夜</td>
+<td>①現場の小さな証拠／②朝の整え→売上</td>
+</tr>
+</tbody>
+</table>
+<h3>6.3 名言型（短い声）の配置</h3>
+<p>メインの事例ストーリーの間を埋める短い証拠。本文中に「ある受講生さんから、こんなお声をいただいたことがあります」と一行〜数行で挟む。</p>
+<table>
+<thead>
+<tr>
+<th>短い声</th>
+<th>配置先</th>
+<th>接続の文脈</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>「無料コンサル、有料級すぎる」</td>
+<td>00オプトイン直後・Day6夜</td>
+<td>信頼の入口／自己尊重</td>
+</tr>
+<tr>
+<td>「言いづらいことも指摘してもらえた」</td>
+<td>Day1夜・Day5夜</td>
+<td>怒りの裏側にある誠実さ／指摘で変われた事例</td>
+</tr>
+<tr>
+<td>「強み発掘・寄り添い力」</td>
+<td>Day2夜</td>
+<td>クロージングは決断の伴走</td>
+</tr>
+<tr>
+<td>「変えるではなく加える」</td>
+<td>Day4夜</td>
+<td>マインド→技術の順番／肯定から伸ばす指導</td>
+</tr>
+<tr>
+<td>「投資の3倍回収」</td>
+<td>Day4朝</td>
+<td>価格の覚悟は受講生にも返る</td>
+</tr>
+<tr>
+<td>「投資以上を期間内に」</td>
+<td>Day6朝</td>
+<td>リピート・紹介の構造で投資が回る</td>
+</tr>
+</tbody>
+</table>
+<h3>6.4 重複させる設計の意図</h3>
+<p>同じ事例を3〜4回登場させるのは、3つの効果を狙うため:</p>
+<ol>
+<li>反復による記憶定着（読者の頭に「Yさん＝200万」が焼きつく）</li>
+<li>別の角度から見せることで深みが出る（順番論→紹介→総括）</li>
+<li>7日間の最後まで読み続けた読者ほど「あの人の話、また出てきた」と再会感を味わう</li>
+</ol>
+<p>事例数が限られている（実在6＋短い声6）からこそ、配置のリズムが効く。新規取得できたらDay5夜・Day6夜あたりから差し替えていく。</p>
+<h2>7. たかみずの実績・哲学・ストーリーの出し分け</h2>
+<p>「権威」「哲学」「人間味」の3カテゴリを意識的に分散配置する。</p>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>素材</th>
+<th>配置先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>権威（数字で立つ）</td>
+<td>8年連続1位／返品2回（20年で）／百貨店20万人／オンライン1700人</td>
+<td>Day3朝（哲学の核に添える）／Day7朝（総括の下支え）</td>
+</tr>
+<tr>
+<td>哲学（思想で立つ）</td>
+<td>セールスはギフト／決めるのはお客様／売り手と買い手の感謝の循環</td>
+<td>Day3朝（中心）／Day6朝・夜（リピート・自己尊重に再接続）</td>
+</tr>
+<tr>
+<td>人間味（弱さで立つ）</td>
+<td>コロナで全リスケ／「いくらですか」で固まった夜／百貨店新人「おすすめある？」で固まった日／土曜夜10時のキャンセル</td>
+<td>Day1朝（コロナ）／Day2夜（価格固まる）／Day5朝（新人）／Day6夜（土曜夜10時）</td>
+</tr>
+<tr>
+<td>怒り（信念で立つ）</td>
+<td>楽するためにAIを使う文化を潰しに来た／テクニックでは変わらない</td>
+<td>Day1夜（中心）／Day4夜（補強）</td>
+</tr>
+</tbody>
+</table>
+<h2>8. CTA階段（朝/夜の役割分け）</h2>
+<p>朝メールと夜メールで、CTAの「圧」を変える。</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>朝（08:00）</th>
+<th>夜（20:00）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>トーン</td>
+<td>落ち着いた語りかけ／今日の入口</td>
+<td>1日の終わりに行動を確定させる／緊急度を上げる</td>
+</tr>
+<tr>
+<td>CTAの位置</td>
+<td>本文の終盤に1回</td>
+<td>本文の中盤と末尾の2回</td>
+</tr>
+<tr>
+<td>言葉の例</td>
+<td>「今日のうちに」「気持ちよく読み始められます」</td>
+<td>「明日からは別の話に進みます」「夜のうちに完了させてください」</td>
+</tr>
+<tr>
+<td>例外</td>
+<td>Day7朝のみ朝でも強圧（最後の朝）</td>
+<td>Day7夜は最強（明日からはオープンチャットでの体験会案内）</td>
+</tr>
+</tbody>
+</table>
+<h2>9. オープンチャットへの引き渡し設計</h2>
+<p>7日後に何が起きるか:</p>
+<ul>
+<li>Day7夜の翌日からは、オープンチャット投稿が主戦場になる</li>
+<li>メルマガでは「明日からはオープンチャット側で体験会の案内をしていく」と予告する（Day7夜で明示）</li>
+<li>メルマガ読者がオープンチャットに参加していない＝体験会の案内が届かない構造を、最終リマインドで強く打つ</li>
+</ul>
+<p>オープンチャット側との分業:</p>
+<table>
+<thead>
+<tr>
+<th>チャネル</th>
+<th>役割</th>
+<th>担当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>メルマガ16通</td>
+<td>哲学・パラダイム・心理ステージの整地</td>
+<td>田中（執筆）</td>
+</tr>
+<tr>
+<td>オープンチャット音声</td>
+<td>体験セミナーのリアルタイム巻き込み</td>
+<td>たかみず</td>
+</tr>
+<tr>
+<td>オープンチャットテキスト</td>
+<td>カウントダウン・教育投稿</td>
+<td>田中＋ダミーコメント</td>
+</tr>
+<tr>
+<td>オープンチャット事務</td>
+<td>日程案内・リマインド</td>
+<td>澤田</td>
+</tr>
+</tbody>
+</table>
+<h2>10. 「動かない読者」への処方箋</h2>
+<p>ターゲットには「センスがないと自分を責めて、動けなくなっている層」が多い。動かない理由を3つに分類して、それぞれに別の通で処方する。</p>
+<table>
+<thead>
+<tr>
+<th>動けない理由</th>
+<th>処方する通</th>
+<th>処方の核</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自分のせい（センスがない）</td>
+<td>Day1朝・Day1夜</td>
+<td>順番のズレ／センスじゃない</td>
+</tr>
+<tr>
+<td>怖さ（クロージング・価格）</td>
+<td>Day2夜・Day4朝・Day5朝</td>
+<td>売り込みじゃない／覚悟／役割</td>
+</tr>
+<tr>
+<td>後回し（時間がない）</td>
+<td>Day1夜のサンキュー誘導／Day7夜</td>
+<td>スマホスクロール15分の入れ替え／1年後の差</td>
+</tr>
+</tbody>
+</table>
+<h2>11. ファイル運用ルール（プレースホルダー・命名）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>命名規則</td>
+<td><code>{連番}_{day1}_{朝/夜}{時刻}.md</code>（既存準拠）</td>
+</tr>
+<tr>
+<td>プレースホルダー</td>
+<td><code>{サンキューページURL}</code> <code>{アドレス変更URL}</code> <code>{配信解除URL}</code></td>
+</tr>
+<tr>
+<td>件名</td>
+<td>17〜25文字目安。数字・「？」「、」を1〜2回まで</td>
+</tr>
+<tr>
+<td>1行字数</td>
+<td>17〜22文字、意味の塊で1〜2行</td>
+</tr>
+<tr>
+<td>段落</td>
+<td>2〜4行＋空行</td>
+</tr>
+<tr>
+<td>署名</td>
+<td>全通、本文末尾→区切り→署名ブロック→アドレス変更／配信解除</td>
+</tr>
+<tr>
+<td>禁止表現</td>
+<td><code>**強調**</code>／本文中の単独<code>---</code>／「〜における」「いかがでしたでしょうか」</td>
+</tr>
+<tr>
+<td>30行超の保存</td>
+<td>段階的保存方式（Write→StrReplace×複数）</td>
+</tr>
+</tbody>
+</table>
+<h2>12. 既存ドラフト（00〜15）と本戦略のギャップ</h2>
+<p>現在の14通＋既存3通は、戦略図を作る前のドラフト。本戦略図と照らした主な差分:</p>
+<table>
+<thead>
+<tr>
+<th>差分</th>
+<th>既存ドラフト</th>
+<th>本戦略</th>
+<th>対応</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>お客様の声</td>
+<td>全通、アルファベット連番の仮名（Aさん〜Jさん）の架空事例で構成</td>
+<td>全16通に実在の声を配置（主役型9・補強型5・名言型8）。アルファベット連番の仮名は廃止し、実在事例ベース＋自然な仮名に統一。事例は重複させて記憶に焼く</td>
+<td>全通を実在事例＋自然な仮名に書き換え</td>
+</tr>
+<tr>
+<td>権威の出し方</td>
+<td>「1700人サポート」が中心</td>
+<td>「8年連続1位／返品2回（20年で）／百貨店20万人」を哲学の核に添える</td>
+<td>Day3朝・Day7朝に明示</td>
+</tr>
+<tr>
+<td>AIへの言及</td>
+<td>Day1夜のみ</td>
+<td>「次世代型AIセールス」のため、AI/共鳴覚醒シナリオの輪郭を複数通で薄く繰り返す</td>
+<td>Day1夜・Day2朝・Day4朝に薄く分散</td>
+</tr>
+<tr>
+<td>Day7夜の最終CTA</td>
+<td>動画＋オープンチャット</td>
+<td>動画＋オープンチャット＋「明日からは体験会案内に進む」予告</td>
+<td>Day7夜の文末を予告型に修正</td>
+</tr>
+<tr>
+<td>短い声（名言型）の活用</td>
+<td>未使用</td>
+<td>「無料コンサル有料級」「投資の3倍」等を本文の節目に挟む</td>
+<td>6.3の配置先に従い差し込み</td>
+</tr>
+</tbody>
+</table>
+<h2>13. 修正の進め方（提案）</h2>
+<p>戦略図のレビュー後、以下の順で着手する:</p>
+<ol>
+<li>Day3朝（哲学の核）を最初に書き直す。ここがメルマガ全体の背骨</li>
+<li>Day7朝・Day7夜（クロージング2通）を書き直す。読者の最終アクションを決める部分</li>
+<li>Yさん／薬剤師／スピカウンセラーが主役型で登場する通（Day1朝・Day2朝・Day3夜・Day4朝・Day6朝）を書き直す</li>
+<li>なみさん／福田さん／まゆっきさんが主役型で登場する通（Day4夜・Day5朝・Day5夜）を書き直す</li>
+<li>残り（Day1夜・Day2夜・Day6夜・00・01）はお客様の声を補強型／名言型で挿入する形で部分修正</li>
+</ol>
+<h2>14. レビュー観点（戦略図に対するチェックリスト）</h2>
+<p>戦略図への合意ポイント。下記いずれか不一致があれば、設計図側を直してから本文に着手する。</p>
+<ul>
+<li>[ ] ファネル位置づけ（メルマガとオープンチャットの分業）でズレはないか</li>
+<li>[ ] KPI（動画視聴70%・オープンチャット60%・体験会10%）は妥当か</li>
+<li>[ ] ターゲット心理ステージ（自己否定→ギフト→行動分岐）の流れに違和感がないか</li>
+<li>[ ] 16通の役割マップで、抜けや過剰な通はないか</li>
+<li>[ ] お客様の声を「全16通に最低1点」入れる方針（主役型9・補強型5・名言型8）に合意できるか</li>
+<li>[ ] 同じ事例を3〜4回重複させて記憶に焼く設計に合意できるか</li>
+<li>[ ] たかみずの「人間味」ストーリー4本（コロナ／いくらですか／新人／土曜夜10時）の使いどころに合意できるか</li>
+<li>[ ] CTA階段（朝/夜の圧の差・Day7だけ強）に合意できるか</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-05-05)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: G2R6D1H5<br />
+Generated by: 田中祐一</p>
+<hr />
+</main>
+</body>
+</html>
