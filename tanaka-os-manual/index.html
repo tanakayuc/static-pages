@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>田中祐一OS 使い方ガイド</title>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --accent: #6366f1;
+  --accent-soft: #eef2ff;
+  --accent-text: #4338ca;
+  --text: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --bg: #ffffff;
+  --bg-subtle: #f9fafb;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --success: #10b981;
+  --success-soft: #d1fae5;
+  --warning: #f59e0b;
+  --warning-soft: #fef3c7;
+  --danger: #ef4444;
+  --danger-soft: #fee2e2;
+  --info: #3b82f6;
+  --info-soft: #dbeafe;
+  --tanaka: #ec4899;
+  --tanaka-soft: #fce7f3;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  background: var(--bg-subtle);
+  color: var(--text);
+  line-height: 1.8;
+  font-size: 15px;
+}
+.wrap { max-width: 880px; margin: 0 auto; padding: 32px 24px 80px; }
+
+header.hero {
+  background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 40px 32px;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.15);
+}
+header.hero .eyebrow { font-size: 12px; letter-spacing: 0.1em; opacity: 0.85; margin: 0 0 10px; text-transform: uppercase; font-weight: 600; }
+header.hero h1 { font-size: 30px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.025em; line-height: 1.3; }
+header.hero p.lead { font-size: 15px; margin: 0; opacity: 0.95; line-height: 1.8; }
+header.hero .meta { margin-top: 20px; font-size: 12.5px; opacity: 0.85; display: flex; gap: 18px; flex-wrap: wrap; }
+header.hero .meta span::before { content: '・'; margin-right: 4px; opacity: 0.6; }
+header.hero .meta span:first-child::before { content: ''; margin: 0; }
+
+.toc {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+.toc h2 { font-size: 13px; font-weight: 600; margin: 0 0 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.toc ol { margin: 0; padding-left: 1.4em; columns: 2; column-gap: 24px; }
+.toc li { margin: 5px 0; font-size: 13.5px; }
+.toc a { color: var(--text-secondary); text-decoration: none; }
+.toc a:hover { color: var(--accent); text-decoration: underline; }
+
+section.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 30px 32px;
+  margin-bottom: 20px;
+}
+section.card > h2 {
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0 0 18px;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+section.card > h2 .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+section.card > h3 { font-size: 16.5px; font-weight: 600; margin: 26px 0 10px; letter-spacing: -0.015em; }
+section.card p { margin: 0 0 14px; color: var(--text-secondary); }
+section.card ul, section.card ol { padding-left: 1.4em; color: var(--text-secondary); }
+section.card li { margin: 6px 0; }
+section.card strong { color: var(--text); }
+
+.callout {
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin: 16px 0;
+  color: var(--accent-text);
+  font-size: 13.5px;
+}
+.callout.warning { background: var(--warning-soft); border-left-color: var(--warning); color: #92400e; }
+.callout.success { background: var(--success-soft); border-left-color: var(--success); color: #065f46; }
+.callout.info    { background: var(--info-soft);    border-left-color: var(--info);    color: #1e40af; }
+.callout strong { color: inherit; }
+
+.url-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-family: "SF Mono", "Monaco", "Menlo", monospace;
+  font-size: 13px;
+  word-break: break-all;
+}
+.url-box a { color: var(--accent); text-decoration: none; }
+.url-box a:hover { text-decoration: underline; }
+
+.step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.step:last-child { border-bottom: none; }
+.step .step-num {
+  width: 32px; height: 32px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.step .step-body { padding-top: 4px; }
+.step .step-body h4 { margin: 0 0 6px; font-size: 14.5px; font-weight: 600; }
+.step .step-body p { margin: 0 0 8px; font-size: 13.5px; color: var(--text-secondary); }
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 18px 0;
+  font-size: 13.5px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--bg-subtle); font-weight: 600; font-size: 12.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+tr:last-child td { border-bottom: none; }
+td.center { text-align: center; }
+.recommend { background: rgba(99, 102, 241, 0.06); }
+
+pre {
+  background: #1f2937;
+  color: #e5e7eb;
+  padding: 14px 18px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "SF Mono", "Monaco", "Menlo", monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  margin: 12px 0;
+}
+code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-family: "SF Mono", monospace; font-size: 12.5px; }
+pre code { background: none; padding: 0; color: inherit; }
+
+.faq { border-top: 1px solid var(--border); margin-top: 8px; }
+.faq dt { font-weight: 600; padding: 14px 0 6px; color: var(--text); font-size: 14px; }
+.faq dt::before { content: 'Q. '; color: var(--accent); font-weight: 700; }
+.faq dd { margin: 0 0 14px; padding: 0 0 14px; border-bottom: 1px dashed var(--border); color: var(--text-secondary); font-size: 13.5px; }
+.faq dd::before { content: 'A. '; color: var(--text-muted); font-weight: 600; }
+.faq dd:last-child { border-bottom: none; }
+
+/* 田中さんからのメッセージ */
+section.tanaka-message {
+  background: linear-gradient(135deg, #fdf2f8 0%, #fef3c7 100%);
+  border: 1px solid #fbcfe8;
+  border-radius: 16px;
+  padding: 34px 36px;
+  margin: 30px 0 20px;
+  position: relative;
+  overflow: hidden;
+}
+section.tanaka-message::before {
+  content: '';
+  position: absolute;
+  top: -20px; right: -20px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.15), transparent);
+  border-radius: 50%;
+}
+section.tanaka-message .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  color: var(--tanaka);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+section.tanaka-message h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 22px;
+  color: #831843;
+  letter-spacing: -0.02em;
+}
+section.tanaka-message h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 22px 0 8px;
+  color: #831843;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+section.tanaka-message h3 .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  background: var(--tanaka);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+}
+section.tanaka-message p {
+  margin: 0 0 12px;
+  color: #4a044e;
+  font-size: 14.5px;
+  line-height: 1.85;
+}
+section.tanaka-message .closing {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--tanaka);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+section.tanaka-message .signature {
+  margin-top: 18px;
+  text-align: right;
+  font-size: 13px;
+  color: #831843;
+  font-style: italic;
+}
+
+/* 今後の予告 */
+section.coming-soon {
+  background: var(--bg-subtle);
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  padding: 22px 26px;
+  margin: 20px 0;
+}
+section.coming-soon h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+section.coming-soon p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+footer {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+footer p { margin: 4px 0; }
+
+@media (max-width: 640px) {
+  .wrap { padding: 20px 16px 60px; }
+  header.hero { padding: 28px 22px; }
+  header.hero h1 { font-size: 24px; }
+  section.card { padding: 24px 22px; }
+  section.tanaka-message { padding: 26px 22px; }
+  .toc ol { columns: 1; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">TANAKA YUICHI OS · USER GUIDE</p>
+  <h1>田中祐一OS 使い方ガイド</h1>
+  <p class="lead">あなたの原稿（LP・動画台本・オファー・セールスレター 等）を AI に貼って、田中祐一として添削してもらえるツールです。Web ブラウザでも、Claude.ai 等の MCP コネクタ経由でも使えます。</p>
+  <div class="meta">
+    <span>所要時間: 約15分でセットアップ完了</span>
+    <span>使用料: 無料（受講生特典）</span>
+    <span>更新: 2026-05-11</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>このガイドの内容</h2>
+  <ol>
+    <li><a href="#intro">田中祐一OSとは</a></li>
+    <li><a href="#compare">Web UI と MCP の違い</a></li>
+    <li><a href="#signup">アカウントを発行する</a></li>
+    <li><a href="#web-ui">Web UI で添削する</a></li>
+    <li><a href="#mcp">MCP で添削する（任意）</a></li>
+    <li><a href="#output">実際にアウトプットしてみよう</a></li>
+    <li><a href="#tanaka-message">田中祐一からのメッセージ</a></li>
+    <li><a href="#troubleshoot">困ったら（FAQ）</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<section class="card" id="intro">
+  <h2><span class="num">1</span>田中祐一OSとは</h2>
+  <p>あなたが書いた <strong>LP・動画台本・オファー・セールスレター・メルマガなど</strong>を、AI（Claude / ChatGPT / Gemini）に <strong>「田中祐一として添削して」</strong>と頼める仕組みです。</p>
+  <p>裏側では、田中祐一がこれまで蓄積してきた <strong>判断軸 11観点 × 各ジャンルの固有論点 × 田中祐一メソッドの核心原則</strong> を毎回プロンプトに食わせています。AIはただ文章を整えるのではなく、田中祐一の判断軸で <strong>「ヘッドラインで握れているか」「ターゲットがズレていないか」「CTAまでの動線は通っているか」</strong> を指摘します。</p>
+  <div class="callout success">
+    <strong>ポイント:</strong> 使う AI は <strong>あなたの Claude.ai / ChatGPT / Gemini のサブスク</strong>で動きます。田中さん側で AI 料金がかかるわけではないので、いくら使っても無料です。気軽に何度でも投げてください。
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="compare">
+  <h2><span class="num">2</span>Web UI と MCP の違い</h2>
+  <p>田中祐一OS には2つの入り口があります。あなたの環境に合わせて選んでください。<strong>どちらを使っても、得られる添削の品質は同じ</strong>です。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th>Web UI</th>
+        <th>MCP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>準備</strong></td>
+        <td class="recommend">URLを開くだけ（最短30秒）</td>
+        <td>Claude.ai 等で MCP コネクタの設定が必要</td>
+      </tr>
+      <tr>
+        <td><strong>使えるAI</strong></td>
+        <td class="recommend">Claude / ChatGPT / Gemini など好きなもの</td>
+        <td>Claude.ai のみ（MCP対応AIアプリ）</td>
+      </tr>
+      <tr>
+        <td><strong>操作</strong></td>
+        <td>原稿を貼る→プロンプト生成→AIに手動でコピペ</td>
+        <td class="recommend">「田中祐一として添削して」と言うだけ（自動連携）</td>
+      </tr>
+      <tr>
+        <td><strong>添削のやり直し</strong></td>
+        <td>新しいプロンプトを再生成</td>
+        <td class="recommend">同じ会話内で「もっとここを深掘りして」と続けられる</td>
+      </tr>
+      <tr>
+        <td><strong>使うブラウザ・アプリ</strong></td>
+        <td class="recommend">どんなブラウザでもOK</td>
+        <td>Claude.ai（無料アカウントでもOK・有料推奨）</td>
+      </tr>
+      <tr>
+        <td><strong>こんな人におすすめ</strong></td>
+        <td class="recommend">まず試したい / ChatGPT・Gemini が好み / シンプル派</td>
+        <td>Claude.ai を普段使い / 効率重視 / 連続添削したい</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>迷ったら Web UI でOK。</strong> 1回試してみて、もし「Claude.ai で頻繁に使うな」と思ったら MCP も設定する、という流れがおすすめです。
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="signup">
+  <h2><span class="num">3</span>アカウントを発行する</h2>
+  <p>まず最初に、あなた専用のアカウントを発行します。田中さんがあなたの本人確認をして承認したら使えるようになります。</p>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      <h4>田中さんから「あなた専用のURL」を受け取る</h4>
+      <p>Chatworkや配布資料に書いてある <code>https://mcp-jade-beta.vercel.app/c/◯◯◯◯◯</code> のような形式の URL です。末尾の <code>◯◯◯◯◯</code> 部分がアクセスキー（grant_code）。</p>
+      <p>このURLは <strong>受講生コミュニティ全員で共通</strong>のものです。あなた個人を識別するのは次のステップの登録名で行います。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">2</span>
+    <div class="step-body">
+      <h4>ブラウザで URL を開く</h4>
+      <p>「ナレッジOS 添削フォーム」というページが表示されます。画面上部に「<strong>添削する</strong>」「<strong>はじめての方（登録）</strong>」の2つのタブがあります。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">3</span>
+    <div class="step-body">
+      <h4>「はじめての方（登録）」タブを開いて登録申請</h4>
+      <p>以下を入力して「<strong>登録申請する</strong>」ボタンを押す:</p>
+      <ul>
+        <li><strong>本名</strong>（必須）: 田中さんが本人確認に使います</li>
+        <li><strong>Chatwork名</strong>（必須）: コミュニティで使っている呼び名。田中さんが「あの人だ」と認識できる名前で</li>
+        <li><strong>Chatwork ID</strong>（任意）: 分かれば</li>
+        <li><strong>メールアドレス</strong>（任意・バックアップ連絡先）</li>
+      </ul>
+      <div class="callout warning">
+        <strong>重要:</strong> Chatwork名は <strong>コミュニティでの呼び名と必ず一致させてください</strong>。田中さんがそれを見て承認するので、ニックネームや略称だと承認が遅れる可能性があります。
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">4</span>
+    <div class="step-body">
+      <h4>田中さんからの承認を待つ</h4>
+      <p>申請後、田中さんが管理画面で本人確認 → 承認します。通常24時間以内。承認されると「添削する」タブが使えるようになります。</p>
+      <p>承認の通知は来ません。試しに「添削する」タブを開いて、後述の手順4-3 のように原稿を貼って「プロンプトを生成」してみてください。エラーが出なければ承認済みです。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="web-ui">
+  <h2><span class="num">4</span>Web UI で添削する</h2>
+  <p>承認されたら、いよいよ添削できます。</p>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <div class="step-body">
+      <h4>「添削する」タブを開く</h4>
+      <p>あなた専用URLを開いて、上部タブの「添削する」をクリック。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">2</span>
+    <div class="step-body">
+      <h4>あなたの名前を入れる</h4>
+      <p>登録した <strong>本名</strong>を入れます（Chatwork名ではなく本名）。次回からは自動で記憶されます。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">3</span>
+    <div class="step-body">
+      <h4>「何を添削する？」を選ぶ</h4>
+      <p>原稿の種別を選びます。種別ごとに田中祐一が見る観点が違うので、できるだけ正確に。</p>
+      <ul>
+        <li>LP（オプトイン） / LP（セールス）</li>
+        <li>動画台本（4本動画 / 5チャレ）</li>
+        <li>オファー設計 / セールスレター</li>
+        <li>広告クリエイティブ / わしづかみコンセプト</li>
+        <li>メルマガ / ファネル全体</li>
+        <li>その他</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">4</span>
+    <div class="step-body">
+      <h4>「どのAIに食わせる？」を選ぶ</h4>
+      <p>これから生成プロンプトを貼り付けて添削させる AI を選びます。<strong>Claude / ChatGPT / Gemini / その他</strong> から。</p>
+      <p>選んだモデル情報は管理画面に記録されます。田中さんが「どのモデルだと精度が高いか」を分析する材料になるので、正直に選んでください。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">5</span>
+    <div class="step-body">
+      <h4>添削対象の原稿を貼る</h4>
+      <p>テキストエリアに、添削してほしい原稿を貼り付けます。XMindのファイルや参考資料がある場合は、その下の「参考資料」エリアからドラッグ＆ドロップで添付できます。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">6</span>
+    <div class="step-body">
+      <h4>「プロンプトを生成する」を押す</h4>
+      <p>少し待つと、結果ページに切り替わって <strong>長い添削プロンプト</strong>が表示されます。これが「田中祐一として添削して」と AI に渡す指示文です。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">7</span>
+    <div class="step-body">
+      <h4>プロンプトをコピーして AI に貼る</h4>
+      <p>「プロンプトをコピー」ボタンを押すと、クリップボードに長文がコピーされます。それを Claude.ai / ChatGPT / Gemini のチャットに貼り付けて送信。</p>
+      <p>AI が田中祐一として添削してくれます（「了解しました」みたいな前置きはなく、いきなり指摘から始まります）。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">8</span>
+    <div class="step-body">
+      <h4>AIの添削結果を記録する</h4>
+      <p>AIの出力をコピーして、画面下の「<strong>AIの出力結果をここに貼り付けて記録</strong>」欄に貼り付け、「記録する」ボタンを押してください。</p>
+      <p>これを押すと、田中さんがあなたの添削履歴を後で確認できるようになります。<strong>記録は必須ではないですが、押すと田中さんがレビューに入れるので、できれば押してください</strong>。</p>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <strong>これで Web UI の添削フローは完了です。</strong> 慣れれば1案件あたり1〜3分で添削プロンプトを得られます。
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="mcp">
+  <h2><span class="num">5</span>MCP で添削する（任意）</h2>
+  <p>普段から Claude.ai を使っている方は、MCP コネクタを設定すると、<strong>Claude.ai のチャット内で完結</strong>します。Web UI を開く必要がなくなります。</p>
+
+  <h3>5-1. Claude.ai に MCP コネクタを追加</h3>
+  <ol>
+    <li>Claude.ai を開いて、左下のアイコン →「<strong>設定</strong>」→「<strong>コネクタ</strong>」</li>
+    <li>「<strong>カスタムコネクタを追加</strong>」ボタンをクリック</li>
+    <li>名前: <code>田中祐一OS</code></li>
+    <li>URL: <code>https://mcp-jade-beta.vercel.app/api/mcp/g/【あなたのgrant_code】</code></li>
+    <li>保存して、Claude.ai を一度リロード</li>
+  </ol>
+  <div class="callout warning">
+    <strong>grant_code</strong> はあなたが受け取った Web UI 用URLの <code>/c/</code> 以降の文字列と同じです。例: <code>https://.../c/xxxxx</code> なら <code>xxxxx</code> 部分。
+  </div>
+
+  <h3>5-2. Claude.ai で実際に使う</h3>
+  <p>新しい会話を開き、コネクタが有効になっていることを確認したうえで、こう話しかける:</p>
+  <pre><code>田中祐一として添削してください。
+
+以下のLP原稿をお願いします:
+
+（ここに原稿を貼る）</code></pre>
+  <p>Claude が自動的に MCP ツール（<code>get_correction_knowledge</code>）を呼び出してナレッジを取得し、田中祐一としての添削を返してくれます。</p>
+
+  <h3>5-3. 連続して深掘りできる</h3>
+  <p>MCPの強みは <strong>同じ会話内で続けられる</strong>こと。最初の添削の後に:</p>
+  <ul>
+    <li>「3番目の指摘をもっと具体例つきで教えて」</li>
+    <li>「修正版を書いてみたので、再度添削して」</li>
+    <li>「もしオファーを ◯◯ に変えたらどう？」</li>
+  </ul>
+  <p>と話しかけると、コンテキストを保ったまま深掘りできます。Web UI ではこの「往復会話」が手間なので、深掘りしたい人には MCP が向いています。</p>
+</section>
+
+<!-- 6 -->
+<section class="card" id="output">
+  <h2><span class="num">6</span>実際にアウトプットしてみよう</h2>
+  <p>使い方は分かったので、ここからは <strong>とにかく1回投げてみる</strong>のがおすすめです。</p>
+
+  <h3>まずは何から添削する？</h3>
+  <ul>
+    <li><strong>今書きかけのLP</strong>があるなら、それを貼る。途中段階でも全然OK</li>
+    <li><strong>過去に書いて反応が薄かった原稿</strong>を貼って「なぜ刺さらなかったか」を見てもらう</li>
+    <li><strong>他の人のLPを真似て書いてみたもの</strong>を貼って「ズレ」を見つけてもらう</li>
+    <li><strong>頭の中にあるアイデア</strong>を箇条書きにしただけのものでもOK（「これでLP組むならどうする？」と聞ける）</li>
+  </ul>
+
+  <div class="callout success">
+    <strong>完璧な原稿である必要はありません。</strong>むしろ「ちょっと自信ない」「これでいいのか分からない」状態のものをそのまま投げるのが一番効果的です。
+  </div>
+
+  <h3>慣れてきたらこういう使い方も</h3>
+  <ul>
+    <li>同じ原稿を <strong>Claude と ChatGPT 両方</strong>に投げて、出力を見比べる</li>
+    <li>MCP で <strong>1セッションの中で何度も深掘り</strong>する（往復4〜5ターン）</li>
+    <li><strong>競合のLP</strong>を貼って「これに勝つには何が足りない？」と聞く</li>
+    <li>添削結果を踏まえて<strong>修正版を書き直し、再度添削</strong>に投げる（PDCAを高速で回す）</li>
+  </ul>
+</section>
+
+<!-- 7 田中さんからのメッセージ -->
+<section class="tanaka-message" id="tanaka-message">
+  <div class="badge">★ MESSAGE FROM 田中祐一</div>
+  <h2>このツールをどう使ってほしいか</h2>
+
+  <h3><span class="icon">1</span>運用プロセスについて</h3>
+  <p>このツールは、<strong>一度こっちに入力して最低限のチェックをかけてから、僕に添削の依頼をする</strong>、っていうプロセスを考えています。</p>
+  <p>つまり、「いきなり田中さん添削お願いします！」じゃなくて、まず田中祐一OSにかけて、AIに指摘されたところを直してから僕のところに持ってきてほしい、ということです。これで僕の添削の質も上がるし、皆さんの原稿の完成度も一段上がります。</p>
+  <p>皆さん、まずは <strong>お守り代わり</strong>に使っていきましょう。</p>
+
+  <h3><span class="icon">2</span>ログの活用について</h3>
+  <p>アウトプットしたログは <strong>全部僕自身がチェック</strong>しています。誰が何回利用したのかも見えるし、AI の添削の精度がいまいちなところがあれば、今後さらにブラッシュアップしていきます。</p>
+  <p>つまり、皆さんが使えば使うほど、僕の側で「ここはまだAIが弱いな」「この観点は追加で叩き込んだ方がいいな」と分かるので、システム自体がどんどん賢くなっていきます。</p>
+
+  <h3><span class="icon">3</span>継続的な改善</h3>
+  <p>皆さんが <strong>どんどん使うことでシステム自体がパワーアップ</strong>していく側面があります。</p>
+  <p>「こんな雑な質問していいのかな」「こんな未完成の原稿で恥ずかしくないかな」、そういうのは全部気にしなくて大丈夫です。むしろ未完成な状態でガンガン投げてもらった方が、僕の側でも「ここで詰まる人が多いんだな」と把握できて、ナレッジに反映できます。</p>
+  <p><strong>まずは遠慮なく、どんどん投げてみてください</strong>。</p>
+
+  <div class="closing">
+    以上のことを踏まえて、ガンガン使っていきましょう！
+  </div>
+  <p class="signature">— 田中祐一</p>
+</section>
+
+<!-- 8 -->
+<section class="coming-soon">
+  <h3>📣 今後の予定</h3>
+  <p>この「田中祐一OS」を使った <strong>プロモーションを一気通貫で行うスキル</strong> の制作も検討しています。「LPだけ」「動画台本だけ」を個別に添削するのではなく、「企画 → コンセプト → ファネル → LP → 動画 → メルマガ」を1つのスキルで上から下まで設計・添削できる仕組みです。続報お楽しみに。</p>
+</section>
+
+<!-- 9 -->
+<section class="card" id="troubleshoot">
+  <h2><span class="num">9</span>困ったら（FAQ）</h2>
+  <dl class="faq">
+    <dt>「ユーザーが見つかりません」と出る</dt>
+    <dd>名前欄が登録時と違うか、まだ承認されていない可能性があります。本名で入力し直してみてください。それでもダメなら、田中さんに Chatwork で「承認待ちです」と一声かけてください。</dd>
+
+    <dt>プロンプトが長すぎてコピーできない</dt>
+    <dd>新しめのブラウザなら問題なくコピーできます。Chrome / Safari / Edge の最新版を推奨。古いブラウザだと固まることがあります。</dd>
+
+    <dt>AI の添削が普通の会話っぽい（田中祐一っぽくない）</dt>
+    <dd>使っているモデルが古いか、別のシステムプロンプトが混ざっている可能性があります。新しい会話を開いて、もう一度プロンプトを貼ってみてください。Claude 4 系 / GPT-5 系 / Gemini 2.5 系を推奨。</dd>
+
+    <dt>MCP コネクタの設定が分からない</dt>
+    <dd>Web UI を使ってください。Web UI でできることは全部同じです。MCP は Claude.ai を頻繁に使う上級者向けのオプションなので、無理に設定する必要はありません。</dd>
+
+    <dt>添削結果が保存されているか不安</dt>
+    <dd>「記録する」ボタンを押せば管理画面に保存されます。押し忘れた場合は次回のセッションから記録してください（過去分は後から記録できません）。</dd>
+
+    <dt>同じ原稿を何度も添削していい？</dt>
+    <dd>全然OKです。むしろ「初版 → 修正版 → 再修正版」と何度も投げてPDCAを回すのが理想的な使い方です。</dd>
+
+    <dt>料金はかかる？</dt>
+    <dd>田中祐一OS自体は無料です。ただし、AI（Claude / ChatGPT / Gemini）は皆さん自身のサブスク（無料枠 or 有料プラン）で動きます。長文の添削は <strong>Claude Pro / ChatGPT Plus / Gemini Advanced</strong> など有料プランがあるとスムーズです。</dd>
+
+    <dt>競合や外部の人にURLを知られたら？</dt>
+    <dd>あなた専用URLが第三者に渡っても、その人が田中さんから承認されないと使えません（名前で本人確認するため）。気になる場合は田中さんに連絡を。</dd>
+  </dl>
+</section>
+
+<footer>
+  <p>田中祐一OS 使い方ガイド · 2026-05-11 公開</p>
+  <p>Generated by KATSUO MARKETING / 田中祐一</p>
+  <p>このガイドへのフィードバックは Chatwork で田中さんまで</p>
+</footer>
+
+</div>
+</body>
+</html>
