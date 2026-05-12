@@ -1,0 +1,2430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>チャレンジローンチ構築ロードマップ</title>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --accent: #4338ca;
+  --accent-light: #6366f1;
+  --accent-soft: #eef2ff;
+  --accent-text: #4338ca;
+  --today: #ec4899;
+  --today-soft: #fce7f3;
+  --done: #10b981;
+  --done-soft: #d1fae5;
+  --next: #f59e0b;
+  --next-soft: #fef3c7;
+  --text: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --bg: #ffffff;
+  --bg-subtle: #f9fafb;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --human: #0891b2;
+  --ai: #7c3aed;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  background: var(--bg-subtle);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 28px 20px 80px; }
+
+/* ====== HERO ====== */
+header.hero {
+  background: linear-gradient(135deg, #4338ca 0%, #6366f1 50%, #8b5cf6 100%);
+  color: #fff;
+  border-radius: 20px;
+  padding: 44px 36px;
+  margin-bottom: 24px;
+  box-shadow: 0 12px 40px rgba(79, 70, 229, 0.25);
+}
+header.hero .eyebrow { font-size: 12px; letter-spacing: 0.12em; opacity: 0.85; margin: 0 0 12px; text-transform: uppercase; font-weight: 600; }
+header.hero h1 { font-size: 30px; font-weight: 800; margin: 0 0 12px; letter-spacing: -0.02em; line-height: 1.3; }
+header.hero p.lead { font-size: 15.5px; margin: 0; opacity: 0.95; line-height: 1.8; max-width: 760px; }
+header.hero .meta { margin-top: 22px; font-size: 12.5px; opacity: 0.85; display: flex; gap: 18px; flex-wrap: wrap; }
+header.hero .meta span::before { content: '・'; margin-right: 4px; opacity: 0.6; }
+header.hero .meta span:first-child::before { content: ''; margin: 0; }
+
+/* ====== 進行マップ（俯瞰） ====== */
+.progress-map {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px 20px;
+  margin-bottom: 24px;
+}
+.progress-map h2 {
+  font-size: 13px; font-weight: 700;
+  margin: 0 0 16px; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.progress-rail {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.progress-step {
+  display: block;
+  padding: 14px 10px;
+  background: var(--bg-subtle);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+  position: relative;
+}
+.progress-step:hover {
+  border-color: var(--accent-light);
+  transform: translateY(-2px);
+}
+.progress-step .num {
+  display: inline-block;
+  width: 24px; height: 24px;
+  line-height: 24px;
+  background: var(--text-muted);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.progress-step .label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text);
+}
+.progress-step .count {
+  display: block;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.progress-step.today {
+  background: linear-gradient(135deg, var(--today-soft) 0%, #fff 100%);
+  border-color: var(--today);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+}
+.progress-step.today .num { background: var(--today); }
+.progress-step.today::after {
+  content: '今日ここ';
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--today);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* ====== 今日のフォーカス ====== */
+.today-focus {
+  background: linear-gradient(135deg, #fff 0%, var(--today-soft) 100%);
+  border: 2px solid var(--today);
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 28px;
+}
+.today-focus .pill {
+  display: inline-block;
+  background: var(--today);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.today-focus h2 {
+  font-size: 20px;
+  margin: 0 0 10px;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.today-focus p {
+  margin: 0 0 8px;
+  color: var(--text-secondary);
+  font-size: 14.5px;
+}
+.today-focus .anchor {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--today);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13.5px;
+}
+.today-focus .anchor:hover { opacity: 0.9; }
+
+/* ====== 章セクション ====== */
+section.phase {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+section.phase.today-phase {
+  border: 2px solid var(--today);
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.08);
+}
+.phase-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 26px;
+  background: linear-gradient(135deg, #fafbfc 0%, #fff 100%);
+  border-bottom: 1px solid var(--border);
+}
+.phase-head .num {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 800;
+}
+.today-phase .phase-head .num { background: var(--today); }
+.phase-head h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.phase-head .day-tag {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+.phase-body {
+  padding: 22px 26px 26px;
+}
+.phase-body > p.intro {
+  margin: 0 0 18px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* ====== ステップカード ====== */
+.steps {
+  display: grid;
+  gap: 14px;
+}
+.step {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  background: var(--bg-subtle);
+}
+.step.featured {
+  border-color: var(--today);
+  background: linear-gradient(135deg, #fff 0%, var(--today-soft) 100%);
+}
+.step-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.step-num {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  min-width: 28px; height: 24px;
+  padding: 0 7px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.step.featured .step-num { background: var(--today); color: #fff; }
+.step-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.step-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+.step-tag.human { background: #cffafe; color: var(--human); }
+.step-tag.ai { background: #ede9fe; color: var(--ai); }
+.step-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.step-cell {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+}
+.step-cell-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.step-cell-body {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.step-cell-body a {
+  color: var(--accent-text);
+  text-decoration: none;
+  word-break: break-all;
+}
+.step-cell-body a:hover { text-decoration: underline; }
+.step-cell-body ul { margin: 4px 0 0; padding-left: 18px; }
+.step-cell-body li { margin: 2px 0; }
+.tools-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.tool-chip {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 8px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.tool-chip:hover { background: var(--accent-light); color: #fff; }
+
+/* ====== 素材リンクパネル ====== */
+.material-panel {
+  margin-top: 18px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px dashed var(--accent-light);
+  border-radius: 10px;
+}
+.material-panel .label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent-text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.material-panel ul {
+  margin: 0; padding-left: 18px;
+  font-size: 13px;
+}
+.material-panel a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.material-panel a:hover { color: var(--accent); text-decoration: underline; }
+
+/* ====== セクション間ナビ ====== */
+.section-nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0 20px;
+}
+.section-nav a {
+  font-size: 12.5px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.section-nav a:hover { text-decoration: underline; }
+
+/* ====== フッターCTA ====== */
+.cta-card {
+  background: linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 28px;
+  margin-top: 28px;
+  text-align: center;
+}
+.cta-card h2 { color: #fff; margin: 0 0 12px; font-size: 22px; }
+.cta-card p { color: rgba(255,255,255,0.85); margin: 0 0 16px; font-size: 14px; }
+.cta-card .btn {
+  display: inline-block;
+  background: #fff;
+  color: var(--accent-text);
+  padding: 10px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  margin: 4px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+footer .trace { opacity: 0.5; margin-top: 6px; font-size: 11px; }
+
+/* ====== このロードマップの2つの目的 ====== */
+.purpose-section {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.purpose-section h2 {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.purpose-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.purpose-card {
+  background: var(--bg-subtle);
+  border-radius: 10px;
+  padding: 16px 18px;
+  border-left: 4px solid var(--accent);
+}
+.purpose-card.b { border-left-color: var(--today); }
+.purpose-card .tag {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+.purpose-card.b .tag { background: var(--today); }
+.purpose-card h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.purpose-card p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+
+/* ====== 進捗ステータスバッジ（俯瞰マップ用） ====== */
+.progress-step .status {
+  display: block;
+  margin-top: 6px;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+.progress-step .status.done { background: var(--done-soft); color: var(--done); }
+.progress-step .status.now { background: var(--today); color: #fff; }
+.progress-step .status.next { background: var(--next-soft); color: #b45309; }
+.progress-step .status.future { background: #e5e7eb; color: var(--text-muted); }
+.progress-step.is-done { border-color: var(--done); background: linear-gradient(135deg, var(--done-soft) 0%, #fff 100%); }
+.progress-step.is-done .num { background: var(--done); }
+
+/* ====== 進捗の現状ボックス ====== */
+.progress-status-box {
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+  border: 2px solid #5eead4;
+  border-radius: 16px;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+}
+.progress-status-box .pill {
+  display: inline-block;
+  background: #0d9488;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.progress-status-box h2 {
+  margin: 0 0 8px;
+  font-size: 19px;
+  color: #134e4a;
+  letter-spacing: -0.02em;
+}
+.progress-status-box p {
+  margin: 0 0 12px;
+  color: #115e59;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.progress-bar-wrap {
+  background: #fff;
+  border-radius: 999px;
+  height: 14px;
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid #99f6e4;
+}
+.progress-bar-fill {
+  background: linear-gradient(90deg, #14b8a6 0%, #06b6d4 100%);
+  height: 100%;
+  width: 25%;
+  border-radius: 999px;
+  position: relative;
+}
+.progress-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #115e59;
+  font-weight: 600;
+}
+
+/* ====== 外部ナレッジリンクパネル ====== */
+.external-links {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 24px;
+}
+.external-links h2 {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.external-links .ext-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+.ext-card {
+  display: block;
+  text-decoration: none;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  transition: all 0.15s;
+}
+.ext-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  background: var(--accent-soft);
+}
+.ext-card .ext-label {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+.ext-card h4 {
+  margin: 0 0 3px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.ext-card p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ====== 章ステータスバッジ（個別sectionヘッダ用） ====== */
+.phase-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 12px;
+  letter-spacing: 0.03em;
+  margin-left: 8px;
+}
+.phase-status.done { background: var(--done-soft); color: var(--done); }
+.phase-status.now { background: var(--today); color: #fff; }
+.phase-status.next { background: var(--next-soft); color: #b45309; }
+.phase-status.future { background: #e5e7eb; color: var(--text-muted); }
+
+/* ====== 細分化予定の予告バナー ====== */
+.coming-soon {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px dashed #d97706;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 16px 0 4px;
+  font-size: 13px;
+  color: #78350f;
+  line-height: 1.6;
+}
+.coming-soon strong { color: #92400e; }
+
+/* ====== 3つのAI使い分け ====== */
+.ai-trio-section {
+  background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 28px 26px;
+  margin-bottom: 24px;
+}
+.ai-trio-section .eyebrow {
+  display: inline-block;
+  background: #16a34a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.ai-trio-section h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  color: #14532d;
+  letter-spacing: -0.02em;
+}
+.ai-trio-section .lead {
+  margin: 0 0 22px;
+  color: #166534;
+  font-size: 14.5px;
+}
+.ai-trio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+.ai-card {
+  background: #fff;
+  border: 2px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 20px 18px;
+  position: relative;
+}
+.ai-card .step-badge {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  background: #16a34a;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+.ai-card h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #14532d;
+  letter-spacing: -0.01em;
+}
+.ai-card .role {
+  display: inline-block;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.ai-card .desc {
+  margin: 0 0 10px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+.ai-card ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.ai-card ul li { margin: 4px 0; }
+.ai-flow {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 14px;
+  flex-wrap: wrap;
+}
+.ai-flow .flow-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.ai-flow .flow-step strong { color: #16a34a; }
+.ai-flow .arrow { color: #16a34a; font-weight: 800; font-size: 16px; }
+
+/* ====== 準備編 ====== */
+.prep-section {
+  background: #fffaeb;
+  border: 1.5px solid #fcd34d;
+  border-radius: 16px;
+  padding: 26px 26px;
+  margin-bottom: 24px;
+}
+.prep-section .eyebrow {
+  display: inline-block;
+  background: #d97706;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.prep-section h2 {
+  margin: 0 0 18px;
+  font-size: 20px;
+  color: #78350f;
+  letter-spacing: -0.02em;
+}
+.prep-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.prep-block {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px 20px;
+  border: 1px solid #fde68a;
+}
+.prep-block h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #78350f;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.prep-block ol {
+  margin: 0;
+  padding-left: 22px;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+}
+.prep-block ol li {
+  margin: 6px 0;
+}
+.prep-block ol li strong {
+  color: var(--text);
+  font-weight: 700;
+}
+.prep-block ol li .note {
+  display: block;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ====== LP作成4ステップ（今日のデモ詳細） ====== */
+.demo-detail {
+  background: linear-gradient(180deg, #fff 0%, var(--today-soft) 100%);
+  border: 2px solid var(--today);
+  border-radius: 18px;
+  padding: 28px 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 30px rgba(236, 72, 153, 0.10);
+}
+.demo-detail .eyebrow {
+  display: inline-block;
+  background: var(--today);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.demo-detail h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+.demo-detail .lead {
+  margin: 0 0 20px;
+  font-size: 14.5px;
+  color: var(--text-secondary);
+}
+.lp-steps {
+  display: grid;
+  gap: 14px;
+}
+.lp-step {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  border: 1px solid var(--today-soft);
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 16px;
+  align-items: flex-start;
+}
+.lp-step .step-circle {
+  width: 44px; height: 44px;
+  background: var(--today);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center; justify-content: center;
+  font-weight: 800;
+  font-size: 17px;
+}
+.lp-step .step-body h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.lp-step .step-body .sub {
+  margin: 0 0 12px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.lp-step .lp-step-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.lp-step .lp-cell {
+  background: var(--bg-subtle);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+}
+.lp-step .lp-cell-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--today);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+.lp-step .lp-cell-body { color: var(--text-secondary); line-height: 1.55; }
+
+/* ====== 教育メッセージ ====== */
+.teaching-box {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  color: #fff;
+  border-radius: 16px;
+  padding: 28px 28px;
+  margin-bottom: 24px;
+}
+.teaching-box .pill {
+  display: inline-block;
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.teaching-box h2 {
+  margin: 0 0 12px;
+  font-size: 21px;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.teaching-box p {
+  margin: 0 0 10px;
+  color: rgba(255,255,255,0.92);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.teaching-box ul {
+  margin: 12px 0 0;
+  padding-left: 22px;
+  color: rgba(255,255,255,0.92);
+  font-size: 13.5px;
+}
+.teaching-box ul li { margin: 6px 0; }
+
+/* ====== モバイル対応 ====== */
+@media (max-width: 768px) {
+  .wrap { padding: 20px 14px 60px; }
+  header.hero { padding: 32px 24px; }
+  header.hero h1 { font-size: 22px; }
+  .progress-rail { grid-template-columns: repeat(2, 1fr); }
+  .progress-step .label { font-size: 12px; }
+  .phase-head { padding: 18px 20px; }
+  .phase-head h2 { font-size: 17px; }
+  .phase-body { padding: 18px 20px; }
+  .today-focus { padding: 20px; }
+  .today-focus h2 { font-size: 17px; }
+  .step-grid { grid-template-columns: 1fr; }
+  .cta-card { padding: 24px 18px; }
+  .ai-trio-grid { grid-template-columns: 1fr; }
+  .ai-flow { flex-direction: column; gap: 6px; }
+  .prep-grid { grid-template-columns: 1fr; }
+  .lp-step { grid-template-columns: 1fr; }
+  .lp-step .step-circle { width: 36px; height: 36px; font-size: 15px; }
+  .lp-step .lp-step-grid { grid-template-columns: 1fr; }
+  .demo-detail { padding: 22px 20px; }
+  .teaching-box { padding: 24px 22px; }
+  .purpose-grid { grid-template-columns: 1fr; }
+  .external-links .ext-grid { grid-template-columns: 1fr; }
+  .progress-status-box { padding: 20px 18px; }
+  .phase-head { flex-wrap: wrap; }
+  .phase-status { margin-left: 0; margin-top: 6px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <p class="eyebrow">CHALLENGE LAUNCH BUILD ROADMAP</p>
+    <h1>チャレンジローンチ構築ロードマップ</h1>
+    <p class="lead">
+      30日でチャレンジローンチを完成させるための全工程を1枚で俯瞰できる構築シート。
+      53ステップを7つの大工程に整理しました。
+      「今、自分が全体のどこを作っているか」を常に確認しながら進めてください。
+    </p>
+    <div class="meta">
+      <span>2026年5月版 v0.3（ベータ）</span>
+      <span>題材サンプル：ビジネスライバー起業 5チャレ</span>
+      <span>Produced by KATSUO MARKETING</span>
+    </div>
+  </header>
+
+  <!-- ===== このロードマップの2つの目的 ===== -->
+  <div class="purpose-section">
+    <h2>このロードマップの位置づけ</h2>
+    <div class="purpose-grid">
+      <div class="purpose-card">
+        <span class="tag">目的 A</span>
+        <h3>今日のセミナーの「ざっくりイメージ」</h3>
+        <p>全体工程の中で「今日触るのはどこか」を一目で示す資料。受講生に既に配布済みのナレッジ集・Kajabi教材と紐付けて、現在地が分かる状態にする。</p>
+      </div>
+      <div class="purpose-card b">
+        <span class="tag">目的 B</span>
+        <h3>田中祐一のプロモを「人に走らせる」基盤</h3>
+        <p>将来、自分のプロダクトローンチを他の人に使わせるための工程表。ビジュアルと連動して「今ここをやっています」と可視化される、永続資産として育てていく。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 外部ナレッジリンク ===== -->
+  <div class="external-links">
+    <h2>受講生向けの既存リソース（今日紐付ける先）</h2>
+    <div class="ext-grid">
+      <a class="ext-card" href="https://tanaka-portal.vercel.app/" target="_blank">
+        <span class="ext-label">PORTAL</span>
+        <h4>tanaka-portal.vercel.app</h4>
+        <p>テンプレ／スキル／ツール／ルールの4階層。今日使うスキルの実物がここに集約されている。</p>
+      </a>
+      <a class="ext-card" href="https://tanaka-portal.vercel.app/" target="_blank">
+        <span class="ext-label">KNOWLEDGE</span>
+        <h4>田中祐一ナレッジ共有サイト</h4>
+        <p>プロモーション知識の総合ナレッジベース。短期プロモでは受講生にも開放する。</p>
+      </a>
+      <a class="ext-card" href="#phase5">
+        <span class="ext-label">KAJABI</span>
+        <h4>Kajabi受講生コース</h4>
+        <p>既に配布済みの動画教材・PDF素材。今日のデモはこの教材の「実演編」として位置づけ。</p>
+      </a>
+      <a class="ext-card" href="../../../21_プロジェクト一覧/田中祐一/PLCプロモ素材/ビジネスライバー起業_5チャレ/">
+        <span class="ext-label">MATERIAL</span>
+        <h4>ビジネスライバー起業 5チャレ素材</h4>
+        <p>LP原稿・サンキューページ・オプチャ・メルマガの実物。今日のライブデモのINPUT素材。</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== 進捗の現状 ===== -->
+  <div class="progress-status-box">
+    <span class="pill">現在の進捗</span>
+    <h2>全体工程の約4分の1まで「完成イメージ」が立っている状態</h2>
+    <p>
+      ここまで（工程1〜4の途中）は、過去のプロモ実例・既存スキル・ナレッジが揃っているので、田中の手元では「すぐ出せる状態」になっています。
+      <strong>残り4分の3は、これから3つのAI（Cursor／ChatGPT／Claude Code）と一緒に詰めていく</strong>ので、爆速でリリースまで到達できる見込みです。
+    </p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill"></div>
+    </div>
+    <div class="progress-bar-labels">
+      <span>完成イメージ確立済（25%）</span>
+      <span>AIで詰めていく残り工程（75%）</span>
+    </div>
+  </div>
+
+  <!-- ===== 3つのAI使い分け（冒頭5分で見せる） ===== -->
+  <div class="ai-trio-section">
+    <span class="eyebrow">★ まずはこれを理解する</span>
+    <h2>田中祐一の「最新AIの使い分け」</h2>
+    <p class="lead">
+      プロモーション制作では、1つのAIで全部やろうとせず、<strong>3つのAIをそれぞれの得意分野で連携させる</strong>のが田中流。
+      この3点セットを揃えるところからスタートします。
+    </p>
+
+    <div class="ai-trio-grid">
+      <div class="ai-card">
+        <span class="step-badge">1</span>
+        <h3>Cursor</h3>
+        <span class="role">ライター</span>
+        <p class="desc">起点。プロモ素材をMDで整える</p>
+        <ul>
+          <li>企画・構成・コピーライティング</li>
+          <li>ターゲット設定・訴求軸の整理</li>
+          <li>文章や企画案をドキュメント化</li>
+          <li>必要に応じて素材の方向性も整理</li>
+        </ul>
+      </div>
+      <div class="ai-card">
+        <span class="step-badge">2</span>
+        <h3>ChatGPT</h3>
+        <span class="role">デザイナー</span>
+        <p class="desc">Cursorの内容をビジュアル化</p>
+        <ul>
+          <li>Cursorで作った内容をもとにビジュアル・デザイン案を生成</li>
+          <li>画像・レイアウト・図解などで「伝わる形」に可視化</li>
+          <li>構成やデザインの意図を整理し、Claude Codeへ引き渡す</li>
+        </ul>
+      </div>
+      <div class="ai-card">
+        <span class="step-badge">3</span>
+        <h3>Claude Code</h3>
+        <span class="role">コーディング＆エンジニア</span>
+        <p class="desc">Claude Codeで「カタチにして届ける」</p>
+        <ul>
+          <li>デザイン指示・要件をもとに実装</li>
+          <li>コーディング／ディレクション／エンジニアリングを一括推進</li>
+          <li>クオリティの高いプロモーションをスピーディに完成</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ai-flow">
+      <span class="flow-step"><strong>Cursorで</strong>「伝える内容」を設計</span>
+      <span class="arrow">→</span>
+      <span class="flow-step"><strong>ChatGPTで</strong>「伝わる形」にデザイン</span>
+      <span class="arrow">→</span>
+      <span class="flow-step"><strong>Claude Codeで</strong>「カタチにして届ける」</span>
+    </div>
+  </div>
+
+  <!-- ===== 準備編 ===== -->
+  <div class="prep-section">
+    <span class="eyebrow">準備編：これを揃えてから始める</span>
+    <h2>事前に揃える「ツール3点」と「素材3点」</h2>
+
+    <div class="prep-grid">
+      <div class="prep-block">
+        <h4>🔧 必要ツール（インストール／アカウント作成）</h4>
+        <ol>
+          <li><strong>ChatGPT</strong>（GPT-4o）<span class="note">画像生成に使う。無料でもOKだがPlus推奨</span></li>
+          <li><strong>Claude Desktop版</strong><span class="note">Claude Codeを使うために必要</span></li>
+          <li><strong>Cursor</strong><span class="note">PLC受講生はこれをデフォルトで使う</span></li>
+        </ol>
+      </div>
+
+      <div class="prep-block">
+        <h4>📦 LP制作前に用意する素材</h4>
+        <ol>
+          <li><strong>コンフィグデータ</strong><span class="note">案件の基礎情報（コンセプト・ターゲット・オファー等）</span></li>
+          <li><strong>参考にするランディングページ</strong><span class="note">業種・トーンが近いLPを1〜3本</span></li>
+          <li><strong>挨拶動画の台本</strong><span class="note">工程4 Step24で作ったDay0台本</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 全体俯瞰マップ ===== -->
+  <div class="progress-map">
+    <h2>全体俯瞰：7つの大工程</h2>
+    <div class="progress-rail">
+      <a class="progress-step is-done" href="#phase1">
+        <span class="num">1</span>
+        <span class="label">事前設計</span>
+        <span class="count">6 steps</span>
+        <span class="status done">✓ 完成イメージ</span>
+      </a>
+      <a class="progress-step is-done" href="#phase2">
+        <span class="num">2</span>
+        <span class="label">コンセプト設計</span>
+        <span class="count">8 steps</span>
+        <span class="status done">✓ 完成イメージ</span>
+      </a>
+      <a class="progress-step" href="#phase3">
+        <span class="num">3</span>
+        <span class="label">オファー構築</span>
+        <span class="count">2 steps</span>
+        <span class="status next">⚡ AIで詰める</span>
+      </a>
+      <a class="progress-step" href="#phase4">
+        <span class="num">4</span>
+        <span class="label">コンテンツ設計</span>
+        <span class="count">11 steps</span>
+        <span class="status next">⚡ AIで詰める</span>
+      </a>
+      <a class="progress-step today" href="#phase5">
+        <span class="num">5</span>
+        <span class="label">集客素材作成</span>
+        <span class="count">12 steps</span>
+        <span class="status now">★ 今日ここ</span>
+      </a>
+      <a class="progress-step" href="#phase6">
+        <span class="num">6</span>
+        <span class="label">プロモ素材完成</span>
+        <span class="count">14 steps</span>
+        <span class="status future">📋 ガイドブック制作中</span>
+      </a>
+      <a class="progress-step" href="#phase7">
+        <span class="num">7</span>
+        <span class="label">本番運用</span>
+        <span class="count">10 steps</span>
+        <span class="status future">📋 細分化予定</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== 今日のフォーカス ===== -->
+  <div class="today-focus">
+    <span class="pill">今日のセミナーで触る場所</span>
+    <h2>工程5「集客素材の作成」のうち、オプトインLP作成</h2>
+    <p>
+      今日21時のライブデモは、工程1〜4で作った素材（コンセプト・ターゲット・ライブ1台本・プロフィール）を入力にして、
+      <strong>工程5の最初のブロック「オプトインLPの完成まで」</strong>を4ステップで実演します。
+    </p>
+    <p style="font-size: 13px; color: var(--text-muted);">
+      ※ 工程1〜4は今日は説明スライドのみ。土曜のリアルワークで参加者自身が手を動かすのは、下記4ステップのうち1つだけが目標です。
+    </p>
+    <a class="anchor" href="#demo-detail">今日の4ステップ詳細を見る →</a>
+  </div>
+
+  <!-- ===== LP作成4ステップ 詳細パネル（今日のデモ完全版） ===== -->
+  <div class="demo-detail" id="demo-detail">
+    <span class="eyebrow">★ 今日のライブデモ 完全フロー</span>
+    <h2>LP制作：4ステップで「ゼロ→公開」まで</h2>
+    <p class="lead">
+      上で準備した素材3点（コンフィグ・参考LP・挨拶動画台本）を入力にして、
+      Cursorで書き始め → ChatGPTで画像化 → Claude Code＋宴MCPで公開、までを今日のライブで実演します。
+    </p>
+
+    <div class="lp-steps">
+
+      <!-- LP-Step 1 -->
+      <div class="lp-step">
+        <div class="step-circle">1</div>
+        <div class="step-body">
+          <h4>ライティングと構成確認</h4>
+          <p class="sub">担当AI：Cursor（ライター）／所要：15〜30分</p>
+          <div class="lp-step-grid">
+            <div class="lp-cell">
+              <div class="lp-cell-label">INPUT</div>
+              <div class="lp-cell-body">準備した3素材（コンフィグ・参考LP・挨拶動画台本）</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">操作</div>
+              <div class="lp-cell-body">3素材をCursorに渡してLPライティングを依頼 → 生成されたMDを見ながら口頭で修正指示（「ここを尖らせて」「共感パートを足して」）</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">OUTPUT</div>
+              <div class="lp-cell-body">LP原稿のMarkdown（FV／共感／ベネフィット／オファー／CTA）</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">使うスキル</div>
+              <div class="lp-cell-body"><a href="../../../skills/LP作成/SKILL.md">LP作成</a> ／ <a href="../../../skills/田中祐一の言葉/SKILL.md">田中祐一の言葉</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LP-Step 2 -->
+      <div class="lp-step">
+        <div class="step-circle">2</div>
+        <div class="step-body">
+          <h4>画像指示書の作成</h4>
+          <p class="sub">担当AI：Cursor → ChatGPT（橋渡し）／所要：10〜15分</p>
+          <div class="lp-step-grid">
+            <div class="lp-cell">
+              <div class="lp-cell-label">INPUT</div>
+              <div class="lp-cell-body">Step 1で完成したLP原稿</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">操作</div>
+              <div class="lp-cell-body">「このLPに必要な画像をすべて洗い出して、ChatGPT用の日本語プロンプトに書き起こして」とCursorに依頼。自分の画像作成スキルレベルに合わせた具体性で指示書を生成</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">OUTPUT</div>
+              <div class="lp-cell-body">画像枚数分のプロンプトリスト（ヘッダー／共感シーン／オファー画像 等）</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">コツ</div>
+              <div class="lp-cell-body">最初は5枚に絞ってOK。多すぎると詰まるので「キービジュアル1枚＋装飾4枚」の比率がおすすめ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LP-Step 3 -->
+      <div class="lp-step">
+        <div class="step-circle">3</div>
+        <div class="step-body">
+          <h4>コンテンツの構築（画像化 or HTML化）</h4>
+          <p class="sub">担当AI：ChatGPT（デザイナー）／所要：30〜60分</p>
+          <div class="lp-step-grid">
+            <div class="lp-cell">
+              <div class="lp-cell-label">INPUT</div>
+              <div class="lp-cell-body">Step 2の画像指示書</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">操作</div>
+              <div class="lp-cell-body">①まずヘッドデザインを決める → ②ボディコピー以下を画像化、または HTML＋画像のハイブリッドで構成。1枚ずつ修正指示しながら整える</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">OUTPUT</div>
+              <div class="lp-cell-body">LP用画像一式（PNG） or HTML骨格 + 装飾画像</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">注意</div>
+              <div class="lp-cell-body">1枚目で「文字を入れない」「顔の向き」「配色」を必ず確定。その学習が2枚目以降に効く</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LP-Step 4 -->
+      <div class="lp-step">
+        <div class="step-circle">4</div>
+        <div class="step-body">
+          <h4>公開と最終設定</h4>
+          <p class="sub">担当AI：Claude Code（エンジニア）＋宴MCP／所要：5〜15分</p>
+          <div class="lp-step-grid">
+            <div class="lp-cell">
+              <div class="lp-cell-label">INPUT</div>
+              <div class="lp-cell-body">Step 3で完成したLP（HTML＋画像）</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">操作</div>
+              <div class="lp-cell-body">Claude CodeのMCPで宴（Utage）に接続 →「このLPを宴にアップしてください」と指示するだけでLP公開URLが発行される</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">OUTPUT</div>
+              <div class="lp-cell-body">公開済みLPのURL</div>
+            </div>
+            <div class="lp-cell">
+              <div class="lp-cell-label">残タスク</div>
+              <div class="lp-cell-body">フォーム作成 ／ メール連携 ／ 自動返信設定 ／ サンキューページ紐付け（このあと工程5の他Stepへ）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="margin: 22px 0 0; font-size: 13.5px; color: var(--text-secondary);">
+      💡 この4ステップは、土曜のリアルワークの段取り表としてもそのまま使えます。<br>
+      バックエンド購入者向けには第6章以降の細部テンプレート（集客／広告／ライブローンチ構成案）を別途公開していきます。
+    </p>
+  </div>
+
+  <!-- ===== 教育メッセージ：一撃では出ない ===== -->
+  <div class="teaching-box">
+    <span class="pill">★ ライブデモを見るときの心構え</span>
+    <h2>「一撃で完成」は幻想。試行錯誤こそが本体です</h2>
+    <p>
+      これから見せるライブデモは、<strong>1回の指示でキレイなLPが出てくる魔法のショーではありません</strong>。
+      何度も「こうじゃない」「ここをこう変えて」と指示を返し続けることで、はじめてあのレターが立ち上がっていきます。
+    </p>
+    <p>今日のデモで、特に注目してほしいのはここです：</p>
+    <ul>
+      <li>① プロセス全体の中で、僕がどんな順番で指示を出していくか</li>
+      <li>② AIの出力に対して「これは違う」と即座に切り返す審美眼の使い方</li>
+      <li>③ 出来上がったLP原稿から「画像指示書」へつなげる発想</li>
+      <li>④ 完成形を見てから「画像指示書」と「LP本体」を同時にブラッシュアップする戻り作業</li>
+    </ul>
+    <p style="margin-top: 14px;">
+      この一連の流れを<strong>「スキル」としてパッケージ化</strong>することで、皆さん自身のプロモにも転用できるようにしていきます。
+    </p>
+  </div>
+
+  <!-- ====================================================== -->
+  <!-- ===== 工程1：事前設計 ===== -->
+  <!-- ====================================================== -->
+  <section class="phase" id="phase1">
+    <div class="phase-head">
+      <span class="num">1</span>
+      <h2>事前設計</h2>
+      <span class="phase-status done">✓ 完成イメージ</span>
+      <span class="day-tag">Day 1</span>
+    </div>
+    <div class="phase-body">
+      <p class="intro">プロモーションを始める前の「方角合わせ」。ここでズレると後ろ全部がズレるので、AIに任せきりにせず自分の言葉で書いておく。</p>
+
+      <div class="steps">
+        <!-- Step 1 -->
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">1</span>
+            <p class="step-title">目的意識を明確にする</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">プロフィール・背景情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">「なぜこのプロモをやるのか」を箇条書きで3〜5項目書き出す</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">目的リスト（メモ1枚）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">①PLCを売りたい ②売れる素材を確立 ③使い回せる素材 ④ダウンセルも売りたい</div></div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">2</span>
+            <p class="step-title">販売したい商品を決める</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">既存の商品・サービス一覧</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">バックエンド／フロント／オンライン教材の3階層で価格と本数を決める</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">商品リスト（価格・期間付き）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">①PLC 132万円 ②45日AIブートキャンプ 29.8万円</div></div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">3</span>
+            <p class="step-title">販売ファネルを決める</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">プロモのゴール・販売したい商品</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Gemに目的を入れて、おすすめファネルを提案させる<div class="tools-row"><a class="tool-chip" href="https://gemini.google.com/gem/1LJIFMJpWdeE646cglvSBtxJNf60pG7ZQ?usp=sharing" target="_blank">Gem：ファネル選定</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">ファネル種別（無料5チャレ／有料／ウェビナー等）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">無料オプトイン：5チャレ 2ステップ＋1ステップ販売</div></div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">4</span>
+            <p class="step-title">目標KPIの設定</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">目標売上・商品単価・販売本数</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Gemで逆算シミュレーション。広告費を使う場合の獲得単価も同時に算出<div class="tools-row"><a class="tool-chip" href="https://gemini.google.com/gem/1lIQn6hDeCJTWlRgW_FPRkviIn1l3n7R6?usp=sharing" target="_blank">Gem：KPI逆算</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">集客数／成約率／必要広告費の3点セット</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">オプト800・誘導5%・成約40%・売上1,056万円</div></div>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">5</span>
+            <p class="step-title">教育グループを決める</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">ターゲットの普段使うSNS</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">LINEオプチャ／FBグループ／BANDから選択<div class="tools-row"><a class="tool-chip" href="https://gemini.google.com/gem/162OmYFWX-6yUGMJYuj-Arpha0S6Yv5CE?usp=sharing" target="_blank">Gem：教育グループ選定</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">教育グループの種別</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">LINEオープンチャット</div></div>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">6</span>
+            <p class="step-title">ライブ回数を決める</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">期間・自分のキャパ</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">3チャレ／5チャレ／7チャレから決定</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">ライブ本数（卒業ライブ含む）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">5チャレ＋卒業ライブ1回</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a href="#top">↑ トップへ</a>
+        <a href="#phase2">次：コンセプト設計 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== -->
+  <!-- ===== 工程2：コンセプト設計 ===== -->
+  <!-- ====================================================== -->
+  <section class="phase" id="phase2">
+    <div class="phase-head">
+      <span class="num">2</span>
+      <h2>コンセプト設計</h2>
+      <span class="phase-status done">✓ 完成イメージ</span>
+      <span class="day-tag">Day 1〜2</span>
+    </div>
+    <div class="phase-body">
+      <p class="intro">3C分析（自分・ライバル・顧客）でポジショニングを言語化。ここで作るコンセプトシートは、この先すべての素材の基準になる。</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">7</span>
+            <p class="step-title">事前情報収集（背景情報）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">プロフィール、音声入力 or テキスト</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Gemの質問プロンプトに答えて背景情報を生成<div class="tools-row"><a class="tool-chip" href="https://gemini.google.com/gem/1Nsdbzsbg2FYQg2erjvDYgWFUwwqKmawU?usp=sharing" target="_blank">Gem：背景情報生成</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">プロフィールシート</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1LsY3bnfWsloWgGuqRXjsLfTEwHu8hImNjMDaxCGlIbg/edit" target="_blank">プロフィールシート例</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">8</span>
+            <p class="step-title">ターゲットシート作成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">背景情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">質問プロンプトで深掘り → 3C分析<div class="tools-row"><a class="tool-chip" href="https://gemini.google.com/gem/1ZtCKnj4PyLigjKM0_xlzN92JZfkG8SyI?usp=sharing" target="_blank">Gem：ターゲット生成</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">ターゲットシート</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://gemini.google.com/share/940ffa4e3b85" target="_blank">サンプル出力</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">9</span>
+            <p class="step-title">ライバル情報の収集</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">市場名・キーワード</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Deep Research でライバル分析。無料ChatGPTなら月5回まで<div class="tools-row"><a class="tool-chip" href="https://gemini.google.com/gem/1agygpFXQHJM0EmX5e0TpGoYOiyGKGv6H?usp=sharing" target="_blank">Gem：ライバル情報</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">ライバル分析シート Ver.2.0</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/12BZPzG57VhQ3JgKNYEIhdmsJABnc9ShxZCCsmT7GhkY/edit" target="_blank">分析シート例</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">10</span>
+            <p class="step-title">空いている訴求の特定</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">ターゲット情報・ライバル情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">3C分析＆コンセプト提案AIで空き訴求を発見</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">空き訴求リスト</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">「AI×5チャレ」がほぼ未開拓だった</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">11</span>
+            <p class="step-title">ポジショニングの作成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">ターゲット・ライバル・背景情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">統合プロンプトで狙うポジションを言語化</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">ポジショニングシート</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://chatgpt.com/share/67d4f39e-3ed0-8007-9424-32a2810d4332" target="_blank">ChatGPT実例</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">12</span>
+            <p class="step-title">プロモーションコンセプト</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">ポジショニング</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">この先の動画台本／ステップメール全部に効く中核コピーを決める<div class="tools-row"><a class="tool-chip" href="https://docs.google.com/document/d/1cYM2NMdNo_5KFFSVHyoDs25atoDPJMm_IaRMEULGzAk/edit" target="_blank">プロンプト</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">プロモコンセプト1行＋補強文</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://g.co/gemini/share/c5da599ba7e8" target="_blank">サンプル出力</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">13</span>
+            <p class="step-title">プロモヘッダーバナーの作成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・配色・サンプルデザイン</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">3案を色違い・フォント違いで生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">バナー画像（3パターン）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">後工程のLPファーストビューにも転用</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">14</span>
+            <p class="step-title">プロフィール作成（ブラッシュアップ）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">背景情報・コンセプト</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">ポジショニングに合わせて修正<div class="tools-row"><a class="tool-chip" href="https://docs.google.com/document/d/1ITThXoznkucnuGwPPzRRfnIcbXiYks-7hZTv2USapRo/edit" target="_blank">プロンプト</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">プロフィール文（短/長2版）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1aueYE3nnSk6asVBCwA_y4FnLOOK-V5Lv0IzVu1xKSpE/edit" target="_blank">プロフィール例</a></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a href="#phase1">← 事前設計</a>
+        <a href="#phase3">次：オファー構築 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== -->
+  <!-- ===== 工程3：オファー構築 ===== -->
+  <!-- ====================================================== -->
+  <section class="phase" id="phase3">
+    <div class="phase-head">
+      <span class="num">3</span>
+      <h2>オファー構築</h2>
+      <span class="phase-status next">⚡ AIで詰める</span>
+      <span class="day-tag">Day 2</span>
+    </div>
+    <div class="phase-body">
+      <p class="intro">バックエンドとフロント（ダウンセル）の2階層でオファーを作る。コンセプト→ターゲット→BEFORE/AFTERの順で組み立てる。</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">15</span>
+            <p class="step-title">本命商品オファー</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・ターゲット・BEFORE/AFTER・期間・価格</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">オファー構築GemでBE商品の構成を提案<div class="tools-row"><a class="tool-chip" href="https://docs.google.com/document/d/1-P0F_2E-VyNAGcEQRoTE8ev67mfryfJJ-KV1RmMnA3Q/edit" target="_blank">プロンプト</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">オファー詳細書（商品名・期間・価格・特典）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1PHeSR7Rm-MWh0ogJCRdIkOidAnc_0Ur_mz0Q1eFM_AQ/edit" target="_blank">詳細版</a> ／ <a href="https://docs.google.com/document/d/12ZE_u7BfE8olB2Fbr9u3Ltxz7GT1wtDeM82jW4_AzNo/edit" target="_blank">シンプル版</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">16</span>
+            <p class="step-title">ダウンセル（フロント）オファー</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・ターゲット</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">2ステップ販売のフロント商品を構築</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">ダウンセル商品オファー詳細</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">2026年最新 AI×チャレンジローンチ構築 無料ライブWS</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a href="#phase2">← コンセプト設計</a>
+        <a href="#phase4">次：コンテンツ設計 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== -->
+  <!-- ===== 工程4：コンテンツ設計 ===== -->
+  <!-- ====================================================== -->
+  <section class="phase" id="phase4">
+    <div class="phase-head">
+      <span class="num">4</span>
+      <h2>コンテンツ設計</h2>
+      <span class="phase-status next">⚡ AIで詰める</span>
+      <span class="day-tag">Day 3</span>
+    </div>
+    <div class="phase-body">
+      <p class="intro">5日分のチャレンジ内容、各日の特典、ライブ1のシナリオ、あいさつ動画台本を組み立てる。ここで台本まで作っておけば、工程5でLPに転用できる。</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">17</span>
+            <p class="step-title">お客様の声ファイル生成</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">既存の感想・実績・体験談</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">あればドキュメントに書き起こしてAIに食わせる。なくてもOK</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">お客様の声リスト</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">あると後の素材の精度が上がる</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">18</span>
+            <p class="step-title">5日間コンテンツ設計</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプトシート・ターゲットシート</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Day1〜Day5の各テーマを設計</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">5日間のテーマと小タイトル</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">Day1: 全体像 ／ Day2: コンセプトメイク ／ Day3: 動画台本 ／ Day4: LP ／ Day5: 飛躍</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">19</span>
+            <p class="step-title">チャレンジ課題＆特典設計</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・ターゲット</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">各日5個ずつ＋コンプリート特典5個を提案<div class="tools-row"><a class="tool-chip" href="https://gemini.google.com/gem/1SvX1GKrzfygAZpXQdN1a5Zl0HA6YCk3z?usp=sharing" target="_blank">Gem：特典提案</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">特典タイトル＆コンテンツ案リスト</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://gemini.google.com/share/7c4d5b6b3656" target="_blank">サンプル出力</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">20</span>
+            <p class="step-title">スケジュール決め</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">開始日・販売終了日</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">集客期間・ライブ日・販売期間を逆算</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">プロモ全体カレンダー</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">集客2週間→ライブ5日→セールス1週間</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">21</span>
+            <p class="step-title">ライブ1コアストーリー</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・ターゲット</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">第1話の核となるストーリー骨格を作る</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">コアストーリーシート</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">WEBマーケター版コアストーリー</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">22</span>
+            <p class="step-title">中間オファー構築（2ステップ用）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">バックエンドオファー</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">説明会・個別相談を埋めるための中間オファー設計</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">中間オファー詳細シート</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">1ステップ販売の場合は不要</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">23</span>
+            <p class="step-title">ライブ1シナリオ作成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・ターゲット・コアストーリー・プロフィール・お客様の声</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">プロンプト・構成テンプレ・サンプルを与えて生成<div class="tools-row"><a class="tool-chip" href="https://docs.google.com/document/d/1ySqgeuoIR0ygKopaBpO13tPuKYPlcOFbyJ9woOgo4Do/edit" target="_blank">プロンプト</a><a class="tool-chip" href="https://docs.google.com/document/d/1Uk5iOwk9FNyhAf60dmhGn39am1vt10WOpyoFBbjmaJk/edit" target="_blank">構成テンプレ</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">Day1ライブ台本（60〜90分尺）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1HI1FbwVfQPyJrqc63ZJ8mcRVj7tG8iat-xqZ-uPOsew/edit" target="_blank">完成シナリオ</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">24</span>
+            <p class="step-title">あいさつ動画シナリオ作成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・プロフィール・コンプリート特典</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Day0用の自己紹介＆世界観共有動画台本を生成<div class="tools-row"><a class="tool-chip" href="https://docs.google.com/document/d/1zVaq8s3SI5c78J0-vteH5zWb7D_Sr9jTS1wx7EVkxJc/edit" target="_blank">プロンプト</a><a class="tool-chip" href="https://docs.google.com/document/d/1GTWDtzbsl64UgZ63f8Q012FOqCSXRcXtH8BKvuS4TCk/edit" target="_blank">構成テンプレ</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">あいさつ動画台本（5〜10分尺）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1qy6WrFir0dC-zVBzWaXf5nGd-tvSfE0C-GlNvsZx-mM/edit" target="_blank">シナリオ例（ゆう先生）</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">25</span>
+            <p class="step-title">特典の作成（実体）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">特典タイトル案</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">PDF／動画／チェックリストを生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">特典コンテンツ（5〜10個）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">5日で500万円売れたシナリオの作り方ほか</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">26</span>
+            <p class="step-title">特典サムネイル生成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">特典タイトル・参考サムネ</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">ChatGPT画像生成で5〜10枚<div class="tools-row"><a class="tool-chip" href="https://docs.google.com/document/d/1ncCFL9WrOU-ZxHKtXgX82ruNxPcXtHhEv5MdaRPtAPY/edit" target="_blank">作成マニュアル</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">特典サムネイル画像</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">PNGで保存→特典ページに使用</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">27</span>
+            <p class="step-title">サンキュー動画作成</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">あいさつ動画台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">オプト直後の感謝＋次の一歩を案内する動画を撮影</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">サンキュー動画（vimeo/YouTubeアップ）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://vimeo.com/766321738" target="_blank">vimeo参考</a></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a href="#phase3">← オファー構築</a>
+        <a href="#phase5">次：集客素材作成 ★今日ここ →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== -->
+  <!-- ===== 工程5：集客素材の作成 ★今日ここ ===== -->
+  <!-- ====================================================== -->
+  <section class="phase today-phase" id="phase5">
+    <div class="phase-head">
+      <span class="num">5</span>
+      <h2>集客素材の作成 ★今日のセミナーで触る場所</h2>
+      <span class="phase-status now">★ 今日ここ</span>
+      <span class="day-tag">Day 4</span>
+    </div>
+    <div class="phase-body">
+      <p class="intro">
+        ここまで（工程1〜4）で作った素材を全部つなげて、<strong>「お客様の目に最初に触れる集客素材」</strong>を一気に作るパート。
+        今日21時のライブデモは、この中の <strong>Step 28〜29（オプトインLP）</strong> をライブで実演します。
+      </p>
+
+      <div class="material-panel">
+        <div class="label">📁 ビジネスライバー起業 5チャレ 素材リファレンス</div>
+        <ul>
+          <li>オプトインLP原稿：<a href="../../../21_プロジェクト一覧/田中祐一/PLCプロモ素材/ビジネスライバー起業_5チャレ/02_オプトインLP/ビジネスライバー起業LP.md">02_オプトインLP/ビジネスライバー起業LP.md</a></li>
+          <li>サンキューページ：<a href="../../../21_プロジェクト一覧/田中祐一/PLCプロモ素材/ビジネスライバー起業_5チャレ/03_サンキューページ/">03_サンキューページ/</a></li>
+          <li>オープンチャットメッセージ：<a href="../../../21_プロジェクト一覧/田中祐一/PLCプロモ素材/ビジネスライバー起業_5チャレ/11_オープンチャットメッセージ/">11_オープンチャットメッセージ/</a></li>
+          <li>メルマガセットアップ：<a href="../../../21_プロジェクト一覧/田中祐一/PLCプロモ素材/ビジネスライバー起業_5チャレ/12_メルマガ/">12_メルマガ/</a></li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <!-- Step 28 ★今日の主役 -->
+        <div class="step featured">
+          <div class="step-head">
+            <span class="step-num">28</span>
+            <p class="step-title">オプトインLPのライティング ★今日のライブデモ前半</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">
+              <ul>
+                <li>コンセプト（Step 12）</li>
+                <li>ターゲット（Step 8）</li>
+                <li>ライブ1台本（Step 23）</li>
+                <li>プロフィール（Step 14）</li>
+                <li>お客様の声（Step 17、あれば）</li>
+              </ul>
+            </div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">
+              Cursorで案件フォルダを開き、上記INPUTを貼り付け。問題解決型LP作成Gem または 職種型LP作成Gemにかける。Skill「田中祐一の言葉」で文体を整える。
+              <div class="tools-row">
+                <a class="tool-chip" href="../../../skills/プロモーション構築/SKILL.md">Skill：プロモーション構築</a>
+                <a class="tool-chip" href="../../../skills/LP作成/SKILL.md">Skill：LP作成</a>
+                <a class="tool-chip" href="../../../skills/田中祐一の言葉/SKILL.md">Skill：田中祐一の言葉</a>
+              </div>
+            </div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">LP原稿Markdown（ファーストビュー／共感／ベネフィット／オファー／クロージング）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="../../../21_プロジェクト一覧/田中祐一/PLCプロモ素材/ビジネスライバー起業_5チャレ/02_オプトインLP/ビジネスライバー起業LP.md">ビジネスライバー起業LP.md（既存実物）</a></div></div>
+          </div>
+        </div>
+
+        <!-- Step 29 ★今日の主役 -->
+        <div class="step featured">
+          <div class="step-head">
+            <span class="step-num">29</span>
+            <p class="step-title">オプトインLPのHTML化（デザイン生成） ★今日のライブデモ後半</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Step 28のLP原稿・コンセプトヘッダー画像</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">
+              ターゲットに合うSkillを指定してHTML化。スマホ縦長1カラムが基本。
+              <div class="tools-row">
+                <a class="tool-chip" href="../../../skills/女性向けリッチ縦長LP/SKILL.md">Skill：女性向けリッチ縦長LP</a>
+                <a class="tool-chip" href="../../../skills/30代子育てママ向け知的デザインLP/SKILL.md">Skill：知的デザインLP</a>
+                <a class="tool-chip" href="../../../skills/50代士業向け文字訴求LP/SKILL.md">Skill：50代士業向けLP</a>
+              </div>
+            </div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">HTML 1ファイル（CSS内蔵・画像パス入り）</div></div>
+            <div class="step-cell"><div class="step-cell-label">公開先</div><div class="step-cell-body">
+              <strong>3パターンから選ぶ：</strong>
+              <ul>
+                <li>(a) 宴（Utage）にMCPでアップ（中〜上級）</li>
+                <li>(b) 自社サーバーにFTP（独自ドメイン運用者向け）</li>
+                <li>(c) GitHub Pagesで公開（★初心者おすすめ・土曜の主役）</li>
+              </ul>
+            </div></div>
+          </div>
+        </div>
+
+        <!-- Step 30 -->
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">30</span>
+            <p class="step-title">サンキューページライティング</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・あいさつ動画台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">サンキューページ生成プロンプトで原稿生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">サンキューページ原稿</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://lead.funecy.com/bliver2_thks" target="_blank">公開ページ例</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">31</span>
+            <p class="step-title">サンキューページ作成（HTML）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Step 30の原稿・あいさつ動画リンク</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Claudeプロジェクトで動画埋め込み＋特典案内をHTML化</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">サンキューHTML</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">Claudeプロジェクトで再生成可</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">32</span>
+            <p class="step-title">教育グループ（オープンチャット）作成</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・グループ名案</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">LINEオプチャを新規作成。参加コードは集客期間中は外す</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">オプチャURL</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">「地味で平凡な会社員はWEBマーケターを目指しなさい」</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">33</span>
+            <p class="step-title">オプチャの固定メッセージを整える</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">ノート用文章・掲示板用文章</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">オプチャのノート＆掲示板を整備</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">運用フォーマットされたオプチャ</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="../../../21_プロジェクト一覧/田中祐一/PLCプロモ素材/ビジネスライバー起業_5チャレ/11_オープンチャットメッセージ/固定ノート/">固定ノート例</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">34</span>
+            <p class="step-title">オプチャ事前案内の整備</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・あいさつ動画台本・コンプリート特典・プロモスケジュール</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">スケジュールに沿った文章案を生成<div class="tools-row"><a class="tool-chip" href="https://docs.google.com/document/d/1G3y4xVdJ0H_QKMDJ9AC00d4_NiqF2VtauSwNElU8g3I/edit" target="_blank">プロンプト</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">事前案内文（日別）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">スポット配信＋ノートの組合せ</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">35</span>
+            <p class="step-title">オプト後自動返信メール</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・あいさつ動画台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">オプト直後のサンキューメールを生成<div class="tools-row"><a class="tool-chip" href="https://chatgpt.com/g/g-682ac7d1b9ec819180d5a7494e3d0419-ohutoinhou-meruzuo-cheng" target="_blank">GPTs：オプト後メール</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">自動返信メール文面</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1LwIIgLCoNQK9khBE8C1ytqMLvVGYmHocJamD81pRgXk/edit" target="_blank">参考文面</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">36</span>
+            <p class="step-title">セットアップライティング</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">ターゲット情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">メルマガ・FB・ストーリーズ・X用の集客投稿を生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">SNS別の興味喚起投稿リスト</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">Claudeプロジェクトで一括生成</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">37</span>
+            <p class="step-title">セットアップ用画像生成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Step 36の文章</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">ChatGPT画像生成で投稿用画像を作る</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">SNS投稿用画像</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">1日1枚×期間分</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">38</span>
+            <p class="step-title">広告用文章</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">コンセプト・ターゲット・動画1シナリオ</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">9パターン作成（共感型・実績型・否定型など）</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">広告コピー9本</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">A/Bテストで上位を本番に</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">39</span>
+            <p class="step-title">広告用クリエイティブ</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Step 38の文章</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">9パターンの広告画像／動画素材を生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">広告クリエイティブ9セット</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">Meta広告ライブラリ参照</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a href="#phase4">← コンテンツ設計</a>
+        <a href="#phase6">次：プロモ素材完成 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== -->
+  <!-- ===== 工程6：プロモ素材の完成 ===== -->
+  <!-- ====================================================== -->
+  <section class="phase" id="phase6">
+    <div class="phase-head">
+      <span class="num">6</span>
+      <h2>プロモ素材の完成</h2>
+      <span class="phase-status future">📋 ガイドブック制作中</span>
+      <span class="day-tag">Day 5以降</span>
+    </div>
+    <div class="phase-body">
+      <p class="intro">ライブ2〜5の台本、説明会／販売ページ、ステップメール、リマインド、課題フォームなど、本番運用に必要な残りの素材を全部仕上げる。</p>
+      <div class="coming-soon">
+        💡 <strong>この章は現在、田中祐一が「プロモーションガイドブック」として制作中です。</strong>
+        ライブ2〜5の細部テンプレ・販売ページのHTML雛形・ステップメールのGPTs等は、
+        バックエンド購入者向けに順次公開していきます。図解と合わせた解説版もこのロードマップに統合予定。
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">40</span>
+            <p class="step-title">ライブ2シナリオ作成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Day1シナリオ・全コンセプト類・中間オファー</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Day2プロンプト＋構成テンプレで生成<div class="tools-row"><a class="tool-chip" href="https://docs.google.com/document/d/1NXVZYZyTGsQjHzxFyVW_WRQD9UM5J00DkRmntv4UyDo/edit" target="_blank">プロンプト</a></div></div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">Day2台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/15EG0P9z7t6tpEm4USRqR8Jlbgj0jg0ce8Fuav0LDcSE/edit" target="_blank">完成シナリオ</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">41</span>
+            <p class="step-title">ライブ3シナリオ作成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Day1-2シナリオ・コンセプト類・中間オファー</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Day3プロンプト＋構成テンプレで生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">Day3台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1RKEozKVs_Cl0uTuu0uFwVz8wUIBabgA-E4p2n3U-2X4/edit" target="_blank">完成シナリオ</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">42</span>
+            <p class="step-title">ライブ4シナリオ作成</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Day1-3シナリオ・コンセプト類・中間オファー</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Day4プロンプト＋構成テンプレで生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">Day4台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1sik1ATyiXwD5CGXHGHlDdeCUsgsXRzMf2eTWivO1hw0/edit" target="_blank">完成シナリオ</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">43</span>
+            <p class="step-title">ライブ5シナリオ作成（2ステップ・ハイブリッド版）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Day1-4シナリオ・本命オファー</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">2ステップ販売の場合のクライマックス台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">Day5台本（2ステップ版）</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">説明会への誘導が中心</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">44</span>
+            <p class="step-title">ライブ5シナリオ作成（1ステップ版）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Day1-4シナリオ・本命オファー</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">1ステップ販売のクロージング台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">Day5台本（1ステップ版）</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">販売ページへの直接誘導</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">45</span>
+            <p class="step-title">チャレンジ課題のアウトプットフォーム</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">課題内容（Day0〜Day4）</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">Googleフォームで5本作成（課題0〜4）</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">回答フォームURL × 5</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">スプレッドシート集計まで連携</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">46</span>
+            <p class="step-title">リマインドメール</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">スケジュール・コンセプト</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">LINEオプチャ登録誘導＋ライブ前リマインド</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">リマインドメール一式</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1nKOPBwFTqttJUtnL8Qsj4-sr53j8vn8YVywBP5lIAmA/edit" target="_blank">サンプル</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">47</span>
+            <p class="step-title">LINEオプチャ投稿文章</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">スケジュール・課題・ライブ内容</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">期間中の毎日の投稿文を一括生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">日別投稿スクリプト</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">朝・夕の2投稿×期間日数</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">48</span>
+            <p class="step-title">説明会ページ（2ステップ販売用）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">中間オファー・本命オファー</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">説明会申込みLPをClaude/CursorでHTML化</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">説明会LP（HTML）</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://lead.funecy.com/bliver2_kobetsuform" target="_blank">公開ページ例</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">49</span>
+            <p class="step-title">説明会ページ自動返信</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">申込み完了情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">日時確認＋準備事項案内メール生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">自動返信メール文面</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">2ステップ販売の場合のみ</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">50</span>
+            <p class="step-title">説明会ページサンキューページ</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">申込み完了情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">申込みお礼＋準備案内のサンキューHTML</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">サンキューページ</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">2ステップ販売の場合のみ</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">51</span>
+            <p class="step-title">1ステップ販売ページ</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">本命オファー or ダウンセル商品</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">セールスレターをLPとして組み立て</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">販売ページHTML</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://the-lead4.com/bliver_5challe" target="_blank">2022年の販売ページ例</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">52</span>
+            <p class="step-title">1ステップ販売ページ サンキュー</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">購入完了情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">購入お礼＋アクセス案内のサンキューHTML</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">購入後サンキューページ</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">教材へのログイン情報案内</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">53</span>
+            <p class="step-title">1ステップ販売ページ 自動返信</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">購入完了情報</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">購入お礼＋教材アクセス情報のメール生成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">購入後自動返信メール</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body">教材URLとログイン情報の送付</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a href="#phase5">← 集客素材作成</a>
+        <a href="#phase7">次：本番運用 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== -->
+  <!-- ===== 工程7：本番運用 ===== -->
+  <!-- ====================================================== -->
+  <section class="phase" id="phase7">
+    <div class="phase-head">
+      <span class="num">7</span>
+      <h2>本番運用</h2>
+      <span class="phase-status future">📋 細分化予定</span>
+      <span class="day-tag">プロモ期間中</span>
+    </div>
+    <div class="phase-body">
+      <p class="intro">素材が揃ったら、いよいよ本番運用。集客→ライブ→限定性→販売→クロージングを期間内に走らせる。法定書面も忘れずに。</p>
+      <div class="coming-soon">
+        💡 <strong>この章は今後、ステップバイステップで図解と合わせて細分化予定です。</strong>
+        集客実施・ライブ運用・限定性プッシュ・販売スライドのテンプレートなど、
+        実運用ノウハウを章ごとに展開していきます。バックエンド購入者向けの実装パートとして整備。
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">54</span>
+            <p class="step-title">集客の実施</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">セットアップ投稿・広告・サンキューページ・教育グループ</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">SNS投稿／企画ライブ／個別声かけ／広告／号外の組合せで集客</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">目標オプト数の達成</div></div>
+            <div class="step-cell"><div class="step-cell-label">注意</div><div class="step-cell-body">セットアップ期間（約2週間）が結果を9割決める</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">55</span>
+            <p class="step-title">ライブの実施</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">Day1〜Day5の台本</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">ライブ実施／課題アップ／録画アップ／質問回答／課題フィードバック</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">5日間のライブ完了</div></div>
+            <div class="step-cell"><div class="step-cell-label">注意</div><div class="step-cell-body">録画は当日中にアップ。質問は翌日までに回答</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">56</span>
+            <p class="step-title">限定性のプッシュ（1ステップ販売）</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">販売ページ・限定特典</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">ライブ5終了直後に販売開始 → 締切前プッシュ → 終了連絡 → 感想収集 → グループ閉じ</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">販売期間の完了</div></div>
+            <div class="step-cell"><div class="step-cell-label">注意</div><div class="step-cell-body">最終日の駆け込みが3〜5割を占める</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">57</span>
+            <p class="step-title">限定性のプッシュ（2ステップ販売）</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">説明会ページ・動画視聴期限</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">説明会誘導の締切＋動画非公開告知 → 期限終了連絡 → 感想収集 → グループ閉じ</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">説明会期間の完了</div></div>
+            <div class="step-cell"><div class="step-cell-label">注意</div><div class="step-cell-body">動画非公開のタイミングがファネル全体の山場</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">58</span>
+            <p class="step-title">説明会申込み後のステップ＆リマインド</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">申込者情報・説明会日時</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">日時確認→前日リマインド→当日アクセス案内</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">ステップメール3〜5通</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1EZ14ByxKCXDHCc2uTogppgZVdtDhlwhApJRmh4Z9jSk/edit" target="_blank">サンプル</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">59</span>
+            <p class="step-title">販売スライド（2ステップ用）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">本命オファー・お客様の声</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">セールススライドをスライド／マインドマップで構築</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">説明会用スライド</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">1on1個別の場合はトーク台本で代替</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">60</span>
+            <p class="step-title">セールストーク（クロージング）</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">販売スライド・想定問答</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">本人 or セールス担当が実施</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">成約</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">録画→Loomで翌日フィードバック</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">61</span>
+            <p class="step-title">特商法・プライバシーポリシー</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">事業者情報・販売条件</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">ChatGPTで雛形生成 → 自分で確認</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">特商法ページ・プライバシーポリシーページ</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1h2b1OOlhR6epnYJ4-xNRrfhCLei-A1Er4TSCuYVAmb8/edit" target="_blank">サンプル</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">62</span>
+            <p class="step-title">法定書面</p>
+            <span class="step-tag human">人間</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">商品情報・提供条件</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">特定継続的役務に該当する場合は必ず作成</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">概要書面・契約書面</div></div>
+            <div class="step-cell"><div class="step-cell-label">田中の例</div><div class="step-cell-body"><a href="https://docs.google.com/document/d/1jXQrdL_oNJReK42QWxO8mLo1Q6N0OA334aYjWEzJ9qY/edit" target="_blank">サンプル</a></div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-head">
+            <span class="step-num">63</span>
+            <p class="step-title">セールス改善（次回プロモへ）</p>
+            <span class="step-tag ai">AI</span>
+          </div>
+          <div class="step-grid">
+            <div class="step-cell"><div class="step-cell-label">INPUT</div><div class="step-cell-body">セールス録画・成約データ・離脱データ</div></div>
+            <div class="step-cell"><div class="step-cell-label">操作</div><div class="step-cell-body">改善プロンプトで分析→次回プロモの差分を決定</div></div>
+            <div class="step-cell"><div class="step-cell-label">OUTPUT</div><div class="step-cell-body">改善レポート＋次回タスクリスト</div></div>
+            <div class="step-cell"><div class="step-cell-label">補足</div><div class="step-cell-body">プロモは「振り返り」が次回の最大資産になる</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a href="#phase6">← プロモ素材完成</a>
+        <a href="#top">↑ トップへ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <div class="cta-card">
+    <h2>このロードマップの使い方</h2>
+    <p>
+      自分の案件を当てはめながら、各ステップで「自分はいま何を作っているか」を確認してください。<br>
+      AI＝AIに任せる工程／人間＝自分が手を動かす工程です。
+    </p>
+    <a class="btn" href="../../../skills/プロモーション構築/SKILL.md">プロモーション構築スキルへ</a>
+    <a class="btn" href="index.html">明日のセミナー資料へ戻る</a>
+  </div>
+
+  <footer>
+    <p>チャレンジローンチ構築ロードマップ v0.3（ベータ）</p>
+    <p>題材サンプル：ビジネスライバー起業 5チャレ ／ Produced by KATSUO MARKETING ／ 2026年5月版</p>
+    <p class="trace">Security Trace ID: CHALLENGE-LAUNCH-ROADMAP-2026-05-12</p>
+  </footer>
+
+</div>
+</body>
+</html>
