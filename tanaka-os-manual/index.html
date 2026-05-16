@@ -339,6 +339,58 @@ section.tanaka-message .signature {
   .stat-value { font-size: 26px; }
 }
 
+/* Visual Report / Text Mode */
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 18px 0;
+}
+.mode-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  background: var(--bg-subtle);
+}
+.mode-card.visual {
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 100%);
+  border-color: rgba(44, 181, 150, 0.35);
+}
+.mode-card h3 {
+  margin: 0 0 8px;
+  font-size: 19px;
+  color: var(--text);
+}
+.mode-card p {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+.mode-card ul {
+  margin: 0;
+  padding-left: 1.2em;
+  font-size: 15px;
+}
+.feature-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+.feature-pill {
+  background: #fff;
+  border: 1px solid rgba(44, 181, 150, 0.28);
+  border-radius: 10px;
+  padding: 14px 15px;
+  color: #0f766e;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.feature-pill strong {
+  display: block;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+
 /* 今後の予告 */
 section.coming-soon {
   background: var(--bg-subtle);
@@ -359,6 +411,64 @@ section.coming-soon p {
   margin: 0;
   font-size: 16px;
   color: var(--text-secondary);
+}
+
+/* 機能更新履歴 */
+.changelog {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 30px;
+  margin: 20px 0;
+}
+.changelog h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+}
+.changelog .changelog-lead {
+  margin: 0 0 22px;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+.timeline {
+  border-left: 3px solid rgba(44, 181, 150, 0.25);
+  padding-left: 20px;
+  margin-left: 8px;
+}
+.timeline-item {
+  position: relative;
+  padding: 0 0 20px;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  top: 7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #2CB596;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px rgba(44, 181, 150, 0.35);
+}
+.timeline-date {
+  margin: 0 0 4px;
+  color: #189B7D;
+  font-weight: 700;
+  font-size: 15px;
+}
+.timeline-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 18px;
+}
+.timeline-item p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 16px;
 }
 
 footer {
@@ -384,6 +494,7 @@ footer p { margin: 4px 0; }
   section.tanaka-message h2 { font-size: 24px; }
   .toc ol { columns: 1; }
   table { font-size: 16px; }
+  .mode-grid, .feature-list { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -396,13 +507,13 @@ footer p { margin: 4px 0; }
   <p class="lead">あなたの原稿（LP・動画台本・オファー・セールスレター 等）を AI に貼って、田中祐一として添削してもらえるツールです。Web ブラウザでも、Claude.ai 等の MCP コネクタ経由でも使えます。PLCメンバー向けです。</p>
   <div style="margin-top:22px;padding:14px 18px;background:rgba(255,255,255,0.15);border-radius:10px;backdrop-filter:blur(8px);">
     <p style="margin:0 0 4px;font-size:11.5px;letter-spacing:0.08em;opacity:0.85;font-weight:600;text-transform:uppercase;">⚡ 今すぐ始める</p>
-    <a href="https://mcp-jade-beta.vercel.app/c/test-plc-2026" target="_blank" rel="noopener" style="color:#fff;font-family:'SF Mono',monospace;font-size:14px;text-decoration:underline;font-weight:600;word-break:break-all;">https://mcp-jade-beta.vercel.app/c/test-plc-2026</a>
+    <a href="https://mcp-promoter-crm.vercel.app/c/test-plc-2026" target="_blank" rel="noopener" style="color:#fff;font-family:'SF Mono',monospace;font-size:14px;text-decoration:underline;font-weight:600;word-break:break-all;">https://mcp-promoter-crm.vercel.app/c/test-plc-2026</a>
     <p style="margin:6px 0 0;font-size:12px;opacity:0.9;">↑ PLCメンバー専用URL。クリックして「はじめての方（登録）」タブから登録申請。</p>
   </div>
   <div class="meta">
     <span>所要時間: 約15分でセットアップ完了</span>
     <span>使用料: 無料（PLCメンバー特典）</span>
-    <span>更新: 2026-05-11</span>
+    <span>更新: 2026-05-16</span>
   </div>
 </header>
 
@@ -436,11 +547,13 @@ footer p { margin: 4px 0; }
   <ol>
     <li><a href="#intro">田中祐一OSとは</a></li>
     <li><a href="#compare">Web UI と MCP の違い</a></li>
+    <li><a href="#modes">Visual Report と Text Mode</a></li>
     <li><a href="#signup">アカウントを発行する</a></li>
     <li><a href="#web-ui">Web UI で添削する</a></li>
     <li><a href="#mcp">MCP で添削する（任意）</a></li>
     <li><a href="#output">実際にアウトプットしてみよう</a></li>
     <li><a href="#tanaka-message">田中祐一からのメッセージ</a></li>
+    <li><a href="#changelog">機能アップデート履歴</a></li>
     <li><a href="#troubleshoot">困ったら（FAQ）</a></li>
   </ol>
 </nav>
@@ -505,6 +618,42 @@ footer p { margin: 4px 0; }
   <div class="callout">
     <strong>迷ったら Web UI でOK。</strong> 1回試してみて、もし「Claude.ai で頻繁に使うな」と思ったら MCP も設定する、という流れがおすすめです。
   </div>
+
+  <div id="modes">
+    <h3>Visual Report と Text Mode の違い</h3>
+    <p>添削結果の出し方は、目的に応じて <strong>Visual Report</strong> と <strong>Text Mode</strong> を使い分けます。今後は、まず「どちらで確認しますか？」を選びやすくする方向で改善していきます。</p>
+
+    <div class="mode-grid">
+      <div class="mode-card visual">
+        <h3>Visual Report</h3>
+        <p>添削対象とフィードバックを左右に並べ、該当箇所へ番号を振って確認するモードです。</p>
+        <ul>
+          <li>LP・台本・バナー・スライドなどを見ながら確認したいとき</li>
+          <li>「どこを指摘されているか」を一目で掴みたいとき</li>
+          <li>受講生や依頼主に共有するレポートとして見せたいとき</li>
+        </ul>
+      </div>
+      <div class="mode-card">
+        <h3>Text Mode</h3>
+        <p>通常のチャットや文章形式で、指摘・理由・修正案を深掘りするモードです。</p>
+        <ul>
+          <li>質問しながら何度も往復したいとき</li>
+          <li>細かい言い回しや構成意図を深掘りしたいとき</li>
+          <li>修正版の文章をその場で作りたいとき</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-list">
+      <div class="feature-pill"><strong>番号付き指摘</strong>左側の素材と右側のフィードバックを、1・2・3の番号で対応させます。</div>
+      <div class="feature-pill"><strong>共有しやすいHTML</strong>相手がクリックして開けるレポートとして出力できるようにしていきます。</div>
+      <div class="feature-pill"><strong>田中レビュー追記</strong>田中さんの追加コメントをV2として重ね、ナレッジ更新候補にもつなげます。</div>
+    </div>
+
+    <div class="callout success">
+      <strong>基本方針:</strong> スコアで評価するのではなく、「ここにこう書いてあるから、この判断になる」という客観的な根拠と改善案を、見て分かる形で出します。
+    </div>
+  </div>
 </section>
 
 <!-- 3 -->
@@ -514,7 +663,7 @@ footer p { margin: 4px 0; }
 
   <h3>📍 PLCメンバー専用URL（ここから登録します）</h3>
   <div class="url-box" style="background:#eef2ff;border-color:rgba(99,102,241,0.3);font-size:14px;padding:18px 20px;">
-    <a href="https://mcp-jade-beta.vercel.app/c/test-plc-2026" target="_blank" rel="noopener" style="font-weight:600;">https://mcp-jade-beta.vercel.app/c/test-plc-2026</a>
+    <a href="https://mcp-promoter-crm.vercel.app/c/test-plc-2026" target="_blank" rel="noopener" style="font-weight:600;">https://mcp-promoter-crm.vercel.app/c/test-plc-2026</a>
   </div>
   <p style="font-size:13px;color:var(--text-muted);margin-top:-4px;">↑ クリックで新しいタブが開きます。ブックマークしておくと便利です。</p>
 
@@ -576,7 +725,7 @@ footer p { margin: 4px 0; }
     <span class="step-num">1</span>
     <div class="step-body">
       <h4>「添削する」タブを開く</h4>
-      <p>PLCメンバー専用URL（<a href="https://mcp-jade-beta.vercel.app/c/test-plc-2026" target="_blank" rel="noopener">https://mcp-jade-beta.vercel.app/c/test-plc-2026</a>）を開いて、上部タブの「添削する」をクリック。</p>
+      <p>PLCメンバー専用URL（<a href="https://mcp-promoter-crm.vercel.app/c/test-plc-2026" target="_blank" rel="noopener">https://mcp-promoter-crm.vercel.app/c/test-plc-2026</a>）を開いて、上部タブの「添削する」をクリック。</p>
     </div>
   </div>
 
@@ -666,7 +815,7 @@ footer p { margin: 4px 0; }
     <li>以下を入力:
       <ul>
         <li><strong>名前</strong>: <code>田中祐一OS</code></li>
-        <li><strong>URL</strong>: <code>https://mcp-jade-beta.vercel.app/api/mcp/g/test-plc-2026</code></li>
+        <li><strong>URL</strong>: <code>https://mcp-promoter-crm.vercel.app/api/mcp/g/test-plc-2026</code></li>
       </ul>
     </li>
     <li>「<strong>保存</strong>」を押す</li>
@@ -756,6 +905,39 @@ footer p { margin: 4px 0; }
   <p>この「田中祐一OS」を使った <strong>プロモーションを一気通貫で行うスキル</strong> の制作も検討しています。「LPだけ」「動画台本だけ」を個別に添削するのではなく、「企画 → コンセプト → ファネル → LP → 動画 → メルマガ」を1つのスキルで上から下まで設計・添削できる仕組みです。続報お楽しみに。</p>
 </section>
 
+<!-- 機能アップデート履歴 -->
+<section class="changelog" id="changelog">
+  <h2>機能アップデート履歴</h2>
+  <p class="changelog-lead">依頼主・運営側の方向けに、田中祐一OSで追加された機能や運用上の変更点を記録しています。受講生向けの宣伝ではなく、「今どこまでできるようになったか」を確認するためのログです。</p>
+  <div class="timeline">
+    <div class="timeline-item">
+      <p class="timeline-date">2026年5月16日</p>
+      <p class="timeline-title">Visual Report / Text Mode の説明を追加</p>
+      <p>番号付きで添削箇所を見せる Visual Report と、チャットで深掘りする Text Mode の役割を明確化しました。今後は、受講生が「見て分かる添削」と「会話で深める添削」を選びやすい導線へ改善していきます。</p>
+    </div>
+    <div class="timeline-item">
+      <p class="timeline-date">2026年5月16日</p>
+      <p class="timeline-title">Loom追加フィードバックの取り込み基盤を追加</p>
+      <p>田中さんがLoomなどで追加添削した内容を、既存の添削ログへV2として紐づけるためのDB基盤を追加しました。今後、追加コメントからナレッジ候補を抽出し、確認後に田中祐一OSへ反映する運用につなげます。</p>
+    </div>
+    <div class="timeline-item">
+      <p class="timeline-date">2026年5月16日</p>
+      <p class="timeline-title">LP添削に表示速度チェックの観点を追加</p>
+      <p>LPやファネルの確認時に、ページが重すぎないか、画像・スクリプト・表示速度の観点も見る方針を追加しました。Google PageSpeed Insights などの速度情報を活用し、内容だけでなくページ体験も改善対象に含めます。</p>
+    </div>
+    <div class="timeline-item">
+      <p class="timeline-date">2026年5月15日</p>
+      <p class="timeline-title">添削ログ・管理画面の改善</p>
+      <p>添削ログの一覧性、Chatwork名の表示、MCP/Web UI経由の区別、管理者側での確認導線を改善しました。今後も、公開添削として見やすく学びやすいログ管理に寄せていきます。</p>
+    </div>
+    <div class="timeline-item">
+      <p class="timeline-date">2026年5月11日</p>
+      <p class="timeline-title">PLCメンバー向け使い方ガイドを公開</p>
+      <p>田中祐一OSの概要、Web UIでの使い方、Claude.ai MCPコネクタの設定方法、登録申請から承認までの流れをまとめた案内ページを公開しました。</p>
+    </div>
+  </div>
+</section>
+
 <!-- 9 -->
 <section class="card" id="troubleshoot">
   <h2><span class="num">9</span>困ったら（FAQ）</h2>
@@ -793,7 +975,7 @@ footer p { margin: 4px 0; }
 </section>
 
 <footer>
-  <p>田中祐一OS 使い方ガイド · PLCメンバー向け · 2026-05-11 公開</p>
+  <p>田中祐一OS 使い方ガイド · PLCメンバー向け · 2026-05-11 公開 · 2026-05-16 更新</p>
   <p>Generated by KATSUO MARKETING / 田中祐一</p>
   <p>このガイドへのフィードバックは Chatwork で田中さんまで</p>
 </footer>
