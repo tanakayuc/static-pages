@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>講師当日サポート | Claude特化型AIコンサルタント養成講座</title>
+<style>
+  :root {
+    --accent: #1E3A8A;
+    --cta: #C2410C;
+    --line: #06C755;
+    --bg: #F8FAFC;
+    --card: #FFFFFF;
+    --border: #E2E8F0;
+    --text: #1F2937;
+    --muted: #64748B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  header {
+    background: var(--accent);
+    color: #fff;
+    padding: 24px 16px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0 0 4px;
+    font-size: 1.25rem;
+  }
+  header p {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.85;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 16px 64px;
+  }
+  section {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  section h2 {
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    color: var(--accent);
+    border-left: 4px solid var(--cta);
+    padding-left: 10px;
+  }
+  .item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .item:last-child { margin-bottom: 0; }
+  .item-label {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+  .item-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0 0 10px;
+  }
+  .url-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #F1F5F9;
+    border-radius: 6px;
+    padding: 8px 10px;
+    word-break: break-all;
+  }
+  .url-text {
+    flex: 1;
+    font-size: 0.78rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    color: var(--text);
+  }
+  .btn-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  button, .btn {
+    appearance: none;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    padding: 9px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: opacity 0.15s;
+  }
+  button:hover, .btn:hover { opacity: 0.85; }
+  .btn-copy { background: #64748B; }
+  .btn-open { background: var(--cta); }
+  .btn-line { background: var(--line); }
+  .btn.disabled, button.disabled {
+    background: #CBD5E1;
+    cursor: not-allowed;
+  }
+  .copy-feedback {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: #10B981;
+    margin-left: 8px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .copy-feedback.show { opacity: 1; }
+  .qr-area {
+    text-align: center;
+    padding: 16px;
+    background: #F8FAFC;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .qr-area img {
+    max-width: 220px;
+    width: 100%;
+    height: auto;
+    background: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .qr-placeholder {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+    background: #E2E8F0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 16px;
+  }
+  .talk-card {
+    background: #FFF7ED;
+    border-left: 4px solid var(--cta);
+    border-radius: 4px 8px 8px 4px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .talk-card:last-child { margin-bottom: 0; }
+  .talk-title {
+    font-weight: 700;
+    color: var(--cta);
+    margin: 0 0 4px;
+    font-size: 0.95rem;
+  }
+  .talk-body {
+    font-size: 0.88rem;
+    margin: 0;
+    color: var(--text);
+  }
+  .note {
+    background: #FEF3C7;
+    border-left: 4px solid #F59E0B;
+    padding: 10px 12px;
+    border-radius: 4px 8px 8px 4px;
+    font-size: 0.83rem;
+    margin-top: 12px;
+  }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding: 16px;
+  }
+  @media (max-width: 480px) {
+    .btn-group { flex-direction: column; }
+    .btn-group button, .btn-group .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>講師当日サポート</h1>
+  <p>Claude特化型AIコンサルタント養成講座 | 体験セミナー＆説明会</p>
+</header>
+
+<main>
+
+  <!-- ============ Section 1: スライド ============ -->
+  <section>
+    <h2>📊 スライド最新版</h2>
+    <div class="item">
+      <div class="item-label">Google Slides（最新版）</div>
+      <p class="item-desc">本日のセミナーで使用するスライドです。スライドが映らない場合は、参加者にこのURLを直接共有してください。</p>
+      <div class="url-row">
+        <span class="url-text" id="url-slides">https://docs.google.com/presentation/d/1cK-y_LxRlLGhZU-N8siF0JgJLEqwm2C8/edit?usp=sharing&ouid=115990877733329148133&rtpof=true&sd=true</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-copy" onclick="copyText('url-slides', this)">📋 URLをコピー</button>
+        <a class="btn btn-open" href="https://docs.google.com/presentation/d/1cK-y_LxRlLGhZU-N8siF0JgJLEqwm2C8/edit?usp=sharing&ouid=115990877733329148133&rtpof=true&sd=true" target="_blank" rel="noopener">🔗 スライドを開く</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Section 2: デモページ ============ -->
+  <section>
+    <h2>🎬 デモページ</h2>
+
+    <!-- 2-1. AI社員デモ -->
+    <div class="item">
+      <div class="item-label">① AI社員のデモ</div>
+      <p class="item-desc">片岡さんがご自身でご用意のデモURL（ローカルでご準備済み）を使用してください。当日はChrome等で直接立ち上げてご対応ください。</p>
+      <div class="url-row">
+        <span class="url-text" style="color:var(--muted);">※片岡さん側でご準備のデモを直接ご使用ください</span>
+      </div>
+    </div>
+
+    <!-- 2-2. フォーム営業ツール KatsuoReach -->
+    <div class="item">
+      <div class="item-label">② フォーム営業ツール「KatsuoReach」デモ</div>
+      <p class="item-desc">リスト作成のフローを実際に動かしてお見せできます。</p>
+      <div class="url-row">
+        <span class="url-text" id="url-reach">https://katsuo-reach.vercel.app/demo/list-builder</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-copy" onclick="copyText('url-reach', this)">📋 URLをコピー</button>
+        <a class="btn btn-open" href="https://katsuo-reach.vercel.app/demo/list-builder" target="_blank" rel="noopener">🔗 デモを開く</a>
+      </div>
+    </div>
+
+    <!-- 2-3. 補助金デモ -->
+    <div class="item">
+      <div class="item-label">③ 補助金支援ツールのデモ</div>
+      <p class="item-desc">沖縄県・飲食店・募集中のみ・5件表示でセット済み。検索結果から「採択ロードマップ」「事業計画書ドラフト」への流れを見せられます。</p>
+      <div class="url-row">
+        <span class="url-text" id="url-subsidy">https://katsuo-subsidy.vercel.app/subsidies?prefecture=%E6%B2%96%E7%B8%84%E7%9C%8C&industry=%E9%A3%B2%E9%A3%9F%E5%BA%97&openOnly=true&limit=5</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-copy" onclick="copyText('url-subsidy', this)">📋 URLをコピー</button>
+        <a class="btn btn-open" href="https://katsuo-subsidy.vercel.app/subsidies?prefecture=%E6%B2%96%E7%B8%84%E7%9C%8C&industry=%E9%A3%B2%E9%A3%9F%E5%BA%97&openOnly=true&limit=5" target="_blank" rel="noopener">🔗 デモを開く</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Section 3: LINE案内 ============ -->
+  <section>
+    <h2>📱 LINE案内（特典配布）</h2>
+
+    <div class="item">
+      <div class="item-label">公式LINE QRコード</div>
+      <p class="item-desc">特典受け取り用のQRコードです。画面共有または画面に表示して、参加者にスマホで読み込んでもらってください。</p>
+      <div class="qr-area">
+        <div class="qr-placeholder">
+          QRコード画像<br>
+          （後ほど差し替え予定）<br>
+          ※差し替え時は<br>
+          /kataoka-seminar-support/qr.png
+        </div>
+      </div>
+      <div class="item-label" style="margin-top:14px;">公式LINE URL</div>
+      <div class="url-row">
+        <span class="url-text" id="url-line">https://sub.the-lead10.com/line/open/tnQadnOsYfer/qlVePfeimmMZ?flid=pG09IarbFtaz</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-copy" onclick="copyText('url-line', this)">📋 URLをコピー</button>
+        <a class="btn btn-line" href="https://sub.the-lead10.com/line/open/tnQadnOsYfer/qlVePfeimmMZ?flid=pG09IarbFtaz" target="_blank" rel="noopener">💬 LINEを開く</a>
+      </div>
+      <div class="note">
+        💡 案内トーク例：「公式LINEに『クロード』とメッセージを送ってください。特典をお送りします。」
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Section 4: トーク補足コメント ============ -->
+  <section>
+    <h2>💬 トーク用補足コメント</h2>
+    <p style="font-size:0.85rem;color:var(--muted);margin:0 0 14px;">参加者からの質問への補足、または説明の合間に挿入できる短いトークメモです。</p>
+
+    <div class="talk-card">
+      <p class="talk-title">① Claude Codeとは（受講前提の補足）</p>
+      <p class="talk-body">ChatGPTやブラウザ版のClaudeは「アドバイスをくれるAI」。Claude Codeは「実際に手を動かすAI」です。PDF読み込み・Excel整理・定型作業の自動化を任せられる。月額3,000円から始められて、自分の業務改善にも使えるツールなので、これは「コスト」ではなく「自分への投資」です。</p>
+    </div>
+
+    <div class="talk-card">
+      <p class="talk-title">② KatsuoReach（フォーム営業ツール）</p>
+      <p class="talk-body">独自開発のフォーム営業ツールで、リスト作成→AIによる文面個別化→送信を1つのプラットフォームで完結。月1,000件まで送信可能。HPの5段階スコアリングやバーチャルオフィス検知などのリスト評価機能、事前リサーチ・提案書・想定質問集30問の自動生成も搭載。<strong>2026年7月中の利用開始予定</strong>です。</p>
+    </div>
+
+    <div class="talk-card">
+      <p class="talk-title">③ 補助金支援ツール（園田芽衣氏監修）</p>
+      <p class="talk-body">補助金リサーチ→採択ロードマップ→事業計画書ドラフト→専門家チャット相談、の4機能。補助金支援総額5億円超の園田芽衣氏が監修しており、判断に迷う場面ではChatworkで直接相談できます。<strong>2026年8月中の利用開始予定</strong>です。</p>
+    </div>
+  </section>
+
+  <!-- ============ Section 5: 各種URL ============ -->
+  <section>
+    <h2>🔗 各種URL（参加者への案内）</h2>
+
+    <!-- 詳細ページ -->
+    <div class="item">
+      <div class="item-label">講座詳細ページ（販売ページ）</div>
+      <p class="item-desc">講座の詳細・価格・申込フローが書かれているメインページ。LINEで「詳細」と送ると返信されるページです。</p>
+      <div class="url-row">
+        <span class="url-text" id="url-sales">https://utage-system.com/p/cD8LTaiFYRW4</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-copy" onclick="copyText('url-sales', this)">📋 URLをコピー</button>
+        <a class="btn btn-open" href="https://utage-system.com/p/cD8LTaiFYRW4" target="_blank" rel="noopener">🔗 ページを開く</a>
+      </div>
+    </div>
+
+    <!-- 第一次審査フォーム -->
+    <div class="item">
+      <div class="item-label">第一次審査フォーム</div>
+      <p class="item-desc">講座への申込フォーム。詳細ページ内のCTAからも遷移しますが、講師から直接URLを送ることもできます。</p>
+      <div class="url-row">
+        <span class="url-text" id="url-form">https://utage-system.com/p/qz3QAF97DX7g</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-copy" onclick="copyText('url-form', this)">📋 URLをコピー</button>
+        <a class="btn btn-open" href="https://utage-system.com/p/qz3QAF97DX7g" target="_blank" rel="noopener">🔗 フォームを開く</a>
+      </div>
+    </div>
+
+    <!-- 特典ページ -->
+    <div class="item">
+      <div class="item-label">セミナー特典ページ</div>
+      <p class="item-desc">体験セミナー参加特典の一覧ページ。LINEで特典コードを送った後にご案内されます。</p>
+      <div class="url-row">
+        <span class="url-text" id="url-bonus">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-copy" onclick="copyText('url-bonus', this)">📋 URLをコピー</button>
+        <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html" target="_blank" rel="noopener">🔗 特典ページを開く</a>
+      </div>
+    </div>
+
+    <!-- SNS追加特典ページ -->
+    <div class="item">
+      <div class="item-label">SNS追加特典ページ</div>
+      <p class="item-desc">Facebook/Xでコメントしてくれた方への追加5特典のご案内。</p>
+      <div class="url-row">
+        <span class="url-text" id="url-sns">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-copy" onclick="copyText('url-sns', this)">📋 URLをコピー</button>
+        <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html" target="_blank" rel="noopener">🔗 SNS特典を開く</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  講師当日サポート / Claude特化型AIコンサルタント養成講座<br>
+  © 2026 株式会社ザ・リード
+</footer>
+
+<script>
+  function copyText(elementId, btn) {
+    const text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.innerHTML;
+      btn.innerHTML = '✅ コピー完了';
+      btn.style.background = '#10B981';
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.style.background = '';
+      }, 1500);
+    }).catch(err => {
+      alert('コピーに失敗しました。手動でコピーしてください。\n' + text);
+    });
+  }
+</script>
+
+</body>
+</html>
