@@ -237,13 +237,13 @@
     border: 1px solid #FBBF24;
     border-radius: 8px;
     padding: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .keyword-manual .manual-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
   }
   .manual-tag {
     background: #D97706;
@@ -254,36 +254,101 @@
     border-radius: 4px;
     white-space: nowrap;
   }
+  .manual-tag.auto {
+    background: var(--line);
+  }
   .manual-title {
     font-weight: 700;
     font-size: 0.92rem;
     color: var(--text);
   }
-  .manual-url {
+  .flow-step {
     background: #fff;
     border: 1px solid #FCD34D;
     border-radius: 6px;
-    padding: 10px;
-    margin-top: 8px;
+    padding: 12px;
+    margin-top: 10px;
+    position: relative;
   }
-  .manual-url:first-of-type { margin-top: 0; }
-  .manual-url-label {
-    font-size: 0.8rem;
+  .flow-step-num {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-weight: 700;
+    font-size: 0.78rem;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .flow-trigger {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: 0 0 4px;
+    padding-left: 32px;
+  }
+  .flow-trigger strong {
+    color: var(--text);
+  }
+  .flow-action {
+    font-size: 0.88rem;
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 4px;
+    margin: 0 0 8px;
+    padding-left: 32px;
   }
-  .manual-url-text {
+  .flow-action .auto-badge {
+    background: var(--line);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+  }
+  .flow-action .manual-badge {
+    background: #D97706;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+  }
+  .flow-url-row {
+    background: #F8FAFC;
+    border-radius: 4px;
+    padding: 8px;
+    margin-left: 32px;
+  }
+  .flow-url-text {
     font-size: 0.72rem;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     color: var(--muted);
     word-break: break-all;
     margin-bottom: 8px;
   }
-  .manual-btn-group {
+  .flow-btn-group {
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
+  }
+  .flow-arrow {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #D97706;
+    margin: 4px 0 0;
+    padding-left: 32px;
+    text-align: left;
+  }
+  @media (max-width: 480px) {
+    .flow-trigger, .flow-action, .flow-arrow {
+      padding-left: 0;
+    }
+    .flow-url-row { margin-left: 0; }
   }
   @media (max-width: 480px) {
     .keyword-row {
@@ -411,35 +476,44 @@
         </div>
       </div>
 
-      <!-- ② SNS拡散マニュアル＋追加5大特典（手動送信・2URL） -->
+      <!-- ② SNS拡散の追加特典フロー（2段階） -->
       <div class="keyword-manual">
         <div class="manual-header">
-          <span class="manual-title" style="font-size:1rem;">SNS拡散マニュアル＋追加5大特典</span>
+          <span class="manual-title" style="font-size:1rem;">SNS拡散の追加5大特典（2段階フロー）</span>
         </div>
-        <div class="keyword-meta" style="margin-bottom:10px;">
-          <span class="keyword-meta-label">送付キーワード</span>
-          <span class="keyword-badge">追加</span>
-          <span class="manual-tag">⚠ 手動送信</span>
-        </div>
-        <p style="font-size:0.78rem;color:var(--muted);margin:0 0 10px;">「追加」キーワードを受信したら、下記2URLを順番に手動で送信してください。</p>
+        <p style="font-size:0.78rem;color:var(--muted);margin:0;">参加者がSNSで拡散してくれたら、特典ページを渡す2段階フローです。</p>
 
-        <!-- URL 1: SNSシェア特典ページ -->
-        <div class="manual-url">
-          <div class="manual-url-label">① SNSシェア特典（06-10）</div>
-          <div class="manual-url-text" id="url-keyword-add-1">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html</div>
-          <div class="manual-btn-group">
-            <button class="btn-copy" onclick="copyText('url-keyword-add-1', this)">📋 コピー</button>
-            <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html" target="_blank" rel="noopener">開く</a>
+        <!-- STEP 1: 「追加」キーワード → 自動配信で紹介ページ -->
+        <div class="flow-step">
+          <p class="flow-trigger" style="padding-left:0;"><span class="flow-step-num">1</span><strong>参加者が事務局LINEに「<span class="keyword-badge" style="background:var(--line);padding:2px 8px;font-size:0.78rem;">追加</span>」と送信</strong></p>
+          <p class="flow-action">
+            → SNSシェア特典 紹介ページが届く
+            <span class="auto-badge">自動配信</span>
+          </p>
+          <div class="flow-url-row">
+            <div class="flow-url-text" id="url-keyword-add-1">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html</div>
+            <div class="flow-btn-group">
+              <button class="btn-copy" onclick="copyText('url-keyword-add-1', this)">📋 コピー</button>
+              <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html" target="_blank" rel="noopener">開く</a>
+            </div>
           </div>
         </div>
 
-        <!-- URL 2: SNS拡散マニュアル -->
-        <div class="manual-url">
-          <div class="manual-url-label">② SNS拡散マニュアル（受取方法のご案内）</div>
-          <div class="manual-url-text" id="url-keyword-add-2">https://tanakayuc.github.io/static-pages/kataoka-bonus-claim-guide/</div>
-          <div class="manual-btn-group">
-            <button class="btn-copy" onclick="copyText('url-keyword-add-2', this)">📋 コピー</button>
-            <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus-claim-guide/" target="_blank" rel="noopener">開く</a>
+        <p class="flow-arrow">↓ SNSで拡散 → 拡散キャプチャをLINEで送信</p>
+
+        <!-- STEP 2: スタッフが拡散キャプチャを受領 → 手動で特典ページ送信 -->
+        <div class="flow-step">
+          <p class="flow-trigger" style="padding-left:0;"><span class="flow-step-num">2</span><strong>事務局スタッフが拡散キャプチャを受領</strong></p>
+          <p class="flow-action">
+            → SNS拡散マニュアル（追加5大特典の受取方法）を送信
+            <span class="manual-badge">⚠ スタッフが手動送信</span>
+          </p>
+          <div class="flow-url-row">
+            <div class="flow-url-text" id="url-keyword-add-2">https://tanakayuc.github.io/static-pages/kataoka-bonus-claim-guide/</div>
+            <div class="flow-btn-group">
+              <button class="btn-copy" onclick="copyText('url-keyword-add-2', this)">📋 コピー</button>
+              <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus-claim-guide/" target="_blank" rel="noopener">開く</a>
+            </div>
           </div>
         </div>
       </div>
