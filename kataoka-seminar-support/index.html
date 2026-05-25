@@ -206,9 +206,63 @@
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     word-break: break-all;
   }
-  .keyword-row .btn-open {
+  .keyword-row .btn-open,
+  .keyword-row .btn-copy {
     padding: 6px 12px;
     font-size: 0.78rem;
+  }
+  .keyword-manual {
+    background: #FEF3C7;
+    border: 1px solid #FBBF24;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 8px;
+  }
+  .keyword-manual .manual-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .manual-tag {
+    background: #D97706;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .manual-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .manual-url {
+    background: #fff;
+    border: 1px solid #FCD34D;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 8px;
+  }
+  .manual-url:first-of-type { margin-top: 0; }
+  .manual-url-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .manual-url-text {
+    font-size: 0.72rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    color: var(--muted);
+    word-break: break-all;
+    margin-bottom: 8px;
+  }
+  .manual-btn-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
   }
   @media (max-width: 480px) {
     .keyword-row {
@@ -319,36 +373,62 @@
       </div>
 
       <div class="item-label" style="margin-top:18px;">📨 キーワード ＋ 送付先URL（説明会の案内）</div>
-      <p class="item-desc">事務局LINEに以下のキーワードを送ると、対応するURLが自動配信されます。LINEのトラブル時は講師から直接URLを送ってください。</p>
+      <p class="item-desc">事務局LINEのキーワード自動応答と手動送信の対応一覧です。LINEのトラブル時や手動送信の際は、ここからコピー＆送信してください。</p>
 
-      <!-- キーワード① 特典 -->
+      <!-- キーワード① 特典（自動配信） -->
       <div class="keyword-row">
         <span class="keyword-badge">クロード</span>
         <div class="keyword-dest">
-          特典
-          <small>https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html</small>
+          特典（自動配信）
+          <small id="url-keyword-claude">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html</small>
         </div>
-        <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html" target="_blank" rel="noopener">開く</a>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-copy" onclick="copyText('url-keyword-claude', this)">📋 コピー</button>
+          <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html" target="_blank" rel="noopener">開く</a>
+        </div>
       </div>
 
-      <!-- キーワード② 追加の5大特典 -->
-      <div class="keyword-row">
-        <span class="keyword-badge">追加</span>
-        <div class="keyword-dest">
-          追加の5大特典（受取方法のご案内）
-          <small>https://tanakayuc.github.io/static-pages/kataoka-bonus-claim-guide/</small>
+      <!-- キーワード② 追加（手動送信・2URL） -->
+      <div class="keyword-manual">
+        <div class="manual-header">
+          <span class="keyword-badge">追加</span>
+          <span class="manual-tag">⚠ 手動送信</span>
+          <span class="manual-title">追加5大特典（SNS拡散）</span>
         </div>
-        <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus-claim-guide/" target="_blank" rel="noopener">開く</a>
+        <p style="font-size:0.78rem;color:var(--muted);margin:0 0 10px;">「追加」キーワードを受信したら、事務局スタッフが下記2つのURLを手動でLINE送信します。順序は ① → ② が推奨。</p>
+
+        <!-- URL 1: SNSシェア特典ページ -->
+        <div class="manual-url">
+          <div class="manual-url-label">① SNSシェア特典（06-10）紹介ページ</div>
+          <div class="manual-url-text" id="url-keyword-add-1">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html</div>
+          <div class="manual-btn-group">
+            <button class="btn-copy" onclick="copyText('url-keyword-add-1', this)">📋 コピー</button>
+            <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html" target="_blank" rel="noopener">開く</a>
+          </div>
+        </div>
+
+        <!-- URL 2: SNS拡散マニュアル -->
+        <div class="manual-url">
+          <div class="manual-url-label">② SNS拡散マニュアル（受取方法のご案内）</div>
+          <div class="manual-url-text" id="url-keyword-add-2">https://tanakayuc.github.io/static-pages/kataoka-bonus-claim-guide/</div>
+          <div class="manual-btn-group">
+            <button class="btn-copy" onclick="copyText('url-keyword-add-2', this)">📋 コピー</button>
+            <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus-claim-guide/" target="_blank" rel="noopener">開く</a>
+          </div>
+        </div>
       </div>
 
-      <!-- キーワード③ 販売ページの送付 -->
+      <!-- キーワード③ 販売ページの送付（自動配信） -->
       <div class="keyword-row">
         <span class="keyword-badge">詳細</span>
         <div class="keyword-dest">
-          販売ページの送付
-          <small>https://utage-system.com/p/cD8LTaiFYRW4</small>
+          販売ページの送付（自動配信）
+          <small id="url-keyword-shousai">https://utage-system.com/p/cD8LTaiFYRW4</small>
         </div>
-        <a class="btn btn-open" href="https://utage-system.com/p/cD8LTaiFYRW4" target="_blank" rel="noopener">開く</a>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-copy" onclick="copyText('url-keyword-shousai', this)">📋 コピー</button>
+          <a class="btn btn-open" href="https://utage-system.com/p/cD8LTaiFYRW4" target="_blank" rel="noopener">開く</a>
+        </div>
       </div>
     </div>
 
