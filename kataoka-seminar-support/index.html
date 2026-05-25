@@ -168,48 +168,69 @@
     margin-top: 12px;
   }
   .keyword-row {
-    display: grid;
-    grid-template-columns: minmax(110px, auto) 1fr auto;
-    gap: 10px;
-    align-items: center;
-    padding: 12px;
     background: #F1F5F9;
     border-radius: 8px;
-    margin-bottom: 8px;
+    padding: 14px;
+    margin-bottom: 10px;
   }
   .keyword-row:last-child { margin-bottom: 0; }
+  .keyword-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .keyword-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .keyword-meta-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
   .keyword-badge {
+    display: inline-flex;
+    align-items: center;
     background: var(--line);
     color: #fff;
-    padding: 6px 12px;
-    border-radius: 16px;
+    padding: 4px 10px;
+    border-radius: 14px;
     font-weight: 700;
-    font-size: 0.85rem;
-    text-align: center;
+    font-size: 0.82rem;
     white-space: nowrap;
   }
-  .keyword-badge.tbd {
-    background: #94A3B8;
-    font-style: italic;
+  .keyword-badge::before {
+    content: "「";
+    margin-right: 1px;
+    opacity: 0.85;
   }
-  .keyword-dest {
-    font-size: 0.85rem;
-    color: var(--text);
-    font-weight: 600;
+  .keyword-badge::after {
+    content: "」";
+    margin-left: 1px;
+    opacity: 0.85;
   }
-  .keyword-dest small {
-    display: block;
-    font-weight: 400;
-    color: var(--muted);
+  .keyword-url {
     font-size: 0.72rem;
-    margin-top: 2px;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    color: var(--muted);
     word-break: break-all;
+    margin-bottom: 8px;
   }
   .keyword-row .btn-open,
-  .keyword-row .btn-copy {
+  .keyword-row .btn-copy,
+  .keyword-manual .btn-open,
+  .keyword-manual .btn-copy {
     padding: 6px 12px;
     font-size: 0.78rem;
+  }
+  .keyword-btn-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
   }
   .keyword-manual {
     background: #FEF3C7;
@@ -372,34 +393,39 @@
         💡 案内トーク例：「事務局LINEに『クロード』とメッセージを送ってください。特典をお送りします。さらに『詳細』と送ると講座詳細ページが届きます。」
       </div>
 
-      <div class="item-label" style="margin-top:18px;">📨 キーワード ＋ 送付先URL（説明会の案内）</div>
-      <p class="item-desc">事務局LINEのキーワード自動応答と手動送信の対応一覧です。LINEのトラブル時や手動送信の際は、ここからコピー＆送信してください。</p>
+      <div class="item-label" style="margin-top:18px;">📨 何を送る？ ＋ 送付キーワード</div>
+      <p class="item-desc">「これを送りたい」→「そのキーワードは何か」が一目で分かる順序で整理しています。LINEトラブル時はここから直接URLをコピー＆送信できます。</p>
 
-      <!-- キーワード① 特典（自動配信） -->
+      <!-- ① 5大特典（自動配信） -->
       <div class="keyword-row">
-        <span class="keyword-badge">クロード</span>
-        <div class="keyword-dest">
-          特典（自動配信）
-          <small id="url-keyword-claude">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html</small>
+        <div class="keyword-title">5大特典</div>
+        <div class="keyword-meta">
+          <span class="keyword-meta-label">送付キーワード</span>
+          <span class="keyword-badge">クロード</span>
+          <span class="keyword-meta-label">／ 自動配信</span>
         </div>
-        <div style="display:flex; gap:6px;">
+        <div class="keyword-url" id="url-keyword-claude">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html</div>
+        <div class="keyword-btn-group">
           <button class="btn-copy" onclick="copyText('url-keyword-claude', this)">📋 コピー</button>
           <a class="btn btn-open" href="https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-seminar.html" target="_blank" rel="noopener">開く</a>
         </div>
       </div>
 
-      <!-- キーワード② 追加（手動送信・2URL） -->
+      <!-- ② SNS拡散マニュアル＋追加5大特典（手動送信・2URL） -->
       <div class="keyword-manual">
         <div class="manual-header">
+          <span class="manual-title" style="font-size:1rem;">SNS拡散マニュアル＋追加5大特典</span>
+        </div>
+        <div class="keyword-meta" style="margin-bottom:10px;">
+          <span class="keyword-meta-label">送付キーワード</span>
           <span class="keyword-badge">追加</span>
           <span class="manual-tag">⚠ 手動送信</span>
-          <span class="manual-title">追加5大特典（SNS拡散）</span>
         </div>
-        <p style="font-size:0.78rem;color:var(--muted);margin:0 0 10px;">「追加」キーワードを受信したら、事務局スタッフが下記2つのURLを手動でLINE送信します。順序は ① → ② が推奨。</p>
+        <p style="font-size:0.78rem;color:var(--muted);margin:0 0 10px;">「追加」キーワードを受信したら、下記2URLを順番に手動で送信してください。</p>
 
         <!-- URL 1: SNSシェア特典ページ -->
         <div class="manual-url">
-          <div class="manual-url-label">① SNSシェア特典（06-10）紹介ページ</div>
+          <div class="manual-url-label">① SNSシェア特典（06-10）</div>
           <div class="manual-url-text" id="url-keyword-add-1">https://tanakayuc.github.io/static-pages/kataoka-bonus/bonus-sns.html</div>
           <div class="manual-btn-group">
             <button class="btn-copy" onclick="copyText('url-keyword-add-1', this)">📋 コピー</button>
@@ -418,14 +444,16 @@
         </div>
       </div>
 
-      <!-- キーワード③ 販売ページの送付（自動配信） -->
+      <!-- ③ 講座詳細ページ（自動配信） -->
       <div class="keyword-row">
-        <span class="keyword-badge">詳細</span>
-        <div class="keyword-dest">
-          販売ページの送付（自動配信）
-          <small id="url-keyword-shousai">https://utage-system.com/p/cD8LTaiFYRW4</small>
+        <div class="keyword-title">講座詳細ページ</div>
+        <div class="keyword-meta">
+          <span class="keyword-meta-label">送付キーワード</span>
+          <span class="keyword-badge">詳細</span>
+          <span class="keyword-meta-label">／ 自動配信</span>
         </div>
-        <div style="display:flex; gap:6px;">
+        <div class="keyword-url" id="url-keyword-shousai">https://utage-system.com/p/cD8LTaiFYRW4</div>
+        <div class="keyword-btn-group">
           <button class="btn-copy" onclick="copyText('url-keyword-shousai', this)">📋 コピー</button>
           <a class="btn btn-open" href="https://utage-system.com/p/cD8LTaiFYRW4" target="_blank" rel="noopener">開く</a>
         </div>
