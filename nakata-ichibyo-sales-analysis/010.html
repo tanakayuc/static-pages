@@ -5,55 +5,236 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>1秒収納_個別_鈴木麻未さま_分析 - 1秒収納 セールス分析</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
 </style>
 </head>
 <body>
+<div class="layout">
 <nav class="sidebar">
+<div class="brand">Sales Report</div>
 <h3>1秒収納 セールス分析</h3>
-<a href="001.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_三木様_分析</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_佐野様_分析</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_吉田様_分析</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_山中明子さま_分析</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_山口様_分析</a>
-<a href="006.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_市原千鶴さま_分析</a>
-<a href="007.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_桜庭はるみさま_分析</a>
-<a href="008.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_橋本様_分析</a>
-<a href="009.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_櫻井様_分析</a>
-<a href="010.html" class="sidebar-item active"><span class="date">2026年06月01日</span> 1秒収納_個別_鈴木麻未さま_分析</a>
-<a href="011.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_阪本様_分析</a>
-<a href="012.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_高見直子さま_分析</a>
-<a href="013.html" class="sidebar-item"><span class="date">2026年06月01日</span> 1秒収納_個別_髙久様_分析</a>
-<a href="016.html" class="sidebar-item"><span class="date">2026年06月01日</span> 古賀いづみさま_分析</a>
+<a href="001.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_三木様_分析</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_佐野様_分析</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_吉田様_分析</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_山中明子さま_分析</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_山口様_分析</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_市原千鶴さま_分析</a>
+<a href="007.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_桜庭はるみさま_分析</a>
+<a href="008.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_橋本様_分析</a>
+<a href="009.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_櫻井様_分析</a>
+<a href="010.html" class="sidebar-item active"><span class="date">2026年06月02日</span> 1秒収納_個別_鈴木麻未さま_分析</a>
+<a href="011.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_阪本様_分析</a>
+<a href="012.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_高見直子さま_分析</a>
+<a href="013.html" class="sidebar-item"><span class="date">2026年06月02日</span> 1秒収納_個別_髙久様_分析</a>
+<a href="016.html" class="sidebar-item"><span class="date">2026年06月02日</span> 古賀いづみさま_分析</a>
 <a href="20260425.html" class="sidebar-item"><span class="date">2026年04月25日</span> 20260425_小林友里_分析</a>
 <a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_杉浦さん_分析</a>
 </nav>
-<main class="main">
+<main class="content">
+<article class="article">
 <h1>1秒収納 個別相談 鈴木麻未さま セールス分析</h1>
 <h2>このファイルの位置づけ</h2>
 <p>本ファイルは、1秒収納（中田りょうこ案件）の個別相談セールスを分析し、セールス担当者へのフィードバックを目的として作成したものです。</p>
@@ -268,25 +449,25 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <tr>
 <td>③</td>
 <td>他講座・金額</td>
-<td>○</td>
+<td><span class="eval eval-ok">○</span></td>
 <td>他アドバイザー調査、ページ・B社等の比較、金額帯言及。</td>
 </tr>
 <tr>
 <td>④</td>
 <td>アンカリング</td>
-<td>△</td>
+<td><span class="eval eval-warn">△</span></td>
 <td>浪費・ダブり買いの話はあるが<strong>月／年の損失合算は弱い</strong>。家の何割死蔵等は未使用。</td>
 </tr>
 <tr>
 <td>⑤</td>
 <td>常識の破壊</td>
-<td>△</td>
+<td><span class="eval eval-warn">△</span></td>
 <td>技術のみ限界の話はある。<strong>二者択一のパラダイム演出は薄め</strong>。</td>
 </tr>
 <tr>
 <td>⑥</td>
 <td>「やりましょうよ！」</td>
-<td>△</td>
+<td><span class="eval eval-warn">△</span></td>
 <td>「やりましょう」系は顧客側も含め前向き。<strong>さわやか一撃</strong>としては演出余地。</td>
 </tr>
 <tr>
@@ -298,7 +479,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <tr>
 <td>⑧</td>
 <td>成約後キャンセル防止</td>
-<td>△</td>
+<td><span class="eval eval-warn">△</span></td>
 <td>決め手・未来イメージは強い。<strong>チェックリスト⑧の定型QAは要補完</strong>。</td>
 </tr>
 <tr>
@@ -310,7 +491,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <tr>
 <td>⑩</td>
 <td>現金一括お手伝い</td>
-<td>△</td>
+<td><span class="eval eval-warn">△</span></td>
 <td>今回はクレ決済中心。<strong>振込なら6万円安</strong>は説明済み。</td>
 </tr>
 </tbody>
@@ -334,7 +515,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </ol>
 <hr />
 <h2>具体的な改善トーク例</h2>
-<h3>改善点1: アンカリングの金額化</h3>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善点1: アンカリングの金額化</h3>
 <p><strong>今回のトーク（要約）</strong></p>
 <ul>
 <li>ダブり買い、食費、消費期限切れ、外食など「損」方向の話題は出るが、合算しない。</li>
@@ -346,7 +527,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 今日の投資は、その漏れを減らしながら、自分を好きになれる方向に
 一本化する、ってイメージで聞いてほしいんです。
 </code></pre>
-<h3>改善点2: 成約後キャンセル防止（チェックリスト⑧）</h3>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善点2: 成約後キャンセル防止（チェックリスト⑧）</h3>
 <p><strong>今回のトーク</strong></p>
 <ul>
 <li>決め手・100点・未来イメージは十分。一方で「葛藤が湧いたら？」の<strong>定型一文</strong>が薄い。</li>
@@ -359,7 +540,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 大丈夫、と言ったなら、それもナチュラルウーマンへの一歩なので、
 不安が出たら事務局か私に一言ください。LINE一台で終わらせない、でいきましょう。
 </code></pre>
-<h3>改善点3: 冒頭の環境・時間</h3>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善点3: 冒頭の環境・時間</h3>
 <p><strong>改善トーク例</strong></p>
 <pre><code>今日は60〜90分くらい見てください。ご家族の同席やご用事は大丈夫ですか？
 途中でお呼び出しがありそうなら、最初に教えてください。中断・再開、全然大丈夫です。
@@ -435,6 +616,8 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <ul>
 <li>2026-05-09: 初版作成（原本: 20260507 鈴木麻未様 成約 島田有紀）</li>
 </ul>
+</article>
 </main>
+</div>
 </body>
 </html>

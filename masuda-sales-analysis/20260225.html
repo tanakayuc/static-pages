@@ -5,38 +5,218 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>20260225_加藤美香_永吉_分析 - 増田 W3EV セールス分析</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
 </style>
 </head>
 <body>
+<div class="layout">
 <nav class="sidebar">
+<div class="brand">Sales Report</div>
 <h3>増田 W3EV セールス分析</h3>
-<a href="160.html" class="sidebar-item"><span class="date">2026年06月01日</span> フィードバック一覧</a>
+<a href="160.html" class="sidebar-item"><span class="date">2026年06月02日</span> フィードバック一覧</a>
 <a href="20260525.html" class="sidebar-item"><span class="date">2026年05月25日</span> 20260525_吉田佳裕_田畑_分析</a>
 <a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_横山恵理_田畑_分析</a>
 <a href="20260513.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_金田由美_田畑_分析</a>
@@ -197,7 +377,8 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20241025-b4e8ad87a929.html" class="sidebar-item"><span class="date">2024年10月25日</span> 20241025_渡部宏紀_田畑_分析</a>
 <a href="20241024.html" class="sidebar-item"><span class="date">2024年10月24日</span> 20241024_中川昇_田畑_分析</a>
 </nav>
-<main class="main">
+<main class="content">
+<article class="article">
 <h1>セールス分析: 20260225 加藤美香さん（永吉担当）</h1>
 <h2>このファイルの位置づけ</h2>
 <p>永吉担当向けのセールスフィードバックである。書き起こし原本・汎用17ステップ・チームマニュアルの二軸照合に基づく確定分析。</p>
@@ -273,7 +454,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tr>
 <tr>
 <td>結果</td>
-<td>成約</td>
+<td><span class="badge" style="background:#2CB596;color:#FFFFFF">成約</span></td>
 </tr>
 <tr>
 <td>コース</td>
@@ -310,40 +491,40 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <hr />
 <h2>17ステップ照合</h2>
 <h3>A. カウンセリング（ステップ1-7）</h3>
-<p>ステップ1 アイスブレイク: 評価 ◎</p>
+<div class="step"><span class="step-no">1</span><span class="step-name">アイスブレイク: 評価 ◎</p>
 <p>インフルエンザ回復直後の体調確認から始まり、加藤さんが「女性の方でちょっとドキドキしながら入ってきた」と述べたことへの自然な反応ができている。日程変更に対する感謝の言葉も適切。参加のきっかけとして「旅好き」「副業で稼げるなら建物を建てたい」という具体的な動機も引き出せた。</p>
-<p>ステップ2 自己紹介と前提の共有: 評価 △</p>
+<p>ステップ2 自己紹介と前提の共有</span><span class="eval eval-warn">△</span></div>
 <p>永吉の実績・経歴紹介が不在。4件連続のパターン。ただし加藤さんの場合、後の出産体験共有で永吉の人間性が伝わっているため、権威付けの不足は相殺されている面がある。しかし構造的にはステップ2で実績を示すべきである。</p>
-<p>ステップ3 個別のルール共有: 評価 ○</p>
+<div class="step"><span class="step-no">3</span><span class="step-name">個別のルール共有</span><span class="eval eval-ok">○</span></div>
 <p>「リラックスしてご参加ください」「安心安全な場」「強引な売り込み勧誘は一切いたしません」「対話をしながら」と明示。</p>
-<p>ステップ4 ポジティブメイク: 評価 △</p>
+<div class="step"><span class="step-no">4</span><span class="step-name">ポジティブメイク</span><span class="eval eval-warn">△</span></div>
 <p>5日間のセミナー感想を聞いたが、加藤さんが「ちょっと前ですもんね」「忘れちゃった」と回答。年明けすぐのセミナーから約2ヶ月空いているため記憶が薄れている。永吉は「いいですよ」と流しているが、「新品物販とカメラ、どちらが気になりましたか」と現在の関心に切り替える対応がよかった。</p>
-<p>ステップ5 現状と理想のギャップ: 評価 ○</p>
+<div class="step"><span class="step-no">5</span><span class="step-name">現状と理想のギャップ</span><span class="eval eval-ok">○</span></div>
 <p>加藤さんから「助産師をやっている」「自営業」「将来的に年を取ると収入が減る」「旅行に行きたい」「建物を建てたい」という理想と現状が出ている。永吉が「半年から1年後どんな風に広がっていたらいいですか」と聞き、加藤さんが「カメラで物販ができてれば」「ポイカツのやり方もわかれば」と回答している。ただし数値目標（月いくら・年いくらマイル）の具体化には至っていない。</p>
-<p>ステップ6 原因の深掘り: 評価 △</p>
+<div class="step"><span class="step-no">6</span><span class="step-name">原因の深掘り</span><span class="eval eval-warn">△</span></div>
 <p>加藤さんの原因は「やり方がわからない」「設定ができない」「情報が多すぎてキャッチアップできない」である。ポイカツアプリを入れてみたが反映されないという具体的な失敗体験も出ている。永吉はこれらを「先生が情報を共有してくれる」「個別で聞ける」と解決策に接続しているが、原因の構造化（知識不足×時間制約×自営業の不安定さ）までは整理していない。</p>
-<p>ステップ7 覚悟の確認: 評価 △</p>
+<div class="step"><span class="step-no">7</span><span class="step-name">覚悟の確認</span><span class="eval eval-warn">△</span></div>
 <p>「努力がなければ成功することはございません」「魔法ではない」と一般的な覚悟の話は入れているが、加藤さん個人に対する覚悟確認（24時間365日お産に縛られる中で、具体的に何曜日・何時間を物販に充てるか）が不在。</p>
 <h3>B. 真の原因（ステップ8）</h3>
-<p>ステップ8 真の原因の特定: 評価 △</p>
+<div class="step"><span class="step-no">8</span><span class="step-name">真の原因の特定</span><span class="eval eval-warn">△</span></div>
 <p>加藤さんの真因は「将来の収入不安（助産師引退後）」と「現在の知識・スキル不足（物販・マイル・ポイカツ全般）」の2層構造だが、永吉はこれを明確に言語化して提示していない。「だから今始めることが5年後の自分への投資になります」という接続がオファー前にあれば、投資判断がより自然になった。</p>
 <h3>C. 教育と反論処理（ステップ9-11）</h3>
-<p>ステップ9 解決策の提示: 評価 ○</p>
+<div class="step"><span class="step-no">9</span><span class="step-name">解決策の提示</span><span class="eval eval-ok">○</span></div>
 <p>講座構成の説明は丁寧で網羅的。外注システム、カンペ、個別コンサル無制限を強調し、加藤さんの「やれるのかな」への不安に対応できている。永吉自身の物販経験を聞かれた場面では「物販しかやらなかったけど長い」「eBayもやった」と開示し、信頼を得ている。</p>
-<p>ステップ10 反論の先回り: 評価 ○</p>
+<div class="step"><span class="step-no">10</span><span class="step-name">反論の先回り</span><span class="eval eval-ok">○</span></div>
 <p>「物販をしたこともないのでどんなのか想像がつかない」「カメラを探す時間がちょっとない」「受講料をちゃんとペイができるのかな」という加藤さんの不安にそれぞれ回答。特に「先生と一緒に最初の1個を買う個別」の事例紹介は、物販未経験者への安心材料として有効だった。</p>
-<p>ステップ11 お金の価値観の教育: 評価 △</p>
+<div class="step"><span class="step-no">11</span><span class="step-name">お金の価値観の教育</span><span class="eval eval-warn">△</span></div>
 <p>加藤さんが「受講料をちゃんとペイができるのかな」と投資回収を直接質問しているが、永吉は「楽天ポイント・マイル・現金を加味すると早い段階でペイできる」と抽象的に回答。BC33万円の回収シミュレーション（月50万仕入れ→月3-4万現金利益＋マイル＋ポイントで何ヶ月回収）を具体的に見せるべきだった。</p>
 <h3>D. オファーとクロージング（ステップ12-17）</h3>
-<p>ステップ12 商品説明への同意: 評価 ○</p>
+<div class="step"><span class="step-no">12</span><span class="step-name">商品説明への同意</span><span class="eval eval-ok">○</span></div>
 <p>講座説明への移行は自然。</p>
-<p>ステップ13-14 提供内容の説明: 評価 ○</p>
+<div class="step"><span class="step-no">13</span><span class="step-name">-14 提供内容の説明</span><span class="eval eval-ok">○</span></div>
 <p>網羅的で丁寧な説明。カンペのリサーチ機能の画面説明も入っている。</p>
-<p>ステップ15 価格・支払い: 評価 ○</p>
+<div class="step"><span class="step-no">15</span><span class="step-name">価格・支払い</span><span class="eval eval-ok">○</span></div>
 <p>FC66万/銀振60万とBC33万/銀振30万の選択肢を提示。加藤さんがBC（新品物販のみ）を選択した後、クレジット払いを希望。三井住友ビジネスオーナーカードでの決済を確認し、経費計上の話題にも触れた。</p>
-<p>ステップ16 保証・規約: 評価 ◎</p>
+<div class="step"><span class="step-no">16</span><span class="step-name">保証・規約: 評価 ◎</p>
 <p>法定書面の読み合わせを丁寧に実施。利用規約、クーリングオフ、中途解約条件を項目ごとに確認。加藤さんがBC新品物販コース1名分、入学金82,500円＋受講費247,500円＝33万円を確認。</p>
-<p>ステップ17 最終確認: 評価 ○</p>
+<p>ステップ17 最終確認</span><span class="eval eval-ok">○</span></div>
 <p>加藤さんが「悩むとこです」「やれるのかな」と迷いを見せた場面で、永吉は「最初のサポートもあるし、仕入れ出したら後は作業」と安心材料を提示。「当日特典もある」と価格面のメリットも伝え、最終的にBC33万クレジット決済に至った。</p>
 <hr />
 <h2>シーン別・具体的フィードバック</h2>
@@ -385,11 +566,11 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </ul>
 <hr />
 <h2>マニュアルへの還流提案</h2>
-<h3>提案1: 質疑応答の理想回答集への追記</h3>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>提案1: 質疑応答の理想回答集への追記</h3>
 <p>カテゴリ: 時間・継続</p>
 <p>Q. 助産師で24時間待機。いつ呼ばれるかわからない中で物販できるか</p>
 <p>追記案: 助産師やオンコール待機の医療従事者は「まとまった時間が取れない」が主訴。新品物販なら月2-3時間の集中作業（ゴトビにカンペ購入）で済み、スマホで完結するため待機中の作業と相性が良い。カメラの場合はリサーチにまとまった時間が要るため、新品物販BC先行→安定後にカメラ追加という段階設計を提案する（出典: 20260225_加藤美香_永吉_分析.md）。</p>
-<h3>提案2: 成功失敗マニュアルへの追記</h3>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>提案2: 成功失敗マニュアルへの追記</h3>
 <p>成功例:<br />
 - 助産師の出産体験共有を通じたラポール形成がBC成約に直結した。仕事への共感と敬意が「この人なら信頼できる」の土台を作った。ただしラポール会話は5分以内に収め、本題接続に使うのが理想（出典: 20260225_加藤美香_永吉_分析.md）。</p>
 <p>改善点:<br />
@@ -410,19 +591,19 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tr>
 <tr>
 <td>課題特定</td>
-<td>△</td>
+<td><span class="eval eval-warn">△</span></td>
 </tr>
 <tr>
 <td>提案構造</td>
-<td>○</td>
+<td><span class="eval eval-ok">○</span></td>
 </tr>
 <tr>
 <td>クロージング</td>
-<td>○</td>
+<td><span class="eval eval-ok">○</span></td>
 </tr>
 <tr>
 <td>総合</td>
-<td>B</td>
+<td><span class="grade" style="background:#3E8CC0">B</span></td>
 </tr>
 </tbody>
 </table>
@@ -441,6 +622,8 @@ Version: 1.0 (2026-05-27)<br />
 Licensed to: KATSUO MARKETING Community Member<br />
 Security Trace ID: M3K7P2WN<br />
 Generated by: 田中祐一</p>
+</article>
 </main>
+</div>
 </body>
 </html>

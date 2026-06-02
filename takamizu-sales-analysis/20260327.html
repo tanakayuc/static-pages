@@ -5,38 +5,218 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>20260327_福山道子_澤田亜美_分析 - たかみず セールス分析</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
 </style>
 </head>
 <body>
+<div class="layout">
 <nav class="sidebar">
+<div class="brand">Sales Report</div>
 <h3>たかみず セールス分析</h3>
-<a href="071.html" class="sidebar-item"><span class="date">2026年06月01日</span> フィードバック一覧</a>
+<a href="071.html" class="sidebar-item"><span class="date">2026年06月02日</span> フィードバック一覧</a>
 <a href="20260524.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_市川真由美_三浦美幸_分析</a>
 <a href="20260523.html" class="sidebar-item"><span class="date">2026年05月23日</span> 20260523_笹倉志穂_三浦美幸_分析</a>
 <a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_名取聖_五ヶ山昌代_分析</a>
@@ -108,7 +288,8 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20260304.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304_柴田慶子_濱野りん_分析</a>
 <a href="20260304-379d95cfbb36.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304_石井和美_五ヶ山昌代_分析</a>
 </nav>
-<main class="main">
+<main class="content">
+<article class="article">
 <h1>20260327 福山道子さん セールス分析（担当者向けフィードバック）</h1>
 <h2>共通：二軸照合と手本</h2>
 <p>本ファイルは他 <code>_分析.md</code> と同型。二軸の定義・移行ルールは <code>セールス分析_共通_二軸照合と手本リンク.md</code> を参照。教材軸は本講座セールス基本編の4ステップと7マインド。チームマニュアル軸は成功失敗マニュアル・質疑応答集・担当癖マニュアルとの照合である。</p>
@@ -149,7 +330,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tr>
 <tr>
 <td>結果</td>
-<td>成約</td>
+<td><span class="badge" style="background:#2CB596;color:#FFFFFF">成約</span></td>
 </tr>
 <tr>
 <td>コース</td>
@@ -176,7 +357,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <h2>教材軸とチームマニュアル軸の二軸照合</h2>
 <h3>教材軸（たかみず式・本講座セールス基本編との照合）</h3>
 <p>4ステップとクロージング7マインドに沿ったセールスが展開されている。特にステップ1の関係構築で「共通項（関西・施術者）」「間を使う」が効いた。ステップ3のセールストークでは、オンライン化の提案・60万の逆算・セールスの重要性の教育が丁寧に展開された。ただし自伝ブロック（澤田さん自身の3万円時代・コロナ後の復活ストーリー）が長尺で連続し（85:00〜105:00付近で約20分間）、石井和美さん回の五ヶ山さん分析で指摘したのと同型の「講師単独トーク連続15分超え」が発生している。</p>
-<h3>チームマニュアル軸（運用・再現）</h3>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>チームマニュアル軸（運用・再現）</h3>
 <p>成功失敗マニュアルの「寡黙タイプへの対応」「行動承認→期限接続」パターンが該当。質疑応答集の「お金がない（カード枠不足）」「AI講座と並行できるか」への応答は良好。担当癖マニュアルの澤田欄「総括で相手の想いの言語化がもう一段はっきりすると、クロージングが短くなる」が本件でも再現された。</p>
 <hr />
 <h2>たかみず式4ステップでの点検（本講座セールス基本編との照合）</h2>
@@ -245,7 +426,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <li>自宅サロンのエステ経験、関西の出身地、同世代という3つの共通項を自然に展開。福山さんの表情が和らぐ転換点。</li>
 <li>「私は3万円だった」エピソードの1回目はここで効いている。共感として機能。</li>
 </ul>
-<h3>オンライン化の提案と商品設計イメージ（25:00〜35:00）</h3>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>オンライン化の提案と商品設計イメージ（25:00〜35:00）</h3>
 <ul>
 <li>「セルフケアを教えるオンライン商品」というアイデアを福山さん自身から引き出している。「心と体と食の3本柱」まで膨らませた展開は、商品設計コンサルの価値を体感させる好事例。</li>
 <li>「更年期のセルフケア」の話題（45:00）は50代女性に直接刺さるテーマで、オンライン商品の具体化に寄与した。</li>
@@ -300,12 +481,12 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </ul>
 <hr />
 <h2>マニュアルへの還流提案</h2>
-<h3>個別相談会_セールス成功失敗マニュアルへの追記候補</h3>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>個別相談会_セールス成功失敗マニュアルへの追記候補</h3>
 <ul>
 <li>成約パターン追加: 「寡黙×行動型」の顧客には、共通項で壁を崩す→行動承認→期限数字接続。語りが少ない相手にはクロージング前の一文要約確認が有効。（出典: 20260327_福山道子_澤田亜美）</li>
 <li>失敗パターン注意: 決済トラブルで70分を費やした事例。カード枠の事前確認をステップ1に組み込む運用提案。（出典: 同上）</li>
 </ul>
-<h3>セールス担当_癖と傾向マニュアルへの追記候補</h3>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>セールス担当_癖と傾向マニュアルへの追記候補</h3>
 <ul>
 <li>澤田亜美欄: 自伝ブロックの長さ（25分連続）が石井和美回の五ヶ山さんと同型で発生。「3分台本」の作成を推奨。</li>
 <li>澤田亜美欄: 決済手段の事前確認が序盤で行われていなかったため、クロージング後に70分のロス。癖マニュアル既存記載（佐々木恵美回で追記済み）の再徹底。</li>
@@ -328,7 +509,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <tbody>
 <tr>
 <td>関係構築</td>
-<td>A</td>
+<td><span class="grade" style="background:#2CB596">A</span></td>
 <td>共通項と間の使い方が効いた。寡黙な相手への対応力が高い</td>
 </tr>
 <tr>
@@ -338,7 +519,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tr>
 <tr>
 <td>セールストーク構造</td>
-<td>B</td>
+<td><span class="grade" style="background:#3E8CC0">B</span></td>
 <td>オンライン化提案・逆算は良いが、自伝ブロックが長すぎる</td>
 </tr>
 <tr>
@@ -348,7 +529,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tr>
 <tr>
 <td>マニュアル再現性</td>
-<td>B</td>
+<td><span class="grade" style="background:#3E8CC0">B</span></td>
 <td>共通項活用・行動承認の型は再現価値が高い。尺管理が課題</td>
 </tr>
 <tr>
@@ -358,7 +539,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tr>
 <tr>
 <td>成約後の導線設計</td>
-<td>A</td>
+<td><span class="grade" style="background:#2CB596">A</span></td>
 <td>4月キャッチコピー→5月クロージング特訓→6月高額商品の逆算が具体的</td>
 </tr>
 </tbody>
@@ -375,6 +556,8 @@ Licensed to: KATSUO MARKETING Community Member<br />
 Security Trace ID: K7P2M9L4<br />
 Generated by: 田中祐一</p>
 <hr />
+</article>
 </main>
+</div>
 </body>
 </html>

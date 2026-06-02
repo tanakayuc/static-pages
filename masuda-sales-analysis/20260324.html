@@ -5,38 +5,218 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>20260324_岡田みつよ_永吉_分析 - 増田 W3EV セールス分析</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
 </style>
 </head>
 <body>
+<div class="layout">
 <nav class="sidebar">
+<div class="brand">Sales Report</div>
 <h3>増田 W3EV セールス分析</h3>
-<a href="160.html" class="sidebar-item"><span class="date">2026年06月01日</span> フィードバック一覧</a>
+<a href="160.html" class="sidebar-item"><span class="date">2026年06月02日</span> フィードバック一覧</a>
 <a href="20260525.html" class="sidebar-item"><span class="date">2026年05月25日</span> 20260525_吉田佳裕_田畑_分析</a>
 <a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_横山恵理_田畑_分析</a>
 <a href="20260513.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_金田由美_田畑_分析</a>
@@ -197,7 +377,8 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20241025-b4e8ad87a929.html" class="sidebar-item"><span class="date">2024年10月25日</span> 20241025_渡部宏紀_田畑_分析</a>
 <a href="20241024.html" class="sidebar-item"><span class="date">2024年10月24日</span> 20241024_中川昇_田畑_分析</a>
 </nav>
-<main class="main">
+<main class="content">
+<article class="article">
 <h1>セールス分析: 20260324 岡田みつよさん（永吉担当）</h1>
 <h2>このファイルの位置づけ</h2>
 <p>永吉担当向けのセールスフィードバックである。書き起こし原本・汎用17ステップ・チームマニュアルの二軸照合に基づく確定分析。</p>
@@ -273,7 +454,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tr>
 <tr>
 <td>結果</td>
-<td>否決</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
 </tr>
 <tr>
 <td>コース</td>
@@ -311,40 +492,40 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <hr />
 <h2>17ステップ照合</h2>
 <h3>A. カウンセリング（ステップ1-7）</h3>
-<p>ステップ1 アイスブレイク: 評価 ○</p>
+<div class="step"><span class="step-no">1</span><span class="step-name">アイスブレイク</span><span class="eval eval-ok">○</span></div>
 <p>冒頭でセミナーの感想を聞き、岡田さんから「お金がなくて旅行が好き」「マイルでファーストクラスでオーランドに行くのが目標」という動機を自然に引き出せている。画面オンの操作サポートも適切だった。</p>
-<p>ステップ2 自己紹介と前提の共有: 評価 △</p>
+<div class="step"><span class="step-no">2</span><span class="step-name">自己紹介と前提の共有</span><span class="eval eval-warn">△</span></div>
 <p>永吉からの自己紹介が「担当になりました永吉です」のみで、担当者としての実績や信頼性の提示がない。齊藤さん・瀬戸さんの回と同じパターンであり、永吉の自己紹介に権威付けを入れる型が未確立であることが3回連続で確認できる。</p>
-<p>ステップ3 個別のルール共有: 評価 △</p>
+<div class="step"><span class="step-no">3</span><span class="step-name">個別のルール共有</span><span class="eval eval-warn">△</span></div>
 <p>進行ルールの共有がない。今回は顧客の脱線は少ない方だが、後半の分割シミュレーションが長引く結果になっている。冒頭で「本日はお話を伺ったあと、講座のご案内と費用のご説明をします。お時間は○分を予定しています」と枠組みを示していれば、後半の迷走も短縮できた可能性がある。</p>
-<p>ステップ4 ポジティブメイク: 評価 ○</p>
+<div class="step"><span class="step-no">4</span><span class="step-name">ポジティブメイク</span><span class="eval eval-ok">○</span></div>
 <p>岡田さんの「一人でオーランドに行く」という発言に対して「すごくかっこいいです」と自然に肯定している。USJでの勤務経験をディズニー全制覇の目標と結びつけるコメントも適切だった。</p>
-<p>ステップ5 現状と理想のギャップ: 評価 △</p>
+<div class="step"><span class="step-no">5</span><span class="step-name">現状と理想のギャップ</span><span class="eval eval-warn">△</span></div>
 <p>「マイルでファーストクラスでオーランド」という理想は明確に出ているが、現状のマイル数（JAL 5000+ANA僅少）とオーランドまでの必要マイル数のギャップを数値化していない。「ファーストクラスで往復すると何マイル必要で、今から月○マイルためると○ヶ月で届きます」という計算を見せるだけで、講座の価値が格段に具体化したはずである。瀬戸さんの回と全く同じ問題が再発している。</p>
-<p>ステップ6 原因の深掘り: 評価 △</p>
+<div class="step"><span class="step-no">6</span><span class="step-name">原因の深掘り</span><span class="eval eval-warn">△</span></div>
 <p>岡田さんが「お金がない」「ポイント転がしでは無理」「外注ができるから魅力」という表面情報は出ているが、なぜこれまで副業がうまくいかなかったのか、楽天ROOMで月100円しか稼げない原因は何かという深掘りがない。</p>
-<p>ステップ7 覚悟の確認: 評価 △</p>
+<div class="step"><span class="step-no">7</span><span class="step-name">覚悟の確認</span><span class="eval eval-warn">△</span></div>
 <p>覚悟確認が明示的にない。岡田さんは面談全体を通じて「やりたいけどお金が」という態度であり、覚悟が定まらないまま価格提示に進んでしまっている。</p>
 <h3>B. 真の原因（ステップ8）</h3>
-<p>ステップ8 真の原因の特定: 評価 △</p>
+<div class="step"><span class="step-no">8</span><span class="step-name">真の原因の特定</span><span class="eval eval-warn">△</span></div>
 <p>岡田さんの真の課題は「パート月収10万円で生活費が赤字」という構造的な収入不足である。副業への興味はあるが資金がない。この構造的問題に対して、物販講座が解決策になるのかどうかのフィット判定を行うべきだった。月2万円の経費（外注16,500円+Amazon大口5,390円）すら現在の家計で持つのが厳しい状態であり、講座費用以前の問題として毎月のランニングコストへの耐性確認が必要だった。</p>
 <h3>C. 教育と反論処理（ステップ9-11）</h3>
-<p>ステップ9 解決策の提示: 評価 ○</p>
+<div class="step"><span class="step-no">9</span><span class="step-name">解決策の提示</span><span class="eval eval-ok">○</span></div>
 <p>講座の全体像は網羅的に説明できている。新品物販のカンペ、外注システム、個別コンサル回数無制限、月次勉強会、作業会等を一通り説明した。岡田さんが「外注ができるから多分やってないと思います。外注がなかったら」と外注の価値を認めている点は、永吉の説明が刺さった証拠である。</p>
-<p>ステップ10 反論の先回り: 評価 △</p>
+<div class="step"><span class="step-no">10</span><span class="step-name">反論の先回り</span><span class="eval eval-warn">△</span></div>
 <p>岡田さんの「中古カメラは赤字リスクがある」という反論には「新品物販は売り切る物販で、赤字リスクが低い」と適切に回答している。しかし最大の反論である「30万円が出せない」に対する先回りが弱い。「月10万の収入で30万の投資は大きい。だからこそ3回分割で月11万円。2ヶ月目から利益が出始めるので、4ヶ月目には実質持ち出しゼロになります」のようなROI逆算を先に提示できていれば、後半の分割迷走は起きなかった。</p>
-<p>ステップ11 お金の価値観の教育: 評価 △</p>
+<div class="step"><span class="step-no">11</span><span class="step-name">お金の価値観の教育</span><span class="eval eval-warn">△</span></div>
 <p>「物販を学ぼうと思うと30万から50万くらいする」「10万20万のところはノウハウしか教えてくれない」という比較は行えているが、岡田さん個人の経済状況に合わせた投資対効果の計算が欠けている。「月10万の収入に対して30万は3ヶ月分。でも物販が軌道に乗れば月3-4万の上積みで、8ヶ月で回収」のような個人の数字に落とし込んだ教育がほしかった。</p>
 <h3>D. オファーとクロージング（ステップ12-17）</h3>
-<p>ステップ12 商品説明への同意: 評価 ○</p>
+<div class="step"><span class="step-no">12</span><span class="step-name">商品説明への同意</span><span class="eval eval-ok">○</span></div>
 <p>講座案内への移行は自然に行えている。</p>
-<p>ステップ13-14 提供内容の説明: 評価 ○</p>
+<div class="step"><span class="step-no">13</span><span class="step-name">-14 提供内容の説明</span><span class="eval eval-ok">○</span></div>
 <p>サービス内容の説明は丁寧かつ網羅的。スタートアップコンサル、定例セミナー、ミニセミナー、会員サイト、質問チャット、外注システム、カンペ通知、管理表ツール、アフィリエイト制度、家族同時受講権利まで説明している。</p>
-<p>ステップ15 価格・支払い: 評価 △</p>
+<div class="step"><span class="step-no">15</span><span class="step-name">価格・支払い</span><span class="eval eval-warn">△</span></div>
 <p>FC88万円→66万円、BC33万円（銀振30万円）の価格提示自体は行えているが、分割シミュレーションに過剰な時間を使ってしまった。3回、5回、10回、12回、24回と複数パターンを次々計算し、AUスマートローン、カードローンの話まで広がっている。顧客が迷う材料を増やしてしまっており、決断を複雑にしている。提案としては「BC30万円の銀振がベスト。分割なら3回がトータル安い。それ以上の分割は利息がもったいない」と絞って提示すべきだった。</p>
-<p>ステップ16 保証・規約: 評価 — （未到達）</p>
+<div class="step"><span class="step-no">16</span><span class="step-name">保証・規約: 評価 — （未到達）</p>
 <p>否決のため契約手続きに進んでいない。</p>
-<p>ステップ17 最終確認: 評価 △</p>
+<p>ステップ17 最終確認</span><span class="eval eval-warn">△</span></div>
 <p>「1日待ってくれるんですよね」という顧客の申し出に対し、永吉は翌日22時までの猶予を与えている。猶予を与えること自体は適切だが、その後の着地が弱い。「もしやるとしたらどのカードで何回払いがベストか、今日中に決めておきましょう。明日はイエスかノーかだけのご連絡で大丈夫です」と決断のハードルを下げる一手がほしかった。</p>
 <hr />
 <h2>シーン別・具体的フィードバック</h2>
@@ -387,14 +568,14 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </ul>
 <hr />
 <h2>マニュアルへの還流提案</h2>
-<h3>提案1: 質疑応答の理想回答集への追記</h3>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>提案1: 質疑応答の理想回答集への追記</h3>
 <p>カテゴリ: 金額・投資判断</p>
 <p>Q. パート収入しかなく、30万円は「むちゃくちゃ大切なお金」。老後の資金にも手をつけたくない</p>
 <p>追記案: 月収10万円以下で貯金切り崩し中の顧客に対しては、分割シミュレーションの前に「投資フィット判定」を行う。BC33万円の3回払いでも月11万円が必要であり、パート月収をほぼ全額消費する。加えて月2万円の経費がかかる。この構造を率直に伝えた上で、「4ヶ月目から月3-4万の利益で経費を相殺し、8ヶ月で投資回収」という数字が見えるかどうかで判定する。数字が合わない場合は無理に成約を目指さず、「まず収入の柱を1つ作ってからの再参加」を正直に勧める方が長期的な信頼になる（出典: 20260324_岡田みつよ_永吉_分析.md）。</p>
-<h3>提案2: 成功失敗マニュアルへの追記</h3>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>提案2: 成功失敗マニュアルへの追記</h3>
 <p>改善点:<br />
 - 分割シミュレーションの迷走: 3回・5回・10回・12回・24回と全パターンを計算するのではなく、顧客の月々支払い余力から逆算して推奨1パターンに絞る。選択肢が多いと顧客の決断コストが上がり、「考えさせてください」に着地しやすい。永吉は計算機役ではなくアドバイザー役を意識する（出典: 20260324_岡田みつよ_永吉_分析.md）。</p>
-<h3>提案3: 担当別_傾向とクセへの追記</h3>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>提案3: 担当別_傾向とクセへの追記</h3>
 <p>永吉欄に追記:<br />
 - 顧客の経済不安に対して精神論（「未来を見ないと」「何も始められない」）で応じる傾向がある。岡田さんの「老後のお金」発言に対して数字ではなく励ましで押しており、顧客の不安を解消できていない。経済的に厳しい顧客には「励まし」ではなく「計算」で安心材料を提供する型を確立する必要がある。また、分割パターンを顧客に言われるまま計算する「計算機モード」に入る傾向が確認された。推奨を1つに絞る主導力が課題（出典: 20260324_岡田みつよ_永吉_分析.md）。</p>
 <hr />
@@ -409,23 +590,23 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <tbody>
 <tr>
 <td>ラポール</td>
-<td>○</td>
+<td><span class="eval eval-ok">○</span></td>
 </tr>
 <tr>
 <td>課題特定</td>
-<td>△</td>
+<td><span class="eval eval-warn">△</span></td>
 </tr>
 <tr>
 <td>提案構造</td>
-<td>○</td>
+<td><span class="eval eval-ok">○</span></td>
 </tr>
 <tr>
 <td>クロージング</td>
-<td>△</td>
+<td><span class="eval eval-warn">△</span></td>
 </tr>
 <tr>
 <td>総合</td>
-<td>C</td>
+<td><span class="grade" style="background:#E0973E">C</span></td>
 </tr>
 </tbody>
 </table>
@@ -444,6 +625,8 @@ Version: 1.0 (2026-05-27)<br />
 Licensed to: KATSUO MARKETING Community Member<br />
 Security Trace ID: M3K7P2WN<br />
 Generated by: 田中祐一</p>
+</article>
 </main>
+</div>
 </body>
 </html>
