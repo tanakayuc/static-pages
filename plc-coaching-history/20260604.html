@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260604_コーチング横断分析.md - PLC コーチング履歴（書き起こし・ナレッジ）</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>PLC コーチング履歴（書き起こし・ナレッジ）</h3>
+<a href="20260604.html" class="sidebar-item active"><span class="date">2026年06月04日</span> 20260604_コーチング横断分析.md</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年06月04日</span> 副島真澄/ナレッジ/副島真澄_1回目_大脇コーチ.md</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年06月04日</span> 副島真澄/ミーティング書き起こし原本/副島真澄_1回目_大脇コーチ.md</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年06月04日</span> 大平和幸/ナレッジ/大平和幸_3回目_大脇コーチ.md</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年06月04日</span> 大平和幸/ミーティング書き起こし原本/大平和幸_3回目_大脇コーチ.md</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年06月04日</span> 大澤恵美(救済)/ナレッジ/大澤恵美(救済)_2回目_石田コーチ.md</a>
+<a href="007.html" class="sidebar-item"><span class="date">2026年06月04日</span> 大澤恵美(救済)/ミーティング書き起こし原本/大澤恵美(救済)_2回目_石田コーチ.md</a>
+<a href="008.html" class="sidebar-item"><span class="date">2026年06月04日</span> 山本大(救済)/ナレッジ/山本大(救済)_2回目_原田コーチ.md</a>
+<a href="009.html" class="sidebar-item"><span class="date">2026年06月04日</span> 山本大(救済)/ミーティング書き起こし原本/山本大(救済)_2回目_原田コーチ.md</a>
+<a href="010.html" class="sidebar-item"><span class="date">2026年06月04日</span> 嶺島華蓮/ナレッジ/嶺島華蓮_1回目_原田コーチ.md</a>
+<a href="011.html" class="sidebar-item"><span class="date">2026年06月04日</span> 嶺島華蓮/ミーティング書き起こし原本/嶺島華蓮_1回目_原田コーチ.md</a>
+<a href="012.html" class="sidebar-item"><span class="date">2026年06月04日</span> 平尾玲奈/ナレッジ/平尾玲奈_3回目_石田コーチ.md</a>
+<a href="013.html" class="sidebar-item"><span class="date">2026年06月04日</span> 平尾玲奈/ミーティング書き起こし原本/平尾玲奈_3回目_石田コーチ.md</a>
+<a href="014.html" class="sidebar-item"><span class="date">2026年06月04日</span> 草薙 彬人(救済)/ナレッジ/草薙 彬人(救済)_1回目_原田コーチ.md</a>
+<a href="015.html" class="sidebar-item"><span class="date">2026年06月04日</span> 草薙 彬人(救済)/ミーティング書き起こし原本/草薙 彬人(救済)_1回目_原田コーチ.md</a>
+<a href="016.html" class="sidebar-item"><span class="date">2026年06月04日</span> 華崎雅子/ナレッジ/華崎雅子_1回目_原田コーチ.md</a>
+<a href="017.html" class="sidebar-item"><span class="date">2026年06月04日</span> 華崎雅子/ミーティング書き起こし原本/華崎雅子_1回目_原田コーチ.md</a>
+<a href="018.html" class="sidebar-item"><span class="date">2026年06月04日</span> 高本栄子/ナレッジ/高本栄子_2回目_吉岡コーチ.md</a>
+<a href="019.html" class="sidebar-item"><span class="date">2026年06月04日</span> 高本栄子/ナレッジ/高本栄子_3回目_吉岡コーチ.md</a>
+<a href="020.html" class="sidebar-item"><span class="date">2026年06月04日</span> 高本栄子/ミーティング書き起こし原本/高本栄子_2回目_吉岡コーチ.md</a>
+<a href="021.html" class="sidebar-item"><span class="date">2026年06月04日</span> 高本栄子/ミーティング書き起こし原本/高本栄子_3回目_吉岡コーチ.md</a>
+<a href="022.html" class="sidebar-item"><span class="date">2026年06月04日</span> 高野浩/ナレッジ/高野浩_1回目_大脇コーチ.md</a>
+<a href="023.html" class="sidebar-item"><span class="date">2026年06月04日</span> 高野浩/ナレッジ/高野浩_4回目_大脇コーチ.md</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年06月04日</span> 高野浩/ミーティング書き起こし原本/高野浩_1回目_大脇コーチ.md</a>
+<a href="025.html" class="sidebar-item"><span class="date">2026年06月04日</span> 高野浩/ミーティング書き起こし原本/高野浩_4回目_大脇コーチ.md</a>
+<a href="026.html" class="sidebar-item"><span class="date">2026年06月04日</span> 鴇田真弥/ナレッジ/鴇田真弥_3回目_石田コーチ.md</a>
+<a href="027.html" class="sidebar-item"><span class="date">2026年06月04日</span> 鴇田真弥/ミーティング書き起こし原本/鴇田真弥_3回目_石田コーチ.md</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>PLC コーチング横断分析（統合版）</h1>
+<p>整理日: 2026-06-04</p>
+<p>本ページは横断分析用ドキュメント4本を1つにまとめたもの。静的HTMLでは本ファイルのみを横断分析の入口とする。</p>
+<p>リポジトリ内の分割ファイル（編集用）:</p>
+<ol>
+<li>コーチングセッション一覧.md</li>
+<li>原本とナレッジ_対応一覧.md</li>
+<li>コーチ別_傾向とクセ.md</li>
+<li>受講生タイプ・論点横断分析.md</li>
+</ol>
+<p>目次:</p>
+<ol>
+<li>第1部 セッション一覧</li>
+<li>第2部 原本とナレッジの対応</li>
+<li>第3部 コーチ別の傾向とクセ</li>
+<li>第4部 受講生タイプ・論点横断</li>
+</ol>
+<p>個別セッションのナレッジ・書き起こし原本は、同フォルダ配下の受講生別サブフォルダを参照。</p>
+<p>再生成: <code>python3 02_ツール/静的ページ生成/コーチング横断分析_統合.py --generate-html</code></p>
+<h2>第1部 セッション一覧</h2>
+<h2>PLC コーチングセッション一覧（書き起こしベース）</h2>
+<p>静的HTML（横断分析の1ページ統合）: <a href="./20260604_コーチング横断分析.md">20260604_コーチング横断分析.md</a> を生成元とする。本ファイルはリポジトリ内の編集用。</p>
+<p>データ時点: 2026-06-04<br />
+対象: <code>22_コミュニティサポート/PLCコミュニティ/コーチング履歴/</code> 配下の登録済みセッション</p>
+<h2>運用の前提</h2>
+<p>動画ファイルはリポジトリに保存しない。正本は次の2層とする。</p>
+<ol>
+<li>ミーティング書き起こし原本 … 書き起こし全文（検索・横断分析の素材）</li>
+<li>ナレッジ … 構成・コーチの特徴・パターン・論点（横断閲覧用。全文は原本へリンク）</li>
+</ol>
+<p>新規取り込み: <code>02_ツール/書き起こし/コーチング履歴_動画取り込み.py</code>（メディア入力時はローカルで書き起こし後に原本のみ保存）または Cursor 手動フロー（<code>.cursor/rules/営業コーチング_文字起こしナレッジ化.mdc</code>）。</p>
+<h2>サマリー（2026-06-04）</h2>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>件数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受講生フォルダ</td>
+<td>11</td>
+</tr>
+<tr>
+<td>ナレッジ登録</td>
+<td>12</td>
+</tr>
+<tr>
+<td>書き起こし原本登録</td>
+<td>12</td>
+</tr>
+<tr>
+<td>原本とナレッジのペア</td>
+<td>12</td>
+</tr>
+<tr>
+<td>ナレッジのみ（原本未登録）</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h2>全セッション一覧</h2>
+<p>書き起こし元は各ナレッジのメタデータ。動画URL列は設けない（動画は保存しない運用）。</p>
+<table>
+<thead>
+<tr>
+<th>受講生</th>
+<th>回</th>
+<th>コーチ</th>
+<th>整理日</th>
+<th>書き起こし元</th>
+<th>原本</th>
+<th>ナレッジ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>草薙 彬人(救済)</td>
+<td>1</td>
+<td>原田コーチ</td>
+<td>2026-05-20</td>
+<td>書き起こし原本ファイル経由</td>
+<td><a href="./草薙%20彬人(救済)/ミーティング書き起こし原本/草薙%20彬人(救済)_1回目_原田コーチ.md">あり</a></td>
+<td><a href="./草薙%20彬人(救済)/ナレッジ/草薙%20彬人(救済)_1回目_原田コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>副島真澄</td>
+<td>1</td>
+<td>大脇コーチ</td>
+<td>2026-04-29</td>
+<td>20260423_20260419副島真澄さん1回目_書き起こし.txt</td>
+<td><a href="./副島真澄/ミーティング書き起こし原本/副島真澄_1回目_大脇コーチ.md">あり</a></td>
+<td><a href="./副島真澄/ナレッジ/副島真澄_1回目_大脇コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>大平和幸</td>
+<td>3</td>
+<td>大脇コーチ</td>
+<td>2026-05-20</td>
+<td>大平さん追加コーチング3回目.docx</td>
+<td><a href="./大平和幸/ミーティング書き起こし原本/大平和幸_3回目_大脇コーチ.md">あり</a></td>
+<td><a href="./大平和幸/ナレッジ/大平和幸_3回目_大脇コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>大澤恵美(救済)</td>
+<td>2</td>
+<td>石田コーチ</td>
+<td>2026-05-20</td>
+<td>チャット貼り付け（タイムコード付き）</td>
+<td><a href="./大澤恵美(救済)/ミーティング書き起こし原本/大澤恵美(救済)_2回目_石田コーチ.md">あり</a></td>
+<td><a href="./大澤恵美(救済)/ナレッジ/大澤恵美(救済)_2回目_石田コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>山本大(救済)</td>
+<td>2</td>
+<td>原田コーチ</td>
+<td>2026-05-20</td>
+<td>チャット貼り付け（タイムコード付き）</td>
+<td><a href="./山本大(救済)/ミーティング書き起こし原本/山本大(救済)_2回目_原田コーチ.md">あり</a></td>
+<td><a href="./山本大(救済)/ナレッジ/山本大(救済)_2回目_原田コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>嶺島華蓮</td>
+<td>1</td>
+<td>原田コーチ</td>
+<td>2026-06-03</td>
+<td>2026.06.03嶺島華蓮さん1回目原田.mp4（書き起こしテキスト取り込み）</td>
+<td><a href="./嶺島華蓮/ミーティング書き起こし原本/嶺島華蓮_1回目_原田コーチ.md">あり</a></td>
+<td><a href="./嶺島華蓮/ナレッジ/嶺島華蓮_1回目_原田コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>平尾玲奈</td>
+<td>3</td>
+<td>石田コーチ</td>
+<td>2026-05-21</td>
+<td>チャット貼り付け（タイムコード付き）</td>
+<td><a href="./平尾玲奈/ミーティング書き起こし原本/平尾玲奈_3回目_石田コーチ.md">あり</a></td>
+<td><a href="./平尾玲奈/ナレッジ/平尾玲奈_3回目_石田コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>華崎雅子</td>
+<td>1</td>
+<td>原田コーチ</td>
+<td>2026-06-03</td>
+<td>2026.06.03華崎雅子さん１回目原田.mp4（書き起こしテキスト取り込み）</td>
+<td><a href="./華崎雅子/ミーティング書き起こし原本/華崎雅子_1回目_原田コーチ.md">あり</a></td>
+<td><a href="./華崎雅子/ナレッジ/華崎雅子_1回目_原田コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>高本栄子</td>
+<td>2</td>
+<td>吉岡コーチ</td>
+<td>2026-04-29</td>
+<td>20260429_20260414高本栄子さん2回目_書き起こし.txt</td>
+<td><a href="./高本栄子/ミーティング書き起こし原本/高本栄子_2回目_吉岡コーチ.md">あり</a></td>
+<td><a href="./高本栄子/ナレッジ/高本栄子_2回目_吉岡コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>高本栄子</td>
+<td>3</td>
+<td>吉岡コーチ</td>
+<td>2026-06-01</td>
+<td>2026.06.30高本栄子さん3回目吉岡.docx</td>
+<td><a href="./高本栄子/ミーティング書き起こし原本/高本栄子_3回目_吉岡コーチ.md">あり</a></td>
+<td><a href="./高本栄子/ナレッジ/高本栄子_3回目_吉岡コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>高野浩</td>
+<td>1</td>
+<td>大脇コーチ</td>
+<td>2026-04-29</td>
+<td>20260429_20260415高野浩さん1回目_書き起こし.txt</td>
+<td><a href="./高野浩/ミーティング書き起こし原本/高野浩_1回目_大脇コーチ.md">あり</a></td>
+<td><a href="./高野浩/ナレッジ/高野浩_1回目_大脇コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>高野浩</td>
+<td>4</td>
+<td>大脇コーチ</td>
+<td>2026-06-03</td>
+<td>20260528 高野浩さん4回目大脇.mp4（書き起こしテキスト取り込み）</td>
+<td><a href="./高野浩/ミーティング書き起こし原本/高野浩_4回目_大脇コーチ.md">あり</a></td>
+<td><a href="./高野浩/ナレッジ/高野浩_4回目_大脇コーチ.md">あり</a></td>
+</tr>
+<tr>
+<td>鴇田真弥</td>
+<td>3</td>
+<td>石田コーチ</td>
+<td>2026-05-20</td>
+<td>チャット貼り付け（タイムコード付き）</td>
+<td><a href="./鴇田真弥/ミーティング書き起こし原本/鴇田真弥_3回目_石田コーチ.md">あり</a></td>
+<td><a href="./鴇田真弥/ナレッジ/鴇田真弥_3回目_石田コーチ.md">あり</a></td>
+</tr>
+</tbody>
+</table>
+<h2>コーチ別セッション数（ナレッジ登録ベース）</h2>
+<table>
+<thead>
+<tr>
+<th>コーチ</th>
+<th>セッション数</th>
+<th>受講生（回数）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原田コーチ</td>
+<td>4</td>
+<td>草薙1、山本大2、嶺島1、華崎1</td>
+</tr>
+<tr>
+<td>大脇コーチ</td>
+<td>4</td>
+<td>副島1、大平和3、高野1・4</td>
+</tr>
+<tr>
+<td>石田コーチ</td>
+<td>3</td>
+<td>大澤2、平尾3、鴇田3</td>
+</tr>
+<tr>
+<td>吉岡コーチ</td>
+<td>2</td>
+<td>高本2・3</td>
+</tr>
+</tbody>
+</table>
+<h2>横断分析の読み方（セールスとの対応）</h2>
+<table>
+<thead>
+<tr>
+<th>セールス</th>
+<th>コーチング（本運用）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>セールス原本（報告＋書き起こし）</td>
+<td>ミーティング書き起こし原本</td>
+</tr>
+<tr>
+<td>セールス分析</td>
+<td>ナレッジ</td>
+</tr>
+<tr>
+<td>フィードバック一覧（動画URL付き）</td>
+<td>本ファイル（書き起こし元・リンクのみ）</td>
+</tr>
+<tr>
+<td>来場者ペルソナ集約</td>
+<td><a href="./20260604_コーチング横断分析.md">20260604_コーチング横断分析.md</a> 第4部</td>
+</tr>
+<tr>
+<td>担当別癖・傾向</td>
+<td><a href="./20260604_コーチング横断分析.md">20260604_コーチング横断分析.md</a> 第3部</td>
+</tr>
+</tbody>
+</table>
+<h2>関連ファイル</h2>
+<p>横断分析の静的HTML1本: <a href="./20260604_コーチング横断分析.md">20260604_コーチング横断分析.md</a>（第1〜4部を統合）</p>
+<p>編集用の分割ファイル: 原本とナレッジ_対応一覧.md / コーチ別_傾向とクセ.md / 受講生タイプ・論点横断分析.md</p>
+<h2>更新手順</h2>
+<ol>
+<li>新規セッションを <code>ミーティング書き起こし原本</code> と <code>ナレッジ</code> に保存（命名: <code>{受講生}_{N}回目_{コーチ名}.md</code>）</li>
+<li>本一覧と <code>原本とナレッジ_対応一覧.md</code> の表を1行追加</li>
+<li>サマリー件数とコーチ別集計を更新</li>
+<li>原本未登録のナレッジがある場合は「未」を残し、原本の追補を優先する</li>
+<li>横断分析を静的HTMLに反映: <code>python3 02_ツール/静的ページ生成/コーチング横断分析_統合.py --generate-html</code>（分割4ファイルを統合して <code>20260604_コーチング横断分析.md</code> を更新）</li>
+</ol>
+<p>2026-06-04 追記: ナレッジのみだった3件（副島1回目・高本2回目・高野1回目）に、<code>0_データ原本</code> の書き起こしtxtから原本を転記しペアを完結。</p>
+<h2>第2部 原本とナレッジの対応</h2>
+<h2>コーチング 書き起こし原本とナレッジの対応一覧</h2>
+<p>静的HTML: <a href="./20260604_コーチング横断分析.md">20260604_コーチング横断分析.md</a> 第2部に統合。本ファイルは編集用。</p>
+<h2>目的</h2>
+<p>1セッションにつき、同じベース名のファイルを2サブフォルダでペア管理する。セールス運用の「原本 ↔ <code>_分析.md</code>」と同型で、原本のみ・ナレッジのみの漏れを防ぐ。</p>
+<h2>数え方</h2>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>パス</th>
+<th>件数の扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>書き起こし原本</td>
+<td><code>{受講生}/ミーティング書き起こし原本/{受講生}_{N}回目_{コーチ}.md</code></td>
+<td>1件につきナレッジ1本が理想</td>
+</tr>
+<tr>
+<td>ナレッジ</td>
+<td><code>{受講生}/ナレッジ/（同ファイル名）</code></td>
+<td>原本への相対リンクをナレッジ末尾に付与</td>
+</tr>
+</tbody>
+</table>
+<p>2026-06-04時点: 原本12件、ナレッジ12件、ペア12件（すべて完結）。</p>
+<h2>ペア一覧</h2>
+<table>
+<thead>
+<tr>
+<th>受講生</th>
+<th>回</th>
+<th>コーチ</th>
+<th>原本</th>
+<th>ナレッジ</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>草薙 彬人(救済)</td>
+<td>1</td>
+<td>原田</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>副島真澄</td>
+<td>1</td>
+<td>大脇</td>
+<td>あり</td>
+<td>あり</td>
+<td>2026-06-04 原本追補（0_データ原本より転記）</td>
+</tr>
+<tr>
+<td>大平和幸</td>
+<td>3</td>
+<td>大脇</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>大澤恵美(救済)</td>
+<td>2</td>
+<td>石田</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>山本大(救済)</td>
+<td>2</td>
+<td>原田</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>嶺島華蓮</td>
+<td>1</td>
+<td>原田</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>平尾玲奈</td>
+<td>3</td>
+<td>石田</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>華崎雅子</td>
+<td>1</td>
+<td>原田</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>高本栄子</td>
+<td>2</td>
+<td>吉岡</td>
+<td>あり</td>
+<td>あり</td>
+<td>2026-06-04 原本追補</td>
+</tr>
+<tr>
+<td>高本栄子</td>
+<td>3</td>
+<td>吉岡</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>高野浩</td>
+<td>1</td>
+<td>大脇</td>
+<td>あり</td>
+<td>あり</td>
+<td>2026-06-04 原本追補</td>
+</tr>
+<tr>
+<td>高野浩</td>
+<td>4</td>
+<td>大脇</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+<tr>
+<td>鴇田真弥</td>
+<td>3</td>
+<td>石田</td>
+<td>あり</td>
+<td>あり</td>
+<td>ペア完</td>
+</tr>
+</tbody>
+</table>
+<h2>ナレッジのみ（原本の追補対象）</h2>
+<p>現時点なし。</p>
+<h2>原本のみ</h2>
+<p>現時点なし。</p>
+<h2>横断一覧</h2>
+<p>全件の整理日・書き起こし元・リンク: <a href="./コーチングセッション一覧.md">コーチングセッション一覧.md</a></p>
+<p>横断分析（統合）: <a href="./20260604_コーチング横断分析.md">20260604_コーチング横断分析.md</a></p>
+<h2>第3部 コーチ別の傾向とクセ</h2>
+<h2>PLC コーチング コーチ別の傾向とクセ</h2>
+<p>静的HTML: <a href="./20260604_コーチング横断分析.md">20260604_コーチング横断分析.md</a> 第3部に統合。本ファイルは編集用。</p>
+<p>整理日: 2026-06-04</p>
+<p>データ時点: 登録済みナレッジ12件（2026-04-29〜2026-06-03）</p>
+<p>出典: <code>コーチング履歴/{受講生}/ナレッジ/{受講生}_{N}回目_{コーチ名}.md</code> を横断集約。個別の発話引用は各ナレッジ・書き起こし原本を参照。</p>
+<h2>データ概況</h2>
+<table>
+<thead>
+<tr>
+<th>コーチ</th>
+<th>セッション数（ナレッジ）</th>
+<th>主な受講生</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原田コーチ</td>
+<td>4</td>
+<td>嶺島1、華崎1、草薙1、山本大2</td>
+</tr>
+<tr>
+<td>大脇コーチ</td>
+<td>4</td>
+<td>副島1、大平和3、高野1・4</td>
+</tr>
+<tr>
+<td>石田コーチ</td>
+<td>3</td>
+<td>大澤2、平尾3、鴇田3</td>
+</tr>
+<tr>
+<td>吉岡コーチ</td>
+<td>2</td>
+<td>高本2・3</td>
+</tr>
+</tbody>
+</table>
+<p>横断一覧: <a href="./コーチングセッション一覧.md">コーチングセッション一覧.md</a></p>
+<h2>原田コーチ</h2>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>強み・スタンス</h3>
+<p>正解の人生設計やローンチ型への押し付けを避け、受講生の言葉（「楽しく生きたい」「目標がない」など）を否定せず強みとして再定義する。</p>
+<p>停滞・参加不足を責めず、すでに動いている事実（SNS、外部案件、AIシェア、イベント準備）を拾い上げてから次の一歩を提案する。</p>
+<p>大きなコミットより「一回だけ」「気軽に」「2〜3人でも」のハードルを下げ、約束で区切る場面が多い。</p>
+<h3>よく使う打ち手</h3>
+<ol>
+<li>PLCを義務ではなく「環境の使い方」（ローン地塾の比喩）として説明し、参加プレッシャーを外す  </li>
+<li>勉強会・ワークショップ・雑談チャット・リアル接点で他受講生の工夫を拾う提案  </li>
+<li>売上・タスクだけでなく「何のために」「理想の未来から見ると今何をするか」で感情とモチベーションを戻す問い  </li>
+<li>イベント・セミナー前の「じわじわ」セットアップ（ティザー、種まき、PP募集の流れ参照）  </li>
+<li>プロデューサー提携で「止まらない仕組み」を作る話（週1だけでは責任が及ばない構造の指摘）</li>
+</ol>
+<h3>向いている受講生像</h3>
+<p>モチベーションや方向性の停滞、PLC参加が薄い、時間の使い方に悩む、自己売り込みが苦手、複数の入り口案を抱えて整理したい、というタイプ。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>注意（コーチング設計上）</h3>
+<p>次回日程を必ず押さえる場面と、本会話内で未設定のまま終わる場面がある。フォローは事務・チャット側の確認が必要なことがある。</p>
+<h2>大脇コーチ</h2>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>強み・スタンス</h3>
+<p>受講生主導の持ち込みを長く受け止め、要所で枠組み（価格帯、コミュニティ二種類、最初の一手）を一段上げて整理する。</p>
+<p>成果がある受講生では、祝賀と「なぜ動けたか」の言語化を厚くし、PLCの設計思想（コミュニティ・テンプレ・比喩）に接続する。</p>
+<p>マーケ実務（LINE、個別フォロー、セールススライド、広告タイミング）に寄せた具体提案が得意。抽象論のあと「誰に・いつ・何を聞くか」で着地する。</p>
+<h3>よく使う打ち手</h3>
+<ol>
+<li>「そうですね／なるほど」で同調したうえで、いま一番最初にできる一手に戻す  </li>
+<li>高タッチとスケールのジレンマには、合宿一括以外の運営オプションを並べて提示  </li>
+<li>グルコン・田中さん個別・認定講師・録画FBなど、相談先を名前付きで振り分ける  </li>
+<li>プロデューサー候補には「Webができるか」より実行・提案の具体性・報酬・Plan B を先に固める質問  </li>
+<li>未達を責めず、なぜできなかったかを対策（スケジュール・余白）に変換する</li>
+</ol>
+<h3>向いている受講生像</h3>
+<p>ローンチ・チャレンジ経験者のスケール設計、副島型のマーケ・商品・LINEリスクの整理、大平型のセールス泥臭い改善、高野型のプロデューサー・外注判断。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>注意</h3>
+<p>追加コーチング枠と通常PLCコーチング回数が別枠の受講生がいる（大平和幸など）。ファイル名の回数を正とする。</p>
+<h2>石田コーチ</h2>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>強み・スタンス</h3>
+<p>対人のもやもやを「伝達が未熟」「まだ伝わり切っていない」に還元し、AIシミュレーション・ミーティング書き起こし・電話という具体ツールで次の一手を渡す。</p>
+<p>プロデューサー案件・サンチャレ観察を「大量インプットの課題」として具体化し、他講師比較・参加者心理・施策の細部までメモする運用を繰り返し示す。</p>
+<p>コーチング終了時（救済・追加枠）に、プロチャット・認定講師個別・追加コーチングの相談導線を整理して渡す。</p>
+<h3>よく使う打ち手</h3>
+<ol>
+<li>チャット偏重の擦り合わせを、短時間の通話・Zoomに寄せる  </li>
+<li>グルコンは対立や設計の軸、田中さんは「これでいいか」より「こう進めようと思うがFBが欲しい」という出し方を勧める  </li>
+<li>AIはツール触りより、業務1件に紐づけた改善サイクル（下書きAIとレビューAIの分離など）  </li>
+<li>竹見さん・浦野さん型の三者関係では「まず理解と行動」の順序に落とし込む  </li>
+<li>LP・Canvaは「型があれば入れ替えで済む」と足場をかけたうえで、発信・人間関係へ広げる</li>
+</ol>
+<h3>向いている受講生像</h3>
+<p>チーム内の認識差・プロデューサーとの温度感、サンチャレを深く学びたいプロデューサー志望、伝達と添削プロセスの期待値すり合わせ。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>注意</h3>
+<p>救済コーチングは2回で終了する運用の説明が入る（大澤など）。以降は認定講師個別コンサル等へ誘導。</p>
+<h2>吉岡コーチ</h2>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>強み・スタンス</h3>
+<p>加入直後・3チャレ直前など、実行摩擦（ログイン、チャット、メンバーサイト、事務局連絡）の解消に時間を割く比重が大きい。</p>
+<p>雑談・近況を単なるアイスブレイクで終わらせず、体力・見た目・行動継続を実行戦略の土台に接続する。</p>
+<p>期限と移動予定（渡航・講座）を前提に逆算し、「今回は何を捨てて何を残すか」を早く決める。</p>
+<h3>よく使う打ち手</h3>
+<ol>
+<li>45日ロードマップと専用チャットで、いま完了させるタスクを画面共有しながら確認  </li>
+<li>マーケの中身は田中さん・グルコン、コーチングは段取り伴走、という役割分担の明確化  </li>
+<li>広告・ハウス・LP・動画を同時に触る場面で、目的別に役割を分ける（例: Metaはテスト、本番母集団はハウス）  </li>
+<li>外注前に世界観・訴求軸を自分で固める重要性の共有  </li>
+<li>次回報告できる行動単位まで落として締める（日程・窓口の再確認）</li>
+</ol>
+<h3>向いている受講生像</h3>
+<p>高本型の蓄電池・高単価BtoB、外注と自走の板挟み、3チャレ逆算と制作オペレーションの整理。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>注意</h3>
+<p>回数表記とセッション冒頭の「初めて」等が食い違うことがある。ファイル名の回数を運用正とする（高本2回目の注参照）。</p>
+<h2>コーチ間の使い分け（運用メモ）</h2>
+<table>
+<thead>
+<tr>
+<th>相談の中心</th>
+<th>第一候補</th>
+<th>補助・エスカレーション</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>参加が止まっている・小さなアウトプット</td>
+<td>原田</td>
+<td>ワークショップ・雑談</td>
+</tr>
+<tr>
+<td>ローンチ後の設計・広告・リスト</td>
+<td>大脇</td>
+<td>田中・認定講師</td>
+</tr>
+<tr>
+<td>チーム・伝達・サンチャレ観察</td>
+<td>石田</td>
+<td>グルコン・通話</td>
+</tr>
+<tr>
+<td>初動・3チャレ日程・ツール詰まり</td>
+<td>吉岡</td>
+<td>事務局・田中</td>
+</tr>
+</tbody>
+</table>
+<p>コーチの割当は事務・鈴木さん経由の案内が前提。本ファイルはナレッジから読み取った傾向のメモであり、公式の担当表ではない。</p>
+<h2>更新手順</h2>
+<ol>
+<li>新規ナレッジ追加後、該当コーチ節に追記（YYYY-MM-DD 追記・出典: ファイル名）  </li>
+<li>セッション数テーブルを更新  </li>
+<li>タイプ横断ファイル <a href="./受講生タイプ・論点横断分析.md">受講生タイプ・論点横断分析.md</a> と整合を取る</li>
+</ol>
+<h2>第4部 受講生タイプ・論点横断</h2>
+<h2>PLC コーチング 受講生タイプ・論点横断分析</h2>
+<p>静的HTML: <a href="./20260604_コーチング横断分析.md">20260604_コーチング横断分析.md</a> 第4部に統合。本ファイルは編集用。</p>
+<p>整理日: 2026-06-04</p>
+<p>データ時点: 登録済みナレッジ12件・受講生11名</p>
+<p>出典: 各 <code>ナレッジ/*.md</code> の「繰り返し見えるパターン」「論点のマップ」を横断。個別の経緯は <a href="./コーチングセッション一覧.md">コーチングセッション一覧.md</a> と各原本を参照。</p>
+<p>コーチの癖・傾向: <a href="./コーチ別_傾向とクセ.md">コーチ別_傾向とクセ.md</a></p>
+<h2>第1部: 受講生タイプ（現時点の分類）</h2>
+<p>タイプは重なりあり。1名が複数に該当する場合がある。該当例はナレッジ登録時点のファイル名（回数・コーチ）で示す。</p>
+<h3>タイプA: 停滞・再参加・ハードル下げ型</h3>
+<p>特徴: 「進んでいない」「熱が入らない」「自己売り込みが苦手」「PLCにあまり出ていない」と語りやすい。コーチは欠如ではなくフェーズとして受け止め、小さなアウトプット・一回だけの約束・コミュニティの覗き見へ橋渡しする。</p>
+<p>該当の例: 草薙1（原田）、嶺島1（原田）。華崎1は時間不足だが参加再開の文脈あり。</p>
+<p>コーチングでよく出る論点: PLC活用、ワークショップ・雑談、別ルートでの成功の許容、物販への回帰など。</p>
+<h3>タイプB: 初動・オンボーディング・段取り伴走型</h3>
+<p>特徴: 加入直後またはロードマップ直後。ログイン、チャット、メンバーサイト、事務局連絡、45日タスクの完了が主戦場。ビジネス全体は広く聞きつつ、いまの45日で何を終わらせるかに引き戻す。</p>
+<p>該当の例: 高本2（吉岡）。</p>
+<p>コーチングでよく出る論点: 役割分担（田中＝マーケ中身、コーチ＝段取り）、プロデューサー探索の順序、数値・時間軸のすり合わせ。</p>
+<h3>タイプC: ローンチ経験後・スケール設計型</h3>
+<p>特徴: チャレンジ・オプト・成約など成果があり、なぜ動けたかの言語化から、講座設計・キャパ・月次チャレンジ・卒業後コミュニティまで視野が広がる。</p>
+<p>該当の例: 高野1（大脇）。</p>
+<p>コーチングでよく出る論点: ハウス・SNS・広告の順序、リストの質、ターゲット表現、専門家（渡辺さん等）へのリファラル。</p>
+<h3>タイプD: プロデューサー・外注・判断停滞型</h3>
+<p>特徴: 候補・外注・PLC式が並立し、判断が止まりやすい。基準・契約・Plan B・忙しさの理由の言語化が中心。</p>
+<p>該当の例: 高野4（大脇）。</p>
+<p>コーチングでよく出る論点: 成果報酬、社内Web担当の共有範囲、Kindle＋既存リスト、PLC告知ルール、XMindと動画視聴。</p>
+<h3>タイプE: チーム内コミュニケーション・伝達型</h3>
+<p>特徴: プロデューサー・コンテンツホルダーとの「伝わっていない」感、チャット疲れ、下書き感覚のギャップ。電話・書き起こし・AI反復で打開。</p>
+<p>該当の例: 大澤2（石田）。</p>
+<p>コーチングでよく出る論点: 訴求と商品論理の一貫性、グルコン・田中への出し方、認定講師個別コンサルへの移行。</p>
+<h3>タイプF: プロデューサー案件・サンチャレ深掘り型</h3>
+<p>特徴: ワークショップ後の案件獲得、竹見・浦野型の三者関係、サンチャレを運営・参加者両視点で大量観察。AIは業務1件に紐づけた改善サイクル。</p>
+<p>該当の例: 平尾3（石田）、鴇田3（石田）。</p>
+<p>コーチングでよく出る論点: 温度感の確認、他講師サンチャレ比較、イベントでの自己紹介、個別コーチング終了後の相談導線。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>タイプG: 実務セールス・個別フォロー改善型</h3>
+<p>特徴: LINE制約、個別相談の温度感、セールススライドの組み立て、チャレンジ〜セールスのスケジュールが具体。</p>
+<p>該当の例: 大平和3（大脇）。</p>
+<p>コーチングでよく出る論点: ヒアリングで相手に危機感の言葉を言わせる設計、テンプレの商材別即決、グルコン・認定講師への振り分け。</p>
+<h3>タイプH: 大型イベント・事前育成型</h3>
+<p>特徴: セミナー・説明会のクロージング、じわじわセットアップ、コンセプト未確定のまま期限が近いイベントを先行。</p>
+<p>該当の例: 山本大2（原田）。</p>
+<p>コーチングでよく出る論点: プロデューサーで強制力、AI叩き台、コンセプトの入口変更（AI活用寄りのテストマーケ）。</p>
+<h3>タイプI: 商品転換・時間・モチベ再点火型</h3>
+<p>特徴: 旧商品縮小・新商品準備、SNSとハウスのミスマッチ、やるべきことは多いがワクワクが消えやすい。「何のために」の問いで再接続。</p>
+<p>該当の例: 華崎1（原田）。</p>
+<p>コーチングでよく出る論点: リアル入り口の多角化、月末売上目標と今週の動画・ステップメール、YouTuber像との接続。</p>
+<h3>タイプJ: 持ち込み多・優先順位・コミュニティ設計型</h3>
+<p>特徴: グルコン示唆を土台に、ライブ・QR・Kindle・コミュニティ二層・LINEリスクまで横に広がる。最後に「最初の一手」に戻す。</p>
+<p>該当の例: 副島1（大脇）。</p>
+<p>コーチングでよく出る論点: 価格帯別販売、合宿代替、次に誰にどこで聞くか。</p>
+<h3>タイプK: 3チャレ逆算・集客導線・制作オペ型</h3>
+<p>特徴: 添削・LP・広告・ツール課金で混乱しつつ行動力は高い。渡航など制約下で捨てる／残すを決め、ハウス再活用・広告はテスト寄り。</p>
+<p>該当の例: 高本3（吉岡）。</p>
+<p>コーチングでよく出る論点: 短間隔3チャレ、MetaフックAB、コンテンツ量産の型、外注前の世界観固め。</p>
+<h2>第2部: 論点の横断マップ（全セッションで繰り返し見える柱）</h2>
+<p>ナレッジの「論点のマップ」を集約したインデックス。深掘りは各ナレッジへ。</p>
+<h3>1. PLC・コミュニティの使い方</h3>
+<p>参加の薄さ、義務感の除去、ワークショップ・グルコン・雑談・勝ち隊・イベント、オプチャとの違い、告知ルール（直接売り込み不可など）。</p>
+<p>関連タイプ: A, B, F ほか全般。</p>
+<h3>2. プロデューサー・チーム・外注</h3>
+<p>候補評価、報酬・役割、外注との二刀流、チーム内チャットの限界、バトンタッチの温度感、石田・はじさん等への紹介導線。</p>
+<p>関連タイプ: D, E, F, G, J。</p>
+<h3>3. スケジュール・優先順位・未達の理由</h3>
+<p>逆算（3チャレ、セミナー、渡航）、集客期間と実施期の分離、「忙しかった」の受容と次の2〜3週間の確保。</p>
+<p>関連タイプ: G, H, K, D。</p>
+<h3>4. 集客・リスト・チャネル</h3>
+<p>ハウス再送、Meta・SNS・YouTube・リアル・地方紙、Kindle無料期間、既存顧客メール、オプトとオーガニックの順序。</p>
+<p>関連タイプ: C, I, K, H。</p>
+<h3>5. 商品・ファネル・訴求</h3>
+<p>コンセプトのすり替え、LP先出し後修正、価格帯別設計、訴求と教材提供の一貫性、高単価BtoBの商習慣。</p>
+<p>関連タイプ: I, J, H, E。</p>
+<h3>6. セールス・個別相談</h3>
+<p>LINE自動応答、個別フォロー文面、スライド差し替え、覚悟の弱い見込み客へのヒアリング設計。</p>
+<p>関連タイプ: G。</p>
+<h3>7. AI・ツール・制作</h3>
+<p>AI勉強会、Cursor、書き起こし＋AI反復、Canva共有、テレプロンプター・短尺、下書きAIとレビューAIの分離。</p>
+<p>関連タイプ: E, F, J, K。</p>
+<h3>8. 相談導線の整理</h3>
+<p>田中さん個別・グルコン、認定講師個別コンサル、プロデューサーチャット、追加コーチング購入、救済2回終了後の案内。</p>
+<p>関連タイプ: B, E, F, G（コーチング枠終了時に顕在化）。</p>
+<h2>第3部: タイプ別 × 推奨コーチングの切り口（参考）</h2>
+<table>
+<thead>
+<tr>
+<th>タイプ</th>
+<th>まず聞くべき軸</th>
+<th>コーチングで効きやすい打ち手</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="grade" style="background:#2CB596">A</span></td>
+<td>いま動けている最小の事実</td>
+<td>一回だけの約束、2〜3人勉強会</td>
+</tr>
+<tr>
+<td><span class="grade" style="background:#3E8CC0">B</span></td>
+<td>45日で未完了のタスク</td>
+<td>画面共有、事務局エスカレーション</td>
+</tr>
+<tr>
+<td><span class="grade" style="background:#E0973E">C</span></td>
+<td>なぜ今回動けたか</td>
+<td>スケール像→月次・チャネル順序</td>
+</tr>
+<tr>
+<td><span class="grade" style="background:#C0584E">D</span></td>
+<td>判断を止めている並列案件</td>
+<td>基準表、再面談、Plan B</td>
+</tr>
+<tr>
+<td>E</td>
+<td>伝達のどこでズレたか</td>
+<td>通話、書き起こしAI、グルコン出し方</td>
+</tr>
+<tr>
+<td>F</td>
+<td>理解不足の案件はどれか</td>
+<td>サンチャレ観察リスト、竹見さんへの質問</td>
+</tr>
+<tr>
+<td>G</td>
+<td>直近の未成約1件</td>
+<td>スライド・LINE・ヒアリング設計</td>
+</tr>
+<tr>
+<td>H</td>
+<td>直近イベントの日程</td>
+<td>じわじわ、コンセプトテスト</td>
+</tr>
+<tr>
+<td>I</td>
+<td>何のために（理想）</td>
+<td>リアル入り口、今週1本</td>
+</tr>
+<tr>
+<td>J</td>
+<td>最初の一手は何か</td>
+<td>ライブ内QR、コミュニティ二層</td>
+</tr>
+<tr>
+<td>K</td>
+<td>6月で捨てる／残す</td>
+<td>ハウス優先、広告はテスト</td>
+</tr>
+</tbody>
+</table>
+<h2>第4部: データ追加時の更新ルール</h2>
+<ol>
+<li>新規ナレッジを追加したら、該当タイプに1行追記（該当例にファイル名）  </li>
+<li>既存タイプに当てはまらないパターンが3件以上たまったら、タイプL以降を新設  </li>
+<li>第2部の柱に新しいキーワードが複数セッションで出たら、柱の説明を1段落追記  </li>
+<li>件数が20件を超えたら、タイプの再クラスタリングを検討（本ファイル Version +0.1）</li>
+</ol>
+<h2>関連ファイル</h2>
+<ul>
+<li><a href="./コーチングセッション一覧.md">コーチングセッション一覧.md</a></li>
+<li><a href="./原本とナレッジ_対応一覧.md">原本とナレッジ_対応一覧.md</a></li>
+<li><a href="./コーチ別_傾向とクセ.md">コーチ別_傾向とクセ.md</a></li>
+</ul>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-04)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: AUTOGEN01<br />
+Generated by: 田中祐一</p>
+</article>
+</main>
+</div>
+</body>
+</html>

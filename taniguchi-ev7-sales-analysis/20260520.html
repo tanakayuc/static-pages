@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260520_大山貴義_田畑_分析 - 谷口 EV7 セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>谷口 EV7 セールス分析</h3>
+<a href="20260527.html" class="sidebar-item"><span class="date">2026年05月27日</span> 20260527_武田美恵子_田畑_分析</a>
+<a href="20260527-26c55bb13de8.html" class="sidebar-item"><span class="date">2026年05月27日</span> 20260527_田中理恵_田畑_分析</a>
+<a href="20260525.html" class="sidebar-item"><span class="date">2026年05月25日</span> 20260525_ふじもとまり_田畑_分析</a>
+<a href="20260525-43cd1d6e3e0e.html" class="sidebar-item"><span class="date">2026年05月25日</span> 20260525_田中多喜子_永吉_分析</a>
+<a href="20260524.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_前道朱里_永吉_分析</a>
+<a href="20260524-1631c2176910.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_味村和美_永吉_分析</a>
+<a href="20260523.html" class="sidebar-item"><span class="date">2026年05月23日</span> 20260523_岡村愛弓_永吉_分析</a>
+<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_中原佳子_永吉_分析</a>
+<a href="20260520.html" class="sidebar-item active"><span class="date">2026年05月20日</span> 20260520_大山貴義_田畑_分析</a>
+<a href="20260520-341ec31d44f3.html" class="sidebar-item"><span class="date">2026年05月20日</span> 20260520_淺田香奈_田畑_分析</a>
+<a href="20260517.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_田中眞紀子_田畑_分析</a>
+<a href="20260517-3089d4227655.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_秋宗希久子_田畑_分析</a>
+<a href="20260517-c32bc4a0664b.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_藤原礼奈_永吉_分析</a>
+<a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_中山ふみえ_田畑_分析</a>
+<a href="20260516-3c3088624977.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_吉川綾美_田畑_分析</a>
+<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_本橋弘美_田畑_分析</a>
+<a href="20260515-31d67e069bd0.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_本田真希子_田畑_分析</a>
+<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> 20260511_三原えり_田畑_分析</a>
+<a href="20260509.html" class="sidebar-item"><span class="date">2026年05月09日</span> 20260509_尾畑沙希_田畑_分析</a>
+<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428_櫻井香菜子_田畑_分析</a>
+<a href="20260424.html" class="sidebar-item"><span class="date">2026年04月24日</span> 20260424_矢野はる_田畑_分析</a>
+<a href="20260423.html" class="sidebar-item"><span class="date">2026年04月23日</span> 20260423_長洲樹里_田畑_分析</a>
+<a href="20260420.html" class="sidebar-item"><span class="date">2026年04月20日</span> 20260420_仲宗根まゆ_田畑_分析</a>
+<a href="20260419.html" class="sidebar-item"><span class="date">2026年04月19日</span> 20260419_山本美紀_田畑_分析</a>
+<a href="20260416.html" class="sidebar-item"><span class="date">2026年04月16日</span> 20260416_橋岡千春_田畑_分析</a>
+<a href="20260409.html" class="sidebar-item"><span class="date">2026年04月09日</span> 20260409_辻沙耶花_田畑_分析</a>
+<a href="20260408.html" class="sidebar-item"><span class="date">2026年04月08日</span> 20260408_奥原陽子_田畑_分析</a>
+<a href="20260407.html" class="sidebar-item"><span class="date">2026年04月07日</span> 20260407_川西未乘_田畑_分析</a>
+<a href="20260401.html" class="sidebar-item"><span class="date">2026年04月01日</span> 20260401_佐藤香織_永吉_分析</a>
+<a href="20260401-79d337f6b930.html" class="sidebar-item"><span class="date">2026年04月01日</span> 20260401_川口桂子_田畑_分析</a>
+<a href="20260330.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330_臼井エリ_田畑_分析</a>
+<a href="20260328.html" class="sidebar-item"><span class="date">2026年03月28日</span> 20260328_加藤恵美_田畑_分析</a>
+<a href="20260328-7a659661b752.html" class="sidebar-item"><span class="date">2026年03月28日</span> 20260328_大保美紀江_田畑_分析</a>
+<a href="20260327.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_吉田裕子_田畑_分析</a>
+<a href="20260327-52297797b6ad.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_谷川絵理_田畑_分析</a>
+<a href="20260324.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_金氏美緒_田畑_分析</a>
+<a href="20260323.html" class="sidebar-item"><span class="date">2026年03月23日</span> 20260323_吉川美穂_永吉_分析</a>
+<a href="20260323-370db0264ee5.html" class="sidebar-item"><span class="date">2026年03月23日</span> 20260323_田村悦子_永吉_分析</a>
+<a href="20260322.html" class="sidebar-item"><span class="date">2026年03月22日</span> 20260322_大久保やよい_田畑_分析</a>
+<a href="20260315.html" class="sidebar-item"><span class="date">2026年03月15日</span> 20260315_松永聖子_田畑_分析</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>セールス分析: 2026-05-20 大山貴義さん（田畑担当）</h1>
+<h2>このファイルの位置づけ</h2>
+<p>谷口案件（EV7つの覚醒風水学）向けのセールスフィードバック。書き起こし原本・汎用17ステップ・チームマニュアル（整備中）の二軸照合による確定分析。</p>
+<h2>参照マニュアル一覧</h2>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>参照先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>面談の文字起こし・記録</td>
+<td><code>../セールス原本/20260520_大山貴義_田畑.md</code></td>
+</tr>
+<tr>
+<td>Vimeo</td>
+<td><a href="https://vimeo.com/1195269464/e318c5de12?share=copy&amp;fl=sv&amp;fe=ci" target="_blank" rel="noopener noreferrer">https://vimeo.com/1195269464/e318c5de12?share=copy&amp;fl=sv&amp;fe=ci</a></td>
+</tr>
+<tr>
+<td>評価基準</td>
+<td><code>knowledge/スキル別/セールス/汎用セールスフィードバック/03_個別面談17ステップ_解説参照.md</code></td>
+</tr>
+<tr>
+<td>管理シート</td>
+<td><code>../管理シート/個別プランニングシート_BASE.csv</code></td>
+</tr>
+</tbody>
+</table>
+<h2>基本情報</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客</td>
+<td>大山貴義</td>
+</tr>
+<tr>
+<td>面談日</td>
+<td>2026-05-20</td>
+</tr>
+<tr>
+<td>担当者</td>
+<td>田畑</td>
+</tr>
+<tr>
+<td>フェーズ</td>
+<td>個別説明会</td>
+</tr>
+<tr>
+<td>結果</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+</tr>
+<tr>
+<td>コース</td>
+<td>（未成約のため未確定）</td>
+</tr>
+<tr>
+<td>購入金額</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>年齢・家族</td>
+<td>40代後半。妻と二人暮らし</td>
+</tr>
+<tr>
+<td>職業</td>
+<td>自営業</td>
+</tr>
+<tr>
+<td>参加動機（申込）</td>
+<td>風水に興味。新しい学びを求めて</td>
+</tr>
+<tr>
+<td>理想像（申込）</td>
+<td>事業の拡大と夫婦円満</td>
+</tr>
+<tr>
+<td>悩み（申込）</td>
+<td>事業の断捨離。借り入れの返済</td>
+</tr>
+</tbody>
+</table>
+<h2>お客様像・所感</h2>
+<p>大山さんは40代後半の自営業者で、妻と二人暮らし。事業の整理を進める中で、新たな学びとして風水に興味を持ち、個別説明会に参加。事業の断捨離や借り入れの返済を抱えつつ、夫婦関係の円満も求めている。風水を通じて事業の拡大や新たなビジョンを描きたいと考えているが、具体的な成果や実践方法に対する疑問も持っている。</p>
+<p>面談の感情の流れは、序盤は風水への興味と期待感、中盤は事業の現状と悩みの共有、後半は講座内容への理解と価格に対する検討で揺れる。最終的には「リアルタイムで参加できない」「今のタイミングでは難しい」との理由で否決に至る。</p>
+<p>ペルソナ分類: 事業拡大志向型（新たな学びを求めるが、現実的な制約も考慮）。成約率の観点では、価格提示前に「リアルタイム参加の難しさ」「事業整理中の資金制約」をクリアにしきれず、否決となった。</p>
+<h2>まず読むべき結論</h2>
+<p>田畑の強みは、大山さんの事業背景や風水への興味を丁寧に聞き出し、講座の世界観をしっかりと伝えられた点である。否決の主因は、顧客側のリアルタイム参加の難しさと資金制約であり、トークだけで即断を迫らなかった判断は妥当だった。</p>
+<p>改善点は、講座のリアルタイム参加が難しい顧客に対して、アーカイブ受講のメリットやフォロー体制をより具体的に伝えられなかったこと。また、価格提示前に「事業整理中でも始められる設計」「夫婦での学びの共有」というEV7固有の価値を数値・事例で示せなかったこと。次回は、事業整理中の顧客向けに分割・開始時期・「まずは夫婦での基礎学習」などの段階オファーを言語化してから価格に入ると、否決→保留への転換余地が増える。</p>
+<h2>17ステップ照合</h2>
+<h3>A. カウンセリング（ステップ1-7）</h3>
+<div class="step"><span class="step-no">1</span><span class="step-name">アイスブレイク: 評価 ◎</p>
+<p>大山さんの風水への興味を引き出し、リラックスした雰囲気で面談を開始できた。初対面ながらも、興味を持ったきっかけを自然に聞き出し、良好な関係を築けた。</p>
+<p>ステップ2 自己紹介</span><span class="eval eval-ok">○</span></div>
+<p>田畑自身の風水に対する知識や経験を簡潔に紹介し、信頼感を与えることができた。ただし、もう少し具体的な実績や成功事例を交えて話すことで、より強い印象を与えられた可能性がある。</p>
+<div class="step"><span class="step-no">3</span><span class="step-name">ルール共有</span><span class="eval eval-warn">△</span></div>
+<p>面談の進行や時間配分についての説明が不足しており、顧客が話しやすい環境を整えるための工夫が必要だった。特に、質問や意見を自由に述べられる雰囲気を作るための工夫が求められる。</p>
+<div class="step"><span class="step-no">4</span><span class="step-name">ポジティブメイク: 評価 ◎</p>
+<p>大山さんの事業に対する前向きな姿勢や、風水を通じて新たな可能性を探る意欲をしっかりと認め、励ますことができた。顧客のモチベーションを高める効果的なアプローチだった。</p>
+<p>ステップ5 現状と理想のギャップ</span><span class="eval eval-ok">○</span></div>
+<p>大山さんの現状の悩みと理想像を具体的に引き出し、風水がそのギャップを埋める手段となることを示した。ただし、もう少し具体的な事例やデータを用いることで、説得力を高めることができた。</p>
+<div class="step"><span class="step-no">6</span><span class="step-name">問題の深堀り</span><span class="eval eval-ok">○</span></div>
+<p>大山さんの事業整理や借り入れに関する悩みを深堀りし、風水がどのように役立つかを示した。ただし、顧客が抱える問題の優先順位を明確にすることで、より効果的な提案が可能だった。</p>
+<div class="step"><span class="step-no">7</span><span class="step-name">理想の未来像の共有: 評価 ◎</p>
+<p>大山さんが描く理想の未来像を共有し、風水がその実現に向けた具体的な手段となることを示した。顧客のビジョンをしっかりと理解し、それに寄り添う姿勢を示せた。</p>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>B. ソリューション提案（ステップ8-12）</h3>
+<p>ステップ8 ソリューションの提示</span><span class="eval eval-ok">○</span></div>
+<p>風水の具体的な効果や、講座で学べる内容を丁寧に説明した。ただし、顧客の具体的なニーズに合わせたカスタマイズ提案が不足していた点が惜しい。</p>
+<div class="step"><span class="step-no">9</span><span class="step-name">具体的な事例の紹介: 評価 ◎</p>
+<p>過去の受講生の成功事例を具体的に紹介し、風水の効果を実感させることができた。顧客の不安を和らげ、信頼感を高める効果的なアプローチだった。</p>
+<p>ステップ10 価値の強調</span><span class="eval eval-ok">○</span></div>
+<p>風水がもたらす価値を強調し、顧客にとってのメリットを伝えた。ただし、価格に対する価値の具体的な比較が不足しており、コストパフォーマンスを明確にする必要があった。</p>
+<div class="step"><span class="step-no">11</span><span class="step-name">質疑応答</span><span class="eval eval-warn">△</span></div>
+<p>顧客の質問に対して丁寧に回答したが、リアルタイム参加が難しいという懸念に対する具体的な解決策を提示できなかった。顧客の不安を解消するための工夫が求められる。</p>
+<div class="step"><span class="step-no">12</span><span class="step-name">参加者の声</span><span class="eval eval-ok">○</span></div>
+<p>過去の参加者の声を紹介し、講座の信頼性を高めた。ただし、顧客の状況に近い事例をもう少し多く紹介することで、より共感を得られる可能性があった。</p>
+<h3>C. クロージング（ステップ13-17）</h3>
+<div class="step"><span class="step-no">13</span><span class="step-name">価格の提示</span><span class="eval eval-warn">△</span></div>
+<p>価格を提示する際に、顧客の現状やニーズに合わせた柔軟な提案が不足していた。特に、分割払いの可能性や、開始時期の調整などのオプションを提示することで、顧客の不安を和らげることができた。</p>
+<div class="step"><span class="step-no">14</span><span class="step-name">決断の促し</span><span class="eval eval-warn">△</span></div>
+<p>参加を促す際に、顧客のリアルタイム参加が難しいという懸念を解消するための具体的な提案が不足していた。顧客の状況に応じた柔軟な対応が求められる。</p>
+<div class="step"><span class="step-no">15</span><span class="step-name">フォローアップの説明</span><span class="eval eval-ok">○</span></div>
+<p>講座のフォローアップ体制について説明し、顧客が安心して参加できるように配慮した。ただし、具体的なフォローアップの内容や頻度について、もう少し詳細に説明することで、安心感を高めることができた。</p>
+<div class="step"><span class="step-no">16</span><span class="step-name">次回のステップ</span><span class="eval eval-ok">○</span></div>
+<p>次回のステップや、参加後の流れについて説明し、顧客に具体的なイメージを持たせることができた。ただし、参加を決断するための具体的なスケジュールや手続きについて、もう少し詳しく説明する必要があった。</p>
+<p>ステップ17 感謝と締めくくり: 評価 ◎</p>
+<p>面談の最後に感謝の意を伝え、顧客との関係を良好に締めくくることができた。顧客に対する敬意を示し、今後の関係構築に向けた良い印象を残せた。</p>
+<h2>シーン別・具体的フィードバック</h2>
+<h3>シーン1: 風水への興味を引き出す場面</h3>
+<p>顧客発言: 「風水とかそういったところも興味があったので、自分でも学べるところがあるんだったら学びたいなというところがあって申し込みました。」</p>
+<p>担当の対応: 田畑は大山さんの興味を引き出し、風水の魅力を伝えることに成功した。風水の基本的な考え方や、講座で学べる内容を丁寧に説明し、顧客の期待感を高めた。</p>
+<p>評価: ◎</p>
+<p>改善: 顧客の興味をさらに深めるために、風水の具体的な効果や事例をもう少し多く紹介することで、より強い印象を与えることができた。</p>
+<h3>シーン2: 事業の現状と悩みの共有</h3>
+<p>顧客発言: 「ちょうど今ちょっと事業の方も断捨離してまして、借り入れがあるもので、その辺の借り入れをちょっと早く返済したいなっていうところがあるのと。」</p>
+<p>担当の対応: 田畑は大山さんの事業整理や借り入れに関する悩みをしっかりと聞き出し、風水がその解決に役立つことを示した。</p>
+<p>評価: ○</p>
+<p>改善: 顧客の具体的なニーズに合わせたカスタマイズ提案が不足していたため、もう少し具体的な解決策を提示することで、より効果的な提案が可能だった。</p>
+<h3>シーン3: 講座内容への理解と価格に対する検討</h3>
+<p>顧客発言: 「リアルでちょっと聞けないんですよ講座を。ちょっとそれが僕の中で引っかかってて。」</p>
+<p>担当の対応: 田畑はアーカイブ受講のメリットを説明し、リアルタイム参加が難しい顧客に対するフォロー体制を伝えたが、具体的な解決策が不足していた。</p>
+<p>評価: △</p>
+<p>改善: 顧客の不安を解消するために、アーカイブ受講の具体的なメリットや、フォロー体制をより詳細に説明することで、安心感を高めることができた。</p>
+<h3>シーン4: 参加の決断を促す場面</h3>
+<p>顧客発言: 「ちょっと考えさせてもらってもいいですか。」</p>
+<p>担当の対応: 田畑は参加を促す際に、顧客のリアルタイム参加が難しいという懸念を解消するための具体的な提案が不足していた。</p>
+<p>評価: △</p>
+<p>改善: 顧客の状況に応じた柔軟な対応が求められる。分割払いの可能性や、開始時期の調整などのオプションを提示することで、顧客の不安を和らげることができた。</p>
+<h2>EV7固有論点</h2>
+<h3>家・家族の運気</h3>
+<p>風水は家や家族の運気を向上させるためのツールとして、多くの人々に利用されている。家の間取りや家具の配置、方位などを考慮することで、家全体のエネルギーを整え、家族全員の運気を高めることができる。特に、家族が集うリビングや寝室の風水を改善することで、家族の絆を深め、円満な家庭を築くことが期待される。</p>
+<h3>事業の拡大と風水</h3>
+<p>風水は事業の拡大にも応用可能である。事業所の立地やオフィスの配置、社員の座席などを風水の観点から見直すことで、ビジネスの成功を後押しすることができる。特に、重要な会議や商談の際に、吉方位を選ぶことで、良い結果を引き寄せることができるとされている。風水を活用することで、事業の拡大や新たなビジョンの実現に向けた具体的なステップを踏むことができる。</p>
+<h3>個人の成長と風水</h3>
+<p>風水は個人の成長にも寄与する。自分自身の運気を高めるために、日常生活の中で風水を取り入れることができる。例えば、毎日のルーティンや行動を見直し、風水の原則に基づいて改善することで、個人の運気を向上させることができる。風水を通じて、自己成長や目標達成に向けた具体的なアプローチを学ぶことができる。</p>
+<h3>風水の実践とコミュニティ</h3>
+<p>風水の実践は、コミュニティの中で行われることが多い。講座やセミナーを通じて、他の参加者と交流し、風水の知識や経験を共有することで、より深い学びを得ることができる。コミュニティの中での実践は、モチベーションを高め、風水の効果を実感するための重要な要素となる。風水の実践を通じて、共に成長し、成功を分かち合うことができる。</p>
+<h2>良かった点</h2>
+<ol>
+<li>顧客の興味を引き出し、リラックスした雰囲気で面談を開始できた。</li>
+<li>風水の具体的な効果や事例を紹介し、信頼感を高めることができた。</li>
+<li>顧客のビジョンを理解し、それに寄り添う姿勢を示せた。</li>
+<li>面談の最後に感謝の意を伝え、良好な関係を築けた。</li>
+</ol>
+<h2>改善点</h2>
+<ol>
+<li>講座のリアルタイム参加が難しい顧客に対する具体的な解決策が不足していた。</li>
+<li>価格提示前に、顧客の状況に応じた柔軟な提案ができなかった。</li>
+<li>顧客の具体的なニーズに合わせたカスタマイズ提案が不足していた。</li>
+<li>質問や意見を自由に述べられる雰囲気を作るための工夫が必要だった。</li>
+</ol>
+<h2>次回への具体的アクション</h2>
+<ol>
+<li>リアルタイム参加が難しい顧客に対して、アーカイブ受講の具体的なメリットを詳細に説明する。</li>
+<li>価格提示前に、顧客の状況に応じた柔軟な提案を用意し、分割払いの可能性や開始時期の調整を提示する。</li>
+<li>顧客の具体的なニーズに合わせたカスタマイズ提案を準備し、より効果的な提案を行う。</li>
+<li>面談の進行や時間配分についての説明を強化し、顧客が話しやすい環境を整える。</li>
+</ol>
+<h2>マニュアル還流メモ</h2>
+<h2>今回のフィードバックを基に、次回の面談に向けた改善点をチームマニュアルに反映する。特に、リアルタイム参加が難しい顧客に対するフォロー体制や、価格提示前の柔軟な提案についてのガイドラインを明確化する。顧客のニーズに合わせたカスタマイズ提案を強化し、より効果的なセールスプロセスを構築する。</h2>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-04)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: T7K2EV4N<br />
+Generated by: 田中祐一</p>
+</article>
+</main>
+</div>
+</body>
+</html>

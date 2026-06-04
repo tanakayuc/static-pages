@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260428_櫻井香菜子_田畑_分析 - 谷口 EV7 セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>谷口 EV7 セールス分析</h3>
+<a href="20260527.html" class="sidebar-item"><span class="date">2026年05月27日</span> 20260527_武田美恵子_田畑_分析</a>
+<a href="20260527-26c55bb13de8.html" class="sidebar-item"><span class="date">2026年05月27日</span> 20260527_田中理恵_田畑_分析</a>
+<a href="20260525.html" class="sidebar-item"><span class="date">2026年05月25日</span> 20260525_ふじもとまり_田畑_分析</a>
+<a href="20260525-43cd1d6e3e0e.html" class="sidebar-item"><span class="date">2026年05月25日</span> 20260525_田中多喜子_永吉_分析</a>
+<a href="20260524.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_前道朱里_永吉_分析</a>
+<a href="20260524-1631c2176910.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_味村和美_永吉_分析</a>
+<a href="20260523.html" class="sidebar-item"><span class="date">2026年05月23日</span> 20260523_岡村愛弓_永吉_分析</a>
+<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_中原佳子_永吉_分析</a>
+<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> 20260520_大山貴義_田畑_分析</a>
+<a href="20260520-341ec31d44f3.html" class="sidebar-item"><span class="date">2026年05月20日</span> 20260520_淺田香奈_田畑_分析</a>
+<a href="20260517.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_田中眞紀子_田畑_分析</a>
+<a href="20260517-3089d4227655.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_秋宗希久子_田畑_分析</a>
+<a href="20260517-c32bc4a0664b.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_藤原礼奈_永吉_分析</a>
+<a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_中山ふみえ_田畑_分析</a>
+<a href="20260516-3c3088624977.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_吉川綾美_田畑_分析</a>
+<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_本橋弘美_田畑_分析</a>
+<a href="20260515-31d67e069bd0.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_本田真希子_田畑_分析</a>
+<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> 20260511_三原えり_田畑_分析</a>
+<a href="20260509.html" class="sidebar-item"><span class="date">2026年05月09日</span> 20260509_尾畑沙希_田畑_分析</a>
+<a href="20260428.html" class="sidebar-item active"><span class="date">2026年04月28日</span> 20260428_櫻井香菜子_田畑_分析</a>
+<a href="20260424.html" class="sidebar-item"><span class="date">2026年04月24日</span> 20260424_矢野はる_田畑_分析</a>
+<a href="20260423.html" class="sidebar-item"><span class="date">2026年04月23日</span> 20260423_長洲樹里_田畑_分析</a>
+<a href="20260420.html" class="sidebar-item"><span class="date">2026年04月20日</span> 20260420_仲宗根まゆ_田畑_分析</a>
+<a href="20260419.html" class="sidebar-item"><span class="date">2026年04月19日</span> 20260419_山本美紀_田畑_分析</a>
+<a href="20260416.html" class="sidebar-item"><span class="date">2026年04月16日</span> 20260416_橋岡千春_田畑_分析</a>
+<a href="20260409.html" class="sidebar-item"><span class="date">2026年04月09日</span> 20260409_辻沙耶花_田畑_分析</a>
+<a href="20260408.html" class="sidebar-item"><span class="date">2026年04月08日</span> 20260408_奥原陽子_田畑_分析</a>
+<a href="20260407.html" class="sidebar-item"><span class="date">2026年04月07日</span> 20260407_川西未乘_田畑_分析</a>
+<a href="20260401.html" class="sidebar-item"><span class="date">2026年04月01日</span> 20260401_佐藤香織_永吉_分析</a>
+<a href="20260401-79d337f6b930.html" class="sidebar-item"><span class="date">2026年04月01日</span> 20260401_川口桂子_田畑_分析</a>
+<a href="20260330.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330_臼井エリ_田畑_分析</a>
+<a href="20260328.html" class="sidebar-item"><span class="date">2026年03月28日</span> 20260328_加藤恵美_田畑_分析</a>
+<a href="20260328-7a659661b752.html" class="sidebar-item"><span class="date">2026年03月28日</span> 20260328_大保美紀江_田畑_分析</a>
+<a href="20260327.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_吉田裕子_田畑_分析</a>
+<a href="20260327-52297797b6ad.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_谷川絵理_田畑_分析</a>
+<a href="20260324.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_金氏美緒_田畑_分析</a>
+<a href="20260323.html" class="sidebar-item"><span class="date">2026年03月23日</span> 20260323_吉川美穂_永吉_分析</a>
+<a href="20260323-370db0264ee5.html" class="sidebar-item"><span class="date">2026年03月23日</span> 20260323_田村悦子_永吉_分析</a>
+<a href="20260322.html" class="sidebar-item"><span class="date">2026年03月22日</span> 20260322_大久保やよい_田畑_分析</a>
+<a href="20260315.html" class="sidebar-item"><span class="date">2026年03月15日</span> 20260315_松永聖子_田畑_分析</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>セールス分析: 2026-04-28 櫻井香菜子さん（田畑担当）</h1>
+<h2>このファイルの位置づけ</h2>
+<p>櫻井香菜子さんの案件における個別説明会のセールスフィードバックを提供する。書き起こし原本と汎用17ステップ、チームマニュアルの二軸照合による確定分析を行う。</p>
+<h2>参照マニュアル一覧</h2>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>参照先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>面談の文字起こし・記録</td>
+<td><code>../セールス原本/20260428_櫻井香菜子_田畑.md</code></td>
+</tr>
+<tr>
+<td>Vimeo</td>
+<td><a href="https://vimeo.com/1188393509/74d889b2e1?share=copy&amp;fl=sv&amp;fe=ci" target="_blank" rel="noopener noreferrer">https://vimeo.com/1188393509/74d889b2e1?share=copy&amp;fl=sv&amp;fe=ci</a></td>
+</tr>
+<tr>
+<td>評価基準</td>
+<td><code>knowledge/スキル別/セールス/汎用セールスフィードバック/03_個別面談17ステップ_解説参照.md</code></td>
+</tr>
+<tr>
+<td>管理シート</td>
+<td><code>../管理シート/個別プランニングシート_BASE.csv</code></td>
+</tr>
+</tbody>
+</table>
+<h2>基本情報</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客</td>
+<td>櫻井香菜子</td>
+</tr>
+<tr>
+<td>面談日</td>
+<td>2026-04-28</td>
+</tr>
+<tr>
+<td>担当者</td>
+<td>田畑</td>
+</tr>
+<tr>
+<td>フェーズ</td>
+<td>個別説明会</td>
+</tr>
+<tr>
+<td>結果</td>
+<td><span class="badge" style="background:#E5E9EC;color:#5B6B72">講座案内前終了</span></td>
+</tr>
+<tr>
+<td>コース</td>
+<td>（未成約のため未確定）</td>
+</tr>
+<tr>
+<td>購入金額</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>年齢・家族</td>
+<td>1978年生まれ。夫・成人した子供</td>
+</tr>
+<tr>
+<td>職業</td>
+<td>専業主婦</td>
+</tr>
+<tr>
+<td>参加動機（申込）</td>
+<td>家の建て替えにおける方位の不安</td>
+</tr>
+<tr>
+<td>理想像（申込）</td>
+<td>家族が健康で幸せに暮らせる空間を作りたい</td>
+</tr>
+<tr>
+<td>悩み（申込）</td>
+<td>夫の仕事の不安定さと家の建て替え</td>
+</tr>
+</tbody>
+</table>
+<h2>お客様像・所感</h2>
+<p>櫻井さんは40代後半の専業主婦で、夫の仕事の不安定さと新居の建て替えにおける方位の不安を抱えている。彼女はスピリチュアルなことに興味があり、将来的にはスピリチュアルを仕事にしたいと考えている。面談中、彼女は家族の健康と幸せを第一に考え、家の建て替えにおける方位の影響を非常に気にしている様子が見受けられた。</p>
+<p>彼女は夫の免許停止により、送迎の負担が増え、時間的な制約を抱えている。このため、スピリチュアルの勉強を進めるための収入源を得ることが難しい状況にある。彼女の主な関心は、家族が健康で幸せに暮らせる空間を作ることと、スピリチュアルの仕事を通じて他者を助けることである。</p>
+<h2>まず読むべき結論</h2>
+<p>田畑の強みは、櫻井さんの抱える不安や悩みに対して共感を示し、彼女の理想像に寄り添ったカウンセリングを行った点である。しかし、櫻井さんがスピリチュアルな仕事を優先したいという本音を引き出すことができたものの、講座案内に進む前に終了となったため、セールスとしては不十分であった。</p>
+<p>改善点としては、櫻井さんが抱える時間的制約や経済的制約に対して、具体的な解決策を提示できなかったことが挙げられる。彼女の優先順位を明確にし、スピリチュアルの勉強を進めるための具体的なプランを提案することで、講座案内に進む可能性を高めることができたであろう。</p>
+<hr />
+<h2>17ステップ照合</h2>
+<h3>A. カウンセリング（ステップ1-7）</h3>
+<div class="step"><span class="step-no">1</span><span class="step-name">アイスブレイク</span><span class="eval eval-ok">○</span></div>
+<p>面談の冒頭で、櫻井さんの状況を確認し、彼女の関心事に対する理解を示した。音声確認や環境への配慮も行われ、リラックスした雰囲気を作ることができた。</p>
+<div class="step"><span class="step-no">2</span><span class="step-name">自己紹介</span><span class="eval eval-warn">△</span></div>
+<p>田畑の自己紹介は簡潔であったが、彼自身の経験や専門性を活かした自己紹介が不足していた。これにより、彼女に対する信頼感を高める機会を逃した。</p>
+<div class="step"><span class="step-no">3</span><span class="step-name">ルール共有</span><span class="eval eval-warn">△</span></div>
+<p>面談の進行に関するルールやゴール設定が明確にされていなかったため、面談の流れが曖昧になり、彼女の話が長引く結果となった。</p>
+<div class="step"><span class="step-no">4</span><span class="step-name">ポジティブメイク: 評価 ◎</p>
+<p>櫻井さんの不安に対して、彼女の考えや行動を肯定的に受け止め、彼女の強みを引き出すことができた。彼女のスピリチュアルな興味を尊重し、前向きな姿勢を引き出した点は評価できる。</p>
+<p>ステップ5 現状と理想のギャップ</span><span class="eval eval-ok">○</span></div>
+<p>彼女の現状の不安と理想の状態を明確にし、ギャップを認識させることができた。しかし、具体的な解決策の提示が不足していたため、彼女の行動を促すことができなかった。</p>
+<div class="step"><span class="step-no">6</span><span class="step-name">問題の深堀り: 評価 ◎</p>
+<p>彼女の不安や悩みを深堀りし、彼女が抱える問題の本質を明らかにすることができた。彼女の優先順位を明確にし、彼女の本音を引き出すことに成功した。</p>
+<p>ステップ7 理想像の具体化</span><span class="eval eval-ok">○</span></div>
+<p>彼女の理想像を具体化し、彼女が目指すべき方向性を明確にすることができた。しかし、具体的な行動計画の提示が不足していたため、彼女の行動を促すことができなかった。</p>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>B. 提案（ステップ8-11）</h3>
+<div class="step"><span class="step-no">8</span><span class="step-name">提案の前提確認</span><span class="eval eval-warn">△</span></div>
+<p>彼女のニーズを確認し、提案の前提を確認することができたが、具体的な提案に進む前に面談が終了してしまったため、評価は低い。</p>
+<div class="step"><span class="step-no">9</span><span class="step-name">提案の提示</span><span class="eval eval-ng">×</span></div>
+<p>提案の提示に至らなかったため、評価は低い。彼女のニーズに応じた具体的な提案を行うことができなかった。</p>
+<div class="step"><span class="step-no">10</span><span class="step-name">提案のメリット説明</span><span class="eval eval-ng">×</span></div>
+<p>提案のメリットを説明する機会がなかったため、評価は低い。彼女のニーズに応じたメリットを説明することで、彼女の関心を引きつけることができたであろう。</p>
+<div class="step"><span class="step-no">11</span><span class="step-name">提案のデメリット説明</span><span class="eval eval-ng">×</span></div>
+<p>提案のデメリットを説明する機会がなかったため、評価は低い。デメリットを説明することで、彼女の不安を軽減し、信頼感を高めることができたであろう。</p>
+<h3>C. 質疑応答（ステップ12-14）</h3>
+<div class="step"><span class="step-no">12</span><span class="step-name">質問の受け止め</span><span class="eval eval-warn">△</span></div>
+<p>彼女の質問に対して、受け止める姿勢は見せたが、具体的な回答を提供することができなかったため、評価は低い。</p>
+<div class="step"><span class="step-no">13</span><span class="step-name">質問への回答</span><span class="eval eval-ng">×</span></div>
+<p>質問への具体的な回答が不足していたため、評価は低い。彼女の不安を解消するための具体的な回答を提供することができなかった。</p>
+<div class="step"><span class="step-no">14</span><span class="step-name">質問の再確認</span><span class="eval eval-warn">△</span></div>
+<p>彼女の質問を再確認し、彼女の理解度を確認することができたが、具体的な回答を提供することができなかったため、評価は低い。</p>
+<h3>D. オファーとクロージング（ステップ15-17）</h3>
+<div class="step"><span class="step-no">15</span><span class="step-name">オファーの提示</span><span class="eval eval-ng">×</span></div>
+<p>オファーの提示に至らなかったため、評価は低い。彼女のニーズに応じた具体的なオファーを提示することができなかった。</p>
+<div class="step"><span class="step-no">16</span><span class="step-name">クロージング</span><span class="eval eval-ng">×</span></div>
+<p>クロージングに至らなかったため、評価は低い。彼女のニーズに応じた具体的なクロージングを行うことができなかった。</p>
+<div class="step"><span class="step-no">17</span><span class="step-name">フォローアップの約束</span><span class="eval eval-warn">△</span></div>
+<p>フォローアップの約束をすることができたが、具体的なフォローアップの内容が不足していたため、評価は低い。</p>
+<hr />
+<h2>シーン別・具体的フィードバック</h2>
+<h3>シーン1: アイスブレイク</h3>
+<p>顧客発言: 「今ビルを建てていて音が多分すごいですし家も揺れますのですいません」</p>
+<p>担当の対応: 田畑は音声確認を行い、環境への配慮を示した。</p>
+<p>評価: ○</p>
+<p>改善: 環境への配慮は良かったが、彼女の緊張をほぐすための具体的な話題提供があるとさらに良かった。</p>
+<h3>シーン2: 自己紹介</h3>
+<p>顧客発言: 「今回大変なことがあっていろいろ調べてるうちに谷口先生のところに行き着いて」</p>
+<p>担当の対応: 田畑は彼女の話を聞き、谷口先生への信頼感を高めるよう努めた。</p>
+<p>評価: △</p>
+<p>改善: 田畑自身の経験や専門性を活かした自己紹介を行うことで、彼女に対する信頼感を高めることができたであろう。</p>
+<h3>シーン3: 理想像の具体化</h3>
+<p>顧客発言: 「最初はやっぱり自分がこれから大変な方に引っ越さなきゃいけないっていうので」</p>
+<p>担当の対応: 田畑は彼女の理想像を具体化し、彼女が目指すべき方向性を明確にした。</p>
+<p>評価: ○</p>
+<p>改善: 具体的な行動計画の提示が不足していたため、彼女の行動を促すことができなかった。具体的なステップを提案することで、彼女の行動を促すことができたであろう。</p>
+<h3>シーン4: 質問への対応</h3>
+<p>顧客発言: 「やっぱり代表と言われれば言われるほど怖いですし」</p>
+<p>担当の対応: 田畑は彼女の不安を受け止め、彼女の考えを肯定した。</p>
+<p>評価: △</p>
+<p>改善: 具体的な回答を提供することで、彼女の不安を解消し、信頼感を高めることができたであろう。</p>
+<hr />
+<h2>EV7固有論点</h2>
+<h3>家・家族の運気</h3>
+<p>櫻井さんは家の建て替えにおける方位の影響を非常に気にしており、家族の健康と幸せを第一に考えている。彼女は家の運気を整えることで、家族が健康で幸せに暮らせる空間を作りたいと考えている。彼女の不安を解消するためには、具体的な方位のアドバイスや、家の運気を整えるための具体的な方法を提案することが重要である。</p>
+<h3>スピリチュアルな興味</h3>
+<p>櫻井さんはスピリチュアルなことに興味があり、将来的にはスピリチュアルを仕事にしたいと考えている。彼女のスピリチュアルな興味を尊重し、彼女がスピリチュアルの勉強を進めるための具体的なプランを提案することが重要である。彼女の興味を活かした提案を行うことで、彼女の関心を引きつけることができる。</p>
+<h3>経済的制約</h3>
+<p>彼女は夫の免許停止により、送迎の負担が増え、時間的な制約を抱えている。このため、スピリチュアルの勉強を進めるための収入源を得ることが難しい状況にある。彼女の経済的制約を考慮し、具体的な解決策を提案することが重要である。彼女の経済的制約を解消するための具体的なプランを提案することで、彼女の行動を促すことができる。</p>
+<h3>家族の健康と幸せ</h3>
+<p>彼女の主な関心は、家族が健康で幸せに暮らせる空間を作ることと、スピリチュアルの仕事を通じて他者を助けることである。彼女の家族の健康と幸せを第一に考え、彼女の理想像に寄り添った提案を行うことが重要である。彼女の家族の健康と幸せを実現するための具体的なプランを提案することで、彼女の関心を引きつけることができる。</p>
+<hr />
+<h2>良かった点</h2>
+<ol>
+<li>櫻井さんの不安に対して共感を示し、彼女の考えや行動を肯定的に受け止めた点。</li>
+<li>彼女の理想像を具体化し、彼女が目指すべき方向性を明確にした点。</li>
+<li>彼女のスピリチュアルな興味を尊重し、彼女の本音を引き出すことに成功した点。</li>
+</ol>
+<h2>改善点</h2>
+<ol>
+<li>彼女の経済的制約に対して、具体的な解決策を提示できなかった点。</li>
+<li>具体的な提案に進む前に面談が終了してしまったため、提案の機会を逃した点。</li>
+<li>彼女の質問に対して、具体的な回答を提供することができなかった点。</li>
+</ol>
+<h2>次回への具体的アクション</h2>
+<ol>
+<li>彼女の経済的制約を考慮し、具体的な解決策を提案すること。</li>
+<li>彼女のスピリチュアルな興味を活かした具体的な提案を行うこと。</li>
+<li>彼女の質問に対して、具体的な回答を提供することで、彼女の不安を解消すること。</li>
+</ol>
+<h2>マニュアル還流メモ</h2>
+<ol>
+<li>彼女の経済的制約に対する具体的な解決策の提示方法をマニュアルに追加する。</li>
+<li>彼女のスピリチュアルな興味を活かした提案方法をマニュアルに追加する。</li>
+<li>彼女の質問に対する具体的な回答方法をマニュアルに追加する。</li>
+</ol>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-04)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: T7K2EV4N<br />
+Generated by: 田中祐一</p>
+</article>
+</main>
+</div>
+</body>
+</html>

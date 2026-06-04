@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260527_1秒収納_高橋様_分析 - 1秒収納 セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>1秒収納 セールス分析</h3>
+<a href="99991231.html" class="sidebar-item"><span class="date">9999年12月31日</span> 99991231_1秒収納_古賀いづみ様_分析</a>
+<a href="99991231-c2b82d6e9192.html" class="sidebar-item"><span class="date">9999年12月31日</span> 99991231_1秒収納_市原千鶴様_分析</a>
+<a href="99991231-f332010f6b3a.html" class="sidebar-item"><span class="date">9999年12月31日</span> 99991231_1秒収納_桜庭はるみ様_分析</a>
+<a href="20260527.html" class="sidebar-item active"><span class="date">2026年05月27日</span> 20260527_1秒収納_高橋様_分析</a>
+<a href="20260519.html" class="sidebar-item"><span class="date">2026年05月19日</span> 20260519_1秒収納_1秒収納_阪本様_分析</a>
+<a href="20260518.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518_1秒収納_1秒収納_髙久様_分析</a>
+<a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_1秒収納_1秒収納_橋本様_分析</a>
+<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_1秒収納_1秒収納_櫻井様_分析</a>
+<a href="20260514.html" class="sidebar-item"><span class="date">2026年05月14日</span> 20260514_1秒収納_山口美央様_no1103_分析</a>
+<a href="20260513.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_1秒収納_1秒収納_三木様_分析</a>
+<a href="20260507.html" class="sidebar-item"><span class="date">2026年05月07日</span> 20260507_1秒収納_鈴木麻未様_分析</a>
+<a href="20260504.html" class="sidebar-item"><span class="date">2026年05月04日</span> 20260504_1秒収納_1秒収納_佐野様_分析</a>
+<a href="20260425.html" class="sidebar-item"><span class="date">2026年04月25日</span> 20260425_1秒収納_1秒収納_小林友里様_分析</a>
+<a href="20260419.html" class="sidebar-item"><span class="date">2026年04月19日</span> 20260419_1秒収納_高見直子様_分析</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_1秒収納_山中明子様_分析</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_1秒収納_1秒収納_杉浦様_分析</a>
+<a href="20260304.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304_1秒収納_吉田様_no980_分析</a>
+<a href="20251123.html" class="sidebar-item"><span class="date">2025年11月23日</span> 20251123_1秒収納_サンセン千枝様_no735_分析</a>
+<a href="20251123-a0a06daf4fbf.html" class="sidebar-item"><span class="date">2025年11月23日</span> 20251123_1秒収納_梅舘奈津実様_no737_分析</a>
+<a href="20251121.html" class="sidebar-item"><span class="date">2025年11月21日</span> 20251121_1秒収納_吉田瑞恵様_no734_分析</a>
+<a href="20251120.html" class="sidebar-item"><span class="date">2025年11月20日</span> 20251120_1秒収納_青山瑛里香様_no707_分析</a>
+<a href="20251118.html" class="sidebar-item"><span class="date">2025年11月18日</span> 20251118_1秒収納_山内直子様_no716_分析</a>
+<a href="20251118-688ba39cb7d2.html" class="sidebar-item"><span class="date">2025年11月18日</span> 20251118_1秒収納_山本晴美様_no717_分析</a>
+<a href="20251118-5525036ec4a6.html" class="sidebar-item"><span class="date">2025年11月18日</span> 20251118_1秒収納_正田智佳様_no731_分析</a>
+<a href="20251117.html" class="sidebar-item"><span class="date">2025年11月17日</span> 20251117_1秒収納_岩崎紗良様_no720_分析</a>
+<a href="20251117-79fd4eac79fc.html" class="sidebar-item"><span class="date">2025年11月17日</span> 20251117_1秒収納_高松初美様_no722_分析</a>
+<a href="20251116.html" class="sidebar-item"><span class="date">2025年11月16日</span> 20251116_1秒収納_北島奈緒様_no704_分析</a>
+<a href="20251116-e4a8b87b4e74.html" class="sidebar-item"><span class="date">2025年11月16日</span> 20251116_1秒収納_西原麻里子様_no724_分析</a>
+<a href="20251116-4ecfa48af22c.html" class="sidebar-item"><span class="date">2025年11月16日</span> 20251116_1秒収納_長瀬きわこ様_no727_分析</a>
+<a href="20251115.html" class="sidebar-item"><span class="date">2025年11月15日</span> 20251115_1秒収納_中村加奈美様_no730_分析</a>
+<a href="20251115-bd05f94b65b5.html" class="sidebar-item"><span class="date">2025年11月15日</span> 20251115_1秒収納_真鍋裕子様_no721_分析</a>
+<a href="20251114.html" class="sidebar-item"><span class="date">2025年11月14日</span> 20251114_1秒収納_永井鮎子様_no718_分析</a>
+<a href="20251114-81d28bab449d.html" class="sidebar-item"><span class="date">2025年11月14日</span> 20251114_1秒収納_高安桂子様_no713_分析</a>
+<a href="20251111.html" class="sidebar-item"><span class="date">2025年11月11日</span> 20251111_1秒収納_竹村安由美様_no680_分析</a>
+<a href="20251111-7ac8693a9fde.html" class="sidebar-item"><span class="date">2025年11月11日</span> 20251111_1秒収納_藤井好恵様_no709_分析</a>
+<a href="20251110.html" class="sidebar-item"><span class="date">2025年11月10日</span> 20251110_1秒収納_松田祐子様_no696_分析</a>
+<a href="20251109.html" class="sidebar-item"><span class="date">2025年11月09日</span> 20251109_1秒収納_伍賀彩織様_no694_分析</a>
+<a href="20251108.html" class="sidebar-item"><span class="date">2025年11月08日</span> 20251108_1秒収納_水野理恵様_no690_分析</a>
+<a href="20251107.html" class="sidebar-item"><span class="date">2025年11月07日</span> 20251107_1秒収納_伊藤みどり様_no702_分析</a>
+<a href="20251107-b4435d6433ad.html" class="sidebar-item"><span class="date">2025年11月07日</span> 20251107_1秒収納_村岡めぐみ様_no701_分析</a>
+<a href="20251106.html" class="sidebar-item"><span class="date">2025年11月06日</span> 20251106_1秒収納_阿部友子様_no685_分析</a>
+<a href="20251105.html" class="sidebar-item"><span class="date">2025年11月05日</span> 20251105_1秒収納_畠山典子様_no677_分析</a>
+<a href="20251105-04847a609bd4.html" class="sidebar-item"><span class="date">2025年11月05日</span> 20251105_1秒収納_綱川友佳様_no693_分析</a>
+<a href="20251104.html" class="sidebar-item"><span class="date">2025年11月04日</span> 20251104_1秒収納_加藤あゆみ様_no687_分析</a>
+<a href="20251103.html" class="sidebar-item"><span class="date">2025年11月03日</span> 20251103_1秒収納_松岡富美様_no629_分析</a>
+<a href="20251103-c49a9f84b5c6.html" class="sidebar-item"><span class="date">2025年11月03日</span> 20251103_1秒収納_皆本礼子様_no692_分析</a>
+<a href="20251102.html" class="sidebar-item"><span class="date">2025年11月02日</span> 20251102_1秒収納_丸山直美様_no691_分析</a>
+<a href="20251102-fadb3404c043.html" class="sidebar-item"><span class="date">2025年11月02日</span> 20251102_1秒収納_小野澤真美様_no676_分析</a>
+<a href="20251101.html" class="sidebar-item"><span class="date">2025年11月01日</span> 20251101_1秒収納_荒木冴香様_no659_分析</a>
+<a href="20251101-22957e68a23c.html" class="sidebar-item"><span class="date">2025年11月01日</span> 20251101_1秒収納_鈴木綾乃様_no663_分析</a>
+<a href="20251030.html" class="sidebar-item"><span class="date">2025年10月30日</span> 20251030_1秒収納_中田三重子様_no679_分析</a>
+<a href="20251030-a6b9d48927dd.html" class="sidebar-item"><span class="date">2025年10月30日</span> 20251030_1秒収納_石井裕子様_no672_分析</a>
+<a href="20251029.html" class="sidebar-item"><span class="date">2025年10月29日</span> 20251029_1秒収納_佐野勢津子様_no674_分析</a>
+<a href="20251029-e4504db9a9ba.html" class="sidebar-item"><span class="date">2025年10月29日</span> 20251029_1秒収納_広瀬早苗様_no637_分析</a>
+<a href="20251028.html" class="sidebar-item"><span class="date">2025年10月28日</span> 20251028_1秒収納_重岡直美様_no673_分析</a>
+<a href="20251027.html" class="sidebar-item"><span class="date">2025年10月27日</span> 20251027_1秒収納_なかのれいみ様_no626_分析</a>
+<a href="20251025.html" class="sidebar-item"><span class="date">2025年10月25日</span> 20251025_1秒収納_元田幸江様_no641_分析</a>
+<a href="20251025-2989f2ccd378.html" class="sidebar-item"><span class="date">2025年10月25日</span> 20251025_1秒収納_大朏映子様_no653_分析</a>
+<a href="20251025-34b87e34f34c.html" class="sidebar-item"><span class="date">2025年10月25日</span> 20251025_1秒収納_山岡恭子様_no646_分析</a>
+<a href="20251023.html" class="sidebar-item"><span class="date">2025年10月23日</span> 20251023_1秒収納_住岡ゆかり様_no649_分析</a>
+<a href="20251023-d33ce084fe23.html" class="sidebar-item"><span class="date">2025年10月23日</span> 20251023_1秒収納_楠一代様_no661_分析</a>
+<a href="20251023-a3e7af5f0b24.html" class="sidebar-item"><span class="date">2025年10月23日</span> 20251023_1秒収納_江﨑美穂子様_no654_分析</a>
+<a href="20251022.html" class="sidebar-item"><span class="date">2025年10月22日</span> 20251022_1秒収納_山本條世様_no652_分析</a>
+<a href="20251021.html" class="sidebar-item"><span class="date">2025年10月21日</span> 20251021_1秒収納_山口麻貴様_no656_分析</a>
+<a href="20251021-17c4476ca08b.html" class="sidebar-item"><span class="date">2025年10月21日</span> 20251021_1秒収納_成田淳子様_no634_分析</a>
+<a href="20251021-c916ab3fedf7.html" class="sidebar-item"><span class="date">2025年10月21日</span> 20251021_1秒収納_草柳美紀様_no644_分析</a>
+<a href="20251017.html" class="sidebar-item"><span class="date">2025年10月17日</span> 20251017_1秒収納_中村沙織様_no633_分析</a>
+<a href="20251017-306b4ff98b7e.html" class="sidebar-item"><span class="date">2025年10月17日</span> 20251017_1秒収納_岡部宏美様_no628_分析</a>
+<a href="20251016.html" class="sidebar-item"><span class="date">2025年10月16日</span> 20251016_1秒収納_池田麻美様_no621_分析</a>
+<a href="20251015.html" class="sidebar-item"><span class="date">2025年10月15日</span> 20251015_1秒収納_内田ゆかり様_no616_分析</a>
+<a href="20251014.html" class="sidebar-item"><span class="date">2025年10月14日</span> 20251014_1秒収納_高野裕佳様_no622_分析</a>
+<a href="20251012.html" class="sidebar-item"><span class="date">2025年10月12日</span> 20251012_1秒収納_奥川綾様_no615_分析</a>
+<a href="20251012-91ca92f4dd1e.html" class="sidebar-item"><span class="date">2025年10月12日</span> 20251012_1秒収納_山崎イサ子様_no606_分析</a>
+<a href="20251011.html" class="sidebar-item"><span class="date">2025年10月11日</span> 20251011_1秒収納_井口満子様_no609_分析</a>
+<a href="20251011-243eca6af059.html" class="sidebar-item"><span class="date">2025年10月11日</span> 20251011_1秒収納_佐藤まりえ様_no570_分析</a>
+<a href="20251011-91a68bf18337.html" class="sidebar-item"><span class="date">2025年10月11日</span> 20251011_1秒収納_阿部美幸様_no617_分析</a>
+<a href="20251010.html" class="sidebar-item"><span class="date">2025年10月10日</span> 20251010_1秒収納_佐藤聖子様_no582_分析</a>
+<a href="20251009.html" class="sidebar-item"><span class="date">2025年10月09日</span> 20251009_1秒収納_松下良子様_no597_分析</a>
+<a href="20251009-11f5357dd626.html" class="sidebar-item"><span class="date">2025年10月09日</span> 20251009_1秒収納_荒木田理恵様_no605_分析</a>
+<a href="20251008.html" class="sidebar-item"><span class="date">2025年10月08日</span> 20251008_1秒収納_清水映里様_no607_分析</a>
+<a href="20251007.html" class="sidebar-item"><span class="date">2025年10月07日</span> 20251007_1秒収納_本田尚子様_no595_分析</a>
+<a href="20251007-25883e867007.html" class="sidebar-item"><span class="date">2025年10月07日</span> 20251007_1秒収納_重里啓子様_no577_分析</a>
+<a href="20251006.html" class="sidebar-item"><span class="date">2025年10月06日</span> 20251006_1秒収納_宮嶋真希様_no601_分析</a>
+<a href="20251006-4929bde211b9.html" class="sidebar-item"><span class="date">2025年10月06日</span> 20251006_1秒収納_木暮清美様_no572_分析</a>
+<a href="20251006-344e4be4dfa2.html" class="sidebar-item"><span class="date">2025年10月06日</span> 20251006_1秒収納_澤柳順子様_no591_分析</a>
+<a href="20251005.html" class="sidebar-item"><span class="date">2025年10月05日</span> 20251005_1秒収納_川口桂子様_no583_分析</a>
+<a href="20251005-3fed5d6b828a.html" class="sidebar-item"><span class="date">2025年10月05日</span> 20251005_1秒収納_藤本優子様_no599_分析</a>
+<a href="20251004.html" class="sidebar-item"><span class="date">2025年10月04日</span> 20251004_1秒収納_三瓶美雪様_no573_分析</a>
+<a href="20251004-9f9e782e7b13.html" class="sidebar-item"><span class="date">2025年10月04日</span> 20251004_1秒収納_青島あゆこ様_no575_分析</a>
+<a href="20251004-5c3fc6024c61.html" class="sidebar-item"><span class="date">2025年10月04日</span> 20251004_1秒収納_馬場千代美様_no567_分析</a>
+<a href="20251003.html" class="sidebar-item"><span class="date">2025年10月03日</span> 20251003_1秒収納_丸山優美子様_no578_分析</a>
+<a href="20251003-ab73df09fe86.html" class="sidebar-item"><span class="date">2025年10月03日</span> 20251003_1秒収納_勝亦ひろみ様_no585_分析</a>
+<a href="20251003-766c892ec250.html" class="sidebar-item"><span class="date">2025年10月03日</span> 20251003_1秒収納_豊田いずみ様_no588_分析</a>
+<a href="20251002.html" class="sidebar-item"><span class="date">2025年10月02日</span> 20251002_1秒収納_山田悠紀様_no581_分析</a>
+<a href="20251002-2b6e23f440c1.html" class="sidebar-item"><span class="date">2025年10月02日</span> 20251002_1秒収納_柴生田茜様_no557_分析</a>
+<a href="20251001.html" class="sidebar-item"><span class="date">2025年10月01日</span> 20251001_1秒収納_米田かおり様_no565_分析</a>
+<a href="20251001-2900ccfa1000.html" class="sidebar-item"><span class="date">2025年10月01日</span> 20251001_1秒収納_關登貴様_no589_分析</a>
+<a href="20250930.html" class="sidebar-item"><span class="date">2025年09月30日</span> 20250930_1秒収納_宮島恭子様_no579_分析</a>
+<a href="20250930-1331ba54f561.html" class="sidebar-item"><span class="date">2025年09月30日</span> 20250930_1秒収納_木村留美様_no561_分析</a>
+<a href="20250930-179f149a861f.html" class="sidebar-item"><span class="date">2025年09月30日</span> 20250930_1秒収納_石田和子様_no546_分析</a>
+<a href="20250929.html" class="sidebar-item"><span class="date">2025年09月29日</span> 20250929_1秒収納_太田ユミ様_no574_分析</a>
+<a href="20250929-3919a998e80e.html" class="sidebar-item"><span class="date">2025年09月29日</span> 20250929_1秒収納_秋元壽子様_no571_分析</a>
+<a href="20250926.html" class="sidebar-item"><span class="date">2025年09月26日</span> 20250926_1秒収納_尾田春美様_no473_分析</a>
+<a href="20250922.html" class="sidebar-item"><span class="date">2025年09月22日</span> 20250922_1秒収納_藤田佳代子様_no550_分析</a>
+<a href="20250921.html" class="sidebar-item"><span class="date">2025年09月21日</span> 20250921_1秒収納_小宮智恵様_no555_分析</a>
+<a href="20250921-169d82b96d57.html" class="sidebar-item"><span class="date">2025年09月21日</span> 20250921_1秒収納_小貫有希様_no514_分析</a>
+<a href="20250921-f6dff7074088.html" class="sidebar-item"><span class="date">2025年09月21日</span> 20250921_1秒収納_岡本麗様_no544_分析</a>
+<a href="20250921-f2ecb759e9ed.html" class="sidebar-item"><span class="date">2025年09月21日</span> 20250921_1秒収納_金田麻衣子様_no552_分析</a>
+<a href="20250920.html" class="sidebar-item"><span class="date">2025年09月20日</span> 20250920_1秒収納_古田桃花様_no547_分析</a>
+<a href="20250919.html" class="sidebar-item"><span class="date">2025年09月19日</span> 20250919_1秒収納_國持香須美様_no523_分析</a>
+<a href="20250918.html" class="sidebar-item"><span class="date">2025年09月18日</span> 20250918_1秒収納_内田京香様_no542_分析</a>
+<a href="20250918-b31d6d910b4e.html" class="sidebar-item"><span class="date">2025年09月18日</span> 20250918_1秒収納_福井由佳様_no541_分析</a>
+<a href="20250916.html" class="sidebar-item"><span class="date">2025年09月16日</span> 20250916_1秒収納_スモーラー薫様_no532_分析</a>
+<a href="20250915.html" class="sidebar-item"><span class="date">2025年09月15日</span> 20250915_1秒収納_林麻奈美様_no534_分析</a>
+<a href="20250914.html" class="sidebar-item"><span class="date">2025年09月14日</span> 20250914_1秒収納_松元由希様_no504_分析</a>
+<a href="20250913.html" class="sidebar-item"><span class="date">2025年09月13日</span> 20250913_1秒収納_奈良美里様_no524_分析</a>
+<a href="20250913-22c4146a8c17.html" class="sidebar-item"><span class="date">2025年09月13日</span> 20250913_1秒収納_小林美樹様_no508_分析</a>
+<a href="20250910.html" class="sidebar-item"><span class="date">2025年09月10日</span> 20250910_1秒収納_長谷川葵様_no529_分析</a>
+<a href="20250909.html" class="sidebar-item"><span class="date">2025年09月09日</span> 20250909_1秒収納_村上様_no497_分析</a>
+<a href="20250907.html" class="sidebar-item"><span class="date">2025年09月07日</span> 20250907_1秒収納_平岡紗世子様_no511_分析</a>
+<a href="20250906.html" class="sidebar-item"><span class="date">2025年09月06日</span> 20250906_1秒収納_則松秀子様_no503_分析</a>
+<a href="20250906-b47bd7794a75.html" class="sidebar-item"><span class="date">2025年09月06日</span> 20250906_1秒収納_塚田裕子様_no502_分析</a>
+<a href="20250905.html" class="sidebar-item"><span class="date">2025年09月05日</span> 20250905_1秒収納_金慶善様_no501_分析</a>
+<a href="20250904.html" class="sidebar-item"><span class="date">2025年09月04日</span> 20250904_1秒収納_多賀恵巳様_no510_分析</a>
+<a href="20250904-f35e3c0ed8fa.html" class="sidebar-item"><span class="date">2025年09月04日</span> 20250904_1秒収納_片桐えりか様_no506_分析</a>
+<a href="20250904-7292f64fdec5.html" class="sidebar-item"><span class="date">2025年09月04日</span> 20250904_1秒収納_福原喜美子様_no512_分析</a>
+<a href="20250903.html" class="sidebar-item"><span class="date">2025年09月03日</span> 20250903_1秒収納_桐本恵美子様_no499_分析</a>
+<a href="20250903-de370e3eec21.html" class="sidebar-item"><span class="date">2025年09月03日</span> 20250903_1秒収納_白井彰子様_no505_分析</a>
+<a href="20250902.html" class="sidebar-item"><span class="date">2025年09月02日</span> 20250902_1秒収納_枝廣智恵様_no489_分析</a>
+<a href="20250901.html" class="sidebar-item"><span class="date">2025年09月01日</span> 20250901_1秒収納_別府志保様_no492_分析</a>
+<a href="20250901-93a892c16cd4.html" class="sidebar-item"><span class="date">2025年09月01日</span> 20250901_1秒収納_廣瀬由佳様_no477_分析</a>
+<a href="20250901-db5b0e5fb721.html" class="sidebar-item"><span class="date">2025年09月01日</span> 20250901_1秒収納_林千佳様_no484_分析</a>
+<a href="20250831.html" class="sidebar-item"><span class="date">2025年08月31日</span> 20250831_1秒収納_今岡喜久枝様_no495_分析</a>
+<a href="20250831-fdfe8dd9bd3d.html" class="sidebar-item"><span class="date">2025年08月31日</span> 20250831_1秒収納_花上道子様_no494_分析</a>
+<a href="20250830.html" class="sidebar-item"><span class="date">2025年08月30日</span> 20250830_1秒収納_長野由季様_no488_分析</a>
+<a href="20250828.html" class="sidebar-item"><span class="date">2025年08月28日</span> 20250828_1秒収納_田邉智美様_no491_分析</a>
+<a href="20250827.html" class="sidebar-item"><span class="date">2025年08月27日</span> 20250827_1秒収納_三宅温子様_no476_分析</a>
+<a href="20250827-d8c1aea289be.html" class="sidebar-item"><span class="date">2025年08月27日</span> 20250827_1秒収納_藤本麻子様_no483_分析</a>
+<a href="20250826.html" class="sidebar-item"><span class="date">2025年08月26日</span> 20250826_1秒収納_阿部綾子様_no410_分析</a>
+<a href="20250825.html" class="sidebar-item"><span class="date">2025年08月25日</span> 20250825_1秒収納_名護由美子様_no478_分析</a>
+<a href="20250823.html" class="sidebar-item"><span class="date">2025年08月23日</span> 20250823_1秒収納_四辻愛花様_no485_分析</a>
+<a href="20250823-b21f098e24ba.html" class="sidebar-item"><span class="date">2025年08月23日</span> 20250823_1秒収納_埜田恵梨香様_no480_分析</a>
+<a href="20250823-0da69eb9dc94.html" class="sidebar-item"><span class="date">2025年08月23日</span> 20250823_1秒収納_大木悟子様_no474_分析</a>
+<a href="20250819.html" class="sidebar-item"><span class="date">2025年08月19日</span> 20250819_1秒収納_松薗佐和様_no398_分析</a>
+<a href="20250816.html" class="sidebar-item"><span class="date">2025年08月16日</span> 20250816_1秒収納_吉田夏江様_no447_分析</a>
+<a href="20250815.html" class="sidebar-item"><span class="date">2025年08月15日</span> 20250815_1秒収納_崎村枝美子様_no459_分析</a>
+<a href="20250815-0101e09e597d.html" class="sidebar-item"><span class="date">2025年08月15日</span> 20250815_1秒収納_飛弾晴美様_no462_分析</a>
+<a href="20250814.html" class="sidebar-item"><span class="date">2025年08月14日</span> 20250814_1秒収納_久保田由美子様_no461_分析</a>
+<a href="20250813.html" class="sidebar-item"><span class="date">2025年08月13日</span> 20250813_1秒収納_細貝由佳理様_no457_分析</a>
+<a href="20250812.html" class="sidebar-item"><span class="date">2025年08月12日</span> 20250812_1秒収納_三木久子様_no445_分析</a>
+<a href="20250811.html" class="sidebar-item"><span class="date">2025年08月11日</span> 20250811_1秒収納_久留嶋洋子様_no451_分析</a>
+<a href="20250811-f53168f114c3.html" class="sidebar-item"><span class="date">2025年08月11日</span> 20250811_1秒収納_吉田理沙様_no455_分析</a>
+<a href="20250810.html" class="sidebar-item"><span class="date">2025年08月10日</span> 20250810_1秒収納_駒村千賀子様_no449_分析</a>
+<a href="20250809.html" class="sidebar-item"><span class="date">2025年08月09日</span> 20250809_1秒収納_三浦知美様_no402_分析</a>
+<a href="20250809-f75c281842ee.html" class="sidebar-item"><span class="date">2025年08月09日</span> 20250809_1秒収納_中谷寿美代様_no431_分析</a>
+<a href="20250808.html" class="sidebar-item"><span class="date">2025年08月08日</span> 20250808_1秒収納_城戸比加里様_no386_分析</a>
+<a href="20250807.html" class="sidebar-item"><span class="date">2025年08月07日</span> 20250807_1秒収納_小野美貴様_no412_分析</a>
+<a href="20250807-ca073177d80f.html" class="sidebar-item"><span class="date">2025年08月07日</span> 20250807_1秒収納_鈴木貴子様_no423_分析</a>
+<a href="20250806.html" class="sidebar-item"><span class="date">2025年08月06日</span> 20250806_1秒収納_堤喜子様_no420_分析</a>
+<a href="20250805.html" class="sidebar-item"><span class="date">2025年08月05日</span> 20250805_1秒収納_北原咲恵様_no437_分析</a>
+<a href="20250803.html" class="sidebar-item"><span class="date">2025年08月03日</span> 20250803_1秒収納_大塚和恵様_no407_分析</a>
+<a href="20250731.html" class="sidebar-item"><span class="date">2025年07月31日</span> 20250731_1秒収納_内木文菜様_no391_分析</a>
+<a href="20250729.html" class="sidebar-item"><span class="date">2025年07月29日</span> 20250729_1秒収納_中島スミエ様_no394_分析</a>
+<a href="20250728.html" class="sidebar-item"><span class="date">2025年07月28日</span> 20250728_1秒収納_すずきめぐみ様_no388_分析</a>
+<a href="20250728-f939efb28713.html" class="sidebar-item"><span class="date">2025年07月28日</span> 20250728_1秒収納_木村美穂様_no393_分析</a>
+<a href="20250727.html" class="sidebar-item"><span class="date">2025年07月27日</span> 20250727_1秒収納_吉筋由香利様_no392_分析</a>
+<a href="20250727-221a717ae44c.html" class="sidebar-item"><span class="date">2025年07月27日</span> 20250727_1秒収納_日比はるみ様_no384_分析</a>
+<a href="20250727-bae5c10c4285.html" class="sidebar-item"><span class="date">2025年07月27日</span> 20250727_1秒収納_福井淑子様_no390_分析</a>
+<a href="20250726.html" class="sidebar-item"><span class="date">2025年07月26日</span> 20250726_1秒収納_吉木様_no372_分析</a>
+<a href="20250726-a56256f0e6a4.html" class="sidebar-item"><span class="date">2025年07月26日</span> 20250726_1秒収納_寺岡幸恵様_no383_分析</a>
+<a href="20250725.html" class="sidebar-item"><span class="date">2025年07月25日</span> 20250725_1秒収納_仲邑順子様_no382_分析</a>
+<a href="20250724.html" class="sidebar-item"><span class="date">2025年07月24日</span> 20250724_1秒収納_浅岡沙織様_no389_分析</a>
+<a href="20250721.html" class="sidebar-item"><span class="date">2025年07月21日</span> 20250721_1秒収納_藤原亜由果様_no368_分析</a>
+<a href="20250717.html" class="sidebar-item"><span class="date">2025年07月17日</span> 20250717_1秒収納_黒宮なおこ様_no371_分析</a>
+<a href="20250716.html" class="sidebar-item"><span class="date">2025年07月16日</span> 20250716_1秒収納_小坂康子様_no344_分析</a>
+<a href="20250713.html" class="sidebar-item"><span class="date">2025年07月13日</span> 20250713_1秒収納_水野裕子様_no339_分析</a>
+<a href="20250713-8c31e77d7b16.html" class="sidebar-item"><span class="date">2025年07月13日</span> 20250713_1秒収納_田村様_no303_分析</a>
+<a href="20250712.html" class="sidebar-item"><span class="date">2025年07月12日</span> 20250712_1秒収納_鈴木里奈様_no343_分析</a>
+<a href="20250708.html" class="sidebar-item"><span class="date">2025年07月08日</span> 20250708_1秒収納_佐々木ゆい様_no337_分析</a>
+<a href="20250707.html" class="sidebar-item"><span class="date">2025年07月07日</span> 20250707_1秒収納_羽鳥幸子様_no334_分析</a>
+<a href="20250707-47d48b703463.html" class="sidebar-item"><span class="date">2025年07月07日</span> 20250707_1秒収納_関口美和様_no346_分析</a>
+<a href="20250706.html" class="sidebar-item"><span class="date">2025年07月06日</span> 20250706_1秒収納_安部千鶴子様_no331_分析</a>
+<a href="20250705.html" class="sidebar-item"><span class="date">2025年07月05日</span> 20250705_1秒収納_森本泰子様_no332_分析</a>
+<a href="20250630.html" class="sidebar-item"><span class="date">2025年06月30日</span> 20250630_1秒収納_原美幸様_no292_分析</a>
+<a href="20250625.html" class="sidebar-item"><span class="date">2025年06月25日</span> 20250625_1秒収納_名取昌子様_no314_分析</a>
+<a href="20250624.html" class="sidebar-item"><span class="date">2025年06月24日</span> 20250624_1秒収納_KanaiKishinami様_no319_分析</a>
+<a href="20250624-3180841cc350.html" class="sidebar-item"><span class="date">2025年06月24日</span> 20250624_1秒収納_掬池晶子様_no282_分析</a>
+<a href="20250623.html" class="sidebar-item"><span class="date">2025年06月23日</span> 20250623_1秒収納_吉川真由子様_no271_分析</a>
+<a href="20250623-1158e5b57787.html" class="sidebar-item"><span class="date">2025年06月23日</span> 20250623_1秒収納_関屋美保子様_no320_分析</a>
+<a href="20250622.html" class="sidebar-item"><span class="date">2025年06月22日</span> 20250622_1秒収納_谷野朋江様_no311_分析</a>
+<a href="20250620.html" class="sidebar-item"><span class="date">2025年06月20日</span> 20250620_1秒収納_大久保由美子様_no298_分析</a>
+<a href="20250619.html" class="sidebar-item"><span class="date">2025年06月19日</span> 20250619_1秒収納_堂処悦子様_no307_分析</a>
+<a href="20250617.html" class="sidebar-item"><span class="date">2025年06月17日</span> 20250617_1秒収納_小針奈津子様_no288_分析</a>
+<a href="20250617-07df0b07d715.html" class="sidebar-item"><span class="date">2025年06月17日</span> 20250617_1秒収納_朝倉友見様_no302_分析</a>
+<a href="20250616.html" class="sidebar-item"><span class="date">2025年06月16日</span> 20250616_1秒収納_草苅真弓様_no276_分析</a>
+<a href="20250616-c4c064a68c3c.html" class="sidebar-item"><span class="date">2025年06月16日</span> 20250616_1秒収納_野沢智美様_no278_分析</a>
+<a href="20250615.html" class="sidebar-item"><span class="date">2025年06月15日</span> 20250615_1秒収納_あまみ梨沙様_no290_分析</a>
+<a href="20250613.html" class="sidebar-item"><span class="date">2025年06月13日</span> 20250613_1秒収納_松下みくに様_no268_分析</a>
+<a href="20250612.html" class="sidebar-item"><span class="date">2025年06月12日</span> 20250612_1秒収納_斉藤あや様_no263_分析</a>
+<a href="20250611.html" class="sidebar-item"><span class="date">2025年06月11日</span> 20250611_1秒収納_折尾美和様_no265_分析</a>
+<a href="20250611-f27ac0bdb4ae.html" class="sidebar-item"><span class="date">2025年06月11日</span> 20250611_1秒収納_福井真理子様_no257_分析</a>
+<a href="20250610.html" class="sidebar-item"><span class="date">2025年06月10日</span> 20250610_1秒収納_屋比久優子様_no281_分析</a>
+<a href="20250609.html" class="sidebar-item"><span class="date">2025年06月09日</span> 20250609_1秒収納_小野寺彩様_no264_分析</a>
+<a href="20250606.html" class="sidebar-item"><span class="date">2025年06月06日</span> 20250606_1秒収納_今村麻衣様_no259_分析</a>
+<a href="20250605.html" class="sidebar-item"><span class="date">2025年06月05日</span> 20250605_1秒収納_冨野世示子様_no252_分析</a>
+<a href="20250604.html" class="sidebar-item"><span class="date">2025年06月04日</span> 20250604_1秒収納_わたなべみやこ様_no258_分析</a>
+<a href="20250603.html" class="sidebar-item"><span class="date">2025年06月03日</span> 20250603_1秒収納_佐々木悦子様_no246_分析</a>
+<a href="20250603-e395b2bed6a4.html" class="sidebar-item"><span class="date">2025年06月03日</span> 20250603_1秒収納_松原瑞恵様_no253_分析</a>
+<a href="20250531.html" class="sidebar-item"><span class="date">2025年05月31日</span> 20250531_1秒収納_前田綾様_no244_分析</a>
+<a href="20250531-7f3e49fca731.html" class="sidebar-item"><span class="date">2025年05月31日</span> 20250531_1秒収納_木村美子様_no247_分析</a>
+<a href="20250531-0cf9790eea41.html" class="sidebar-item"><span class="date">2025年05月31日</span> 20250531_1秒収納_礒村円香様_no227_分析</a>
+<a href="20250530.html" class="sidebar-item"><span class="date">2025年05月30日</span> 20250530_1秒収納_宇佐見詩子様_no229_分析</a>
+<a href="20250528.html" class="sidebar-item"><span class="date">2025年05月28日</span> 20250528_1秒収納_佐藤恵里奈様_no240_分析</a>
+<a href="20250524.html" class="sidebar-item"><span class="date">2025年05月24日</span> 20250524_1秒収納_細谷直美様_no218_分析</a>
+<a href="20250523.html" class="sidebar-item"><span class="date">2025年05月23日</span> 20250523_1秒収納_寺岡香里様_no228_分析</a>
+<a href="20250523-4158a4bfa494.html" class="sidebar-item"><span class="date">2025年05月23日</span> 20250523_1秒収納_小林みさき様_no206_分析</a>
+<a href="20250523-dc9fdc9ab56a.html" class="sidebar-item"><span class="date">2025年05月23日</span> 20250523_1秒収納_岩佐圭子様_no221_分析</a>
+<a href="20250522.html" class="sidebar-item"><span class="date">2025年05月22日</span> 20250522_1秒収納_塚田亮子様_no173_分析</a>
+<a href="20250521.html" class="sidebar-item"><span class="date">2025年05月21日</span> 20250521_1秒収納_濱野梢様_no211_分析</a>
+<a href="20250521-b14734c99da3.html" class="sidebar-item"><span class="date">2025年05月21日</span> 20250521_1秒収納_見付和代様_no183_分析</a>
+<a href="20250520.html" class="sidebar-item"><span class="date">2025年05月20日</span> 20250520_1秒収納_壽賀葉子様_no188_分析</a>
+<a href="20250519.html" class="sidebar-item"><span class="date">2025年05月19日</span> 20250519_1秒収納_山田良美様_no179_分析</a>
+<a href="20250519-dc6391e2bdac.html" class="sidebar-item"><span class="date">2025年05月19日</span> 20250519_1秒収納_斉藤衣里様_no209_分析</a>
+<a href="20250519-8e63db8223dc.html" class="sidebar-item"><span class="date">2025年05月19日</span> 20250519_1秒収納_高山めぐみ様_no207_分析</a>
+<a href="20250517.html" class="sidebar-item"><span class="date">2025年05月17日</span> 20250517_1秒収納_山田百絵様_no212_分析</a>
+<a href="20250516.html" class="sidebar-item"><span class="date">2025年05月16日</span> 20250516_1秒収納_土田ミチル様_no192_分析</a>
+<a href="20250514.html" class="sidebar-item"><span class="date">2025年05月14日</span> 20250514_1秒収納_山下奈津子様_no199_分析</a>
+<a href="20250514-8c3a467b370f.html" class="sidebar-item"><span class="date">2025年05月14日</span> 20250514_1秒収納_磯山史子様_no202_分析</a>
+<a href="20250514-8e1c3fd2283b.html" class="sidebar-item"><span class="date">2025年05月14日</span> 20250514_1秒収納_関春子様_no175_分析</a>
+<a href="20250512.html" class="sidebar-item"><span class="date">2025年05月12日</span> 20250512_1秒収納_金澤めぐみ様_no163_分析</a>
+<a href="20250510.html" class="sidebar-item"><span class="date">2025年05月10日</span> 20250510_1秒収納_野田ともみ様_no182_分析</a>
+<a href="20250509.html" class="sidebar-item"><span class="date">2025年05月09日</span> 20250509_1秒収納_星洋恵様_no185_分析</a>
+<a href="20250509-704214c1bd9c.html" class="sidebar-item"><span class="date">2025年05月09日</span> 20250509_1秒収納_木村浩子様_no152_分析</a>
+<a href="20250509-3dc947884fb0.html" class="sidebar-item"><span class="date">2025年05月09日</span> 20250509_1秒収納_芝英子様_no157_分析</a>
+<a href="20250507.html" class="sidebar-item"><span class="date">2025年05月07日</span> 20250507_1秒収納_鈴木美奈子様_no55_分析</a>
+<a href="20250507-c12717a752b7.html" class="sidebar-item"><span class="date">2025年05月07日</span> 20250507_1秒収納_飯田みどり様_no74_分析</a>
+<a href="20250505.html" class="sidebar-item"><span class="date">2025年05月05日</span> 20250505_1秒収納_米田真由美様_no167_分析</a>
+<a href="20250501.html" class="sidebar-item"><span class="date">2025年05月01日</span> 20250501_1秒収納_YumikoLee様_no159_分析</a>
+<a href="20250501-6b29ad610949.html" class="sidebar-item"><span class="date">2025年05月01日</span> 20250501_1秒収納_宮田清美様_no140_分析</a>
+<a href="20250430.html" class="sidebar-item"><span class="date">2025年04月30日</span> 20250430_1秒収納_弘津由実様_no33_分析</a>
+<a href="20250429.html" class="sidebar-item"><span class="date">2025年04月29日</span> 20250429_1秒収納_西江恭子様_no148_分析</a>
+<a href="20250428.html" class="sidebar-item"><span class="date">2025年04月28日</span> 20250428_1秒収納_西村麻奈美様_no78_分析</a>
+<a href="20250428-2d273f7db197.html" class="sidebar-item"><span class="date">2025年04月28日</span> 20250428_1秒収納_阿部利美様_no83_分析</a>
+<a href="20250427.html" class="sidebar-item"><span class="date">2025年04月27日</span> 20250427_1秒収納_松尾松子様_no130_分析</a>
+<a href="20250427-a414f1c70b79.html" class="sidebar-item"><span class="date">2025年04月27日</span> 20250427_1秒収納_角田仁子様_no90_分析</a>
+<a href="20250425.html" class="sidebar-item"><span class="date">2025年04月25日</span> 20250425_1秒収納_吾妻尚美様_no129_分析</a>
+<a href="20250425-56176d610d20.html" class="sidebar-item"><span class="date">2025年04月25日</span> 20250425_1秒収納_岡本こずえ様_no75_分析</a>
+<a href="20250425-30daab354a0f.html" class="sidebar-item"><span class="date">2025年04月25日</span> 20250425_1秒収納_松崎智子様_no126_分析</a>
+<a href="20250424.html" class="sidebar-item"><span class="date">2025年04月24日</span> 20250424_1秒収納_中家章子様_no119_分析</a>
+<a href="20250424-3cd59082945e.html" class="sidebar-item"><span class="date">2025年04月24日</span> 20250424_1秒収納_丸山幸子様_no104_分析</a>
+<a href="20250424-6b1afb8678a3.html" class="sidebar-item"><span class="date">2025年04月24日</span> 20250424_1秒収納_久保田寛子様_no79_分析</a>
+<a href="20250424-4bbc281ba659.html" class="sidebar-item"><span class="date">2025年04月24日</span> 20250424_1秒収納_西浦鈴江様_no87_分析</a>
+<a href="20250422.html" class="sidebar-item"><span class="date">2025年04月22日</span> 20250422_1秒収納_松場由季様_no111_分析</a>
+<a href="20250421.html" class="sidebar-item"><span class="date">2025年04月21日</span> 20250421_1秒収納_山本佳代子様_no64_分析</a>
+<a href="20250421-4724f037d054.html" class="sidebar-item"><span class="date">2025年04月21日</span> 20250421_1秒収納_石田朋恵様_no117_分析</a>
+<a href="20250421-65679a0d76da.html" class="sidebar-item"><span class="date">2025年04月21日</span> 20250421_1秒収納_若松佳織様_no114_分析</a>
+<a href="20250420.html" class="sidebar-item"><span class="date">2025年04月20日</span> 20250420_1秒収納_三好恵美子様_no106_分析</a>
+<a href="20250420-1f1eb4891a99.html" class="sidebar-item"><span class="date">2025年04月20日</span> 20250420_1秒収納_岡田朋愛様_no123_分析</a>
+<a href="20250420-73619fe12064.html" class="sidebar-item"><span class="date">2025年04月20日</span> 20250420_1秒収納_杉山響子様_no86_分析</a>
+<a href="20250419.html" class="sidebar-item"><span class="date">2025年04月19日</span> 20250419_1秒収納_熨斗麻智子様_no101_分析</a>
+<a href="20250417.html" class="sidebar-item"><span class="date">2025年04月17日</span> 20250417_1秒収納_山口亜紀子様_no14_分析</a>
+<a href="20250414.html" class="sidebar-item"><span class="date">2025年04月14日</span> 20250414_1秒収納_坂口みどり様_no18_分析</a>
+<a href="20250413.html" class="sidebar-item"><span class="date">2025年04月13日</span> 20250413_1秒収納_池松充美様_no88_分析</a>
+<a href="20250411.html" class="sidebar-item"><span class="date">2025年04月11日</span> 20250411_1秒収納_吉田伊砂美様_no80_分析</a>
+<a href="20250411-a9d6a74bccce.html" class="sidebar-item"><span class="date">2025年04月11日</span> 20250411_1秒収納_高橋圭子様_no69_分析</a>
+<a href="20250410.html" class="sidebar-item"><span class="date">2025年04月10日</span> 20250410_1秒収納_三輪智恵様_no40_分析</a>
+<a href="20250408.html" class="sidebar-item"><span class="date">2025年04月08日</span> 20250408_1秒収納_伊藤京子様_no63_分析</a>
+<a href="20250407.html" class="sidebar-item"><span class="date">2025年04月07日</span> 20250407_1秒収納_三原早苗様_no48_分析</a>
+<a href="20250406.html" class="sidebar-item"><span class="date">2025年04月06日</span> 20250406_1秒収納_大谷亜由美様_no41_分析</a>
+<a href="20250406-c3f30c70f886.html" class="sidebar-item"><span class="date">2025年04月06日</span> 20250406_1秒収納_矢澤正美様_no20_分析</a>
+<a href="20250406-f5f440405bc7.html" class="sidebar-item"><span class="date">2025年04月06日</span> 20250406_1秒収納_青木直美様_no56_分析</a>
+<a href="20250405.html" class="sidebar-item"><span class="date">2025年04月05日</span> 20250405_1秒収納_中島佐和子様_no15_分析</a>
+<a href="20250404.html" class="sidebar-item"><span class="date">2025年04月04日</span> 20250404_1秒収納_井上麻紀様_no46_分析</a>
+<a href="20250404-38aef96d8ca0.html" class="sidebar-item"><span class="date">2025年04月04日</span> 20250404_1秒収納_今村てる子様_no43_分析</a>
+<a href="20250401.html" class="sidebar-item"><span class="date">2025年04月01日</span> 20250401_1秒収納_太場祥子様_no38_分析</a>
+<a href="20250331.html" class="sidebar-item"><span class="date">2025年03月31日</span> 20250331_1秒収納_堀井美幸様_no21_分析</a>
+<a href="20250330.html" class="sidebar-item"><span class="date">2025年03月30日</span> 20250330_1秒収納_佐久間いつ子様_no6_分析</a>
+<a href="20250330-6207b447f351.html" class="sidebar-item"><span class="date">2025年03月30日</span> 20250330_1秒収納_新井優子様_no35_分析</a>
+<a href="20250328.html" class="sidebar-item"><span class="date">2025年03月28日</span> 20250328_1秒収納_田中由希恵様_no22_分析</a>
+<a href="20250328-91e43d2bce74.html" class="sidebar-item"><span class="date">2025年03月28日</span> 20250328_1秒収納_髙橋悦子様_no23_分析</a>
+<a href="20250327.html" class="sidebar-item"><span class="date">2025年03月27日</span> 20250327_1秒収納_伏見綾子様_no19_分析</a>
+<a href="20250327-e5a78451d6b5.html" class="sidebar-item"><span class="date">2025年03月27日</span> 20250327_1秒収納_合原香様_no28_分析</a>
+<a href="20250326.html" class="sidebar-item"><span class="date">2025年03月26日</span> 20250326_1秒収納_永森園子様_no16_分析</a>
+<a href="20250326-d7f344fd08f4.html" class="sidebar-item"><span class="date">2025年03月26日</span> 20250326_1秒収納_西田恵子様_no13_分析</a>
+<a href="20250325.html" class="sidebar-item"><span class="date">2025年03月25日</span> 20250325_1秒収納_中山智代美様_no5_分析</a>
+<a href="20250323.html" class="sidebar-item"><span class="date">2025年03月23日</span> 20250323_1秒収納_小國加代子様_no9_分析</a>
+<a href="20250318.html" class="sidebar-item"><span class="date">2025年03月18日</span> 20250318_1秒収納_山本ゆり様_no7_分析</a>
+<a href="20250316.html" class="sidebar-item"><span class="date">2025年03月16日</span> 20250316_1秒収納_田山則子様_no2_分析</a>
+<a href="20250313.html" class="sidebar-item"><span class="date">2025年03月13日</span> 20250313_1秒収納_澤田佳子様_no1_分析</a>
+<a href="20250115.html" class="sidebar-item"><span class="date">2025年01月15日</span> 20250115_1秒収納_中谷雅代様_no820_分析</a>
+<a href="20250109.html" class="sidebar-item"><span class="date">2025年01月09日</span> 20250109_1秒収納_大泉ルミ様_no810_分析</a>
+<a href="20250107.html" class="sidebar-item"><span class="date">2025年01月07日</span> 20250107_1秒収納_勝見あき様_no825_分析</a>
+<a href="20250107-4ddb48697542.html" class="sidebar-item"><span class="date">2025年01月07日</span> 20250107_1秒収納_金井彩様_no830_分析</a>
+<a href="20250106.html" class="sidebar-item"><span class="date">2025年01月06日</span> 20250106_1秒収納_中寿賀ゆい子様_no829_分析</a>
+<a href="20250106-5541ffa2841f.html" class="sidebar-item"><span class="date">2025年01月06日</span> 20250106_1秒収納_皆瀬雅美様_no827_分析</a>
+<a href="20250102.html" class="sidebar-item"><span class="date">2025年01月02日</span> 20250102_1秒収納_長橋和様_no789_分析</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>1秒収納 個別相談 高橋様 セールス分析</h1>
+<h2>このファイルの位置づけ</h2>
+<p>本ファイルは、1秒収納（中田りょうこ案件）の個別相談セールスを分析し、セールス担当者へのフィードバックを目的として作成したものです。</p>
+<p>原本: <code>21_プロジェクト一覧/中田りょうこ/YouTube書き起こし/1秒収納_個別_高橋様.md</code>（自動字幕・話者未整形）</p>
+<h2>基本情報</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客名</td>
+<td>高橋まき様（書き起こし上「まきさん」表記）</td>
+</tr>
+<tr>
+<td>日付</td>
+<td>2026年5月27日（支払い・契約は5月28日 8:30再開予定）</td>
+</tr>
+<tr>
+<td>セールス担当</td>
+<td>一喜弓緒（弓緒さん）</td>
+</tr>
+<tr>
+<td>結果</td>
+<td><strong>成約意向確定</strong>（当日は支払方法・分割で中断、翌朝再開）</td>
+</tr>
+<tr>
+<td>提示価格</td>
+<td>定価98万相当 → <strong>66万（カード分割）／60万（銀行振込一括）</strong></td>
+</tr>
+<tr>
+<td>顧客の価格感</td>
+<td>「50万程度」と想定。やや高いが覚悟あり</td>
+</tr>
+<tr>
+<td>支払い方法</td>
+<td>6回・12回分割を検討。30万×2回（6月・7月）案も提示</td>
+</tr>
+<tr>
+<td>セールス時間</td>
+<td>約2時間53分（13:00頃開始想定、14:00会社都合で一度中断→再開）</td>
+</tr>
+<tr>
+<td>動画URL</td>
+<td><a href="https://www.youtube.com/watch?v=AnbJjFyFASk" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=AnbJjFyFASk</a></td>
+</tr>
+</tbody>
+</table>
+<h2>顧客プロファイル</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>居住地</td>
+<td>広島県</td>
+</tr>
+<tr>
+<td>年齢</td>
+<td>推定40代前半</td>
+</tr>
+<tr>
+<td>職業</td>
+<td>会社員（フルタイム・在宅可）＋オンライン家庭教師（副業）</td>
+</tr>
+<tr>
+<td>家族構成</td>
+<td>夫・長女・次女（5月27日時点で下の子は小5相当、上は中学生手前）</td>
+</tr>
+<tr>
+<td>住居</td>
+<td>4LDK一戸建て（中古・築20年程度、リフォーム済み畳×フローリング）</td>
+</tr>
+<tr>
+<td>特性</td>
+<td>真面目・頑張り屋・完璧主義・長女気質。ADHD/発達の自覚あり。不正脈・頭痛</td>
+</tr>
+<tr>
+<td>過去投資</td>
+<td>コーチング（2025年1月〜1年）、1秒収納本購入、オンライン家庭教師講座、動物占い等</td>
+</tr>
+<tr>
+<td>動機</td>
+<td>20年以上の片付け悩み。潜在意識・コーチング経由で1秒収納に直感。自分を整えて人を支えたい</td>
+</tr>
+<tr>
+<td>最優先ゴール</td>
+<td>1階物置状態の小部屋を「自分の部屋」化。すっきりした気持ちで日々・パズル・お茶</td>
+</tr>
+</tbody>
+</table>
+<h2>まず読むべき結論</h2>
+<p><strong>超長尺・深掘り型の好例。ルームツアーと母親トラウマまで踏み込み、ビリーフ→イエスノー→価格まで運べた。成約直前の分割・時間切れは弓緒さんの定番リスク。</strong></p>
+<p>弓緒さんは共感・自己開示・心理面の整理が秀逸。顧客の「6割でいい（猿タイプ）」「呪い（さもなければ）」に刺さる言語化が成約意欲を押し上げた。課題は<strong>時間管理（14:00中断）</strong>と<strong>価格提示が長尺後半</strong>で、分割説明が翌日持ち越しになった点。総合 <strong>A-</strong>（成約確定後は <strong>A</strong> 想定）。</p>
+<hr />
+<h2>セールスの流れ分析</h2>
+<h3>1. ヒアリング・ラポール（冒頭〜15分）</h3>
+<p><strong>評価: A</strong></p>
+<p><strong>良かった点</strong></p>
+<ul>
+<li>広島・築10年・中古・子供妊娠中引っ越しなど、生活史から入り距離を縮めた。</li>
+<li>「真面目で頑張り屋」を「誠実」「他者優先の才能」に再定義し、顧客の抵抗（真面目に良い印象がない）を解除。</li>
+<li>「在宅こっそり」への肯定。副業＋本業の負荷を認めた。</li>
+</ul>
+<p><strong>引き出せた本音</strong></p>
+<ul>
+<li>「頑張ってるつもりないのに頑張り屋と言われる」</li>
+<li>「2025年副業開始→体調不良→手を出しすぎないよう1ヶ月前から調整」</li>
+<li>「片付けは結婚してから20年悩み。子供の頃は親が片付けていた」</li>
+</ul>
+<p><strong>課題</strong></p>
+<ul>
+<li>ヒアリングが長く、スライド前の雑談が15分超。長尺セールスでは許容範囲だが、時間制約がある日は要注意。</li>
+</ul>
+<hr />
+<h3>2. 自己開示・理念（15〜25分）</h3>
+<p><strong>評価: A</strong></p>
+<ul>
+<li>弓緒さんの60歳・独身・親の施設入所・実家探し苦労のストーリーが、広島在住・実家経験のある顧客に刺さる。</li>
+<li>「一生片付けに困らない人に」ミッションを自然に接続。</li>
+<li>ビリーフノート（頭と心の不一致）への橋渡しが早い。</li>
+</ul>
+<hr />
+<h3>3. 現状ヒアリング・ルームツアー（20〜45分）</h3>
+<p><strong>評価: A+</strong></p>
+<p><strong>良かった点</strong></p>
+<ul>
+<li>4LDK各所（玄関・トイレ・洗面・キッチン・リビング・畳）を具体的に聞き取り。</li>
+<li><strong>Zoomルームツアー</strong>でリビング・物置部屋・2階子供部屋・夫のゲーム/キャンプ・漫画コーナーまで確認。</li>
+<li>「物置部屋を自分の部屋に」という顧客の最優先を特定し、後のクロージングで「お城化」「エアコン」まで接続。</li>
+<li>オープン棚・床置きを「隠すよりオープンが正解」と肯定（夫・娘の批判への防御を下げた）。</li>
+</ul>
+<p><strong>マニュアル照合</strong></p>
+<ul>
+<li>⑧（損失の金額化）は弱めだが、<strong>子供の勉強環境（ベネッセ7割）</strong>で補強。</li>
+<li>仕組み化・太陽（主婦）の同線設計はマニュアルどおり。</li>
+</ul>
+<p><strong>課題</strong></p>
+<ul>
+<li>ルームツアーが40分超。視覚情報は成約に効くが、14:00の予定があった当日はリスクだった。</li>
+</ul>
+<hr />
+<h3>4. 心理・家族・過去（45〜90分）</h3>
+<p><strong>評価: A</strong></p>
+<p><strong>良かった点</strong></p>
+<ul>
+<li>母親の完璧主義・怒られ・工作を捨てられた<strong>未完了の思い</strong>を丁寧に言語化。</li>
+<li>「さもなければ悪いことが起きる」＝<strong>条件付き呪い</strong>として解釈し、「バチは当たらない」と明示的に解呪。</li>
+<li>弟への不公平感・長女プレッシャー・夫婦（夫が強い・離婚寸前だった）まで深掘り。</li>
+<li>不正脈・頭痛・コーチングでの考えすぎと<strong>体調</strong>を本音の悩みとして扱った。</li>
+<li>「6割でいい（猿）」の再確認。2025年末のコーチング助言と整合。</li>
+</ul>
+<p><strong>改善点</strong></p>
+<ul>
+<li>心理パートが45分級。セールスとしては強いが、時間制約日は「1テーマに絞る」調整余地あり。</li>
+<li>⑧の金額化（月3万ムダ・年36万）への接続は後半。もう少し早く触れてもよかった。</li>
+</ul>
+<hr />
+<h3>5. 講座説明・イエスノー・ビリーフ（90〜120分）</h3>
+<p><strong>評価: A-</strong></p>
+<ul>
+<li>3ステップ・95%潜在意識・ビリーフ書き換えの説明は体系立っている。</li>
+<li><strong>イエスノー12問中9問イエス</strong>→「重度の片付け苦手さん」と正直に伝え、安心材料（講師も元苦手）を添えた。</li>
+<li>Before/After写真・受講生動画（夫婦関係改善）が、コーチング経験者のまきさんに刺さった（「やっぱりそうなんだ」）。</li>
+</ul>
+<p><strong>課題</strong></p>
+<ul>
+<li>講座パック説明（11サポート）が15分圧縮でも密度高く、14:00再開後さらに長引いた。</li>
+<li>スライド共有の切替トラブル（スマホ縦ロック等）が数回。落ち着いて対応できているが、顧客の集中を削る要因。</li>
+</ul>
+<hr />
+<h3>6. 価格提示・クロージング（120分〜）</h3>
+<p><strong>評価: B+</strong></p>
+<p><strong>提示価格</strong>: 66万／<strong>60万振込</strong></p>
+<p><strong>良かった点</strong></p>
+<ul>
+<li>80万以下と事前フリ。コーチング相場との比較を顧客側から出てきた。</li>
+<li>「プロに習うしかない」「1人では無理」は顧客の口から。弓緒さんは押し付けずに受け止めた。</li>
+<li><strong>7月生・6月先行特典</strong>（ルームツアー2万補助、ウェルカムコンサル、ステ片付け先行）で具体化。</li>
+<li>成約意志を確認。「もう決めてる。方法だけ」と明言させた。</li>
+</ul>
+<p><strong>課題（重要）</strong></p>
+<ul>
+<li><strong>14:00で一度中断</strong>。再開後も価格・分割・特典・動画と情報過多。</li>
+<li>顧客想定50万 vs 60万で「ちょっと大きい」。6回・12回分割の<strong>具体金額</strong>を当日中に確定できず、<strong>翌日8:30再開</strong>。</li>
+<li>DS成約（即決振込）ではなく、<strong>翌日クロージング</strong>。長尺＋副業セールスあるある。</li>
+</ul>
+<p><strong>改善トーク例（分割）</strong></p>
+<pre><code>「60万一括が難しければ、6月・7月に30万ずつ振込でも一括扱いにできます。
+ カードなら6回だと1回11万、12回だと5.5万程度です。
+ どちらが家計の負担が読みやすいですか？」
+</code></pre>
+<hr />
+<h2>チェックリスト（1秒収納セールス）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>判定</th>
+<th>コメント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① アイスブレイク</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>広島・在宅・子供</td>
+</tr>
+<tr>
+<td>② ヒアリング深さ</td>
+<td>◎</td>
+<td>20年悩み・家族・体調</td>
+</tr>
+<tr>
+<td>③ ラポール</td>
+<td>◎</td>
+<td>共感・解呪・自己開示</td>
+</tr>
+<tr>
+<td>④ ミッション共有</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>理念3つ</td>
+</tr>
+<tr>
+<td>⑤ ビリーフ</td>
+<td>◎</td>
+<td>呪い・未完了・95%</td>
+</tr>
+<tr>
+<td>⑥ イエスノー</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>9/12実施</td>
+</tr>
+<tr>
+<td>⑦ Before/After</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>写真＋動画</td>
+</tr>
+<tr>
+<td>⑧ 損失金額化</td>
+<td><span class="eval eval-warn">△</span></td>
+<td>月3万は後半</td>
+</tr>
+<tr>
+<td>⑨ 講座説明</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>11サポート（長い）</td>
+</tr>
+<tr>
+<td>⑩ 価格提示</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>60/66万</td>
+</tr>
+<tr>
+<td>⑪ クロージング</td>
+<td><span class="eval eval-warn">△</span></td>
+<td>翌日持ち越し</td>
+</tr>
+<tr>
+<td>⑫ 反論処理</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>50万想定・分割</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>良かった点（担当者へ）</h2>
+<ol>
+<li>
+<p><strong>心理セールスの型が成熟している</strong><br />
+   「さもなければ」「知った」「6割」など、顧客の言葉をそのままビリーフとして返し、解呪まで一気通貫。</p>
+</li>
+<li>
+<p><strong>ルームツアーの活用</strong><br />
+   物置部屋・畳リビング・夫の趣味部屋を見た上で「お城化」「エアコン」を具体提案。成約動機と直結。</p>
+</li>
+<li>
+<p><strong>コーチング経験者への接続</strong><br />
+   潜在意識・書き換えの話を否定せず、「1秒収納は実践付き」と差別化。受講生動画で「コーチングだけでは変わらなかった」層に訴求。</p>
+</li>
+<li>
+<p><strong>時間切れ直前の誠実さ</strong><br />
+   14:00を過ぎても押し切らず、翌日8:30を確約。Trust維持。</p>
+</li>
+<li>
+<p><strong>先行特典の使い方</strong><br />
+   ルームツアー2万・横浜を「楽しみ」として提示。広島からの交通費補助は決定率向上に有効。</p>
+</li>
+</ol>
+<hr />
+<h2>改善点（次回への具体策）</h2>
+<ol>
+<li>
+<p><strong>時間ブロックの事前確認</strong><br />
+   冒頭で「本日14:00までに価格まで到達したい。13:30に一度進捗確認します」と合意。長尺でも中間チェック。</p>
+</li>
+<li>
+<p><strong>価格提示を90分付近に前倒し</strong><br />
+   ルームツアー＋心理1テーマに絞り、120分以降はクロージング専用に。</p>
+</li>
+<li>
+<p><strong>分割表をスライド1枚で常備</strong><br />
+   6回・12回・30万×2の月額を数字で見せ、翌日持ち越しを減らす。</p>
+</li>
+<li>
+<p><strong>「ちょっと高い」への即応</strong><br />
+   50万想定を聞いたら：「60万一括で6ヶ月サポート＋一生サポート。月あたり1万の投資で家計36万ムダを止める」等、⑧とセットで返す。</p>
+</li>
+<li>
+<p><strong>Chatwork【アップ完了】の徹底</strong><br />
+   本件は検知できたが、Studio上の他7本は未投稿の可能性。パートナーへ命名規則付き投稿を依頼。</p>
+</li>
+</ol>
+<hr />
+<h2>改善トーク例</h2>
+<p><strong>50万想定への返し</strong></p>
+<pre><code>「50万前後でお考えだったんですね。60万は確かに上振れです。
+ ただ、コーチング1年と違って、お家の中で毎週手を動かす伴走と、
+ 5ヶ月後もリバウンドしない設計がセットになっています。
+ 月に換算すると1万で、先ほどお話しした家計のムダ3万を止めるだけでも
+ 20ヶ月で元が取れる計算です。分割なら月5万台からも選べます。」
+</code></pre>
+<p><strong>14:00前の切り上げ</strong></p>
+<pre><code>「まきさん、14:00までに一度区切りましょう。
+ 今日はここまでのお話で、もう『プロに習う』方向でほぼ決まっていますよね。
+ 残りはお支払い方法だけなので、5分で選択肢をお見せして、
+ 難しければ明日朝8:30に10分だけつなぎましょう。」
+</code></pre>
+<hr />
+<h2>担当者フィードバック（弓緒さん）</h2>
+<p><strong>強み</strong>: 長尺でも離脱させない共感力。ビリーフ・解呪・ルームツアーの三拍子。コーチング経験者・高学歴層への語彙適合。</p>
+<p><strong>癖</strong>: 話が厚くなりすぎると価格・契約が翌日に。分割数字の提示が遅い。</p>
+<p><strong>次回の一手</strong>: タイムボックス＋価格前倒し。成約は取れているので、<strong>翌朝8:30は契約書読み合わせ5分→振込 or 分割即決</strong>に短縮。</p>
+<hr />
+<h2>次のアクション</h2>
+<table>
+<thead>
+<tr>
+<th>担当</th>
+<th>アクション</th>
+<th>期限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>弓緒さん</td>
+<td>5/28 8:30 再開。6回/12回/30万×2のいずれか確定・契約</td>
+<td>5/28</td>
+</tr>
+<tr>
+<td>事務</td>
+<td>7月生登録・先行特典（6月ステ片付け）手配</td>
+<td>成約確定後</td>
+</tr>
+<tr>
+<td>パイプライン</td>
+<td>Chatwork投稿漏れ7本の video_id をCSVへ</td>
+<td>随時</td>
+</tr>
+<tr>
+<td>分析</td>
+<td>成約確定後「保留→成約」で更新履歴追記</td>
+<td>5/28後</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>マニュアル照合・還流提案</h2>
+<p><strong>還流候補（マニュアル_1秒収納セールス.md）</strong></p>
+<ul>
+<li>
+<p>2026-06-02 追記（出典: 分析20260527_高橋様_弓緒）<br />
+<strong>コーチング経験者向け</strong>: 「書き換えは既知。1秒収納はルームツアー＋物理作業＋伴走」。受講生動画で補強。</p>
+</li>
+<li>
+<p>2026-06-02 追記<br />
+<strong>「さもなければ悪いことが」＝条件付き呪い</strong>として解釈し、明示的解呪するトーク例。</p>
+</li>
+<li>
+<p>2026-06-02 追記<br />
+<strong>長尺（150分超）セールス</strong>: 90分で価格提示、14:00等の硬い制約は冒頭合意。</p>
+</li>
+</ul>
+<hr />
+<h2>更新履歴</h2>
+<ul>
+<li>2026-06-02: 初版作成（書き起こし自動取得分を分析。支払い確定前のため結果は「成約意向確定」）</li>
+</ul>
+</article>
+</main>
+</div>
+</body>
+</html>
