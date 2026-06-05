@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>山崎みなみ ホットペッパー セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（単一カラム型） ===== */
+.content { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.3rem 4rem; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+
+.idx-list { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+.idx-list li { margin: 0; }
+.idx-list a {
+  display: flex; align-items: baseline; gap: 0.9rem;
+  padding: 1rem 1.1rem; margin-bottom: 0.6rem;
+  background: #fff; border: 1px solid var(--line); border-radius: 12px;
+  color: var(--ink); box-shadow: 0 2px 8px rgba(24,155,125,0.05);
+}
+.idx-list a:hover { border-color: var(--main); text-decoration: none; transform: translateY(-1px); transition: .15s; }
+.idx-list .date { flex: 0 0 auto; font-size: 0.85rem; color: var(--main); font-weight: 700; }
+.idx-list .ttl { flex: 1 1 auto; font-weight: 600; }
+</style>
+</head>
+<body>
+<main class="content">
+<article class="article">
+<h1>山崎みなみ ホットペッパー セールス分析</h1>
+<ul class="idx-list">
+<li><a href="20260604.html"><span class="date">2026年06月04日</span><span class="ttl">20260604_竹綱紀予_三納_分析</span></a></li>
+<li><a href="20260602.html"><span class="date">2026年06月02日</span><span class="ttl">20260602_尾上恵美子_三納_分析</span></a></li>
+<li><a href="20260522.html"><span class="date">2026年05月22日</span><span class="ttl">20260522_岡村晴規_三納_分析</span></a></li>
+<li><a href="20260521.html"><span class="date">2026年05月21日</span><span class="ttl">20260521_松野絵里子_三納_分析</span></a></li>
+<li><a href="20260516.html"><span class="date">2026年05月16日</span><span class="ttl">20260516_高橋小百合_三納_分析</span></a></li>
+<li><a href="20260513.html"><span class="date">2026年05月13日</span><span class="ttl">20260513_内藤真奈美_穏永_分析</span></a></li>
+<li><a href="20260513-9b16275b81be.html"><span class="date">2026年05月13日</span><span class="ttl">20260513_粟谷清美_三納_分析</span></a></li>
+<li><a href="20260512.html"><span class="date">2026年05月12日</span><span class="ttl">20260512_渡辺美佳_三納_分析</span></a></li>
+<li><a href="20260509.html"><span class="date">2026年05月09日</span><span class="ttl">20260509_岩倉歩_三納_分析</span></a></li>
+<li><a href="20260502.html"><span class="date">2026年05月02日</span><span class="ttl">20260502_千原_三納_分析</span></a></li>
+<li><a href="20260502-dd136bcf1ad2.html"><span class="date">2026年05月02日</span><span class="ttl">20260502_長尾清香_三納_分析</span></a></li>
+<li><a href="20260425.html"><span class="date">2026年04月25日</span><span class="ttl">20260425_備前サトミ_三納_分析</span></a></li>
+<li><a href="20260423.html"><span class="date">2026年04月23日</span><span class="ttl">20260423_高岸真智子_三納_分析</span></a></li>
+<li><a href="20260422.html"><span class="date">2026年04月22日</span><span class="ttl">20260422_多村隆伸_三納_分析</span></a></li>
+<li><a href="20260327.html"><span class="date">2026年03月27日</span><span class="ttl">20260327_渡辺鮎里_三納_分析</span></a></li>
+<li><a href="20260324.html"><span class="date">2026年03月24日</span><span class="ttl">20260324_吉岡悟志_三納_分析</span></a></li>
+<li><a href="20260318.html"><span class="date">2026年03月18日</span><span class="ttl">20260318_岩崎聡子_三納_分析</span></a></li>
+<li><a href="20260312.html"><span class="date">2026年03月12日</span><span class="ttl">20260312_岡崎典子_三納_分析</span></a></li>
+<li><a href="20260311.html"><span class="date">2026年03月11日</span><span class="ttl">20260311_酒井摩耶_三納_分析</span></a></li>
+<li><a href="20260307.html"><span class="date">2026年03月07日</span><span class="ttl">20260307_木野朋子_三納_分析</span></a></li>
+<li><a href="20260306.html"><span class="date">2026年03月06日</span><span class="ttl">20260306_川元奈々_三納_分析</span></a></li>
+<li><a href="20260219.html"><span class="date">2026年02月19日</span><span class="ttl">20260219_福田眞_三納_分析</span></a></li>
+<li><a href="20260218.html"><span class="date">2026年02月18日</span><span class="ttl">20260218_中野はるか_三納_分析</span></a></li>
+<li><a href="20260215.html"><span class="date">2026年02月15日</span><span class="ttl">20260215_仲嶺紀美代_三納_分析</span></a></li>
+<li><a href="20260214.html"><span class="date">2026年02月14日</span><span class="ttl">20260214_宰勲子_三納_分析</span></a></li>
+<li><a href="20260214-cac3204d0cc8.html"><span class="date">2026年02月14日</span><span class="ttl">20260214_須田_三納_分析</span></a></li>
+<li><a href="20260211.html"><span class="date">2026年02月11日</span><span class="ttl">20260211_町田真美子_三納_分析</span></a></li>
+<li><a href="20260210.html"><span class="date">2026年02月10日</span><span class="ttl">20260210_塩田昌輝_三納_分析</span></a></li>
+<li><a href="20260207.html"><span class="date">2026年02月07日</span><span class="ttl">20260207_樋口芳恵_三納_分析</span></a></li>
+<li><a href="20260205.html"><span class="date">2026年02月05日</span><span class="ttl">20260205_田中直美_三納_分析</span></a></li>
+<li><a href="20260131.html"><span class="date">2026年01月31日</span><span class="ttl">20260131_中野太郎_三納_分析</span></a></li>
+<li><a href="20260130.html"><span class="date">2026年01月30日</span><span class="ttl">20260130_嶌田菜美_三納_分析</span></a></li>
+<li><a href="20260130-c6329af30116.html"><span class="date">2026年01月30日</span><span class="ttl">20260130_長縄春香_三納_分析</span></a></li>
+<li><a href="20260128.html"><span class="date">2026年01月28日</span><span class="ttl">20260128_扇柳瑞樹_三納_分析</span></a></li>
+<li><a href="20260125.html"><span class="date">2026年01月25日</span><span class="ttl">20260125_伴あかね_三納_分析</span></a></li>
+<li><a href="20260124.html"><span class="date">2026年01月24日</span><span class="ttl">20260124_田村結_三納_分析</span></a></li>
+<li><a href="20260120.html"><span class="date">2026年01月20日</span><span class="ttl">20260120_鈴木映子_三納_分析</span></a></li>
+<li><a href="20260119.html"><span class="date">2026年01月19日</span><span class="ttl">20260119_向瀬雅子_三納_分析</span></a></li>
+<li><a href="20260108.html"><span class="date">2026年01月08日</span><span class="ttl">20260108_竹松直樹_三納_分析</span></a></li>
+<li><a href="20260107.html"><span class="date">2026年01月07日</span><span class="ttl">20260107_内田真理子_三納_分析</span></a></li>
+<li><a href="20260107-bd28e8c3f182.html"><span class="date">2026年01月07日</span><span class="ttl">20260107_橋本あきら（橋本秀樹）_成嶋_分析</span></a></li>
+<li><a href="20251228.html"><span class="date">2025年12月28日</span><span class="ttl">20251228_田中亜紀子_成嶋_分析</span></a></li>
+<li><a href="20251225.html"><span class="date">2025年12月25日</span><span class="ttl">20251225_春日流い_浜田_分析</span></a></li>
+<li><a href="20251224.html"><span class="date">2025年12月24日</span><span class="ttl">20251224_北川達郎_成嶋_分析</span></a></li>
+<li><a href="20251223.html"><span class="date">2025年12月23日</span><span class="ttl">20251223_池田いくこ_成嶋_分析</span></a></li>
+<li><a href="20251220.html"><span class="date">2025年12月20日</span><span class="ttl">20251220_藏本美奈子_三納_分析</span></a></li>
+<li><a href="20251219.html"><span class="date">2025年12月19日</span><span class="ttl">20251219_吉田ゆかり_三納_分析</span></a></li>
+<li><a href="20251219-494f207cb2ee.html"><span class="date">2025年12月19日</span><span class="ttl">20251219_藤田朋恵_三納_分析</span></a></li>
+<li><a href="20251216.html"><span class="date">2025年12月16日</span><span class="ttl">20251216_西村茂樹_三納_分析</span></a></li>
+<li><a href="20251210.html"><span class="date">2025年12月10日</span><span class="ttl">20251210_松田忠尚_三納_分析</span></a></li>
+<li><a href="20251209.html"><span class="date">2025年12月09日</span><span class="ttl">20251209_川澄あきこ_三納_分析</span></a></li>
+<li><a href="20251209-a26d63b84968.html"><span class="date">2025年12月09日</span><span class="ttl">20251209_本田千夏_三納_分析</span></a></li>
+<li><a href="20251204.html"><span class="date">2025年12月04日</span><span class="ttl">20251204_千葉裕子_三納_分析</span></a></li>
+<li><a href="20251203.html"><span class="date">2025年12月03日</span><span class="ttl">20251203_伊坂律子_三納_分析</span></a></li>
+<li><a href="20251203-c9c376e81099.html"><span class="date">2025年12月03日</span><span class="ttl">20251203_小野田晋也_三納_分析</span></a></li>
+<li><a href="20251203-44a8eae7f7c2.html"><span class="date">2025年12月03日</span><span class="ttl">20251203_山下祐司_三納_分析</span></a></li>
+<li><a href="20251128.html"><span class="date">2025年11月28日</span><span class="ttl">20251128_伊藤利枝_三納_分析</span></a></li>
+<li><a href="20251128-7ef257311066.html"><span class="date">2025年11月28日</span><span class="ttl">20251128_坂本敦子_三納_分析</span></a></li>
+<li><a href="20251127.html"><span class="date">2025年11月27日</span><span class="ttl">20251127_朝倉一美_三納_分析</span></a></li>
+<li><a href="20251127-a11e3e1b37b1.html"><span class="date">2025年11月27日</span><span class="ttl">20251127_稲田静美_三納_分析</span></a></li>
+<li><a href="20251126.html"><span class="date">2025年11月26日</span><span class="ttl">20251126_吉川友理_三納_分析</span></a></li>
+<li><a href="20251125.html"><span class="date">2025年11月25日</span><span class="ttl">20251125_諌山祐美_三納_分析</span></a></li>
+<li><a href="20251120.html"><span class="date">2025年11月20日</span><span class="ttl">20251120_山城一洋_三納_分析</span></a></li>
+<li><a href="20251119.html"><span class="date">2025年11月19日</span><span class="ttl">20251119_喜井由恵_山岡_分析</span></a></li>
+<li><a href="20251116.html"><span class="date">2025年11月16日</span><span class="ttl">20251116_永井裕也_三納_分析</span></a></li>
+<li><a href="20251025.html"><span class="date">2025年10月25日</span><span class="ttl">20251025_堀真人_三納_分析</span></a></li>
+<li><a href="20251017.html"><span class="date">2025年10月17日</span><span class="ttl">20251017_富盛よしえ_三納_分析</span></a></li>
+</ul>
+</article>
+</main>
+</body>
+</html>

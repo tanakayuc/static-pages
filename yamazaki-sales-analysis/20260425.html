@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260425_備前サトミ_三納_分析 - 山崎みなみ ホットペッパー セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>山崎みなみ ホットペッパー セールス分析</h3>
+<a href="20260604.html" class="sidebar-item"><span class="date">2026年06月04日</span> 20260604_竹綱紀予_三納_分析</a>
+<a href="20260602.html" class="sidebar-item"><span class="date">2026年06月02日</span> 20260602_尾上恵美子_三納_分析</a>
+<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_岡村晴規_三納_分析</a>
+<a href="20260521.html" class="sidebar-item"><span class="date">2026年05月21日</span> 20260521_松野絵里子_三納_分析</a>
+<a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_高橋小百合_三納_分析</a>
+<a href="20260513.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_内藤真奈美_穏永_分析</a>
+<a href="20260513-9b16275b81be.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_粟谷清美_三納_分析</a>
+<a href="20260512.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512_渡辺美佳_三納_分析</a>
+<a href="20260509.html" class="sidebar-item"><span class="date">2026年05月09日</span> 20260509_岩倉歩_三納_分析</a>
+<a href="20260502.html" class="sidebar-item"><span class="date">2026年05月02日</span> 20260502_千原_三納_分析</a>
+<a href="20260502-dd136bcf1ad2.html" class="sidebar-item"><span class="date">2026年05月02日</span> 20260502_長尾清香_三納_分析</a>
+<a href="20260425.html" class="sidebar-item active"><span class="date">2026年04月25日</span> 20260425_備前サトミ_三納_分析</a>
+<a href="20260423.html" class="sidebar-item"><span class="date">2026年04月23日</span> 20260423_高岸真智子_三納_分析</a>
+<a href="20260422.html" class="sidebar-item"><span class="date">2026年04月22日</span> 20260422_多村隆伸_三納_分析</a>
+<a href="20260327.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_渡辺鮎里_三納_分析</a>
+<a href="20260324.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_吉岡悟志_三納_分析</a>
+<a href="20260318.html" class="sidebar-item"><span class="date">2026年03月18日</span> 20260318_岩崎聡子_三納_分析</a>
+<a href="20260312.html" class="sidebar-item"><span class="date">2026年03月12日</span> 20260312_岡崎典子_三納_分析</a>
+<a href="20260311.html" class="sidebar-item"><span class="date">2026年03月11日</span> 20260311_酒井摩耶_三納_分析</a>
+<a href="20260307.html" class="sidebar-item"><span class="date">2026年03月07日</span> 20260307_木野朋子_三納_分析</a>
+<a href="20260306.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306_川元奈々_三納_分析</a>
+<a href="20260219.html" class="sidebar-item"><span class="date">2026年02月19日</span> 20260219_福田眞_三納_分析</a>
+<a href="20260218.html" class="sidebar-item"><span class="date">2026年02月18日</span> 20260218_中野はるか_三納_分析</a>
+<a href="20260215.html" class="sidebar-item"><span class="date">2026年02月15日</span> 20260215_仲嶺紀美代_三納_分析</a>
+<a href="20260214.html" class="sidebar-item"><span class="date">2026年02月14日</span> 20260214_宰勲子_三納_分析</a>
+<a href="20260214-cac3204d0cc8.html" class="sidebar-item"><span class="date">2026年02月14日</span> 20260214_須田_三納_分析</a>
+<a href="20260211.html" class="sidebar-item"><span class="date">2026年02月11日</span> 20260211_町田真美子_三納_分析</a>
+<a href="20260210.html" class="sidebar-item"><span class="date">2026年02月10日</span> 20260210_塩田昌輝_三納_分析</a>
+<a href="20260207.html" class="sidebar-item"><span class="date">2026年02月07日</span> 20260207_樋口芳恵_三納_分析</a>
+<a href="20260205.html" class="sidebar-item"><span class="date">2026年02月05日</span> 20260205_田中直美_三納_分析</a>
+<a href="20260131.html" class="sidebar-item"><span class="date">2026年01月31日</span> 20260131_中野太郎_三納_分析</a>
+<a href="20260130.html" class="sidebar-item"><span class="date">2026年01月30日</span> 20260130_嶌田菜美_三納_分析</a>
+<a href="20260130-c6329af30116.html" class="sidebar-item"><span class="date">2026年01月30日</span> 20260130_長縄春香_三納_分析</a>
+<a href="20260128.html" class="sidebar-item"><span class="date">2026年01月28日</span> 20260128_扇柳瑞樹_三納_分析</a>
+<a href="20260125.html" class="sidebar-item"><span class="date">2026年01月25日</span> 20260125_伴あかね_三納_分析</a>
+<a href="20260124.html" class="sidebar-item"><span class="date">2026年01月24日</span> 20260124_田村結_三納_分析</a>
+<a href="20260120.html" class="sidebar-item"><span class="date">2026年01月20日</span> 20260120_鈴木映子_三納_分析</a>
+<a href="20260119.html" class="sidebar-item"><span class="date">2026年01月19日</span> 20260119_向瀬雅子_三納_分析</a>
+<a href="20260108.html" class="sidebar-item"><span class="date">2026年01月08日</span> 20260108_竹松直樹_三納_分析</a>
+<a href="20260107.html" class="sidebar-item"><span class="date">2026年01月07日</span> 20260107_内田真理子_三納_分析</a>
+<a href="20260107-bd28e8c3f182.html" class="sidebar-item"><span class="date">2026年01月07日</span> 20260107_橋本あきら（橋本秀樹）_成嶋_分析</a>
+<a href="20251228.html" class="sidebar-item"><span class="date">2025年12月28日</span> 20251228_田中亜紀子_成嶋_分析</a>
+<a href="20251225.html" class="sidebar-item"><span class="date">2025年12月25日</span> 20251225_春日流い_浜田_分析</a>
+<a href="20251224.html" class="sidebar-item"><span class="date">2025年12月24日</span> 20251224_北川達郎_成嶋_分析</a>
+<a href="20251223.html" class="sidebar-item"><span class="date">2025年12月23日</span> 20251223_池田いくこ_成嶋_分析</a>
+<a href="20251220.html" class="sidebar-item"><span class="date">2025年12月20日</span> 20251220_藏本美奈子_三納_分析</a>
+<a href="20251219.html" class="sidebar-item"><span class="date">2025年12月19日</span> 20251219_吉田ゆかり_三納_分析</a>
+<a href="20251219-494f207cb2ee.html" class="sidebar-item"><span class="date">2025年12月19日</span> 20251219_藤田朋恵_三納_分析</a>
+<a href="20251216.html" class="sidebar-item"><span class="date">2025年12月16日</span> 20251216_西村茂樹_三納_分析</a>
+<a href="20251210.html" class="sidebar-item"><span class="date">2025年12月10日</span> 20251210_松田忠尚_三納_分析</a>
+<a href="20251209.html" class="sidebar-item"><span class="date">2025年12月09日</span> 20251209_川澄あきこ_三納_分析</a>
+<a href="20251209-a26d63b84968.html" class="sidebar-item"><span class="date">2025年12月09日</span> 20251209_本田千夏_三納_分析</a>
+<a href="20251204.html" class="sidebar-item"><span class="date">2025年12月04日</span> 20251204_千葉裕子_三納_分析</a>
+<a href="20251203.html" class="sidebar-item"><span class="date">2025年12月03日</span> 20251203_伊坂律子_三納_分析</a>
+<a href="20251203-c9c376e81099.html" class="sidebar-item"><span class="date">2025年12月03日</span> 20251203_小野田晋也_三納_分析</a>
+<a href="20251203-44a8eae7f7c2.html" class="sidebar-item"><span class="date">2025年12月03日</span> 20251203_山下祐司_三納_分析</a>
+<a href="20251128.html" class="sidebar-item"><span class="date">2025年11月28日</span> 20251128_伊藤利枝_三納_分析</a>
+<a href="20251128-7ef257311066.html" class="sidebar-item"><span class="date">2025年11月28日</span> 20251128_坂本敦子_三納_分析</a>
+<a href="20251127.html" class="sidebar-item"><span class="date">2025年11月27日</span> 20251127_朝倉一美_三納_分析</a>
+<a href="20251127-a11e3e1b37b1.html" class="sidebar-item"><span class="date">2025年11月27日</span> 20251127_稲田静美_三納_分析</a>
+<a href="20251126.html" class="sidebar-item"><span class="date">2025年11月26日</span> 20251126_吉川友理_三納_分析</a>
+<a href="20251125.html" class="sidebar-item"><span class="date">2025年11月25日</span> 20251125_諌山祐美_三納_分析</a>
+<a href="20251120.html" class="sidebar-item"><span class="date">2025年11月20日</span> 20251120_山城一洋_三納_分析</a>
+<a href="20251119.html" class="sidebar-item"><span class="date">2025年11月19日</span> 20251119_喜井由恵_山岡_分析</a>
+<a href="20251116.html" class="sidebar-item"><span class="date">2025年11月16日</span> 20251116_永井裕也_三納_分析</a>
+<a href="20251025.html" class="sidebar-item"><span class="date">2025年10月25日</span> 20251025_堀真人_三納_分析</a>
+<a href="20251017.html" class="sidebar-item"><span class="date">2025年10月17日</span> 20251017_富盛よしえ_三納_分析</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>セールス分析: 20260425 備前サトミ / 担当: 三納</h1>
+<h2>このファイルの位置づけ</h2>
+<p>セールス担当（三納）向けのフィードバック資料。個別説明会の書き起こしを、汎用17ステップ基準および山崎みなみ案件固有のセールスマニュアルと照合して分析したもの。</p>
+<h2>参照マニュアル一覧</h2>
+<ul>
+<li>knowledge/スキル別/セールス/汎用セールスフィードバック/03_個別面談17ステップ_解説参照.md</li>
+<li>knowledge/スキル別/セールス/汎用セールスフィードバック/02_汎用セールス分析テンプレート.md</li>
+<li>21_プロジェクト一覧/山崎みなみ/セールス/セールス分析/セールス分析フィードバック基準.md</li>
+<li>21_プロジェクト一覧/山崎みなみ/セールス/セールスマニュアル/個別説明会_セールス成功失敗マニュアル.md</li>
+<li>21_プロジェクト一覧/山崎みなみ/セールス/セールスマニュアル/質疑応答の理想回答集.md</li>
+<li>21_プロジェクト一覧/山崎みなみ/セールス/セールスマニュアル/セールス担当別_傾向とクセ.md</li>
+</ul>
+<h2>基本情報</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客</td>
+<td>備前サトミ</td>
+</tr>
+<tr>
+<td>面談日</td>
+<td>2026-04-25</td>
+</tr>
+<tr>
+<td>担当者</td>
+<td>三納</td>
+</tr>
+<tr>
+<td>フェーズ</td>
+<td>個別説明会</td>
+</tr>
+<tr>
+<td>結果</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+</tr>
+<tr>
+<td>支払い状況</td>
+<td>該当なし</td>
+</tr>
+<tr>
+<td>参加コース</td>
+<td>未記載</td>
+</tr>
+<tr>
+<td>購入金額</td>
+<td>未記載</td>
+</tr>
+<tr>
+<td>アーカイブ</td>
+<td><a href="https://vimeo.com/1080746404/bc7d71d876?share=copy" target="_blank" rel="noopener noreferrer">https://vimeo.com/1080746404/bc7d71d876?share=copy</a></td>
+</tr>
+<tr>
+<td>管理シート備考</td>
+<td>4/30お返事</td>
+</tr>
+</tbody>
+</table>
+<h2>お客様像・所感</h2>
+<p>備前サトミさんは神戸市須磨区在住の鍼灸師。開業半年の新規オーナーで、自宅から車で15〜20分の場所に店舗を借りて一人で運営している。配偶者と子供1人（末子のみ残り、他の子は自立済み）との暮らし。</p>
+<p>経歴は多岐にわたる。本来は航空関係の仕事を志していたが叶わず、旅行関係の仕事を経て海外行きの夢も流れた。その後、体力的に長くできる仕事として鍼灸の資格を取得。整体院や整骨院で勤務したが、鍼灸師としてではなく補助的な役割にとどまり、本来やりたかった鍼を存分にできなかった。前職の先生との考え方の相違もあり、ゆくゆくは独立したいと考えていたところ、良い物件に出会って半年前に開業した。</p>
+<p>開業の動機の根底には「病気のお子さんや若いお母さんのフォローをしたい」という思いがあり、過去に病気の子供が滞在する施設で勤務した経験がある。将来的には不妊治療や産後ケアのボランティアを行いたいと考えているが、「まず経営を安定させてから」と現実的なステップも認識している。</p>
+<p>サロンの特徴はスライドカッピング。近隣で行っている店がなく差別化要素として打ち出している。ただしスライドカッピングは「初回の体験の衝撃が大きすぎて2回目が物足りなく感じられる」問題があり、リピート率に課題がある。直近3月はリピート率約50%（ホットペッパー担当の集計）だが、それ以前はもっと低かったと推定。3回目以降の継続が特に弱い。</p>
+<p>集客はホットペッパーのみ。2025年10月から掲載開始。鍼灸のホットペッパーはプランが一種類で選択の余地がない。月間新規は約10名前後。メニュー数が多く、新規と再来のクーポンが混在して分かりにくい状態だったが、最近項目ごとに整理し始めた。写真の加工スキルがなく、ビフォーアフター写真等のビジュアル面にも課題がある。</p>
+<p>月売上は5〜10万円で、目標は半年後に20万円、最終目標は月30万円。自己採点は50〜60点で、「これといって続けてこれたことがない」「努力忍耐が足りない」と自己評価が厳しい。一方で「最後に自分の好きなやり方でやりたい」という強い動機があり、サザンオールスターズのファン（店名の由来もSAS）、山登り・旅行好きという趣味面も語られた。</p>
+<p>面談中の備前さんは正直で率直。SNSが苦手で「広げたくはない」とホットペッパー一本化を志向。施術中の会話にも苦手意識があり、課題として自覚している。「そんなに簡単に上がるんだろうか」と講座への懐疑心も率直に表明している。</p>
+<h2>1. まず読むべき結論</h2>
+<p>総合評価: B-</p>
+<p>三納の全案件の中では比較的良好な面談進行だった案件。カウンセリングから提案、オファー説明（13大サポートおよびマンツーマンコース）まで一通り到達しており、面談構造としては進行できている。ホットペッパーのページを事前に確認し改善の余地に言及するなど、浜田のコンサルティング型アプローチに近い要素も見られた。</p>
+<p>しかし、備前さんの核心課題である「スライドカッピングのリピート率の低さ」と「何を推すか絞り切れていない」問題を講座の価値に接続する力が不十分だった。備前さんが自ら語った課題（「何がしたいか絞り切れていない」「トークが苦手」「SNSは広げたくない」）は全て講座の守備範囲であるにもかかわらず、「なるほど」「わかりました」で受容する場面が目立ち、「まさにそれが講座で解決する課題です」の一言が繰り返し不足した。</p>
+<p>また「世界三大言い訳」のスライドを備前さんに使っているが、備前さんは「努力忍耐が足りない」と自分に厳しく、経済的にも月売上5〜10万円の段階。マインドの問題ではなく仕組みの不在が原因であることを伝え、「テンプレートがあるから今の自分のままで大丈夫」というメッセージの方が有効だった可能性がある。</p>
+<h2>2. 良かった点</h2>
+<p>(1) ルール共有（ステップ3）の充実した実施</p>
+<p>「厳しいかなとかやっぱり実行すること難しいかなって思った場合はこちらの方から申し訳ございませんとお断りさせていただく場合もございます」を含む丁寧な前提設定。権威性を示しつつ安心感も与える構成。</p>
+<p>(2) ホットペッパーのページを事前に確認していた</p>
+<p>「ホットペッパーのページとかも少し拝見させていただきました」と冒頭で伝え、面談中にも「ホットペッパーのページ見てても改善できるところをすごい逆に伸びしろたくさんだなと思って見てます」と具体的に言及。事前準備と当日の活用の両方ができている。</p>
+<p>(3) スライドカッピングのリピート率問題の構造的理解</p>
+<p>備前さんが「2回目ってやっぱり1回目ほどない」「1回目の衝撃が大きすぎて2回目が物足りなく感じられる」と語った問題に対して、三納は丁寧に傾聴し「初回の体験が衝撃的で2回目が期待に達しない」構造を理解した。ここからリピート対策（2回目以降にマッサージを追加した工夫への承認、カウンセリングテンプレートでの声かけ改善の提案）への接続が惜しかった。</p>
+<p>(4) 人生の100点満点の質問で理想を具体化</p>
+<p>「100点満点で採点するとしたら何点か」の質問から、月30万円の最終目標、休日の確保、ボランティア活動、サザンのライブ、旅行という具体的な理想像を引き出した。特に「月30万円でいいんですか」と目標の低さに驚きつつも「いいですね正確な目標でありがとうございます」と受容した対応は適切。</p>
+<p>(5) 半年後の目標を数字で確認</p>
+<p>「半年後に20万円」「今が5〜10万円」と具体的な数字を確認し、「今の倍ですもんね」「十分達成できる金額だと思います」と現実的なフィードバックを返した。顧客の目標に対して「無理がない」という安心感を与えつつ、「むしろもっと上を目指していってもいけると思います」と可能性も示した。</p>
+<p>(6) オファー説明（13大サポート＋マンツーマンコース）まで到達</p>
+<p>岩崎案件・渡辺案件と異なり、本案件ではオファーの全体像説明まで到達している。13大サポートの各項目（キャッチコピーコンサル、トップページ作成、鉄板トーク作成、カウンセリングテンプレート、リピートチェックシート、口コミテンプレート等）を一通り説明し、プレミアム実践コースとマンツーマンコースの比較まで進められた。</p>
+<p>(7) トーク苦手の自覚に対するテンプレートの接続</p>
+<p>「お話しするのが苦手な方はテンプレートがすごいたくさんありますので」「テンプレート化してあると割とそういうことを考えずスラッと言えたり」と、備前さんのトーク苦手への不安にテンプレートの価値を直接接続した場面がある。これは適切な対応。</p>
+<h2>3. 改善点</h2>
+<p>(1) 「絞り切れていない」問題をキャッチコピー代行と接続しなかった</p>
+<p>備前さんは面談中に複数回「自分で絞れてない」「これもしたいこれもしたいこれもある」と述べ、三納も「そういうところがやっぱりこうあの全てにこう共通つながってくるんですよね」とキャッチコピーの重要性を説明している。しかし「だからこそ山崎先生がキャッチコピーを代行で作ります。備前さんが自分で絞る必要はない」という核心メッセージが明確に届いていない。キャッチコピー代行の説明は後半のオファー説明に含まれてはいるが、課題が出たその場面で即座に接続する力が不足。</p>
+<p>(2) スライドカッピングの差別化要素を講座の価値に接続しなかった</p>
+<p>「近所でやってないから差別化になっている」「スライドカッピング自体がまだ体験してもらわないとわからない」という情報が出ているが、これを「エリア唯一のスライドカッピング専門サロン」というキャッチコピーの具体例として示す動作が入っていない。三納の構造的課題である「差別化要素を認識しても講座の価値に接続しない」傾向（藤田案件・西村案件・福田案件と同構造）が再確認される。</p>
+<p>(3) 反論処理の不足（構造的課題の再確認）</p>
+<p>備前さんは「そんなに簡単に上がるんだろうか」と懐疑心を率直に表明している。この場面で「簡単に上がるとは言いません。ただ、今のホットペッパーのページには改善の余地がたくさんあります。一緒に見てみましょうか」とデータベースの提案に切り替えるべきだったが、「でもここから少し具体的なこの講座の具体的な内容に入っていくんですけど」と提案フェーズへの移行で応答している。三納の48件連続での反論処理省略が確認される。</p>
+<p>(4) 「世界三大言い訳」スライドの使用タイミングと対象の問題</p>
+<p>備前さんは「努力忍耐が足りない」「秋っぽい」「途中で気が他に行ってしまう」と自分に厳しい評価を繰り返している。この顧客に「お金がない時間がない自信がない」の言い訳を突きつけると、「やっぱり自分はダメなんだ」の自己否定を強化するリスクがある。町田案件（借金のある経営者に同スライドを使用）と同構造のリスク。備前さんには「努力ではなく仕組みの問題です。テンプレート通りにやるだけで結果が変わる。頑張る必要はない」というメッセージの方が有効だった。</p>
+<p>(5) 月売上5〜10万円に対する投資対効果の計算が入っていない</p>
+<p>月売上5〜10万円の段階で66万円（プレミアム実践コース）または121万円（マンツーマンコース）の投資は6〜12ヶ月分以上の売上に相当する。この金額を提示する前に、「月売上が20万になれば投資は3〜4ヶ月で回収できます。しかもその仕組みは半永久的に使えます」という計算を一緒にやるべきだったが実施されていない。分割払い（月2万7500円程度）の提示と月売上の比較も入っていない。</p>
+<p>(6) 数字管理の重要性を説くだけで具体的なアクションに落ちなかった</p>
+<p>「数字で物事を把握してください」「数字って嘘つかない」と経営者マインドの教育は行っているが、面談中に備前さんのサロンボードのデータを一緒に確認するアクションには至っていない。「今ここで一緒に数字を見てみましょう」の一歩が出れば、数字管理の重要性が体感レベルで伝わった。</p>
+<p>(7) 不妊治療・産後ケアのボランティア志向を講座の価値に接続しなかった</p>
+<p>備前さんの「最後に人に助けになるようなことがしたい」「不妊関係とかお育て関係の方に力を入れたい」という深い動機は引き出せたが、「そのボランティアをするには経営の安定が前提。講座で経営を安定させれば、空いた時間でボランティアができる」という接続が弱い。備前さんの人生の目的と講座の投資を結びつけるフレーミングが不足。</p>
+<h2>4. 17ステップ照合</h2>
+<p>ステップ1 アイスブレイク: 評価 ○<br />
+神戸の住まい、自宅から店舗への距離、家族構成と自然に入り、鍼灸師になった経緯や前職の話題へスムーズに展開。</p>
+<p>ステップ2 自己紹介と前提の共有: 評価 △<br />
+三納自身の専門性の紹介が書き起こし範囲で確認できない。</p>
+<p>ステップ3 個別のルール共有: 評価 ○<br />
+「こちらからお断りする場合もある」を含む充実した前提設定。安定して実施。</p>
+<p>ステップ4 ポジティブメイク: 評価 ○<br />
+「100点満点で採点するとしたら」の質問を活用し、サザンのライブ・山登り・旅行というポジティブな未来像を引き出した。「どうですかこれが全部本当にかなったってなったらどうですか」で前向きな感情を喚起。</p>
+<p>ステップ5 現状と理想のギャップ: 評価 ○<br />
+現状（月売上5〜10万円、新規10名前後、リピート率50%程度）と理想（月30万円、週5日2人/日、休日の確保、ボランティア）を数字で確認。ギャップの可視化ができている。</p>
+<p>ステップ6 原因の深掘り: 評価 △<br />
+備前さんの口から「努力忍耐が足りない」「秋っぽい」と自己分析が出ている。三納はこれを受容しているが、「努力の問題ではなく仕組みの問題」というリフレーミングに至っていない。「どうしてですかね」と深掘り質問は出しているが、顧客の自己否定を構造的な課題に変換する力が弱い。</p>
+<p>ステップ7 覚悟確認: 評価 △<br />
+「1年後も同じ状況だったら」「多分1年まで続けるのはやっとかどうかです」「2年ぐらいまでで終わってるかな」と時間軸の延長で覚悟を問うている。備前さんから「しょうがないのかな」「やり方が悪かったんでしょう」と返答があり、危機感は喚起できた。ただし「では今からどう変えますか」の一歩が弱い。</p>
+<p>ステップ8 真の原因の特定: 評価 △<br />
+「集客・単価・リピートの3つ」として真因をフレーミングし、「キャッチコピーが作れてないことが一つの大きな要因」と提示。構造は正しいが、備前さんの具体的な状況（スライドカッピングの差別化・メニュー乱立・トーク苦手）との接続が一般論にとどまっている。</p>
+<p>ステップ9 解決策の提示: 評価 ○<br />
+13大サポートの各項目を説明し、キャッチコピー代行・トップページ作成・カウンセリングテンプレート・鉄板トーク等の解決策を提示。ただし備前さんの状況に合わせたカスタマイズが弱い。</p>
+<p>ステップ10 反論処理の先回り: 評価 ×<br />
+「そんなに簡単に上がるんだろうか」という懐疑心が出たが処理されていない。「世界三大言い訳」のスライドはマインド教育として使用されたが、具体的な反論（費用への不安、効果への懐疑、自分に続けられるか）への個別処理は入っていない。</p>
+<p>ステップ11 お金の価値観の教育: 評価 △<br />
+「浪費と消費と投資」の3分類、「リターン費・費用対効果で判断」という教育は実施。ただし備前さんの月売上5〜10万円に対する66万円の投資の具体的な回収シミュレーションは行われていない。一般論としての価値観教育にとどまっている。</p>
+<p>ステップ12 商品説明への同意: 評価 △<br />
+「ここからは希望者のみにお伝えしているんですけどもどうですか進めていっても大丈夫そうですか」に対して備前さんは「まだ判断もつきかねる」「もう少し詳しく聞きたい」と回答。完全な同意ではないが、三納は「分かりました」として説明に進んでいる。温度感を把握した上での判断として許容範囲。</p>
+<p>ステップ13〜16 オファー説明: 評価 ○<br />
+プレミアム実践コースの13大サポートとマンツーマンコースの4つの追加サポートを一通り説明。各サポートの内容と備前さんへの関連付け（トーク苦手→テンプレート、メニュー乱立→メニュー構築コンサル）もある程度行っている。日程（5月14日開始）の案内も具体的。</p>
+<p>ステップ17 最終確認: 評価 ×<br />
+書き起こし範囲ではオファー説明の途中で終了しており、最終確認・費用提示・クロージングに到達した形跡が確認できない。管理シートに「4/30お返事」とあり、何らかの保留対応が行われた可能性はあるが詳細は不明。</p>
+<h2>5. シーン別・具体的フィードバック</h2>
+<p>シーン1: 「絞り切れていない」が表出した場面</p>
+<p>備前さん: 「これもしたいこれもしたいこれもあるなっていう」<br />
+三納: 「そういうところがやっぱりこうあの全てにこう共通つながってくるんですよね」</p>
+<p>改善案: 「その"絞れない"を解決するのがまさに山崎先生のキャッチコピーコンサルです。先生と1対1で話す中で、備前さんの強み（スライドカッピング・鍼灸）を一つに絞り、キャッチコピーを先生が代わりに作ります。備前さんが自分で絞る必要はありません」</p>
+<p>シーン2: スライドカッピングのリピート率問題が語られた場面</p>
+<p>備前さん: 「2回目は同じようにやって同じように作用はしてるはずなんですけど受け手としてはちょっと驚き感というかちょっと1回目と比べてしまうのかな」<br />
+三納: 「そうなんですね」</p>
+<p>改善案: 「その課題はとても重要な気づきです。スライドカッピングは1回目の衝撃で来る。2回目以降は"なぜ継続が必要か"を1回目の施術後に伝えることでリピートにつながります。このカウンセリングテンプレートがまさにそれです。"今日で代謝が良くなりました。これを2週間おきに続けると体質が変わります。次はいつがいいですか"。この一言を仕組みにするだけで、3回目以降の離脱を防げます」</p>
+<p>シーン3: 「そんなに簡単に上がるんだろうか」と懐疑心が表明された場面</p>
+<p>備前さん: 「そんなに簡単に上がるんだろうかっていうのがまだ」<br />
+三納: 「でもここから少し具体的なこの講座の具体的な内容に入っていくんですけど」</p>
+<p>改善案: 「正直に言っていただいてありがとうございます。簡単に上がるとは言いません。ただ、備前さんの今のホットペッパーのページを拝見して、伸びしろがたくさんあると思っています。例えば今のクーポンの並び順、写真の見せ方、キャッチコピーの一行。これを変えるだけで同じ広告費のまま結果が変わる事例があります。今日一つだけ、備前さんのページを一緒に見てみませんか」</p>
+<p>シーン4: 「努力忍耐が足りない」と自己否定した場面</p>
+<p>備前さん: 「いやもうやりたいだけで結局努力が足りてないと思います努力なり忍耐なり」<br />
+三納: 「どうしてですかね」</p>
+<p>改善案: 深掘り自体は正しいアプローチだが、最終的に「努力不足ではなく仕組み不在が原因」というリフレーミングに到達すべきだった。「備前さんは今まで自分の感覚だけでやってきた。感覚で結果が出ないと"努力が足りない"と感じる。でも仕組みがある人は感覚に頼らなくていい。テンプレート通りにやるだけで結果が出ます。備前さんに足りないのは努力ではなく、仕組みです」</p>
+<p>シーン5: SNSが苦手でホットペッパー一本化を志向した場面</p>
+<p>備前さん: 「あまりそれ以外のSNSも得意ではないので広げたくはないのでできればもしこれで何かもうちょっと今より集客がプラスになるようなことができるのであれば」<br />
+三納: 「今ご自身では集客ですね新規集客が一番で」</p>
+<p>改善案: 「SNSが苦手な方こそホットペッパー1本に集中するのが正解です。ホットペッパーは毎日投稿する必要がありません。ページを一度作り込めば、24時間検索で見つけてもらえる仕組みです。しかもそのページを山崎先生が代行で作ります。備前さんがSNSの投稿に追われることは一切ありません」。質疑応答マニュアルQ51（インスタが苦手でもできるか）の理想回答がそのまま適用できた場面。</p>
+<h2>6. ホットペッパー超集客メソッド固有論点</h2>
+<p>(1) ホットペッパー集客: 月新規10名前後で鍼灸の単一プランを使用。10名は鍼灸カテゴリとしては悪くない数字だが、メニューの見せ方や写真の問題で「スライドカッピングを体験したい」という動機形成が不十分。キャッチコピーで「神戸須磨唯一のスライドカッピング鍼灸サロン」と差別化を打ち出し、入口メニューを1つに絞ることで予約率が改善する余地がある。</p>
+<p>(2) リピート率: 3月時点で約50%。2回目は来るが3回目以降が弱い。スライドカッピングの「初回衝撃」問題に対して、2回目以降のメニュー構成（マッサージの追加）で対応しているが、仕組みではなく場当たり的な対応。カウンセリングテンプレートによる「次回予約の声かけの型」の導入が直接的な解決策。</p>
+<p>(3) 客単価: 初回を安く設定して体験を促す戦略を取っている。2回目以降の単価が上がる設計だが、上がった単価でのリピートが続かない。マッサージ感覚で来店する顧客と鍼灸の継続効果を求める顧客の切り分け、ターゲットに合ったメニュー構成の見直しが必要。メニュー構築コンサルの価値が高い案件。</p>
+<p>(4) 予約管理: ホットペッパー一本化を志向しているため、予約窓口は既に一本化されている。これ自体は良い構造だが、SNS不在のためホットペッパーのページが唯一の集客接点になる。ページの質が売上を直接左右する構造のため、キャッチコピーとトップページの改善の投資対効果が高い。</p>
+<h2>7. 担当者用チェックリスト（次回面談で使える項目）</h2>
+<ul>
+<li>[ ] 差別化要素（スライドカッピング等）が出たら即座に「エリア唯一のキャッチコピーを先生が作ります」と接続する</li>
+<li>[ ] リピート率の課題が出たらカウンセリングテンプレートの具体的な一文を見せる</li>
+<li>[ ] 「絞り切れない」には「先生が代わりに絞ります」と即座に返す</li>
+<li>[ ] 「努力が足りない」には「仕組みの不在が原因。テンプレートで解決できます」とリフレーミングする</li>
+<li>[ ] SNS苦手には「だからこそホットペッパー一本。毎日投稿不要」と接続する</li>
+<li>[ ] 月売上5〜10万円の顧客には投資対効果を分割月額ベースで計算して見せる</li>
+<li>[ ] 「世界三大言い訳」スライドは自己否定傾向の強い顧客には慎重に使う</li>
+<li>[ ] ホットペッパーのページを面談中に一緒に開き、改善ポイントを1つデモする</li>
+<li>[ ] ボランティア志向を「経営安定が前提。講座がその最短ルート」と接続する</li>
+</ul>
+<h2>8. マニュアルへの還流提案</h2>
+<p>還流先1: 個別説明会_セールス成功失敗マニュアル.md</p>
+<p>追記案（否決パターン43: 開業半年の鍼灸一人オーナーの否決 / 差別化要素あり+リピート構造問題+自己否定型）:<br />
+スライドカッピング等のエリア唯一の差別化要素を持つが、「何を推すか絞り切れない」状態。施術の特性上リピートに構造的課題（初回の衝撃が2回目に薄れる）がある。自己評価が低く「努力不足」と繰り返すが、実際は仕組みの不在が原因。SNSを一切使わずホットペッパー一本化を志向しており、ページの質が売上を直接左右する構造。対策: (1) 差別化要素が出た瞬間にキャッチコピーの具体例を提示、(2) リピート課題にはカウンセリングテンプレートの一文をデモで見せる、(3) 「努力不足」には「仕組みの問題」にリフレーミング、(4) 「世界三大言い訳」は自己否定型顧客には使わず「テンプレートがあるから大丈夫」のメッセージに変える。</p>
+<p>還流先2: 質疑応答の理想回答集.md</p>
+<p>追記案（Q77: スライドカッピングなど初回体験型の施術はリピートしにくい。講座でどう対応できるのか）:<br />
+理想回答: 「初回の衝撃が大きいメニューはリピートの設計が特に重要です。体験型メニューの2回目以降は"なぜ続けるとさらに良くなるか"を1回目の施術後に伝えることが鍵です。カウンセリングテンプレートにはまさにその声かけの型が入っています。"今日の施術で代謝の流れができました。これを2週間後にもう一度やることで定着します。次はいつがいいですか"。この一文を仕組みとして入れるだけで、2回目以降のリピート率が変わります。」</p>
+<p>還流先3: セールス担当別_傾向とクセ.md</p>
+<p>追記案（三納の改善点に追加）:<br />
+自己否定傾向の強い顧客（「努力不足」「続けてこれなかった」と繰り返す）に対して「世界三大言い訳」スライドを使うリスク。町田案件（資金難の顧客）と備前案件で確認。マインドの問題ではなく仕組みの不在が原因であることを先に伝え、「テンプレートがあるから今の自分のままで大丈夫」というメッセージにすべき。</p>
+<h2>9. 総合評価表</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ラポール</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>課題特定</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>提案構造</td>
+<td><span class="eval eval-warn">△</span></td>
+</tr>
+<tr>
+<td>クロージング</td>
+<td><span class="eval eval-ng">×</span></td>
+</tr>
+<tr>
+<td>総合</td>
+<td>B-</td>
+</tr>
+</tbody>
+</table>
+<p>所見: カウンセリングからオファー説明まで一通り到達しており、三納の全案件の中では面談構造は比較的良好。ホットペッパーのページを事前確認している点も評価できる。しかし、備前さんの核心課題（差別化が絞れない、リピート率、トーク苦手）の全てが講座の守備範囲であるにもかかわらず、「だからこの講座で解決できます」の接続が弱い。反論処理と投資対効果の計算の省略は構造的課題として継続。備前さんの「4/30までにお返事」は否決で終了しており、フォロー期間中にページ改善のデモや投資対効果の計算を補足で送れていれば結果が変わった可能性がある。</p>
+<h2>10. 書き起こし原本への参照</h2>
+<p>21_プロジェクト一覧/山崎みなみ/セールス/セールス原本/20260425_備前サトミ_三納.md</p>
+<h2>更新履歴</h2>
+<ul>
+<li>2026-06-05: 初版作成</li>
+</ul>
+</article>
+</main>
+</div>
+</body>
+</html>
