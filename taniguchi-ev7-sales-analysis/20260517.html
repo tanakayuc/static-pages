@@ -5,216 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>20260517_田中眞紀子_田畑_分析 - 谷口 EV7 セールス分析</title>
 <style>
-:root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
-  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
-}
 * { box-sizing: border-box; }
-/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
-   各要素は rem 指定なので全体が比例して拡大する。 */
-html { font-size: 18px; }
-@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.95;
-  -webkit-font-smoothing: antialiased;
-  letter-spacing: 0.01em;
-}
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
-a:hover { text-decoration: underline; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
 
-/* ===== 記事カード ===== */
-.article {
-  background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
-  border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
-}
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
 
-/* ===== 見出し ===== */
-.article h1 {
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1.5;
-  margin: 0 0 2rem;
-  padding: 0 0 1.2rem;
-  color: var(--ink);
-  border-bottom: 3px solid var(--main);
-  position: relative;
-}
-.article h1::before {
-  content: "";
-  display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
-  border-radius: 6px;
-  position: absolute; left: 0; bottom: -4.5px;
-}
-.article h2 {
-  font-size: 1.32rem;
-  font-weight: 700;
-  color: var(--sub);
-  margin: 2.8rem 0 1.1rem;
-  padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
-}
-.article h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 2rem 0 0.7rem;
-  padding-left: 0.85rem;
-  border-left: 4px solid var(--line);
-}
-/* キーワード検出された H3（注意・結論・強み等） */
-.article h3.callout-h {
-  border-left: none;
-  padding: 0.6rem 1rem;
-  border-radius: 10px;
-  background: var(--bg);
-  color: var(--ink);
-  display: flex; align-items: center; gap: 0.5rem;
-  box-shadow: inset 5px 0 0 var(--bar);
-  background: var(--bg);
-}
-.article h3.callout-h { background: var(--bg); }
-.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
-
-.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
-
-/* ===== 本文 ===== */
-/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
-.article p { margin: 1.15rem 0; max-width: 42em; }
-.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
-.article li { margin: 0.5rem 0; }
-.article li::marker { color: var(--main); }
-.article strong { color: var(--sub); font-weight: 700; }
-.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
-/* 章/小見出し直後の段落をリード文として少し強調 */
-.article h2 + p, .article h3 + p { color: var(--ink); }
-
-/* ===== ステップバー（17ステップ照合などの構造化） ===== */
-.step {
-  display: flex; align-items: center; gap: 0.75rem;
-  margin: 1.6rem 0 0.4rem;
-  padding: 0.6rem 0.9rem;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
-}
-.step-no {
-  flex: 0 0 auto;
-  width: 30px; height: 30px;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; font-weight: 800; font-size: 0.95rem;
-  border-radius: 9px;
-}
-.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
-.eval {
-  flex: 0 0 auto;
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
-  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
-}
-.eval-ok { background: #E0F4EE; color: #1B8F70; }
-.eval-warn { background: #FCF0D9; color: #B07A14; }
-.eval-ng { background: #F7DEDB; color: #B0463B; }
-/* ステップバー直後の本文を少しインデントして従属関係を見せる */
-.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
-
-/* ===== 成績バッジ（A/B/C/D） ===== */
-.grade {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 2rem; height: 2rem; border-radius: 9px;
-  color: #fff; font-weight: 800; font-size: 1rem;
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
 }
 
-/* ===== テーブル ===== */
-.article table {
-  border-collapse: separate; border-spacing: 0;
-  width: 100%; margin: 1.3rem 0;
-  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-  font-size: 0.95rem;
-}
-.article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
-  color: #fff; font-weight: 700; text-align: left;
-  padding: 0.8rem 0.95rem; border: none;
-}
-.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
-.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
-.article tbody tr:hover { background: rgba(44,181,150,0.10); }
-
-/* ===== バッジ（結果ラベル） ===== */
-.badge {
-  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
-  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
-}
-
-/* ===== 注意枠カード（blockquote） ===== */
-.callout-box {
-  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
-  background: #FCF3E6; border-left: 5px solid #E0973E;
-  border-radius: 0 12px 12px 0; color: var(--ink);
-}
-.callout-box p { margin: 0.4rem 0; }
-
-/* ===== コード ===== */
-.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
-.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
-.article pre code { background: none; color: inherit; padding: 0; }
-.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
-
-/* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
-.sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
-  border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
-}
-.sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
-}
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
-.sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
-}
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
-.sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
-}
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
-@media (max-width: 720px) {
-  .layout { flex-direction: column; }
-  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
-  .content { padding: 1.2rem; }
-  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
-  .article h1 { font-size: 1.5rem; }
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
 }
 </style>
 </head>
 <body>
-<div class="layout">
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
 <nav class="sidebar">
-<div class="brand">Sales Report</div>
 <h3>谷口 EV7 セールス分析</h3>
 <a href="20260527.html" class="sidebar-item"><span class="date">2026年05月27日</span> 20260527_武田美恵子_田畑_分析</a>
 <a href="20260527-26c55bb13de8.html" class="sidebar-item"><span class="date">2026年05月27日</span> 20260527_田中理恵_田畑_分析</a>
@@ -257,8 +116,7 @@ a:hover { text-decoration: underline; }
 <a href="20260322.html" class="sidebar-item"><span class="date">2026年03月22日</span> 20260322_大久保やよい_田畑_分析</a>
 <a href="20260315.html" class="sidebar-item"><span class="date">2026年03月15日</span> 20260315_松永聖子_田畑_分析</a>
 </nav>
-<main class="content">
-<article class="article">
+<main class="main">
 <h1>セールス分析: 2026-05-17 田中眞紀子さん（田畑担当）</h1>
 <h2>このファイルの位置づけ</h2>
 <p>田中案件（EV7つの覚醒風水学）向けのセールスフィードバック。書き起こし原本・汎用17ステップ・チームマニュアル（整備中）の二軸照合による確定分析。</p>
@@ -316,7 +174,7 @@ a:hover { text-decoration: underline; }
 </tr>
 <tr>
 <td>結果</td>
-<td><span class="badge" style="background:#2CB596;color:#FFFFFF">成約</span></td>
+<td>成約</td>
 </tr>
 <tr>
 <td>コース</td>
@@ -361,13 +219,13 @@ a:hover { text-decoration: underline; }
 <p>改善点としては、価格提示前にもう少し具体的な支払いプランの提案や、田中さんの収入不安に対するサポートを強調することで、よりスムーズな成約に繋がった可能性がある。次回は、顧客の経済状況に応じた支払いプランの提案や、具体的なサポート内容を強調することで、より安心感を与えることが求められる。</p>
 <h2>17ステップ照合</h2>
 <h3>A. カウンセリング（ステップ1-7）</h3>
-<div class="step"><span class="step-no">1</span><span class="step-name">アイスブレイク: 評価 ◎</p>
+<p>ステップ1 アイスブレイク: 評価 ◎</p>
 <p>田畑は田中さんの緊張をほぐすために、過去の参加セミナーについて軽く触れ、リラックスした雰囲気を作り出している。田中さんも素直に参加履歴を話し、良好なコミュニケーションが取れている。</p>
-<p>ステップ2 自己紹介</span><span class="eval eval-ok">○</span></div>
+<p>ステップ2 自己紹介: 評価 ○</p>
 <p>田畑は自身の役割と経験を簡潔に説明し、田中さんに安心感を与えている。ただし、もう少し自身の風水に対する情熱や実績を詳しく話すことで、より信頼感を高めることができたかもしれない。</p>
-<div class="step"><span class="step-no">3</span><span class="step-name">ルール共有</span><span class="eval eval-ok">○</span></div>
+<p>ステップ3 ルール共有: 評価 ○</p>
 <p>面談の進行についてのルールを明確にし、田中さんに安心感を与えている。特に、無理な勧誘はしない旨を強調し、田中さんの不安を和らげている。</p>
-<div class="step"><span class="step-no">4</span><span class="step-name">ポジティブメイク: 評価 ◎</p>
+<p>ステップ4 ポジティブメイク: 評価 ◎</p>
 <p>田中さんの空間デザインへの興味を積極的に肯定し、彼女の感性を活かしたキャリアの可能性を示唆することで、田中さんの自己肯定感を高めている。</p>
 <p>ステップ5 現状と理想のギャップ: 評価 ◎</p>
 <p>田中さんの現状の収入不安定と理想のキャリアに対するギャップを明確にし、風水を通じてそのギャップを埋める可能性を示している。田中さんも自身の悩みを素直に話し、田畑のアプローチに共感を示している。</p>
@@ -375,19 +233,19 @@ a:hover { text-decoration: underline; }
 <p>田中さんのニーズを深掘りし、彼女が求める具体的なキャリア像を引き出している。田中さんも自身の感性を活かしたいという強い願望を語り、田畑の質問に対して積極的に応じている。</p>
 <p>ステップ7 理想の未来像の共有: 評価 ◎</p>
 <p>田中さんの理想の未来像を共有し、風水を活用したキャリアの可能性を具体的に示している。田中さんも自身の未来像に対する期待感を高め、田畑の提案に前向きな姿勢を示している。</p>
-<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>B. 提案（ステップ8-11）</h3>
+<h3>B. 提案（ステップ8-11）</h3>
 <p>ステップ8 ソリューションの提示: 評価 ◎</p>
 <p>田畑は風水を活用した具体的なキャリアプランを提示し、田中さんの興味を引き出している。田中さんもその提案に対して積極的に質問し、興味を示している。</p>
 <p>ステップ9 ベネフィットの強調: 評価 ◎</p>
 <p>風水を活用することで得られる具体的なベネフィットを強調し、田中さんの期待感を高めている。特に、空間デザインにおける風水の活用法を具体的に説明することで、田中さんの関心を引き出している。</p>
-<p>ステップ10 リスクの軽減策提示</span><span class="eval eval-ok">○</span></div>
+<p>ステップ10 リスクの軽減策提示: 評価 ○</p>
 <p>田中さんの収入不安に対するリスク軽減策を提示し、安心感を与えている。ただし、もう少し具体的な支払いプランやサポート内容を詳しく説明することで、より安心感を与えることができたかもしれない。</p>
-<div class="step"><span class="step-no">11</span><span class="step-name">購入後のサポート説明: 評価 ◎</p>
+<p>ステップ11 購入後のサポート説明: 評価 ◎</p>
 <p>購入後の具体的なサポート内容を説明し、田中さんの不安を和らげている。田中さんもそのサポート内容に対して安心感を示し、前向きな姿勢を示している。</p>
 <h3>C. 購入意欲の確認（ステップ12-14）</h3>
 <p>ステップ12 購入意欲の確認: 評価 ◎</p>
 <p>田中さんの購入意欲を確認し、彼女の期待感を高めている。田中さんも自身の意欲を素直に表現し、田畑の質問に対して前向きな姿勢を示している。</p>
-<p>ステップ13 反論処理</span><span class="eval eval-ok">○</span></div>
+<p>ステップ13 反論処理: 評価 ○</p>
 <p>田中さんの価格に対する不安を丁寧に処理し、彼女の不安を和らげている。ただし、もう少し具体的な支払いプランの提案や、田中さんの経済状況に応じた柔軟な対応を示すことで、よりスムーズな成約に繋がった可能性がある。</p>
 <p>ステップ14 購入決断の促進: 評価 ◎</p>
 <p>田中さんの購入決断を促進し、彼女の期待感を高めている。田中さんも最終的にゴールドコースへの参加を決断し、田畑の提案に対して前向きな姿勢を示している。</p>
@@ -457,8 +315,6 @@ Version: 1.0 (2026-06-04)<br />
 Licensed to: KATSUO MARKETING Community Member<br />
 Security Trace ID: T7K2EV4N<br />
 Generated by: 田中祐一</p>
-</article>
 </main>
-</div>
 </body>
 </html>
