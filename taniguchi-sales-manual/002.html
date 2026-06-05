@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>個別説明会_セールス成功失敗マニュアル - 谷口 セールスマニュアル</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>谷口 セールスマニュアル</h3>
+<a href="001.html" class="sidebar-item"><span class="date">2026年06月05日</span> セールス担当別_傾向とクセ</a>
+<a href="002.html" class="sidebar-item active"><span class="date">2026年06月05日</span> 個別説明会_セールス成功失敗マニュアル</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年06月05日</span> 月次総評マニュアル</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年06月05日</span> 来場者ペルソナ分析_セールスデータ集約</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年06月05日</span> 質疑応答の理想回答集</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>個別説明会 セールス成功失敗マニュアル（EV7つの覚醒風水学）</h1>
+<p>Version 1.0（2026-06-04）</p>
+<p>本マニュアルは、谷口案件（EV7つの覚醒風水学）の個別説明会における「再現したいトーク」と「次に直すポイント」を、書き起こし取得済み40件の確定分析（<code>../セールス分析/</code>）と管理シートKPIから還流したものである。汎用17ステップ（<code>knowledge/スキル別/セールス/汎用セールスフィードバック/</code>）と併読する。</p>
+<p>参照: <code>../担当者別_KPI集計.md</code>／<code>セールス担当別_傾向とクセ.md</code>／<code>質疑応答の理想回答集.md</code>／<code>来場者ペルソナ分析_セールスデータ集約.md</code>／分析一覧 <code>../セールス分析/フィードバック一覧.md</code></p>
+<h2>データ概況</h2>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>数値・メモ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>管理シート（動画URLあり）</td>
+<td>74行</td>
+</tr>
+<tr>
+<td>ユニーク動画URL</td>
+<td>72本</td>
+</tr>
+<tr>
+<td>書き起こし取得</td>
+<td>40本（取得可40/40完了）</td>
+</tr>
+<tr>
+<td>取得不可（hash欠落等）</td>
+<td>32本（再共有待ち）</td>
+</tr>
+<tr>
+<td>確定分析（200行以上）</td>
+<td>40/40（2026-06-04完了）</td>
+</tr>
+<tr>
+<td>担当別KPI（シート正本）</td>
+<td>田畑・永吉とも成約率（確定分）約47%</td>
+</tr>
+<tr>
+<td>書き出し40件の内訳</td>
+<td>田畑31件・永吉9件</td>
+</tr>
+</tbody>
+</table>
+<p>書き出し40件のみでの結果内訳（分析ファイル記載）: 成約13・否決18・保留2・講座案内前終了4・申込後キャンセル3。シート全体の成約率と食い違う場合は <code>担当者別_KPI集計.md</code> を正とする。</p>
+<h2>EV7固有の訴求軸（面談で必ず接続する）</h2>
+<ol>
+<li>家・家族運気 … 間取り・方位・気の流れが家族の健康・関係・金運に直結する、と本人の悩み語りに結びつける。</li>
+<li>子の進路・教育費 … 受験・不登校・教育費101万級の出費がある家庭では、親の基地包囲と「受験シーズンだけの過ごし方」を先に設計する。</li>
+<li>マスターコース50万円前後 … 銀振・カード・分割の説明は、受験費・建て替え費のあとでも始められる時期設計とセットで話す。</li>
+<li>基地包囲 … 開運は行動。家だけでなく、親が取る行動（掃除・配置・朝晩の習慣）を一枚で示す。</li>
+<li>足湯21日・30日チャレンジ … 高額の前に「まず21日」を具体行動として承認し、効果の入口を体感ベースで語る。</li>
+<li>押し売りしない … 即決を迫らない姿勢は多くの分析で適切評価。ただし「決めるのはあなた」と行動の覚悟確認は別軸で入れる。</li>
+<li>時期ずらし … 受験終了後・ボーナス後・建て替え一段落後など、開始月を提案しないと否決に直落しやすい（吉川・中原・藤原系）。</li>
+</ol>
+<h2>使い方</h2>
+<ul>
+<li>個別前: 申込フォームの悩みからペルソナを当て、該当する成功例だけ読む。</li>
+<li>個別後: 分析の「マニュアル還流メモ」を本ファイルに1行追記する（原本・分析が揃っている場合）。</li>
+<li>価格の前に「いつから・何を・どのくらい動くか」を言語化してからマスター50万へ入る。</li>
+</ul>
+<h2>成功例（これは良かった）12件以上</h2>
+<h3>家族の痛みを「家＋母親の行動」に翻訳してからコースへ</h3>
+<ul>
+<li>夫婦・子宝・家庭内の空気を、風水の間取りと基地包囲の両方で整理し、悩みの言葉のまま未来像を描いたうえで成約。</li>
+<li>出典: <code>20260520_淺田香奈_田畑_分析.md</code>（成約・家庭改善型）</li>
+</ul>
+<h3>引っ越し・住環境の具体目標にゴールドを接続</h3>
+<ul>
+<li>薬膳カウンセラーなど自己成長志向の相手に、職業と生活スタイルに合った活用法を示し、引っ越し判断を自分でできる価値として77万円ゴールド成約。</li>
+<li>出典: <code>20260511_三原えり_田畑_分析.md</code>（成約）</li>
+</ul>
+<h3>新築・金運・独学経験者に行動プランまで落とす</h3>
+<ul>
+<li>独学で止まっている層に、講座後の具体的行動プランを示し、新築タイミングとセットで納得を取った。</li>
+<li>出典: <code>20260515_本橋弘美_田畑_分析.md</code>（成約）</li>
+</ul>
+<h3>家族時間・仕事の両立を「家族全員の運気」で一枚化</h3>
+<ul>
+<li>家族との時間を増やしたい母親に、家の気の流れと家族の穏やかさを結び、支払いの柔軟提案まで含めて成約。</li>
+<li>出典: <code>20260516_吉川綾美_田畑_分析.md</code>（成約）</li>
+</ul>
+<h3>専業主婦・家族健康に週次の仕組みを見せる</h3>
+<ul>
+<li>家族全員の運気向上を具体的な方法（勉強会・シェア会・足湯21日）で示し、不安を解消して成約。</li>
+<li>出典: <code>20260419_山本美紀_田畑_分析.md</code>（成約）</li>
+</ul>
+<h3>建て直し・家族健康でゴールド70万</h3>
+<ul>
+<li>家の建て直し動機を入口に、夫・子の健康関心へ具体アドバイス。費用説明は複雑化したが反論処理と分割で成約。</li>
+<li>出典: <code>20260401_佐藤香織_永吉_分析.md</code>（成約・ゴールド70万）</li>
+</ul>
+<h3>過去講座で成果が出なかった層への共感＋柔軟支払い</h3>
+<ul>
+<li>看護師・58歳。過去の講座経験に共感し、家の疲れの原因を気の流れで説明。クレジット55万マスター成約。</li>
+<li>出典: <code>20260525_田中多喜子_永吉_分析.md</code>（成約）</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>住環境改善・事例ベースでマスター成約</h3>
+<ul>
+<li>家族志向の主婦に、風水の効果を事例付きで説明し、ニーズに合ったコース提案で成約。</li>
+<li>出典: <code>20260524_前道朱里_永吉_分析.md</code>（成約）</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>健康改善・孤立感にプラチナ／具体ニーズ対応</h3>
+<ul>
+<li>健康問題と孤立感に寄り添い、講座内容を本人の身体・生活リズムに合わせて説明し成約。</li>
+<li>出典: <code>20260328_加藤恵美_田畑_分析.md</code>（成約）</li>
+</ul>
+<h3>直感型にプラチナの価値を尊重して伝える</h3>
+<ul>
+<li>家族の将来安定を最優先する相手の直感を尊重し、プラチナの伴走価値を丁寧に伝えて成約。</li>
+<li>出典: <code>20260327_谷川絵理_田畑_分析.md</code>（成約）</li>
+</ul>
+<h3>慎重型に事例＋柔軟な支払いプラン</h3>
+<ul>
+<li>子の教育・家族健康を最優先する慎重な相手に、具体事例と支払いプランをセットで提示し成約。</li>
+<li>出典: <code>20260324_金氏美緒_田畑_分析.md</code>（成約）</li>
+</ul>
+<h3>自己実現・新キャリア模索に具体説明で納得</h3>
+<ul>
+<li>感性重視・新キャリア模索層の興味を引き出し、講座の具体性で最終成約。</li>
+<li>出典: <code>20260517_田中眞紀子_田畑_分析.md</code>（成約）</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>家庭改善・前向き姿勢に的確なコース提案</h3>
+<ul>
+<li>健康と幸福を重視する家庭改善志向に、コースと行動設計を一致させて成約。</li>
+<li>出典: <code>20260409_辻沙耶花_田畑_分析.md</code>（成約）</li>
+</ul>
+<h2>改善例・注意点（次に活かす）12件以上</h2>
+<h3>受験費のあとに50万を単体提示すると否決</h3>
+<ul>
+<li>予備校101万・受験関連50万超のあと、マスター50万（銀振）のみだと「出せるか」「本当に変わるか」で沈む。受験シーズン限定の過ごし方・開始時期ずらしを価格の前に入れる。</li>
+<li>出典: <code>20260323_吉川美穂_永吉_分析.md</code>（否決）</li>
+</ul>
+<h3>長い受験ヒアリングのあと講座が一方向</h3>
+<ul>
+<li>共感は◎だが、後半に講座説明が集中し、EV7のROI（親の基地包囲・足湯21日）が価格前に埋もれる。</li>
+<li>出典: <code>20260323_吉川美穂_永吉_分析.md</code>／<code>20260522_中原佳子_永吉_分析.md</code></li>
+</ul>
+<h3>効果の証拠が一般論止まり</h3>
+<ul>
+<li>「本当に変わるのでしょうか」に、同ペルソナのビフォーアフター・受験母の事例・数値が不足し否決・保留。</li>
+<li>出典: <code>20260527_武田美恵子_田畑_分析.md</code>／<code>20260524_味村和美_永吉_分析.md</code>（保留）</li>
+</ul>
+<h3>分割・支払いプランが曖昧</h3>
+<ul>
+<li>輸入販売など収入不安定層で、分割の具体シミュレーションが弱く否決。</li>
+<li>出典: <code>20260527_田中理恵_田畑_分析.md</code>（否決）</li>
+</ul>
+<h3>事業整理中・リアルタイム参加困難を価格前に整理できない</h3>
+<ul>
+<li>事業拡大志向でも資金・時間制約を先に合意できず否決。</li>
+<li>出典: <code>20260520_大山貴義_田畑_分析.md</code>（否決）</li>
+</ul>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>ROI・成功事例がキャリア層に刺さらない</h3>
+<ul>
+<li>家族経営の制約があるキャリア模索型に、投資対効果と短期成果の提示が不足。</li>
+<li>出典: <code>20260509_尾畑沙希_田畑_分析.md</code>（否決）</li>
+</ul>
+<h3>価格の高さで講座案内前終了</h3>
+<ul>
+<li>子どもの問題・家庭円満志向で共感は取れるが、価格提示前に離脱。中間コースまたは時期ずらしの選択肢が必要。</li>
+<li>出典: <code>20260416_橋岡千春_田畑_分析.md</code>（講座案内前終了）</li>
+</ul>
+<h3>夫の理解・家計制約への先手不足</h3>
+<ul>
+<li>家の運気改善型で夫婦協力が必要なのに、配偶者向け説明資料・分割の提示が遅れ申込後キャンセル。</li>
+<li>出典: <code>20260408_奥原陽子_田畑_分析.md</code>（申込後キャンセル）</li>
+</ul>
+<h3>子の医療費・健康不安に時期設計なし</h3>
+<ul>
+<li>即決を迫らないのは適切だが、支払い時期と効果証拠がなく否決。</li>
+<li>出典: <code>20260330_臼井エリ_田畑_分析.md</code>（否決）</li>
+</ul>
+<h3>家族不和・経済制約で柔軟性不足</h3>
+<ul>
+<li>感情的負担が大きい家庭で、支払い柔軟性と効果証拠の両方が不足し否決。</li>
+<li>出典: <code>20260315_松永聖子_田畑_分析.md</code>（否決）</li>
+</ul>
+<h3>運気停滞・断捨離未完了に具体証拠不足</h3>
+<ul>
+<li>押し売りしない姿勢は適切だが、生活改善型に「21日で何が変わるか」が弱く否決。</li>
+<li>出典: <code>20260401_川口桂子_田畑_分析.md</code>（否決）</li>
+</ul>
+<h3>フリーランス独立志向に風水の仕事活用が薄い</h3>
+<ul>
+<li>時間の自由・効率化ニーズに、風水を仕事にどう載せるかのカスタマイズが不足し否決。</li>
+<li>出典: <code>20260525_ふじもとまり_田畑_分析.md</code>（否決）</li>
+</ul>
+<h3>保留案件は支払いプランと事例の二点セット</h3>
+<ul>
+<li>家族健康・過去風水不満層は、価格不安が残るまま保留。次回ZOOMまでに分割表と同ペルソナ事例を用意。</li>
+<li>出典: <code>20260523_岡村愛弓_永吉_分析.md</code>（保留）</li>
+</ul>
+<h2>成約パターン（40件分析からの型）</h2>
+<ol>
+<li>申込動機（家・家族・健康）をそのまま受け、基地包囲・足湯21日で「今週からできる行動」に落とす。</li>
+<li>マスター／ゴールド／プラチナの違いを、相手の時間と家の状況で1コースに絞る。</li>
+<li>価格の前に支払い方法（カード・分割・開始月）を選択肢として並べる。</li>
+<li>「決めるのはあなた」「無理な勧誘はしない」と言いつつ、覚悟（週あたりの行動時間）を軽く確認する。</li>
+<li>成約後の初動（決済・Chatwork・初回勉強会）を同じ面談で言語化する。</li>
+</ol>
+<h2>否決パターン</h2>
+<ol>
+<li>教育費・受験・不登校で家計が枯渇し、50万が心理的に「もう一つの受験費」に見える。</li>
+<li>「本当に変わるか」への回答が講座説明の繰り返しになり、事例・数値・期間の約束がない。</li>
+<li>長い雑談・共感のあと、講座説明と価格が後半に圧縮され、納得の時間が足りない。</li>
+<li>配偶者・家計の合意が取れていないまま当日決済を求める（または逆にフォローなしで終了）。</li>
+</ol>
+<h2>保留パターン</h2>
+<ol>
+<li>前向きだが分割・開始月・配偶者確認が残る（岡村・味村型）。</li>
+<li>効果は信じたいが、過去の風水・講座経験で慎重（事例と保証的フォローが必要）。</li>
+<li>次回面談日と持ち帰り資料（支払い表・夫向け1枚）を必ずセットで約束する。</li>
+</ol>
+<h2>17ステップとの接続（EV7向け短縮メモ）</h2>
+<ul>
+<li>ステップ5〜6: 家・子・金のギャップを顧客の言葉で整理（表の申込項目以上を引き出す）。</li>
+<li>ステップ8: 真因は「家の気」だけでなく、親の行動とタイミング（時期ずらし）の二層で示す。</li>
+<li>ステップ10〜11: 反論は熱意ではなく、同ペルソナ事例と21日行動で処理する。</li>
+<li>ステップ15〜16: 押し売りしない＝即決強要しない。保留と否決の境界は「次の一手が日付付きか」。</li>
+</ul>
+<h2>更新ログ</h2>
+<ul>
+<li>2026-06-04: 書き出し40件の確定分析を反映し Version 1.0 として初版整備。</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-04)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: T7K2EV4N<br />
+Generated by: 田中祐一</p>
+</article>
+</main>
+</div>
+</body>
+</html>

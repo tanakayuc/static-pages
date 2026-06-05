@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260323_吉川美穂_永吉_分析 - 谷口 セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>谷口 セールス分析</h3>
+<a href="041.html" class="sidebar-item"><span class="date">2026年06月05日</span> フィードバック一覧</a>
+<a href="20260527.html" class="sidebar-item"><span class="date">2026年05月27日</span> 20260527_武田美恵子_田畑_分析</a>
+<a href="20260527-26c55bb13de8.html" class="sidebar-item"><span class="date">2026年05月27日</span> 20260527_田中理恵_田畑_分析</a>
+<a href="20260525.html" class="sidebar-item"><span class="date">2026年05月25日</span> 20260525_ふじもとまり_田畑_分析</a>
+<a href="20260525-43cd1d6e3e0e.html" class="sidebar-item"><span class="date">2026年05月25日</span> 20260525_田中多喜子_永吉_分析</a>
+<a href="20260524.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_前道朱里_永吉_分析</a>
+<a href="20260524-1631c2176910.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_味村和美_永吉_分析</a>
+<a href="20260523.html" class="sidebar-item"><span class="date">2026年05月23日</span> 20260523_岡村愛弓_永吉_分析</a>
+<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_中原佳子_永吉_分析</a>
+<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> 20260520_大山貴義_田畑_分析</a>
+<a href="20260520-341ec31d44f3.html" class="sidebar-item"><span class="date">2026年05月20日</span> 20260520_淺田香奈_田畑_分析</a>
+<a href="20260517.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_田中眞紀子_田畑_分析</a>
+<a href="20260517-3089d4227655.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_秋宗希久子_田畑_分析</a>
+<a href="20260517-c32bc4a0664b.html" class="sidebar-item"><span class="date">2026年05月17日</span> 20260517_藤原礼奈_永吉_分析</a>
+<a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_中山ふみえ_田畑_分析</a>
+<a href="20260516-3c3088624977.html" class="sidebar-item"><span class="date">2026年05月16日</span> 20260516_吉川綾美_田畑_分析</a>
+<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_本橋弘美_田畑_分析</a>
+<a href="20260515-31d67e069bd0.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_本田真希子_田畑_分析</a>
+<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> 20260511_三原えり_田畑_分析</a>
+<a href="20260509.html" class="sidebar-item"><span class="date">2026年05月09日</span> 20260509_尾畑沙希_田畑_分析</a>
+<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428_櫻井香菜子_田畑_分析</a>
+<a href="20260424.html" class="sidebar-item"><span class="date">2026年04月24日</span> 20260424_矢野はる_田畑_分析</a>
+<a href="20260423.html" class="sidebar-item"><span class="date">2026年04月23日</span> 20260423_長洲樹里_田畑_分析</a>
+<a href="20260420.html" class="sidebar-item"><span class="date">2026年04月20日</span> 20260420_仲宗根まゆ_田畑_分析</a>
+<a href="20260419.html" class="sidebar-item"><span class="date">2026年04月19日</span> 20260419_山本美紀_田畑_分析</a>
+<a href="20260416.html" class="sidebar-item"><span class="date">2026年04月16日</span> 20260416_橋岡千春_田畑_分析</a>
+<a href="20260409.html" class="sidebar-item"><span class="date">2026年04月09日</span> 20260409_辻沙耶花_田畑_分析</a>
+<a href="20260408.html" class="sidebar-item"><span class="date">2026年04月08日</span> 20260408_奥原陽子_田畑_分析</a>
+<a href="20260407.html" class="sidebar-item"><span class="date">2026年04月07日</span> 20260407_川西未乘_田畑_分析</a>
+<a href="20260401.html" class="sidebar-item"><span class="date">2026年04月01日</span> 20260401_佐藤香織_永吉_分析</a>
+<a href="20260401-79d337f6b930.html" class="sidebar-item"><span class="date">2026年04月01日</span> 20260401_川口桂子_田畑_分析</a>
+<a href="20260330.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330_臼井エリ_田畑_分析</a>
+<a href="20260328.html" class="sidebar-item"><span class="date">2026年03月28日</span> 20260328_加藤恵美_田畑_分析</a>
+<a href="20260328-7a659661b752.html" class="sidebar-item"><span class="date">2026年03月28日</span> 20260328_大保美紀江_田畑_分析</a>
+<a href="20260327.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_吉田裕子_田畑_分析</a>
+<a href="20260327-52297797b6ad.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_谷川絵理_田畑_分析</a>
+<a href="20260324.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_金氏美緒_田畑_分析</a>
+<a href="20260323.html" class="sidebar-item active"><span class="date">2026年03月23日</span> 20260323_吉川美穂_永吉_分析</a>
+<a href="20260323-370db0264ee5.html" class="sidebar-item"><span class="date">2026年03月23日</span> 20260323_田村悦子_永吉_分析</a>
+<a href="20260322.html" class="sidebar-item"><span class="date">2026年03月22日</span> 20260322_大久保やよい_田畑_分析</a>
+<a href="20260315.html" class="sidebar-item"><span class="date">2026年03月15日</span> 20260315_松永聖子_田畑_分析</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>セールス分析: 20260323 吉川美穂さん（永吉担当）</h1>
+<h2>このファイルの位置づけ</h2>
+<p>谷口案件（EV7つの覚醒風水学）向けのセールスフィードバック。書き起こし原本・汎用17ステップ・チームマニュアル（整備中）の二軸照合による確定分析。</p>
+<hr />
+<h2>参照マニュアル一覧</h2>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>参照先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>面談の文字起こし・記録</td>
+<td><code>../セールス原本/20260323_吉川美穂_永吉.md</code></td>
+</tr>
+<tr>
+<td>Vimeo</td>
+<td><a href="https://vimeo.com/1176161171/4646ff473b?share=copy&amp;fl=sv&amp;fe=ci" target="_blank" rel="noopener noreferrer">https://vimeo.com/1176161171/4646ff473b?share=copy&amp;fl=sv&amp;fe=ci</a></td>
+</tr>
+<tr>
+<td>評価基準</td>
+<td><code>knowledge/スキル別/セールス/汎用セールスフィードバック/03_個別面談17ステップ_解説参照.md</code></td>
+</tr>
+<tr>
+<td>管理シート</td>
+<td><code>../管理シート/個別プランニングシート_BASE.csv</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>基本情報</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客</td>
+<td>吉川美穂（ヨシカワミホ）</td>
+</tr>
+<tr>
+<td>面談日</td>
+<td>2026-03-23</td>
+</tr>
+<tr>
+<td>担当者</td>
+<td>永吉</td>
+</tr>
+<tr>
+<td>フェーズ</td>
+<td>個別説明会</td>
+</tr>
+<tr>
+<td>結果</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+</tr>
+<tr>
+<td>コース</td>
+<td>（未成約のため未確定。案内中心はマスターコース）</td>
+</tr>
+<tr>
+<td>購入金額</td>
+<td>なし</td>
+</tr>
+<tr>
+<td>年齢・家族</td>
+<td>1971年生まれ。主人・長女・長男</td>
+</tr>
+<tr>
+<td>職業</td>
+<td>事務パート</td>
+</tr>
+<tr>
+<td>参加動機（申込）</td>
+<td>子どもが努力しても実らない。風水に興味</td>
+</tr>
+<tr>
+<td>理想像（申込）</td>
+<td>子どもが切磋琢磨し希望進路へ。家族が笑顔</td>
+</tr>
+<tr>
+<td>悩み（申込）</td>
+<td>子どもたちの将来</td>
+</tr>
+<tr>
+<td>面談時間</td>
+<td>約72分（書き起こしメタデータ）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>お客様像・所感</h2>
+<p>吉川さんは50代前半の事務パート勤務の母親である。長女の大学受験と長男の不登校に近い状態が重なり、教育費と精神的負荷がピークにある。申込時点では「風水で家族の運気を整えたい」という入口だが、面談中の本音は一貫して「子どもが希望校に進み、家族が笑顔でいられるか」に収束する。</p>
+<p>予備校代101万円・受験関連50万円超という具体的な出費を自分から語り、クレジット上限を100万に抑えていたため101万の支払いで1万円現金を足す場面まで出てくる。金銭感覚は細かく、家計の余力を数字で把握しているタイプである。</p>
+<p>面談の感情の流れは、序盤は動画視聴への感謝と軽いラポール、中盤は受験・子育ての長い語り（永吉も受験経験を共有）で共感が深まる、後半は講座説明で希望が芽生えかけるも、価格提示後に「出せるか」「本当に変わるか」で沈み、最後は「今決断しろは絶対無理」「やりますとは言えない」で否決に至る。</p>
+<p>ペルソナ分類: 子どもの将来不安型（教育費圧迫・母親の責任感強め）。成約率の観点では、即決を迫らない姿勢は適切だったが、支払い時期の設計と効果の証拠提示が不足し、保留どころか否決に落ちた。</p>
+<hr />
+<h2>まず読むべき結論</h2>
+<p>永吉の強みは、受験・子育ての話に共感して時間をかけ、講座の世界観（開運は行動・基地包囲・足湯21日など）を丁寧に伝えられた点である。否決の主因は顧客側の家計制約（受験費用で手元が枯渇）であり、トークだけで即断を迫られなかった判断は妥当だった。</p>
+<p>改善点は、長いヒアリングの後に講座説明が一方向になり、マスターコース50万円提示の前に「受験費用のあとでも始められる設計」「子どもの方位と母親の行動の切り分け」というEV7固有のROIを数値・事例で示せなかったこと。次回は、教育費が重い家庭向けに分割・開始時期・「まず長女受験シーズンだけの過ごし方」などの段階オファーを言語化してから価格に入ると、否決→保留への転換余地が増える。</p>
+<hr />
+<h2>17ステップ照合</h2>
+<h3>A. カウンセリング（ステップ1-7）</h3>
+<div class="step"><span class="step-no">1</span><span class="step-name">アイスブレイク</span><span class="eval eval-ok">○</span></div>
+<p>音声確認のあと、動画視聴への感謝と「ずっと追ってくださってる」という関係づくりができている。ただし「全部は見てない」という発言に対し、未視聴パートの確認や今日のゴール設定までは踏み込んでいない。</p>
+<div class="step"><span class="step-no">2</span><span class="step-name">自己紹介</span><span class="eval eval-warn">△</span></div>
+<p>「長吉と申します」で止まり、風水・受験サポートにおける永吉自身の立場（実績・講座との関係）が薄い。権威付けより共感型に寄ったが、後半の講座説明への橋渡しが弱くなる。</p>
+<div class="step"><span class="step-no">3</span><span class="step-name">ルール共有</span><span class="eval eval-warn">△</span></div>
+<p>強引な売り込みはしない旨は途中で触れるが、冒頭で「対話で進める」「脱線したら戻す」の許可取りがない。結果、受験話が長時間続いても進行を戻すフレーズが少ない。</p>
+<div class="step"><span class="step-no">4</span><span class="step-name">ポジティブメイク</span><span class="eval eval-ok">○</span></div>
+<p>動画・谷口先生への信頼、子どもへの願いを肯定的に受け止めている。「必要な遠回りとポジティブに捉えるのは強い」など、顧客の考え方を承認できている。</p>
+<div class="step"><span class="step-no">5</span><span class="step-name">現状と理想のギャップ: 評価 ◎</p>
+<p>申込フォーム以上に、面談内でギャップが鮮明になった。理想は「娘が希望大学へ」「息子も自立」「家族が笑顔」。現状は受験費・息子の手に負えない状態・親のエゴかもしれないという葛藤。顧客自身の言葉で「円滑に進むこと」が最大の悩みとして整理されている点は良い。</p>
+<p>ステップ6 原因の深掘り</span><span class="eval eval-ok">○</span></div>
+<p>風水以前に、受験戦略・子どもの意欲・家族コミュニケーションが課題であることを、永吉も受験経験を交えて掘り下げている。ただし「風水でどこまで解けるか」の境界線を、講座説明前に明示できていない。</p>
+<div class="step"><span class="step-no">7</span><span class="step-name">覚悟の確認</span><span class="eval eval-warn">△</span></div>
+<p>「出せるかどうか」は出たが、「半年間、週に何時間行動する覚悟」までは確認していない。金銭の覚悟と行動の覚悟が混線し、価格で止まった。</p>
+<h3>B. 真の原因（ステップ8）</h3>
+<div class="step"><span class="step-no">8</span><span class="step-name">: 評価 △</p>
+<p>真因は「教育費のタイミングで現金・クレジット枠が枯渇」＋「風水が子どもの進路に直結するか不明」の二層。後者に対する構造化された回答（受験期の過ごし方・親の基地包囲・家の方位）が講座説明に埋もれ、価格の前に効果の確信が得られなかった。</p>
+<h3>C. 教育と反論処理（ステップ9-11）</h3>
+<p>ステップ9 解決策の提示</span><span class="eval eval-ok">○</span></div>
+<p>マスターコース6ヶ月、週1勉強会、基地包囲、足湯21日、30日チャレンジ、シェア会など、提供価値は網羅的に説明されている。開運は行動が必要というメッセージも一貫している。</p>
+<div class="step"><span class="step-no">10</span><span class="step-name">反論の先回り</span><span class="eval eval-warn">△</span></div>
+<p>「本当に変わるのでしょうか」「出せるか」への回答は、講座の熱意と一般論に留まり、同じ受験母親の事例・ビフォーアフター・受験シーズン限定の過ごし方マニュアルなどの具体証拠が不足。</p>
+<div class="step"><span class="step-no">11</span><span class="step-name">お金の価値観の教育</span><span class="eval eval-ng">×</span></div>
+<p>50万円（銀振）提示前に、受験101万＋50万を出した後でも「受験が終わるまでの3ヶ月だけマスターで過ごす」などの時間軸での投資対効果が組めていない。顧客が言う「出したら本当に変わるのでしょうか」は、価格教育不足のサインだった。</p>
+<h3>D. オファーとクロージング（ステップ12-17）</h3>
+<div class="step"><span class="step-no">12</span><span class="step-name">同意</span><span class="eval eval-ok">○</span></div>
+<p>マスターコース中心の説明へ進む流れは自然。ビジネスコースは不要と確認できている。</p>
+<div class="step"><span class="step-no">13</span><span class="step-name">-14 提供説明</span><span class="eval eval-ok">○</span></div>
+<p>内容量は十分。ただし72分のうち後半に集中しており、前半の受験トークとの統合（「だから今の時期に家と母親の状態を整える」）が弱い。</p>
+<div class="step"><span class="step-no">15</span><span class="step-name">価格</span><span class="eval eval-warn">△</span></div>
+<p>マスター50万銀振・55万クレジットを提示。顧客の101万支出文脈に対し、分割・開始延期・受験後スタートの選択肢が会話上は弱い。</p>
+<div class="step"><span class="step-no">16</span><span class="step-name">規約</span><span class="eval eval-warn">△</span></div>
+<p>成約に至っていないため読み合わせまでの記録は薄い（書き起こし末尾は価格・決断の葛藤で終了）。</p>
+<p>ステップ17 最終確認: 評価 ○（否決として適切）</p>
+<p>顧客の「今決断しろは絶対無理」「やりますとは言えない」を尊重し、押し切らなかった。スキル上、否決より保留（時期指定）への着地を狙うなら、「長女の受験が終わる○月に再連絡」などの次アクションを明示するとよかった。</p>
+<hr />
+<h2>シーン別・具体的フィードバック</h2>
+<h3>シーン1: 受験・予備校101万の話（中盤）</h3>
+<p>顧客発言: 「101万円の予備校代」「クレジット100万までしか設定してなかった」「1万持っていくんで100で切らせてくれないか」</p>
+<p>永吉の対応: 共感し、予備校の仕組み（テスト代含む・書き取り登記は別）を説明。特例は認められないとフォロー。</p>
+<p>評価: ○ ラポールとして機能。改善: この直後に「家計のピークを踏まえ、講座は受験シーズン後からでも設計できる」と橋を架げるべきだった。</p>
+<h3>シーン2: 娘の受験校選びの後悔（中盤）</h3>
+<p>顧客発言: 第3志望は受かる自信があったが、本人にとって嫌な校だった可能性。</p>
+<p>永吉の対応: 受験経験を共有し、戦略の大切さに触れた。</p>
+<p>評価: ○ 信頼形成には有効。改善: EV7の文脈では「志望校と家の方位・母親の基地包囲が子の決断力に与える影響」へ1文で接続すると、雑談が講座価値に帰結する。</p>
+<h3>シーン3: マスターコース説明（後半）</h3>
+<p>永吉の対応: 6ヶ月、週1勉強会、基地包囲、足湯、30日チャレンジなどを順に説明。</p>
+<p>評価: ○ 内容は丁寧。改善: 吉川さん向けに「長女受験中の今週やること3つ」だけに絞ったミニロードマップを提示すると、情報過多を防げる。</p>
+<h3>シーン4: 価格と決断の壁（終盤）</h3>
+<p>顧客発言: 「出したら本当に変わるのでしょうか」「今決断しろはもう絶対無理」「やりますとは言えない」</p>
+<p>永吉の対応: 押し切らず、顧客のペースを尊重した形で終了（書き起こし終端）。</p>
+<p>評価: ○ 倫理面では良い。改善: 「では長女さんの前期結果が出る○日まで保留」「その間だけ無料コンテンツで足湯チャレンジ」など、否決ではなく時期保留の提案ができた。</p>
+<hr />
+<h2>EV7固有論点（風水・開運）</h2>
+<h3>家・家族の運気</h3>
+<p>申込動機は家族開運。面談でも「家族が笑顔になれるなら出すのか」まで言語化されている。永吉は家全体のパワースポット化・方位を説明したが、吉川さん宅の具体的な悩み（部屋・玄関・長男の部屋）までヒアリングしていない。次回は家相のヒアリング3問（入口・水回り・長女の勉強場所）を入れる。</p>
+<h3>子どもの進路との接続</h3>
+<p>最大の関心は教育。風水が「受験の結果を保証する」わけではないことを先に伝えつつ、「親の基地包囲と家の整えで子の集中力・睡眠・情緒が変わった事例」を1件示す必要があった。</p>
+<h3>金銭・タイミング</h3>
+<p>受験費用後の50万は心理的ハードルが高い。分割・6月開始・長女合格後の申込など、管理シート上の他成約事例と同型の「時期の柔軟性」をEV7でも明示するトークが有効。</p>
+<h3>時間・継続</h3>
+<p>事務パートであり、勉強会週1・21日足湯の工数見積りを一緒に作っていない。「1日10分の基地包囲だけなら可能か」の確認があれば、覚悟のハードルが下がる。</p>
+<hr />
+<h2>良かった点（3〜5）</h2>
+<ol>
+<li>
+<p>受験・子育ての深い共感（なぜ効いたか: 顧客が最も話したいテーマに寄り添い、防御心が下がった。引用イメージ: 「必要な遠回りってポジティブに捉えるのは強いです」）</p>
+</li>
+<li>
+<p>即決を迫らなかった判断（なぜ効いたか: 101万出した直後の家庭に追加50万を押すとクレーム・炎上リスクが高い。「今決断しろは無理」への尊重はブランド保護になる）</p>
+</li>
+<li>
+<p>マスターコースの提供説明の網羅性（なぜ効いたか: 講座のボリューム感は伝わる。勉強会アーカイブ永久・月1企画講座など安心材料がある）</p>
+</li>
+<li>
+<p>ビジネスコースを外した確認（なぜ効いたか: 顧客が仕事化していないと明言しており、マスター案内への焦点化は適切）</p>
+</li>
+<li>
+<p>動画視聴者への感謝の反復（なぜ効いたか: 谷口先生への信頼を自分ごと化しやすく、講座への入口は開いていた）</p>
+</li>
+</ol>
+<hr />
+<h2>改善点（3〜5）</h2>
+<ol>
+<li>
+<p>価格前のROI・時期設計がない（場面: 50万提示前。起きたこと: 「出せるか」「変わるか」だけが残った。本来: 受験後開始・月額換算・「受験中だけできる無料行動3つ」を先に提示）</p>
+</li>
+<li>
+<p>受験トークが長すぎて主導権が希薄（場面: 中盤20分超。起きたこと: 講座説明が後半に圧縮。本来: 15分で要約し「今日お伝えしたい3点は家・母親・行動」に戻す）</p>
+</li>
+<li>
+<p>効果の証拠が一般論のみ（場面: 「本当に変わるのでしょうか」。起きたこと: 確信が得られず否決。本来: 同ペルソナ事例・数字・ビフォーアフター1枚）</p>
+</li>
+<li>
+<p>否決で終わり次アクションなし（場面: クロージング。起きたこと: 保留日・再面談が不明。本来: 「5月再連絡」「受験結果後フォロー」を日程固定）</p>
+</li>
+<li>
+<p>自己紹介・権威の不足（場面: 冒頭。起きたこと: 共感のみで専門性が弱い。本来: 講座サポート経験・受験伴走の立場を1文）</p>
+</li>
+</ol>
+<hr />
+<h2>担当者へのフィードバック（永吉）</h2>
+<p>強み: 共感型の深いヒアリング、押し売りしない終え方、提供内容の説明量。</p>
+<p>癖: 顧客の話に乗りすぎて時間が過ぎる。価格の前に「時期と効果」の設計が後回しになる。</p>
+<p>次回: 教育費ピークの母親には「受験シーズン限定プラン」「○月再提案」を必ずセットで持つ。価格の前に「変わるか」への回答を事例1件で済ませる。</p>
+<hr />
+<h2>次のアクション</h2>
+<ul>
+<li>事務局: 長女の受験スケジュール（前期・中期・結果日）を確認し、結果発表後3日以内に永吉からフォロー電話</li>
+<li>永吉: 再面談時は家の簡易ヒアリングシートを事前送付。50万一括ではなく分割・開始月の2案を提示</li>
+<li>マニュアル: 「教育費ピーク型」への理想回答を質疑応答集に追記候補</li>
+</ul>
+<hr />
+<h2>マニュアル還流提案</h2>
+<p>2026-06-03 追記候補（出典: 20260323_吉川美穂_永吉_分析.md）</p>
+<ul>
+<li>質疑応答集: Q. 受験・予備校で100万出した直後、講座50万は無理 → A. 受験終了後開始・受験中は基地包囲のみ等の段階設計を先に示す</li>
+<li>成功失敗マニュアル: 否決事例として「効果の確信前に価格」パターンを記録</li>
+<li>担当癖: 永吉・受験共感長め → 15分で要約して講座接続</li>
+</ul>
+<hr />
+<h2>総合評価</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ラポール</td>
+<td>◎</td>
+</tr>
+<tr>
+<td>課題特定</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>提案構造</td>
+<td><span class="eval eval-warn">△</span></td>
+</tr>
+<tr>
+<td>クロージング</td>
+<td><span class="eval eval-warn">△</span></td>
+</tr>
+<tr>
+<td>総合</td>
+<td>C+（否決だが関係維持は良好。保留化の余地あり）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>書き起こし原本への参照</h2>
+<p><code>../セールス原本/20260323_吉川美穂_永吉.md</code></p>
+<hr />
+<h2>更新履歴</h2>
+<ul>
+<li>2026-06-03: 初版作成（確定分析・書き出し1件目）</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-03)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: T7K2EV4N<br />
+Generated by: 田中祐一</p>
+</article>
+</main>
+</div>
+</body>
+</html>
