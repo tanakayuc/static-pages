@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-05_増田_月次レポート - 増田 W3EV 月次総評</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>増田 W3EV 月次総評</h3>
+<a href="2026-05.html" class="sidebar-item active"><span class="date">2026年05月</span> 2026-05_増田_月次レポート</a>
+<a href="2026-04.html" class="sidebar-item"><span class="date">2026年04月</span> 2026-04_増田_月次レポート</a>
+<a href="2026-03.html" class="sidebar-item"><span class="date">2026年03月</span> 2026-03_増田_月次レポート</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>2026年5月 月次レポート（増田 W3EVビジネスマイラー）</h1>
+<p>この5月（31日間）だけを切り取ったレポート。「この1ヶ月で何が起きたか・何が気になったか」に絞る。<br />
+通期の流れ・月別推移・グラフは <code>../全体レポート.md</code> を参照。</p>
+<p>対象期間: 2026-05-01 〜 2026-05-31<br />
+データソース: 管理シートCSV <code>管理シート/個別プランニングシート_BASE.csv</code>／<code>セールス分析/202605*.md</code><br />
+集計区分: 否決＝「否決」「申込後キャンセル」／保留＝「保留」「c1〜c5」「講座案内前終了」／成約＝「成約」</p>
+<hr />
+<h2>1. 今月の数字（5月のみ）</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>5月</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>セールス実施数</td>
+<td>9件</td>
+</tr>
+<tr>
+<td>成約数</td>
+<td>3件</td>
+</tr>
+<tr>
+<td>否決数</td>
+<td>5件</td>
+</tr>
+<tr>
+<td>保留・未確定</td>
+<td>1件</td>
+</tr>
+<tr>
+<td>当月成約率（確定分）</td>
+<td>37.5%（3 / 8）</td>
+</tr>
+<tr>
+<td>当月売上（申込ベース）</td>
+<td>¥1,260,000</td>
+</tr>
+</tbody>
+</table>
+<p>内訳: ファーストクラス1件 ¥660,000／ビジネスクラス2件 各¥300,000。客単価¥420,000。<br />
+実施数9件は直近で最少水準だが、成約率37.5%は1月（17.6%）・3月（18.2%）の谷から回復し、2月以来の高水準。</p>
+<hr />
+<h2>2. 今月の担当別実績（5月のみ）</h2>
+<table>
+<thead>
+<tr>
+<th>担当</th>
+<th>5月実施</th>
+<th>5月成約</th>
+<th>5月保留</th>
+<th>当月の動き</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>古田</td>
+<td>4</td>
+<td>3</td>
+<td>0</td>
+<td>4件中3成約（75%）。月の売上全額を獲得した当月MVP</td>
+</tr>
+<tr>
+<td>田畑</td>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>4件実施で成約0。否決3・保留1。後段の構造課題が顕在化</td>
+</tr>
+<tr>
+<td>永吉</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1件実施で否決。Vimeo取得不可で定性分析は依然できず</td>
+</tr>
+</tbody>
+</table>
+<p>通期の担当別実績は <code>../全体レポート.md</code> を参照。</p>
+<hr />
+<h2>3. 今月の代表的な良かったこと（5月）</h2>
+<ul>
+<li>山崎崇さん（古田）/ 成約（ファーストクラス ¥660,000）- 当月唯一の高単価獲得。古田担当で月内最大の成約</li>
+<li>菅野裕美さん（古田）/ 成約（ビジネスクラス ¥300,000）- 古田の連続成約の1件</li>
+<li>鈴木美香子さん（古田）/ 成約（ビジネスクラス ¥300,000）- 古田の連続成約の1件。4件中3成約で当月の成約率を牽引</li>
+<li>吉田佳裕さん（田畑）/ 保留 - 田畑の否決続きの中で唯一の保留着地。ラポール・課題特定・提案構造が健全で、フォロー次第で成約転換の余地。今月の田畑担当で最大の見込み案件</li>
+</ul>
+<hr />
+<h2>4. 今月の代表的な改善事項（5月）</h2>
+<ul>
+<li>「避けたい未来の深掘り」と「覚悟確認」の弱さ（田畑／4件で△）- ステップ6・7が表面的で、顧客が自ら「このままだとマズい」と発話する場面が作れていない。ロールプレイの優先テーマにする</li>
+<li>クロージング段階の不成立（田畑／山本直秀・金田由美・横山恵理の3件が否決）- 長尺セッションでも提案からクロージングへの転換ができず否決に流れた。「同意の段階的取得」を明示する設計が必要</li>
+<li>顧客納得を取らずに提案へ進む（田畑）- ステップ8（真の原因への顧客納得）が△のまま提案に進み、後段の反論処理が後手に。「ここまでで○○とご理解いただいた認識で合っていますか？」のチェックポイントを必須化</li>
+<li>古田の録画運用ゼロ（構造課題）- 当月MVPの古田は動画URL未登録のため成功要因が定性データに残らない。属人ノウハウの組織還流ができていない</li>
+</ul>
+<hr />
+<h2>5. 来月（6月）への申し送り</h2>
+<ul>
+<li>古田の成功要因ヒアリングと録画運用開始（最優先）- 6月以降の古田担当案件は動画URL登録を必須化。当月3成約の振り返りインタビューを実施し <code>セールス担当別_傾向とクセ.md</code> の古田パートに追記</li>
+<li>田畑の後段集中改善 - ステップ6〜7・8・最終着地の4ステップに絞ったロールプレイを2回／週。題材は吉田佳裕さん保留案件</li>
+<li>吉田佳裕さんのフォロー設計 - 保留転換テンプレートに沿って期限・連絡タイミングを設計し、6月中に決着</li>
+<li>永吉のVimeo hash付きURL再エクスポート依頼 - 31件のhash無しURLを共有リンクで再発行してもらう</li>
+<li>実施数の母数確保 - 4・5月と2ヶ月連続で12件以下。6月の実施数目標を増田側と共有（最低15件目安）</li>
+</ul>
+<hr />
+<h2>6. 補足（5月のマニュアル還流）</h2>
+<ul>
+<li>動画書き出し: 5月の田畑担当の否決・保留案件を分析（山本直秀・金田由美・横山恵理・吉田佳裕）。古田4件・永吉1件はURL未登録/取得不可で分析ゼロ</li>
+<li>個別説明会_セールス成功失敗マニュアル.md: 田畑「カウンセリングからクロージングへの転換失敗」4件を追記候補</li>
+<li>セールス担当別_傾向とクセ.md: 田畑「ステップ6・7の慢性的な△」を追記。古田は録画再開後にトーク癖を追記</li>
+<li>質疑応答の理想回答集.md: 5月分析からの新規Q&amp;A抽出は来月の還流タスク</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 2.0 (2026-06-05・月次レポート化／通期・推移・グラフを全体レポートに分離)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Generated by: 田中祐一</p>
+</article>
+</main>
+</div>
+</body>
+</html>

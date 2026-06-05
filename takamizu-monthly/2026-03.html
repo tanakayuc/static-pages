@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-03_たかみず_月次レポート - たかみず 月次総評</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>たかみず 月次総評</h3>
+<a href="2026-05.html" class="sidebar-item"><span class="date">2026年05月</span> 2026-05_たかみず_月次レポート</a>
+<a href="2026-04.html" class="sidebar-item"><span class="date">2026年04月</span> 2026-04_たかみず_月次レポート</a>
+<a href="2026-03.html" class="sidebar-item active"><span class="date">2026年03月</span> 2026-03_たかみず_月次レポート</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>2026年3月 月次レポート（たかみず案件）</h1>
+<p>この3月（案件開始月）だけを切り取ったレポート。「この1ヶ月で何が起きたか・何が気になったか」に絞る。<br />
+通期の流れ・月別推移・グラフ・担当別通期は <code>セールスマニュアル/全体レポート.md</code> を参照。</p>
+<p>対象期間: 2026-03-01 〜 2026-03-31<br />
+データソース: 管理シートCSV <code>管理シート/顧客BASE一覧_BASE.csv</code>（面談日 3/1〜3/31 で抽出・更新 2026-06-05）／3月分の分析ファイル<br />
+集計区分: 否決・不成約=「否決」「辞退」／保留・未確定=「対応中」「再ズーム」「日程変更」／成約=「成約」</p>
+<hr />
+<h2>1. 今月の数字（3月のみ）</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>3月</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>セールス実施数</td>
+<td>33件（案件開始月）</td>
+</tr>
+<tr>
+<td>成約数</td>
+<td>8件</td>
+</tr>
+<tr>
+<td>否決・不成約</td>
+<td>20件</td>
+</tr>
+<tr>
+<td>保留・未確定</td>
+<td>5件</td>
+</tr>
+<tr>
+<td>当月成約率（確定分）</td>
+<td>28.6%（8 / 28）</td>
+</tr>
+<tr>
+<td>当月成約率（全件）</td>
+<td>24.2%（8 / 33）</td>
+</tr>
+<tr>
+<td>当月売上（申込ベース概算）</td>
+<td>¥9,839,000</td>
+</tr>
+</tbody>
+</table>
+<p>注: たかみず案件は個別コンサル型・自社決済保有なしのため、売上は申込ベースの概算扱い。正確な入金額はたかみず側の決済管理を参照。3月は案件の立ち上がり月で、CSV整備前の分析ベース記録とステータスが食い違う案件が後日10件判明し、2026-06-03にCSV正本へ統合済（詳細は <code>担当者別_全体マップ.md</code> の突き合わせログ参照）。</p>
+<hr />
+<h2>2. 今月の担当別実績（3月のみ）</h2>
+<table>
+<thead>
+<tr>
+<th>担当</th>
+<th>3月実施</th>
+<th>3月成約</th>
+<th>3月否決・不成約</th>
+<th>3月保留</th>
+<th>当月成約率(確定分)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>五ヶ山昌代</td>
+<td>12</td>
+<td>3</td>
+<td>6</td>
+<td>3</td>
+<td>33.3%</td>
+</tr>
+<tr>
+<td>澤田亜美</td>
+<td>9</td>
+<td>3</td>
+<td>5</td>
+<td>1</td>
+<td>37.5%</td>
+</tr>
+<tr>
+<td>三浦美幸</td>
+<td>7</td>
+<td>1</td>
+<td>5</td>
+<td>1</td>
+<td>16.7%</td>
+</tr>
+<tr>
+<td>濱野りん</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>50.0%</td>
+</tr>
+<tr>
+<td>和田めぐみ</td>
+<td>3</td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>合計</td>
+<td>33</td>
+<td>8</td>
+<td>20</td>
+<td>5</td>
+<td>28.6%</td>
+</tr>
+</tbody>
+</table>
+<p>通期の担当別実績は <code>全体レポート.md</code> を参照。</p>
+<hr />
+<h2>3. 今月の代表的な良かったこと（3月）</h2>
+<p>3月成約8件のうち、再現性の高い高単価成約を抽出。</p>
+<ul>
+<li>野口由美子（五ヶ山昌代）／プレミアム12分割成約 - 詐欺被害600万・夫秘匿という深い真のニーズを引き出し、他コンサル比較が出ても「本気を言い切る」遂行力で決め切り（3/24、¥2,248,000、<code><a href="https://youtu.be/APMX9s9ZOqs" target="_blank" rel="noopener noreferrer">https://youtu.be/APMX9s9ZOqs</a></code>）。当月最高単価帯</li>
+<li>森芙美子（五ヶ山昌代）／プレミアム成約 - 案件初期の高単価成約。プレミアム¥1,980,000（3/5、<code><a href="https://youtu.be/G6760y-hwE8" target="_blank" rel="noopener noreferrer">https://youtu.be/G6760y-hwE8</a></code>）</li>
+<li>福山道子（澤田亜美）／プラチナ12分割成約 - ヒーリング・ヨガ10年超・56歳・寡黙で壁があるが行動意欲は強い層に対し、長引いたクロージングを粘って着地（3/27、¥1,148,000、<code><a href="https://youtu.be/U9boNZEM5tA" target="_blank" rel="noopener noreferrer">https://youtu.be/U9boNZEM5tA</a></code>）</li>
+<li>柴田慶子（濱野りん）／プラチナ成約 - 持分2件の濱野が当月成約。プラチナ¥1,148,000（3/4、<code><a href="https://youtu.be/VBEaLJTMilE" target="_blank" rel="noopener noreferrer">https://youtu.be/VBEaLJTMilE</a></code>）</li>
+<li>吉岡理恵（五ヶ山昌代）／プラチナ成約 - 案件初週のプラチナ成約。¥1,012,000（3/6、<code><a href="https://youtu.be/7PYJv-yicos" target="_blank" rel="noopener noreferrer">https://youtu.be/7PYJv-yicos</a></code>）</li>
+</ul>
+<p>横断パターン: 案件開始月から五ヶ山・澤田の2名がプレミアム・プラチナの高単価帯を複数決め切り、立ち上がりの売上¥9,839,000を牽引。深い真のニーズ（金銭被害・夫婦関係）の掘り起こしが高単価成約の軸。</p>
+<hr />
+<h2>4. 今月の改善事項（3月）</h2>
+<p>案件立ち上がり月として、後続月へ引き継ぐべき構造課題を抽出。</p>
+<ul>
+<li>CSV整備前のステータス管理 - 案件開始直後でCSV正本が未整備。分析ベースの所感（保留／不成約）と後日のCSV確定値が食い違う案件が複数発生（後日10件判明）。クロージング後は「保留／不成約／成約」3区分＋期限を明記する運用を初月から徹底すべきだった</li>
+<li>三浦美幸の確定率16.7%（当月最低） - 実施7件に対し成約1件。立ち上がり期の伸び悩み。共感ベースのクロージング型の精度を上げる余地</li>
+<li>和田めぐみ 実施3件・成約0 - 持分が少なく、母数不足。アサイン配分の見直し余地</li>
+<li>高単価依存の売上構造 - 当月売上¥9,839,000はプレミアム2・プラチナ3に集中。ミドル・スモール帯の取りこぼし（否決20件）の分析が後続月の課題</li>
+</ul>
+<hr />
+<h2>5. 来月（4月）への申し送り</h2>
+<ul>
+<li>ステータス3区分（保留／不成約／成約）＋期限明記を初月から標準オペ化（CSV-所感の食い違い防止）</li>
+<li>三浦美幸のクロージング精度向上 - 共感型の決め切り条件を分析で言語化</li>
+<li>否決20件の要因分析を進め、ミドル・スモール帯の取りこぼし傾向を把握</li>
+<li>五ヶ山・澤田の高単価成約の再現条件（真のニーズ掘り起こし）をマニュアル化</li>
+</ul>
+<hr />
+<h2>6. 補足（3月のマニュアル還流）</h2>
+<ul>
+<li>ティア別内訳（3月成約8件・概算・合計¥9,839,000）: プレミアム2件 ¥4,228,000（森¥1,980,000・野口¥2,248,000）／プラチナ4件 ¥4,456,000（柴田・大坂・福山 各¥1,148,000・吉岡理恵¥1,012,000）／ゴールド1件 ¥700,000（市村）／シルバー1件 ¥455,000（梶川）</li>
+<li>動画書き出し状況: 高単価成約は動画URL登録あり（野口・森・福山・柴田・吉岡）。否決案件は未登録が多い</li>
+<li>成功失敗マニュアル追加候補: 真のニーズ掘り起こし型（野口・金銭被害／夫婦関係）、寡黙層の粘りクロージング型（福山）</li>
+<li>担当傾向マニュアル追記候補: 五ヶ山の高単価決め切り条件、澤田の寡黙層対応</li>
+</ul>
+<hr />
+<h2>出典・データソース</h2>
+<ul>
+<li>管理シートCSV: <code>21_プロジェクト一覧/たかみず/セールス/管理シート/顧客BASE一覧_BASE.csv</code>（2026-06-05時点）</li>
+<li>3月分の分析ファイル: <code>21_プロジェクト一覧/たかみず/セールス/セールス分析/20260304_*.md</code> 〜 <code>20260330_*.md</code></li>
+<li>通期データ・月別推移・グラフ: <code>セールスマニュアル/全体レポート.md</code></li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Generated: 2026-06-05<br />
+Version: 1.0（月次レポート・その月のみ）<br />
+</content></p>
+</article>
+</main>
+</div>
+</body>
+</html>
