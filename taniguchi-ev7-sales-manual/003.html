@@ -3,264 +3,307 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>来場者ペルソナ分析_セールスデータ集約 - 谷口 EV7 セールスマニュアル</title>
+<title>月次総評マニュアル - 谷口 EV7 セールスマニュアル</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
 
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
-    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
-    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
-    .sidebar .date { display: none; }
-    .mobile-nav { display: none; }
-    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.9rem; line-height: 1.6; }
-    .main a { word-wrap: break-word; }
-    .main table { font-size: 0.85rem; }
-    .main th, .main td { padding: 0.35rem; }
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
 }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
-    .sidebar h3 { font-size: 0.7rem; }
-    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
-    .main { padding: 0.3rem; width: calc(100% - 90px); }
-    .main h1 { font-size: 1.1rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.85rem; }
-    .main pre { font-size: 0.75rem; padding: 0.4rem; }
-    .main table { font-size: 0.75rem; }
-    .main th, .main td { padding: 0.2rem; }
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
 }
 </style>
 </head>
 <body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
+<div class="layout">
 <nav class="sidebar">
+<div class="brand">Sales Report</div>
 <h3>谷口 EV7 セールスマニュアル</h3>
 <a href="001.html" class="sidebar-item"><span class="date">2026年06月05日</span> セールス担当別_傾向とクセ</a>
 <a href="002.html" class="sidebar-item"><span class="date">2026年06月05日</span> 個別説明会_セールス成功失敗マニュアル</a>
-<a href="003.html" class="sidebar-item active"><span class="date">2026年06月05日</span> 来場者ペルソナ分析_セールスデータ集約</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年06月05日</span> 質疑応答の理想回答集</a>
+<a href="003.html" class="sidebar-item active"><span class="date">2026年06月05日</span> 月次総評マニュアル</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年06月05日</span> 来場者ペルソナ分析_セールスデータ集約</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年06月05日</span> 質疑応答の理想回答集</a>
 </nav>
-<main class="main">
-<h1>来場者ペルソナ分析 セールスデータ集約（EV7つの覚醒風水学）</h1>
-<p>Version 1.0（2026-06-04）</p>
-<p>個別説明会の申込者・面談者を型として整理し、担当別KPIと書き起こし取得状況とあわせて参照するための集約ドキュメント。</p>
-<p>参照: <code>../担当者別_KPI集計.md</code>／<code>../書き出し完了状況.md</code>／<code>../セールス分析/</code>（40件）／<code>個別説明会_セールス成功失敗マニュアル.md</code></p>
-<h2>第1部 ペルソナタイプ（8型）</h2>
-<p>分析40件の「ペルソナ分類」行と申込フォーム項目をクラスタリングした型。複数該当あり。</p>
-<h3>1. 子どもの将来・教育費不安型</h3>
-<p>特徴: 受験・不登校・教育費101万級の出費。本音は「子が希望進路へ」「家族が笑顔」。風水は入口だが決裁は家計タイミング。</p>
-<p>刺さる訴求: 受験シーズン限定の過ごし方、親の基地包囲、開始月の時期ずらし。50万は受験費の「もう一つ」に見えないよう設計。</p>
-<p>成約・否決の例: 否決 <code>20260323_吉川美穂_永吉_分析.md</code>／否決 <code>20260328_大保美紀江_田畑_分析.md</code>／講座案内前 <code>20260416_橋岡千春_田畑_分析.md</code></p>
-<h3>2. 家族の健康・家の気疲れ型</h3>
-<p>特徴: 専業主婦・看護師・母親中心。家に帰ると疲れる、家族の健康不安。寝室・水回り・気の流れが入口。</p>
-<p>刺さる訴求: 足湯21日、基地包囲の具体、家族全員の運気。柔軟な支払い。</p>
-<p>成約の例: <code>20260419_山本美紀_田畑_分析.md</code>／<code>20260525_田中多喜子_永吉_分析.md</code>／<code>20260328_加藤恵美_田畑_分析.md</code></p>
-<h3>3. 住環境・新築・引っ越し型</h3>
-<p>特徴: 建て替え・引っ越し・間取り・方位への関心。自分で判断できる力を求める。</p>
-<p>刺さる訴求: ゴールド／マスターでの間取り・方位の学び、建て替えタイミングと開始月の分離。</p>
-<p>成約の例: <code>20260401_佐藤香織_永吉_分析.md</code>／<code>20260511_三原えり_田畑_分析.md</code>／<code>20260515_本橋弘美_田畑_分析.md</code></p>
-<h3>4. 家計・金運・支払い慎重型</h3>
-<p>特徴: クレジット枠・現金・収入不安定。価格より「出せる月」「分割」が決裁の本体。</p>
-<p>刺さる訴求: 分割表、開始月、押し売りしない＋次回日付。事例で効果の確信。</p>
-<p>否決・保留: <code>20260527_田中理恵_田畑_分析.md</code>／<code>20260523_岡村愛弓_永吉_分析.md</code>（保留）／<code>20260524_味村和美_永吉_分析.md</code>（保留）</p>
-<h3>5. 自己成長・キャリア・仕事両立型</h3>
-<p>特徴: フリーランス、サロン、事業拡大、薬膳など。風水を仕事や生活の効率に載せたい。</p>
-<p>刺さる訴求: 職業に合った活用法、時間の最小単位、ROI。事業整理中は参加形態と開始月を先に合意。</p>
-<p>否決の例: <code>20260525_ふじもとまり_田畑_分析.md</code>／<code>20260509_尾畑沙希_田畑_分析.md</code>／<code>20260520_大山貴義_田畑_分析.md</code></p>
-<h3>6. 家族関係・夫婦・不和解決型</h3>
-<p>特徴: 夫婦関係・家庭内ストレス・配偶者の理解が必要。申込後キャンセルリスクあり。</p>
-<p>刺さる訴求: 夫婦・家族共通の「家の運気」、配偶者向け説明、同席次回枠。</p>
-<p>例: <code>20260520_淺田香奈_田畑_分析.md</code>（成約）／<code>20260408_奥原陽子_田畑_分析.md</code>（申込後キャンセル）／<code>20260315_松永聖子_田畑_分析.md</code>（否決）</p>
-<h3>7. 過去講座・風水経験あり慎重型</h3>
-<p>特徴: 以前の講座や風水で成果が出なかった、または金額に慎重。信頼は動画・谷口先生から入る。</p>
-<p>刺さる訴求: 過去との差分（伴走・21日・基地包囲）、同ペルソナ事例。押し売りしない。</p>
-<p>成約: <code>20260525_田中多喜子_永吉_分析.md</code>／保留 <code>20260523_岡村愛弓_永吉_分析.md</code></p>
-<h3>8. 生活停滞・運気改善・断捨離型</h3>
-<p>特徴: 運気停滞、片付け未完了、健康維持。即決を迫ると反発。具体の21日設計が必要。</p>
-<p>刺さる訴求: 小さな行動からの変化、生活改善の順序。効果の期間約束。</p>
-<p>否決の例: <code>20260401_川口桂子_田畑_分析.md</code>／<code>20260322_大久保やよい_田畑_分析.md</code></p>
-<h2>第2部 KPI（担当者別_KPI集計.md より・自動更新）</h2>
-<table>
-<thead>
-<tr>
-<th>担当者</th>
-<th style="text-align: right;">持分</th>
-<th style="text-align: right;">セールス実施</th>
-<th style="text-align: right;">成約</th>
-<th style="text-align: right;">否決</th>
-<th style="text-align: right;">保留</th>
-<th style="text-align: right;">成約率(全件)</th>
-<th style="text-align: right;">成約率(確定分)</th>
-<th style="text-align: right;">売上合計(税込)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>田畑</td>
-<td style="text-align: right;">66</td>
-<td style="text-align: right;">53</td>
-<td style="text-align: right;">22</td>
-<td style="text-align: right;">24</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">33.3%</td>
-<td style="text-align: right;">47.8%</td>
-<td style="text-align: right;">¥14,837,000</td>
-</tr>
-<tr>
-<td>永吉</td>
-<td style="text-align: right;">65</td>
-<td style="text-align: right;">46</td>
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">29.2%</td>
-<td style="text-align: right;">47.5%</td>
-<td style="text-align: right;">¥11,340,000</td>
-</tr>
-<tr>
-<td>合計</td>
-<td style="text-align: right;">131</td>
-<td style="text-align: right;">99</td>
-<td style="text-align: right;">41</td>
-<td style="text-align: right;">45</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">31.3%</td>
-<td style="text-align: right;">47.7%</td>
-<td style="text-align: right;">¥26,177,000</td>
-</tr>
-</tbody>
-</table>
-<h2>動画URL・書き出し（統計）</h2>
-<table>
-<thead>
-<tr>
-<th>指標</th>
-<th>件数</th>
-<th>備考</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>持分行のうち動画URL欄あり</td>
-<td>74</td>
-<td>管理シート</td>
-</tr>
-<tr>
-<td>動画URL行（ユニークURL集計用）</td>
-<td>74</td>
-<td>書き出しツール集計</td>
-</tr>
-<tr>
-<td>ユニークVimeo URL</td>
-<td>72</td>
-<td></td>
-</tr>
-<tr>
-<td>probe 取得成功</td>
-<td>1</td>
-<td><code>_vimeo_probe_results.json</code></td>
-</tr>
-<tr>
-<td>書き出し成功</td>
-<td>0</td>
-<td>確定分析40件</td>
-</tr>
-<tr>
-<td>取得不可（残）</td>
-<td>71</td>
-<td>hash欠落等</td>
-</tr>
-</tbody>
-</table>
-<p>アップロード率（持分ベース）: 動画URLあり 74 / 持分 131 = 56.5%</p>
-<p>書き出し成功率（取得可能分）: 0 / 1（probe OK分は全件書き出し済み）</p>
-<p>詳細: <code>データ取得状況.md</code>／<code>書き出し不可_URL一覧_先方返却用.md</code></p>
-<h2>コース別内訳</h2>
-<p><code>コース別_成約内訳.md</code> を参照（シート成約41件＋分析40件の商品構成比）。</p>
+<main class="content">
+<article class="article">
+<h1>月次総評マニュアル（谷口案件）</h1>
+<p>このファイルは案件の <strong>月ごとの実施数・成約率・振り返り総評</strong> を積み上げ式で記載するマニュアル。<br />
+ユーザー指定 5標準マニュアルの「⑤ 月ごとの担当別報告・総評」に該当する。</p>
+<p>最終更新: 2026-06-05<br />
+更新方針: 月初1日に前月分を <strong>新セクション</strong> として上に追記。古い月は下に残す。</p>
+<hr />
+<h2>月次総評の基本フォーマット</h2>
+<p>各月のセクションは以下のテンプレートを使う。月次レポート自動生成スクリプト（Phase 2）はこの構造を生成する。</p>
+<pre><code class="language-markdown">## YYYY年MM月 月次総評
+
+### 1. 月次数値サマリー
+- セールス実施数: X件
+- 成約数: Y件
+- 成約率（全件）: Z%
+- 成約率（確定分）: Z%
+- 売上総額: ¥XXX,XXX
+- 前月比: 実施数 ±X% / 成約数 ±Y%
+
+### 2. 担当別月次実績
+| 担当 | 実施 | 成約 | 否決 | 保留 | 成約率 | 売上 |
+|---|---|---|---|---|---|---|
+
+### 3. ティア別内訳（商品ティアマスター参照）
+| ティア | 件数 | 売上 | 構成比 |
+|---|---|---|---|
+| ハイエンド |  |  | % |
+| ミドルエンド |  |  | % |
+| スモールエンド |  |  | % |
+
+### 4. 動画書き出し状況
+- 動画URL登録件数: X件
+- 書き起こし完了: Y件
+- 書き出し失敗（要改善）: 担当者別の失敗件数を列挙
+
+### 5. 月の総評
+#### 良かったこと
+-
+
+#### 課題
+-
+
+#### 来月の重点
+-
+
+### 6. 特筆事項（成約・否決の核心事例）
+- 成約事例:
+- 否決事例:
+- 申込後キャンセル/中途解約:
+
+### 7. マニュアル還流のサマリー
+- 成功失敗マニュアル: パターン追加件数 N件
+- 質疑応答集: Q&amp;A追加件数 N件
+- 担当傾向マニュアル: 担当別追記 N件
+</code></pre>
+<hr />
+<h2>月次総評ログ（最新月を上に）</h2>
+<h3>（まだ作成されていません）</h3>
+<p>第1回 月次総評は、月次レポート自動生成スクリプト（Phase 2）の稼働開始後に自動生成されます。<br />
+または、田中祐一さんの手動指示で生成可能です。</p>
+<hr />
+<h2>自動生成の前提</h2>
+<p>月次総評を自動生成するには、以下のデータが揃っている必要があります:</p>
+<ol>
+<li><strong>管理シートCSV</strong>: その月の成約・否決・コース・売上データを含む</li>
+<li><strong>商品ティアマスター</strong>: 案件のコースをティアに分類済み（<code>_横断_セールス/商品ティアマスター.md</code> で確定済み）</li>
+<li><strong>その月の分析ファイル</strong>: マニュアル還流のサマリー抽出のため</li>
+<li><strong>書き起こし成功率データ</strong>: アラート対象担当者の特定</li>
+</ol>
+<hr />
+<h2>案件固有のメモ（谷口案件）</h2>
+<ul>
+<li>集計区分: （要確認）</li>
+<li>担当者: （要調査）</li>
+<li>CSV正本: <code>管理シート/</code></li>
+</ul>
 <hr />
 <p>Produced by KATSUO MARKETING<br />
-Version: 1.1 (2026-06-04)<br />
-Licensed to: KATSUO MARKETING Community Member<br />
-Security Trace ID: T7K2EV4N<br />
-Generated by: 田中祐一</p>
-<h2>第3部 書き出し取得状況</h2>
-<table>
-<thead>
-<tr>
-<th>項目</th>
-<th>件数</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>管理シート行（動画URL欄あり）</td>
-<td>74</td>
-</tr>
-<tr>
-<td>ユニーク動画URL</td>
-<td>72</td>
-</tr>
-<tr>
-<td>probe / 取得可能</td>
-<td>1</td>
-</tr>
-<tr>
-<td>書き出し成功</td>
-<td>0</td>
-</tr>
-<tr>
-<td>取得不可</td>
-<td>71</td>
-</tr>
-</tbody>
-</table>
-<p>公式KPI（持分131・成約41等）はシート全件。分析40件は書き出し成功分のみ。率の比較時は母数を混同しないこと。</p>
-<hr />
-<p>Produced by KATSUO MARKETING<br />
-Version: 1.1 (2026-06-04)<br />
-Licensed to: KATSUO MARKETING Community Member<br />
-Security Trace ID: T7K2EV4N<br />
-Generated by: 田中祐一</p>
+Version: 1.0 (2026-06-05)</p>
+</article>
 </main>
+</div>
 </body>
 </html>
