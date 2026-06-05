@@ -176,25 +176,15 @@ a:hover { text-decoration: underline; }
 .article pre code { background: none; color: inherit; padding: 0; }
 .article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
 
-/* ===== 案件内ナビ（マニュアル⇔月次） ===== */
-.xnav {
-  display: flex; flex-wrap: wrap; gap: 0.6rem;
-  margin: 0 0 1.8rem; padding: 0 0 1.3rem;
-  border-bottom: 1px dashed var(--line);
-}
-.xnav-item {
-  display: inline-flex; align-items: center;
-  padding: 0.5rem 1.05rem; border-radius: 999px;
-  font-size: 0.92rem; font-weight: 700;
-  border: 1.5px solid var(--main); color: var(--sub);
-  background: #fff; white-space: nowrap;
-}
-.xnav-item:hover { background: #E6F6F1; text-decoration: none; }
-.xnav-current {
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+.sidebar-cross { margin: 0 0 0.9rem; padding: 0 0 0.9rem; border-bottom: 1px dashed var(--line); }
+.sidebar-xitem {
+  display: block; padding: 0.7rem 0.9rem; border-radius: 10px;
+  font-size: 0.92rem; font-weight: 700; color: #fff;
   background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; border-color: transparent;
-  box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  box-shadow: 0 4px 14px rgba(24,155,125,0.2); text-align: center;
 }
+.sidebar-xitem:hover { text-decoration: none; opacity: 0.92; }
 
 /* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
 .article a.ref-link {
@@ -283,7 +273,7 @@ a:hover { text-decoration: underline; }
 <nav class="sidebar">
 <div class="brand">Sales Report</div>
 <h3>増田 W3EV 月次総評</h3>
-<a href="2026-05.html" class="sidebar-item"><span class="date">2026年05月</span> 2026-05_増田_月次レポート</a>
+<div class="sidebar-cross"><a class="sidebar-xitem" href="../masuda-sales-manual/">📊 マニュアル・全体レポート</a></div><a href="2026-05.html" class="sidebar-item"><span class="date">2026年05月</span> 2026-05_増田_月次レポート</a>
 <a href="2026-04.html" class="sidebar-item active"><span class="date">2026年04月</span> 2026-04_増田_月次レポート</a>
 <a href="2026-03.html" class="sidebar-item"><span class="date">2026年03月</span> 2026-03_増田_月次レポート</a>
 <a href="2026-02.html" class="sidebar-item"><span class="date">2026年02月</span> 2026-02_増田_月次レポート</a>
@@ -291,7 +281,7 @@ a:hover { text-decoration: underline; }
 </nav>
 <main class="content">
 <article class="article">
-<nav class="xnav"><a class="xnav-item" href="../masuda-sales-manual/">📊 マニュアル・全体レポート</a><span class="xnav-item xnav-current">📅 月次レポート（月別）</span></nav><h1>2026年4月 月次レポート（増田 W3EVビジネスマイラー）</h1>
+<h1>2026年4月 月次レポート（増田 W3EVビジネスマイラー）</h1>
 <p>先月（3月）までの流れの上に4月を積み上げるレポート。先月比較と「流れの中での今月の位置づけ」を重視する。<br />
 通期の流れ・月別推移・グラフは <code>../全体レポート.md</code> を参照。</p>
 <p>対象期間: 2026-04-01 〜 2026-04-30<br />
@@ -303,11 +293,6 @@ a:hover { text-decoration: underline; }
 <div class="v-row"><span class="v-key">来月やること</span><span class="v-val">面談の件数を確保しつつ、決まらなかった案件の理由を整理する</span></div>
 </div>
 
-<hr />
-<h2>0. 先月までの流れと今月の位置づけ（所感）</h2>
-<p>先月まで: 1月17.6%（落ち込み）→ 2月80.0%（急回復）→ 3月18.2%（再落ち込み）と、上下に大きく振れていた。直近の3月は否決9件が集中し、後段クロージングで取りこぼす構造課題が田畑・永吉に出た谷の月だった。流れとしては「2月の上振れの反動で3月に沈んだ、底打ちを確認したい局面」で4月に入った。</p>
-<p>今月（4月）: 3月の底から持ち直した。実施は14→12件と微減したが、成約率は18.2%→25.0%（+6.8pp）と回復。成約3件を田畑・古田・永吉の3担当が1件ずつ分担し、特定担当依存ではなくチーム全体で成約を取れた点が3月との大きな違い。3月に懸念だった「後段の取りこぼし」を、4月は3名横並びの成約で一旦食い止めた。</p>
-<p>評価: V字とまではいかないが、3月の底を打って上向きに転じた月。ただし否決は依然9件（確定12件の4分の3）残っており、回復は「成約率が戻った」というより「3名がそれぞれ1件決めた」分散の効果が大きい。底打ちは確認できたので、来月は否決の母数をどう減らすか（古田7件実施で成約1の決定率）と、3月から続く録画運用の偏在が論点。回復トレンドの初動と読み、勢いを5月につなげたい。</p>
 <hr />
 <h2>1. 今月の数字（4月・先月比較つき）</h2>
 <table>
@@ -356,7 +341,12 @@ a:hover { text-decoration: underline; }
 内訳: ファーストクラス2件 各¥660,000・¥600,000／ビジネスクラス1件 ¥330,000。<br />
 成約・成約率・売上が揃って先月から改善。成約3件を田畑・古田・永吉の3担当がそれぞれ1件ずつ獲得し、3月（18.2%）の底から成約率が回復した。一方で否決は3月と同じ9件で、母数の質はまだ改善しきっていない。</p>
 <hr />
-<h2>2. 今月の担当別実績（4月・先月からの変化つき）</h2>
+<h2>2. 先月までの流れと今月の位置づけ（所感）</h2>
+<p>先月まで: 1月17.6%（落ち込み）→ 2月80.0%（急回復）→ 3月18.2%（再落ち込み）と、上下に大きく振れていた。直近の3月は否決9件が集中し、後段クロージングで取りこぼす構造課題が田畑・永吉に出た谷の月だった。流れとしては「2月の上振れの反動で3月に沈んだ、底打ちを確認したい局面」で4月に入った。</p>
+<p>今月（4月）: 3月の底から持ち直した。実施は14→12件と微減したが、成約率は18.2%→25.0%（+6.8pp）と回復。成約3件を田畑・古田・永吉の3担当が1件ずつ分担し、特定担当依存ではなくチーム全体で成約を取れた点が3月との大きな違い。3月に懸念だった「後段の取りこぼし」を、4月は3名横並びの成約で一旦食い止めた。</p>
+<p>評価: V字とまではいかないが、3月の底を打って上向きに転じた月。ただし否決は依然9件（確定12件の4分の3）残っており、回復は「成約率が戻った」というより「3名がそれぞれ1件決めた」分散の効果が大きい。底打ちは確認できたので、来月は否決の母数をどう減らすか（古田7件実施で成約1の決定率）と、3月から続く録画運用の偏在が論点。回復トレンドの初動と読み、勢いを5月につなげたい。</p>
+<hr />
+<h2>3. 今月の担当別実績（4月・先月からの変化つき）</h2>
 <table>
 <thead>
 <tr>
@@ -393,7 +383,7 @@ a:hover { text-decoration: underline; }
 </table>
 <p>通期の担当別実績は <code>../全体レポート.md</code> を参照。</p>
 <hr />
-<h2>3. 今月の代表的な良かったこと（4月）</h2>
+<h2>4. 今月の代表的な良かったこと（4月）</h2>
 <ul>
 <li>戸田百合子さん（田畑）/ 成約（ファーストクラス ¥660,000）- 61歳・会社員。約110分の長尺セッションで課題言語化→納得→価格→成約まで着地。当月最大単価</li>
 <li>植田太さん（永吉）/ 成約（ファーストクラス ¥600,000）- 現役歯科医師。マイルを入口に参加し、カメラ中古物販への積極的関心を引き出して成約。永吉担当で初の確定分析対象となり、今後の永吉欄の基準点に</li>
@@ -401,7 +391,7 @@ a:hover { text-decoration: underline; }
 <li>3担当に成約が分散 - 田畑・古田・永吉がそれぞれ1件成約。特定担当依存ではなく、チーム全体で成約を分担できた月</li>
 </ul>
 <hr />
-<h2>4. 今月の代表的な改善事項（4月）</h2>
+<h2>5. 今月の代表的な改善事項（4月）</h2>
 <ul>
 <li>否決9件（確定12件中） - 成約率25.0%で母数の4分の3が否決。古田7件実施で成約1にとどまり、決定率に伸びしろ</li>
 <li>永吉の物販抵抗への対応 - 植田太さんは新品物販に「競争が激しい」と明確な抵抗を示した。成約はしたが、物販不安への先回りトークを質疑応答集に類型化すべき</li>
@@ -409,7 +399,7 @@ a:hover { text-decoration: underline; }
 <li>録画運用の偏在 - 永吉（植田太）は今回hash付きURLで分析できたが、古田の成約・保留分はURL未登録で分析できず</li>
 </ul>
 <hr />
-<h2>5. 来月（5月）への申し送り</h2>
+<h2>6. 来月（5月）への申し送り</h2>
 <ul>
 <li>古田の保留2件のフォロー設計 - 5月中に決着を取る</li>
 <li>永吉の成功要因の横展開 - 植田太さんの成約（物販抵抗を乗り越えた）トークを <code>セールス担当別_傾向とクセ.md</code> の永吉パートに記録し、他案件へ展開</li>
@@ -417,7 +407,7 @@ a:hover { text-decoration: underline; }
 <li>古田の録画運用化 - 7件実施の主力担当だが分析素材が残っていない。動画URL登録の運用化を進める</li>
 </ul>
 <hr />
-<h2>6. 補足（4月のマニュアル還流）</h2>
+<h2>7. 補足（4月のマニュアル還流）</h2>
 <ul>
 <li>動画書き出し: 永吉「植田太」はhash付きVimeoで分析完了（永吉初の確定分析）。田畑「戸田百合子」はアーカイブあり。古田分はURL未登録で分析ゼロ</li>
 <li>個別説明会_セールス成功失敗マニュアル.md: 戸田百合子（長尺成約）・植田太（物販抵抗を越えた成約）を成功パターンの追記候補に</li>
@@ -428,7 +418,7 @@ a:hover { text-decoration: underline; }
 <p>Produced by KATSUO MARKETING<br />
 Version: 2.0 (2026-06-05・積み上げ型に改稿／3月比較・流れの中の位置づけを追加）<br />
 Licensed to: KATSUO MARKETING Community Member<br />
-Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3／W3EV</dt><dd>W3はザ・リードが決済を担当する案件群の総称。W3EVは増田案件の商品名</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>

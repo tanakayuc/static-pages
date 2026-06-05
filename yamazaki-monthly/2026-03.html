@@ -176,25 +176,15 @@ a:hover { text-decoration: underline; }
 .article pre code { background: none; color: inherit; padding: 0; }
 .article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
 
-/* ===== 案件内ナビ（マニュアル⇔月次） ===== */
-.xnav {
-  display: flex; flex-wrap: wrap; gap: 0.6rem;
-  margin: 0 0 1.8rem; padding: 0 0 1.3rem;
-  border-bottom: 1px dashed var(--line);
-}
-.xnav-item {
-  display: inline-flex; align-items: center;
-  padding: 0.5rem 1.05rem; border-radius: 999px;
-  font-size: 0.92rem; font-weight: 700;
-  border: 1.5px solid var(--main); color: var(--sub);
-  background: #fff; white-space: nowrap;
-}
-.xnav-item:hover { background: #E6F6F1; text-decoration: none; }
-.xnav-current {
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+.sidebar-cross { margin: 0 0 0.9rem; padding: 0 0 0.9rem; border-bottom: 1px dashed var(--line); }
+.sidebar-xitem {
+  display: block; padding: 0.7rem 0.9rem; border-radius: 10px;
+  font-size: 0.92rem; font-weight: 700; color: #fff;
   background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; border-color: transparent;
-  box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  box-shadow: 0 4px 14px rgba(24,155,125,0.2); text-align: center;
 }
+.sidebar-xitem:hover { text-decoration: none; opacity: 0.92; }
 
 /* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
 .article a.ref-link {
@@ -283,7 +273,7 @@ a:hover { text-decoration: underline; }
 <nav class="sidebar">
 <div class="brand">Sales Report</div>
 <h3>山崎みなみ ホットペッパー 月次総評</h3>
-<a href="2026-05.html" class="sidebar-item"><span class="date">2026年05月</span> 2026-05_山崎みなみ_月次レポート</a>
+<div class="sidebar-cross"><a class="sidebar-xitem" href="../yamazaki-sales-manual/">📊 マニュアル・全体レポート</a></div><a href="2026-05.html" class="sidebar-item"><span class="date">2026年05月</span> 2026-05_山崎みなみ_月次レポート</a>
 <a href="2026-04.html" class="sidebar-item"><span class="date">2026年04月</span> 2026-04_山崎みなみ_月次レポート</a>
 <a href="2026-03.html" class="sidebar-item active"><span class="date">2026年03月</span> 2026-03_山崎みなみ_月次レポート</a>
 <a href="2026-02.html" class="sidebar-item"><span class="date">2026年02月</span> 2026-02_山崎みなみ_月次レポート</a>
@@ -291,7 +281,7 @@ a:hover { text-decoration: underline; }
 </nav>
 <main class="content">
 <article class="article">
-<nav class="xnav"><a class="xnav-item" href="../yamazaki-sales-manual/">📊 マニュアル・全体レポート</a><span class="xnav-item xnav-current">📅 月次レポート（月別）</span></nav><h1>2026年3月 月次レポート（山崎みなみ ホットペッパー超集客メソッド）</h1>
+<h1>2026年3月 月次レポート（山崎みなみ ホットペッパー超集客メソッド）</h1>
 <p>先月（2月）までの流れの上に3月を積み上げるレポート。先月比較と「流れの中での今月の位置づけ」を重視する。<br />
 通期の全体像・月別推移・グラフは <code>全体レポート.md</code> を参照。</p>
 <p>対象期間: 2026-03-01 〜 2026-03-31<br />
@@ -302,11 +292,6 @@ a:hover { text-decoration: underline; }
 <div class="v-row"><span class="v-key">来月やること</span><span class="v-val">来月の数字で持ち直すかを見て、一時的な落ち込みか下降の始まりかを見極める</span></div>
 </div>
 
-<hr />
-<h2>0. 先月までの流れと今月の位置づけ（所感）</h2>
-<p>先月まで: 12月18.5% → 1月22.5% → 2月38.5% と、成約率は3ヶ月かけて右肩上がりに改善していた。特に2月は実施36件で成約10件と、量を抑えつつ質を上げた良い月だった。</p>
-<p>今月（3月）: 流れが反転。実施数は2月36件→3月43件と増やしたが、成約は10件→5件に半減。成約率は38.5%→14.7%（-23.8pp）と大きく後退した。</p>
-<p>評価: 「量を増やしたが質が落ちた」典型パターン。2月の好調が一過性だった可能性と、母数拡大で温度の低いリードまで対応した可能性の両方がある。来月（4月）に2月水準へ戻せるかが、3月の落ち込みが「一時的なブレ」か「下降トレンドの始まり」かの分岐点になる。</p>
 <hr />
 <h2>1. 今月の数字（3月・先月比較つき）</h2>
 <table>
@@ -390,7 +375,12 @@ a:hover { text-decoration: underline; }
 </table>
 <p>3月は実施43件と母数は確保したが、否決29件と確定分の大半が失注。成約率14.7%は2月（38.5%）から大きく後退した低成約月。</p>
 <hr />
-<h2>2. 今月の担当別実績（3月のみ）</h2>
+<h2>2. 先月までの流れと今月の位置づけ（所感）</h2>
+<p>先月まで: 12月18.5% → 1月22.5% → 2月38.5% と、成約率は3ヶ月かけて右肩上がりに改善していた。特に2月は実施36件で成約10件と、量を抑えつつ質を上げた良い月だった。</p>
+<p>今月（3月）: 流れが反転。実施数は2月36件→3月43件と増やしたが、成約は10件→5件に半減。成約率は38.5%→14.7%（-23.8pp）と大きく後退した。</p>
+<p>評価: 「量を増やしたが質が落ちた」典型パターン。2月の好調が一過性だった可能性と、母数拡大で温度の低いリードまで対応した可能性の両方がある。来月（4月）に2月水準へ戻せるかが、3月の落ち込みが「一時的なブレ」か「下降トレンドの始まり」かの分岐点になる。</p>
+<hr />
+<h2>3. 今月の担当別実績（3月のみ）</h2>
 <table>
 <thead>
 <tr>
@@ -447,13 +437,13 @@ a:hover { text-decoration: underline; }
 </ul>
 <p>前田担当は動画URLがhash無・削除済で書き出し取得が不能なため、書き出し失敗担当として固定記載で運用（田中祐一さん判断・2026-06-05）。</p>
 <hr />
-<h2>3. 今月の代表的な良かったこと（3月）</h2>
+<h2>4. 今月の代表的な良かったこと（3月）</h2>
 <ul>
 <li>酒井摩耶様（三納）/ 成約・評価B - マンツーマンコース¥121万の高額成約。新規集客課題が講座の解決範囲と一致し、「隠れ家的な質の高いサロン」という自身の方向性が面談中に言語化された。三納の傾聴力が信頼を獲得</li>
 <li>三納の高額成約が当月売上を牽引 - 3月成約3件で¥2,410,000。母数の大きい浜田を上回る売上をつくった</li>
 </ul>
 <hr />
-<h2>4. 今月の代表的な改善事項（3月）</h2>
+<h2>5. 今月の代表的な改善事項（3月）</h2>
 <ul>
 <li>カウンセリング時間の超過でオファー・クロージングに到達できない - 川元奈々様・木野朋子様（ともに三納・否決C評価）。面談前半で人生の深い話題に時間を費やし、ビジネス課題分析と講座価値への接続に届かない。カウンセリングと提案の時間配分を事前に設計する</li>
 <li>反論処理（ステップ10）の省略 - 三納の構造的課題として複数件で再現。高額成約（酒井様¥121万）でも反論処理・投資対効果の計算が確認できず、「冷却後の不安増大→解約」リスクを構造的に抱える</li>
@@ -461,7 +451,7 @@ a:hover { text-decoration: underline; }
 <li>穏永は当月の確定成約に至らず - 7件すべて未成約。否決理由の共通項を洗い出し、4月以降の立て直し材料にする</li>
 </ul>
 <hr />
-<h2>5. 来月（4月）への申し送り</h2>
+<h2>6. 来月（4月）への申し送り</h2>
 <ul>
 <li>三納のカウンセリング時間超過への対応。提案・反論処理に必ず時間を残す進行設計を徹底する</li>
 <li>高額成約（マンツーマン帯）には投資対効果の数字提示と反論処理を必須化し、冷却後の解約リスクを抑える</li>
@@ -469,7 +459,7 @@ a:hover { text-decoration: underline; }
 <li>浜田は実施数は十分なため、成約率15.4%の底上げ（クロージング精度）を重点に置く</li>
 </ul>
 <hr />
-<h2>6. 補足（3月のマニュアル還流）</h2>
+<h2>7. 補足（3月のマニュアル還流）</h2>
 <ul>
 <li>3月分析ファイル: 7本（川元奈々・木野朋子・酒井摩耶・岡崎典子・岩崎聡子・吉岡悟志・渡辺鮎里、いずれも三納）</li>
 <li>個別説明会_セールス成功失敗マニュアル 追加候補: カウンセリング時間超過による失注パターン／高額成約の反論処理欠落リスク</li>
@@ -478,7 +468,7 @@ a:hover { text-decoration: underline; }
 </ul>
 <hr />
 <p>Produced by KATSUO MARKETING<br />
-Version: 1.0 (2026-06-05)</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+Version: 1.0 (2026-06-05)</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3／W3EV</dt><dd>W3はザ・リードが決済を担当する案件群の総称。W3EVは増田案件の商品名</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>
