@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第6回スライド 改善指示書 v2.2（全文版・Before/After対比）</title>
+<style>
+:root {
+  --ink: #1a2842;
+  --accent: #ec8400;
+  --accent-soft: #fef4e6;
+  --rule: #e6e8ee;
+  --soft: #f7f8fb;
+  --code: #f1f3f8;
+  --muted: #6a7180;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--ink);
+  background: #fafbfd;
+  font-feature-settings: "palt";
+}
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 56px 40px 96px;
+  background: #fff;
+  box-shadow: 0 2px 32px rgba(20, 30, 60, 0.04);
+}
+h1 {
+  font-size: 28px;
+  line-height: 1.45;
+  margin: 0 0 24px;
+  padding-bottom: 18px;
+  border-bottom: 3px solid var(--accent);
+  color: var(--ink);
+  font-weight: 800;
+}
+h2 {
+  font-size: 22px;
+  line-height: 1.5;
+  margin: 56px 0 20px;
+  padding: 10px 0 10px 16px;
+  border-left: 6px solid var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+}
+h3 {
+  font-size: 18px;
+  margin: 36px 0 14px;
+  color: var(--ink);
+  font-weight: 700;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--rule);
+}
+h4 {
+  font-size: 16px;
+  margin: 24px 0 10px;
+  color: var(--accent);
+  font-weight: 700;
+}
+p { margin: 0 0 16px; }
+ul, ol { padding-left: 26px; margin: 0 0 16px; }
+li { margin-bottom: 6px; }
+strong { color: var(--ink); font-weight: 700; background: linear-gradient(transparent 60%, rgba(236, 132, 0, 0.18) 60%); padding: 0 2px; }
+em { color: var(--accent); font-style: normal; font-weight: 700; }
+a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+hr { border: none; border-top: 1px solid var(--rule); margin: 40px 0; }
+blockquote {
+  margin: 16px 0;
+  padding: 14px 18px;
+  background: var(--soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  color: var(--ink);
+}
+blockquote p { margin: 0 0 8px; }
+blockquote p:last-child { margin-bottom: 0; }
+code {
+  background: var(--code);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+}
+pre {
+  background: var(--code);
+  padding: 14px 18px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+pre code { background: none; padding: 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px;
+  font-size: 15px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+thead { background: var(--ink); color: #fff; }
+th {
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid var(--accent);
+}
+td {
+  padding: 12px 14px;
+  border-top: 1px solid var(--rule);
+  vertical-align: top;
+}
+tbody tr:nth-child(even) { background: var(--soft); }
+input[type="checkbox"] { margin-right: 6px; }
+
+.meta {
+  background: var(--soft);
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 36px;
+  border: 1px solid var(--rule);
+}
+.meta strong { color: var(--ink); background: none; }
+
+.footer-sig {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .wrap { padding: 32px 20px 64px; }
+  h1 { font-size: 22px; }
+  h2 { font-size: 19px; }
+  h3 { font-size: 16px; }
+  table { font-size: 13px; }
+  th, td { padding: 8px 10px; }
+}
+
+@media print {
+  body { background: #fff; }
+  .wrap { max-width: none; padding: 20px; box-shadow: none; }
+  h2 { page-break-after: avoid; }
+  table { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>第6回スライド 改善指示書 v2.2（全文版・Before/After対比）</h1>
+<p>整理日: 2026-06-08<br />
+対象: <code>1_実データ/20260608_AIコンサルセミナー_スライド.pdf</code>（全171枚）<br />
+書き起こし正本: <code>1_実データ/20260608_AIコンサルセミナー_スライド書き起こし.md</code><br />
+本ファイルの目的: 片岡さんが現状スライドと照らし合わせて違和感をチェックするための、修正前後の文言全文対比</p>
+<p>修正対象：合計15箇所（既存12枚 + 新規3枚）</p>
+<hr />
+<h2>1. S7「本日、私からお伝えしたいこと」— 主語固定の1行追加（A-5）</h2>
+<h3>【修正前】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> 本日、私からお伝えしたいこと。<br />
+<strong>【3つのポイント】</strong><br />
+1. <strong>リアル市場のチャンス</strong>：地方やリアルの世界には、AIで変えられる膨大なチャンスがまだまだ転がっています。<br />
+2. <strong>開拓できる人が少ない</strong>：でも、それを開拓できるコンサルタントは、今ほぼいません。<br />
+3. <strong>高単価で受注する型</strong>：「対面で信頼を積み上げ、AIを武器に高単価で受注していく具体的な型」を、本日は2時間半かけてお伝えします。<br />
+<strong>【補足】</strong> どうぞ気楽な気持ちで、お聞きいただければと思います。</p>
+</blockquote>
+<h3>【修正後】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> 本日、私からお伝えしたいこと。<br />
+<strong>【3つのポイント】</strong>（変更なし）<br />
+<strong>【補足】</strong> どうぞ気楽な気持ちで、お聞きいただければと思います。<br />
+<strong>【追加・新規末尾】</strong> <strong>ここから先は、"あなたが社長にAIを届ける側"の視点でお聞きください。</strong> 社長の困りごとの話も、市場の話も、すべて <strong>"あなたの商品の市場性の話"</strong> として読み替えていただけたら、最後にぐっと身近になります。</p>
+</blockquote>
+<h3>変更点</h3>
+<ul>
+<li>補足の後ろに1段落だけ追加。3ポイント自体は触らない。</li>
+</ul>
+<hr />
+<h2>2. S17「AI使いこなしレベル 7段階」— ゴール表記の撤廃（A-1）</h2>
+<h3>【修正前】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> AI使いこなしレベル 7段階<br />
+<strong>【サブタイトル】</strong> 現在地を知る時間<br />
+<strong>【レベル一覧】</strong> Lv.1〜Lv.7（記載は維持）<br />
+<strong>【目標】</strong> <strong>目指す先はLv.7</strong></p>
+</blockquote>
+<h3>【修正後】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> AI使いこなしレベル 7段階<br />
+<strong>【サブタイトル】</strong> 現在地を知る時間 ── <strong>次にどこへ行きたいかを考える時間</strong><br />
+<strong>【レベル一覧】</strong> Lv.1〜Lv.7（記載は維持）<br />
+<strong>【Lv.3・Lv.4 のカードに追加バッジ】</strong> <strong>★ ここがAIコンサルの「適齢期」</strong><br />
+<strong>【Lv.7 のカードのサブテキストを差し替え】</strong> クライアントへAI導入支援 ── <strong>講座を通じて、ここまで自然に広がります</strong><br />
+<strong>【右下・旧「目指す先はLv.7」を撤廃。差し替え】</strong> <strong>プロレベルじゃなくても、コンサルになれます</strong>（→ 次のスライドへ）</p>
+</blockquote>
+<h3>変更点</h3>
+<ul>
+<li>「ゴール」というコンセプト自体を消す（S30との思想矛盾の原因）</li>
+<li>Lv3-4にバッジを付け、Lv7のニュアンスを「自然に広がる先」に格下げ</li>
+<li>次の新規スライド（A-2）へのブリッジを設置</li>
+</ul>
+<hr />
+<h2>3. S17 と S18 の間に新規1枚追加 — 「全員で勝てる、補完の仕組み」（A-2）</h2>
+<h3>【新規スライド全文】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> 全員で勝てる、補完の仕組み。<br />
+<strong>【サブタイトル】</strong> プロレベルに到達しないと、コンサルになれないわけではありません。</p>
+<p><strong>【3カード】</strong></p>
+<table>
+<thead>
+<tr>
+<th>あなたのレベル</th>
+<th>あなたの強み</th>
+<th>連携の形</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lv.2〜3</strong></td>
+<td>社長と同じ目線で話せる<br>"分かる人の上から目線"にならない</td>
+<td>仲間に技術を相談しながら、自分は要件定義に集中</td>
+</tr>
+<tr>
+<td><strong>Lv.4〜5</strong> ★ど真ん中</td>
+<td>現場で使える基本は身についている</td>
+<td>自分で巻ける案件＋仲間に技術を頼む案件、両方やれる</td>
+</tr>
+<tr>
+<td><strong>Lv.6〜7</strong></td>
+<td>技術は十分。提案や獲得が次の課題</td>
+<td>案件の技術パートナーとしてアサインされる側にも回れる</td>
+</tr>
+</tbody>
+</table>
+<p><strong>【中央メッセージ】</strong> <strong>一人で全部やらない。</strong> 要件定義はあなた、技術は仲間に振る働き方が可能です。</p>
+<p><strong>【帯コピー】</strong> <strong>講師ひとりではなく、仲間と補完しながら、みんなで成長していく講座です。</strong></p>
+</blockquote>
+<h3>変更点（位置づけ）</h3>
+<ul>
+<li>既存スライドのレイアウトに似せて新規作成</li>
+<li>S113「MINDSET 01：全員で勝つ！」と直接呼応する（マインドの実装）</li>
+<li>Lv6-7にも参加価値（技術パートナーとしてのアサイン）を提示</li>
+</ul>
+<hr />
+<h2>4. S22「AIコンサルタントの収入イメージ」— 段階アップ型に全面差し替え（A-3）</h2>
+<h3>【修正前】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> AIコンサルタントの収入イメージ<br />
+<strong>【3段階の収入モデル】</strong><br />
+- 初級：月額5万円 × 3社 = 15万円/月<br />
+- 中級：初期50万円 × 2社 = 100万円/月<br />
+- 上級：初期150万円 × 1社 = 150万円/月<br />
+<strong>【補足】</strong> 対面での信頼構築ができれば、高単価契約は珍しくない</p>
+</blockquote>
+<h3>【修正後】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> AIコンサルタントの収入イメージ<br />
+<strong>【サブタイトル】</strong> 段階的に育てる</p>
+<p><strong>【3段階・横並び】</strong></p>
+<table>
+<thead>
+<tr>
+<th>STEP 1：始める</th>
+<th>STEP 2：育てる</th>
+<th>STEP 3：広げる</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>月10万円〜</strong></td>
+<td><strong>月30万円〜</strong></td>
+<td><strong>月100万円〜</strong></td>
+</tr>
+<tr>
+<td>補助金単発 1件 <strong>40万円</strong> ／ または 月5万円 × 2社</td>
+<td>1件40万 × <strong>3社受注</strong> ／ または 継続支援 月10万 × 3社</td>
+<td>1件 <strong>60万円</strong> × 5社 ＋ スポット案件 ／ または 継続支援 <strong>月20万円 × 5社</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【帯コピー】</strong> <strong>いきなり大きく狙わず、段階的に育てていきます。</strong></p>
+</blockquote>
+<h3>変更点（v2.3 更新）</h3>
+<ul>
+<li>想定時期表記は入れない</li>
+<li>「月150万」は撤廃、上限は「月100万円〜」</li>
+<li>STEP3 の例：「1件60万×5社＋スポット」または「継続支援 月20万×5社」（月15万だと100万に届かないため20万に補正）</li>
+<li>主役は STEP1 の「月10万円〜（小さく始める）」</li>
+<li><strong>「最初の1件で講座代はほぼ回収」表現は削除</strong>（v2.2 → v2.3）</li>
+<li>理由：① 講座代が視聴者に逆算されてしまう ② 「回収」表現が S22 段階では営業色が強い</li>
+<li>S22 は純粋に「段階アップの設計思想」だけを見せる役割に振り切る</li>
+<li>S156 とは独立して機能させる</li>
+</ul>
+<hr />
+<h2>5. S24「こんな方におすすめです」— 士業を名指し（B-2）</h2>
+<h3>【修正前】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> こんな方におすすめです<br />
+<strong>【3タイプ】</strong><br />
+1. 専門性を持っている方<br />
+2. 対面・人脈で仕事を取ってきた方<br />
+3. AIを新しい収益にしたい方<br />
+<strong>【キャッチコピー】</strong> 経験が、そのまま武器になる</p>
+</blockquote>
+<h3>【修正後】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> こんな方におすすめです<br />
+<strong>【3タイプ】</strong><br />
+1. <strong>専門性を持っている方</strong> ── 税理士・社労士・行政書士・会計士などの士業／コンサル／制作・IT系<br />
+2. 対面・人脈で仕事を取ってきた方<br />
+3. AIを新しい収益にしたい方<br />
+<strong>【キャッチコピー】</strong> 経験が、そのまま武器になる（変更なし）</p>
+</blockquote>
+<h3>変更点</h3>
+<ul>
+<li>1カード目「専門性を持っている方」のみサブ文を追加。残り2タイプ・キャッチコピーは変更なし。</li>
+</ul>
+<hr />
+<h2>6. S37「初期メンバーの価値」— 修正不要（v2.3 撤回）</h2>
+<h3>【現状】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> 初期メンバーの価値<br />
+<strong>【3要素ベン図】</strong> 情報共有 ／ 支え合い ／ 手厚いサポート（中央：初期メンバー）<br />
+<strong>【強調】</strong> 一人で始めるより、仲間と進める方が強い</p>
+</blockquote>
+<h3>【修正後】</h3>
+<p>修正なし（現状維持）</p>
+<h3>変更点（v2.2 → v2.3 撤回）</h3>
+<ul>
+<li>v2.2 では「規模30〜40名／地域かぶらない／月2回グルコン」の3行追加を提案していたが、撤回。</li>
+<li>理由：これらは <strong>講座全体の運営仕様</strong> であって、「<strong>初期メンバーだからこその価値</strong>」ではない。S37 のテーマからズレる。</li>
+<li>コミュニティ・運営の不安は、以下のスライド群でカバー済み：</li>
+<li>S36「初回募集」：少人数／近い距離／一緒に作る</li>
+<li>S37「初期メンバーの価値」：情報共有／支え合い／手厚いサポート</li>
+<li>A-6 新規「ザ・リード運営体制」：運営の厚み・10年知見</li>
+<li>S133「グループコンサル 月2回」：頻度・90分</li>
+<li>S140「ほぼ毎週、学びと相談の機会」：1か月のサポートイメージ</li>
+<li>C-2「S37 修正」項目自体を <strong>修正不要として撤回</strong>。</li>
+</ul>
+<hr />
+<h2>7. S147 と S148 の間に新規1枚追加 — 「株式会社ザ・リードの運営体制」（A-6 ※v2.3 位置変更）</h2>
+<h3>【新規スライド全文】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> 安心して走り抜けられる、運営体制があります。</p>
+<p><strong>【2ブロック構成】</strong></p>
+<table>
+<thead>
+<tr>
+<th>実績</th>
+<th>体制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>株式会社ザ・リードが運営</td>
+<td>事務局サポーター等の体制が充実</td>
+</tr>
+<tr>
+<td>素晴らしい講師のプロデュースを <strong>年間10件以上</strong> 実施</td>
+<td>運営に精通したメンバーが揃っているため、安心して受講可能</td>
+</tr>
+<tr>
+<td><strong>10年にわたる講座・スクール運営の知見</strong> を蓄積</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【帯コピー】</strong> <strong>講師ひとりではなく、運営チーム全体であなたを支えます。</strong></p>
+</blockquote>
+<h3>位置（v2.3 変更）</h3>
+<p>S147「Claude特化型AIコンサルタント養成講座まとめ（10サポート総括）」の <strong>直後</strong>、S148「サポート期間：6ヶ月間」の <strong>直前</strong> に挿入。</p>
+<h3>位置変更の理由（v2.2 → v2.3）</h3>
+<ul>
+<li>v2.2 では S37 直後（体験セミナー本編内）に配置していたが、片岡さんから指摘あり：</li>
+<li>体験セミナー本編に運営体制を持ってくると、講座の話に入る前に運営の話になってしまう</li>
+<li>説明会パート後半（オファー直前）に置く方が、納得の積み上げとして自然</li>
+<li>新位置 S147/S148 間にすると、次の論理的な流れができる：</li>
+<li><strong>S147</strong> 10サポートの厚み（中身）</li>
+<li><strong>新規</strong> 運営体制の厚み（外側）</li>
+<li><strong>S148</strong> サポート期間6ヶ月（時間軸）</li>
+<li><strong>S150-153</strong> 価格ストーリー</li>
+<li>価格訴求の直前に運営信頼を補強できる効果も大きい</li>
+</ul>
+<h3>その他の設計事項</h3>
+<ul>
+<li>個別の名前（田中祐一・村崎社長等）は出さない方針</li>
+<li>「株式会社ザ・リード」を運営会社として前面に</li>
+</ul>
+<hr />
+<h2>8. S66 の直後に新規1枚追加 — 「デモ後の自分ごと化」（C-1 ※v2.5 修正）</h2>
+<h3>【新規スライド全文】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> 今のデモ、<strong>"どんな人に"見せたいですか?</strong><br />
+<strong>【サブ】</strong> 具体的に思い浮かばなくても大丈夫です。</p>
+<p><strong>【本文】</strong><br />
+3パターンのうち、書きやすいものをチャットにどうぞ。どれか1つでOKです。</p>
+<table>
+<thead>
+<tr>
+<th>パターン</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① <strong>業種で</strong></td>
+<td>「飲食店オーナー」「士業」「製造業の社長」など</td>
+</tr>
+<tr>
+<td>② <strong>お困りごとで</strong></td>
+<td>「経費処理が大変な経営者」「シフト調整に追われる店長」など</td>
+</tr>
+<tr>
+<td>③ <strong>個人名で</strong></td>
+<td>「○○さん」（具体的だと、成果や行動に最も近づきます）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>【帯コピー】</strong> <strong>今、想像つかなくてもOK</strong>。これから探していく形で大丈夫です。</p>
+</blockquote>
+<h3>変更点（位置づけ）</h3>
+<ul>
+<li>デモ実演スライド（S66系）の直後に挿入</li>
+<li>講師運用：数件拾って「○○さん（業種）、まさにあの社長刺さりますよ」と返す</li>
+<li>デモの感心（他人事）→ 自分の見込み客への接続（自分ごと）に切り替える1枚</li>
+</ul>
+<h3>v2.4 → v2.5 の変更</h3>
+<ul>
+<li>旧案「業種でも、名前でも構いません」だと、「誰?」と問われて答えに窮した人が黙ってしまう</li>
+<li>抽象（業種）→ 中間（お困りごと）→ 具体（個人名）の3パターンに整理し、<strong>書きやすいレベルから選べる</strong>構造に</li>
+<li>「今、想像つかなくてもOK」と明示することで、離脱リスクを低減</li>
+</ul>
+<hr />
+<h2>9. S144「ツール利用開始スケジュール」— 表記統一（B-4）</h2>
+<h3>【修正前】</h3>
+<blockquote>
+<p><strong>【右カード見出し】</strong> 補助金2</p>
+</blockquote>
+<h3>【修正後】</h3>
+<blockquote>
+<p><strong>【右カード見出し】</strong> 補助金支援ツール</p>
+</blockquote>
+<h3>変更点</h3>
+<ul>
+<li>1語のみ修正。「補助金2」は誤植またはコードネームの残りと推察。S105・S145との表記統一。</li>
+</ul>
+<hr />
+<h2>10. S151「一般的な法人コンサルタント養成講座の相場」— 修正不要（v2.5 撤回）</h2>
+<h3>【現状】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> 一般的な法人コンサルタント養成講座の相場<br />
+<strong>【中央枠】</strong> 法人コンサルタント養成講座 <strong>50万〜100万円</strong><br />
+<strong>【サブ】</strong> この講座で身につける3つの力<br />
+<strong>【3要素】</strong> クライアント獲得 法人高単価受注 ／ クライアントをゴールに導く力 ／ セールス／コーチングロープレ</p>
+</blockquote>
+<h3>【修正後】</h3>
+<p>修正なし（現状維持）</p>
+<h3>変更点（v2.4 → v2.5 撤回）</h3>
+<ul>
+<li>v2.4 までは「✓ この相場 50〜100万円 を、初回特別価格 498,000円 でご提供します」を末尾に追加する案だったが、撤回。</li>
+<li>理由：S151 段階ではまだ価格（498,000円）を提示する流れではない。ここで先出しすると、価格ストーリーの順序（S150「いくらでしょう?」→ S151「相場」→ S152「立ち位置が違う」→ S153「128万円相当」→ S154「特別価格にする理由」→ S155「498,000円」）が崩れる。</li>
+<li>S151 は「相場提示」の役割に振り切り、価格はS155 まで温存する。</li>
+<li>C-5「S151 修正」項目自体を <strong>修正不要として撤回</strong>。</li>
+</ul>
+<hr />
+<h2>11. S153「Claude特化型AIコンサル講座の価値」— 修正不要（v2.6 撤回）</h2>
+<h3>【現状】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> Claude特化型AIコンサル講座の価値<br />
+<strong>【内訳】</strong><br />
+1. コンサル講座 ── 50万円相当<br />
+2. AI講座 ── 20万円相当<br />
+3. 補助金講座 ── 10万円相当<br />
+4. 2つの専門家システム（月額8万円×6ヶ月）── 48万円相当<br />
+5. 法人コンサルが集まる専門家コミュニティ ── プライスレス<br />
+<strong>【合計】</strong> <strong>128万円相当</strong></p>
+</blockquote>
+<h3>【修正後】</h3>
+<p>修正なし（現状維持）</p>
+<h3>変更点（v2.5 → v2.6 撤回）</h3>
+<ul>
+<li>v2.5 までは各行に根拠を一言追記する案だったが、撤回。</li>
+<li>理由：① 根拠の説明は <strong>口頭で十分カバーできる</strong>（「コンサル講座50万円相当というのは、法人コンサル養成講座の相場ですね」のように1要素ずつ自然に話せる）。② 時間集中戦略：第7回までの修正リソースは思想の一本化（S17/S22/S164）と新規3枚に集中投下する方が ROI が高い。</li>
+<li>「128万円相当」表記は現状のままで、口頭で補足する運用に。</li>
+</ul>
+<hr />
+<h2>12. S155「今回の初回特別価格」— 修正不要（v2.5 撤回）</h2>
+<h3>【現状】</h3>
+<blockquote>
+<p><strong>【サブ】</strong> 今回の初回特別価格<br />
+<strong>【中央】</strong> <strong>498,000円</strong> 税込<br />
+<strong>【一括払い】</strong> クレジットカード／現金・銀行振込<br />
+<strong>【分割払い】</strong> 入学金 149,400円 ／ 37,360円 × 10回 ／ 総支払額 523,000円（税込）<br />
+<strong>【強調】</strong> 次回以降、値上げの可能性があります</p>
+</blockquote>
+<h3>【修正後】</h3>
+<p>修正なし（現状維持）</p>
+<h3>変更点（v2.4 → v2.5 撤回）</h3>
+<ul>
+<li>v2.4 までは「次回以降、値上げの可能性があります」を、ロット価格確定なら具体金額に、未確定なら「価格を見直す予定」に書き換える案だったが、撤回。</li>
+<li>理由：講座の本質に関わる修正ではなく、軽微な表現調整に留まる。優先度の高い修正に集中するため、本項は触らない。</li>
+<li>「値上げの可能性」表現は現状のままで、エバーグリーン運用との折り合いは口頭での説明で吸収する。</li>
+</ul>
+<hr />
+<h2>13. S156「498,000円は高いですか?」— 修正不要（v2.3 撤回）</h2>
+<h3>【現状】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> 498,000円は高いですか?<br />
+<strong>【サブ】</strong> 🔍 価格だけを見るのではなく、1件受注したときの回収可能性で見てください。<br />
+<strong>【強調】</strong> 高いか、安いかではなく、<strong>回収できるか</strong><br />
+<strong>【3要素】</strong><br />
+- 初期費用 50万〜150万円の案件<br />
+- 月額 5万〜10万円の継続支援<br />
+- 1件受注で見え方が変わる</p>
+</blockquote>
+<h3>【修正後】</h3>
+<p>修正なし（現状維持）</p>
+<h3>変更点（v2.2 → v2.3 撤回）</h3>
+<ul>
+<li>v2.2 では「S22 でお見せした単価レンジが、実際の案件の感覚です」を末尾に追加する案だったが、撤回。</li>
+<li>理由：S22 帯コピーから「最初の1件で講座代回収」表現を削除し、S22→S156 の明示的リンクを切ったため、S156 側にも S22 への参照は不要。</li>
+<li>S156 は既存のままで、ROI回収訴求として独立して機能している。</li>
+<li>B-3「S22/S156 の整合」項目自体を <strong>修正不要として撤回</strong>。</li>
+</ul>
+<hr />
+<h2>14. S164「よくある質問④ 家族に相談」— 72時間ゲート撤廃＋地域枠（A-4）</h2>
+<h3>【修正前】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> よくある質問④<br />
+<strong>【Q】</strong> 家族に相談してから決めたいのですが…<br />
+<strong>【A】</strong> 相談は否定しません。ただし、3日以内（72時間）が申込期限です。<br />
+<strong>【強調】</strong> 3日以内（72時間）<br />
+<strong>【4補足】</strong><br />
+- 本講座は即断即決できる方に来ていただきたい。<br />
+- 家族への相談自体は否定しない。<br />
+- 自分で決めて動ける方のほうが、AIコンサルとして成果につながりやすい。<br />
+- セミナー終了後すぐに相談を始めてください。<br />
+<strong>【強調】</strong> 相談するなら、セミナー終了後すぐに</p>
+</blockquote>
+<h3>【修正後】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> よくある質問④<br />
+<strong>【Q】</strong> 家族に相談してから決めたいのですが…<br />
+<strong>【A】</strong> <strong>相談は大歓迎です。ご家族と話したうえで、面談＆相談にお越しください。</strong><br />
+<strong>【強調・中央】</strong> <strong>30万人につき1名／地域枠が埋まる前にご相談を</strong></p>
+<p><strong>【地域枠の目安・新規追加】</strong></p>
+<table>
+<thead>
+<tr>
+<th>地域</th>
+<th>人口（概算）</th>
+<th>枠の目安</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>東京都</td>
+<td>約1,400万人</td>
+<td>約47名</td>
+</tr>
+<tr>
+<td>大阪府</td>
+<td>約880万人</td>
+<td>約30名</td>
+</tr>
+<tr>
+<td>神奈川県</td>
+<td>約920万人</td>
+<td>約30名</td>
+</tr>
+<tr>
+<td>地方県（島根・鳥取等）</td>
+<td>約55〜65万人</td>
+<td><strong>2〜4名</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>【3補足】</strong><br />
+- ご家族との相談は事前にすませて、面談＆相談にお越しください<br />
+- <strong>入口の締め切りは本日中のLINE登録のみ</strong>（→ S159・S169）。決済までの猶予はあります<br />
+- その場で決めなくて大丈夫です（→ 詳しくはS158-160）</p>
+<p><strong>【帯コピー】</strong> <strong>急がせはしません。</strong> ただ、同じ地域のライバルを増やさないために、枠だけ先に押さえてください。</p>
+</blockquote>
+<h3>変更点</h3>
+<ul>
+<li>72時間ゲート・即断即決訴求を全削除</li>
+<li>「30万人につき1名」の地域枠目安表を新規追加</li>
+<li>入口締め切りは「本日中のLINE登録」（既存運用・S159/S169）で維持と明示</li>
+</ul>
+<hr />
+<h2>15. S168「よくある質問⑧」— 設問の整理（C-4）</h2>
+<h3>【修正前】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> よくある質問⑧<br />
+<strong>【Q】</strong> AIコンサルとして受注するのか、システムの下請けになるのか、単価設定のイメージが湧きません。自分の本業とどう組み合わせればいいですか?<br />
+<strong>【A本文】</strong> システムの下請けではなく、業務改善のパートナーとして顧問契約を結びます。<br />
+<strong>【3要素】</strong><br />
+- 業務改善パートナー ── 下請け作業員ではなく、経営課題を解決する「顧問」の立ち位置へ。<br />
+- AIを「入口」にする ── 即効性のあるAI導入で信頼を勝ち取り、経営層の懐へ入り込みます。<br />
+- 本業の客単価アップ ── 本来の専門領域（バックエンド）が売れ、本業の単価が跳ね上がります。<br />
+<strong>【強調】</strong> AIをフックに信頼を構築し、本業の付加価値を最大化させましょう</p>
+</blockquote>
+<h3>【修正後】</h3>
+<blockquote>
+<p><strong>【タイトル】</strong> よくある質問⑧<br />
+<strong>【Q・2行に分割表記】</strong><br />
+- 「AIコンサルとして受注するのか、システムの下請けになるのか分かりません」<br />
+- 「自分の本業とどう組み合わせればいいですか?」<br />
+<strong>【A本文・先頭に1行追加】</strong> <strong>下請けにはなりません。</strong> 業務改善のパートナーとして顧問契約を結びます。<br />
+<strong>【3要素】</strong>（変更なし）<br />
+<strong>【強調】</strong> AIをフックに信頼を構築し、本業の付加価値を最大化させましょう（変更なし）</p>
+</blockquote>
+<h3>変更点</h3>
+<ul>
+<li>設問を「下請け論点」と「本業組み合わせ論点」の2行に分割</li>
+<li>A本文先頭に「下請けにはなりません」を追加して、視聴者の不安に即答する形に</li>
+</ul>
+<hr />
+<h2>修正対象スライド総数（v2.5 最終版）</h2>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>枚数</th>
+<th>内訳</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>既存スライドの修正</td>
+<td>8枚</td>
+<td>S7・S17・S22・S24・S144・S153・S164・S168</td>
+</tr>
+<tr>
+<td>新規追加</td>
+<td>3枚</td>
+<td>S17/S18 間（A-2）／ S66 直後（C-1）／ S147/S148 間（A-6）</td>
+</tr>
+<tr>
+<td><strong>合計</strong></td>
+<td><strong>11枚</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>重さ別</h3>
+<table>
+<thead>
+<tr>
+<th>重さ</th>
+<th>枚数</th>
+<th>内訳</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全面差し替え or 新規</td>
+<td>5枚</td>
+<td>S22・S164・新規3枚（A-2／A-6／C-1）</td>
+</tr>
+<tr>
+<td>部分差し替え・複数行追記</td>
+<td>2枚</td>
+<td>S17・S153</td>
+</tr>
+<tr>
+<td>軽量（1〜3行追加・1語修正）</td>
+<td>4枚</td>
+<td>S7・S24・S144・S168</td>
+</tr>
+</tbody>
+</table>
+<h3>改訂履歴</h3>
+<ul>
+<li>v2.2 → v2.3：S22 帯コピーから「講座代回収」表現削除／S156 追記撤回（15枚→14枚）</li>
+<li>v2.3 → v2.4：S37 修正撤回／A-6 位置を S37直後 → S147/S148間 へ変更（14枚→13枚）</li>
+<li>v2.4 → v2.5：S151 修正撤回（価格先出し回避）／S155 修正撤回（軽微）／S66直後新規スライドを抽象→具体の3パターンに改訂（13枚→11枚）</li>
+</ul>
+<hr />
+<h2>Manus 渡しの推奨ラウンド設計（v2.5 最終版）</h2>
+<p><code>スライド限定パッチ_Manus渡し</code> スキルのルール（1〜3枚/回・自動補正禁止）に従い：</p>
+<table>
+<thead>
+<tr>
+<th>ラウンド</th>
+<th>渡すスライド</th>
+<th>テーマ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>S17 ／ S17/S18間（新規）／ S22</td>
+<td>思想の一本化（Lv3-4路線＋全員で勝つ＋単価の現実化）</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>S147/S148間（新規）／ S144</td>
+<td>説明会後半（運営体制＋補助金表記統一）</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>S164 ／ S168</td>
+<td>クロージング（地域枠FOMO＋FAQ整理）</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>S7 ／ S24 ／ S66直後（新規）</td>
+<td>主語固定＋士業名指し＋デモ後自分ごと化</td>
+</tr>
+</tbody>
+</table>
+<p>各ラウンド納品後、片岡さん側で<strong>1枚ずつ目視→次の1枚</strong>に進む運用。</p>
+<h3>v2.5 → v2.6 の変更</h3>
+<ul>
+<li>S153 修正撤回 → 各行根拠は口頭説明で対応（時間集中戦略）</li>
+<li>ラウンド2 を「運営体制＋補助金表記」の2枚に圧縮</li>
+</ul>
+<hr />
+<h2>修正対象スライド総数（v2.6 最終版）</h2>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>枚数</th>
+<th>内訳</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>既存スライドの修正</td>
+<td>7枚</td>
+<td>S7・S17・S22・S24・S144・S164・S168</td>
+</tr>
+<tr>
+<td>新規追加</td>
+<td>3枚</td>
+<td>S17/S18 間（A-2）／ S66 直後（C-1）／ S147/S148 間（A-6）</td>
+</tr>
+<tr>
+<td><strong>合計</strong></td>
+<td><strong>10枚</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 2.6 (2026-06-09 ※S153撤回・10箇所に圧縮)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: S6L8D3K9-v26<br />
+Generated by: 田中祐一</p>
+<div class="footer-sig">Produced by KATSUO MARKETING / Generated by 田中祐一</div>
+</div>
+</body>
+</html>
