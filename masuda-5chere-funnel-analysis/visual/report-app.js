@@ -17,6 +17,12 @@
   const textUrl = () => `${rootPrefix}${data.textReport}`;
   const indexUrl = () => `${rootPrefix}${data.indexReport}`;
   const priorityLabel = (priority) => ({ high: "優先度: 高", medium: "優先度: 中", low: "優先度: 低" }[priority] || "優先度");
+  const sourceKindLabel = (stage) => {
+    if (stage.kind === "image") return "キャプチャ表示";
+    if ((stage.source || "").includes("書き起こし")) return "書き起こし抜粋";
+    if ((stage.source || "").includes("Day")) return "配信本文抜粋";
+    return "代表箇所";
+  };
 
   function renderLayout(content, activeSlug) {
     const nav = data.stages.map((stage) => `
@@ -32,8 +38,10 @@
           <small class="side-note">3階層 / 番号付きフィードバック</small>
           <a class="navlink ${activeSlug === "home" ? "active" : ""}" href="${esc(homeUrl())}">全体像</a>
           ${nav}
-          <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-          <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
+          <div class="side-links" aria-label="関連リンク">
+            <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
+            <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
+          </div>
         </aside>
         <main class="main">
           <div class="wrap">${content}</div>
@@ -47,7 +55,6 @@
       <div class="toolbar">
         <a class="btn primary" href="${esc(textUrl())}">テキストレポートを開く</a>
         <a class="btn" href="${esc(homeUrl())}">ビジュアル全体像</a>
-        <a class="btn" href="${esc(indexUrl())}">関連レポート一覧</a>
         ${extra}
       </div>
     `;
@@ -160,24 +167,38 @@
         <span class="pin" style="--x:${esc(pin.x)};--y:${esc(pin.y)}">${esc(pin.id)}</span>
       `).join("");
       return `
-        <div class="visual">
-          <img src="${esc(rootPrefix + stage.image)}" alt="${esc(stage.title)}のキャプチャ">
-          ${pins}
+        <div class="visual visual-image">
+          <div class="image-canvas">
+            <img src="${esc(rootPrefix + stage.image)}" alt="${esc(stage.title)}のキャプチャ">
+            ${pins}
+          </div>
           <p class="visual-caption">${esc(stage.caption)}</p>
         </div>
       `;
     }
 
-    const lines = stage.mockLines.map((line) => `<div class="mockline">${esc(line)}</div>`).join("");
-    const pins = stage.pins.map((pin) => `
-      <span class="pin" style="--x:${esc(pin.x)};--y:${esc(pin.y)}">${esc(pin.id)}</span>
+    const lineItems = stage.findings.map((finding) => `
+      <details class="transcript-line" ${finding.priority === "high" ? "open" : ""}>
+        <summary>
+          <span class="inline-num">${esc(finding.id)}</span>
+          <span class="line-main">
+            <span class="line-meta">${esc(finding.time || finding.target)} / ${esc(finding.target)}</span>
+            <span class="line-title">${esc(finding.title)}</span>
+            <span class="line-excerpt">${esc(finding.excerpt || finding.issue)}</span>
+          </span>
+        </summary>
+        <div class="line-detail">
+          <p><strong>該当箇所:</strong> ${esc(finding.excerpt || finding.issue)}</p>
+          <p><strong>見る観点:</strong> ${esc(finding.consideration)}</p>
+        </div>
+      </details>
     `).join("");
     return `
       <div class="visual">
         <div class="mock-screen">
           <div class="screen-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          ${lines}
-          ${pins}
+          <p class="mock-kicker">${esc(sourceKindLabel(stage))}</p>
+          ${lineItems}
         </div>
         <p class="visual-caption">${esc(stage.caption)}</p>
       </div>
