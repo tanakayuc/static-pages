@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>田中祐一_VisualReport_ファネル全体_20260608 - 増田 W3EV 5日チャレ ファネル分析</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>増田 W3EV 5日チャレ ファネル分析</h3>
+<a href="20260608.html" class="sidebar-item"><span class="date">2026年06月08日</span> 00_全体_経営前提_評価軸_20260608</a>
+<a href="20260608-b902c7b94eac.html" class="sidebar-item active"><span class="date">2026年06月08日</span> 田中祐一_VisualReport_ファネル全体_20260608</a>
+<a href="20260601.html" class="sidebar-item"><span class="date">2026年06月01日</span> 00_全体_経営前提_評価軸_20260601</a>
+<a href="20260601-425bce0b532d.html" class="sidebar-item"><span class="date">2026年06月01日</span> オプチャ_改善評価_20260601</a>
+<a href="20260601-49934857e401.html" class="sidebar-item"><span class="date">2026年06月01日</span> オプトLP_改善評価_20260601</a>
+<a href="20260601-8840f7ec6e9a.html" class="sidebar-item"><span class="date">2026年06月01日</span> サンクス_改善評価_20260601</a>
+<a href="20260601-dd8dcd60f230.html" class="sidebar-item"><span class="date">2026年06月01日</span> ステップ配信_改善評価_20260601</a>
+<a href="20260601-9b45761480a6.html" class="sidebar-item"><span class="date">2026年06月01日</span> ライブDAY1_改善評価_20260601</a>
+<a href="20260601-79454fe87f9b.html" class="sidebar-item"><span class="date">2026年06月01日</span> ライブDAY2-3_改善評価_20260601</a>
+<a href="20260601-b53cfc1e5add.html" class="sidebar-item"><span class="date">2026年06月01日</span> ライブDAY4-5_改善評価_20260601</a>
+<a href="20260601-4edf4334f8b5.html" class="sidebar-item"><span class="date">2026年06月01日</span> 体験セミナー誘導LP_改善評価_20260601</a>
+<a href="20260601-acc933245181.html" class="sidebar-item"><span class="date">2026年06月01日</span> 個別誘導LP_改善評価_20260601</a>
+</nav>
+<main class="main">
+<h1>増田・ビジネスマイラー複業｜5日チャレファネル｜Visual Report</h1>
+<p>整理日: 2026-06-08<br />
+分析者: 田中祐一<br />
+素材正本: <code>../ファネル/</code><br />
+全体インデックス: <code>00_全体_経営前提_評価軸_20260608.md</code><br />
+出力モード: Visual Report（左＝素材箇所、右＝番号付きフィードバック）</p>
+<hr />
+<h2>ファネル全体像（読み方）</h2>
+<p>このレポートは、見込みが実際に触れる順に番号を振っています。<br />
+各番号には「起点となる原文」「判断」「修正方向」「Before / After」をセットで載せています。</p>
+<p>動線:</p>
+<p>オプトLP → サンクス → ステップDay01〜 → オプチャ → ライブDay1〜5 → 個別誘導LP →（締切後）体験セミナー誘導LP</p>
+<hr />
+<h2>全体感（ファネル横断の総評）</h2>
+<h3>全体感の1｜骨格は通っている</h3>
+<p>5日ライブで教育し、個別説明会でフライトプランと高単価成約につなぐ設計は、チャレンジローンチとして筋が通っています。Day2以降の物販・転売合法の説明、個別LPの3柱とサポート一覧は、セールス現場の強みとも整合しています。</p>
+<h3>全体感の2｜入口と本丸の間に「橋」がない</h3>
+<p>問題は、入口の9割が「旅行・マイル目的」（タイプ2）なのに、物販＝決済総量という本丸がDay2以降まで見えないことです。オプトLPは広く取る。Day1前半はマイル教育で満足しうる。ステップDay01は空。サンクスはオプチャ接続だけで中身の予告がない。この3点が重なると、個別説明会まで届く人数が頭打ちになります。</p>
+<h3>全体感の3｜価格は説明会まで持ち越しすぎ</h3>
+<p>BC約40万・FC約60万の正当化は、Day4-5と個別LPで「月30-50万」「3柱」「外注」まで語れている一方、投資レンジの想像が空白のままです。説明会の着席率は取れても、当日のショックキャンセルや配偶者相談離脱が増えやすい構造です。</p>
+<h3>全体感の4｜追撃3チャレの学びが未移植</h3>
+<p>別フォルダの3チャレ追撃サンキュー挨拶動画は、特典と実績数字を自己紹介より前に置く設計で、収入への接続が早い。現行5日ファネルのサンクス直後にはそれがなく、登録直後の「なぜ5日間見るべきか」が弱いままです。</p>
+<hr />
+<h2>番号付きフィードバック（パート別）</h2>
+<h3>1. オプトLP｜ファーストビュー・物販1行</h3>
+<p>起点となる原文:<br />
+「毎月自動でマイルが増え続けるビジネスマイラー複業の物販とは？」</p>
+<p>判断:<br />
+入口は「マイル×収入×500名実証」で広く取れている。一方、物販は箇条書き1行に留まり、40〜60万講座に至る必然性が未開示。タイプ2は「無料でマイル情報が欲しい」と解釈しやすく、Day2の物販教育と衝突しうる。</p>
+<p>修正方向:<br />
+恐怖喚起ではなく、必然性の予告を1段落足す。タイプ2向けの自己選択1行も追加。</p>
+<p>Before:<br />
+毎月自動でマイルが増え続けるビジネスマイラー複業の物販とは？</p>
+<p>After（田中祐一なら）:<br />
+カード選びではなく「決済の総量」を増やす仕組み＝物販。その入口を5日間で体験します。マイルを趣味で終わらせたくない方、副収入の柱も欲しい方向けのプログラムです。</p>
+<p>観点: ターゲット / 構成 / 具体性</p>
+<hr />
+<h3>2. オプトLP｜30分訴求</h3>
+<p>起点となる原文:<br />
+「あなたが本当に使うのは1日30分程度の"スキマ時間"だけ」</p>
+<p>判断:<br />
+タイプ1（定年前後・パソコン不安）には「本当に30分でできるの？」という疑いが残る。外注・テンプレの補足がないと、個別LPのサポート一覧まで橋がつながらない。</p>
+<p>修正方向:<br />
+仕組み化の補足1行を追加。</p>
+<p>Before:<br />
+1日30分程度のスキマ時間だけ</p>
+<p>After（田中祐一なら）:<br />
+通知・テンプレ・外注の仕組みで、作業時間は1日30分程度に圧縮。難しいPC操作はサポート側でカバーします。</p>
+<p>観点: 具体性 / ターゲット</p>
+<hr />
+<h3>3. サンクス｜オプチャ誘導のみ</h3>
+<p>起点となる原文:<br />
+「5日間のチャレンジ中、増田がオープンチャット内でリアルタイムに質問に回答！」</p>
+<p>判断:<br />
+2段階オプトイン設計は機能している。ただし5日間の中身・Day2物販・収入柱の予告がなく、教育ゼロ。ここでページを閉じるとライブ以前にリストが死ぬ。</p>
+<p>修正方向:<br />
+オプチャ登録理由に中身の1行。可能なら60秒要約動画。</p>
+<p>Before:<br />
+質問にリアルタイムで回答！メールだけでは受けられない特別サポートです</p>
+<p>After（田中祐一なら）:<br />
+Day2で「マイルが一気に増える仕組み（物販の入口）」を公開します。見逃し防止のため、オプチャ登録が必須です。5日間の質問はここでリアルタイム回答します。</p>
+<p>観点: CTA / 構成 / ファネル接続</p>
+<hr />
+<h3>4. ステップ配信｜Day01空洞</h3>
+<p>起点となる原文:<br />
+Day01.md「（本文なし）」</p>
+<p>判断:<br />
+登録直後の最重要接点が未使用。サンクスを見逃した人、オプチャ未登録の人、ライブ不参加の人すべてに、加温の起点がない。</p>
+<p>修正方向:<br />
+Day01-03を即時投入。ライブカレンダーと連動。</p>
+<p>Before:<br />
+（本文なし）</p>
+<p>After（田中祐一なら）Day01 LINE例:<br />
+登録ありがとうございます。あと1ステップで完了です。①オプチャ登録 ②Day1ライブ日程をカレンダー登録。Day2から「決済総量の仕組み」を公開します。</p>
+<p>After（田中祐一なら）Day02 LINE例:<br />
+3つの柱（新品物販・中古・ポイカツ）を5日で順に体験。明日のライブでは「マイルは手段、収入と旅行がゴール」をお話しします。</p>
+<p>観点: 構成 / ファネル接続</p>
+<hr />
+<h3>5. ステップ配信｜Day10まで物販未接続</h3>
+<p>起点となる原文:<br />
+ステップDay01-10がクレカ還元率・マイル豆知識中心（一覧参照）</p>
+<p>判断:<br />
+ライブ不参加者は3週間、マイル趣味のメールだけで冷える。Day2ライブとステップが非連動。</p>
+<p>修正方向:<br />
+Day5-9で「明日から決済額の仕組み公開」等、ライブカレンダー連動。</p>
+<p>Before:<br />
+（マイル豆知識のみの連続配信）</p>
+<p>After（田中祐一なら）Day5例:<br />
+明日のライブDay2では、いよいよ「物販＝マイル製造装置」の入口を公開します。カード選びでは届かない理由も、数字でお見せします。</p>
+<p>観点: 構成 / ファネル接続</p>
+<hr />
+<h3>6. オプチャ｜固定投稿なし</h3>
+<p>起点となる原文:<br />
+オプチャログ冒頭が参加挨拶・特典案内中心</p>
+<p>判断:<br />
+コミュニティの温度感は維持されている。一方、5日ロードマップの固定投稿が弱く、「Day2で物販」への期待値が読み取りにくい。</p>
+<p>修正方向:<br />
+ピン留め1本にDay1-5の一行要約。</p>
+<p>Before:<br />
+（リマインド・挨拶中心の投稿）</p>
+<p>After（田中祐一なら）固定投稿:<br />
+【5日間ロードマップ】Day1マイル常識更新 → Day2新品物販の入口 → Day3中古 → Day4特典 → Day5まとめ＋説明会案内。物販の本編はDay2から。質問は①カード②ポイカツ③物販初心 から選んで投稿ください。</p>
+<p>観点: CTA / 構成</p>
+<hr />
+<h3>7. ライブDay1｜3柱が後半</h3>
+<p>起点となる原文:<br />
+「Day2からDay4にかけて…それぞれお話」（中盤以降）</p>
+<p>判断:<br />
+クレカ神話破壊・「マイルは手段」は強い。ただし3柱名称が後半で、タイプ2はDay1だけで満足し、Day2不参加になりうる。</p>
+<p>修正方向:<br />
+オープン15分以内に3柱名称＋明日予告。</p>
+<p>Before:<br />
+（前半はマイル常識のみ。3柱は後半）</p>
+<p>After（田中祐一なら）冒頭15分:<br />
+明日から3つの柱を順に体験します。①新品物販 ②中古 ③ポイカツ。今日はその前提となる「決済総量」の考え方だけ先に共有します。</p>
+<p>観点: 構成 / ヘッドライン</p>
+<hr />
+<h3>8. ライブDay1｜試算なし</h3>
+<p>起点となる原文:<br />
+Day1は概念説明中心（書き起こし参照）</p>
+<p>判断:<br />
+「普通の貯め方では一生届かない」という軸は語れるが、数字1セットの試算がなく、Day2本編へのフックが弱い。</p>
+<p>修正方向:<br />
+1枚図解で年間旅行2回 vs 物販経由マイルの差。</p>
+<p>Before:<br />
+（概念のみ）</p>
+<p>After（田中祐一なら）:<br />
+年2回の海外旅行で貯まるマイルは約○万。物販経由なら同じ生活感で○万に届く。差は「カード」ではなく「決済の設計」です。明日、その設計の入口を見せます。</p>
+<p>観点: 具体性 / ターゲット</p>
+<hr />
+<h3>9. ライブDay2｜転売合法が後半</h3>
+<p>起点となる原文:<br />
+転売・適法性の説明がDay2後半（書き起こし参照）</p>
+<p>判断:<br />
+新品物販本編として方向は正しい。前半で抵抗が固まるタイプ2がいる。</p>
+<p>修正方向:<br />
+Day2冒頭30秒で適法予告。</p>
+<p>Before:<br />
+（新品説明の後に転売合法）</p>
+<p>After（田中祐一なら）冒頭:<br />
+今日お話しする「再販」は、適法な範囲のビジネスです。怪しい話ではなく、決済総量を増やすための入口です。まずその全体像から。</p>
+<p>観点: 悩み / 信頼</p>
+<hr />
+<h3>10. ライブDay2-3｜タイプ1向け月収具体</h3>
+<p>起点となる原文:<br />
+Day2-3はマイル数・案件例が中心</p>
+<p>判断:<br />
+ペルソナは月15-30万を求めるタイプ1が多い。中古カメラ・ロレックス例は上級に見え、未経験層には「難しそう」に映りうる。</p>
+<p>修正方向:<br />
+新品のみで開始可・月収1例を明示。</p>
+<p>Before:<br />
+（中古事例が続く）</p>
+<p>After（田中祐一なら）:<br />
+最初は新品物販だけで十分です。BCコースでも新品のみで開始できます。1案件あたり利益○円＋マイル○分、というイメージを先に持ってください。中古は「もっと伸ばしたい人」の次の段階です。</p>
+<p>観点: ターゲット / オファー</p>
+<hr />
+<h3>11. ライブDay5｜価格非開示</h3>
+<p>起点となる原文:<br />
+「具体的な金額…個別説明会で」（Day5書き起こし）</p>
+<p>判断:<br />
+説明会CTAの熱量は取れるが、投資額想像がゼロのまま申込むと、当日ショックが起きやすい。</p>
+<p>修正方向:<br />
+レンジのみ事前開示。</p>
+<p>Before:<br />
+金額は個別説明会でお伝えします</p>
+<p>After（田中祐一なら）:<br />
+本気で取り組む方向けの実践講座は数十万円台です。分割のご相談も可能。詳細と、あなた専用のフライトプランは個別説明会でお伝えします。</p>
+<p>観点: オファー / CTA</p>
+<hr />
+<h3>12. 個別誘導LP｜価格・枠チェック</h3>
+<p>起点となる原文:<br />
+「新規カードが作れない方は参加不可」（注意書き）</p>
+<p>判断:<br />
+3柱・サポート・月30-50万は具体的でセールスと整合。一方、講座価格が画面になく、枠不足は申込後に判明しうる。</p>
+<p>修正方向:<br />
+投資レンジ1行＋申込時の枠目安。</p>
+<p>Before:<br />
+（価格記載なし・枠は注意書きのみ）</p>
+<p>After（田中祐一なら）:<br />
+実践講座は数十万円台（分割相談可）。説明会でフライトプランと合わせてご案内します。お申込み時に、ショッピング枠の目安（例: 50万未満／50-100万／100万以上）をお選びください。</p>
+<p>観点: オファー / CTA</p>
+<hr />
+<h3>13. 体験セミナー誘導LP｜個別LPとの重複</h3>
+<p>起点となる原文:<br />
+両LPに3柱・物販・高単価商品10万が並列</p>
+<p>判断:<br />
+締切後のセカンドチャンスとして教育は厚い。ただし個別LPと内容が重複し、「また同じ話」と感じさせうる。</p>
+<p>修正方向:<br />
+役割対比表で差別化。</p>
+<p>Before:<br />
+（個別LPと同型の説明）</p>
+<p>After（田中祐一なら）:<br />
+個別説明会枠に間に合わなかった方向けの再開催です。90分で3柱を圧縮体験。個別説明会では、あなた専用フライトプランを一緒に作ります。</p>
+<p>観点: 構成 / ファネル接続</p>
+<hr />
+<h2>全体感に対するフィードバック（横断5点）</h2>
+<ol>
+<li>
+<p>ファネルは「Day2で物販本丸」という設計意図が明確。弱点は、その前に見込みが何を期待しているかを整えるパートが薄いこと。登録直後〜Day1前が最大の改善レバー。</p>
+</li>
+<li>
+<p>タイプ2（マイル純粋層）とタイプ1（第二の柱探索層）で、離脱ポイントが違う。タイプ2はDay1満足離脱。タイプ1はステップ空洞とDay2までの収入具体不足。同じ修正で両方を救うのは難しいので、「予告」と「自己選択」で分流させる。</p>
+</li>
+<li>
+<p>価格は説明会まで完全非開示より、レンジだけ先に出した方が、セールス現場の成約率と説明会の質の両方に効きやすい。僕なら数十万円台・分割可はDay5と個別LPの両方に1行入れます。</p>
+</li>
+<li>
+<p>追撃3チャレ挨拶動画の構成（特典→実績→日程）は、5日版サンクス直後にそのまま移植できる。新規収録が難しければ、ステップDay01-03のテキストで代替可能。</p>
+</li>
+<li>
+<p>体験セミナー誘導は「締切逃しリスト」の資産化として有効。個別LPとの役割分担を表で明示しないと、リストの疲労が溜まる。</p>
+</li>
+</ol>
+<hr />
+<h2>ビジュアル化用ポイント</h2>
+<ol>
+<li>
+<p>ステージ: LP<br />
+   起点となる原文: 「毎月自動でマイルが増え続けるビジネスマイラー複業の物販とは？」<br />
+   画像・動画・スライド位置: オプトLP・ファーストビュー下・箇条書きブロック<br />
+   キャプチャ対象: スマホFV / 箇条書き5項目<br />
+   判断: 物販が1行のみで、入口動機（マイル）と本丸（物販）の橋が未設置<br />
+   修正方向: 必然性予告1段落＋自己選択1行を追加<br />
+   Before: 物販とは？（1行のみ）<br />
+   After（田中祐一なら）: 決済総量を増やす仕組み＝物販。その入口を5日で体験。副収入の柱も欲しい方へ。<br />
+   差分メモ: 抽象→具体 / 恐怖喚起→必然性 / ファネル接続<br />
+   観点: ターゲット</p>
+</li>
+<li>
+<p>ステージ: サンキューページ<br />
+   起点となる原文: 「増田がオープンチャット内でリアルタイムに質問に回答」<br />
+   画像・動画・スライド位置: サンクス・オプチャメリットブロック<br />
+   キャプチャ対象: オプチャCTA直上<br />
+   判断: 2段階オプトインは機能するが、5日間の中身予告がない<br />
+   修正方向: Day2物販公開を1行追加<br />
+   Before: 質問サポート訴求のみ<br />
+   After（田中祐一なら）: Day2で仕組み公開。見逃し防止でオプチャ必須。<br />
+   差分メモ: 機能訴求→内容予告 / 離脱防止の理由付け<br />
+   観点: CTA</p>
+</li>
+<li>
+<p>ステージ: LINEオープンチャット<br />
+   起点となる原文: オプチャログ・冒頭投稿<br />
+   画像・動画・スライド位置: 固定投稿（ピン留め）想定<br />
+   キャプチャ対象: チャット上部固定メッセージ<br />
+   判断: 5日ロードマップが読み取りにくい<br />
+   修正方向: Day1-5一行要約＋質問テンプレ<br />
+   Before: 挨拶・リマインド中心<br />
+   After（田中祐一なら）: 5日ロードマップ＋物販はDay2から<br />
+   差分メモ: 受動→能動 / 期待値の先読み<br />
+   観点: 構成</p>
+</li>
+<li>
+<p>ステージ: 動画台本<br />
+   起点となる原文: Day1「Day2からDay4にかけて…」（後半）<br />
+   画像・動画・スライド位置: Day1ライブ・冒頭15分<br />
+   キャプチャ対象: 代表フレーム1（オープン直後）<br />
+   判断: 3柱名称が後半でタイプ2満足離脱リスク<br />
+   修正方向: 3柱＋明日予告を前倒し<br />
+   Before: 前半マイル常識のみ<br />
+   After（田中祐一なら）: 15分以内に3柱名称とDay2予告<br />
+   差分メモ: 順番 / 離脱防止 / 具体性<br />
+   観点: 構成</p>
+</li>
+<li>
+<p>ステージ: 動画台本<br />
+   起点となる原文: Day2転売説明（後半）<br />
+   画像・動画・スライド位置: Day2ライブ・冒頭30秒<br />
+   キャプチャ対象: 代表フレーム1<br />
+   判断: 適法説明が遅く、前半で抵抗が固まる<br />
+   修正方向: 転売合法30秒予告を前倒し<br />
+   Before: 新品説明後に適法説明<br />
+   After（田中祐一なら）: 冒頭で適法な再販であることを宣言<br />
+   差分メモ: 順番 / 信頼 / 感情<br />
+   観点: 悩み</p>
+</li>
+<li>
+<p>ステージ: 動画台本<br />
+   起点となる原文: Day5「金額は個別説明会で」<br />
+   画像・動画・スライド位置: Day5ライブ・CTA直前<br />
+   キャプチャ対象: CTA直前スライド<br />
+   判断: 投資想像が空白のまま申込<br />
+   修正方向: 数十万円台・分割可のレンジ開示<br />
+   Before: 金額非開示<br />
+   After（田中祐一なら）: 数十万円台・分割相談可をレンジのみ提示<br />
+   差分メモ: 具体性 / ショック緩和 / オファー<br />
+   観点: オファー</p>
+</li>
+<li>
+<p>ステージ: 個別相談ページ<br />
+   起点となる原文: 個別誘導LP・価格記載なし<br />
+   画像・動画・スライド位置: 個別LP・ファーストビュー下<br />
+   キャプチャ対象: スマホFV / 申込フォーム直上<br />
+   判断: 3柱・サポートは強いが投資レンジと枠チェックが弱い<br />
+   修正方向: レンジ1行＋枠目安選択肢<br />
+   Before: 価格なし・枠は注意書きのみ<br />
+   After（田中祐一なら）: 数十万円台・分割可＋枠目安フォーム<br />
+   差分メモ: 具体性 / 無駄打ち削減 / CTA<br />
+   観点: オファー</p>
+</li>
+<li>
+<p>ステージ: LP<br />
+   起点となる原文: 体験セミナー誘導LP・3柱説明<br />
+   画像・動画・スライド位置: 体験セミナーLP・冒頭<br />
+   キャプチャ対象: FV / 個別LPとの比較表想定<br />
+   判断: 個別LPと重複感<br />
+   修正方向: 締切逃し理由＋役割対比表<br />
+   Before: 個別LP同型の説明<br />
+   After（田中祐一なら）: 90分圧縮体験 vs 個別フライトプラン定制<br />
+   差分メモ: 役割分担 / リスト疲労防止<br />
+   観点: 構成</p>
+</li>
+</ol>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-08)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 8NW4QK3R<br />
+Generated by: 田中祐一</p>
+</main>
+</body>
+</html>
