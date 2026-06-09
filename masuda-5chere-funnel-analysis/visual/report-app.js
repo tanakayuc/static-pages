@@ -18,6 +18,7 @@
   const homeUrl = () => `${rootPrefix}visual-report.html`;
   const textUrl = () => `${rootPrefix}${data.textReport}`;
   const indexUrl = () => `${rootPrefix}${data.indexReport}`;
+  const characterUrl = () => data.character ? `${rootPrefix}${data.character}` : "";
   const priorityLabel = (priority) => ({ high: "優先度: 高", medium: "優先度: 中", low: "優先度: 低" }[priority] || "優先度");
   const sourceKindLabel = (stage) => {
     if (stage.kind === "image") return "キャプチャ表示";
@@ -53,26 +54,71 @@
     });
   })();
 
-  function renderLayout(content, activeSlug) {
+  function tanakaSpeech(text, label = "田中祐一の全体総評") {
+    if (!text || !data.character) return "";
+    return `
+      <section class="tanaka-card">
+        <div class="tanaka-portrait">
+          <img src="${esc(characterUrl())}" alt="田中祐一アニメキャラクター">
+        </div>
+        <div class="speech">
+          <span>${esc(label)}</span>
+          <p>${esc(text)}</p>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderGlobalSide(activeSlug) {
     const nav = numberedStages.map((stage) => `
       <a class="navlink ${activeSlug === stage.slug ? "active" : ""}" href="${esc(stageUrl(stage))}">
         <span class="nav-layer">第2層</span>${esc(stage.no)}. ${esc(stage.title)}
       </a>
     `).join("");
 
+    return `
+      <p class="brand">増田 W3EV<br>5日チャレ<br>ビジュアルレポート</p>
+      <small class="side-note">第1層 全体 → 第2層 素材 → 第3層 個別指摘</small>
+      <a class="navlink ${activeSlug === "home" ? "active" : ""}" href="${esc(homeUrl())}">
+        <span class="nav-layer">第1層</span>全体インデックス
+      </a>
+      <div class="side-group">${nav}</div>
+      <div class="side-links" aria-label="関連リンク">
+        <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
+        <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
+      </div>
+    `;
+  }
+
+  function renderFindingSide(stage, activeFinding) {
+    const nav = stage.findings.map((finding) => `
+      <a class="feedback-link ${activeFinding?.stableId === finding.stableId ? "active" : ""}" href="${esc(findingUrl(stage, finding))}">
+        <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
+        <strong>${esc(finding.title)}</strong>
+      </a>
+    `).join("");
+
+    return `
+      <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>第3層</p>
+      <a class="back-link" href="${esc(stageUrl(stage))}">上の階層に戻る</a>
+      <small class="side-note">第3層: この素材の指摘だけ</small>
+      <div class="side-group finding-only">${nav}</div>
+      <div class="side-links" aria-label="関連リンク">
+        <a class="navlink" href="${esc(homeUrl())}">全体インデックス</a>
+        <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
+      </div>
+    `;
+  }
+
+  function renderLayout(content, activeSlug, options = {}) {
+    const side = options.sidebar === "findings" && options.stage
+      ? renderFindingSide(options.stage, options.activeFinding)
+      : renderGlobalSide(activeSlug);
+
     app.innerHTML = `
       <div class="layout">
         <aside class="side">
-          <p class="brand">増田 W3EV<br>5日チャレ<br>ビジュアルレポート</p>
-          <small class="side-note">第1層 全体 → 第2層 素材 → 第3層 個別指摘</small>
-          <a class="navlink ${activeSlug === "home" ? "active" : ""}" href="${esc(homeUrl())}">
-            <span class="nav-layer">第1層</span>全体インデックス
-          </a>
-          <div class="side-group">${nav}</div>
-          <div class="side-links" aria-label="関連リンク">
-            <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-            <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
-          </div>
+          ${side}
         </aside>
         <main class="main">
           <div class="wrap">${content}</div>
@@ -153,6 +199,7 @@
         <p class="lead">${esc(data.subtitle)}</p>
         ${renderToolbar()}
       </header>
+      ${tanakaSpeech(data.overallSpeech)}
 
       <section class="panel soft">
         <h2>用語と出力先</h2>
@@ -184,6 +231,13 @@
       <section class="section">
         <h2>ステージ別レポート</h2>
         <div class="stage-grid">${stageCards}</div>
+      </section>
+
+      <section class="section">
+        <h2>追い上げ追加に対応するルール</h2>
+        <ol class="accumulation">
+          ${data.accumulation.map((item, index) => `<li><span>${index + 1}</span>${esc(item)}</li>`).join("")}
+        </ol>
       </section>
 
       <section class="section">
@@ -310,6 +364,7 @@
         <p class="lead">${esc(stage.subtitle)}</p>
         ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
       </header>
+      ${tanakaSpeech(stage.speech || data.layer2Speech, "第2層の見方")}
 
       <section class="panel soft">
         <h2>このページの役割</h2>
@@ -374,6 +429,7 @@
         <p class="lead">${esc(stage.title)} の中の、1つの指摘箇所だけを固定表示しています。</p>
         ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a>`)}
       </header>
+      ${tanakaSpeech(finding.tanaka || data.findingSpeech, "田中祐一君のひとこと")}
 
       <section class="panel soft">
         <h2>3層の現在地</h2>
@@ -400,7 +456,7 @@
           <ul class="source-list">${sourceItems}</ul>
         </div>
       </section>
-    `, stage.slug);
+    `, stage.slug, { sidebar: "findings", stage, activeFinding: finding });
   }
 
   if (slug === "home") {
