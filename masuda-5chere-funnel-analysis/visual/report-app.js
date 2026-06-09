@@ -20,6 +20,7 @@
   const indexUrl = () => `${rootPrefix}${data.indexReport}`;
   const characterUrl = () => data.character ? `${rootPrefix}${data.character}` : "";
   const priorityLabel = (priority) => ({ high: "優先度: 高", medium: "優先度: 中", low: "優先度: 低" }[priority] || "優先度");
+  const shouldShowLayer2Speech = (stage) => ["stepmail", "line-step"].includes(stage.slug);
   const sourceKindLabel = (stage) => {
     if (stage.kind === "image") return "キャプチャ表示";
     if ((stage.source || "").includes("LINE")) return "LINE本文抜粋";
@@ -364,7 +365,7 @@
         <p class="lead">${esc(stage.subtitle)}</p>
         ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
       </header>
-      ${tanakaSpeech(stage.speech || data.layer2Speech, "第2層の見方")}
+      ${shouldShowLayer2Speech(stage) ? tanakaSpeech(stage.speech || data.layer2Speech, "第2層の見方") : ""}
 
       <section class="panel soft">
         <h2>このページの役割</h2>
@@ -429,7 +430,6 @@
         <p class="lead">${esc(stage.title)} の中の、1つの指摘箇所だけを固定表示しています。</p>
         ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a>`)}
       </header>
-      ${tanakaSpeech(finding.tanaka || data.findingSpeech, "田中祐一君のひとこと")}
 
       <section class="panel soft">
         <h2>3層の現在地</h2>
