@@ -70,6 +70,29 @@
     `;
   }
 
+  function renderSourceContext(finding) {
+    const highlight = finding.highlight || finding.before || finding.excerpt || finding.issue;
+    const contextBefore = finding.contextBefore || "";
+    const contextAfter = finding.contextAfter || "";
+    if (!highlight && !contextBefore && !contextAfter) return "";
+    return `
+      <div class="source-context" aria-label="指摘対象の周辺文脈">
+        ${contextBefore ? `<span class="context-fade">${esc(contextBefore)}</span>` : ""}
+        ${highlight ? `<mark>${esc(highlight)}</mark>` : ""}
+        ${contextAfter ? `<span class="context-fade">${esc(contextAfter)}</span>` : ""}
+      </div>
+    `;
+  }
+
+  function renderSourceActions(stage) {
+    if (!stage.url) return "";
+    return `
+      <div class="source-actions">
+        <a class="btn mini" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>
+      </div>
+    `;
+  }
+
   function renderGlobalSide(activeSlug) {
     const nav = numberedStages.map((stage) => `
       <a class="navlink ${activeSlug === stage.slug ? "active" : ""}" href="${esc(stageUrl(stage))}">
@@ -299,7 +322,7 @@
         </summary>
         <div class="line-detail">
           <p><strong>対象箇所:</strong> ${esc(finding.excerpt || finding.issue)}</p>
-          ${finding.before ? `<blockquote class="inline-source">${esc(finding.before)}</blockquote>` : ""}
+          ${renderSourceContext(finding)}
           ${finding.sourceFile ? `<p><strong>対応する素材:</strong> ${esc(finding.sourceFile)}</p>` : ""}
           <p><a class="mini-link" href="${esc(findingUrl(stage, finding))}">第3層の個別指摘URLで開く</a></p>
         </div>
@@ -322,8 +345,9 @@
             <span>第3層: 指摘対象</span>
             <strong>${esc(focusedFinding.time || focusedFinding.target)}</strong>
           </div>
-          <blockquote>${esc(focusedFinding.before || focusedFinding.excerpt || focusedFinding.issue)}</blockquote>
+          ${renderSourceContext(focusedFinding)}
           <p><strong>対応する素材:</strong> ${esc(focusedFinding.sourceFile || stage.source)}</p>
+          ${renderSourceActions(stage)}
         </div>
       `
       : "";
@@ -471,7 +495,7 @@
         <p class="eyebrow">第3層 / 個別指摘 / ${esc(finding.displayId)}</p>
         <h1>${esc(finding.title)}</h1>
         <p class="lead">${esc(stage.title)} の中の、1つの指摘箇所だけを固定表示しています。</p>
-        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a>`)}
+        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a><a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
       </header>
 
       <section class="panel soft">
