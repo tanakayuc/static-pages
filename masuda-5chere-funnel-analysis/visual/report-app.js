@@ -19,6 +19,7 @@
   const priorityLabel = (priority) => ({ high: "優先度: 高", medium: "優先度: 中", low: "優先度: 低" }[priority] || "優先度");
   const sourceKindLabel = (stage) => {
     if (stage.kind === "image") return "キャプチャ表示";
+    if ((stage.source || "").includes("LINE")) return "LINE本文抜粋";
     if ((stage.source || "").includes("書き起こし")) return "書き起こし抜粋";
     if ((stage.source || "").includes("Day")) return "配信本文抜粋";
     return "代表箇所";
@@ -31,7 +32,8 @@
         return {
           ...finding,
           displayId: String(count),
-          anchorId: finding.id || `${stage.slug}-${findingIndex + 1}`,
+          stableId: `${stage.slug}-${finding.id || findingIndex + 1}`,
+          anchorId: `${stage.slug}-${finding.id || findingIndex + 1}`,
         };
       });
       const pins = (stage.pins || []).map((pin, pinIndex) => ({
@@ -112,6 +114,7 @@
             <span class="chip medium">中 ${medium}</span>
             <span class="chip low">低 ${low}</span>
             <span class="chip">指摘 ${esc(pointRange)}</span>
+            ${stage.kind === "mock" ? '<span class="chip pending">実体取得待ち</span>' : ''}
           </div>
         </a>
       `;
@@ -223,6 +226,10 @@
       <div class="visual">
         <div class="mock-screen">
           <div class="screen-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="pending-note">
+            <strong>実体取得待ち</strong>
+            <span>この素材はまだキャプチャ・原文全文・代表フレームを第3層として固定していません。以下は現時点の代表箇所指定です。</span>
+          </div>
           <p class="mock-kicker">${esc(sourceKindLabel(stage))}</p>
           ${lineItems}
         </div>
@@ -240,6 +247,7 @@
             <div class="chip-row">
               <span class="chip ${esc(finding.priority)}">${esc(priorityLabel(finding.priority))}</span>
               <span class="chip">${esc(finding.target)}</span>
+              <span class="chip stable">固定ID: ${esc(finding.stableId)}</span>
             </div>
             <h3>${esc(finding.title)}</h3>
           </div>

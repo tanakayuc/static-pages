@@ -26,7 +26,8 @@ window.masudaVisualReportData = {
   assumedFlow: [
     "オプトLP",
     "サンクス",
-    "ステップDay01-42",
+    "メールステップDay01-42",
+    "LINEステップ配信",
     "オプチャ",
     "Live 1",
     "Live 2",
@@ -43,7 +44,7 @@ window.masudaVisualReportData = {
     },
     {
       title: "ステップ配信の接続点",
-      body: "Day01、Day05、Day08、Day10、Day20、Day24-36、Day37-42を代表点にしています。実運用では、どの通目をクリック対象として優先すべきかを確定したいです。"
+      body: "メールはDay01、Day05、Day08、Day10、Day20、Day24-36、Day37-42を代表点にしています。LINEは別素材として、短文本文、画像配信、リッチメニュー、オプチャ誘導の実体を追加取得する必要があります。"
     },
     {
       title: "動画とスライドの第3層",
@@ -165,12 +166,12 @@ window.masudaVisualReportData = {
     {
       slug: "stepmail",
       no: "03",
-      title: "ステップ配信 / LINE",
+      title: "メールステップ配信",
       subtitle: "Day01-42をフェーズで分け、クリック対象を作る",
       url: "https://docs.google.com/spreadsheets/d/1_AtOHYA93pDsIxBKnX-vNNep5k2vdEslIQqKVKOYyVs/edit",
-      source: "ステップ配信/Day01.md - Day42.md",
+      source: "メールステップ配信/Day01.md - Day42.md",
       kind: "mock",
-      caption: "実体階層: Day別メール/LINE本文。画像配信がある場合はTypeless第3層で受け渡し。",
+      caption: "実体階層: Day別メール本文。現時点は要約抜粋のため、次は原文ブロックと該当文の下線表示が必要。",
       mockLines: [
         "Day01: 本文なし。登録直後の最重要接点が空いている。",
         "Day03-07: マイル常識破壊。内容は良いが決済総量への橋が薄い。",
@@ -194,9 +195,9 @@ window.masudaVisualReportData = {
           priority: "high",
           target: "Day01",
           time: "Day01 / 登録直後",
-          excerpt: "Day01はLINE・メールとも本文なし。登録直後にオプチャ参加、Day1予約、Day2予告を通す最重要接点が空いている。",
+          excerpt: "Day01はメール本文なし。登録直後にオプチャ参加、Day1予約、Day2予告を通す最重要接点が空いている。",
           title: "1通目が空白で、登録直後の熱量を使えていない",
-          issue: "Day01はLINE・メールとも本文なしです。サンクスを閉じた人に戻ってきてもらう導線がありません。",
+          issue: "Day01はメール本文なしです。サンクスを閉じた人に戻ってきてもらう導線がありません。",
           consideration: "登録直後は、オプチャ参加、Day1予約、Day2予告を最も通しやすい時間です。ここを空けると、Day03以降がマイル豆知識として読まれます。",
           proposal: "Day01に「この5日間はただのマイル情報ではなく、旅行と副収入の両方を作る入口です。まずオプチャ参加とDay1予約を完了してください。Day2から物販の入口に入ります」を入れます。",
           textPairing: "テキストレポート 3. ステップ配信｜フェーズ0"
@@ -252,8 +253,67 @@ window.masudaVisualReportData = {
       ]
     },
     {
-      slug: "openchat",
+      slug: "line-step",
       no: "04",
+      title: "LINEステップ配信",
+      subtitle: "短文、画像配信、リッチメニュー、オプチャ導線をメールと分ける",
+      url: "https://docs.google.com/spreadsheets/d/1_AtOHYA93pDsIxBKnX-vNNep5k2vdEslIQqKVKOYyVs/edit",
+      source: "LINEステップ配信/本文・画像配信・リッチメニュー（実素材取得待ち）",
+      kind: "mock",
+      caption: "実体階層: LINE本文・配信画像・リッチメニュー取得待ち。現時点では、メールと混ぜないための分離ページです。",
+      mockLines: [
+        "LINE本文: 取得待ち。メール本文とは別に短文CTAとして見る。",
+        "画像配信: 取得待ち。スマホ画面上の見え方、文字量、押す場所を確認する。",
+        "リッチメニュー/固定導線: 取得待ち。録画、資料、説明会URLの迷いを減らす。",
+        "オプチャ誘導: 取得待ち。メールとLINEで同じ導線を重複させすぎない。"
+      ],
+      pins: [
+        { id: "line-1", x: "54%", y: "24%" },
+        { id: "line-2", x: "54%", y: "48%" },
+        { id: "line-3", x: "54%", y: "72%" }
+      ],
+      findings: [
+        {
+          id: "line-1",
+          priority: "high",
+          target: "LINE本文取得",
+          time: "LINE / 各Day短文",
+          excerpt: "LINEはメールと同じ文章量では読まれない。短文CTA、画像、URL導線を別素材として確認する必要がある。",
+          title: "LINEをメールの短縮版として扱わない",
+          issue: "現状のプロトタイプでは、LINEステップの実本文が入っていないため、メールと同じ指摘に見えてしまいます。",
+          consideration: "LINEはスマホで一瞬見て押す媒体です。メールの論理補足ではなく、次アクションを迷わせない短文設計として評価する必要があります。",
+          proposal: "LINE本文をDay別に取得し、各通を「要点1文、押す理由、押すURL」の3点で確認します。メール側の長文教育とは別レポートにします。",
+          textPairing: "テキストレポート ステップ配信｜LINE分離タスク"
+        },
+        {
+          id: "line-2",
+          priority: "high",
+          target: "画像配信",
+          time: "LINE / 画像・バナー配信",
+          excerpt: "LINEの画像配信は、文章ではなくスマホ画面上の視認性、文字量、CTA位置をビジュアルで見る必要がある。",
+          title: "LINE画像は第3層でキャプチャ化する",
+          issue: "画像配信やバナーがある場合、テキスト要約だけではどこが弱いか分かりません。",
+          consideration: "LINE画像はLPより小さい画面で見られます。文字が多い、CTAが遠い、Dayの現在地が見えない、といった問題はキャプチャでないと判断しにくいです。",
+          proposal: "配信画像をスマホ実寸に近い形で置き、番号ピンで「見出し」「CTA」「現在地」「次回予告」を評価します。",
+          textPairing: "テキストレポート Visual Report化用ポイント｜LINE画像"
+        },
+        {
+          id: "line-3",
+          priority: "medium",
+          target: "固定導線",
+          time: "LINE / リッチメニュー・固定URL",
+          excerpt: "録画、資料、オプチャ、説明会URLが複数ある場合、LINE上でどれを押せばいいかが迷いやすい。",
+          title: "LINE側に今日押す順番を作る",
+          issue: "LINEはリンクを増やすほど便利に見えますが、何を押すべきかが曖昧になると行動率が落ちます。",
+          consideration: "オプチャとLINEの役割を分ける必要があります。LINEは個別の次アクション、オプチャは全体の現在地と質問場所に寄せた方が混乱しません。",
+          proposal: "リッチメニューまたは固定文で「1録画、2資料、3質問、4説明会」の順番を出し、Dayごとに最優先ボタンだけを目立たせます。",
+          textPairing: "テキストレポート オプチャ/LINE導線整理"
+        }
+      ]
+    },
+    {
+      slug: "openchat",
+      no: "05",
       title: "オプチャ",
       subtitle: "固定ロードマップ、リンク整理、質問導線",
       url: "https://drive.google.com/file/d/1aOwAKEZfNmBuCPZz3ed3HxVvMcp4lsur/view",
@@ -313,7 +373,7 @@ window.masudaVisualReportData = {
     },
     {
       slug: "live-day1",
-      no: "05",
+      no: "06",
       title: "Live 1",
       subtitle: "マイル常識更新、3柱予告、Day2への橋",
       url: "https://vimeo.com/1135741623/1eb542f667",
@@ -371,7 +431,7 @@ window.masudaVisualReportData = {
     },
     {
       slug: "live-day2",
-      no: "06",
+      no: "07",
       title: "Live 2",
       subtitle: "新品物販、決済総量、適法性の安心設計",
       url: "https://vimeo.com/1136076038/6cdf2c7562",
@@ -430,7 +490,7 @@ window.masudaVisualReportData = {
     },
     {
       slug: "live-day3",
-      no: "07",
+      no: "08",
       title: "Live 3",
       subtitle: "中古カメラ、ロレックス、上級者感の調整",
       url: "https://vimeo.com/1136076236/f272eefb18",
@@ -475,7 +535,7 @@ window.masudaVisualReportData = {
     },
     {
       slug: "live-day4",
-      no: "08",
+      no: "09",
       title: "Live 4",
       subtitle: "ポイカツマーケティング、短期/長期の役割分担",
       url: "https://vimeo.com/1138289982/53c52b3d83",
@@ -521,7 +581,7 @@ window.masudaVisualReportData = {
     },
     {
       slug: "live-day5",
-      no: "09",
+      no: "10",
       title: "Live 5",
       subtitle: "まとめ、説明会CTA、価格/家族相談の準備",
       url: "https://vimeo.com/1138522531/eafcd09f6a",
@@ -580,7 +640,7 @@ window.masudaVisualReportData = {
     },
     {
       slug: "consult-lp",
-      no: "10",
+      no: "11",
       title: "個別誘導LP",
       subtitle: "フライトプラン、講座正当化、価格期待値",
       url: "https://sub.businessmiler.net/p/89fPLWiFZ9nk",
@@ -639,7 +699,7 @@ window.masudaVisualReportData = {
     },
     {
       slug: "seminar-lp",
-      no: "11",
+      no: "12",
       title: "体験セミナー誘導LP",
       subtitle: "見送り層の再教育、個別LPとの役割差",
       url: "https://sub.businessmiler.net/p/Ch64fDop3YXo",
