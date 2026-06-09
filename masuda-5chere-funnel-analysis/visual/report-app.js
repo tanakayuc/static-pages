@@ -179,7 +179,7 @@
     const nav = stage.findings.map((finding) => `
       <a class="feedback-link ${activeFinding?.stableId === finding.stableId ? "active" : ""}" href="${esc(findingUrl(stage, finding))}">
         <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
-        <strong>${esc(finding.title)}</strong>
+        <strong>${esc(findingSubject(finding))}</strong>
       </a>
     `).join("");
 
@@ -197,22 +197,48 @@
 
   function renderStageFindingSide(stage) {
     const nav = stage.findings.map((finding) => `
-      <a class="feedback-link" href="#finding-${esc(finding.anchorId)}">
+      <a class="feedback-link" href="${esc(findingUrl(stage, finding))}">
         <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
-        <strong>${esc(finding.title)}</strong>
+        <strong>${esc(findingSubject(finding))}</strong>
       </a>
     `).join("");
 
     return `
       <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>第2層</p>
       <a class="back-link" href="${esc(homeUrl())}">第1層に戻る</a>
-      <small class="side-note">右側の指摘項目へ移動</small>
+      <small class="side-note">各素材の第3層レポートへ移動</small>
       <div class="side-group finding-only">${nav}</div>
       <div class="side-links" aria-label="関連リンク">
         <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
         <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
       </div>
     `;
+  }
+
+  function findingSubject(finding) {
+    if (finding.navTitle) return finding.navTitle;
+    const sourceFile = finding.sourceFile || "";
+    if (sourceFile) {
+      const filename = sourceFile.split("/").pop().replace(/\.md$/, "");
+      return filename
+        .replace(/_/g, " / ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+    if (finding.time && finding.target) return `${finding.time} / ${finding.target}`;
+    return finding.target || finding.title;
+  }
+
+  function stageOverview(stage) {
+    if (stage.overview) return stage.overview;
+    const current = stage.mockLines?.length
+      ? stage.mockLines.join(" / ")
+      : `${stage.title}の素材単位で、全体の流れと主要な確認点を整理しています。`;
+    return {
+      current,
+      issue: "個別指摘を先に読むと、全体の中でどの役割を持つ素材なのかが見えにくくなります。",
+      solution: "第2層では全体像だけを確認し、個別の該当箇所と改善案は左サイドバーの第3層レポートで確認します。"
+    };
   }
 
   function renderLayout(content, activeSlug, options = {}) {
@@ -493,10 +519,17 @@
   }
 
   function renderDetail(stage) {
-    const findingNav = stage.findings.map((finding) => `
-      <a href="#finding-${esc(finding.anchorId)}"><span class="nav-layer">項目</span>${esc(finding.displayId)}. ${esc(finding.target)}</a>
+    const overview = stageOverview(stage);
+    const reportLinks = stage.findings.map((finding) => `
+      <a class="report-link" href="${esc(findingUrl(stage, finding))}">
+        <span class="num">${esc(finding.displayId)}</span>
+        <div>
+          <small>第3層 / ${esc(priorityLabel(finding.priority))}</small>
+          <strong>${esc(findingSubject(finding))}</strong>
+          <span>${esc(finding.target)} の個別フィードバックを開く</span>
+        </div>
+      </a>
     `).join("");
-    const findings = stage.findings.map((finding) => renderFinding(stage, finding, { accordion: true })).join("");
     const sourceItems = [
       { label: "素材名", value: stage.source },
       { label: "参照元素材URL", value: stage.url, href: stage.url },
@@ -521,21 +554,34 @@
       ${shouldShowLayer2Speech(stage) ? tanakaSpeech(stage.speech || data.layer2Speech, "第2層の見方") : ""}
 
       <section class="panel soft">
-        <h2>このページの役割</h2>
-        <p>第2層の素材別レポートです。左側は素材の該当箇所と周辺文脈だけを表示します。右側は指摘項目をアコーディオンで開閉し、「現状」「問題点・考察」「解決策案」を確認します。</p>
+        <h2>第2層の全体レポート</h2>
+        <p>このページでは、${esc(stage.title)} 全体の流れだけを確認します。個別メール・個別素材の該当箇所と改善案は、左サイドバーまたは下の一覧から第3層を開いて確認します。</p>
         <div class="meta-strip">
           <span>第1層: 全体インデックス</span>
           <span>第2層: ${esc(stage.title)}</span>
-          <span>指摘項目: ${esc(pointRange)}</span>
+          <span>第3層: ${esc(pointRange)}</span>
         </div>
-        <div class="target-nav">${findingNav}</div>
+        <div class="overview-grid">
+          <article class="overview-card">
+            <small>1. 現状の全体像</small>
+            <p>${esc(overview.current)}</p>
+          </article>
+          <article class="overview-card">
+            <small>2. 考察課題</small>
+            <p>${esc(overview.issue)}</p>
+          </article>
+          <article class="overview-card">
+            <small>3. 解決策</small>
+            <p>${esc(overview.solution)}</p>
+          </article>
+        </div>
       </section>
 
       <section class="section">
-        <h2>Visual Feedback</h2>
-        <div class="report-grid">
-          ${renderVisual(stage)}
-          <div>${findings}</div>
+        <h2>第3層 個別レポート</h2>
+        <p class="muted">各メール・各LINE・各素材の具体的な該当箇所とフィードバックは、第3層で1つずつ確認します。</p>
+        <div class="report-link-list">
+          ${reportLinks}
         </div>
       </section>
 
@@ -554,7 +600,7 @@
     const next = stage.findings[index + 1];
     const siblings = stage.findings.map((item) => `
       <a class="${item.stableId === finding.stableId ? "active" : ""}" href="${esc(findingUrl(stage, item))}">
-        <span class="nav-layer">第3層</span>${esc(item.displayId)}. ${esc(item.target)}
+        <span class="nav-layer">第3層</span>${esc(item.displayId)}. ${esc(findingSubject(item))}
       </a>
     `).join("");
     const sourceItems = [
