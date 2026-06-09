@@ -23,11 +23,35 @@
     if ((stage.source || "").includes("Day")) return "配信本文抜粋";
     return "代表箇所";
   };
+  const numberedStages = (() => {
+    let count = 0;
+    return data.stages.map((stage, stageIndex) => {
+      const findings = (stage.findings || []).map((finding, findingIndex) => {
+        count += 1;
+        return {
+          ...finding,
+          displayId: String(count),
+          anchorId: finding.id || `${stage.slug}-${findingIndex + 1}`,
+        };
+      });
+      const pins = (stage.pins || []).map((pin, pinIndex) => ({
+        ...pin,
+        displayId: findings[pinIndex]?.displayId || pin.id,
+        anchorId: findings[pinIndex]?.anchorId || pin.id,
+      }));
+      return {
+        ...stage,
+        sequence: stageIndex + 1,
+        findings,
+        pins,
+      };
+    });
+  })();
 
   function renderLayout(content, activeSlug) {
-    const nav = data.stages.map((stage) => `
+    const nav = numberedStages.map((stage) => `
       <a class="navlink ${activeSlug === stage.slug ? "active" : ""}" href="${esc(stageUrl(stage))}">
-        ${esc(stage.no)}. ${esc(stage.title)}
+        <span class="nav-layer">第2層</span>${esc(stage.no)}. ${esc(stage.title)}
       </a>
     `).join("");
 
@@ -35,9 +59,11 @@
       <div class="layout">
         <aside class="side">
           <p class="brand">増田 W3EV<br>5日チャレ<br>ビジュアルレポート</p>
-          <small class="side-note">3階層 / 番号付きフィードバック</small>
-          <a class="navlink ${activeSlug === "home" ? "active" : ""}" href="${esc(homeUrl())}">全体像</a>
-          ${nav}
+          <small class="side-note">全体インデックス → 素材別URL → 指摘箇所</small>
+          <a class="navlink ${activeSlug === "home" ? "active" : ""}" href="${esc(homeUrl())}">
+            <span class="nav-layer">第1層</span>全体インデックス
+          </a>
+          <div class="side-group">${nav}</div>
           <div class="side-links" aria-label="関連リンク">
             <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
             <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
@@ -61,7 +87,7 @@
   }
 
   function renderHome() {
-    const flow = data.stages.map((stage) => `
+    const flow = numberedStages.map((stage) => `
       <a class="flow-node" href="${esc(stageUrl(stage))}">
         <span class="num">${esc(stage.no)}</span>
         <strong>${esc(stage.title)}</strong>
@@ -69,10 +95,13 @@
       </a>
     `).join("");
 
-    const stageCards = data.stages.map((stage) => {
+    const stageCards = numberedStages.map((stage) => {
       const high = stage.findings.filter((finding) => finding.priority === "high").length;
       const medium = stage.findings.filter((finding) => finding.priority === "medium").length;
       const low = stage.findings.filter((finding) => finding.priority === "low").length;
+      const pointRange = stage.findings.length > 0
+        ? `${stage.findings[0].displayId}-${stage.findings[stage.findings.length - 1].displayId}`
+        : "未設定";
       return `
         <a class="card clickable" href="${esc(stageUrl(stage))}">
           <small>第2層: ${esc(stage.no)}</small>
@@ -82,6 +111,7 @@
             <span class="chip high">高 ${high}</span>
             <span class="chip medium">中 ${medium}</span>
             <span class="chip low">低 ${low}</span>
+            <span class="chip">指摘 ${esc(pointRange)}</span>
           </div>
         </a>
       `;
@@ -100,21 +130,13 @@
 
     const definitions = `
       <div class="definition-grid">
-        <div class="card">
-          <small>Layer 1</small>
-          <h3>全体像</h3>
-          <p>実際のファネル順序、詰まり、優先度を横断して見る入口です。</p>
-        </div>
-        <div class="card">
-          <small>Layer 2</small>
-          <h3>各素材</h3>
-          <p>LP、ステップ、オプチャ、Live、説明会導線ごとに個別URLへ分けます。</p>
-        </div>
-        <div class="card">
-          <small>Layer 3</small>
-          <h3>指摘箇所</h3>
-          <p>キャプチャ、代表フレーム、メール本文、スライドページに番号を振ります。</p>
-        </div>
+        ${data.layerModel.map((layer) => `
+          <div class="card">
+            <small>${esc(layer.label)}</small>
+            <h3>${esc(layer.title)}</h3>
+            <p>${esc(layer.body)}</p>
+          </div>
+        `).join("")}
       </div>
     `;
 
@@ -129,6 +151,10 @@
       <section class="panel soft">
         <h2>用語と出力先</h2>
         <p>テキストレポートは、MD分析結果をHTMLで読めるようにしたものです。ビジュアルレポートは、キャプチャ画像・動画代表フレーム・スライド・メール本文などの該当箇所に番号を振り、「現状の課題」「考察」「田中祐一の案」を対応させるものです。</p>
+        <div class="rule-list">
+          <p><strong>番号ルール:</strong> ${esc(data.numberingPolicy)}</p>
+          <p><strong>参照元ルール:</strong> ${esc(data.sourcePolicy)}</p>
+        </div>
       </section>
 
       <section class="section">
@@ -164,7 +190,7 @@
   function renderVisual(stage) {
     if (stage.kind === "image") {
       const pins = stage.pins.map((pin) => `
-        <span class="pin" style="--x:${esc(pin.x)};--y:${esc(pin.y)}">${esc(pin.id)}</span>
+        <a class="pin" style="--x:${esc(pin.x)};--y:${esc(pin.y)}" href="#finding-${esc(pin.anchorId)}">${esc(pin.displayId)}</a>
       `).join("");
       return `
         <div class="visual visual-image">
@@ -180,7 +206,7 @@
     const lineItems = stage.findings.map((finding) => `
       <details class="transcript-line" ${finding.priority === "high" ? "open" : ""}>
         <summary>
-          <span class="inline-num">${esc(finding.id)}</span>
+          <span class="inline-num">${esc(finding.displayId)}</span>
           <span class="line-main">
             <span class="line-meta">${esc(finding.time || finding.target)} / ${esc(finding.target)}</span>
             <span class="line-title">${esc(finding.title)}</span>
@@ -207,9 +233,9 @@
 
   function renderFinding(finding) {
     return `
-      <article class="finding" id="finding-${esc(finding.id)}">
+      <article class="finding" id="finding-${esc(finding.anchorId)}">
         <div class="finding-head">
-          <span class="num">${esc(finding.id)}</span>
+          <span class="num">${esc(finding.displayId)}</span>
           <div>
             <div class="chip-row">
               <span class="chip ${esc(finding.priority)}">${esc(priorityLabel(finding.priority))}</span>
@@ -242,18 +268,26 @@
 
   function renderDetail(stage) {
     const findingNav = stage.findings.map((finding) => `
-      <a href="#finding-${esc(finding.id)}">${esc(finding.target)} / ${esc(finding.id)}</a>
+      <a href="#finding-${esc(finding.anchorId)}">${esc(finding.displayId)}. ${esc(finding.target)}</a>
     `).join("");
     const findings = stage.findings.map(renderFinding).join("");
     const sourceItems = [
-      stage.source,
-      stage.url,
-      `静的テキストレポート: ${data.textReport}`
-    ].map((item) => `<li>${esc(item)}</li>`).join("");
+      { label: "素材名", value: stage.source },
+      { label: "参照元素材URL", value: stage.url, href: stage.url },
+      { label: "テキストレポート", value: data.textReport, href: textUrl() },
+    ].map((item) => `
+      <li>
+        <strong>${esc(item.label)}:</strong>
+        ${item.href ? `<a href="${esc(item.href)}" target="_blank" rel="noreferrer">${esc(item.value)}</a>` : esc(item.value)}
+      </li>
+    `).join("");
+    const pointRange = stage.findings.length > 0
+      ? `${stage.findings[0].displayId}-${stage.findings[stage.findings.length - 1].displayId}`
+      : "未設定";
 
     renderLayout(`
       <header class="hero">
-        <p class="eyebrow">Layer 2 / ${esc(stage.no)}</p>
+        <p class="eyebrow">第2層 / 素材別レポート / ${esc(stage.no)}</p>
         <h1>${esc(stage.title)}</h1>
         <p class="lead">${esc(stage.subtitle)}</p>
         ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
@@ -262,6 +296,11 @@
       <section class="panel soft">
         <h2>このページの役割</h2>
         <p>第2層の素材別レポートです。左側のキャプチャまたは代表画面の番号と、右側のフィードバック番号が対応しています。各指摘は、テキストレポート側と内容が変わらないように「現状の課題」「考察」「田中祐一の案」を分けています。</p>
+        <div class="meta-strip">
+          <span>第1層: 全体インデックス</span>
+          <span>第2層: ${esc(stage.title)}</span>
+          <span>第3層: 指摘 ${esc(pointRange)}</span>
+        </div>
         <div class="target-nav">${findingNav}</div>
       </section>
 
@@ -287,7 +326,7 @@
     return;
   }
 
-  const stage = data.stages.find((item) => item.slug === slug);
+  const stage = numberedStages.find((item) => item.slug === slug);
   if (!stage) {
     renderLayout(`
       <header class="hero">
