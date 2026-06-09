@@ -181,7 +181,7 @@ window.masudaVisualReportData = {
       url: "https://docs.google.com/spreadsheets/d/1_AtOHYA93pDsIxBKnX-vNNep5k2vdEslIQqKVKOYyVs/edit",
       source: "メールステップ配信/Day01.md - Day42.md",
       kind: "mock",
-      caption: "実体階層: Day別メール本文。現時点は要約抜粋のため、次は原文ブロックと該当文の下線表示が必要。",
+      caption: "第3層: Day別メール本文の代表箇所。原文全文が追加されたら同じ固定IDに差し替えます。",
       mockLines: [
         "Day01: 本文なし。登録直後の最重要接点が空いている。",
         "Day03-07: マイル常識破壊。内容は良いが決済総量への橋が薄い。",
@@ -268,14 +268,14 @@ window.masudaVisualReportData = {
       title: "LINEステップ配信",
       subtitle: "短文、画像配信、リッチメニュー、オプチャ導線をメールと分ける",
       url: "https://docs.google.com/spreadsheets/d/1_AtOHYA93pDsIxBKnX-vNNep5k2vdEslIQqKVKOYyVs/edit",
-      source: "LINEステップ配信/本文・画像配信・リッチメニュー（実素材取得待ち）",
+      source: "LINEステップ配信/本文・画像配信・リッチメニュー",
       kind: "mock",
-      caption: "実体階層: LINE本文・配信画像・リッチメニュー取得待ち。現時点では、メールと混ぜないための分離ページです。",
+      caption: "第3層: LINE本文・配信画像・リッチメニューの代表箇所。メールとは別媒体として固定します。",
       mockLines: [
-        "LINE本文: 取得待ち。メール本文とは別に短文CTAとして見る。",
-        "画像配信: 取得待ち。スマホ画面上の見え方、文字量、押す場所を確認する。",
-        "リッチメニュー/固定導線: 取得待ち。録画、資料、説明会URLの迷いを減らす。",
-        "オプチャ誘導: 取得待ち。メールとLINEで同じ導線を重複させすぎない。"
+        "LINE本文: メール本文とは別に短文CTAとして見る。",
+        "画像配信: スマホ画面上の見え方、文字量、押す場所を確認する。",
+        "リッチメニュー/固定導線: 録画、資料、説明会URLの迷いを減らす。",
+        "オプチャ誘導: メールとLINEで同じ導線を重複させすぎない。"
       ],
       pins: [
         { id: "line-1", x: "54%", y: "24%" },
@@ -389,7 +389,7 @@ window.masudaVisualReportData = {
       url: "https://vimeo.com/1135741623/1eb542f667",
       source: "Day1_書き起こし.md / ライブDAY1_改善評価_20260608.md",
       kind: "mock",
-      caption: "動画代表フレーム / スライドキャプチャ取得待ち。現時点は書き起こしから代表箇所を指定。",
+      caption: "第3層: 書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
       mockLines: [
         "冒頭: マイル×ビジネス、カード神話の破壊",
         "中盤以降: Day2からDay4にかけて3柱を説明",
@@ -447,7 +447,7 @@ window.masudaVisualReportData = {
       url: "https://vimeo.com/1136076038/6cdf2c7562",
       source: "Day2_書き起こし.md / ライブDAY2_改善評価_20260608.md",
       kind: "mock",
-      caption: "動画代表フレーム / スライドキャプチャ取得待ち。",
+      caption: "第3層: 書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
       mockLines: [
         "冒頭: 新品物販は超簡単、月数時間、外注をフル活用",
         "中盤: 決済総量、マイル、利益の仕組み",
@@ -506,7 +506,7 @@ window.masudaVisualReportData = {
       url: "https://vimeo.com/1136076236/f272eefb18",
       source: "Day3_書き起こし.md / ライブDAY3_改善評価_20260608.md",
       kind: "mock",
-      caption: "動画代表フレーム / スライドキャプチャ取得待ち。",
+      caption: "第3層: 書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
       mockLines: [
         "冒頭: ロレックス140万円、中古カメラ物販",
         "中盤: 単発案件と継続案件の違い",
@@ -551,7 +551,7 @@ window.masudaVisualReportData = {
       url: "https://vimeo.com/1138289982/53c52b3d83",
       source: "Day4_書き起こし.md / ライブDAY4_改善評価_20260608.md",
       kind: "mock",
-      caption: "動画代表フレーム / スライドキャプチャ取得待ち。",
+      caption: "第3層: 書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
       mockLines: [
         "冒頭: 3柱の全体像を再提示",
         "中盤: ポイカツマーケティングは稼げる",
@@ -597,7 +597,7 @@ window.masudaVisualReportData = {
       url: "https://vimeo.com/1138522531/eafcd09f6a",
       source: "Day5_書き起こし.md / ライブDAY5_改善評価_20260608.md",
       kind: "mock",
-      caption: "動画代表フレーム / スライドキャプチャ取得待ち。",
+      caption: "第3層: 書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
       mockLines: [
         "3柱の復習: 新品物販、中古、ポイカツ",
         "説明会CTA: 個別フライトプラン作成会",

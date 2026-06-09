@@ -111,9 +111,31 @@
     `;
   }
 
+  function renderStageFindingSide(stage) {
+    const nav = stage.findings.map((finding) => `
+      <a class="feedback-link" href="${esc(findingUrl(stage, finding))}">
+        <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
+        <strong>${esc(finding.title)}</strong>
+      </a>
+    `).join("");
+
+    return `
+      <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>第2層</p>
+      <a class="back-link" href="${esc(homeUrl())}">第1層に戻る</a>
+      <small class="side-note">第3層: 指摘箇所だけを表示</small>
+      <div class="side-group finding-only">${nav}</div>
+      <div class="side-links" aria-label="関連リンク">
+        <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
+        <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
+      </div>
+    `;
+  }
+
   function renderLayout(content, activeSlug, options = {}) {
     const side = options.sidebar === "findings" && options.stage
       ? renderFindingSide(options.stage, options.activeFinding)
+      : options.sidebar === "stage-findings" && options.stage
+        ? renderStageFindingSide(options.stage)
       : renderGlobalSide(activeSlug);
 
     app.innerHTML = `
@@ -265,7 +287,7 @@
     }
 
     const sourceFindings = focusedFinding ? [focusedFinding] : stage.findings;
-    const lineItems = sourceFindings.map((finding) => `
+    const lineItems = focusedFinding ? "" : sourceFindings.map((finding) => `
       <details class="transcript-line" ${finding.priority === "high" ? "open" : ""}>
         <summary>
           <span class="inline-num">${esc(finding.displayId)}</span>
@@ -282,15 +304,36 @@
         </div>
       </details>
     `).join("");
+    const sourceOverview = !focusedFinding && stage.mockLines?.length
+      ? `
+        <div class="source-overview">
+          <strong>第2層の全体像</strong>
+          <ul>
+            ${stage.mockLines.map((line) => `<li>${esc(line)}</li>`).join("")}
+          </ul>
+        </div>
+      `
+      : "";
+    const focusedSource = focusedFinding
+      ? `
+        <div class="source-doc">
+          <div class="source-head">
+            <span>第3層: 指摘対象</span>
+            <strong>${esc(focusedFinding.time || focusedFinding.target)}</strong>
+          </div>
+          <blockquote>${esc(focusedFinding.excerpt || focusedFinding.issue)}</blockquote>
+          <p><strong>見る観点:</strong> ${esc(focusedFinding.consideration)}</p>
+          <p><strong>対応する素材:</strong> ${esc(stage.source)}</p>
+        </div>
+      `
+      : "";
     return `
       <div class="visual">
         <div class="mock-screen">
           <div class="screen-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <div class="pending-note">
-            <strong>実体取得待ち</strong>
-            <span>この素材はまだキャプチャ・原文全文・代表フレームを第3層として固定していません。以下は現時点の代表箇所指定です。</span>
-          </div>
           <p class="mock-kicker">${focusedFinding ? "第3層の該当箇所" : esc(sourceKindLabel(stage))}</p>
+          ${sourceOverview}
+          ${focusedSource}
           ${lineItems}
         </div>
         <p class="visual-caption">${esc(stage.caption)}</p>
@@ -392,7 +435,7 @@
           <ul class="source-list">${sourceItems}</ul>
         </div>
       </section>
-    `, stage.slug);
+    `, stage.slug, { sidebar: "stage-findings", stage });
   }
 
   function renderFindingDetail(stage, finding) {
