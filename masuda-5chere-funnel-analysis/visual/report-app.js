@@ -12,6 +12,10 @@
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+  const SOURCE_FULL_LIMIT = 500;
+  const SOURCE_CONDITIONAL_FULL_LIMIT = 1200;
+  const SOURCE_LONG_LIMIT = 2000;
+  const SOURCE_VISIBLE_OFFSET_LIMIT = 500;
 
   const stageUrl = (stage) => `${visualPrefix}${stage.slug}.html`;
   const findingUrl = (stage, finding) => `${visualPrefix}finding.html?stage=${encodeURIComponent(stage.slug)}&finding=${encodeURIComponent(finding.stableId)}`;
@@ -72,16 +76,72 @@
 
   function renderSourceContext(finding) {
     const highlight = finding.highlight || finding.before || finding.excerpt || finding.issue;
+    const display = buildSourceDisplay(finding, highlight);
+    if (!display.highlight && !display.before && !display.after) return "";
+    return `
+      <div class="source-context ${esc(display.mode)}" aria-label="指摘対象の周辺文脈">
+        ${display.before ? `<span class="context-fade">${esc(display.before)}</span>` : ""}
+        ${display.highlight ? `<mark>${esc(display.highlight)}</mark>` : ""}
+        ${display.after ? `<span class="context-fade">${esc(display.after)}</span>` : ""}
+      </div>
+      ${display.fullText ? `
+        <details class="source-fulltext">
+          <summary>全文を開く（${esc(display.lengthLabel)}）</summary>
+          <div>${esc(display.fullText)}</div>
+        </details>
+      ` : ""}
+    `;
+  }
+
+  function buildSourceDisplay(finding, highlight) {
     const contextBefore = finding.contextBefore || "";
     const contextAfter = finding.contextAfter || "";
-    if (!highlight && !contextBefore && !contextAfter) return "";
-    return `
-      <div class="source-context" aria-label="指摘対象の周辺文脈">
-        ${contextBefore ? `<span class="context-fade">${esc(contextBefore)}</span>` : ""}
-        ${highlight ? `<mark>${esc(highlight)}</mark>` : ""}
-        ${contextAfter ? `<span class="context-fade">${esc(contextAfter)}</span>` : ""}
-      </div>
-    `;
+    const fullText = finding.fullText || finding.sourceText || finding.transcriptText || "";
+    const fullLength = countSourceChars(fullText);
+    const exactIndex = fullText && highlight ? fullText.indexOf(highlight) : -1;
+    const highlightOffset = exactIndex >= 0 ? countSourceChars(fullText.slice(0, exactIndex)) : Number.POSITIVE_INFINITY;
+    const canShowFullText = exactIndex >= 0 && (
+      fullLength <= SOURCE_FULL_LIMIT ||
+      (fullLength <= SOURCE_CONDITIONAL_FULL_LIMIT && highlightOffset <= SOURCE_VISIBLE_OFFSET_LIMIT)
+    );
+
+    if (canShowFullText) {
+      return {
+        mode: "full-source",
+        before: fullText.slice(0, exactIndex),
+        highlight,
+        after: fullText.slice(exactIndex + highlight.length),
+        fullText: "",
+        lengthLabel: `${fullLength}文字`,
+      };
+    }
+
+    if (exactIndex >= 0) {
+      const radius = fullLength >= SOURCE_LONG_LIMIT ? 160 : 240;
+      const beforeStart = Math.max(0, exactIndex - radius);
+      const afterEnd = Math.min(fullText.length, exactIndex + highlight.length + radius);
+      return {
+        mode: "context-source",
+        before: `${beforeStart > 0 ? "...\n" : ""}${fullText.slice(beforeStart, exactIndex)}`,
+        highlight,
+        after: `${fullText.slice(exactIndex + highlight.length, afterEnd)}${afterEnd < fullText.length ? "\n..." : ""}`,
+        fullText: fullLength > SOURCE_FULL_LIMIT ? fullText : "",
+        lengthLabel: `${fullLength}文字`,
+      };
+    }
+
+    return {
+      mode: "context-source",
+      before: contextBefore,
+      highlight,
+      after: contextAfter,
+      fullText: "",
+      lengthLabel: "",
+    };
+  }
+
+  function countSourceChars(value) {
+    return String(value || "").replace(/\s+/g, "").length;
   }
 
   function renderSourceActions(stage) {
@@ -254,6 +314,7 @@
         <div class="rule-list">
           <p><strong>番号ルール:</strong> ${esc(data.numberingPolicy)}</p>
           <p><strong>参照元ルール:</strong> ${esc(data.sourcePolicy)}</p>
+          <p><strong>抜粋ルール:</strong> 500文字以内は全文、500〜1,200文字は指摘箇所が最初の1画面に見える場合のみ全文、1,200文字以上は前後文脈を基本にします。2,000文字以上は前後100〜250文字程度に抑え、全文は折りたたみます。</p>
         </div>
       </section>
 
