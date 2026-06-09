@@ -89,6 +89,7 @@
     return `
       <div class="source-actions">
         <a class="btn mini" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>
+        <a class="btn mini" href="${esc(indexUrl())}">素材集を開く</a>
       </div>
     `;
   }
@@ -136,7 +137,7 @@
 
   function renderStageFindingSide(stage) {
     const nav = stage.findings.map((finding) => `
-      <a class="feedback-link" href="${esc(findingUrl(stage, finding))}">
+      <a class="feedback-link" href="#finding-${esc(finding.anchorId)}">
         <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
         <strong>${esc(finding.title)}</strong>
       </a>
@@ -145,7 +146,7 @@
     return `
       <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>第2層</p>
       <a class="back-link" href="${esc(homeUrl())}">第1層に戻る</a>
-      <small class="side-note">第3層: 指摘箇所だけを表示</small>
+      <small class="side-note">右側の指摘項目へ移動</small>
       <div class="side-group finding-only">${nav}</div>
       <div class="side-links" aria-label="関連リンク">
         <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
@@ -296,7 +297,7 @@
   function renderVisual(stage, focusedFinding = null) {
     if (stage.kind === "image") {
       const pins = stage.pins.map((pin) => `
-        <a class="pin ${focusedFinding && focusedFinding.anchorId === pin.anchorId ? "selected" : ""}" style="--x:${esc(pin.x)};--y:${esc(pin.y)}" href="${pin.finding ? esc(findingUrl(stage, pin.finding)) : "#"}">${esc(pin.displayId)}</a>
+        <a class="pin ${focusedFinding && focusedFinding.anchorId === pin.anchorId ? "selected" : ""}" style="--x:${esc(pin.x)};--y:${esc(pin.y)}" href="${pin.finding ? `#finding-${esc(pin.finding.anchorId)}` : "#"}">${esc(pin.displayId)}</a>
       `).join("");
       return `
         <div class="visual visual-image">
@@ -321,10 +322,10 @@
           </span>
         </summary>
         <div class="line-detail">
+          ${finding.time ? `<p><strong>位置:</strong> ${esc(finding.time)}</p>` : ""}
           <p><strong>対象箇所:</strong> ${esc(finding.excerpt || finding.issue)}</p>
           ${renderSourceContext(finding)}
           ${finding.sourceFile ? `<p><strong>対応する素材:</strong> ${esc(finding.sourceFile)}</p>` : ""}
-          <p><a class="mini-link" href="${esc(findingUrl(stage, finding))}">第3層の個別指摘URLで開く</a></p>
         </div>
       </details>
     `).join("");
@@ -365,52 +366,74 @@
     `;
   }
 
-  function renderFinding(stage, finding, options = {}) {
+  function renderFindingBody(finding) {
     return `
-      <article class="finding" id="finding-${esc(finding.anchorId)}">
+      <dl>
+        <div>
+          <dt>現状</dt>
+          <dd>${esc(finding.issue)}</dd>
+        </div>
+        <div>
+          <dt>問題点</dt>
+          <dd>${esc(finding.consideration)}</dd>
+        </div>
+        <div>
+          <dt>解決策案</dt>
+          <dd>${esc(finding.proposal)}</dd>
+        </div>
+        <div>
+          <dt>テキストレポート対応</dt>
+          <dd>${esc(finding.textPairing)}</dd>
+        </div>
+      </dl>
+    `;
+  }
+
+  function renderFindingHead(finding, options = {}) {
+    return `
         <div class="finding-head">
           <span class="num">${esc(finding.displayId)}</span>
           <div>
-            <div class="chip-row">
-              <span class="chip ${esc(finding.priority)}">${esc(priorityLabel(finding.priority))}</span>
-              <span class="chip">${esc(finding.target)}</span>
-              <span class="chip stable">固定ID: ${esc(finding.stableId)}</span>
-            </div>
-            <h3>${esc(finding.title)}</h3>
-            ${options.hideAction ? "" : `
-              <div class="finding-actions">
-                <a class="btn mini" href="${esc(findingUrl(stage, finding))}">第3層で開く</a>
+            ${options.compact ? "" : `
+              <div class="chip-row">
+                <span class="chip ${esc(finding.priority)}">${esc(priorityLabel(finding.priority))}</span>
+                <span class="chip">${esc(finding.target)}</span>
+                <span class="chip stable">固定ID: ${esc(finding.stableId)}</span>
               </div>
             `}
+            <h3>${esc(finding.title)}</h3>
           </div>
         </div>
-        <dl>
-          <div>
-            <dt>現状</dt>
-            <dd>${esc(finding.issue)}</dd>
+    `;
+  }
+
+  function renderFinding(stage, finding, options = {}) {
+    if (options.accordion) {
+      return `
+        <details class="finding finding-accordion" id="finding-${esc(finding.anchorId)}">
+          <summary>
+            ${renderFindingHead(finding, { compact: true })}
+          </summary>
+          <div class="finding-content">
+            ${renderFindingBody(finding)}
           </div>
-          <div>
-            <dt>問題点</dt>
-            <dd>${esc(finding.consideration)}</dd>
-          </div>
-          <div>
-            <dt>解決策案</dt>
-            <dd>${esc(finding.proposal)}</dd>
-          </div>
-          <div>
-            <dt>テキストレポート対応</dt>
-            <dd>${esc(finding.textPairing)}</dd>
-          </div>
-        </dl>
+        </details>
+      `;
+    }
+
+    return `
+      <article class="finding" id="finding-${esc(finding.anchorId)}">
+        ${renderFindingHead(finding)}
+        ${renderFindingBody(finding)}
       </article>
     `;
   }
 
   function renderDetail(stage) {
     const findingNav = stage.findings.map((finding) => `
-      <a href="${esc(findingUrl(stage, finding))}"><span class="nav-layer">第3層</span>${esc(finding.displayId)}. ${esc(finding.target)}</a>
+      <a href="#finding-${esc(finding.anchorId)}"><span class="nav-layer">項目</span>${esc(finding.displayId)}. ${esc(finding.target)}</a>
     `).join("");
-    const findings = stage.findings.map((finding) => renderFinding(stage, finding)).join("");
+    const findings = stage.findings.map((finding) => renderFinding(stage, finding, { accordion: true })).join("");
     const sourceItems = [
       { label: "素材名", value: stage.source },
       { label: "参照元素材URL", value: stage.url, href: stage.url },
@@ -430,17 +453,17 @@
         <p class="eyebrow">第2層 / 素材別レポート / ${esc(stage.no)}</p>
         <h1>${esc(stage.title)}</h1>
         <p class="lead">${esc(stage.subtitle)}</p>
-        ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
+        ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a><a class="btn" href="${esc(indexUrl())}">素材集を開く</a>`)}
       </header>
       ${shouldShowLayer2Speech(stage) ? tanakaSpeech(stage.speech || data.layer2Speech, "第2層の見方") : ""}
 
       <section class="panel soft">
         <h2>このページの役割</h2>
-        <p>第2層の素材別レポートです。左側のキャプチャまたは代表画面の番号と、右側のフィードバック番号が対応しています。左側は指摘対象の確認、右側は「現状」「問題点」「解決策案」を分けています。</p>
+        <p>第2層の素材別レポートです。左側は素材の該当箇所と周辺文脈だけを表示します。右側は指摘項目をアコーディオンで開閉し、「現状」「問題点」「解決策案」を確認します。</p>
         <div class="meta-strip">
           <span>第1層: 全体インデックス</span>
           <span>第2層: ${esc(stage.title)}</span>
-          <span>第3層: 個別指摘URL ${esc(pointRange)}</span>
+          <span>指摘項目: ${esc(pointRange)}</span>
         </div>
         <div class="target-nav">${findingNav}</div>
       </section>
