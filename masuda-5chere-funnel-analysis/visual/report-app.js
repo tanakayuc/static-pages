@@ -234,11 +234,14 @@
     `;
   }
 
-  function renderToolbar(extra = "") {
+  function renderToolbar(extra = "", options = {}) {
+    const homeButton = options.showHomeLink === false
+      ? ""
+      : `<a class="btn" href="${esc(homeUrl())}">ビジュアル全体像</a>`;
     return `
       <div class="toolbar">
         <a class="btn primary" href="${esc(textUrl())}">テキストレポートを開く</a>
-        <a class="btn" href="${esc(homeUrl())}">ビジュアル全体像</a>
+        ${homeButton}
         ${extra}
       </div>
     `;
@@ -304,7 +307,7 @@
         <p class="eyebrow">Visual Feedback / Production Structure Prototype</p>
         <h1>${esc(data.title)}</h1>
         <p class="lead">${esc(data.subtitle)}</p>
-        ${renderToolbar()}
+        ${renderToolbar("", { showHomeLink: false })}
       </header>
       ${tanakaSpeech(data.overallSpeech)}
 
