@@ -16,6 +16,7 @@
   const SOURCE_CONDITIONAL_FULL_LIMIT = 1200;
   const SOURCE_LONG_LIMIT = 2000;
   const SOURCE_VISIBLE_OFFSET_LIMIT = 500;
+  const SOURCE_TEXT_FULL_PREFIX = /^(メール|LINE)\//;
 
   const stageUrl = (stage) => `${visualPrefix}${stage.slug}.html`;
   const findingUrl = (stage, finding) => `${visualPrefix}finding.html?stage=${encodeURIComponent(stage.slug)}&finding=${encodeURIComponent(finding.stableId)}`;
@@ -78,12 +79,13 @@
     const highlight = finding.highlight || finding.before || finding.excerpt || finding.issue;
     const display = buildSourceDisplay(finding, highlight);
     if (!display.highlight && !display.before && !display.after) return "";
+    const sourceHtml = [
+      display.before ? `<span class="context-fade">${esc(display.before)}</span>` : "",
+      display.highlight ? renderHighlightedSource(display.highlight, finding.displayId) : "",
+      display.after ? `<span class="context-fade">${esc(display.after)}</span>` : "",
+    ].join("");
     return `
-      <div class="source-context ${esc(display.mode)}" aria-label="指摘対象の周辺文脈">
-        ${display.before ? `<span class="context-fade">${esc(display.before)}</span>` : ""}
-        ${display.highlight ? `<mark>${esc(display.highlight)}</mark>` : ""}
-        ${display.after ? `<span class="context-fade">${esc(display.after)}</span>` : ""}
-      </div>
+      <div class="source-context ${esc(display.mode)}" aria-label="指摘対象の周辺文脈">${sourceHtml}</div>
       ${display.fullText ? `
         <details class="source-fulltext">
           <summary>全文を開く（${esc(display.lengthLabel)}）</summary>
@@ -98,9 +100,13 @@
     const contextAfter = finding.contextAfter || "";
     const fullText = finding.fullText || finding.sourceText || finding.transcriptText || "";
     const fullLength = countSourceChars(fullText);
-    const exactIndex = fullText && highlight ? fullText.indexOf(highlight) : -1;
+    const match = findSourceMatch(fullText, highlight);
+    const exactIndex = match ? match.start : -1;
+    const matchedHighlight = match ? match.highlight : highlight;
     const highlightOffset = exactIndex >= 0 ? countSourceChars(fullText.slice(0, exactIndex)) : Number.POSITIVE_INFINITY;
+    const forceFullSource = SOURCE_TEXT_FULL_PREFIX.test(finding.sourceFile || "");
     const canShowFullText = exactIndex >= 0 && (
+      forceFullSource ||
       fullLength <= SOURCE_FULL_LIMIT ||
       (fullLength <= SOURCE_CONDITIONAL_FULL_LIMIT && highlightOffset <= SOURCE_VISIBLE_OFFSET_LIMIT)
     );
@@ -109,22 +115,22 @@
       return {
         mode: "full-source",
         before: fullText.slice(0, exactIndex),
-        highlight,
-        after: fullText.slice(exactIndex + highlight.length),
+        highlight: matchedHighlight,
+        after: fullText.slice(match.end),
         fullText: "",
         lengthLabel: `${fullLength}文字`,
       };
     }
 
     if (exactIndex >= 0) {
-      const radius = fullLength >= SOURCE_LONG_LIMIT ? 160 : 240;
+      const radius = fullLength >= SOURCE_LONG_LIMIT ? 260 : 340;
       const beforeStart = Math.max(0, exactIndex - radius);
-      const afterEnd = Math.min(fullText.length, exactIndex + highlight.length + radius);
+      const afterEnd = Math.min(fullText.length, match.end + radius);
       return {
         mode: "context-source",
         before: `${beforeStart > 0 ? "...\n" : ""}${fullText.slice(beforeStart, exactIndex)}`,
-        highlight,
-        after: `${fullText.slice(exactIndex + highlight.length, afterEnd)}${afterEnd < fullText.length ? "\n..." : ""}`,
+        highlight: matchedHighlight,
+        after: `${fullText.slice(match.end, afterEnd)}${afterEnd < fullText.length ? "\n..." : ""}`,
         fullText: fullLength > SOURCE_FULL_LIMIT ? fullText : "",
         lengthLabel: `${fullLength}文字`,
       };
@@ -142,6 +148,56 @@
 
   function countSourceChars(value) {
     return String(value || "").replace(/\s+/g, "").length;
+  }
+
+  function renderHighlightedSource(text, displayId) {
+    let markerRendered = false;
+    return String(text || "").split(/(\n+)/).map((part) => {
+      if (!part) return "";
+      if (/^\n+$/.test(part)) return esc(part);
+      const marker = markerRendered ? "" : `<span class="source-marker">${esc(displayId || "")}</span>`;
+      markerRendered = true;
+      return `<mark>${marker}${esc(part)}</mark>`;
+    }).join("");
+  }
+
+  function findSourceMatch(fullText, highlight) {
+    if (!fullText || !highlight) return null;
+    const exactIndex = fullText.indexOf(highlight);
+    if (exactIndex >= 0) {
+      return {
+        start: exactIndex,
+        end: exactIndex + highlight.length,
+        highlight,
+      };
+    }
+
+    const haystack = compactWithMap(fullText);
+    const needle = compactWithMap(highlight).text;
+    if (!needle) return null;
+    const compactIndex = haystack.text.indexOf(needle);
+    if (compactIndex < 0) return null;
+    const start = haystack.map[compactIndex];
+    const end = haystack.map[compactIndex + needle.length - 1] + 1;
+    return {
+      start,
+      end,
+      highlight: fullText.slice(start, end),
+    };
+  }
+
+  function compactWithMap(value) {
+    const text = [];
+    const map = [];
+    Array.from(String(value || "")).forEach((char, index) => {
+      if (/[\s\u200B\uFEFF]/.test(char)) return;
+      text.push(char);
+      map.push(index);
+    });
+    return {
+      text: text.join(""),
+      map,
+    };
   }
 
   function renderSourceActions(stage) {
