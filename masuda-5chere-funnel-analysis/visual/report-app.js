@@ -70,6 +70,29 @@
     `;
   }
 
+  function renderRewrite(finding) {
+    if (!finding.before && !finding.after && !finding.rewriteReason && !finding.sourceFile) return "";
+    const before = finding.before ? `
+      <div class="rewrite-box before">
+        <span>Before / 現在の文面</span>
+        <pre>${esc(finding.before)}</pre>
+      </div>
+    ` : "";
+    const after = finding.after ? `
+      <div class="rewrite-box after">
+        <span>After / 田中祐一の案</span>
+        <pre>${esc(finding.after)}</pre>
+      </div>
+    ` : "";
+    return `
+      <div class="rewrite-pair">
+        ${finding.sourceFile ? `<p class="rewrite-source">参照ファイル: ${esc(finding.sourceFile)}</p>` : ""}
+        ${(before || after) ? `<div class="rewrite-grid">${before}${after}</div>` : ""}
+        ${finding.rewriteReason ? `<p class="rewrite-reason"><strong>修正意図:</strong> ${esc(finding.rewriteReason)}</p>` : ""}
+      </div>
+    `;
+  }
+
   function renderGlobalSide(activeSlug) {
     const nav = numberedStages.map((stage) => `
       <a class="navlink ${activeSlug === stage.slug ? "active" : ""}" href="${esc(stageUrl(stage))}">
@@ -186,7 +209,7 @@
             <span class="chip medium">中 ${medium}</span>
             <span class="chip low">低 ${low}</span>
             <span class="chip">第3層 ${esc(pointRange)}</span>
-            ${stage.kind === "mock" ? '<span class="chip pending">実体取得待ち</span>' : ''}
+            ${stage.kind === "mock" ? '<span class="chip">代表箇所</span>' : ''}
           </div>
         </a>
       `;
@@ -299,6 +322,8 @@
         </summary>
         <div class="line-detail">
           <p><strong>該当箇所:</strong> ${esc(finding.excerpt || finding.issue)}</p>
+          ${finding.before ? `<blockquote class="inline-source">${esc(finding.before)}</blockquote>` : ""}
+          ${finding.after ? `<p><strong>改善方向:</strong> ${esc(finding.after).split("\n")[0]}</p>` : ""}
           <p><strong>見る観点:</strong> ${esc(finding.consideration)}</p>
           <p><a class="mini-link" href="${esc(findingUrl(stage, finding))}">第3層の個別指摘URLで開く</a></p>
         </div>
@@ -321,9 +346,9 @@
             <span>第3層: 指摘対象</span>
             <strong>${esc(focusedFinding.time || focusedFinding.target)}</strong>
           </div>
-          <blockquote>${esc(focusedFinding.excerpt || focusedFinding.issue)}</blockquote>
+          <blockquote>${esc(focusedFinding.before || focusedFinding.excerpt || focusedFinding.issue)}</blockquote>
           <p><strong>見る観点:</strong> ${esc(focusedFinding.consideration)}</p>
-          <p><strong>対応する素材:</strong> ${esc(stage.source)}</p>
+          <p><strong>対応する素材:</strong> ${esc(focusedFinding.sourceFile || stage.source)}</p>
         </div>
       `
       : "";
@@ -360,6 +385,7 @@
             `}
           </div>
         </div>
+        ${renderRewrite(finding)}
         <dl>
           <div>
             <dt>現状の課題</dt>
