@@ -181,7 +181,7 @@ window.masudaVisualReportData = {
       url: "https://docs.google.com/spreadsheets/d/1_AtOHYA93pDsIxBKnX-vNNep5k2vdEslIQqKVKOYyVs/edit",
       source: "ステップ配信/メール/Day01.md - Day42.md",
       kind: "mock",
-      caption: "第3層: メール本文の周辺文脈。左で該当箇所をハイライトし、右で現状・問題点・解決策案を表示します。",
+      caption: "第3層: メール本文の周辺文脈。左で該当箇所をハイライトし、右で「現状」「問題点・考察」「解決策案」を表示します。",
       mockLines: [
         "Day01: メール本文なし。登録直後の熱量を回収する初回メールを新規作成する。",
         "Day03: マリオット改悪。カード選び依存の危険を、Day2の決済総量へ橋渡しする。",
@@ -323,7 +323,7 @@ window.masudaVisualReportData = {
       url: "https://docs.google.com/spreadsheets/d/1_AtOHYA93pDsIxBKnX-vNNep5k2vdEslIQqKVKOYyVs/edit",
       source: "ステップ配信/LINE/Day02.md - Day42.md",
       kind: "mock",
-      caption: "第3層: LINE本文の周辺文脈。短文の中で該当箇所をハイライトし、右で現状・問題点・解決策案を表示します。",
+      caption: "第3層: LINE本文の周辺文脈。短文の中で該当箇所をハイライトし、右で「現状」「問題点・考察」「解決策案」を表示します。",
       mockLines: [
         "Day02: 最初の挨拶。参加感はあるが、最初に押す行動とDay1予約が弱い。",
         "Day03: マリオット改悪。LINEでは長文説明より、動画を見る理由を先に出す。",
