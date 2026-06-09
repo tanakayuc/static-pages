@@ -1,5 +1,6 @@
 (function () {
   const data = window.masudaVisualReportData;
+  const materialData = window.masudaMaterialItems || {};
   const app = document.getElementById("app");
   const slug = document.body.dataset.stage || "home";
   const params = new URLSearchParams(window.location.search);
@@ -20,6 +21,13 @@
 
   const stageUrl = (stage) => `${visualPrefix}${stage.slug}.html`;
   const findingUrl = (stage, finding) => `${visualPrefix}finding.html?stage=${encodeURIComponent(stage.slug)}&finding=${encodeURIComponent(finding.stableId)}`;
+  const materialsUrl = (stage = null, item = null) => {
+    const base = `${visualPrefix}materials.html`;
+    if (!stage) return base;
+    const query = new URLSearchParams({ stage: stage.slug });
+    if (item) query.set("item", item.stableId);
+    return `${base}?${query.toString()}`;
+  };
   const homeUrl = () => `${rootPrefix}visual-report.html`;
   const textUrl = () => `${rootPrefix}${data.textReport}`;
   const indexUrl = () => `${rootPrefix}${data.indexReport}`;
@@ -51,11 +59,22 @@
         anchorId: findings[pinIndex]?.anchorId || pin.id,
         finding: findings[pinIndex],
       }));
+      const materialItems = (materialData[stage.slug] || stage.materialItems || []).map((item, itemIndex) => {
+        const finding = findings.find((candidate) => candidate.sourceFile === item.sourceFile);
+        return {
+          ...item,
+          sequence: item.sequence || itemIndex + 1,
+          stableId: `${stage.slug}-${item.id || itemIndex + 1}`,
+          anchorId: `${stage.slug}-${item.id || itemIndex + 1}`,
+          finding,
+        };
+      });
       return {
         ...stage,
         sequence: stageIndex + 1,
         findings,
         pins,
+        materialItems,
       };
     });
   })();
@@ -200,12 +219,11 @@
     };
   }
 
-  function renderSourceActions(stage) {
-    if (!stage.url) return "";
+  function renderSourceActions(stage, item = null) {
     return `
       <div class="source-actions">
-        <a class="btn mini" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>
-        <a class="btn mini" href="${esc(indexUrl())}">素材集を開く</a>
+        ${stage.url ? `<a class="btn mini" href="${esc(stage.url)}" target="_blank" rel="noreferrer">元スプレッドシートを開く</a>` : ""}
+        <a class="btn mini" href="${esc(materialsUrl(stage, item))}">素材集で開く</a>
       </div>
     `;
   }
@@ -225,46 +243,65 @@
       </a>
       <div class="side-group">${nav}</div>
       <div class="side-links" aria-label="関連リンク">
+        <a class="navlink" href="${esc(materialsUrl())}">素材集</a>
         <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
         <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
       </div>
     `;
   }
 
-  function renderFindingSide(stage, activeFinding) {
-    const nav = stage.findings.map((finding) => `
-      <a class="feedback-link ${activeFinding?.stableId === finding.stableId ? "active" : ""}" href="${esc(findingUrl(stage, finding))}">
-        <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
-        <strong>${esc(findingSubject(finding))}</strong>
+  function renderMaterialSideLink(stage, item, activeMaterial = null) {
+    const finding = item.finding;
+    const active = activeMaterial?.stableId === item.stableId || activeMaterial?.sourceFile === item.sourceFile;
+    return `
+      <a class="feedback-link material-side-link ${active ? "active" : ""} ${finding ? "has-feedback" : "no-feedback"}" href="${esc(materialsUrl(stage, item))}">
+        <span>${esc(materialLabel(item))}<em>${finding ? `指摘 ${finding.displayId}` : "素材のみ"}</em></span>
+        <strong>${esc(item.title || findingSubject(finding || item))}</strong>
       </a>
-    `).join("");
+    `;
+  }
+
+  function renderFindingSide(stage, activeFinding) {
+    const activeMaterial = stage.materialItems.find((item) => item.finding?.stableId === activeFinding?.stableId);
+    const nav = stage.materialItems.length
+      ? stage.materialItems.map((item) => renderMaterialSideLink(stage, item, activeMaterial || activeFinding)).join("")
+      : stage.findings.map((finding) => `
+        <a class="feedback-link ${activeFinding?.stableId === finding.stableId ? "active" : ""}" href="${esc(findingUrl(stage, finding))}">
+          <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
+          <strong>${esc(findingSubject(finding))}</strong>
+        </a>
+      `).join("");
 
     return `
       <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>第3層</p>
       <a class="back-link" href="${esc(stageUrl(stage))}">上の階層に戻る</a>
-      <small class="side-note">第3層: この素材の指摘だけ</small>
+      <small class="side-note">第3層: 時系列素材と指摘状態</small>
       <div class="side-group finding-only">${nav}</div>
       <div class="side-links" aria-label="関連リンク">
         <a class="navlink" href="${esc(homeUrl())}">全体インデックス</a>
+        <a class="navlink" href="${esc(materialsUrl(stage))}">素材集</a>
         <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
       </div>
     `;
   }
 
   function renderStageFindingSide(stage) {
-    const nav = stage.findings.map((finding) => `
-      <a class="feedback-link" href="${esc(findingUrl(stage, finding))}">
-        <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
-        <strong>${esc(findingSubject(finding))}</strong>
-      </a>
-    `).join("");
+    const nav = stage.materialItems.length
+      ? stage.materialItems.map((item) => renderMaterialSideLink(stage, item)).join("")
+      : stage.findings.map((finding) => `
+        <a class="feedback-link" href="${esc(findingUrl(stage, finding))}">
+          <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
+          <strong>${esc(findingSubject(finding))}</strong>
+        </a>
+      `).join("");
 
     return `
       <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>第2層</p>
       <a class="back-link" href="${esc(homeUrl())}">第1層に戻る</a>
-      <small class="side-note">各素材の第3層レポートへ移動</small>
+      <small class="side-note">全素材を時系列に表示。指摘ありだけ状態表示します。</small>
       <div class="side-group finding-only">${nav}</div>
       <div class="side-links" aria-label="関連リンク">
+        <a class="navlink" href="${esc(materialsUrl(stage))}">素材集</a>
         <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
         <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
       </div>
@@ -283,6 +320,19 @@
     }
     if (finding.time && finding.target) return `${finding.time} / ${finding.target}`;
     return finding.target || finding.title;
+  }
+
+  function materialLabel(item) {
+    return [item.day, item.delivery].filter(Boolean).join(" / ") || `素材 ${item.sequence}`;
+  }
+
+  function stageLayerCount(stage) {
+    if (stage.materialItems.length) {
+      return `素材 ${stage.materialItems.length} / 指摘 ${stage.findings.length}`;
+    }
+    return stage.findings.length > 0
+      ? `指摘 ${stage.findings[0].displayId}-${stage.findings[stage.findings.length - 1].displayId}`
+      : "未設定";
   }
 
   function stageOverview(stage) {
@@ -307,7 +357,11 @@
     app.innerHTML = `
       <div class="layout">
         <aside class="side">
-          ${side}
+          <details class="side-drawer">
+            <summary>素材一覧を開く</summary>
+            <div class="side-drawer-panel">${side}</div>
+          </details>
+          <div class="side-desktop">${side}</div>
         </aside>
         <main class="main">
           <div class="wrap">${content}</div>
@@ -342,9 +396,6 @@
       const high = stage.findings.filter((finding) => finding.priority === "high").length;
       const medium = stage.findings.filter((finding) => finding.priority === "medium").length;
       const low = stage.findings.filter((finding) => finding.priority === "low").length;
-      const pointRange = stage.findings.length > 0
-        ? `${stage.findings[0].displayId}-${stage.findings[stage.findings.length - 1].displayId}`
-        : "未設定";
       return `
         <a class="card clickable" href="${esc(stageUrl(stage))}">
           <small>第2層: ${esc(stage.no)}</small>
@@ -354,7 +405,7 @@
             <span class="chip high">高 ${high}</span>
             <span class="chip medium">中 ${medium}</span>
             <span class="chip low">低 ${low}</span>
-            <span class="chip">第3層 ${esc(pointRange)}</span>
+            <span class="chip">第3層 ${esc(stageLayerCount(stage))}</span>
             ${stage.kind === "mock" ? '<span class="chip">代表箇所</span>' : ''}
           </div>
         </a>
@@ -389,7 +440,7 @@
         <p class="eyebrow">Visual Feedback / Production Structure Prototype</p>
         <h1>${esc(data.title)}</h1>
         <p class="lead">${esc(data.subtitle)}</p>
-        ${renderToolbar("", { showHomeLink: false })}
+        ${renderToolbar(`<a class="btn" href="${esc(materialsUrl())}">素材集を開く</a>`, { showHomeLink: false })}
       </header>
       ${tanakaSpeech(data.overallSpeech)}
 
@@ -576,19 +627,31 @@
 
   function renderDetail(stage) {
     const overview = stageOverview(stage);
-    const reportLinks = stage.findings.map((finding) => `
-      <a class="report-link" href="${esc(findingUrl(stage, finding))}">
-        <span class="num">${esc(finding.displayId)}</span>
-        <div>
-          <small>第3層 / ${esc(priorityLabel(finding.priority))}</small>
-          <strong>${esc(findingSubject(finding))}</strong>
-          <span>${esc(finding.target)} の個別フィードバックを開く</span>
-        </div>
-      </a>
-    `).join("");
+    const reportLinks = stage.materialItems.length
+      ? stage.materialItems.map((item) => `
+        <a class="report-link ${item.finding ? "has-feedback" : "no-feedback"}" href="${esc(materialsUrl(stage, item))}">
+          <span class="num ${item.finding ? "" : "ghost-num"}">${esc(item.finding?.displayId || String(item.sequence).padStart(2, "0"))}</span>
+          <div>
+            <small>第3層 / ${esc(materialLabel(item))} / ${item.finding ? esc(priorityLabel(item.finding.priority)) : "素材のみ"}</small>
+            <strong>${esc(item.title)}</strong>
+            <span>${item.finding ? "個別フィードバックあり" : "提出素材を確認"}</span>
+          </div>
+        </a>
+      `).join("")
+      : stage.findings.map((finding) => `
+        <a class="report-link" href="${esc(findingUrl(stage, finding))}">
+          <span class="num">${esc(finding.displayId)}</span>
+          <div>
+            <small>第3層 / ${esc(priorityLabel(finding.priority))}</small>
+            <strong>${esc(findingSubject(finding))}</strong>
+            <span>${esc(finding.target)} の個別フィードバックを開く</span>
+          </div>
+        </a>
+      `).join("");
     const sourceItems = [
       { label: "素材名", value: stage.source },
       { label: "参照元素材URL", value: stage.url, href: stage.url },
+      { label: "提出素材HTML", value: "素材集を開く", href: materialsUrl(stage) },
       { label: "テキストレポート", value: data.textReport, href: textUrl() },
     ].map((item) => `
       <li>
@@ -596,22 +659,20 @@
         ${item.href ? `<a href="${esc(item.href)}" target="_blank" rel="noreferrer">${esc(item.value)}</a>` : esc(item.value)}
       </li>
     `).join("");
-    const pointRange = stage.findings.length > 0
-      ? `${stage.findings[0].displayId}-${stage.findings[stage.findings.length - 1].displayId}`
-      : "未設定";
+    const pointRange = stageLayerCount(stage);
 
     renderLayout(`
       <header class="hero">
         <p class="eyebrow">第2層 / 素材別レポート / ${esc(stage.no)}</p>
         <h1>${esc(stage.title)}</h1>
         <p class="lead">${esc(stage.subtitle)}</p>
-        ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a><a class="btn" href="${esc(indexUrl())}">素材集を開く</a>`)}
+        ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a><a class="btn" href="${esc(materialsUrl(stage))}">素材集を開く</a>`)}
       </header>
       ${shouldShowLayer2Speech(stage) ? tanakaSpeech(stage.speech || data.layer2Speech, "第2層の見方") : ""}
 
       <section class="panel soft">
         <h2>第2層の全体レポート</h2>
-        <p>このページでは、${esc(stage.title)} 全体の流れだけを確認します。個別メール・個別素材の該当箇所と改善案は、左サイドバーまたは下の一覧から第3層を開いて確認します。</p>
+        <p>このページでは、${esc(stage.title)} 全体の流れだけを確認します。時系列素材は全件を第3層に並べ、指摘ありの素材だけ状態表示します。個別メール・個別素材の該当箇所と改善案は、左サイドバーまたは下の一覧から確認します。</p>
         <div class="meta-strip">
           <span>第1層: 全体インデックス</span>
           <span>第2層: ${esc(stage.title)}</span>
@@ -634,8 +695,8 @@
       </section>
 
       <section class="section">
-        <h2>第3層 個別レポート</h2>
-        <p class="muted">各メール・各LINE・各素材の具体的な該当箇所とフィードバックは、第3層で1つずつ確認します。</p>
+        <h2>第3層 素材一覧</h2>
+        <p class="muted">時系列で流れる素材は、指摘あり/なしを問わず全件を並べます。指摘ありは右側にフィードバック、指摘なしは提出素材の確認ページとして開きます。</p>
         <div class="report-link-list">
           ${reportLinks}
         </div>
@@ -683,7 +744,7 @@
         <p class="eyebrow">第3層 / 個別指摘 / ${esc(finding.displayId)}</p>
         <h1>${esc(finding.title)}</h1>
         <p class="lead">${esc(stage.title)} の中の、1つの指摘箇所だけを固定表示しています。</p>
-        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a><a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
+        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">素材集を開く</a><a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
       </header>
 
       <section class="panel soft">
@@ -714,6 +775,136 @@
     `, stage.slug, { sidebar: "findings", stage, activeFinding: finding });
   }
 
+  function renderMaterialSourceCard(stage, item, finding = null) {
+    const sourceFinding = finding
+      ? { ...finding, sourceText: item.sourceText || finding.sourceText }
+      : null;
+    return `
+      <div class="visual material-visual">
+        <div class="mock-screen">
+          <div class="screen-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <p class="mock-kicker">提出素材</p>
+          <div class="source-doc">
+            <div class="source-head">
+              <span>${esc(item.phase || stage.title)}</span>
+              <strong>${esc(materialLabel(item))} / ${esc(item.title)}</strong>
+            </div>
+            ${sourceFinding ? renderSourceContext(sourceFinding) : `<div class="source-context full-source">${esc(item.sourceText || "（本文なし）")}</div>`}
+            <p><strong>参照ファイル:</strong> ${esc(item.sourceFile)}</p>
+            ${renderSourceActions(stage, item)}
+          </div>
+        </div>
+        <p class="visual-caption">第3層: 提出素材の本文。指摘がある場合は本文内に番号付きで網掛けします。</p>
+      </div>
+    `;
+  }
+
+  function renderNoFeedbackCard(item) {
+    return `
+      <article class="finding no-feedback-card">
+        <div class="finding-head">
+          <span class="num ghost-num">${esc(String(item.sequence).padStart(2, "0"))}</span>
+          <div>
+            <div class="chip-row">
+              <span class="chip stable">素材のみ</span>
+              <span class="chip">${esc(materialLabel(item))}</span>
+            </div>
+            <h3>この素材は現時点では個別指摘なし</h3>
+          </div>
+        </div>
+        <dl>
+          <div>
+            <dt>現状</dt>
+            <dd>時系列の提出素材として保持しています。</dd>
+          </div>
+          <div>
+            <dt>確認ポイント</dt>
+            <dd>前後の配信との接続、CTA、説明会への橋渡しを確認するための素材ページです。</dd>
+          </div>
+          <div>
+            <dt>次の扱い</dt>
+            <dd>必要になった時点で、この素材に個別フィードバックを追加します。</dd>
+          </div>
+        </dl>
+      </article>
+    `;
+  }
+
+  function renderMaterialDetail(stage, item) {
+    const finding = item.finding;
+    const index = stage.materialItems.findIndex((candidate) => candidate.stableId === item.stableId);
+    const prev = stage.materialItems[index - 1];
+    const next = stage.materialItems[index + 1];
+    const nextPrev = `
+      <div class="detail-nav">
+        ${prev ? `<a class="btn" href="${esc(materialsUrl(stage, prev))}">前の素材</a>` : '<span></span>'}
+        <a class="btn" href="${esc(stageUrl(stage))}">第2層に戻る</a>
+        ${next ? `<a class="btn" href="${esc(materialsUrl(stage, next))}">次の素材</a>` : '<span></span>'}
+      </div>
+    `;
+
+    renderLayout(`
+      <header class="hero">
+        <p class="eyebrow">第3層 / 素材 / ${esc(materialLabel(item))}</p>
+        <h1>${esc(item.title)}</h1>
+        <p class="lead">${esc(stage.title)} の時系列素材です。${finding ? "この素材には個別フィードバックがあります。" : "この素材は現時点では個別指摘なしです。"}</p>
+        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">素材集へ戻る</a>`)}
+      </header>
+
+      <section class="panel soft">
+        <h2>3層の現在地</h2>
+        <div class="meta-strip">
+          <span>第1層: 全体インデックス</span>
+          <span>第2層: ${esc(stage.no)}. ${esc(stage.title)}</span>
+          <span>第3層: ${esc(materialLabel(item))}</span>
+          <span>${finding ? `指摘あり: ${esc(finding.displayId)}` : "素材のみ"}</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>提出素材とフィードバック</h2>
+        <div class="report-grid">
+          ${renderMaterialSourceCard(stage, item, finding)}
+          <div>${finding ? renderFinding(stage, finding, { hideAction: true }) : renderNoFeedbackCard(item)}</div>
+        </div>
+        ${nextPrev}
+      </section>
+    `, stage.slug, { sidebar: "findings", stage, activeFinding: finding || item });
+  }
+
+  function renderMaterialsIndex() {
+    const stageFilter = params.get("stage");
+    const stages = numberedStages.filter((stage) => stage.materialItems.length && (!stageFilter || stage.slug === stageFilter));
+    const groups = stages.map((stage) => `
+      <section class="section">
+        <h2>${esc(stage.no)}. ${esc(stage.title)}</h2>
+        <p class="muted">${esc(stage.materialItems.length)}件の提出素材 / ${esc(stage.findings.length)}件の個別指摘</p>
+        <div class="report-link-list material-index-list">
+          ${stage.materialItems.map((item) => `
+            <a class="report-link ${item.finding ? "has-feedback" : "no-feedback"}" href="${esc(materialsUrl(stage, item))}">
+              <span class="num ${item.finding ? "" : "ghost-num"}">${esc(item.finding?.displayId || String(item.sequence).padStart(2, "0"))}</span>
+              <div>
+                <small>${esc(materialLabel(item))} / ${item.finding ? "指摘あり" : "素材のみ"}</small>
+                <strong>${esc(item.title)}</strong>
+                <span>${esc(item.phase || "")}</span>
+              </div>
+            </a>
+          `).join("")}
+        </div>
+      </section>
+    `).join("");
+
+    renderLayout(`
+      <header class="hero">
+        <p class="eyebrow">提出素材HTML</p>
+        <h1>増田 W3EV 5日チャレ 素材集</h1>
+        <p class="lead">メールとLINEの提出素材を、時系列でそのまま確認するためのHTMLです。ビジュアルフィードバックで迷ったら、ここから元素材へ戻ります。</p>
+        ${renderToolbar(`<a class="btn" href="${esc(homeUrl())}">ビジュアルレポートへ戻る</a>`, { showHomeLink: false })}
+      </header>
+      ${groups || `<section class="panel"><p>表示できる素材がありません。</p></section>`}
+    `, "materials");
+  }
+
   if (slug === "home") {
     renderHome();
     return;
@@ -733,6 +924,17 @@
         ${renderToolbar()}
       </header>
     `, "home");
+    return;
+  }
+
+  if (slug === "materials") {
+    const stage = numberedStages.find((item) => item.slug === params.get("stage"));
+    const material = stage?.materialItems.find((item) => item.stableId === params.get("item") || item.id === params.get("item"));
+    if (stage && material) {
+      renderMaterialDetail(stage, material);
+      return;
+    }
+    renderMaterialsIndex();
     return;
   }
 
