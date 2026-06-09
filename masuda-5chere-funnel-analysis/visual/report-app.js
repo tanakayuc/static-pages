@@ -70,29 +70,6 @@
     `;
   }
 
-  function renderRewrite(finding) {
-    if (!finding.before && !finding.after && !finding.rewriteReason && !finding.sourceFile) return "";
-    const before = finding.before ? `
-      <div class="rewrite-box before">
-        <span>Before / 現在の文面</span>
-        <pre>${esc(finding.before)}</pre>
-      </div>
-    ` : "";
-    const after = finding.after ? `
-      <div class="rewrite-box after">
-        <span>After / 田中祐一の案</span>
-        <pre>${esc(finding.after)}</pre>
-      </div>
-    ` : "";
-    return `
-      <div class="rewrite-pair">
-        ${finding.sourceFile ? `<p class="rewrite-source">参照ファイル: ${esc(finding.sourceFile)}</p>` : ""}
-        ${(before || after) ? `<div class="rewrite-grid">${before}${after}</div>` : ""}
-        ${finding.rewriteReason ? `<p class="rewrite-reason"><strong>修正意図:</strong> ${esc(finding.rewriteReason)}</p>` : ""}
-      </div>
-    `;
-  }
-
   function renderGlobalSide(activeSlug) {
     const nav = numberedStages.map((stage) => `
       <a class="navlink ${activeSlug === stage.slug ? "active" : ""}" href="${esc(stageUrl(stage))}">
@@ -249,7 +226,7 @@
 
       <section class="panel soft">
         <h2>用語と出力先</h2>
-        <p>テキストレポートは、MD分析結果をHTMLで読めるようにしたものです。ビジュアルレポートは、キャプチャ画像・動画代表フレーム・スライド・メール本文などの該当箇所に番号を振り、「現状の課題」「考察」「田中祐一の案」を対応させるものです。</p>
+        <p>テキストレポートは、MD分析結果をHTMLで読めるようにしたものです。ビジュアルレポートは、キャプチャ画像・動画代表フレーム・スライド・メール本文などの該当箇所に番号を振り、右側で「現状」「問題点」「解決策案」を対応させるものです。</p>
         <div class="rule-list">
           <p><strong>番号ルール:</strong> ${esc(data.numberingPolicy)}</p>
           <p><strong>参照元ルール:</strong> ${esc(data.sourcePolicy)}</p>
@@ -321,10 +298,9 @@
           </span>
         </summary>
         <div class="line-detail">
-          <p><strong>該当箇所:</strong> ${esc(finding.excerpt || finding.issue)}</p>
+          <p><strong>対象箇所:</strong> ${esc(finding.excerpt || finding.issue)}</p>
           ${finding.before ? `<blockquote class="inline-source">${esc(finding.before)}</blockquote>` : ""}
-          ${finding.after ? `<p><strong>改善方向:</strong> ${esc(finding.after).split("\n")[0]}</p>` : ""}
-          <p><strong>見る観点:</strong> ${esc(finding.consideration)}</p>
+          ${finding.sourceFile ? `<p><strong>対応する素材:</strong> ${esc(finding.sourceFile)}</p>` : ""}
           <p><a class="mini-link" href="${esc(findingUrl(stage, finding))}">第3層の個別指摘URLで開く</a></p>
         </div>
       </details>
@@ -347,7 +323,6 @@
             <strong>${esc(focusedFinding.time || focusedFinding.target)}</strong>
           </div>
           <blockquote>${esc(focusedFinding.before || focusedFinding.excerpt || focusedFinding.issue)}</blockquote>
-          <p><strong>見る観点:</strong> ${esc(focusedFinding.consideration)}</p>
           <p><strong>対応する素材:</strong> ${esc(focusedFinding.sourceFile || stage.source)}</p>
         </div>
       `
@@ -385,18 +360,17 @@
             `}
           </div>
         </div>
-        ${renderRewrite(finding)}
         <dl>
           <div>
-            <dt>現状の課題</dt>
+            <dt>現状</dt>
             <dd>${esc(finding.issue)}</dd>
           </div>
           <div>
-            <dt>考察</dt>
+            <dt>問題点</dt>
             <dd>${esc(finding.consideration)}</dd>
           </div>
           <div>
-            <dt>田中祐一の案</dt>
+            <dt>解決策案</dt>
             <dd>${esc(finding.proposal)}</dd>
           </div>
           <div>
@@ -438,7 +412,7 @@
 
       <section class="panel soft">
         <h2>このページの役割</h2>
-        <p>第2層の素材別レポートです。左側のキャプチャまたは代表画面の番号と、右側のフィードバック番号が対応しています。各指摘は、テキストレポート側と内容が変わらないように「現状の課題」「考察」「田中祐一の案」を分けています。</p>
+        <p>第2層の素材別レポートです。左側のキャプチャまたは代表画面の番号と、右側のフィードバック番号が対応しています。左側は指摘対象の確認、右側は「現状」「問題点」「解決策案」を分けています。</p>
         <div class="meta-strip">
           <span>第1層: 全体インデックス</span>
           <span>第2層: ${esc(stage.title)}</span>
