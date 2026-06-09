@@ -323,7 +323,6 @@
         </summary>
         <div class="line-detail">
           ${finding.time ? `<p><strong>位置:</strong> ${esc(finding.time)}</p>` : ""}
-          <p><strong>対象箇所:</strong> ${esc(finding.excerpt || finding.issue)}</p>
           ${renderSourceContext(finding)}
           ${finding.sourceFile ? `<p><strong>対応する素材:</strong> ${esc(finding.sourceFile)}</p>` : ""}
         </div>
