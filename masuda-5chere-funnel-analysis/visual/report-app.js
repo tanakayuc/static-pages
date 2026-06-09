@@ -2,6 +2,7 @@
   const data = window.masudaVisualReportData;
   const app = document.getElementById("app");
   const slug = document.body.dataset.stage || "home";
+  const params = new URLSearchParams(window.location.search);
   const inVisualDir = window.location.pathname.includes("/visual/");
   const rootPrefix = inVisualDir ? "../" : "";
   const visualPrefix = inVisualDir ? "" : "visual/";
@@ -13,6 +14,7 @@
     .replace(/"/g, "&quot;");
 
   const stageUrl = (stage) => `${visualPrefix}${stage.slug}.html`;
+  const findingUrl = (stage, finding) => `${visualPrefix}finding.html?stage=${encodeURIComponent(stage.slug)}&finding=${encodeURIComponent(finding.stableId)}`;
   const homeUrl = () => `${rootPrefix}visual-report.html`;
   const textUrl = () => `${rootPrefix}${data.textReport}`;
   const indexUrl = () => `${rootPrefix}${data.indexReport}`;
@@ -40,6 +42,7 @@
         ...pin,
         displayId: findings[pinIndex]?.displayId || pin.id,
         anchorId: findings[pinIndex]?.anchorId || pin.id,
+        finding: findings[pinIndex],
       }));
       return {
         ...stage,
@@ -61,7 +64,7 @@
       <div class="layout">
         <aside class="side">
           <p class="brand">増田 W3EV<br>5日チャレ<br>ビジュアルレポート</p>
-          <small class="side-note">全体インデックス → 素材別URL → 指摘箇所</small>
+          <small class="side-note">第1層 全体 → 第2層 素材 → 第3層 個別指摘</small>
           <a class="navlink ${activeSlug === "home" ? "active" : ""}" href="${esc(homeUrl())}">
             <span class="nav-layer">第1層</span>全体インデックス
           </a>
@@ -113,7 +116,7 @@
             <span class="chip high">高 ${high}</span>
             <span class="chip medium">中 ${medium}</span>
             <span class="chip low">低 ${low}</span>
-            <span class="chip">指摘 ${esc(pointRange)}</span>
+            <span class="chip">第3層 ${esc(pointRange)}</span>
             ${stage.kind === "mock" ? '<span class="chip pending">実体取得待ち</span>' : ''}
           </div>
         </a>
@@ -190,10 +193,10 @@
     `, "home");
   }
 
-  function renderVisual(stage) {
+  function renderVisual(stage, focusedFinding = null) {
     if (stage.kind === "image") {
       const pins = stage.pins.map((pin) => `
-        <a class="pin" style="--x:${esc(pin.x)};--y:${esc(pin.y)}" href="#finding-${esc(pin.anchorId)}">${esc(pin.displayId)}</a>
+        <a class="pin ${focusedFinding && focusedFinding.anchorId === pin.anchorId ? "selected" : ""}" style="--x:${esc(pin.x)};--y:${esc(pin.y)}" href="${pin.finding ? esc(findingUrl(stage, pin.finding)) : "#"}">${esc(pin.displayId)}</a>
       `).join("");
       return `
         <div class="visual visual-image">
@@ -206,7 +209,8 @@
       `;
     }
 
-    const lineItems = stage.findings.map((finding) => `
+    const sourceFindings = focusedFinding ? [focusedFinding] : stage.findings;
+    const lineItems = sourceFindings.map((finding) => `
       <details class="transcript-line" ${finding.priority === "high" ? "open" : ""}>
         <summary>
           <span class="inline-num">${esc(finding.displayId)}</span>
@@ -219,6 +223,7 @@
         <div class="line-detail">
           <p><strong>該当箇所:</strong> ${esc(finding.excerpt || finding.issue)}</p>
           <p><strong>見る観点:</strong> ${esc(finding.consideration)}</p>
+          <p><a class="mini-link" href="${esc(findingUrl(stage, finding))}">第3層の個別指摘URLで開く</a></p>
         </div>
       </details>
     `).join("");
@@ -230,7 +235,7 @@
             <strong>実体取得待ち</strong>
             <span>この素材はまだキャプチャ・原文全文・代表フレームを第3層として固定していません。以下は現時点の代表箇所指定です。</span>
           </div>
-          <p class="mock-kicker">${esc(sourceKindLabel(stage))}</p>
+          <p class="mock-kicker">${focusedFinding ? "第3層の該当箇所" : esc(sourceKindLabel(stage))}</p>
           ${lineItems}
         </div>
         <p class="visual-caption">${esc(stage.caption)}</p>
@@ -238,7 +243,7 @@
     `;
   }
 
-  function renderFinding(finding) {
+  function renderFinding(stage, finding, options = {}) {
     return `
       <article class="finding" id="finding-${esc(finding.anchorId)}">
         <div class="finding-head">
@@ -250,6 +255,11 @@
               <span class="chip stable">固定ID: ${esc(finding.stableId)}</span>
             </div>
             <h3>${esc(finding.title)}</h3>
+            ${options.hideAction ? "" : `
+              <div class="finding-actions">
+                <a class="btn mini" href="${esc(findingUrl(stage, finding))}">第3層で開く</a>
+              </div>
+            `}
           </div>
         </div>
         <dl>
@@ -276,9 +286,9 @@
 
   function renderDetail(stage) {
     const findingNav = stage.findings.map((finding) => `
-      <a href="#finding-${esc(finding.anchorId)}">${esc(finding.displayId)}. ${esc(finding.target)}</a>
+      <a href="${esc(findingUrl(stage, finding))}"><span class="nav-layer">第3層</span>${esc(finding.displayId)}. ${esc(finding.target)}</a>
     `).join("");
-    const findings = stage.findings.map(renderFinding).join("");
+    const findings = stage.findings.map((finding) => renderFinding(stage, finding)).join("");
     const sourceItems = [
       { label: "素材名", value: stage.source },
       { label: "参照元素材URL", value: stage.url, href: stage.url },
@@ -307,7 +317,7 @@
         <div class="meta-strip">
           <span>第1層: 全体インデックス</span>
           <span>第2層: ${esc(stage.title)}</span>
-          <span>第3層: 指摘 ${esc(pointRange)}</span>
+          <span>第3層: 個別指摘URL ${esc(pointRange)}</span>
         </div>
         <div class="target-nav">${findingNav}</div>
       </section>
@@ -329,8 +339,89 @@
     `, stage.slug);
   }
 
+  function renderFindingDetail(stage, finding) {
+    const index = stage.findings.findIndex((item) => item.stableId === finding.stableId);
+    const prev = stage.findings[index - 1];
+    const next = stage.findings[index + 1];
+    const siblings = stage.findings.map((item) => `
+      <a class="${item.stableId === finding.stableId ? "active" : ""}" href="${esc(findingUrl(stage, item))}">
+        <span class="nav-layer">第3層</span>${esc(item.displayId)}. ${esc(item.target)}
+      </a>
+    `).join("");
+    const sourceItems = [
+      { label: "第2層素材", value: stage.title, href: stageUrl(stage) },
+      { label: "固定ID", value: finding.stableId },
+      { label: "参照元素材URL", value: stage.url, href: stage.url },
+      { label: "テキストレポート対応", value: finding.textPairing, href: textUrl() },
+    ].map((item) => `
+      <li>
+        <strong>${esc(item.label)}:</strong>
+        ${item.href ? `<a href="${esc(item.href)}" target="${item.href.startsWith("http") ? "_blank" : "_self"}" rel="noreferrer">${esc(item.value)}</a>` : esc(item.value)}
+      </li>
+    `).join("");
+    const nextPrev = `
+      <div class="detail-nav">
+        ${prev ? `<a class="btn" href="${esc(findingUrl(stage, prev))}">前の指摘 ${esc(prev.displayId)}</a>` : '<span></span>'}
+        <a class="btn" href="${esc(stageUrl(stage))}">第2層に戻る</a>
+        ${next ? `<a class="btn" href="${esc(findingUrl(stage, next))}">次の指摘 ${esc(next.displayId)}</a>` : '<span></span>'}
+      </div>
+    `;
+
+    renderLayout(`
+      <header class="hero">
+        <p class="eyebrow">第3層 / 個別指摘 / ${esc(finding.displayId)}</p>
+        <h1>${esc(finding.title)}</h1>
+        <p class="lead">${esc(stage.title)} の中の、1つの指摘箇所だけを固定表示しています。</p>
+        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a>`)}
+      </header>
+
+      <section class="panel soft">
+        <h2>3層の現在地</h2>
+        <div class="meta-strip">
+          <span>第1層: 全体インデックス</span>
+          <span>第2層: ${esc(stage.no)}. ${esc(stage.title)}</span>
+          <span>第3層: ${esc(finding.displayId)}. ${esc(finding.target)}</span>
+        </div>
+        <div class="target-nav">${siblings}</div>
+      </section>
+
+      <section class="section">
+        <h2>該当箇所とフィードバック</h2>
+        <div class="report-grid">
+          ${renderVisual(stage, finding)}
+          <div>${renderFinding(stage, finding, { hideAction: true })}</div>
+        </div>
+        ${nextPrev}
+      </section>
+
+      <section class="section">
+        <h2>素材と対応</h2>
+        <div class="panel">
+          <ul class="source-list">${sourceItems}</ul>
+        </div>
+      </section>
+    `, stage.slug);
+  }
+
   if (slug === "home") {
     renderHome();
+    return;
+  }
+
+  if (slug === "finding") {
+    const stage = numberedStages.find((item) => item.slug === params.get("stage"));
+    const finding = stage?.findings.find((item) => item.stableId === params.get("finding") || item.anchorId === params.get("finding"));
+    if (stage && finding) {
+      renderFindingDetail(stage, finding);
+      return;
+    }
+    renderLayout(`
+      <header class="hero">
+        <h1>第3層の指摘が見つかりません</h1>
+        <p class="lead">指定された素材または指摘IDは未定義です。</p>
+        ${renderToolbar()}
+      </header>
+    `, "home");
     return;
   }
 
