@@ -30,10 +30,13 @@
   };
   const homeUrl = () => `${rootPrefix}visual-report.html`;
   const textUrl = () => `${rootPrefix}${data.textReport}`;
-  const indexUrl = () => `${rootPrefix}${data.indexReport}`;
   const characterUrl = () => data.character ? `${rootPrefix}${data.character}` : "";
   const priorityLabel = (priority) => ({ high: "優先度: 高", medium: "優先度: 中", low: "優先度: 低" }[priority] || "優先度");
   const shouldShowLayer2Speech = (stage) => ["stepmail", "line-step"].includes(stage.slug);
+  const isTimeSeriesStage = (stage) => ["stepmail", "line-step"].includes(stage.slug);
+  const stageLayerLabel = (stage) => isTimeSeriesStage(stage) ? "第2層" : "第1層";
+  const stagePageLabel = (stage) => isTimeSeriesStage(stage) ? "時系列素材レポート" : "第1層ページレポート";
+  const stageFindingLayerLabel = (stage) => isTimeSeriesStage(stage) ? "第3層" : "指摘";
   const sourceKindLabel = (stage) => {
     if (stage.kind === "image") return "キャプチャ表示";
     if ((stage.source || "").includes("LINE")) return "LINE本文抜粋";
@@ -231,21 +234,20 @@
   function renderGlobalSide(activeSlug) {
     const nav = numberedStages.map((stage) => `
       <a class="navlink ${activeSlug === stage.slug ? "active" : ""}" href="${esc(stageUrl(stage))}">
-        <span class="nav-layer">第2層</span>${esc(stage.no)}. ${esc(stage.title)}
+        <span class="nav-layer">${esc(stageLayerLabel(stage))}</span>${esc(stage.no)}. ${esc(stage.title)}
       </a>
     `).join("");
 
     return `
       <p class="brand">増田 W3EV<br>5日チャレ<br>ビジュアルレポート</p>
-      <small class="side-note">第1層 全体 → 第2層 素材 → 第3層 個別指摘</small>
+      <small class="side-note">第1層はLP・サンクス・個別LPなどの実体ページ。第2層はメール/LINEのような時系列素材だけ。</small>
       <a class="navlink ${activeSlug === "home" ? "active" : ""}" href="${esc(homeUrl())}">
-        <span class="nav-layer">第1層</span>全体インデックス
+        <span class="nav-layer">全体</span>全体レポート
       </a>
       <div class="side-group">${nav}</div>
       <div class="side-links" aria-label="関連リンク">
         <a class="navlink" href="${esc(materialsUrl())}">素材集</a>
         <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-        <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
       </div>
     `;
   }
@@ -273,9 +275,9 @@
       `).join("");
 
     return `
-      <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>第3層</p>
+      <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>${esc(stageFindingLayerLabel(stage))}</p>
       <a class="back-link" href="${esc(stageUrl(stage))}">上の階層に戻る</a>
-      <small class="side-note">第3層: 時系列素材と指摘状態</small>
+      <small class="side-note">${esc(isTimeSeriesStage(stage) ? "第3層: 時系列素材と指摘状態" : "指摘: キャプチャと番号付きフィードバック")}</small>
       <div class="side-group finding-only">${nav}</div>
       <div class="side-links" aria-label="関連リンク">
         <a class="navlink" href="${esc(homeUrl())}">全体インデックス</a>
@@ -296,14 +298,13 @@
       `).join("");
 
     return `
-      <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>第2層</p>
-      <a class="back-link" href="${esc(homeUrl())}">第1層に戻る</a>
-      <small class="side-note">全素材を時系列に表示。指摘ありだけ状態表示します。</small>
+      <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>${esc(stageLayerLabel(stage))}</p>
+      <a class="back-link" href="${esc(homeUrl())}">全体レポートに戻る</a>
+      <small class="side-note">${esc(isTimeSeriesStage(stage) ? "全素材を時系列に表示。指摘ありだけ状態表示します。" : "このページ自体を第1層として、キャプチャと指摘を直接対応させます。")}</small>
       <div class="side-group finding-only">${nav}</div>
       <div class="side-links" aria-label="関連リンク">
         <a class="navlink" href="${esc(materialsUrl(stage))}">素材集</a>
         <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-        <a class="navlink" href="${esc(indexUrl())}">関連レポート一覧</a>
       </div>
     `;
   }
@@ -343,7 +344,9 @@
     return {
       current,
       issue: "個別指摘を先に読むと、全体の中でどの役割を持つ素材なのかが見えにくくなります。",
-      solution: "第2層では全体像だけを確認し、個別の該当箇所と改善案は左サイドバーの第3層レポートで確認します。"
+      solution: isTimeSeriesStage(stage)
+        ? "時系列素材では全体像だけを確認し、個別の該当箇所と改善案は左サイドバーの指摘ページで確認します。"
+        : "LPや個別説明会LPは、この第1層ページ上でキャプチャと番号付きフィードバックを直接見比べます。"
     };
   }
 
@@ -398,14 +401,14 @@
       const low = stage.findings.filter((finding) => finding.priority === "low").length;
       return `
         <a class="card clickable" href="${esc(stageUrl(stage))}">
-          <small>第2層: ${esc(stage.no)}</small>
+          <small>${esc(stageLayerLabel(stage))}: ${esc(stage.no)}</small>
           <h3>${esc(stage.title)}</h3>
           <p>${esc(stage.subtitle)}</p>
           <div class="chip-row">
             <span class="chip high">高 ${high}</span>
             <span class="chip medium">中 ${medium}</span>
             <span class="chip low">低 ${low}</span>
-            <span class="chip">第3層 ${esc(stageLayerCount(stage))}</span>
+            <span class="chip">${esc(stageFindingLayerLabel(stage))} ${esc(stageLayerCount(stage))}</span>
             ${stage.kind === "mock" ? '<span class="chip">代表箇所</span>' : ''}
           </div>
         </a>
@@ -663,7 +666,7 @@
 
     renderLayout(`
       <header class="hero">
-        <p class="eyebrow">第2層 / 素材別レポート / ${esc(stage.no)}</p>
+        <p class="eyebrow">${esc(stageLayerLabel(stage))} / ${esc(stagePageLabel(stage))} / ${esc(stage.no)}</p>
         <h1>${esc(stage.title)}</h1>
         <p class="lead">${esc(stage.subtitle)}</p>
         ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a><a class="btn" href="${esc(materialsUrl(stage))}">素材集を開く</a>`)}
@@ -671,12 +674,12 @@
       ${shouldShowLayer2Speech(stage) ? tanakaSpeech(stage.speech || data.layer2Speech, "第2層の見方") : ""}
 
       <section class="panel soft">
-        <h2>第2層の全体レポート</h2>
-        <p>このページでは、${esc(stage.title)} 全体の流れだけを確認します。時系列素材は全件を第3層に並べ、指摘ありの素材だけ状態表示します。個別メール・個別素材の該当箇所と改善案は、左サイドバーまたは下の一覧から確認します。</p>
+        <h2>${esc(stageLayerLabel(stage))}のレポート</h2>
+        <p>${esc(isTimeSeriesStage(stage) ? `このページでは、${stage.title} 全体の流れだけを確認します。時系列素材は全件を指摘ページに並べ、指摘ありの素材だけ状態表示します。個別メール・個別素材の該当箇所と改善案は、左サイドバーまたは下の一覧から確認します。` : `このページでは、${stage.title} のキャプチャと番号付きフィードバックを直接見比べます。LPや個別説明会LPは時系列素材ではないため、第2層や第3層にはせず、第1層の実体ページとして扱います。`)}</p>
         <div class="meta-strip">
-          <span>第1層: 全体インデックス</span>
-          <span>第2層: ${esc(stage.title)}</span>
-          <span>第3層: ${esc(pointRange)}</span>
+          <span>全体: 全体レポート</span>
+          <span>${esc(stageLayerLabel(stage))}: ${esc(stage.title)}</span>
+          <span>${esc(stageFindingLayerLabel(stage))}: ${esc(pointRange)}</span>
         </div>
         <div class="overview-grid">
           <article class="overview-card">
@@ -695,8 +698,8 @@
       </section>
 
       <section class="section">
-        <h2>第3層 素材一覧</h2>
-        <p class="muted">時系列で流れる素材は、指摘あり/なしを問わず全件を並べます。指摘ありは右側にフィードバック、指摘なしは提出素材の確認ページとして開きます。</p>
+        <h2>${esc(stageFindingLayerLabel(stage))}一覧</h2>
+        <p class="muted">${esc(isTimeSeriesStage(stage) ? "時系列で流れる素材は、指摘あり/なしを問わず全件を並べます。指摘ありは右側にフィードバック、指摘なしは提出素材の確認ページとして開きます。" : "キャプチャ上の番号と右側の指摘を対応させます。")}</p>
         <div class="report-link-list">
           ${reportLinks}
         </div>
@@ -717,11 +720,11 @@
     const next = stage.findings[index + 1];
     const siblings = stage.findings.map((item) => `
       <a class="${item.stableId === finding.stableId ? "active" : ""}" href="${esc(findingUrl(stage, item))}">
-        <span class="nav-layer">第3層</span>${esc(item.displayId)}. ${esc(findingSubject(item))}
+        <span class="nav-layer">${esc(stageFindingLayerLabel(stage))}</span>${esc(item.displayId)}. ${esc(findingSubject(item))}
       </a>
     `).join("");
     const sourceItems = [
-      { label: "第2層素材", value: stage.title, href: stageUrl(stage) },
+      { label: `${stageLayerLabel(stage)}素材`, value: stage.title, href: stageUrl(stage) },
       { label: "固定ID", value: finding.stableId },
       { label: "参照元素材URL", value: stage.url, href: stage.url },
       { label: "テキストレポート対応", value: finding.textPairing, href: textUrl() },
@@ -734,25 +737,25 @@
     const nextPrev = `
       <div class="detail-nav">
         ${prev ? `<a class="btn" href="${esc(findingUrl(stage, prev))}">前の指摘 ${esc(prev.displayId)}</a>` : '<span></span>'}
-        <a class="btn" href="${esc(stageUrl(stage))}">第2層に戻る</a>
+        <a class="btn" href="${esc(stageUrl(stage))}">${esc(stageLayerLabel(stage))}に戻る</a>
         ${next ? `<a class="btn" href="${esc(findingUrl(stage, next))}">次の指摘 ${esc(next.displayId)}</a>` : '<span></span>'}
       </div>
     `;
 
     renderLayout(`
       <header class="hero">
-        <p class="eyebrow">第3層 / 個別指摘 / ${esc(finding.displayId)}</p>
+        <p class="eyebrow">${esc(stageFindingLayerLabel(stage))} / 個別指摘 / ${esc(finding.displayId)}</p>
         <h1>${esc(finding.title)}</h1>
         <p class="lead">${esc(stage.title)} の中の、1つの指摘箇所だけを固定表示しています。</p>
         ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">素材集を開く</a><a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
       </header>
 
       <section class="panel soft">
-        <h2>3層の現在地</h2>
+        <h2>現在地</h2>
         <div class="meta-strip">
-          <span>第1層: 全体インデックス</span>
-          <span>第2層: ${esc(stage.no)}. ${esc(stage.title)}</span>
-          <span>第3層: ${esc(finding.displayId)}. ${esc(finding.target)}</span>
+          <span>全体: 全体レポート</span>
+          <span>${esc(stageLayerLabel(stage))}: ${esc(stage.no)}. ${esc(stage.title)}</span>
+          <span>${esc(stageFindingLayerLabel(stage))}: ${esc(finding.displayId)}. ${esc(finding.target)}</span>
         </div>
         <div class="target-nav">${siblings}</div>
       </section>
@@ -838,25 +841,25 @@
     const nextPrev = `
       <div class="detail-nav">
         ${prev ? `<a class="btn" href="${esc(materialsUrl(stage, prev))}">前の素材</a>` : '<span></span>'}
-        <a class="btn" href="${esc(stageUrl(stage))}">第2層に戻る</a>
+        <a class="btn" href="${esc(stageUrl(stage))}">${esc(stageLayerLabel(stage))}に戻る</a>
         ${next ? `<a class="btn" href="${esc(materialsUrl(stage, next))}">次の素材</a>` : '<span></span>'}
       </div>
     `;
 
     renderLayout(`
       <header class="hero">
-        <p class="eyebrow">第3層 / 素材 / ${esc(materialLabel(item))}</p>
+        <p class="eyebrow">${esc(stageFindingLayerLabel(stage))} / 素材 / ${esc(materialLabel(item))}</p>
         <h1>${esc(item.title)}</h1>
         <p class="lead">${esc(stage.title)} の時系列素材です。${finding ? "この素材には個別フィードバックがあります。" : "この素材は現時点では個別指摘なしです。"}</p>
         ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">素材集へ戻る</a>`)}
       </header>
 
       <section class="panel soft">
-        <h2>3層の現在地</h2>
+        <h2>現在地</h2>
         <div class="meta-strip">
-          <span>第1層: 全体インデックス</span>
-          <span>第2層: ${esc(stage.no)}. ${esc(stage.title)}</span>
-          <span>第3層: ${esc(materialLabel(item))}</span>
+          <span>全体: 全体レポート</span>
+          <span>${esc(stageLayerLabel(stage))}: ${esc(stage.no)}. ${esc(stage.title)}</span>
+          <span>${esc(stageFindingLayerLabel(stage))}: ${esc(materialLabel(item))}</span>
           <span>${finding ? `指摘あり: ${esc(finding.displayId)}` : "素材のみ"}</span>
         </div>
       </section>
