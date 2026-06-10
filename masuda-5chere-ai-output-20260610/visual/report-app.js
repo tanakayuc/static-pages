@@ -31,7 +31,9 @@
   const homeUrl = () => `${rootPrefix}visual-report.html`;
   const textUrl = () => `${rootPrefix}${data.textReport}`;
   const characterUrl = () => data.character ? `${rootPrefix}${data.character}` : "";
-  const priorityLabel = (priority) => ({ high: "優先度: 高", medium: "優先度: 中", low: "優先度: 低" }[priority] || "優先度");
+  const priorityOrder = ["high", "medium", "low"];
+  const priorityName = (priority) => ({ high: "高", medium: "中", low: "小" }[priority] || "未設定");
+  const priorityLabel = (priority) => `優先度: ${priorityName(priority)}`;
   const isTimeSeriesStage = (stage) => ["stepmail", "line-step"].includes(stage.slug);
   const shouldShowTimeSeriesSpeech = (stage) => isTimeSeriesStage(stage);
   const stageLayerLabel = (stage) => isTimeSeriesStage(stage) ? "時系列素材" : "ページ素材";
@@ -81,6 +83,62 @@
       };
     });
   })();
+
+  function priorityCounts(findings) {
+    return priorityOrder.reduce((counts, priority) => {
+      counts[priority] = findings.filter((finding) => finding.priority === priority).length;
+      return counts;
+    }, {});
+  }
+
+  function renderPriorityChips(counts) {
+    return `
+      <span class="chip high">高 ${counts.high || 0}</span>
+      <span class="chip medium">中 ${counts.medium || 0}</span>
+      <span class="chip low">小 ${counts.low || 0}</span>
+    `;
+  }
+
+  function renderPriorityBadge(priority, extraClass = "") {
+    return `<span class="priority-badge ${esc(priority)} ${esc(extraClass)}">${esc(priorityName(priority))}</span>`;
+  }
+
+  function renderPrioritySummary() {
+    const allFindings = numberedStages.flatMap((stage) => stage.findings);
+    const totals = priorityCounts(allFindings);
+    const rows = numberedStages.map((stage) => {
+      const counts = priorityCounts(stage.findings);
+      return `
+        <tr>
+          <td><a href="${esc(stageUrl(stage))}">${esc(stage.no)}. ${esc(stage.title)}</a></td>
+          <td>${esc(String(stage.findings.length))}</td>
+          <td><span class="priority-cell high">${esc(String(counts.high || 0))}</span></td>
+          <td><span class="priority-cell medium">${esc(String(counts.medium || 0))}</span></td>
+          <td><span class="priority-cell low">${esc(String(counts.low || 0))}</span></td>
+        </tr>
+      `;
+    }).join("");
+    return `
+      <section class="section" id="priority-summary">
+        <h2>指摘件数と優先度内訳</h2>
+        <p class="muted">全体所感だけで終わらせず、素材ごとに何件の指摘があり、高・中・小のどこに寄っているかを先に確認します。</p>
+        <div class="priority-total">
+          <article><small>全指摘</small><strong>${esc(String(allFindings.length))}</strong></article>
+          <article class="high"><small>優先度 高</small><strong>${esc(String(totals.high || 0))}</strong></article>
+          <article class="medium"><small>優先度 中</small><strong>${esc(String(totals.medium || 0))}</strong></article>
+          <article class="low"><small>優先度 小</small><strong>${esc(String(totals.low || 0))}</strong></article>
+        </div>
+        <div class="priority-table-wrap">
+          <table class="priority-table">
+            <thead>
+              <tr><th>素材</th><th>指摘数</th><th>高</th><th>中</th><th>小</th></tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </section>
+    `;
+  }
 
   function tanakaSpeech(text, label = "田中祐一の全体総評") {
     if (!text || !data.character) return "";
@@ -262,7 +320,7 @@
     const active = activeMaterial?.stableId === item.stableId || activeMaterial?.sourceFile === item.sourceFile;
     return `
       <a class="feedback-link material-side-link ${active ? "active" : ""} ${finding ? "has-feedback" : "no-feedback"}" href="${esc(materialsUrl(stage, item))}">
-        <span>${esc(materialLabel(item))}<em>${finding ? `指摘 ${finding.displayId}` : "素材のみ"}</em></span>
+        <span>${esc(materialLabel(item))}<em>${finding ? `指摘 ${finding.displayId} / ${priorityName(finding.priority)}` : "素材のみ"}</em></span>
         <strong>${esc(item.title || findingSubject(finding || item))}</strong>
       </a>
     `;
@@ -274,7 +332,7 @@
       ? stage.materialItems.map((item) => renderMaterialSideLink(stage, item, activeMaterial || activeFinding)).join("")
       : stage.findings.map((finding) => `
         <a class="feedback-link ${activeFinding?.stableId === finding.stableId ? "active" : ""}" href="${esc(findingUrl(stage, finding))}">
-          <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
+          <span>${esc(finding.displayId)}. ${esc(finding.target)}<em>${esc(priorityName(finding.priority))}</em></span>
           <strong>${esc(findingSubject(finding))}</strong>
         </a>
       `).join("");
@@ -297,7 +355,7 @@
       ? stage.materialItems.map((item) => renderMaterialSideLink(stage, item)).join("")
       : stage.findings.map((finding) => `
         <a class="feedback-link" href="${esc(findingUrl(stage, finding))}">
-          <span>${esc(finding.displayId)}. ${esc(finding.target)}</span>
+          <span>${esc(finding.displayId)}. ${esc(finding.target)}<em>${esc(priorityName(finding.priority))}</em></span>
           <strong>${esc(findingSubject(finding))}</strong>
         </a>
       `).join("");
@@ -401,18 +459,14 @@
     `).join("");
 
     const stageCards = numberedStages.map((stage) => {
-      const high = stage.findings.filter((finding) => finding.priority === "high").length;
-      const medium = stage.findings.filter((finding) => finding.priority === "medium").length;
-      const low = stage.findings.filter((finding) => finding.priority === "low").length;
+      const counts = priorityCounts(stage.findings);
       return `
         <a class="card clickable" href="${esc(stageUrl(stage))}">
           <small>${esc(stageLayerLabel(stage))}: ${esc(stage.no)}</small>
           <h3>${esc(stage.title)}</h3>
           <p>${esc(stage.subtitle)}</p>
           <div class="chip-row">
-            <span class="chip high">高 ${high}</span>
-            <span class="chip medium">中 ${medium}</span>
-            <span class="chip low">低 ${low}</span>
+            ${renderPriorityChips(counts)}
             <span class="chip">${esc(stageFindingLayerLabel(stage))} ${esc(stageLayerCount(stage))}</span>
             ${stage.kind === "mock" ? '<span class="chip">代表箇所</span>' : ''}
           </div>
@@ -474,6 +528,8 @@
         </div>
         <p class="muted">この仮説を正本として固定する前に、実運用の配信順・動画順・LP遷移順と照合する必要があります。</p>
       </section>
+
+      ${renderPrioritySummary()}
 
       <section class="section">
         <h2>全体フローから各URLへ</h2>
@@ -574,6 +630,10 @@
     return `
       <dl>
         <div>
+          <dt>優先度</dt>
+          <dd>${renderPriorityBadge(finding.priority)} ${esc(priorityLabel(finding.priority))}</dd>
+        </div>
+        <div>
           <dt>現状</dt>
           <dd>${esc(finding.issue)}</dd>
         </div>
@@ -605,6 +665,7 @@
                 <span class="chip stable">固定ID: ${esc(finding.stableId)}</span>
               </div>
             `}
+            ${options.compact ? `<div class="chip-row compact-priority">${renderPriorityBadge(finding.priority)}<span class="chip">${esc(finding.target)}</span></div>` : ""}
             <h3>${esc(finding.title)}</h3>
           </div>
         </div>
@@ -633,8 +694,23 @@
     `;
   }
 
+  function renderPriorityGroupedFindings(stage) {
+    return priorityOrder.map((priority) => {
+      const findings = stage.findings.filter((finding) => finding.priority === priority);
+      if (findings.length === 0) return "";
+      return `
+        <section class="priority-finding-group ${esc(priority)}" aria-label="優先度${esc(priorityName(priority))}の指摘">
+          <h3>${renderPriorityBadge(priority)} 優先度 ${esc(priorityName(priority))}の指摘</h3>
+          <p class="muted">${esc(stage.title)} 内の${esc(priorityName(priority))}優先度: ${esc(String(findings.length))}件</p>
+          ${findings.map((finding) => renderFinding(stage, finding, { accordion: true })).join("")}
+        </section>
+      `;
+    }).join("");
+  }
+
   function renderDetail(stage) {
     const overview = stageOverview(stage);
+    const counts = priorityCounts(stage.findings);
     const reportLinks = stage.materialItems.length
       ? stage.materialItems.map((item) => `
         <a class="report-link ${item.finding ? "has-feedback" : "no-feedback"}" href="${esc(materialsUrl(stage, item))}">
@@ -674,7 +750,7 @@
           <p class="muted">左側に提出素材のキャプチャまたは代表箇所、右側に番号順のフィードバックを表示します。各フィードバックはアコーディオンで開閉できます。</p>
           <div class="report-grid">
             ${renderVisual(stage)}
-            <div>${stage.findings.map((finding) => renderFinding(stage, finding, { accordion: true })).join("")}</div>
+            <div>${renderPriorityGroupedFindings(stage)}</div>
           </div>
         </section>
       `
@@ -697,6 +773,9 @@
           <span>全体: 全体レポート</span>
           <span>${esc(stageLayerLabel(stage))}: ${esc(stage.title)}</span>
           <span>${esc(stageFindingLayerLabel(stage))}: ${esc(pointRange)}</span>
+        </div>
+        <div class="chip-row priority-stage-row" aria-label="この素材の優先度内訳">
+          ${renderPriorityChips(counts)}
         </div>
         <div class="overview-grid">
           <article class="overview-card">

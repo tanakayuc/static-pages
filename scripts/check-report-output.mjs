@@ -211,9 +211,15 @@ async function main() {
   assert(textReport.includes('href="visual-report.html"'), "text-report.html links to visual-report.html");
   assert(textReport.includes('href="visual/materials.html"'), "text-report.html links to visual/materials.html");
   assert(textReport.includes("これが今回のレポートです"), "text-report.html declares the 3-piece report set");
+  assert(textReport.includes('id="priority-summary"'), "text-report.html has priority summary section");
+  assert(textReport.includes("優先度 高") && textReport.includes("優先度 中") && textReport.includes("優先度 小"), "text-report.html classifies priority as high/medium/small");
+  assert(!textReport.includes(">大</td>") && !textReport.includes("優先度: 低"), "text-report.html has no old priority wording");
 
   const materials = read("visual/materials.html");
   const reportApp = read("visual/report-app.js");
+  const homeRender = renderVisualStage("home");
+  assert(homeRender.html.includes("指摘件数と優先度内訳"), "visual report home shows priority breakdown");
+  assert(homeRender.html.includes("優先度 高") && homeRender.html.includes("優先度 中") && homeRender.html.includes("優先度 小"), "visual report home uses high/medium/small priority labels");
   assert(reportApp.includes("function sidebarModeForStage"), "visual report sidebars are gated by stage depth");
   assert(
     !reportApp.includes('{ sidebar: "stage-findings", stage }') &&
@@ -226,6 +232,7 @@ async function main() {
   assert(optinRender.side.includes("Live 5"), "optin visual sidebar can navigate to other first-level materials");
   assert(!optinRender.side.includes("ファーストビュー"), "optin visual sidebar does not duplicate right-side feedback items");
   assert(!optinRender.html.includes("素材集を開く"), "optin visual header does not duplicate source/material links");
+  assert(optinRender.html.includes("優先度 高の指摘") && optinRender.html.includes("優先度 中の指摘") && optinRender.html.includes("優先度 小の指摘"), "optin visual feedback is grouped by high/medium/small priority");
   const stepmailRender = renderVisualStage("stepmail");
   assert(stepmailRender.side.includes("全体レポートに戻る"), "stepmail visual sidebar keeps the second-level material nav");
   assert(
