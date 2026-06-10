@@ -65,6 +65,17 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   text-decoration: none;
 }
+.nav-section {
+  margin: 16px 0 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+.navlink.sub {
+  padding-left: 18px;
+  font-size: 12px;
+}
 .main {
   min-width: 0;
   padding: 42px min(5vw, 64px) 80px;
@@ -324,10 +335,26 @@ pre {
   <aside class="side">
     <h2 class="brand">増田 W3EV<br>5日チャレ 原本素材集</h2>
     <p>LP・動画・メール・LINEの正本MDをそのまま確認できます。</p>
+    <div class="nav-section">ファネル素材</div>
+    <a class="navlink" href="#viewer" data-source-path="オプトLP_画面テキスト全文.md">オプトインLP</a>
+    <a class="navlink" href="#viewer" data-source-path="サンクス_画面テキスト全文.md">サンキューページ</a>
+    <a class="navlink" href="#quick-group-stepmail">ステップメール（一覧へ）</a>
+    <a class="navlink" href="#quick-group-line">ステップLINE（一覧へ）</a>
+    <a class="navlink" href="#viewer" data-source-path="Day1_書き起こし.md">ライブ1</a>
+    <a class="navlink" href="#viewer" data-source-path="Day2_書き起こし.md">ライブ2</a>
+    <a class="navlink" href="#viewer" data-source-path="Day3_書き起こし.md">ライブ3</a>
+    <a class="navlink" href="#viewer" data-source-path="Day4_書き起こし.md">ライブ4</a>
+    <a class="navlink" href="#viewer" data-source-path="Day5_書き起こし.md">ライブ5</a>
+    <a class="navlink" href="#viewer" data-source-path="個別誘導LP_画面テキスト全文.md">個別説明会ページ</a>
+    <a class="navlink" href="#viewer" data-source-path="体験セミナー誘導LP_画面テキスト全文.md">体験セミナー誘導ページ</a>
+    <a class="navlink sub" href="#viewer" data-source-path="追加セミナー1_書き起こし.md">追加セミナー1</a>
+    <a class="navlink sub" href="#viewer" data-source-path="追加セミナー2_書き起こし.md">追加セミナー2</a>
+    <a class="navlink" href="#viewer" data-source-path="オプチャログ_全文.md">オープンチャット</a>
+    <div class="nav-section">素材台帳</div>
     <a class="navlink" href="#urls">URL対応表</a>
     <a class="navlink" href="#quick">取得済み素材一覧</a>
-    <a class="navlink" href="#viewer">原本プレビュー</a>
     <a class="navlink" href="#files">保存済みMD一覧</a>
+    <div class="nav-section">レポート</div>
     <a class="navlink" href="../visual-report.html">ビジュアルレポートへ戻る</a>
     <a class="navlink" href="../text-report.html">テキストレポートを開く</a>
   </aside>
@@ -443,7 +470,10 @@ function renderQuickGroups() {
 
   quickGroups.innerHTML = keys.map((key) => {
     const files = grouped[key];
-    return '<article class="quick-group">' +
+    const groupId = key === "ステップメール" ? "quick-group-stepmail" :
+      key === "LINE配信" ? "quick-group-line" :
+      "quick-group-" + key.replace(/[^a-zA-Z0-9\u3040-\u30ff\u3400-\u9fff]/g, "-");
+    return '<article class="quick-group" id="' + escapeHtml(groupId) + '">' +
       '<h3>' + escapeHtml(key) + '（' + files.length + '）</h3>' +
       '<ul>' + files.map((file) => {
         const primary = primaryByFile.get(file.path);
@@ -505,6 +535,19 @@ function renderAllFiles() {
   });
 }
 
+function bindSidebarMaterialLinks() {
+  document.querySelectorAll("[data-source-path]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const sourcePath = event.currentTarget.dataset.sourcePath;
+      const index = state.files.findIndex((file) => file.path === sourcePath);
+      if (index === -1) return;
+      event.preventDefault();
+      loadFile(index);
+      document.getElementById("viewer").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+}
+
 async function loadFile(index) {
   const file = state.files[index];
   const primary = primaryByFile.get(file.path);
@@ -536,6 +579,7 @@ renderMaterialButtons();
 renderAllFiles();
 renderSummary();
 renderQuickGroups();
+bindSidebarMaterialLinks();
 loadFile(0);
 </script>
 </body>

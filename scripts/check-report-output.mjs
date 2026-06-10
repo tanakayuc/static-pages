@@ -108,7 +108,11 @@ function collectSourceFiles(data) {
 
   const byHref = new Map();
   for (const item of items) {
-    if (!byHref.has(item.href)) byHref.set(item.href, item);
+    if (!byHref.has(item.href)) {
+      byHref.set(item.href, item);
+    } else {
+      byHref.set(item.href, { ...byHref.get(item.href), ...item });
+    }
   }
   return [...byHref.values()];
 }
@@ -181,12 +185,43 @@ async function main() {
   assert(materials.includes("URL・保存済み原本対応表"), "materials.html has URL/source mapping table");
   assert(materials.includes("summary-card"), "materials.html has category summary cards");
   assert(materials.includes("quickGroups"), "materials.html renders quick source groups");
+  const requiredMaterialNavItems = [
+    "オプトインLP",
+    "サンキューページ",
+    "ステップメール",
+    "ステップLINE",
+    "ライブ1",
+    "ライブ2",
+    "ライブ3",
+    "ライブ4",
+    "ライブ5",
+    "個別説明会ページ",
+  ];
+  const missingMaterialNavItems = requiredMaterialNavItems.filter((item) => !materials.includes(item));
+  assert(
+    missingMaterialNavItems.length === 0,
+    "materials.html sidebar follows the visual report material flow",
+  );
+  if (missingMaterialNavItems.length > 0) {
+    console.error(`  missing nav item(s): ${missingMaterialNavItems.join(", ")}`);
+  }
 
   const sourceData = loadSourceMaterials();
   assert(Boolean(sourceData), "visual/source-materials.js exports source material data");
 
   const sourceFiles = collectSourceFiles(sourceData);
   assert(sourceFiles.length > 0, "source material data contains linked files");
+
+  const sidebarSourcePaths = [...materials.matchAll(/data-source-path="([^"]+)"/g)].map((match) => match[1]);
+  const sourceFilePaths = new Set(sourceFiles.map((file) => file.path));
+  const missingSidebarSourcePaths = sidebarSourcePaths.filter((sourcePath) => !sourceFilePaths.has(sourcePath));
+  assert(
+    missingSidebarSourcePaths.length === 0,
+    "materials.html sidebar source links point to existing source files",
+  );
+  if (missingSidebarSourcePaths.length > 0) {
+    console.error(`  missing source path(s): ${missingSidebarSourcePaths.join(", ")}`);
+  }
 
   const missingLocalFiles = sourceFiles.filter((file) => {
     const localPath = path.join(reportDir, "visual", normalizeHref(file.href));
