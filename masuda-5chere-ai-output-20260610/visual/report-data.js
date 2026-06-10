@@ -846,7 +846,7 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
       url: "https://vimeo.com/1135741623/1eb542f667",
       source: "Day1_書き起こし.md / ライブDAY1_改善評価_20260608.md",
       kind: "mock",
-      caption: "書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
+      caption: "冒頭3枚の動画キャプチャと書き起こし代表箇所を並べて確認します。",
       mockLines: [
         "冒頭: マイル×ビジネス、カード神話の破壊",
         "中盤以降: Day2からDay4にかけて3柱を説明",
@@ -924,7 +924,7 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
       url: "https://vimeo.com/1136076038/6cdf2c7562",
       source: "Day2_書き起こし.md / ライブDAY2_改善評価_20260608.md",
       kind: "mock",
-      caption: "書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
+      caption: "冒頭3枚の動画キャプチャと書き起こし代表箇所を並べて確認します。",
       mockLines: [
         "冒頭: 新品物販は超簡単、月数時間、外注をフル活用",
         "中盤: 決済総量、マイル、利益の仕組み",
@@ -1003,7 +1003,7 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
       url: "https://vimeo.com/1136076236/f272eefb18",
       source: "Day3_書き起こし.md / ライブDAY3_改善評価_20260608.md",
       kind: "mock",
-      caption: "書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
+      caption: "冒頭3枚の動画キャプチャと書き起こし代表箇所を並べて確認します。",
       mockLines: [
         "冒頭: ロレックス140万円、中古カメラ物販",
         "中盤: 単発案件と継続案件の違い",
@@ -1065,7 +1065,7 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
       url: "https://vimeo.com/1138289982/53c52b3d83",
       source: "Day4_書き起こし.md / ライブDAY4_改善評価_20260608.md",
       kind: "mock",
-      caption: "書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
+      caption: "冒頭3枚の動画キャプチャと書き起こし代表箇所を並べて確認します。",
       mockLines: [
         "冒頭: 3柱の全体像を再提示",
         "中盤: ポイカツマーケティングは稼げる",
@@ -1128,7 +1128,7 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
       url: "https://vimeo.com/1138522531/eafcd09f6a",
       source: "Day5_書き起こし.md / ライブDAY5_改善評価_20260608.md",
       kind: "mock",
-      caption: "書き起こし代表箇所。動画代表フレーム / スライドキャプチャは追加対象です。",
+      caption: "冒頭3枚の動画キャプチャと書き起こし代表箇所を並べて確認します。",
       mockLines: [
         "3柱の復習: 新品物販、中古、ポイカツ",
         "説明会CTA: 個別フライトプラン作成会",
