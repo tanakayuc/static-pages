@@ -252,6 +252,11 @@
     `;
   }
 
+  function sidebarModeForStage(stage, mode) {
+    if (!isTimeSeriesStage(stage)) return "";
+    return mode;
+  }
+
   function renderMaterialSideLink(stage, item, activeMaterial = null) {
     const finding = item.finding;
     const active = activeMaterial?.stableId === item.stableId || activeMaterial?.sourceFile === item.sourceFile;
@@ -653,8 +658,7 @@
       `).join("");
     const sourceItems = [
       { label: "素材名", value: stage.source },
-      { label: "参照元素材URL", value: stage.url, href: stage.url },
-      { label: "提出素材HTML", value: "素材集を開く", href: materialsUrl(stage) },
+      { label: "原本素材集", value: "素材集で確認", href: materialsUrl(stage) },
       { label: "テキストレポート", value: data.textReport, href: textUrl() },
     ].map((item) => `
       <li>
@@ -681,7 +685,7 @@
         <p class="eyebrow">${esc(stageLayerLabel(stage))} / ${esc(stagePageLabel(stage))} / ${esc(stage.no)}</p>
         <h1>${esc(stage.title)}</h1>
         <p class="lead">${esc(stage.subtitle)}</p>
-        ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a><a class="btn" href="${esc(materialsUrl(stage))}">素材集を開く</a>`)}
+        ${renderToolbar(`<a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
       </header>
       ${shouldShowTimeSeriesSpeech(stage) ? tanakaSpeech(stage.speech || data.timeSeriesSpeech, "時系列素材の見方") : ""}
       ${directFeedbackSection}
@@ -724,7 +728,7 @@
           <ul class="source-list">${sourceItems}</ul>
         </div>
       </section>
-    `, stage.slug, { sidebar: "stage-findings", stage });
+    `, stage.slug, { sidebar: sidebarModeForStage(stage, "stage-findings"), stage });
   }
 
   function renderFindingDetail(stage, finding) {
@@ -739,7 +743,6 @@
     const sourceItems = [
       { label: `${stageLayerLabel(stage)}素材`, value: stage.title, href: stageUrl(stage) },
       { label: "固定ID", value: finding.stableId },
-      { label: "参照元素材URL", value: stage.url, href: stage.url },
       { label: "テキストレポート対応", value: finding.textPairing, href: textUrl() },
     ].map((item) => `
       <li>
@@ -760,7 +763,7 @@
         <p class="eyebrow">${esc(stageFindingLayerLabel(stage))} / 個別指摘 / ${esc(finding.displayId)}</p>
         <h1>${esc(finding.title)}</h1>
         <p class="lead">${esc(stage.title)} の中の、1つの指摘箇所だけを固定表示しています。</p>
-        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">素材集を開く</a><a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
+        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">素材別レポートへ戻る</a><a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
       </header>
 
       <section class="panel soft">
@@ -788,7 +791,7 @@
           <ul class="source-list">${sourceItems}</ul>
         </div>
       </section>
-    `, stage.slug, { sidebar: "findings", stage, activeFinding: finding });
+    `, stage.slug, { sidebar: sidebarModeForStage(stage, "findings"), stage, activeFinding: finding });
   }
 
   function renderMaterialSourceCard(stage, item, finding = null) {
@@ -885,7 +888,7 @@
         </div>
         ${nextPrev}
       </section>
-    `, stage.slug, { sidebar: "findings", stage, activeFinding: finding || item });
+    `, stage.slug, { sidebar: sidebarModeForStage(stage, "findings"), stage, activeFinding: finding || item });
   }
 
   function renderMaterialsIndex() {

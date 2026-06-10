@@ -180,6 +180,14 @@ async function main() {
   assert(textReport.includes("これが今回のレポートです"), "text-report.html declares the 3-piece report set");
 
   const materials = read("visual/materials.html");
+  const reportApp = read("visual/report-app.js");
+  assert(reportApp.includes("function sidebarModeForStage"), "visual report sidebars are gated by stage depth");
+  assert(
+    !reportApp.includes('{ sidebar: "stage-findings", stage }') &&
+      !reportApp.includes('{ sidebar: "findings", stage'),
+    "visual report does not force finding sidebar on all stage pages",
+  );
+  assert(!reportApp.includes("参照元素材URL"), "visual report avoids duplicate source URL labels");
   assert(materials.includes("原本素材集"), "materials.html is labeled as source materials");
   assert(materials.includes("取得済み素材一覧"), "materials.html exposes the acquired source list near the top");
   assert(materials.includes("URL・保存済み原本対応表"), "materials.html has URL/source mapping table");
