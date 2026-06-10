@@ -6,9 +6,17 @@
 <title>田中祐一_静的テキストレポート_ファネル全体_20260608 - 増田 W3EV 5日チャレ ファネル分析</title>
 <style>
 * { box-sizing: border-box; }
-html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; min-height: 100vh; background: #fff; color: #111827; }
-.main { width: min(100% - 2rem, 980px); margin: 0 auto; padding: 2rem 0 4rem; line-height: 2.05; overflow-wrap: anywhere; word-break: normal; }
+html, body { overflow-x: hidden; scroll-behavior: smooth; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; min-height: 100vh; background: #f0faf8; color: #111827; }
+.layout { display: grid; grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); min-height: 100vh; }
+.side { position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto; padding: 2rem 1.25rem; border-right: 1px solid #cfe9e3; background: rgba(255, 255, 255, 0.92); }
+.side h2 { margin: 0 0 0.5rem; font-size: 1.35rem; line-height: 1.35; }
+.side p { margin: 0 0 1.25rem; color: #5d746e; font-weight: 700; line-height: 1.7; }
+.nav-section { margin: 1.25rem 0 0.4rem; color: #6f837d; font-size: 0.82rem; font-weight: 900; letter-spacing: 0.02em; }
+.navlink { display: block; padding: 0.68rem 0.75rem; border-radius: 8px; color: #182235; text-decoration: none; font-weight: 800; line-height: 1.45; }
+.navlink:hover, .navlink.active { background: #e7f6f2; color: #189b7d; text-decoration: none; }
+.navlink.sub { padding-left: 1.15rem; color: #4b5f59; font-size: 0.94rem; }
+.main { width: min(100% - 3rem, 1080px); margin: 0 auto; padding: 2rem 0 4rem; line-height: 2.05; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
 .main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
@@ -35,35 +43,10 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
 .main a:hover { text-decoration: underline; }
 .main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
-.report-links,
-.inline-toc {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 0 0 1.25rem;
-}
-.report-links a,
-.inline-toc a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.25rem;
-    padding: 0.35rem 0.7rem;
-    border: 1px solid #cfe9e3;
-    border-radius: 6px;
-    color: #189b7d;
-    font-weight: 700;
-    background: #f0faf8;
-    word-break: keep-all;
-}
-.inline-toc {
-    padding: 1rem;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    background: #f8f9fa;
-}
-
 /* タブレット・スマートフォン対応 */
 @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .side { position: relative; height: auto; padding: 1rem; border-right: 0; border-bottom: 1px solid #cfe9e3; }
     .main { width: min(100% - 1rem, 980px); padding: 0.9rem 0 3rem; }
     .main h1 { font-size: 1.3rem; }
     .main h2 { font-size: 1.15rem; margin-top: 1rem; }
@@ -77,6 +60,8 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 
 /* 極小画面対応 */
 @media (max-width: 480px) {
+    .side h2 { font-size: 1.1rem; }
+    .navlink { padding: 0.55rem 0.6rem; }
     .main { width: min(100% - 0.75rem, 980px); padding: 0.75rem 0 2.5rem; }
     .main h1 { font-size: 1.1rem; }
     .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
@@ -90,26 +75,45 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </style>
 </head>
 <body>
+<div class="layout">
+<aside class="side">
+<h2>増田 W3EV<br>5日チャレ<br>テキストレポート</h2>
+<p>左で素材と本文目次を行き来し、右側でレポート本文を1カラムで読みます。</p>
+<nav aria-label="テキストレポートナビゲーション">
+<div class="nav-section">レポート</div>
+<a class="navlink active" href="#top">テキストレポート</a>
+<a class="navlink" href="visual-report.html">ビジュアルレポート</a>
+<a class="navlink" href="visual/materials.html">素材集</a>
+<a class="navlink" href="index.html">3点セット入口</a>
+<div class="nav-section">ファネル素材</div>
+<a class="navlink sub" href="visual/optin-lp.html">オプトインLP</a>
+<a class="navlink sub" href="visual/thanks.html">サンキューページ</a>
+<a class="navlink sub" href="visual/stepmail.html">ステップメール</a>
+<a class="navlink sub" href="visual/line-step.html">ステップLINE</a>
+<a class="navlink sub" href="visual/live-day1.html">ライブ1</a>
+<a class="navlink sub" href="visual/live-day2.html">ライブ2</a>
+<a class="navlink sub" href="visual/live-day3.html">ライブ3</a>
+<a class="navlink sub" href="visual/live-day4.html">ライブ4</a>
+<a class="navlink sub" href="visual/live-day5.html">ライブ5</a>
+<a class="navlink sub" href="visual/consult-lp.html">個別説明会ページ</a>
+<a class="navlink sub" href="visual/seminar-lp.html">体験セミナー誘導ページ</a>
+<a class="navlink sub" href="visual/openchat.html">オープンチャット</a>
+<div class="nav-section">本文目次</div>
+<a class="navlink sub" href="#terms">用語整理</a>
+<a class="navlink sub" href="#materials-map">素材対応表</a>
+<a class="navlink sub" href="#funnel-overview">ファネル全体像</a>
+<a class="navlink sub" href="#overall-summary">全体感</a>
+<a class="navlink sub" href="#priority-summary">指摘件数と優先度内訳</a>
+<a class="navlink sub" href="#phase-bottlenecks">フェーズ別の詰まり</a>
+<a class="navlink sub" href="#numbered-feedback">番号付きフィードバック</a>
+<a class="navlink sub" href="#live-detail">ライブDay別の詳細</a>
+<a class="navlink sub" href="#step-detail">ステップ配信詳細</a>
+<a class="navlink sub" href="#cross-feedback">横断フィードバック</a>
+<a class="navlink sub" href="#visual-report-points">Visual Report化ポイント</a>
+<a class="navlink sub" href="#next-actions">次のアクション</a>
+</nav>
+</aside>
 <main class="main">
-<nav class="report-links" aria-label="レポートリンク">
-<a href="#top">今回のレポート</a>
-<a href="visual-report.html">ビジュアルレポート</a>
-<a href="visual/materials.html">素材集</a>
-</nav>
-<nav class="inline-toc" aria-label="本文目次">
-<a href="#terms">用語整理</a>
-<a href="#materials-map">素材対応表</a>
-<a href="#funnel-overview">ファネル全体像</a>
-<a href="#overall-summary">全体感</a>
-<a href="#priority-summary">指摘件数と優先度内訳</a>
-<a href="#phase-bottlenecks">フェーズ別の詰まり</a>
-<a href="#numbered-feedback">番号付きフィードバック</a>
-<a href="#live-detail">ライブDay別の詳細</a>
-<a href="#step-detail">ステップ配信詳細</a>
-<a href="#cross-feedback">横断フィードバック</a>
-<a href="#visual-report-points">Visual Report化ポイント</a>
-<a href="#next-actions">次のアクション</a>
-</nav>
 <h1 id="top">増田・ビジネスマイラー複業｜5日チャレファネル｜静的テキストレポート</h1>
 <p><strong>これが今回のレポートです。</strong></p>
 <p><strong>ビジュアルレポート：</strong><br />
@@ -120,7 +124,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="https://tanakayuc.github.io/static-pages/masuda-5chere-ai-output-20260610/visual/materials.html" target="_blank" rel="noopener noreferrer">https://tanakayuc.github.io/static-pages/masuda-5chere-ai-output-20260610/visual/materials.html</a></p>
 <p>※このMDは編集・保管用の正本です。HTMLはMD分析結果をブラウザで読みやすくした「テキストレポート」です。<br />
 田中さんの定義する「ビジュアルレポート」は、キャプチャ画像・素材箇所・番号付き指摘をログイン後画面で見られる形式を指します。<br />
-上記のビジュアルレポートURLは、ログイン後画面へ本実装する前の本番構成プロトタイプです。全体像から各素材の個別URLへ遷移でき、LPキャプチャは取得済み、動画・スライドは代表フレーム取得タスク付きで扱います。<br />
+上記のビジュアルレポートURLは、ログイン後画面へ本実装する前の本番構成プロトタイプです。全体像から各素材の個別URLへ遷移でき、LPキャプチャと動画の代表フレームは取得済みの状態で扱います。<br />
 本ファイル末尾の「Visual Report化用ポイント」は、ログイン後画面へ載せるための設計メモです。</p>
 <hr />
 <p>整理日: 2026-06-08<br />
@@ -824,5 +828,6 @@ Licensed to: KATSUO MARKETING Community Member<br />
 Security Trace ID: 8NW4QK3R<br />
 Generated by: 田中祐一</p>
 </main>
+</div>
 </body>
 </html>
