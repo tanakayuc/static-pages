@@ -161,6 +161,20 @@ h1 {
   font-size: 11px;
   font-weight: 900;
 }
+.video-embed {
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+.video-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
@@ -324,6 +338,7 @@ pre {
   }
   .main { padding: 28px 16px 56px; }
   .url-table { display: block; overflow-x: auto; }
+  .video-embed { margin-top: 12px; }
 }
 </style>
 </head>
@@ -388,7 +403,7 @@ pre {
     </div>
   </main>
 </div>
-<script src="source-materials.js?v=20260611-materials-simple"></script>
+<script src="source-materials.js?v=20260611-materials-embed"></script>
 <script>
 const state = window.MASUDA_SOURCE_MATERIALS;
 const summary = document.getElementById("summary");
@@ -714,11 +729,21 @@ function renderMaterialActions(file, primary) {
     '<h2>' + escapeHtml(title) + '</h2>' +
     '<p>' + escapeHtml(helper) + '</p>' +
     (directUrl ? '<div class="material-direct"><span>' + escapeHtml(kind) + ' 原本URL</span><a href="' + escapeHtml(directUrl) + '" target="_blank" rel="noopener">' + escapeHtml(directUrl) + '</a></div>' : '') +
+    (isVideo && videoEmbedUrl(directUrl) ? '<div class="video-embed"><iframe src="' + escapeHtml(videoEmbedUrl(directUrl)) + '" title="' + escapeHtml(title) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>' : '') +
     '<div class="toolbar">' +
       '<a class="btn" href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">原本を読む（移動）</a>' +
       '<a class="btn" href="../text-report.html">テキストレポート</a>' +
       '<a class="btn" href="../visual-report.html">ビジュアルレポート</a>' +
     '</div>';
+}
+
+function videoEmbedUrl(url) {
+  const value = String(url || "");
+  const vimeo = value.match(/vimeo\.com\/(\d+)(?:\/([A-Za-z0-9]+))?/);
+  if (vimeo) return "https://player.vimeo.com/video/" + vimeo[1] + (vimeo[2] ? "?h=" + vimeo[2] : "");
+  const youtube = value.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+  if (youtube) return "https://www.youtube.com/embed/" + youtube[1];
+  return "";
 }
 
 renderAllFiles();
