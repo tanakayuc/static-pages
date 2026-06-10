@@ -343,6 +343,16 @@
     `;
   }
 
+  function directFeedbackLead(stage) {
+    if (stage.kind === "image") {
+      return "左側に提出素材のキャプチャ、右側に番号順フィードバックを表示します。各フィードバックはアコーディオンで開閉できます。";
+    }
+    if (stage.videoCapture?.frames?.length) {
+      return "左側に書き起こし抜粋、右側に動画キャプチャ・画像評価・番号順フィードバックを表示します。各フィードバックはアコーディオンで開閉できます。";
+    }
+    return "左側に提出素材の該当箇所、右側に番号順フィードバックを表示します。各フィードバックはアコーディオンで開閉できます。";
+  }
+
   function renderGlobalSide(activeSlug) {
     const nav = numberedStages.map((stage) => `
       <a class="navlink ${activeSlug === stage.slug ? "active" : ""}" href="${esc(stageUrl(stage))}">
@@ -805,7 +815,7 @@
       ? `
         <section class="section">
           <h2>素材とフィードバック</h2>
-          <p class="muted">左側に書き起こしの該当箇所、右側に動画キャプチャと番号順フィードバックを表示します。各フィードバックはアコーディオンで開閉できます。</p>
+          <p class="muted">${esc(directFeedbackLead(stage))}</p>
           <div class="report-grid">
             ${renderVisual(stage)}
             <div class="feedback-column">
