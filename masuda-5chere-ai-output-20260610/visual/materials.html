@@ -124,6 +124,57 @@ h1 {
   background: var(--main);
   color: #fff;
 }
+.material-actions {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+.material-actions h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  line-height: 1.35;
+}
+.material-actions p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+}
+.material-actions .toolbar {
+  margin-top: 14px;
+}
+.material-direct {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--soft);
+  color: #26384c;
+  font-size: 13px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+.material-direct span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+}
+.video-embed {
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+.video-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
@@ -307,6 +358,19 @@ pre {
         <a class="btn" href="../text-report.html">テキストレポート</a>
         <a class="btn" href="#viewer">原本を読む</a>
       </div>
+      <section id="viewer" class="section">
+        <h2>原本プレビュー</h2>
+        <article class="viewer">
+          <div class="viewer-head">
+            <h3 id="viewerTitle">読み込み中</h3>
+            <div id="viewerMeta" class="viewer-meta"></div>
+          </div>
+          <pre id="viewerBody">素材を読み込んでいます...</pre>
+        </article>
+      </section>
+
+      <section id="materialActions" class="material-actions" hidden></section>
+
       <div id="summary" class="summary-grid" aria-label="取得済み素材数"></div>
 
       <section id="quick" class="section">
@@ -331,17 +395,6 @@ pre {
         </table>
       </section>
 
-      <section id="viewer" class="section">
-        <h2>原本プレビュー</h2>
-        <article class="viewer">
-          <div class="viewer-head">
-            <h3 id="viewerTitle">読み込み中</h3>
-            <div id="viewerMeta" class="viewer-meta"></div>
-          </div>
-          <pre id="viewerBody">素材を読み込んでいます...</pre>
-        </article>
-      </section>
-
       <section id="files" class="section">
         <h2>保存済みMD一覧</h2>
         <div id="allFiles" class="all-files"></div>
@@ -359,10 +412,12 @@ const allFiles = document.getElementById("allFiles");
 const sideTitle = document.getElementById("sideTitle");
 const sideLead = document.getElementById("sideLead");
 const sideNav = document.getElementById("sideNav");
+const materialActions = document.getElementById("materialActions");
 const viewerTitle = document.getElementById("viewerTitle");
 const viewerMeta = document.getElementById("viewerMeta");
 const viewerBody = document.getElementById("viewerBody");
 const primaryByFile = new Map(state.primary.map((item) => [item.sourceFile, item]));
+let activeLoadId = 0;
 const categoryOrder = ["LP/ページ本文", "動画書き起こし", "ステップメール", "LINE配信", "チャットログ", "主要素材"];
 const rootItems = [
   { label: "ファネル全体像", path: "ファネル全体像.md" },
@@ -430,11 +485,12 @@ function labelForFile(file, position) {
 }
 
 function setContentMode(mode) {
-  const isGroup = mode !== "root";
-  summary.hidden = isGroup;
-  document.getElementById("quick").hidden = isGroup;
-  document.getElementById("urls").hidden = isGroup;
-  document.getElementById("files").hidden = isGroup;
+  const isGroup = mode === "stepmail" || mode === "line";
+  const isMaterial = mode === "material";
+  summary.hidden = isGroup || isMaterial;
+  document.getElementById("quick").hidden = isGroup || isMaterial;
+  document.getElementById("urls").hidden = isGroup || isMaterial;
+  document.getElementById("files").hidden = isGroup || isMaterial;
 }
 
 function renderSidebar(mode = "root", activeIndex = 0) {
@@ -541,6 +597,8 @@ function renderQuickGroups() {
     link.addEventListener("click", (event) => {
       loadFile(Number(event.currentTarget.dataset.index));
       renderSidebar("root", Number(event.currentTarget.dataset.index));
+      setContentMode("material");
+      history.pushState(null, "", "?index=" + Number(event.currentTarget.dataset.index));
     });
   });
   quickGroups.querySelectorAll("[data-group-nav]").forEach((link) => {
@@ -589,6 +647,7 @@ function bindSidebarNav() {
       setContentMode("root");
       renderSidebar("root", index);
       loadFile(index);
+      setContentMode("material");
       history.pushState(null, "", "?path=" + encodeURIComponent(sourcePath));
       document.getElementById("viewer").scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -625,8 +684,11 @@ function openGroup(groupKey, preferredIndex = null) {
 }
 
 async function loadFile(index) {
+  const loadId = activeLoadId + 1;
+  activeLoadId = loadId;
   const file = state.files[index];
   const primary = primaryByFile.get(file.path);
+  renderMaterialActions(file, primary);
   viewerTitle.textContent = primary ? primary.title : file.title;
   viewerMeta.innerHTML = [
     '<span class="pill">' + escapeHtml(file.category) + '</span>',
@@ -641,10 +703,44 @@ async function loadFile(index) {
   try {
     const response = await fetch(file.href);
     if (!response.ok) throw new Error("HTTP " + response.status);
-    viewerBody.textContent = await response.text();
+    const text = await response.text();
+    if (loadId !== activeLoadId) return;
+    viewerBody.textContent = text;
   } catch (error) {
+    if (loadId !== activeLoadId) return;
     viewerBody.textContent = "原本ファイルを読み込めませんでした: " + error.message;
   }
+}
+
+function renderMaterialActions(file, primary) {
+  const title = primary ? primary.title : file.title.replace(/\.md$/i, "");
+  const directUrl = primary?.actualUrl || "";
+  const kind = primary?.kind || file.category;
+  const isVideo = file.category === "動画書き起こし";
+  const isPage = file.category === "LP/ページ本文";
+  const helper = isVideo
+    ? "動画素材は、Vimeoなどの原本URLと書き起こし本文だけをシンプルに確認します。"
+    : isPage
+      ? "LP/ページ素材は、公開URLと保存済みMD本文を確認します。"
+      : "原本MDを直接確認します。";
+  materialActions.hidden = false;
+  materialActions.innerHTML =
+    '<h2>' + escapeHtml(title) + '</h2>' +
+    '<p>' + escapeHtml(helper) + '</p>' +
+    '<div class="toolbar">' +
+      (directUrl ? '<a class="btn primary" href="' + escapeHtml(directUrl) + '" target="_blank" rel="noopener">素材を見る</a>' : '') +
+      '<a class="btn" href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">原本を読む（移動）</a>' +
+      '<a class="btn" href="../text-report.html">テキストレポート</a>' +
+      '<a class="btn" href="../visual-report.html">ビジュアルレポート</a>' +
+    '</div>' +
+    (directUrl ? '<div class="material-direct"><span>' + escapeHtml(kind) + ' 原本URL</span><a href="' + escapeHtml(directUrl) + '" target="_blank" rel="noopener">' + escapeHtml(directUrl) + '</a></div>' : '') +
+    (isVideo && vimeoEmbedUrl(directUrl) ? '<div class="video-embed"><iframe src="' + escapeHtml(vimeoEmbedUrl(directUrl)) + '" title="' + escapeHtml(title) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>' : '');
+}
+
+function vimeoEmbedUrl(url) {
+  const match = String(url || "").match(/vimeo\.com\/(\d+)(?:\/([A-Za-z0-9]+))?/);
+  if (!match) return "";
+  return "https://player.vimeo.com/video/" + match[1] + (match[2] ? "?h=" + match[2] : "");
 }
 
 renderAllFiles();
@@ -668,14 +764,18 @@ function initFromUrl() {
     }
   }
   const path = params.get("path");
-  const requestedIndex = Number(params.get("index"));
-  let index = 0;
+  const hasIndex = params.has("index");
+  const requestedIndex = hasIndex ? Number(params.get("index")) : Number.NaN;
+  let index = Math.max(0, fileIndexByPath("ファネル全体像.md"));
   if (path && fileIndexByPath(path) !== -1) {
     index = fileIndexByPath(path);
-  } else if (Number.isInteger(requestedIndex) && state.files[requestedIndex]) {
+    setContentMode("material");
+  } else if (hasIndex && Number.isInteger(requestedIndex) && state.files[requestedIndex]) {
     index = requestedIndex;
+    setContentMode("material");
+  } else {
+    setContentMode("root");
   }
-  setContentMode("root");
   renderSidebar("root", index);
   loadFile(index);
 }
