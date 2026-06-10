@@ -16,6 +16,7 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+[hidden] { display: none !important; }
 body {
   margin: 0;
   background: var(--bg);
@@ -164,12 +165,11 @@ h1 {
   font-weight: 650;
 }
 .quick-groups {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: 14px;
+  display: block;
 }
 .quick-group {
   min-width: 0;
+  margin-bottom: 12px;
   padding: 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -224,44 +224,6 @@ h1 {
   font-size: 12px;
   font-weight: 800;
 }
-.material-grid {
-  display: grid;
-  grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
-  gap: 18px;
-}
-.material-list {
-  max-height: 72vh;
-  overflow: auto;
-  padding-right: 4px;
-}
-.material-button {
-  width: 100%;
-  margin: 0 0 8px;
-  padding: 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fff;
-  color: var(--ink);
-  text-align: left;
-  font: inherit;
-  cursor: pointer;
-}
-.material-button strong {
-  display: block;
-  font-size: 13px;
-  line-height: 1.5;
-}
-.material-button span {
-  display: block;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-}
-.material-button:hover,
-.material-button.active {
-  border-color: var(--main);
-  background: var(--soft);
-}
 .viewer {
   min-width: 0;
   border: 1px solid var(--line);
@@ -287,8 +249,8 @@ h1 {
 pre {
   margin: 0;
   padding: 18px;
-  max-height: 72vh;
-  overflow: auto;
+  max-height: none;
+  overflow-x: auto;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
@@ -296,11 +258,10 @@ pre {
   line-height: 1.75;
 }
 .all-files {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: 10px;
+  display: block;
 }
 .file-card {
+  margin-bottom: 10px;
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -324,7 +285,6 @@ pre {
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
-  .material-grid { grid-template-columns: 1fr; }
   .main { padding: 28px 16px 56px; }
   .url-table { display: block; overflow-x: auto; }
 }
@@ -333,30 +293,9 @@ pre {
 <body>
 <div class="layout">
   <aside class="side">
-    <h2 class="brand">増田 W3EV<br>5日チャレ 原本素材集</h2>
-    <p>LP・動画・メール・LINEの正本MDをそのまま確認できます。</p>
-    <div class="nav-section">ファネル素材</div>
-    <a class="navlink" href="#viewer" data-source-path="オプトLP_画面テキスト全文.md">オプトインLP</a>
-    <a class="navlink" href="#viewer" data-source-path="サンクス_画面テキスト全文.md">サンキューページ</a>
-    <a class="navlink" href="#quick-group-stepmail">ステップメール（一覧へ）</a>
-    <a class="navlink" href="#quick-group-line">ステップLINE（一覧へ）</a>
-    <a class="navlink" href="#viewer" data-source-path="Day1_書き起こし.md">ライブ1</a>
-    <a class="navlink" href="#viewer" data-source-path="Day2_書き起こし.md">ライブ2</a>
-    <a class="navlink" href="#viewer" data-source-path="Day3_書き起こし.md">ライブ3</a>
-    <a class="navlink" href="#viewer" data-source-path="Day4_書き起こし.md">ライブ4</a>
-    <a class="navlink" href="#viewer" data-source-path="Day5_書き起こし.md">ライブ5</a>
-    <a class="navlink" href="#viewer" data-source-path="個別誘導LP_画面テキスト全文.md">個別説明会ページ</a>
-    <a class="navlink" href="#viewer" data-source-path="体験セミナー誘導LP_画面テキスト全文.md">体験セミナー誘導ページ</a>
-    <a class="navlink sub" href="#viewer" data-source-path="追加セミナー1_書き起こし.md">追加セミナー1</a>
-    <a class="navlink sub" href="#viewer" data-source-path="追加セミナー2_書き起こし.md">追加セミナー2</a>
-    <a class="navlink" href="#viewer" data-source-path="オプチャログ_全文.md">オープンチャット</a>
-    <div class="nav-section">素材台帳</div>
-    <a class="navlink" href="#urls">URL対応表</a>
-    <a class="navlink" href="#quick">取得済み素材一覧</a>
-    <a class="navlink" href="#files">保存済みMD一覧</a>
-    <div class="nav-section">レポート</div>
-    <a class="navlink" href="../visual-report.html">ビジュアルレポートへ戻る</a>
-    <a class="navlink" href="../text-report.html">テキストレポートを開く</a>
+    <h2 id="sideTitle" class="brand">増田 W3EV<br>5日チャレ 原本素材集</h2>
+    <p id="sideLead">LP・動画・メール・LINEの正本MDをそのまま確認できます。</p>
+    <nav id="sideNav" aria-label="素材ナビゲーション"></nav>
   </aside>
   <main class="main">
     <div class="wrap">
@@ -394,16 +333,13 @@ pre {
 
       <section id="viewer" class="section">
         <h2>原本プレビュー</h2>
-        <div class="material-grid">
-          <div id="materialList" class="material-list" aria-label="素材一覧"></div>
-          <article class="viewer">
-            <div class="viewer-head">
-              <h3 id="viewerTitle">読み込み中</h3>
-              <div id="viewerMeta" class="viewer-meta"></div>
-            </div>
-            <pre id="viewerBody">素材を読み込んでいます...</pre>
-          </article>
-        </div>
+        <article class="viewer">
+          <div class="viewer-head">
+            <h3 id="viewerTitle">読み込み中</h3>
+            <div id="viewerMeta" class="viewer-meta"></div>
+          </div>
+          <pre id="viewerBody">素材を読み込んでいます...</pre>
+        </article>
       </section>
 
       <section id="files" class="section">
@@ -419,13 +355,44 @@ const state = window.MASUDA_SOURCE_MATERIALS;
 const summary = document.getElementById("summary");
 const quickGroups = document.getElementById("quickGroups");
 const urlRows = document.getElementById("urlRows");
-const materialList = document.getElementById("materialList");
 const allFiles = document.getElementById("allFiles");
+const sideTitle = document.getElementById("sideTitle");
+const sideLead = document.getElementById("sideLead");
+const sideNav = document.getElementById("sideNav");
 const viewerTitle = document.getElementById("viewerTitle");
 const viewerMeta = document.getElementById("viewerMeta");
 const viewerBody = document.getElementById("viewerBody");
 const primaryByFile = new Map(state.primary.map((item) => [item.sourceFile, item]));
 const categoryOrder = ["LP/ページ本文", "動画書き起こし", "ステップメール", "LINE配信", "チャットログ", "主要素材"];
+const rootItems = [
+  { label: "ファネル全体像", path: "ファネル全体像.md" },
+  { label: "オプトインLP", path: "オプトLP_画面テキスト全文.md" },
+  { label: "サンキューページ", path: "サンクス_画面テキスト全文.md" },
+  { label: "ステップメール（一段深く）", group: "stepmail" },
+  { label: "ステップLINE（一段深く）", group: "line" },
+  { label: "ライブ1", path: "Day1_書き起こし.md" },
+  { label: "ライブ2", path: "Day2_書き起こし.md" },
+  { label: "ライブ3", path: "Day3_書き起こし.md" },
+  { label: "ライブ4", path: "Day4_書き起こし.md" },
+  { label: "ライブ5", path: "Day5_書き起こし.md" },
+  { label: "個別説明会ページ", path: "個別誘導LP_画面テキスト全文.md" },
+  { label: "体験セミナー誘導ページ", path: "体験セミナー誘導LP_画面テキスト全文.md" },
+  { label: "追加セミナー1", path: "追加セミナー1_書き起こし.md", sub: true },
+  { label: "追加セミナー2", path: "追加セミナー2_書き起こし.md", sub: true },
+  { label: "オープンチャット", path: "オプチャログ_全文.md" },
+];
+const groupDefs = {
+  stepmail: {
+    title: "ステップメール",
+    category: "ステップメール",
+    lead: "メール配信を1通ずつ原本MDで確認します。",
+  },
+  line: {
+    title: "ステップLINE",
+    category: "LINE配信",
+    lead: "LINE配信を1通ずつ原本MDで確認します。",
+  },
+};
 
 function escapeHtml(value) {
   return String(value)
@@ -438,6 +405,81 @@ function escapeHtml(value) {
 function linkOrDash(url, label) {
   if (!url) return "保存ファイル参照";
   return '<a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(label) + "</a>";
+}
+
+function fileIndexByPath(path) {
+  return state.files.findIndex((file) => file.path === path);
+}
+
+function getGroupFiles(groupKey) {
+  const group = groupDefs[groupKey];
+  if (!group) return [];
+  return state.files
+    .map((file, index) => ({ ...file, index }))
+    .filter((file) => file.category === group.category)
+    .sort((a, b) => a.path.localeCompare(b.path, "ja"));
+}
+
+function labelForFile(file, position) {
+  if (file.path.includes("/00_")) return (position + 1) + ". 配信設計・一覧";
+  const primary = primaryByFile.get(file.path);
+  if (primary) return (position + 1) + ". " + primary.title;
+  const day = file.path.match(/Day\d{2}/i)?.[0] || "";
+  const cleanTitle = file.title.replace(/\.md$/i, "").replaceAll("_", " ");
+  return (position + 1) + ". " + (day ? day + " " : "") + cleanTitle;
+}
+
+function setContentMode(mode) {
+  const isGroup = mode !== "root";
+  summary.hidden = isGroup;
+  document.getElementById("quick").hidden = isGroup;
+  document.getElementById("urls").hidden = isGroup;
+  document.getElementById("files").hidden = isGroup;
+}
+
+function renderSidebar(mode = "root", activeIndex = 0) {
+  if (mode !== "root" && groupDefs[mode]) {
+    const group = groupDefs[mode];
+    const files = getGroupFiles(mode);
+    sideTitle.innerHTML = "増田 W3EV<br>" + escapeHtml(group.title);
+    sideLead.textContent = group.lead;
+    sideNav.innerHTML =
+      '<a class="navlink" href="./materials.html" data-root-nav>元ファネルの一覧へ</a>' +
+      '<div class="nav-section">' + escapeHtml(group.title) + '</div>' +
+      files.map((file, position) => {
+        const active = file.index === activeIndex ? " active" : "";
+        return '<a class="navlink' + active + '" href="?group=' + mode + '&index=' + file.index + '" data-group-index="' + file.index + '" data-group="' + mode + '">' +
+          escapeHtml(labelForFile(file, position)) +
+        '</a>';
+      }).join("") +
+      '<div class="nav-section">レポート</div>' +
+      '<a class="navlink" href="../visual-report.html">ビジュアルレポートへ戻る</a>' +
+      '<a class="navlink" href="../text-report.html">テキストレポートを開く</a>';
+    bindSidebarNav();
+    return;
+  }
+
+  sideTitle.innerHTML = "増田 W3EV<br>5日チャレ 原本素材集";
+  sideLead.textContent = "LP・動画・メール・LINEの正本MDをそのまま確認できます。";
+  sideNav.innerHTML =
+    '<div class="nav-section">ファネル素材</div>' +
+    rootItems.map((item) => {
+      const index = item.path ? fileIndexByPath(item.path) : -1;
+      const active = index === activeIndex ? " active" : "";
+      const sub = item.sub ? " sub" : "";
+      if (item.group) {
+        return '<a class="navlink' + sub + '" href="?group=' + item.group + '" data-group-nav="' + item.group + '">' + escapeHtml(item.label) + '</a>';
+      }
+      return '<a class="navlink' + sub + active + '" href="?path=' + encodeURIComponent(item.path) + '" data-source-path="' + escapeHtml(item.path) + '">' + escapeHtml(item.label) + '</a>';
+    }).join("") +
+    '<div class="nav-section">素材台帳</div>' +
+    '<a class="navlink" href="#urls">URL対応表</a>' +
+    '<a class="navlink" href="#quick">取得済み素材一覧</a>' +
+    '<a class="navlink" href="#files">保存済みMD一覧</a>' +
+    '<div class="nav-section">レポート</div>' +
+    '<a class="navlink" href="../visual-report.html">ビジュアルレポートへ戻る</a>' +
+    '<a class="navlink" href="../text-report.html">テキストレポートを開く</a>';
+  bindSidebarNav();
 }
 
 function renderSummary() {
@@ -473,6 +515,14 @@ function renderQuickGroups() {
     const groupId = key === "ステップメール" ? "quick-group-stepmail" :
       key === "LINE配信" ? "quick-group-line" :
       "quick-group-" + key.replace(/[^a-zA-Z0-9\u3040-\u30ff\u3400-\u9fff]/g, "-");
+    if (key === "ステップメール" || key === "LINE配信") {
+      const groupKey = key === "ステップメール" ? "stepmail" : "line";
+      return '<article class="quick-group" id="' + escapeHtml(groupId) + '">' +
+        '<h3>' + escapeHtml(key) + '（' + files.length + '）</h3>' +
+        '<p class="section-lead">クリックするとサイドバーが各ステップ一覧に切り替わります。</p>' +
+        '<a class="btn" href="?group=' + groupKey + '" data-group-nav="' + groupKey + '">' + escapeHtml(key) + 'の詳細一覧へ</a>' +
+      '</article>';
+    }
     return '<article class="quick-group" id="' + escapeHtml(groupId) + '">' +
       '<h3>' + escapeHtml(key) + '（' + files.length + '）</h3>' +
       '<ul>' + files.map((file) => {
@@ -490,6 +540,13 @@ function renderQuickGroups() {
   quickGroups.querySelectorAll("[data-index]").forEach((link) => {
     link.addEventListener("click", (event) => {
       loadFile(Number(event.currentTarget.dataset.index));
+      renderSidebar("root", Number(event.currentTarget.dataset.index));
+    });
+  });
+  quickGroups.querySelectorAll("[data-group-nav]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openGroup(event.currentTarget.dataset.groupNav);
     });
   });
 }
@@ -504,21 +561,6 @@ urlRows.innerHTML = state.primary.map((item) => {
   '</tr>';
 }).join("");
 
-function renderMaterialButtons() {
-  materialList.innerHTML = state.files.map((file, index) => {
-    const primary = primaryByFile.get(file.path);
-    const title = primary ? primary.title : file.title;
-    return '<button class="material-button" type="button" data-index="' + index + '">' +
-      '<strong>' + escapeHtml(title) + '</strong>' +
-      '<span>' + escapeHtml(file.category) + ' / ' + escapeHtml(file.path) + '</span>' +
-    '</button>';
-  }).join("");
-
-  materialList.querySelectorAll("button").forEach((button) => {
-    button.addEventListener("click", () => loadFile(Number(button.dataset.index)));
-  });
-}
-
 function renderAllFiles() {
   allFiles.innerHTML = state.files.map((file, index) => {
     return '<article class="file-card">' +
@@ -531,21 +573,55 @@ function renderAllFiles() {
   allFiles.querySelectorAll("[data-index]").forEach((link) => {
     link.addEventListener("click", (event) => {
       loadFile(Number(event.currentTarget.dataset.index));
+      renderSidebar("root", Number(event.currentTarget.dataset.index));
+      history.pushState(null, "", "?index=" + Number(event.currentTarget.dataset.index));
     });
   });
 }
 
-function bindSidebarMaterialLinks() {
-  document.querySelectorAll("[data-source-path]").forEach((link) => {
+function bindSidebarNav() {
+  sideNav.querySelectorAll("[data-source-path]").forEach((link) => {
     link.addEventListener("click", (event) => {
       const sourcePath = event.currentTarget.dataset.sourcePath;
-      const index = state.files.findIndex((file) => file.path === sourcePath);
+      const index = fileIndexByPath(sourcePath);
       if (index === -1) return;
       event.preventDefault();
+      setContentMode("root");
+      renderSidebar("root", index);
       loadFile(index);
+      history.pushState(null, "", "?path=" + encodeURIComponent(sourcePath));
       document.getElementById("viewer").scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
+  sideNav.querySelectorAll("[data-group-nav]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      openGroup(event.currentTarget.dataset.groupNav);
+    });
+  });
+  sideNav.querySelectorAll("[data-group-index]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const groupKey = event.currentTarget.dataset.group;
+      const index = Number(event.currentTarget.dataset.groupIndex);
+      setContentMode(groupKey);
+      renderSidebar(groupKey, index);
+      loadFile(index);
+      history.pushState(null, "", "?group=" + groupKey + "&index=" + index);
+      document.getElementById("viewer").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+}
+
+function openGroup(groupKey, preferredIndex = null) {
+  const files = getGroupFiles(groupKey);
+  if (!files.length) return;
+  const index = preferredIndex === null ? files[0].index : preferredIndex;
+  setContentMode(groupKey);
+  renderSidebar(groupKey, index);
+  loadFile(index);
+  history.pushState(null, "", "?group=" + groupKey + "&index=" + index);
+  document.getElementById("viewer").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 async function loadFile(index) {
@@ -561,10 +637,6 @@ async function loadFile(index) {
     '<a href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">原本MD</a>',
   ].filter(Boolean).join("");
 
-  materialList.querySelectorAll("button").forEach((button) => {
-    button.classList.toggle("active", Number(button.dataset.index) === index);
-  });
-
   viewerBody.textContent = "読み込んでいます...";
   try {
     const response = await fetch(file.href);
@@ -575,12 +647,41 @@ async function loadFile(index) {
   }
 }
 
-renderMaterialButtons();
 renderAllFiles();
 renderSummary();
 renderQuickGroups();
-bindSidebarMaterialLinks();
-loadFile(0);
+
+function initFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const groupKey = params.get("group");
+  if (groupKey && groupDefs[groupKey]) {
+    const files = getGroupFiles(groupKey);
+    const requested = Number(params.get("index"));
+    const index = state.files[requested] && state.files[requested].category === groupDefs[groupKey].category
+      ? requested
+      : files[0]?.index;
+    if (index !== undefined) {
+      setContentMode(groupKey);
+      renderSidebar(groupKey, index);
+      loadFile(index);
+      return;
+    }
+  }
+  const path = params.get("path");
+  const requestedIndex = Number(params.get("index"));
+  let index = 0;
+  if (path && fileIndexByPath(path) !== -1) {
+    index = fileIndexByPath(path);
+  } else if (Number.isInteger(requestedIndex) && state.files[requestedIndex]) {
+    index = requestedIndex;
+  }
+  setContentMode("root");
+  renderSidebar("root", index);
+  loadFile(index);
+}
+
+window.addEventListener("popstate", initFromUrl);
+initFromUrl();
 </script>
 </body>
 </html>
