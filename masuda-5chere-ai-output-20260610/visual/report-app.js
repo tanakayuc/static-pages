@@ -309,6 +309,35 @@
     `;
   }
 
+  function renderStageVideoCapture(stage) {
+    if (!stage.videoCapture?.frames?.length) return "";
+    const frames = stage.videoCapture.frames.map((frame) => `
+      <figure class="stage-video-frame">
+        <img src="${esc(rootPrefix + frame.src)}" alt="${esc(stage.title)} ${esc(frame.time)}の冒頭キャプチャ">
+        <figcaption>${esc(frame.time)}</figcaption>
+      </figure>
+    `).join("");
+    return `
+      <section class="stage-video-capture">
+        <div class="stage-video-head">
+          <span>動画冒頭キャプチャー</span>
+          <strong>${esc(stage.videoCapture.provider || "動画")} / ${esc(stage.videoCapture.status || "キャプチャ確認済み")}</strong>
+        </div>
+        <div class="stage-video-frames">${frames}</div>
+        <div class="stage-video-feedback">
+          <article>
+            <h4>良い点</h4>
+            <p>${esc(stage.videoCapture.positive || "")}</p>
+          </article>
+          <article>
+            <h4>改善すると良い点</h4>
+            <p>${esc(stage.videoCapture.improvement || "")}</p>
+          </article>
+        </div>
+      </section>
+    `;
+  }
+
   function renderGlobalSide(activeSlug) {
     const nav = numberedStages.map((stage) => `
       <a class="navlink ${activeSlug === stage.slug ? "active" : ""}" href="${esc(stageUrl(stage))}">
@@ -623,6 +652,7 @@
         </div>
       `
       : "";
+    const videoCapture = !focusedFinding ? renderStageVideoCapture(stage) : "";
     const focusedSource = focusedFinding
       ? `
         <div class="source-doc">
@@ -641,6 +671,7 @@
         <div class="mock-screen">
           <div class="screen-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
           <p class="mock-kicker">${focusedFinding ? "該当箇所" : esc(sourceKindLabel(stage))}</p>
+          ${videoCapture}
           ${sourceOverview}
           ${focusedSource}
           ${lineItems}

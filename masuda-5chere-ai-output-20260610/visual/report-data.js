@@ -852,6 +852,17 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
         "中盤以降: Day2からDay4にかけて3柱を説明",
         "終盤: オプチャ投稿、次回予告"
       ],
+      videoCapture: {
+        provider: "Vimeo",
+        status: "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        frames: [
+          { time: "3秒", src: "assets/video-captures/live-day1-3s.jpg" },
+          { time: "5秒", src: "assets/video-captures/live-day1-5s.jpg" },
+          { time: "10秒", src: "assets/video-captures/live-day1-10s.jpg" }
+        ],
+        positive: "冒頭から企画名とベネフィットが画面に出ており、視聴者が「何の講座か」をすぐ把握できます。右上に本人の顔も見えているため、資料だけでなく人が話している安心感もあります。",
+        improvement: "最初の数秒は待機スライド中心なので、SNS広告や短尺導線では少し静かに見えます。開始直後に本人の表情・声の明るさ・今日得られる変化を一言で入れると、第一印象がさらに強くなります。"
+      },
       pins: [
         { id: "16", x: "52%", y: "25%" },
         { id: "17", x: "52%", y: "48%" },
@@ -920,6 +931,17 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
         "後半: 転売、適法性、不安回収",
         "終盤: Day3中古への接続"
       ],
+      videoCapture: {
+        provider: "Vimeo",
+        status: "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        frames: [
+          { time: "3秒", src: "assets/video-captures/live-day2-3s.jpg" },
+          { time: "5秒", src: "assets/video-captures/live-day2-5s.jpg" },
+          { time: "10秒", src: "assets/video-captures/live-day2-10s.jpg" }
+        ],
+        positive: "白背景の講義スライドで、テーマが整理されて見えます。冒頭から講座形式で話していることが伝わるので、ライブの記録としては把握しやすいです。",
+        improvement: "キャプチャ上は文字情報と話者の熱量がまだ弱く見えます。Day2は本丸なので、冒頭数秒に「新品物販は入口」「怪しい転売ではない」「決済総量を作る日」の3点を視覚的に置くと、離脱前の不安を抑えられます。"
+      },
       pins: [
         { id: "19", x: "52%", y: "24%" },
         { id: "20", x: "52%", y: "44%" },
@@ -987,6 +1009,17 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
         "中盤: 単発案件と継続案件の違い",
         "終盤: Day4ポイカツマーケティングへの接続"
       ],
+      videoCapture: {
+        provider: "Vimeo",
+        status: "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        frames: [
+          { time: "3秒", src: "assets/video-captures/live-day3-3s.jpg" },
+          { time: "5秒", src: "assets/video-captures/live-day3-5s.jpg" },
+          { time: "10秒", src: "assets/video-captures/live-day3-10s.jpg" }
+        ],
+        positive: "本人の顔が見える講義画面なので、録画素材としての安心感があります。シリーズ中盤のライブとして、人が説明している温度感は残せています。",
+        improvement: "冒頭キャプチャだけだとDay3のテーマや得られるものが見えにくく、上級者向けの印象が先に立ちます。最初の数秒に「中古は任意の次段階」「新品で慣れてからでOK」という安心の見出しを置きたいです。"
+      },
       pins: [
         { id: "22", x: "52%", y: "25%" },
         { id: "23", x: "52%", y: "52%" }
@@ -1039,6 +1072,17 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
         "注意: 結果が出るまで時間がかかる",
         "終盤: Day5で自分の順番を決める"
       ],
+      videoCapture: {
+        provider: "Vimeo",
+        status: "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        frames: [
+          { time: "3秒", src: "assets/video-captures/live-day4-3s.jpg" },
+          { time: "5秒", src: "assets/video-captures/live-day4-5s.jpg" },
+          { time: "10秒", src: "assets/video-captures/live-day4-10s.jpg" }
+        ],
+        positive: "冒頭に本人の表情が入り、ライブ感は出ています。シリーズ4日目として、説明者の存在が見える点は信頼につながります。",
+        improvement: "キャプチャだけではポイカツマーケティングの位置づけが伝わりにくいです。短期の入口ではなく長期で伸ばす柱だと、冒頭スライドやテロップで一目で分かるようにしたいです。"
+      },
       pins: [
         { id: "24", x: "52%", y: "33%" },
         { id: "25", x: "52%", y: "61%" }
@@ -1091,6 +1135,17 @@ W3　https://sub.businessmiler.net/p/CH5QKzCUD7zA
         "金額: 具体的な金額は個別説明会で",
         "追加ライブ / オプチャ継続"
       ],
+      videoCapture: {
+        provider: "Vimeo",
+        status: "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        frames: [
+          { time: "3秒", src: "assets/video-captures/live-day5-3s.jpg" },
+          { time: "5秒", src: "assets/video-captures/live-day5-5s.jpg" },
+          { time: "10秒", src: "assets/video-captures/live-day5-10s.jpg" }
+        ],
+        positive: "最終日の録画として、本人が画面に出ていることで締めのライブ感があります。視聴者に直接話しかける素材として使いやすいです。",
+        improvement: "Day5は説明会CTAの日なので、冒頭キャプチャだけでも「今日は判断日」「あなたの場合の順番を決める日」と見える必要があります。無料情報の延長ではなく、次の行動を決める空気を最初に作りたいです。"
+      },
       pins: [
         { id: "26", x: "52%", y: "42%" },
         { id: "27", x: "52%", y: "61%" },

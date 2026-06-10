@@ -38,7 +38,18 @@ window.MASUDA_SOURCE_MATERIALS = {
       "actualUrl": "https://vimeo.com/1135741623/1eb542f667",
       "sourceFile": "Day1_書き起こし.md",
       "note": "Vimeo URLと書き起こし。",
-      "href": "source/Day1_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md"
+      "href": "source/Day1_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md",
+      "videoCapture": {
+        "provider": "Vimeo",
+        "status": "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        "frames": [
+          { "time": "3秒", "src": "../assets/video-captures/live-day1-3s.jpg" },
+          { "time": "5秒", "src": "../assets/video-captures/live-day1-5s.jpg" },
+          { "time": "10秒", "src": "../assets/video-captures/live-day1-10s.jpg" }
+        ],
+        "positive": "冒頭から企画名とベネフィットが画面に出ており、視聴者が「何の講座か」をすぐ把握できます。右上に本人の顔も見えているため、資料だけでなく人が話している安心感もあります。",
+        "improvement": "最初の数秒は待機スライド中心なので、SNS広告や短尺導線では少し静かに見えます。開始直後に本人の表情・声の明るさ・今日得られる変化を一言で入れると、第一印象がさらに強くなります。"
+      }
     },
     {
       "title": "ライブ Day2",
@@ -46,7 +57,18 @@ window.MASUDA_SOURCE_MATERIALS = {
       "actualUrl": "https://vimeo.com/1136076038/6cdf2c7562",
       "sourceFile": "Day2_書き起こし.md",
       "note": "Vimeo URLと書き起こし。",
-      "href": "source/Day2_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md"
+      "href": "source/Day2_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md",
+      "videoCapture": {
+        "provider": "Vimeo",
+        "status": "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        "frames": [
+          { "time": "3秒", "src": "../assets/video-captures/live-day2-3s.jpg" },
+          { "time": "5秒", "src": "../assets/video-captures/live-day2-5s.jpg" },
+          { "time": "10秒", "src": "../assets/video-captures/live-day2-10s.jpg" }
+        ],
+        "positive": "ライブシリーズとして同じ見た目の導入になっており、連続講座としての統一感があります。",
+        "improvement": "冒頭がテンプレート的に見える場合は、Day2ならではの約束や前回からの接続を最初の一言・画面テキストに足すと、継続視聴の理由が強くなります。"
+      }
     },
     {
       "title": "ライブ Day3",
@@ -54,7 +76,18 @@ window.MASUDA_SOURCE_MATERIALS = {
       "actualUrl": "https://vimeo.com/1136076236/f272eefb18",
       "sourceFile": "Day3_書き起こし.md",
       "note": "Vimeo URLと書き起こし。",
-      "href": "source/Day3_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md"
+      "href": "source/Day3_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md",
+      "videoCapture": {
+        "provider": "Vimeo",
+        "status": "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        "frames": [
+          { "time": "3秒", "src": "../assets/video-captures/live-day3-3s.jpg" },
+          { "time": "5秒", "src": "../assets/video-captures/live-day3-5s.jpg" },
+          { "time": "10秒", "src": "../assets/video-captures/live-day3-10s.jpg" }
+        ],
+        "positive": "同じ導入フォーマットを使うことで、参加者にとって「今日も続きが始まる」という認識を作れています。",
+        "improvement": "中盤日の動画は離脱が起きやすいので、冒頭キャプチャー上でも『今日は何が前に進む日か』が見えると、再生直後の納得感が上がります。"
+      }
     },
     {
       "title": "ライブ Day4",
@@ -62,7 +95,18 @@ window.MASUDA_SOURCE_MATERIALS = {
       "actualUrl": "https://vimeo.com/1138289982/53c52b3d83",
       "sourceFile": "Day4_書き起こし.md",
       "note": "Vimeo URLと書き起こし。",
-      "href": "source/Day4_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md"
+      "href": "source/Day4_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md",
+      "videoCapture": {
+        "provider": "Vimeo",
+        "status": "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        "frames": [
+          { "time": "3秒", "src": "../assets/video-captures/live-day4-3s.jpg" },
+          { "time": "5秒", "src": "../assets/video-captures/live-day4-5s.jpg" },
+          { "time": "10秒", "src": "../assets/video-captures/live-day4-10s.jpg" }
+        ],
+        "positive": "5秒以降で講座画面に入るため、視聴開始後すぐに本編へ移る構成になっています。",
+        "improvement": "3秒地点が暗い/準備画面に寄る場合は、サムネイルやレポート代表画像には5秒以降を採用した方が安全です。冒頭黒画面は視聴意欲を落としやすいため、編集時に詰める候補です。"
+      }
     },
     {
       "title": "ライブ Day5",
@@ -70,7 +114,18 @@ window.MASUDA_SOURCE_MATERIALS = {
       "actualUrl": "https://vimeo.com/1138522531/eafcd09f6a",
       "sourceFile": "Day5_書き起こし.md",
       "note": "Vimeo URLと書き起こし。",
-      "href": "source/Day5_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md"
+      "href": "source/Day5_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md",
+      "videoCapture": {
+        "provider": "Vimeo",
+        "status": "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        "frames": [
+          { "time": "3秒", "src": "../assets/video-captures/live-day5-3s.jpg" },
+          { "time": "5秒", "src": "../assets/video-captures/live-day5-5s.jpg" },
+          { "time": "10秒", "src": "../assets/video-captures/live-day5-10s.jpg" }
+        ],
+        "positive": "最終日らしく、シリーズの締めとして同じ世界観を保てています。",
+        "improvement": "Day5は説明会や申込への橋渡しが重要なので、冒頭数秒でも『今日のゴール』や『次の案内』の存在が伝わると、最後まで見る理由が強まります。"
+      }
     },
     {
       "title": "追加セミナー1",
@@ -78,7 +133,18 @@ window.MASUDA_SOURCE_MATERIALS = {
       "actualUrl": "https://vimeo.com/1146114715/f450fdf231",
       "sourceFile": "追加セミナー1_書き起こし.md",
       "note": "Vimeo URLと書き起こし。",
-      "href": "source/%E8%BF%BD%E5%8A%A0%E3%82%BB%E3%83%9F%E3%83%8A%E3%83%BC1_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md"
+      "href": "source/%E8%BF%BD%E5%8A%A0%E3%82%BB%E3%83%9F%E3%83%8A%E3%83%BC1_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md",
+      "videoCapture": {
+        "provider": "Vimeo",
+        "status": "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        "frames": [
+          { "time": "3秒", "src": "../assets/video-captures/seminar-extra1-3s.jpg" },
+          { "time": "5秒", "src": "../assets/video-captures/seminar-extra1-5s.jpg" },
+          { "time": "10秒", "src": "../assets/video-captures/seminar-extra1-10s.jpg" }
+        ],
+        "positive": "追加セミナーとして、既存参加者に向けた補講・深掘りの位置づけを作れています。",
+        "improvement": "冒頭が暗い/待機寄りに見える場合は、代表画像には本編が始まった瞬間を採用し、導入文で『追加で何を解消する回か』を明示するとよさそうです。"
+      }
     },
     {
       "title": "追加セミナー2",
@@ -86,7 +152,18 @@ window.MASUDA_SOURCE_MATERIALS = {
       "actualUrl": "https://vimeo.com/1146270106/f629fd920b",
       "sourceFile": "追加セミナー2_書き起こし.md",
       "note": "Vimeo URLと書き起こし。",
-      "href": "source/%E8%BF%BD%E5%8A%A0%E3%82%BB%E3%83%9F%E3%83%8A%E3%83%BC2_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md"
+      "href": "source/%E8%BF%BD%E5%8A%A0%E3%82%BB%E3%83%9F%E3%83%8A%E3%83%BC2_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md",
+      "videoCapture": {
+        "provider": "Vimeo",
+        "status": "yt-dlp + ffmpegで3秒・5秒・10秒のキャプチャ取得に成功",
+        "frames": [
+          { "time": "3秒", "src": "../assets/video-captures/seminar-extra2-3s.jpg" },
+          { "time": "5秒", "src": "../assets/video-captures/seminar-extra2-5s.jpg" },
+          { "time": "10秒", "src": "../assets/video-captures/seminar-extra2-10s.jpg" }
+        ],
+        "positive": "追加フォローの動画が残っていることで、ライブ後の不安解消や再接続の材料になります。",
+        "improvement": "冒頭で『前回の復習』よりも『今日解決する疑問』を強く出すと、追加視聴の必要性が一段伝わりやすくなります。"
+      }
     },
     {
       "title": "ステップ配信一覧",

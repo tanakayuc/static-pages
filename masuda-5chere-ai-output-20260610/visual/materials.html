@@ -175,6 +175,77 @@ h1 {
   height: 100%;
   border: 0;
 }
+.video-capture-panel {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfffe;
+}
+.video-capture-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.video-capture-head h3 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+}
+.video-capture-head span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+.video-frames {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.video-frame {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+.video-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #000;
+}
+.video-frame strong {
+  display: block;
+  padding: 8px 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.video-feedback {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.video-feedback article {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+.video-feedback strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--sub);
+  font-size: 13px;
+}
+.video-feedback p {
+  color: #26384c;
+  line-height: 1.7;
+}
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
@@ -338,6 +409,8 @@ pre {
   }
   .main { padding: 28px 16px 56px; }
   .url-table { display: block; overflow-x: auto; }
+  .video-frames,
+  .video-feedback { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -358,6 +431,8 @@ pre {
         <a class="btn" href="../text-report.html">テキストレポート</a>
         <a class="btn" href="#viewer">原本を読む</a>
       </div>
+      <section id="materialActions" class="material-actions" hidden></section>
+
       <section id="viewer" class="section">
         <h2>原本プレビュー</h2>
         <article class="viewer">
@@ -368,8 +443,6 @@ pre {
           <pre id="viewerBody">素材を読み込んでいます...</pre>
         </article>
       </section>
-
-      <section id="materialActions" class="material-actions" hidden></section>
 
       <div id="summary" class="summary-grid" aria-label="取得済み素材数"></div>
 
@@ -727,6 +800,7 @@ function renderMaterialActions(file, primary) {
   materialActions.innerHTML =
     '<h2>' + escapeHtml(title) + '</h2>' +
     '<p>' + escapeHtml(helper) + '</p>' +
+    renderVideoCapture(primary) +
     '<div class="toolbar">' +
       (directUrl ? '<a class="btn primary" href="' + escapeHtml(directUrl) + '" target="_blank" rel="noopener">素材を見る</a>' : '') +
       '<a class="btn" href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">原本を読む（移動）</a>' +
@@ -734,13 +808,38 @@ function renderMaterialActions(file, primary) {
       '<a class="btn" href="../visual-report.html">ビジュアルレポート</a>' +
     '</div>' +
     (directUrl ? '<div class="material-direct"><span>' + escapeHtml(kind) + ' 原本URL</span><a href="' + escapeHtml(directUrl) + '" target="_blank" rel="noopener">' + escapeHtml(directUrl) + '</a></div>' : '') +
-    (isVideo && vimeoEmbedUrl(directUrl) ? '<div class="video-embed"><iframe src="' + escapeHtml(vimeoEmbedUrl(directUrl)) + '" title="' + escapeHtml(title) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>' : '');
+    (isVideo && videoEmbedUrl(directUrl) ? '<div class="video-embed"><iframe src="' + escapeHtml(videoEmbedUrl(directUrl)) + '" title="' + escapeHtml(title) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>' : '');
 }
 
-function vimeoEmbedUrl(url) {
-  const match = String(url || "").match(/vimeo\.com\/(\d+)(?:\/([A-Za-z0-9]+))?/);
-  if (!match) return "";
-  return "https://player.vimeo.com/video/" + match[1] + (match[2] ? "?h=" + match[2] : "");
+function renderVideoCapture(primary) {
+  const capture = primary?.videoCapture;
+  if (!capture?.frames?.length) return "";
+  const frames = capture.frames.map((frame) => {
+    return '<figure class="video-frame">' +
+      '<img src="' + escapeHtml(frame.src) + '" alt="' + escapeHtml((primary?.title || "動画") + " " + frame.time + "キャプチャー") + '" loading="lazy">' +
+      '<strong>' + escapeHtml(frame.time) + 'キャプチャー</strong>' +
+    '</figure>';
+  }).join("");
+  return '<section class="video-capture-panel" aria-label="冒頭キャプチャー">' +
+    '<div class="video-capture-head">' +
+      '<h3>冒頭キャプチャーと第一印象</h3>' +
+      '<span>' + escapeHtml(capture.provider || "動画") + ' / ' + escapeHtml(capture.status || "キャプチャー取得済み") + '</span>' +
+    '</div>' +
+    '<div class="video-frames">' + frames + '</div>' +
+    '<div class="video-feedback">' +
+      '<article><strong>良い点</strong><p>' + escapeHtml(capture.positive || "冒頭の見え方を確認します。") + '</p></article>' +
+      '<article><strong>改善すると良い点</strong><p>' + escapeHtml(capture.improvement || "冒頭数秒で伝わる印象を確認します。") + '</p></article>' +
+    '</div>' +
+  '</section>';
+}
+
+function videoEmbedUrl(url) {
+  const value = String(url || "");
+  const vimeo = value.match(/vimeo\.com\/(\d+)(?:\/([A-Za-z0-9]+))?/);
+  if (vimeo) return "https://player.vimeo.com/video/" + vimeo[1] + (vimeo[2] ? "?h=" + vimeo[2] : "");
+  const youtube = value.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]+)/);
+  if (youtube) return "https://www.youtube.com/embed/" + youtube[1];
+  return "";
 }
 
 renderAllFiles();
