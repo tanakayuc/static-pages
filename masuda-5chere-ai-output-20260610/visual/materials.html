@@ -297,6 +297,38 @@ h1 {
   font-size: 12px;
   font-weight: 700;
 }
+.timestamp-nav {
+  display: none;
+  gap: 8px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  background: #f8fffd;
+}
+.timestamp-nav.active {
+  display: flex;
+  flex-wrap: wrap;
+}
+.timestamp-nav strong {
+  width: 100%;
+  color: var(--muted);
+  font-size: 12px;
+}
+.timestamp-nav a {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--sub);
+  font-size: 12px;
+  font-weight: 800;
+}
+.timestamp-nav a:hover {
+  background: var(--soft);
+  text-decoration: none;
+}
 pre {
   margin: 0;
   padding: 18px;
@@ -307,6 +339,17 @@ pre {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   font-size: 13px;
   line-height: 1.75;
+}
+.timestamp-anchor {
+  display: block;
+  margin: 18px -4px 10px;
+  padding: 7px 10px;
+  border-left: 4px solid var(--main);
+  border-radius: 6px;
+  background: var(--soft);
+  color: var(--sub);
+  font-weight: 900;
+  scroll-margin-top: 18px;
 }
 .all-files {
   display: block;
@@ -368,6 +411,7 @@ pre {
             <h3 id="viewerTitle">読み込み中</h3>
             <div id="viewerMeta" class="viewer-meta"></div>
           </div>
+          <div id="viewerTimestamps" class="timestamp-nav" aria-label="10分ごとのタイムスタンプ"></div>
           <pre id="viewerBody">素材を読み込んでいます...</pre>
         </article>
       </section>
@@ -403,7 +447,7 @@ pre {
     </div>
   </main>
 </div>
-<script src="source-materials.js?v=20260611-materials-embed"></script>
+<script src="source-materials.js?v=20260611-materials-timestamps"></script>
 <script>
 const state = window.MASUDA_SOURCE_MATERIALS;
 const summary = document.getElementById("summary");
@@ -416,6 +460,7 @@ const sideNav = document.getElementById("sideNav");
 const materialActions = document.getElementById("materialActions");
 const viewerTitle = document.getElementById("viewerTitle");
 const viewerMeta = document.getElementById("viewerMeta");
+const viewerTimestamps = document.getElementById("viewerTimestamps");
 const viewerBody = document.getElementById("viewerBody");
 const primaryByFile = new Map(state.primary.map((item) => [item.sourceFile, item]));
 let activeLoadId = 0;
@@ -701,16 +746,60 @@ async function loadFile(index) {
   ].filter(Boolean).join("");
 
   viewerBody.textContent = "読み込んでいます...";
+  viewerTimestamps.classList.remove("active");
+  viewerTimestamps.innerHTML = "";
   try {
     const response = await fetch(file.href);
     if (!response.ok) throw new Error("HTTP " + response.status);
     const text = await response.text();
     if (loadId !== activeLoadId) return;
-    viewerBody.textContent = text;
+    renderTimestampNav(text, file.category);
+    viewerBody.innerHTML = renderSourceText(text, file.category);
   } catch (error) {
     if (loadId !== activeLoadId) return;
+    viewerTimestamps.classList.remove("active");
+    viewerTimestamps.innerHTML = "";
     viewerBody.textContent = "原本ファイルを読み込めませんでした: " + error.message;
   }
+}
+
+function timestampId(value) {
+  return "ts-" + String(value || "").replace(/[^0-9A-Za-z]+/g, "-");
+}
+
+function extractTimestamps(text, category) {
+  if (category !== "動画書き起こし") return [];
+  const seen = new Set();
+  return Array.from(String(text || "").matchAll(/^##\s+((?:\d{1,2}:)?\d{2}:\d{2})\s*$/gm))
+    .map((match) => match[1])
+    .filter((time) => {
+      if (seen.has(time)) return false;
+      seen.add(time);
+      return true;
+    });
+}
+
+function renderTimestampNav(text, category) {
+  const timestamps = extractTimestamps(text, category);
+  if (!timestamps.length) {
+    viewerTimestamps.classList.remove("active");
+    viewerTimestamps.innerHTML = "";
+    return;
+  }
+  viewerTimestamps.classList.add("active");
+  viewerTimestamps.innerHTML = '<strong>10分ごとのタイムスタンプ</strong>' +
+    timestamps.map((time) => '<a href="#' + escapeHtml(timestampId(time)) + '">' + escapeHtml(time) + '</a>').join("");
+}
+
+function renderSourceText(text, category) {
+  const lines = String(text || "").split("\n");
+  return lines.map((line) => {
+    const match = line.match(/^##\s+((?:\d{1,2}:)?\d{2}:\d{2})\s*$/);
+    if (category === "動画書き起こし" && match) {
+      return '<span id="' + escapeHtml(timestampId(match[1])) + '" class="timestamp-anchor">' + escapeHtml(line) + '</span>';
+    }
+    return escapeHtml(line);
+  }).join("\n");
 }
 
 function renderMaterialActions(file, primary) {
