@@ -311,8 +311,9 @@
 
   function renderStageVideoCapture(stage) {
     if (!stage.videoCapture?.frames?.length) return "";
-    const frames = stage.videoCapture.frames.map((frame) => `
-      <figure class="stage-video-frame">
+    const leadFrame = stage.videoCapture.frames[1] || stage.videoCapture.frames[0];
+    const thumbnails = stage.videoCapture.frames.map((frame) => `
+      <figure class="stage-video-thumb">
         <img src="${esc(rootPrefix + frame.src)}" alt="${esc(stage.title)} ${esc(frame.time)}の冒頭キャプチャ">
         <figcaption>${esc(frame.time)}</figcaption>
       </figure>
@@ -320,10 +321,14 @@
     return `
       <section class="stage-video-capture">
         <div class="stage-video-head">
-          <span>動画冒頭キャプチャー</span>
+          <span>画像評価 / 冒頭キャプチャー</span>
           <strong>${esc(stage.videoCapture.provider || "動画")} / ${esc(stage.videoCapture.status || "キャプチャ確認済み")}</strong>
         </div>
-        <div class="stage-video-frames">${frames}</div>
+        <figure class="stage-video-main">
+          <img src="${esc(rootPrefix + leadFrame.src)}" alt="${esc(stage.title)} ${esc(leadFrame.time)}の代表キャプチャ">
+          <figcaption>代表キャプチャー: ${esc(leadFrame.time)}</figcaption>
+        </figure>
+        <div class="stage-video-frames">${thumbnails}</div>
         <div class="stage-video-feedback">
           <article>
             <h4>良い点</h4>
@@ -631,7 +636,6 @@
           <span class="inline-num">${esc(finding.displayId)}</span>
           <span class="line-main">
             <span class="line-meta">${esc(finding.time || finding.target)} / ${esc(finding.target)}</span>
-            <span class="line-title">${esc(finding.title)}</span>
             <span class="line-excerpt">${esc(finding.excerpt || finding.issue)}</span>
           </span>
         </summary>
@@ -652,7 +656,6 @@
         </div>
       `
       : "";
-    const videoCapture = !focusedFinding ? renderStageVideoCapture(stage) : "";
     const focusedSource = focusedFinding
       ? `
         <div class="source-doc">
@@ -671,7 +674,6 @@
         <div class="mock-screen">
           <div class="screen-head"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
           <p class="mock-kicker">${focusedFinding ? "該当箇所" : esc(sourceKindLabel(stage))}</p>
-          ${videoCapture}
           ${sourceOverview}
           ${focusedSource}
           ${lineItems}
@@ -803,10 +805,13 @@
       ? `
         <section class="section">
           <h2>素材とフィードバック</h2>
-          <p class="muted">左側に提出素材のキャプチャまたは代表箇所、右側に番号順のフィードバックを表示します。各フィードバックはアコーディオンで開閉できます。</p>
+          <p class="muted">左側に書き起こしの該当箇所、右側に動画キャプチャと番号順フィードバックを表示します。各フィードバックはアコーディオンで開閉できます。</p>
           <div class="report-grid">
             ${renderVisual(stage)}
-            <div>${renderPriorityGroupedFindings(stage)}</div>
+            <div class="feedback-column">
+              ${renderStageVideoCapture(stage)}
+              ${renderPriorityGroupedFindings(stage)}
+            </div>
           </div>
         </section>
       `
