@@ -117,6 +117,39 @@ function collectSourceFiles(data) {
   return [...byHref.values()];
 }
 
+function renderVisualStage(stageSlug, search = "") {
+  const app = { innerHTML: "" };
+  const context = {
+    window: {
+      location: {
+        pathname: `/static-pages/report/visual/${stageSlug}.html`,
+        search,
+      },
+    },
+    document: {
+      body: { dataset: { stage: stageSlug } },
+      getElementById(id) {
+        return id === "app" ? app : null;
+      },
+    },
+    URLSearchParams,
+    console,
+  };
+
+  try {
+    vm.createContext(context);
+    for (const file of ["visual/report-data.js", "visual/materials-data.js", "visual/report-app.js"]) {
+      vm.runInContext(read(file), context, { filename: file, timeout: 1000 });
+    }
+  } catch (error) {
+    fail(`visual report can render ${stageSlug} (${error.message})`);
+    return { html: "", side: "" };
+  }
+
+  const side = app.innerHTML.match(/<aside class="side">([\s\S]*?)<\/aside>/)?.[1] || "";
+  return { html: app.innerHTML, side };
+}
+
 function summarizeCategories(files) {
   const counts = new Map();
   for (const file of files) {
@@ -188,6 +221,17 @@ async function main() {
     "visual report does not force finding sidebar on all stage pages",
   );
   assert(!reportApp.includes("参照元素材URL"), "visual report avoids duplicate source URL labels");
+  const optinRender = renderVisualStage("optin-lp");
+  assert(optinRender.side.includes("全体レポート"), "optin visual sidebar keeps the top-level report nav");
+  assert(optinRender.side.includes("Live 5"), "optin visual sidebar can navigate to other first-level materials");
+  assert(!optinRender.side.includes("ファーストビュー"), "optin visual sidebar does not duplicate right-side feedback items");
+  assert(!optinRender.html.includes("素材集を開く"), "optin visual header does not duplicate source/material links");
+  const stepmailRender = renderVisualStage("stepmail");
+  assert(stepmailRender.side.includes("全体レポートに戻る"), "stepmail visual sidebar keeps the second-level material nav");
+  assert(
+    stepmailRender.side.includes("Day01") || stepmailRender.side.includes("指摘 8"),
+    "stepmail visual sidebar lists second-level mail materials",
+  );
   assert(materials.includes("原本素材集"), "materials.html is labeled as source materials");
   assert(materials.includes("取得済み素材一覧"), "materials.html exposes the acquired source list near the top");
   assert(materials.includes("URL・保存済み原本対応表"), "materials.html has URL/source mapping table");
