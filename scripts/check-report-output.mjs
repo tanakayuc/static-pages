@@ -200,20 +200,39 @@ async function checkPublicUrl(label, url) {
 
 async function main() {
   assert(fs.existsSync(reportDir), `${reportArg} directory exists`);
+  assert(fs.existsSync(path.join(repoRoot, "REPORT_OUTPUT_ARCHITECTURE.md")), "REPORT_OUTPUT_ARCHITECTURE.md exists");
 
-  for (const file of ["visual-report.html", "text-report.html", "visual/materials.html"]) {
+  for (const file of ["index.html", "visual-report.html", "text-report.html", "visual/materials.html"]) {
     assert(exists(file), `${file} exists`);
     checkNoForbiddenTerms(file);
   }
 
   const textReport = read("text-report.html");
-  assert(textReport.includes('<aside class="sidebar"'), "text-report.html has a sidebar");
+  assert(
+    /<aside class="(sidebar|side)"/.test(textReport),
+    "text-report.html has a sidebar",
+  );
   assert(textReport.includes('href="visual-report.html"'), "text-report.html links to visual-report.html");
   assert(textReport.includes('href="visual/materials.html"'), "text-report.html links to visual/materials.html");
-  assert(textReport.includes("これが今回のレポートです"), "text-report.html declares the 3-piece report set");
+  assert(
+    textReport.includes("ファネルレポートポータル") &&
+      textReport.includes("ビジュアルレポート") &&
+      textReport.includes("原本素材集"),
+    "text-report.html links the report portal, visual report, and source materials",
+  );
   assert(textReport.includes('id="priority-summary"'), "text-report.html has priority summary section");
   assert(textReport.includes("優先度 高") && textReport.includes("優先度 中") && textReport.includes("優先度 小"), "text-report.html classifies priority as high/medium/small");
   assert(!textReport.includes(">大</td>") && !textReport.includes("優先度: 低"), "text-report.html has no old priority wording");
+  const materialVisualHrefPattern =
+    /href="visual\/(optin-lp|thanks|stepmail|line-step|live-day[0-9]|consult-lp|seminar-lp|openchat)\.html/g;
+  const materialVisualHrefs = [...textReport.matchAll(materialVisualHrefPattern)].map((match) => match[0]);
+  assert(
+    materialVisualHrefs.length === 0,
+    "text-report.html material nav does not jump to visual material pages",
+  );
+  if (materialVisualHrefs.length > 0) {
+    console.error(`  found: ${[...new Set(materialVisualHrefs)].join(", ")}`);
+  }
 
   const materials = read("visual/materials.html");
   const reportApp = read("visual/report-app.js");
@@ -228,13 +247,22 @@ async function main() {
   );
   assert(!reportApp.includes("参照元素材URL"), "visual report avoids duplicate source URL labels");
   const optinRender = renderVisualStage("optin-lp");
-  assert(optinRender.side.includes("全体レポート"), "optin visual sidebar keeps the top-level report nav");
+  assert(
+    optinRender.side.includes("ファネルレポートポータル") &&
+      optinRender.side.includes("ビジュアルレポート") &&
+      optinRender.side.includes("原本素材集"),
+    "optin visual sidebar keeps the top-level report nav",
+  );
   assert(optinRender.side.includes("Live 5"), "optin visual sidebar can navigate to other first-level materials");
   assert(!optinRender.side.includes("ファーストビュー"), "optin visual sidebar does not duplicate right-side feedback items");
   assert(!optinRender.html.includes("素材集を開く"), "optin visual header does not duplicate source/material links");
   assert(optinRender.html.includes("優先度 高の指摘") && optinRender.html.includes("優先度 中の指摘") && optinRender.html.includes("優先度 小の指摘"), "optin visual feedback is grouped by high/medium/small priority");
   const stepmailRender = renderVisualStage("stepmail");
-  assert(stepmailRender.side.includes("全体レポートに戻る"), "stepmail visual sidebar keeps the second-level material nav");
+  assert(
+    stepmailRender.side.includes("ファネル一覧へ戻る") &&
+      stepmailRender.side.includes("全体所感"),
+    "stepmail visual sidebar keeps the second-level material nav",
+  );
   assert(
     stepmailRender.side.includes("Day01") || stepmailRender.side.includes("指摘 8"),
     "stepmail visual sidebar lists second-level mail materials",
@@ -271,7 +299,9 @@ async function main() {
   const sourceFiles = collectSourceFiles(sourceData);
   assert(sourceFiles.length > 0, "source material data contains linked files");
 
-  const sidebarSourcePaths = [...materials.matchAll(/data-source-path="([^"]+)"/g)].map((match) => match[1]);
+  const sidebarSourcePaths = [...materials.matchAll(/data-source-path="([^"]+)"/g)]
+    .map((match) => match[1])
+    .filter((sourcePath) => !sourcePath.includes("${") && !sourcePath.includes("' +"));
   const sourceFilePaths = new Set(sourceFiles.map((file) => file.path));
   const missingSidebarSourcePaths = sidebarSourcePaths.filter((sourcePath) => !sourceFilePaths.has(sourcePath));
   assert(
