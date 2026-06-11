@@ -388,8 +388,8 @@ pre {
 <body>
 <div class="layout">
   <aside class="side">
-    <h2 id="sideTitle" class="brand">増田 W3EV<br>5日チャレ 原本素材集</h2>
-    <p id="sideLead">LP・動画・メール・LINEの正本MDをそのまま確認できます。</p>
+    <h2 id="sideTitle" class="brand">増田 W3EV<br>5日チャレ<br>ファネルレポート</h2>
+    <p id="sideLead">左でレポート全体と素材を行き来し、右側で原本素材を確認します。</p>
     <nav id="sideNav" aria-label="素材ナビゲーション"></nav>
   </aside>
   <main class="main">
@@ -398,9 +398,7 @@ pre {
       <h1>増田 W3EV 5日チャレ 原本素材集</h1>
       <p class="lead">このページは、分析レポートではなく素材台帳です。実際の公開URL、保存済み原本ファイル、LP本文・動画書き起こし・ステップメール/LINE本文を分けて確認できます。</p>
       <div class="toolbar">
-        <a class="btn primary" href="../visual-report.html">ビジュアルレポートへ戻る</a>
-        <a class="btn" href="../text-report.html">テキストレポート</a>
-        <a class="btn" href="#viewer">原本を読む</a>
+        <a class="btn primary" href="#viewer">原本を読む</a>
       </div>
       <section id="materialActions" class="material-actions" hidden></section>
 
@@ -539,13 +537,23 @@ function setContentMode(mode) {
   document.getElementById("files").hidden = isGroup || isMaterial;
 }
 
+function reportNavHtml() {
+  return '<div class="nav-section">レポート</div>' +
+    '<a class="navlink" href="../index.html">ファネルレポートポータル</a>' +
+    '<a class="navlink" href="../visual-report.html">ビジュアルレポート</a>' +
+    '<a class="navlink" href="../text-report.html">テキストレポート</a>' +
+    '<a class="navlink active" href="./materials.html">原本素材集</a>';
+}
+
 function renderSidebar(mode = "root", activeIndex = 0) {
   if (mode !== "root" && groupDefs[mode]) {
     const group = groupDefs[mode];
     const files = getGroupFiles(mode);
-    sideTitle.innerHTML = "増田 W3EV<br>" + escapeHtml(group.title);
-    sideLead.textContent = group.lead;
+    sideTitle.innerHTML = "増田 W3EV<br>5日チャレ<br>ファネルレポート";
+    sideLead.textContent = "左でレポート全体と素材を行き来し、右側で原本素材を確認します。";
     sideNav.innerHTML =
+      reportNavHtml() +
+      '<div class="nav-section">現在の素材</div>' +
       '<a class="navlink" href="./materials.html" data-root-nav>元ファネルの一覧へ</a>' +
       '<div class="nav-section">' + escapeHtml(group.title) + '</div>' +
       files.map((file, position) => {
@@ -553,17 +561,15 @@ function renderSidebar(mode = "root", activeIndex = 0) {
         return '<a class="navlink' + active + '" href="?group=' + mode + '&index=' + file.index + '" data-group-index="' + file.index + '" data-group="' + mode + '">' +
           escapeHtml(labelForFile(file, position)) +
         '</a>';
-      }).join("") +
-      '<div class="nav-section">レポート</div>' +
-      '<a class="navlink" href="../visual-report.html">ビジュアルレポートへ戻る</a>' +
-      '<a class="navlink" href="../text-report.html">テキストレポートを開く</a>';
+      }).join("");
     bindSidebarNav();
     return;
   }
 
-  sideTitle.innerHTML = "増田 W3EV<br>5日チャレ 原本素材集";
-  sideLead.textContent = "LP・動画・メール・LINEの正本MDをそのまま確認できます。";
+  sideTitle.innerHTML = "増田 W3EV<br>5日チャレ<br>ファネルレポート";
+  sideLead.textContent = "左でレポート全体と素材を行き来し、右側で原本素材を確認します。";
   sideNav.innerHTML =
+    reportNavHtml() +
     '<div class="nav-section">ファネル素材</div>' +
     rootItems.map((item) => {
       const index = item.path ? fileIndexByPath(item.path) : -1;
@@ -577,10 +583,7 @@ function renderSidebar(mode = "root", activeIndex = 0) {
     '<div class="nav-section">素材台帳</div>' +
     '<a class="navlink" href="#urls">URL対応表</a>' +
     '<a class="navlink" href="#quick">取得済み素材一覧</a>' +
-    '<a class="navlink" href="#files">保存済みMD一覧</a>' +
-    '<div class="nav-section">レポート</div>' +
-    '<a class="navlink" href="../visual-report.html">ビジュアルレポートへ戻る</a>' +
-    '<a class="navlink" href="../text-report.html">テキストレポートを開く</a>';
+    '<a class="navlink" href="#files">保存済みMD一覧</a>';
   bindSidebarNav();
 }
 
@@ -821,8 +824,6 @@ function renderMaterialActions(file, primary) {
     (isVideo && videoEmbedUrl(directUrl) ? '<div class="video-embed"><iframe src="' + escapeHtml(videoEmbedUrl(directUrl)) + '" title="' + escapeHtml(title) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>' : '') +
     '<div class="toolbar">' +
       '<a class="btn" href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">原本を読む（移動）</a>' +
-      '<a class="btn" href="../text-report.html">テキストレポート</a>' +
-      '<a class="btn" href="../visual-report.html">ビジュアルレポート</a>' +
     '</div>';
 }
 

@@ -48,6 +48,7 @@
     }
     return `${base}?${query.toString()}`;
   };
+  const portalUrl = () => `${rootPrefix}index.html`;
   const homeUrl = () => `${rootPrefix}visual-report.html`;
   const textUrl = () => `${rootPrefix}${data.textReport}`;
   const characterUrl = () => data.character ? `${rootPrefix}${data.character}` : "";
@@ -361,16 +362,15 @@
     `).join("");
 
     return `
-      <p class="brand">増田 W3EV<br>5日チャレ<br>ビジュアルレポート</p>
-      <small class="side-note">LP・サンクス・個別LPはページ素材として、キャプチャと番号付きフィードバックを直接対応させます。メール/LINEは時系列素材として通数ごとに確認します。</small>
-      <a class="navlink ${activeSlug === "home" ? "active" : ""}" href="${esc(homeUrl())}">
-        <span class="nav-layer">全体</span>全体レポート
-      </a>
+      <p class="brand">増田 W3EV<br>5日チャレ<br>ファネルレポート</p>
+      <small class="side-note">左でレポート全体と素材を行き来し、右側でビジュアルフィードバックを確認します。</small>
+      <div class="nav-section">レポート</div>
+      <a class="navlink" href="${esc(portalUrl())}">ファネルレポートポータル</a>
+      <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
+      <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
+      <a class="navlink" href="${esc(materialsUrl())}">原本素材集</a>
+      <div class="nav-section">ファネル素材</div>
       <div class="side-group">${nav}</div>
-      <div class="side-links" aria-label="関連リンク">
-        <a class="navlink" href="${esc(materialsUrl())}">素材集</a>
-        <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-      </div>
     `;
   }
 
@@ -403,15 +403,17 @@
       `).join("");
 
     return `
-      <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>${esc(stageFindingLayerLabel(stage))}</p>
+      <p class="brand">増田 W3EV<br>5日チャレ<br>ファネルレポート</p>
+      <small class="side-note">${esc(stage.title)} の個別指摘を確認しています。</small>
+      <div class="nav-section">レポート</div>
+      <a class="navlink" href="${esc(portalUrl())}">ファネルレポートポータル</a>
+      <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
+      <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
+      <a class="navlink" href="${esc(materialsUrl())}">原本素材集</a>
+      <div class="nav-section">現在の素材</div>
       <a class="back-link" href="${esc(stageUrl(stage))}">${esc(isTimeSeriesStage(stage) ? "全体所感へ戻る" : "素材ページに戻る")}</a>
       <small class="side-note">${esc(isTimeSeriesStage(stage) ? "時系列素材と指摘状態" : "キャプチャと番号付きフィードバック")}</small>
       <div class="side-group finding-only">${nav}</div>
-      <div class="side-links" aria-label="関連リンク">
-        <a class="navlink" href="${esc(homeUrl())}">ファネル一覧へ戻る</a>
-        <a class="navlink" href="${esc(materialsUrl(stage))}">素材一覧へ戻る</a>
-        <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-      </div>
     `;
   }
 
@@ -426,16 +428,19 @@
       `).join("");
 
     return `
-      <p class="brand">増田 W3EV<br>${esc(stage.title)}<br>${esc(stageLayerLabel(stage))}</p>
+      <p class="brand">増田 W3EV<br>5日チャレ<br>ファネルレポート</p>
+      <small class="side-note">${esc(stage.title)} の素材とフィードバックを確認しています。</small>
+      <div class="nav-section">レポート</div>
+      <a class="navlink" href="${esc(portalUrl())}">ファネルレポートポータル</a>
+      <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
+      <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
+      <a class="navlink" href="${esc(materialsUrl())}">原本素材集</a>
+      <div class="nav-section">現在の素材</div>
       <a class="back-link" href="${esc(homeUrl())}">ファネル一覧へ戻る</a>
       <small class="side-note">${esc(isTimeSeriesStage(stage) ? "全素材を時系列に表示。指摘ありだけ状態表示します。" : "このページをページ素材として、キャプチャと指摘を直接対応させます。")}</small>
       <div class="side-group finding-only">
         ${isTimeSeriesStage(stage) ? `<a class="feedback-link active" href="${esc(stageUrl(stage))}"><span>全体所感</span><strong>${esc(stage.title)}の全体ページ</strong></a>` : ""}
         ${nav}
-      </div>
-      <div class="side-links" aria-label="関連リンク">
-        <a class="navlink" href="${esc(materialsUrl(stage))}">素材一覧へ戻る</a>
-        <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
       </div>
     `;
   }
@@ -508,11 +513,11 @@
     const homeButton = options.showHomeLink === false
       ? ""
       : `<a class="btn" href="${esc(homeUrl())}">ビジュアル全体像</a>`;
+    const inner = `${homeButton}${extra}`.trim();
+    if (!inner) return "";
     return `
       <div class="toolbar">
-        <a class="btn primary" href="${esc(textUrl())}">テキストレポートを開く</a>
-        ${homeButton}
-        ${extra}
+        ${inner}
       </div>
     `;
   }
@@ -570,7 +575,7 @@
         <p class="eyebrow">Visual Feedback / Production Structure Prototype</p>
         <h1>${esc(data.title)}</h1>
         <p class="lead">${esc(data.subtitle)}</p>
-        ${renderToolbar(`<a class="btn" href="${esc(materialsUrl())}">素材集を開く</a>`, { showHomeLink: false })}
+        ${renderToolbar("", { showHomeLink: false })}
       </header>
       ${tanakaSpeech(data.overallSpeech)}
 
@@ -801,7 +806,7 @@
       `).join("");
     const sourceItems = [
       { label: "素材名", value: stage.source },
-      { label: "原本素材集", value: "素材集で確認", href: materialsUrl(stage) },
+      { label: "原本素材集", value: "原本素材集で確認", href: materialsUrl(stage) },
       { label: "テキストレポート", value: data.textReport, href: textUrl() },
     ].map((item) => `
       <li>
@@ -828,7 +833,7 @@
       : "";
     const timeSeriesToolbar = `
       <a class="btn" href="${esc(homeUrl())}">ファネル一覧へ戻る</a>
-      <a class="btn" href="${esc(materialsUrl(stage))}">素材一覧へ戻る</a>
+      <a class="btn" href="${esc(materialsUrl(stage))}">原本素材集で開く</a>
       <a class="btn" href="#stage-feedback-list">個別ステップを見る</a>
     `;
 
@@ -918,7 +923,7 @@
         <p class="eyebrow">${esc(stageFindingLayerLabel(stage))} / 個別指摘 / ${esc(finding.displayId)}</p>
         <h1>${esc(finding.title)}</h1>
         <p class="lead">${esc(stage.title)} の中の、1つの指摘箇所だけを固定表示しています。</p>
-        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">全体所感へ戻る</a><a class="btn" href="${esc(homeUrl())}">ファネル一覧へ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">素材一覧へ戻る</a><a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
+        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">全体所感へ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">原本素材集で開く</a><a class="btn" href="${esc(stage.url)}" target="_blank" rel="noreferrer">素材URLを開く</a>`)}
       </header>
 
       <section class="panel soft">
@@ -1022,7 +1027,7 @@
         <p class="eyebrow">${esc(stageFindingLayerLabel(stage))} / 素材 / ${esc(materialLabel(item))}</p>
         <h1>${esc(item.title)}</h1>
         <p class="lead">${esc(stage.title)} の時系列素材です。${finding ? "この素材には個別フィードバックがあります。" : "この素材は現時点では個別指摘なしです。"}</p>
-        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">全体所感へ戻る</a><a class="btn" href="${esc(homeUrl())}">ファネル一覧へ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">素材一覧へ戻る</a>`)}
+        ${renderToolbar(`<a class="btn" href="${esc(stageUrl(stage))}">全体所感へ戻る</a><a class="btn" href="${esc(materialsUrl(stage))}">原本素材集で開く</a>`)}
       </header>
 
       <section class="panel soft">
@@ -1071,9 +1076,9 @@
     renderLayout(`
       <header class="hero">
         <p class="eyebrow">提出素材HTML</p>
-        <h1>増田 W3EV 5日チャレ 素材集</h1>
+        <h1>増田 W3EV 5日チャレ 原本素材集</h1>
         <p class="lead">メールとLINEの提出素材を、時系列でそのまま確認するためのHTMLです。ビジュアルフィードバックで迷ったら、ここから元素材へ戻ります。</p>
-        ${renderToolbar(`<a class="btn" href="${esc(homeUrl())}">ビジュアルレポートへ戻る</a>`, { showHomeLink: false })}
+        ${renderToolbar("", { showHomeLink: false })}
       </header>
       ${groups || `<section class="panel"><p>表示できる素材がありません。</p></section>`}
     `, "materials");
