@@ -315,6 +315,12 @@ async function main() {
     /訴求評価/g,
   ];
   checkNoForbiddenTerms("visual/materials.html", materialEvaluationTerms, "does not include evaluation content");
+  assert(
+    !materials.includes("原本を読む") &&
+      !materials.includes("原本MD") &&
+      !materials.includes("MDとして直接"),
+    "materials.html does not expose raw MD navigation labels",
+  );
   const materialsReportLinks = [...materials.matchAll(/href=["'](?:\.\/|\.\.\/)?(?:visual\/)?([^"']+?\.html)(?:[?#][^"']*)?["']/g)]
     .map((match) => match[0])
     .filter((href) => /(?:optin-lp|thanks|stepmail|line-step|live-day[0-9]|consult-lp|seminar-lp|openchat)\.html/.test(href));

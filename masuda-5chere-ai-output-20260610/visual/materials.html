@@ -396,10 +396,7 @@ pre {
     <div class="wrap">
       <p class="eyebrow">Source Materials / 2026-06-01 Funnel Snapshot</p>
       <h1>増田 W3EV 5日チャレ 原本素材集</h1>
-      <p class="lead">このページは、分析レポートではなく素材台帳です。実際の公開URL、保存済み原本ファイル、LP本文・動画書き起こし・ステップメール/LINE本文を分けて確認できます。</p>
-      <div class="toolbar">
-        <a class="btn primary" href="#viewer">原本を読む</a>
-      </div>
+      <p class="lead">このページは、分析レポートではなく素材台帳です。実際の公開URL、LP本文・動画書き起こし・ステップメール/LINE本文を分けて確認できます。</p>
       <section id="materialActions" class="material-actions" hidden></section>
 
       <section id="viewer" class="section">
@@ -418,7 +415,7 @@ pre {
 
       <section id="quick" class="section">
         <h2>取得済み素材一覧</h2>
-        <p class="section-lead">参考ページと同じく、LP・動画書き起こし・ステップメール・LINE本文・チャットログを原本MDとして直接開ける一覧です。</p>
+        <p class="section-lead">LP・動画書き起こし・ステップメール・LINE本文・チャットログを、このページ内で確認できる一覧です。</p>
         <div id="quickGroups" class="quick-groups"></div>
       </section>
 
@@ -439,7 +436,7 @@ pre {
       </section>
 
       <section id="files" class="section">
-        <h2>保存済みMD一覧</h2>
+        <h2>保存済み本文一覧</h2>
         <div id="allFiles" class="all-files"></div>
       </section>
     </div>
@@ -484,12 +481,12 @@ const groupDefs = {
   stepmail: {
     title: "ステップメール",
     category: "ステップメール",
-    lead: "メール配信を1通ずつ原本MDで確認します。",
+    lead: "メール配信を1通ずつ保存済み本文で確認します。",
   },
   line: {
     title: "ステップLINE",
     category: "LINE配信",
-    lead: "LINE配信を1通ずつ原本MDで確認します。",
+    lead: "LINE配信を1通ずつ保存済み本文で確認します。",
   },
 };
 
@@ -583,7 +580,7 @@ function renderSidebar(mode = "root", activeIndex = 0) {
     '<div class="nav-section">素材台帳</div>' +
     '<a class="navlink" href="#urls">URL対応表</a>' +
     '<a class="navlink" href="#quick">取得済み素材一覧</a>' +
-    '<a class="navlink" href="#files">保存済みMD一覧</a>';
+    '<a class="navlink" href="#files">保存済み本文一覧</a>';
   bindSidebarNav();
 }
 
@@ -593,7 +590,7 @@ function renderSummary() {
     return acc;
   }, {});
   const cards = [
-    ["全原本MD", state.files.length],
+    ["保存済み本文", state.files.length],
     ["LP/ページ本文", counts["LP/ページ本文"] || 0],
     ["動画書き起こし", counts["動画書き起こし"] || 0],
     ["ステップメール", counts["ステップメール"] || 0],
@@ -635,7 +632,6 @@ function renderQuickGroups() {
         const title = primary ? primary.title : file.title;
         return '<li>' +
           '<a href="#viewer" data-index="' + file.index + '">' + escapeHtml(title) + '</a>' +
-          ' <a href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">MD</a>' +
           '<small>' + escapeHtml(file.path) + '</small>' +
         '</li>';
       }).join("") + '</ul>' +
@@ -673,7 +669,6 @@ function renderAllFiles() {
     return '<article class="file-card">' +
       '<strong>' + escapeHtml(file.title) + '</strong>' +
       '<span>' + escapeHtml(file.category) + '</span><br>' +
-      '<a href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">原本MDを開く</a> / ' +
       '<a href="#viewer" data-index="' + index + '">このページで読む</a>' +
     '</article>';
   }).join("");
@@ -745,7 +740,6 @@ async function loadFile(index) {
     primary && primary.actualUrl
       ? '<a href="' + escapeHtml(primary.actualUrl) + '" target="_blank" rel="noopener">実際URL</a>'
       : "",
-    '<a href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">原本MD</a>',
   ].filter(Boolean).join("");
 
   viewerBody.textContent = "読み込んでいます...";
@@ -814,17 +808,16 @@ function renderMaterialActions(file, primary) {
   const helper = isVideo
     ? "動画素材は、Vimeoなどの原本URLと書き起こし本文だけをシンプルに確認します。"
     : isPage
-      ? "LP/ページ素材は、公開URLと保存済みMD本文を確認します。"
-      : "原本MDを直接確認します。";
+      ? "LP/ページ素材は、公開URLと保存済み本文を確認します。"
+      : "保存済み本文をこのページ内で確認します。";
+  const directLabel = isVideo ? "動画URLを開く" : isPage ? "公開ページを開く" : "実際URLを開く";
   materialActions.hidden = false;
   materialActions.innerHTML =
     '<h2>' + escapeHtml(title) + '</h2>' +
     '<p>' + escapeHtml(helper) + '</p>' +
     (directUrl ? '<div class="material-direct"><span>' + escapeHtml(kind) + ' 原本URL</span><a href="' + escapeHtml(directUrl) + '" target="_blank" rel="noopener">' + escapeHtml(directUrl) + '</a></div>' : '') +
     (isVideo && videoEmbedUrl(directUrl) ? '<div class="video-embed"><iframe src="' + escapeHtml(videoEmbedUrl(directUrl)) + '" title="' + escapeHtml(title) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>' : '') +
-    '<div class="toolbar">' +
-      '<a class="btn" href="' + escapeHtml(file.href) + '" target="_blank" rel="noopener">原本を読む（移動）</a>' +
-    '</div>';
+    (directUrl ? '<div class="toolbar"><a class="btn" href="' + escapeHtml(directUrl) + '" target="_blank" rel="noopener">' + escapeHtml(directLabel) + '</a></div>' : '');
 }
 
 function videoEmbedUrl(url) {
