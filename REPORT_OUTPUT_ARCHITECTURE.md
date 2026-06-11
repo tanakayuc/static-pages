@@ -4,6 +4,18 @@
 
 目的は、AIや担当者が変わっても「ビジュアルレポート」「テキストレポート」「原本素材集」の動線が崩れないようにすることです。
 
+## 正本と更新順序
+
+このファイルが添削出力のページ構造・リンク生成ルールの正本です。
+
+仕様を変更する場合は、必ず同じ変更単位で以下を更新します。
+
+1. `REPORT_OUTPUT_ARCHITECTURE.md`
+2. `REPORT_OUTPUT_CHECKLIST.md`
+3. `scripts/check-report-output.mjs`
+
+3つが揃っていない変更は、実装完了として扱いません。
+
 ## 基本方針
 
 - 添削出力は「ファネルレポートポータル」を入口にする
@@ -43,6 +55,14 @@
 
 暫定的に `text-report.html` へ集約する場合でも、サイドバーの素材リンクをページ内アンカーだけにし続けるのは最終仕様ではありません。最終仕様では、素材ごとのテキストページを作ります。
 
+### テキストレポートの暫定運用
+
+新規作成・既存改修の最終成果物では、素材別テキストレポートを必ず `text/<materialId>.html` として生成します。
+
+`text-report.html#<materialId>` のページ内アンカー運用は、過去版の一時保守、緊急公開、または素材数が3点以下の単発添削のみ許可する暫定措置です。ステップ配信、ライブ、複数LPを含むファネルでは、素材別テキストページを作ることを原則とします。
+
+暫定アンカー運用を使う場合、顧客向けHTMLには「暫定」「未実装」などの内部事情を表示しません。完了報告または検収メモに、暫定理由、対象素材、解消予定を記録します。
+
 ## URL生成ルール
 
 素材ごとに、必ず安定した `materialId` を持たせます。
@@ -54,7 +74,38 @@
 | ステップメール | `stepmail` | `visual/stepmail.html` | `text/stepmail.html` | `visual/materials.html?group=stepmail` |
 | ステップLINE | `line-step` | `visual/line-step.html` | `text/line-step.html` | `visual/materials.html?group=line-step` |
 | ライブ1 | `live-day1` | `visual/live-day1.html` | `text/live-day1.html` | `visual/materials.html?item=live-day1` |
+| ライブ2 | `live-day2` | `visual/live-day2.html` | `text/live-day2.html` | `visual/materials.html?item=live-day2` |
+| ライブ3 | `live-day3` | `visual/live-day3.html` | `text/live-day3.html` | `visual/materials.html?item=live-day3` |
+| ライブ4 | `live-day4` | `visual/live-day4.html` | `text/live-day4.html` | `visual/materials.html?item=live-day4` |
+| ライブ5 | `live-day5` | `visual/live-day5.html` | `text/live-day5.html` | `visual/materials.html?item=live-day5` |
 | 個別説明会ページ | `consult-lp` | `visual/consult-lp.html` | `text/consult-lp.html` | `visual/materials.html?item=consult-lp` |
+| 体験セミナー誘導ページ | `seminar-lp` | `visual/seminar-lp.html` | `text/seminar-lp.html` | `visual/materials.html?item=seminar-lp` |
+| 追加セミナー1 | `tsuika-seminar1` | `visual/tsuika-seminar1.html` | `text/tsuika-seminar1.html` | `visual/materials.html?item=tsuika-seminar1` |
+| 追加セミナー2 | `tsuika-seminar2` | `visual/tsuika-seminar2.html` | `text/tsuika-seminar2.html` | `visual/materials.html?item=tsuika-seminar2` |
+| オープンチャット | `openchat` | `visual/openchat.html` | `text/openchat.html` | `visual/materials.html?group=openchat` |
+
+### `?item=` と `?group=` の使い分け
+
+- 単体素材は `visual/materials.html?item=<materialId>` に遷移する
+- 複数通・複数投稿を束ねる素材は `visual/materials.html?group=<materialId>` に遷移する
+
+例:
+
+- LP、サンクス、ライブ、説明会LP、体験セミナー、追加セミナー: `?item=...`
+- ステップメール、ステップLINE、オープンチャット: `?group=...`
+
+### 相対リンク変換ルール
+
+仕様書内の `visual/<materialId>.html`、`text/<materialId>.html`、`visual/materials.html?...` は、すべて `<report-slug>/` を基準にした論理URLです。
+
+実際のHTMLに出力する `href` は、現在ページの階層に応じて相対パスへ変換します。
+
+例:
+
+- `index.html` からオプトインLPのビジュアルへ: `visual/optin-lp.html`
+- `visual/live-day1.html` からオプトインLPのビジュアルへ: `optin-lp.html`
+- `text/live-day1.html` からオプトインLPのテキストへ: `optin-lp.html`
+- `text/live-day1.html` から素材集のライブ1へ: `../visual/materials.html?item=live-day1`
 
 ### 禁止ルール
 
@@ -102,6 +153,10 @@
 
 つまり、同じ「オプトインLP」という表示でも、ページ種別によってリンク先を切り替えます。
 
+ここでいう「固定」とは、全ページで同じ表示項目・表示順・ラベルを維持することです。CSS上の `position: fixed` を必須にする意味ではありません。デスクトップでは左側に常時表示し、モバイルでは同じ項目を開閉式メニューにしてかまいません。
+
+`visual-report.html` と `visual/<materialId>.html` は、どちらもページ種別としては「ビジュアルレポート」です。`text-report.html` と `text/<materialId>.html` は、どちらもページ種別としては「テキストレポート」です。したがって、素材リンクの遷移先は全体ページと個別ページで変えません。
+
 ## 3種類の役割分担
 
 ### ファネルレポートポータル
@@ -116,6 +171,7 @@
 ### ビジュアルレポート
 
 役割は、素材とフィードバックの対応を視覚的に確認することです。
+想定読者は、田中祐一本人、添削担当者、レビューを受けるクライアントです。対面レビューや画面共有で「どこを見て、何を直すか」を確認するための画面です。
 
 - 左側に素材キャプチャ、動画代表フレーム、または書き起こし本文を置く
 - 右側に番号順のフィードバックを置く
@@ -139,14 +195,19 @@
 ### 原本素材集
 
 役割は、添削対象の原本を見返すことです。
+想定読者は、田中祐一本人、添削担当者、原本確認が必要な関係者です。評価を読む画面ではなく、「何を添削対象にしたか」を確認する台帳です。
 
 - 評価、改善案、キャプチャ評価を入れない
+- 入れてよい情報は、原本URL、取得日時、素材種別、保存済みMDリンク、本文、書き起こし、通数、投稿日などの客観情報に限る
+- 入れてはいけない情報は、良い点、悪い点、改善案、優先度、CVR評価、導線評価、キャプチャ評価、訴求評価、担当者コメント
 - 冒頭に原本URLを置く
 - 動画は可能なら埋め込み、難しければ原本URLを明示する
 - 動画書き起こしには10分ごとのタイムスタンプを入れる
 - LPは実際のURL、保存済みMD、画面テキスト全文を置く
 - ステップメール/LINEは一覧から1段深く入り、各通の本文を確認できるようにする
 - 2カラムで比較するのはビジュアルレポートだけ。素材集は原本確認を優先する
+
+ビジュアルレポート用のキャプチャ評価データをJSやJSONに持つ場合でも、原本素材集としてレンダリングされるDOMには評価内容を表示しません。
 
 ## 素材タイプ別チェック観点
 

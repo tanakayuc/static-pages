@@ -22,11 +22,37 @@ const reportDir = path.resolve(repoRoot, reportArg);
 const failures = [];
 const passes = [];
 
+const standardMaterials = [
+  { id: "optin-lp", label: "オプトインLP", mode: "item" },
+  { id: "thanks", label: "サンキューページ", mode: "item" },
+  { id: "stepmail", label: "ステップメール", mode: "group" },
+  { id: "line-step", label: "ステップLINE", mode: "group" },
+  { id: "live-day1", label: "ライブ1", mode: "item" },
+  { id: "live-day2", label: "ライブ2", mode: "item" },
+  { id: "live-day3", label: "ライブ3", mode: "item" },
+  { id: "live-day4", label: "ライブ4", mode: "item" },
+  { id: "live-day5", label: "ライブ5", mode: "item" },
+  { id: "consult-lp", label: "個別説明会ページ", mode: "item" },
+  { id: "seminar-lp", label: "体験セミナー誘導ページ", mode: "item" },
+  { id: "tsuika-seminar1", label: "追加セミナー1", mode: "item", optional: true },
+  { id: "tsuika-seminar2", label: "追加セミナー2", mode: "item", optional: true },
+  { id: "openchat", label: "オープンチャット", mode: "group" },
+];
+
+const materialIdPattern = standardMaterials.map((item) => item.id).join("|");
+
 const forbiddenTerms = [
   /田中祐一[ー―−-]?OS/g,
   /ナレッジOS/g,
   /TanakaKnowledgeOS/g,
   /TANAKA YUICHI OS/g,
+];
+
+const forbiddenCustomerTerms = [
+  /3点セット/g,
+  /第[123]層/g,
+  /作業指示/g,
+  /内部検討/g,
 ];
 
 function valueAfter(flag) {
@@ -60,11 +86,32 @@ function read(relativePath) {
   return fs.readFileSync(filePath, "utf8");
 }
 
-function checkNoForbiddenTerms(relativePath) {
-  const text = read(relativePath);
+function walkFiles(dir, predicate, results = []) {
+  if (!fs.existsSync(dir)) return results;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const entryPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      walkFiles(entryPath, predicate, results);
+    } else if (predicate(entryPath)) {
+      results.push(entryPath);
+    }
+  }
+  return results;
+}
+
+function toRelative(filePath) {
+  return path.relative(reportDir, filePath).split(path.sep).join("/");
+}
+
+function checkNoForbiddenTerms(relativePath, patterns = forbiddenTerms, label = "has no old Tanaka OS branding") {
+  const isAbsolutePath = typeof relativePath === "string" && path.isAbsolute(relativePath);
+  const text = isAbsolutePath || typeof relativePath !== "string"
+    ? fs.readFileSync(relativePath, "utf8")
+    : read(relativePath);
   if (!text) return;
-  const found = forbiddenTerms.flatMap((pattern) => text.match(pattern) || []);
-  assert(found.length === 0, `${relativePath} has no old Tanaka OS branding`);
+  const found = patterns.flatMap((pattern) => text.match(pattern) || []);
+  const displayPath = isAbsolutePath || typeof relativePath !== "string" ? toRelative(relativePath) : relativePath;
+  assert(found.length === 0, `${displayPath} ${label}`);
   if (found.length > 0) {
     console.error(`  found: ${[...new Set(found)].join(", ")}`);
   }
@@ -85,7 +132,8 @@ function loadSourceMaterials() {
     return null;
   }
 
-  return context.window.MASUDA_SOURCE_MATERIALS || null;
+  const sourceKey = Object.keys(context.window).find((key) => key.endsWith("_SOURCE_MATERIALS"));
+  return sourceKey ? context.window[sourceKey] : null;
 }
 
 function normalizeHref(href) {
@@ -207,6 +255,24 @@ async function main() {
     checkNoForbiddenTerms(file);
   }
 
+  const customerFacingFiles = walkFiles(reportDir, (filePath) => {
+    if (filePath.includes(`${path.sep}visual${path.sep}source${path.sep}`)) return false;
+    return /\.(html|js|css)$/i.test(filePath);
+  });
+  assert(customerFacingFiles.length > 0, "customer-facing HTML/JS/CSS files are discoverable");
+  for (const filePath of customerFacingFiles) {
+    checkNoForbiddenTerms(filePath, forbiddenTerms, "has no old Tanaka OS branding");
+    checkNoForbiddenTerms(filePath, forbiddenCustomerTerms, "has no internal report terminology");
+  }
+
+  const publicSourceFiles = walkFiles(path.join(reportDir, "visual", "source"), (filePath) =>
+    /\.(md|txt|html)$/i.test(filePath),
+  );
+  assert(publicSourceFiles.length > 0, "public source material files are discoverable");
+  for (const filePath of publicSourceFiles) {
+    checkNoForbiddenTerms(filePath, forbiddenTerms, "has no old Tanaka OS branding");
+  }
+
   const textReport = read("text-report.html");
   assert(
     /<aside class="(sidebar|side)"/.test(textReport),
@@ -223,8 +289,10 @@ async function main() {
   assert(textReport.includes('id="priority-summary"'), "text-report.html has priority summary section");
   assert(textReport.includes("優先度 高") && textReport.includes("優先度 中") && textReport.includes("優先度 小"), "text-report.html classifies priority as high/medium/small");
   assert(!textReport.includes(">大</td>") && !textReport.includes("優先度: 低"), "text-report.html has no old priority wording");
-  const materialVisualHrefPattern =
-    /href="visual\/(optin-lp|thanks|stepmail|line-step|live-day[0-9]|consult-lp|seminar-lp|openchat)\.html/g;
+  const materialVisualHrefPattern = new RegExp(
+    `href=["'](?:https?:\\/\\/[^"']+\\/static-pages\\/[^"']+\\/|\\/static-pages\\/[^"']+\\/|\\.\\.\\/|\\.\\/)?visual\\/(${materialIdPattern})\\.html`,
+    "g",
+  );
   const materialVisualHrefs = [...textReport.matchAll(materialVisualHrefPattern)].map((match) => match[0]);
   assert(
     materialVisualHrefs.length === 0,
@@ -236,6 +304,27 @@ async function main() {
 
   const materials = read("visual/materials.html");
   const reportApp = read("visual/report-app.js");
+  const materialEvaluationTerms = [
+    /良い点/g,
+    /改善案/g,
+    /改善すると良い点/g,
+    /優先度\s*[高中小]/g,
+    /キャプチャ評価/g,
+    /CVR評価/g,
+    /導線評価/g,
+    /訴求評価/g,
+  ];
+  checkNoForbiddenTerms("visual/materials.html", materialEvaluationTerms, "does not include evaluation content");
+  const materialsReportLinks = [...materials.matchAll(/href=["'](?:\.\/|\.\.\/)?(?:visual\/)?([^"']+?\.html)(?:[?#][^"']*)?["']/g)]
+    .map((match) => match[0])
+    .filter((href) => /(?:optin-lp|thanks|stepmail|line-step|live-day[0-9]|consult-lp|seminar-lp|openchat)\.html/.test(href));
+  assert(
+    materialsReportLinks.length === 0,
+    "materials.html source navigation does not jump to report material pages",
+  );
+  if (materialsReportLinks.length > 0) {
+    console.error(`  found: ${[...new Set(materialsReportLinks)].join(", ")}`);
+  }
   const homeRender = renderVisualStage("home");
   assert(homeRender.html.includes("指摘件数と優先度内訳"), "visual report home shows priority breakdown");
   assert(homeRender.html.includes("優先度 高") && homeRender.html.includes("優先度 中") && homeRender.html.includes("優先度 小"), "visual report home uses high/medium/small priority labels");
@@ -272,18 +361,9 @@ async function main() {
   assert(materials.includes("URL・保存済み原本対応表"), "materials.html has URL/source mapping table");
   assert(materials.includes("summary-card"), "materials.html has category summary cards");
   assert(materials.includes("quickGroups"), "materials.html renders quick source groups");
-  const requiredMaterialNavItems = [
-    "オプトインLP",
-    "サンキューページ",
-    "ステップメール",
-    "ステップLINE",
-    "ライブ1",
-    "ライブ2",
-    "ライブ3",
-    "ライブ4",
-    "ライブ5",
-    "個別説明会ページ",
-  ];
+  const requiredMaterialNavItems = standardMaterials
+    .filter((item) => !item.optional)
+    .map((item) => item.label);
   const missingMaterialNavItems = requiredMaterialNavItems.filter((item) => !materials.includes(item));
   assert(
     missingMaterialNavItems.length === 0,
