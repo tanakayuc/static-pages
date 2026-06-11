@@ -696,10 +696,6 @@
           <dt>解決策案</dt>
           <dd>${esc(finding.proposal)}</dd>
         </div>
-        <div>
-          <dt>テキストレポート対応</dt>
-          <dd>${esc(finding.textPairing)}</dd>
-        </div>
       </dl>
     `;
   }
@@ -882,7 +878,6 @@
     const sourceItems = [
       { label: `${stageLayerLabel(stage)}素材`, value: stage.title, href: stageUrl(stage) },
       { label: "固定ID", value: finding.stableId },
-      { label: "テキストレポート対応", value: finding.textPairing, href: textUrl() },
     ].map((item) => `
       <li>
         <strong>${esc(item.label)}:</strong>
