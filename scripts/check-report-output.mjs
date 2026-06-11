@@ -53,6 +53,7 @@ const forbiddenCustomerTerms = [
   /第[123]層/g,
   /作業指示/g,
   /内部検討/g,
+  /テキストレポート対応/g,
 ];
 
 function valueAfter(flag) {
@@ -340,6 +341,7 @@ async function main() {
       !reportApp.includes('{ sidebar: "findings", stage'),
     "visual report does not force finding sidebar on all stage pages",
   );
+  assert(!reportApp.includes("textPairing"), "visual report renderer does not expose text report pairing metadata");
   assert(!reportApp.includes("参照元素材URL"), "visual report avoids duplicate source URL labels");
   const optinRender = renderVisualStage("optin-lp");
   assert(
@@ -351,6 +353,7 @@ async function main() {
   assert(optinRender.side.includes("Live 5"), "optin visual sidebar can navigate to other first-level materials");
   assert(!optinRender.side.includes("ファーストビュー"), "optin visual sidebar does not duplicate right-side feedback items");
   assert(!optinRender.html.includes("素材集を開く"), "optin visual header does not duplicate source/material links");
+  assert(!optinRender.html.includes("テキストレポート対応"), "optin visual feedback hides internal text report pairing labels");
   assert(optinRender.html.includes("優先度 高の指摘") && optinRender.html.includes("優先度 中の指摘") && optinRender.html.includes("優先度 小の指摘"), "optin visual feedback is grouped by high/medium/small priority");
   const stepmailRender = renderVisualStage("stepmail");
   assert(
