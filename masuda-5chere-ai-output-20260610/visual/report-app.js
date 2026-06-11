@@ -531,22 +531,6 @@
       </a>
     `).join("");
 
-    const stageCards = numberedStages.map((stage) => {
-      const counts = priorityCounts(stage.findings);
-      return `
-        <a class="card clickable" href="${esc(stageUrl(stage))}">
-          <small>${esc(stageLayerLabel(stage))}: ${esc(stage.no)}</small>
-          <h3>${esc(stage.title)}</h3>
-          <p>${esc(stage.subtitle)}</p>
-          <div class="chip-row">
-            ${renderPriorityChips(counts)}
-            <span class="chip">${esc(stageFindingLayerLabel(stage))} ${esc(stageLayerCount(stage))}</span>
-            ${stage.kind === "mock" ? '<span class="chip">代表箇所</span>' : ''}
-          </div>
-        </a>
-      `;
-    }).join("");
-
     const questions = data.questions.map((question) => `
       <div class="card">
         <h3>${esc(question.title)}</h3>
@@ -607,11 +591,6 @@
       <section class="section">
         <h2>全体フローから各URLへ</h2>
         <div class="flow">${flow}</div>
-      </section>
-
-      <section class="section">
-        <h2>ステージ別レポート</h2>
-        <div class="stage-grid">${stageCards}</div>
       </section>
 
       <section class="section">
