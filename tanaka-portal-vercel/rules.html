@@ -4,39 +4,237 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ルール集 | PLCのAIポータル</title>
-<meta name="description" content="PLC受講生向けの田中祐一式AI運用ルール集">
+<meta name="description" content="Cursor / Claude Code / Codex で田中式の挙動を再現するための共通ルール集。AI環境の土台">
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 <script>
-tailwind.config={theme:{extend:{colors:{katsuo:{50:'#F0FAF8',500:'#2CB596',600:'#189B7D',700:'#107561'}},fontFamily:{sans:['-apple-system','BlinkMacSystemFont','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic UI','Segoe UI','Meiryo','sans-serif']}}}}
+tailwind.config = { theme: { extend: { colors: { brand: { 50:'#fff7f3',500:'#e8663c',600:'#c44e28',700:'#9e3d1f'} }, fontFamily: { sans: ['-apple-system','BlinkMacSystemFont','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic UI','Segoe UI','Meiryo','sans-serif'] } } } }
 </script>
+<style>
+  html { scroll-behavior: smooth; }
+  .rule-card { transition: all 0.2s ease; }
+  .rule-card:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+</style>
 </head>
-<body class="bg-katsuo-50 text-slate-800 antialiased">
-<main class="max-w-5xl mx-auto px-5 py-10 sm:py-14">
-  <a href="/" class="inline-flex items-center gap-2 text-katsuo-700 font-bold no-underline mb-8">← PLCのAIポータルへ戻る</a>
-  <header class="bg-white border border-emerald-100 rounded-2xl p-7 sm:p-10 shadow-sm mb-8">
-    <p class="text-katsuo-600 font-extrabold tracking-wide mb-2">RULES</p>
-    <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-950 leading-tight mb-4">ルール集</h1>
-    <p class="text-lg sm:text-xl text-slate-600 font-medium leading-relaxed">Cursor、Claude Code、CodexなどのAI環境で、田中式の判断を再現するための共通ルールです。</p>
-  </header>
+<body class="bg-slate-50 text-slate-800 antialiased leading-relaxed min-h-screen">
 
-  <section class="grid grid-cols-1 md:grid-cols-2 gap-5">
-    <a class="block bg-white rounded-2xl border border-slate-200 p-6 no-underline text-inherit hover:-translate-y-1 hover:shadow-lg transition" href="https://github.com/tanakayuc/theleadpromotion/blob/main/AGENTS.md">
-      <h2 class="text-2xl font-extrabold text-slate-950 mb-2">AIエージェント共通入口</h2>
-      <p class="text-slate-600 font-medium leading-relaxed">全AIコーディングエージェントが最初に読む共通ルールの入口です。</p>
+<!-- Hero -->
+<header class="relative overflow-hidden bg-gradient-to-br from-violet-600 via-purple-600 to-violet-700">
+  <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+  <div class="relative max-w-4xl mx-auto px-5 pt-6 pb-14 sm:pt-8 sm:pb-20 text-white">
+    <a href="/" class="inline-flex items-center gap-1.5 text-base text-white/70 hover:text-white transition mb-6">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+      ポータルトップへ戻る
     </a>
-    <a class="block bg-white rounded-2xl border border-slate-200 p-6 no-underline text-inherit hover:-translate-y-1 hover:shadow-lg transition" href="https://github.com/tanakayuc/theleadpromotion/tree/main/rules">
-      <h2 class="text-2xl font-extrabold text-slate-950 mb-2">ルール一覧</h2>
-      <p class="text-slate-600 font-medium leading-relaxed">出力形式、命名規則、ナレッジ管理、セキュリティなどのマスター一覧。</p>
-    </a>
-    <a class="block bg-white rounded-2xl border border-slate-200 p-6 no-underline text-inherit hover:-translate-y-1 hover:shadow-lg transition" href="https://github.com/tanakayuc/theleadpromotion/blob/main/rules/%E5%87%BA%E5%8A%9B%E5%BD%A2%E5%BC%8F%E3%83%BB%E6%94%B9%E8%A1%8C%E3%83%AB%E3%83%BC%E3%83%AB.md">
-      <h2 class="text-2xl font-extrabold text-slate-950 mb-2">出力形式・改行ルール</h2>
-      <p class="text-slate-600 font-medium leading-relaxed">AIの文章出力を読みやすく整えるための基本ルール。</p>
-    </a>
-    <a class="block bg-white rounded-2xl border border-slate-200 p-6 no-underline text-inherit hover:-translate-y-1 hover:shadow-lg transition" href="https://github.com/tanakayuc/theleadpromotion/blob/main/rules/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%91%BD%E5%90%8D%E8%A6%8F%E5%89%87.md">
-      <h2 class="text-2xl font-extrabold text-slate-950 mb-2">ファイル命名規則</h2>
-      <p class="text-slate-600 font-medium leading-relaxed">成果物やナレッジをあとから探しやすくするための命名ルール。</p>
-    </a>
+    <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2 text-base mb-5" data-aos="fade-down">
+      <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-base">📐</span>
+      ルール集 ─ 基盤
+    </div>
+    <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4" data-aos="fade-up">
+      AI環境を田中式に揃えたい方はこちら
+    </h1>
+    <p class="text-lg sm:text-xl text-white/90 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+      Cursor / Claude Code / Codex で田中式の挙動を再現するための共通ルール集。AI環境の土台です
+    </p>
+  </div>
+</header>
+
+<!-- How to use -->
+<section class="max-w-4xl mx-auto px-5 -mt-8 relative z-10 mb-10" data-aos="fade-up">
+  <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6 sm:p-7">
+    <div class="flex items-start gap-4">
+      <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center text-xl">💡</div>
+      <div>
+        <h2 class="text-xl font-bold text-slate-800 mb-2">ルールとは何か</h2>
+        <p class="text-lg text-slate-700 leading-relaxed font-medium">あなたのCursor / Claude Code / Codex に組み込むことで、AIが「田中式の判断基準」で動くようになるためのファイル群です。<strong class="text-slate-800">テンプレートを使う前の土台</strong>として一度設定すると、その後のAI作業の質が大きく変わります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Rules by Category -->
+<main class="max-w-4xl mx-auto px-5 mb-12 space-y-8">
+
+  <!-- 設計思想 -->
+  <section data-aos="fade-up">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-xl">🏛️</div>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">設計思想</h2>
+        <p class="text-base text-slate-600">フォルダ構造・3層構造の根本となる考え方</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a href="https://drive.google.com/file/d/1fOQNqi_62bMsYeGbp2Pl_QTVaOZwrlmN/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🧭</span><div><div class="font-bold text-lg">3層構造の設計思想</div><div class="text-base text-slate-700 mt-1 font-medium">マスター/ラッパー/個別の3層なぜ必要か</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1YtkG9mXFWVpXbV4xW_3dUs-UGSgWhLld/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">📐</span><div><div class="font-bold text-lg">3層構造ルール</div><div class="text-base text-slate-700 mt-1 font-medium">3層構造の具体的な運用ルール</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1Yvq0i4HbpnXTLFj-4KNvA4dShwfmbneh/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🗂️</span><div><div class="font-bold text-lg">フォルダ構造</div><div class="text-base text-slate-700 mt-1 font-medium">プロジェクトのフォルダ階層</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1GLe1g-SeDY0a4FA8Y6GQe4z5Q9zFLI0z/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🔄</span><div><div class="font-bold text-lg">データパイプライン</div><div class="text-base text-slate-700 mt-1 font-medium">データの流れ・受け渡し設計</div></div>
+      </a>
+    </div>
   </section>
+
+  <!-- AI連携・出力 -->
+  <section data-aos="fade-up">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-xl">🤖</div>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">AI連携・出力</h2>
+        <p class="text-base text-slate-600">AIに田中式の出力をさせるためのルール</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a href="https://drive.google.com/file/d/1dh9ZFMQzsYZU4mNJv0PZF2eGzlh4MMTU/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🚫</span><div><div class="font-bold text-lg">AIっぽい表現を避ける</div><div class="text-base text-slate-700 mt-1 font-medium">人間味のある文章にする型</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1oEW9WRBTmV1_6mer7Zyd1lb7ccgwsJCr/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">📝</span><div><div class="font-bold text-lg">ノウハウまとめ方</div><div class="text-base text-slate-700 mt-1 font-medium">ノウハウのドキュメント化</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1-b4TS7zkoSvYctNPrsU9CuveUmEoTbZ-/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">📖</span><div><div class="font-bold text-lg">言い換え辞書</div><div class="text-base text-slate-700 mt-1 font-medium">表記ゆれ・専門用語の統一</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1psVuUhok92CPDpAL5tgx_A1ZYcvTyYO9/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">✅</span><div><div class="font-bold text-lg">Codex検証ワークフロー</div><div class="text-base text-slate-700 mt-1 font-medium">Codexでの確認手順</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 個人情報・セキュリティ -->
+  <section data-aos="fade-up">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center text-xl">🔒</div>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">個人情報・セキュリティ</h2>
+        <p class="text-base text-slate-600">情報の扱い方・アクセス制御</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a href="https://drive.google.com/file/d/1HuuYfqae5izDqvct6yb5XWMabph9Ybt_/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">👤</span><div><div class="font-bold text-lg">個人情報・プライバシー・人事情報の扱い</div><div class="text-base text-slate-700 mt-1 font-medium">機密度別の扱い方</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1ZWdhIytGp9uThbcaAoNEqnRnbbDfLFdH/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🔑</span><div><div class="font-bold text-lg">アクセスポリシー</div><div class="text-base text-slate-700 mt-1 font-medium">誰が何を見られるか</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1bjrIQlMV557Hr6VJqqW5VSzg5aBo3nbG/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🛡️</span><div><div class="font-bold text-lg">セキュリティ</div><div class="text-base text-slate-700 mt-1 font-medium">秘密情報の取り扱い</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ワークフロー -->
+  <section data-aos="fade-up">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl">⚙️</div>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">ワークフロー</h2>
+        <p class="text-base text-slate-600">特定タスクの進め方</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a href="https://drive.google.com/file/d/1vyCpWwLhvmTKKgysNJgwXpg24q-5bMS6/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">📝</span><div><div class="font-bold text-lg">議事録の書き方</div><div class="text-base text-slate-700 mt-1 font-medium">議事録の構成・粒度</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1hJwx_CcqS5POgwoc64SU6MbZxE51lvWa/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">👻</span><div><div class="font-bold text-lg">Ghostブログ投稿ワークフロー</div><div class="text-base text-slate-700 mt-1 font-medium">Ghostへの記事投稿手順</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1ZzBJEBQaemgWt2P8uaw1F371G7EHMtX9/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🎨</span><div><div class="font-bold text-lg">スライド構成案とデザイン指示書の同期ルール</div><div class="text-base text-slate-700 mt-1 font-medium">スライドとデザインの連動</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ファイル管理 -->
+  <section data-aos="fade-up">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-xl">📁</div>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">ファイル管理</h2>
+        <p class="text-base text-slate-600">命名規則・出力形式・ナレッジ管理</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a href="https://drive.google.com/file/d/1gP6GFzKcQUhNRtTS6ne6f5Toj9sFDjzG/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🏷️</span><div><div class="font-bold text-lg">ファイル命名規則</div><div class="text-base text-slate-700 mt-1 font-medium">日本語・80文字・Windows互換</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1W93A-mDGtJ2xW6733dQqZkJX_o0RIlct/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">📄</span><div><div class="font-bold text-lg">ファイルフッター</div><div class="text-base text-slate-700 mt-1 font-medium">ファイル末尾の規約</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1TAyD-k1KoZa4PntsALhV3YE7kP2YoZwy/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">↩️</span><div><div class="font-bold text-lg">出力形式・改行ルール</div><div class="text-base text-slate-700 mt-1 font-medium">改行・整形の基準</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1TgKjQWwQj5Lwr2XRxJ753knSBQAekKub/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🧠</span><div><div class="font-bold text-lg">ナレッジ管理ルール</div><div class="text-base text-slate-700 mt-1 font-medium">ナレッジの格納場所</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- パフォーマンス -->
+  <section data-aos="fade-up">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center text-xl">⚡</div>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">パフォーマンス</h2>
+        <p class="text-base text-slate-600">処理速度・メモリ・段階処理の最適化</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a href="https://drive.google.com/file/d/1F3xZ0lMb_zccTGkLJA0Pdm48yGK0wna5/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🚀</span><div><div class="font-bold text-lg">動作軽量化</div><div class="text-base text-slate-700 mt-1 font-medium">AIエージェントの軽量化</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1_JnCB5oa45bjyNsfTDdPLGyDXKCrjG6N/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">💾</span><div><div class="font-bold text-lg">段階的保存方式</div><div class="text-base text-slate-700 mt-1 font-medium">長時間処理の中断対策</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/12YUuKhWzxoUDsB-eW1fBk4VuPoCbHN8g/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🎨</span><div><div class="font-bold text-lg">段階的画像・スライド生成ルール</div><div class="text-base text-slate-700 mt-1 font-medium">画像・スライドの段階処理</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 開発規約 -->
+  <section data-aos="fade-up">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-xl">💻</div>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">開発規約</h2>
+        <p class="text-base text-slate-600">Git・コード・ルール同期の規約</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a href="https://drive.google.com/file/d/18LIMBTv8JulLHX59F7JAkKGQuiJEdrsY/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🔀</span><div><div class="font-bold text-lg">コミット規約</div><div class="text-base text-slate-700 mt-1 font-medium">Gitコミットメッセージ</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1L7rW9wcn28Up2FLfs4_kJ1zezFSgDDr0/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">📏</span><div><div class="font-bold text-lg">コーディング規約</div><div class="text-base text-slate-700 mt-1 font-medium">コードスタイル統一</div></div>
+      </a>
+      <a href="https://drive.google.com/file/d/1u4t41DQx009u_0OZXk2Z8FW0lzmKqW5G/view" target="_blank" rel="noopener" class="rule-card flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200 no-underline text-inherit">
+        <span class="text-xl">🔄</span><div><div class="font-bold text-lg">ルール同期ルール</div><div class="text-base text-slate-700 mt-1 font-medium">ルールの3層同期手順</div></div>
+      </a>
+    </div>
+  </section>
+
 </main>
+
+<!-- Drive Full Access -->
+<section class="max-w-4xl mx-auto px-5 mb-12" data-aos="fade-up">
+  <div class="text-center">
+    <a href="https://drive.google.com/drive/folders/1gpfqejMrT86c4YO2WSmDmjjTNtHERTMF" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-5 py-3 bg-white rounded-xl border border-slate-200 hover:border-violet-300 hover:bg-violet-50 transition shadow-sm no-underline">
+      <span class="text-lg">📂</span>
+      <span class="text-sm font-semibold text-slate-700">ルール集フォルダ全体をDriveで開く</span>
+    </a>
+  </div>
+</section>
+
+<footer class="text-center py-8 text-base text-slate-500 border-t border-slate-200 bg-white">
+  &copy; KATSUO MARKETING ─ <a href="/" class="text-slate-500 hover:text-brand-600">PLCのAIポータル</a>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 600, once: true, offset: 60 });</script>
 </body>
 </html>
