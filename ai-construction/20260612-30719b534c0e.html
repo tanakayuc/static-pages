@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>調査_20260612_スナイパーローンチ重複検証レポート - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item active"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>調査 20260612 スナイパーローンチ重複検証レポート</h1>
+<h2>結論</h2>
+<p>スナイパーローンチマスターの書き起こし7本は、コンセプト商品構築の書き起こし7本と完全一致している。</p>
+<p>SHA-256、ファイルサイズ、行数がすべて一致したため、単なる類似ではなく同一ファイルと判定する。</p>
+<p>スナイパーローンチ固有の書き起こしは、指定された入力ディレクトリ内には存在しない。</p>
+<h2>検証対象</h2>
+<p>比較元:</p>
+<p><code>22_コミュニティサポート/会員サイト/スナイパーローンチマスター/データ原本/</code></p>
+<p>比較先:</p>
+<p><code>22_コミュニティサポート/会員サイト/コンセプト商品構築/データ原本/</code></p>
+<p>検証方法:</p>
+<ol>
+<li>両ディレクトリ配下の全ファイルを <code>find</code> で列挙</li>
+<li>相対パス単位でファイル有無を比較</li>
+<li>両方に存在するファイルは、バイト数・行数・SHA-256で一致判定</li>
+<li>書き起こし本文内の講座名らしき語句を検索</li>
+<li>管理ファイル同士は <code>diff -u</code> で差分を確認</li>
+</ol>
+<h2>ファイル単位のdiff結果</h2>
+<table>
+<thead>
+<tr>
+<th>相対パス</th>
+<th style="text-align: right;">判定</th>
+<th style="text-align: right;">スナイパー側行数</th>
+<th style="text-align: right;">コンセプト側行数</th>
+<th style="text-align: right;">スナイパー側SHA-256先頭12桁</th>
+<th style="text-align: right;">コンセプト側SHA-256先頭12桁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>データ原本_スナイパーローンチマスター.md</code></td>
+<td style="text-align: right;">片側のみ</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;"><code>4a1a0a43b48d</code></td>
+<td style="text-align: right;">-</td>
+</tr>
+<tr>
+<td><code>データ原本_コンセプト商品構築.md</code></td>
+<td style="text-align: right;">片側のみ</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">-</td>
+<td style="text-align: right;"><code>6d8f4381799d</code></td>
+</tr>
+<tr>
+<td><code>書き起こし/20260602_01_chapter1_書き起こし原本.md</code></td>
+<td style="text-align: right;">完全一致</td>
+<td style="text-align: right;">3232</td>
+<td style="text-align: right;">3232</td>
+<td style="text-align: right;"><code>6c8f0327f81b</code></td>
+<td style="text-align: right;"><code>6c8f0327f81b</code></td>
+</tr>
+<tr>
+<td><code>書き起こし/20260602_02_chapter2_書き起こし原本.md</code></td>
+<td style="text-align: right;">完全一致</td>
+<td style="text-align: right;">2756</td>
+<td style="text-align: right;">2756</td>
+<td style="text-align: right;"><code>2137647b37d3</code></td>
+<td style="text-align: right;"><code>2137647b37d3</code></td>
+</tr>
+<tr>
+<td><code>書き起こし/20260602_03_chapter3_書き起こし原本.md</code></td>
+<td style="text-align: right;">完全一致</td>
+<td style="text-align: right;">1319</td>
+<td style="text-align: right;">1319</td>
+<td style="text-align: right;"><code>0d9be54ddb00</code></td>
+<td style="text-align: right;"><code>0d9be54ddb00</code></td>
+</tr>
+<tr>
+<td><code>書き起こし/20260602_04_chapter4_書き起こし原本.md</code></td>
+<td style="text-align: right;">完全一致</td>
+<td style="text-align: right;">2442</td>
+<td style="text-align: right;">2442</td>
+<td style="text-align: right;"><code>06d5e0f083bb</code></td>
+<td style="text-align: right;"><code>06d5e0f083bb</code></td>
+</tr>
+<tr>
+<td><code>書き起こし/20260602_05_chapter5_書き起こし原本.md</code></td>
+<td style="text-align: right;">完全一致</td>
+<td style="text-align: right;">1871</td>
+<td style="text-align: right;">1871</td>
+<td style="text-align: right;"><code>224f58f7116e</code></td>
+<td style="text-align: right;"><code>224f58f7116e</code></td>
+</tr>
+<tr>
+<td><code>書き起こし/20260602_06_chapter6_書き起こし原本.md</code></td>
+<td style="text-align: right;">完全一致</td>
+<td style="text-align: right;">3274</td>
+<td style="text-align: right;">3274</td>
+<td style="text-align: right;"><code>8cfa2a940279</code></td>
+<td style="text-align: right;"><code>8cfa2a940279</code></td>
+</tr>
+<tr>
+<td><code>書き起こし/20260603_07_chapter7_書き起こし原本.md</code></td>
+<td style="text-align: right;">完全一致</td>
+<td style="text-align: right;">1515</td>
+<td style="text-align: right;">1515</td>
+<td style="text-align: right;"><code>c1b171ce9b1f</code></td>
+<td style="text-align: right;"><code>c1b171ce9b1f</code></td>
+</tr>
+</tbody>
+</table>
+<h2>管理ファイルの差分</h2>
+<p>管理ファイルは相対パス名が異なるため、同名比較では片側のみの扱いになる。</p>
+<p>ただし内容を直接 <code>diff -u</code> で比較すると、差分は主に以下だった。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>スナイパーローンチ側</th>
+<th>コンセプト商品構築側</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>タイトル</td>
+<td>データ原本｜スナイパーローンチマスター</td>
+<td>データ原本｜コンセプト商品構築</td>
+</tr>
+<tr>
+<td>対象コース名</td>
+<td>最小のリストから最大の売り上げを生み出す スナイパーローンチマスターセミナー</td>
+<td>見込み客の心をわしづかみしてセールス不要で売れてしまう コンセプト＆商品構築プログラム</td>
+</tr>
+<tr>
+<td>ノウハウまとめリンク</td>
+<td><code>../ノウハウまとめ/ノウハウまとめ_スナイパーローンチマスター.md</code></td>
+<td><code>../ノウハウまとめ/ノウハウまとめ_コンセプト商品構築.md</code></td>
+</tr>
+<tr>
+<td>注記</td>
+<td>スナイパー側に「7ファイルはコンセプト商品構築と完全一致。正しいスナイパーローンチ用書き起こしの再エクスポートが必要」と記載あり</td>
+<td>該当注記なし</td>
+</tr>
+</tbody>
+</table>
+<p>スナイパーローンチ側の管理ファイルには、2026-06-04時点ですでに同一問題と再エクスポート必要の注記が残っていた。</p>
+<h2>本文内容から見た由来判定</h2>
+<p>スナイパーローンチ側に置かれている7本を検索した結果、以下の傾向だった。</p>
+<table>
+<thead>
+<tr>
+<th>ファイル</th>
+<th style="text-align: right;">スナイパー</th>
+<th style="text-align: right;">スナイパーローンチ</th>
+<th style="text-align: right;">コンセプト</th>
+<th style="text-align: right;">商品構築</th>
+<th style="text-align: right;">ローンチ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>20260602_01_chapter1_書き起こし原本.md</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><code>20260602_02_chapter2_書き起こし原本.md</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><code>20260602_03_chapter3_書き起こし原本.md</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><code>20260602_04_chapter4_書き起こし原本.md</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>20260602_05_chapter5_書き起こし原本.md</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><code>20260602_06_chapter6_書き起こし原本.md</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><code>20260603_07_chapter7_書き起こし原本.md</code></td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p>chapter1の冒頭には「コンセプトプラス」「商品の構築のプログラム」「セールズ不要で売れてしまうコンセプト」とあり、chapter7の終盤には「今回のコンセプト&amp;商品構築セミナーは以上で終わりたいと思います」とある。</p>
+<p>これらはコンセプト商品構築の講座内容を示しており、スナイパーローンチマスター固有の書き起こしとは判断できない。</p>
+<p>chapter4に「ローンチ」が1回だけ出るが、文脈は「世界一簡単でお金かけないプロダクトローンチ」という例示であり、スナイパーローンチ講座全体を示す根拠にはならない。</p>
+<h2>スナイパーローンチ固有の書き起こし有無</h2>
+<p>判定: 存在しない。</p>
+<p>理由:</p>
+<ol>
+<li>書き起こし7本がコンセプト商品構築側の同名7本と完全一致</li>
+<li>本文中に「スナイパー」「スナイパーローンチ」の語が0件</li>
+<li>本文冒頭・終盤にコンセプト商品構築を示す発話がある</li>
+<li>スナイパーローンチ側の管理ファイルにも、同一問題と再エクスポート必要の注記がある</li>
+</ol>
+<h2>再エクスポート要否</h2>
+<p>再エクスポートは必要。</p>
+<p>田中さん側で必要な作業は、Thinkific側の「最小のリストから最大の売り上げを生み出す スナイパーローンチマスターセミナー」から、以下の7チャプターを取り直すこと。</p>
+<table>
+<thead>
+<tr>
+<th>取り直し対象</th>
+<th>現在の重複ファイル名</th>
+<th>期待する置き換え先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>スナイパーローンチマスター Chapter 1</td>
+<td><code>20260602_01_chapter1_書き起こし原本.md</code></td>
+<td>同名ファイル</td>
+</tr>
+<tr>
+<td>スナイパーローンチマスター Chapter 2</td>
+<td><code>20260602_02_chapter2_書き起こし原本.md</code></td>
+<td>同名ファイル</td>
+</tr>
+<tr>
+<td>スナイパーローンチマスター Chapter 3</td>
+<td><code>20260602_03_chapter3_書き起こし原本.md</code></td>
+<td>同名ファイル</td>
+</tr>
+<tr>
+<td>スナイパーローンチマスター Chapter 4</td>
+<td><code>20260602_04_chapter4_書き起こし原本.md</code></td>
+<td>同名ファイル</td>
+</tr>
+<tr>
+<td>スナイパーローンチマスター Chapter 5</td>
+<td><code>20260602_05_chapter5_書き起こし原本.md</code></td>
+<td>同名ファイル</td>
+</tr>
+<tr>
+<td>スナイパーローンチマスター Chapter 6</td>
+<td><code>20260602_06_chapter6_書き起こし原本.md</code></td>
+<td>同名ファイル</td>
+</tr>
+<tr>
+<td>スナイパーローンチマスター Chapter 7</td>
+<td><code>20260603_07_chapter7_書き起こし原本.md</code></td>
+<td>同名ファイル</td>
+</tr>
+</tbody>
+</table>
+<p>保存先:</p>
+<p><code>22_コミュニティサポート/会員サイト/スナイパーローンチマスター/データ原本/書き起こし/</code></p>
+<p>注意点:</p>
+<p>現在の7ファイルはコンセプト商品構築の正しい原本と同一なので、再取得後にスナイパーローンチ側だけを差し替える。コンセプト商品構築側の原本は変更不要。</p>
+<h2>判断に迷った箇所</h2>
+<ol>
+<li>スナイパーローンチ側の管理ファイルには「Downloads側のスナイパーローンチフォルダも同内容」と書かれていたが、今回の入力指定は2つの <code>データ原本/</code> 配下だけだったため、Downloads側の再検証はしていない。</li>
+<li>chapter4に「プロダクトローンチ」が1回だけ出てくるが、講座テーマとしてのスナイパーローンチではなく、コンセプト構築説明中の事例として出ているため、固有書き起こしの根拠から除外した。</li>
+<li>Thinkific上の正式なチャプター表示名まではローカル原本から確認できない。再取得依頼では、現行ファイル名に合わせて Chapter 1〜7 と表記した。</li>
+</ol>
+<h2>受け入れ条件の自己検証</h2>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>両ディレクトリの全ファイルをdiff比較した結果がある</td>
+<td>完了。全9相対パスを一覧化</td>
+</tr>
+<tr>
+<td>一致/不一致の一覧がある</td>
+<td>完了。書き起こし7本は完全一致、管理ファイル2本は片側のみ</td>
+</tr>
+<tr>
+<td>スナイパーローンチ固有の書き起こしが存在するか判定している</td>
+<td>完了。存在しないと判定</td>
+</tr>
+<tr>
+<td>再エクスポートが必要な場合、田中さん側の作業が具体化されている</td>
+<td>完了。スナイパーローンチマスター Chapter 1〜7 の取り直しを明記</td>
+</tr>
+</tbody>
+</table>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-12)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: QK8GMGB9<br />
+Generated by: 田中祐一</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260612_田中祐一AI詳細設計書_v1_Codex実行仕様 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item active"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>田中祐一AI 詳細設計書 v1（Codex実行仕様）</h1>
+<p>作成日: 2026-06-12<br />
+ステータス: ドラフト（田中さんレビュー待ち）<br />
+上位文書: <a href="20260612_田中祐一AI定義書_v1.md">20260612_田中祐一AI定義書_v1.md</a><br />
+根拠: 全量監査4本＋深読み抽出テスト3本（個人コンサル12件・グルコン8件・会員サイト548ファイル）</p>
+<hr />
+<h2>0. 実行体制と本書の使い方</h2>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>担当</th>
+<th>責務</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>詳細設計</td>
+<td>Claude（Fable 5）</td>
+<td>本書の作成・更新。WPの分解と受け入れ条件の定義</td>
+</tr>
+<tr>
+<td>実行</td>
+<td>Codex CLI（<code>/goal</code>）</td>
+<td>WPを1つずつ実行。受け入れ条件を満たすまで完了としない</td>
+</tr>
+<tr>
+<td>承認</td>
+<td>田中祐一</td>
+<td>staging に生成された knowledge/configs 提案の承認・却下</td>
+</tr>
+</tbody>
+</table>
+<h3>Codex への起動テンプレート（/goal 用お膳立て）</h3>
+<pre><code>/goal 97_ザ・リード事業/AI構築/20260612_田中祐一AI詳細設計書_v1_Codex実行仕様.md の WP-XX を実行してください。
+- 「実行ガードレール」（1章）を必ず先に読み、全項目を遵守すること
+- WPの「入力」に列挙されたファイルだけを素材とし、「出力」に指定されたパスにだけ書き込むこと
+- 「受け入れ条件」を自己検証し、検証結果をWP完了報告に含めること
+</code></pre>
+<hr />
+<h2>1. 実行ガードレール（全WP共通・違反したら即中断）</h2>
+<ol>
+<li><strong>mainブランチ直接作業のみ</strong>。<code>git checkout -b</code>・<code>git switch -c</code>・worktree作成は禁止。コミットしたら即push</li>
+<li><strong>knowledge/ と configs/ への直接書き込み禁止</strong>。提案はすべて staging（<code>knowledge/_inbox/提案_&lt;WP番号&gt;_&lt;内容&gt;.md</code>）に置く。田中さん承認後の反映は WP-D7 でのみ行う</li>
+<li><strong>13_データ原本保存庫/ の原本（loom/zoom/QA素材）は読み取り専用</strong>。書き込みは <code>_抽出/</code>・<code>_学習資料_*</code>・辞書ファイルのみ</li>
+<li>ファイル名は日本語・80文字以内・Windows非互換文字（<code>\ / : * ? " &lt; &gt; |</code>）禁止。文字コードUTF-8</li>
+<li>Pythonスクリプトはインデント4スペース・タイムアウト付き・段階的保存（<code>*_progress.json</code>）対応</li>
+<li>構造的変更の完了後は Codex検証ワークフロー（rules/Codex検証ワークフロー.md）でセルフレビュー</li>
+<li>発話引用は原文のまま改変しない。固有名詞補正は辞書（WP-A2）経由でのみ行い、補正ログを残す</li>
+</ol>
+<hr />
+<h2>2. 品質基準（「誰が使っても本当にすごい精度」の検証可能化）</h2>
+<h3>柱1: ナレッジの連動度</h3>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>現状</th>
+<th>目標</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>frontmatter準拠率</td>
+<td>19%（36/194）</td>
+<td>100%（全knowledgeファイル）</td>
+</tr>
+<tr>
+<td><code>related</code>/<code>used_by</code> リンク保有率</td>
+<td>0%</td>
+<td>100%（最低1本ずつ）</td>
+</tr>
+<tr>
+<td>リンク切れ</td>
+<td>0件</td>
+<td>0件維持（リンクチェッカーで機械検証）</td>
+</tr>
+<tr>
+<td>30行以下のスタブ</td>
+<td>44件</td>
+<td>0件（本文化 or 統合 or 明示的アーカイブ）</td>
+</tr>
+<tr>
+<td>テンプレート変数の機械解決</td>
+<td>不可</td>
+<td>カテゴリREADMEのマッピング表で100%解決</td>
+</tr>
+<tr>
+<td>優先度マトリックス</td>
+<td>なし</td>
+<td>ファネル型×観点の重み表が存在し添削/相談両モードから参照される</td>
+</tr>
+</tbody>
+</table>
+<h3>柱2: スキルの連動度</h3>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>現状</th>
+<th>目標</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SKILL.md の <code>status</code> 宣言</td>
+<td>0/39</td>
+<td>39/39（active/support/deprecated）</td>
+</tr>
+<tr>
+<td>SKILL.md の <code>input:</code>/<code>output:</code> 契約</td>
+<td>0/39</td>
+<td>active全スキルで定義</td>
+</tr>
+<tr>
+<td>プロモ構築→個別スキルの受け渡し</td>
+<td>口頭的</td>
+<td>成果物ファイルパス規約で機械的に連結</td>
+</tr>
+<tr>
+<td>添削v1/v2 の選択基準</td>
+<td>未文書化</td>
+<td>統合 or 選択フロー明文化</td>
+</tr>
+<tr>
+<td>統合添削ナレッジの所在</td>
+<td>13_（境界違反）</td>
+<td>knowledge/ へ移管済み</td>
+</tr>
+</tbody>
+</table>
+<h3>柱3: 上流工程のクオリティ</h3>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>現状</th>
+<th>目標</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ローンチの型一覧</td>
+<td>13行</td>
+<td>全型を各50行以上で本文化（判断基準＋向き不向き＋実例）</td>
+</tr>
+<tr>
+<td>田中祐一メソッド</td>
+<td>骨格のみ</td>
+<td>10原則すべて本文化（各原則に実例3つ以上）</td>
+</tr>
+<tr>
+<td>相談観点（診断フロー）</td>
+<td>存在しない</td>
+<td>診断6段階・質問4階層・切り返し6パターンが体系化済み</td>
+</tr>
+<tr>
+<td>上流の確認ゲート</td>
+<td>なし</td>
+<td>ビジネス設計/ファネル設計/コンセプトの各出口にチェックリスト</td>
+</tr>
+<tr>
+<td>最終検証</td>
+<td>なし</td>
+<td>ブラインドテスト（WP-E3）で実際の田中さんの判断との一致を確認</td>
+</tr>
+</tbody>
+</table>
+<h3>柱4: 3モードの出力品質（添削・相談・制作）【2026-06-12追加】</h3>
+<p>田中さんフィードバック「添削モードの精度が上がっていない。分量も弱いし、俺っぽくフィードバックできていない」を受け、モード出力そのものの品質基準を定義する。</p>
+<table>
+<thead>
+<tr>
+<th>モード</th>
+<th>品質基準</th>
+<th>検収方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>添削モード</strong></td>
+<td>①ジャンル別分量基準（最低指摘数・P0〜P3分布・文字数レンジ）を実Loom添削統計から逆算して満たす ②「肯定から入る→段階的指摘→僕だったらこう（代替案）」の構造率100% ③見込み客の心理で語る</td>
+<td>WP-E5 ブラインドテスト（実Loom添削との比較・田中さん5段階評価3.5以上）</td>
+</tr>
+<tr>
+<td><strong>相談モード</strong></td>
+<td>診断6段階・質問4階層・切り返し6パターンに沿った質問生成</td>
+<td>WP-E3 ブラインドテスト（同上）</td>
+</tr>
+<tr>
+<td><strong>制作モード</strong></td>
+<td>工程表・確認ゲート準拠。上流判断（型選定・価格）に根拠提示</td>
+<td>WP-E2 実走テスト</td>
+</tr>
+</tbody>
+</table>
+<p><strong>添削モードが「弱い・俺っぽくない」の構造的原因（監査で特定済み）:</strong></p>
+<ol>
+<li>メソッド原則（肯定から入る・代替案セット「僕だったらこう」・見込み客心理で語る）が<strong>骨格のみ</strong>→バンドルに「俺っぽさ」の中身が入っていない</li>
+<li>「話す/添削する文体」の定義ファイルが<strong>存在しない</strong>（言葉遣い.mdは書き言葉のみ）</li>
+<li>MCP設計の「600文字超ブロック禁止・ビジュアル優先」が<strong>分量を構造的に絞っている</strong>可能性（受講生UX目的の仕様が田中検収視点と衝突。仕様の再検討対象）</li>
+<li>評価ログ<strong>0件</strong>＝改善ループが一度も回っていない</li>
+<li>KNOWLEDGE_RETURN_LIMIT（18,000字）に対しバンドルが11,931行→ジャンル別の取捨選択が最適かが<strong>未検証</strong></li>
+</ol>
+<p>→ WP-B2（メソッド本文化）・WP-C6（話し方）・WP-D8（添削出力スペック再設計）・WP-E5（検収）の組み合わせで解消する。</p>
+<hr />
+<h2>3. ターゲット構造（完成後の姿）</h2>
+<h3>3-1. 新設・本文化されるファイル</h3>
+<pre><code>configs/田中祐一/
+└─ 話し方.md                       【新設】話す文体DNA（言葉遣い.md の話し言葉版）
+
+knowledge/共通/
+├─ 相談観点/                       【新設】添削11観点の相談版
+│  ├─ 00_診断フロー6段階.md         （ライフスタイル→ターゲット→ファネル→オファー→メディア→PDCA）
+│  ├─ 01_質問パターン集.md          （4階層: 深掘り/検証/構造化/拡張 × verbatim実例100+）
+│  ├─ 02_切り返しパターン集.md      （実験主義/目的回帰/二者択一/構造読み込み/小さな勝利/数字可視化）
+│  └─ 03_定番回答集.md             （頻出トピック×田中の一貫した回答）
+├─ 田中祐一メソッド/               【本文化】10原則×実例3+
+└─ 添削エンジン設定/
+   └─ 優先度マトリックス.md         【新設】ファネル型×観点の重み表
+
+knowledge/ファネル型/
+├─ 共通/ローンチの型一覧.md         【本文化】全型の判断基準
+├─ 共通/Wファネル8ステージ構造.md   【本文化】
+└─ 4本動画構成/工程/（8ファイル）   【本文化】
+
+knowledge/スキル別/
+├─ LP添削/原則.md・チェックリスト.md 【本文化】
+├─ コンセプト設計/                  【増強】わしづかみ9STEP・7要素
+└─ コピーライティング/              【増強】21の感情トリガー
+
+13_データ原本保存庫/
+├─ _固有名詞辞書.json               【新設】音声認識誤り補正用
+├─ _学習資料_個人コンサル.md        【新設】自動生成パイプラインに追加
+├─ _学習資料_グルコン.md            【新設】同上
+├─ zoom個人コンサルデータ/_抽出/    【新設】セッション単位YAML群
+└─ zoomグルコンデータ/_抽出/        【新設】同上
+
+02_ツール/ナレッジ検証/
+├─ リンクチェッカー.py              【新設】
+├─ frontmatterリンター.py           【新設】
+└─ 連動度レポート.py                【新設】KPIダッシュボード（2章の表を自動算出）
+</code></pre>
+<h3>3-2. frontmatter統一スキーマ（knowledge全ファイル）</h3>
+<pre><code class="language-yaml">---
+type: 判断基準 | 手順書 | パターン集 | ルーター | エンジン設定
+genre: &lt;カテゴリ名&gt;
+status: 本文 | 骨格 | アーカイブ
+version: &lt;n&gt;
+last_updated: YYYY-MM-DD
+source: &lt;原本パス or 由来&gt;          # どの原本から蒸留されたか
+related:                            # 横リンク（最低1本）
+  - &lt;相対パス&gt;
+used_by:                            # このファイルを読むスキル/モード（最低1つ）
+  - skills/&lt;スキル名&gt; | MCP:&lt;モード名&gt;
+---
+</code></pre>
+<h3>3-3. SKILL.md 契約スキーマ（39スキル全件）</h3>
+<pre><code class="language-yaml">---
+name: &lt;既存&gt;
+description: &lt;既存&gt;
+status: active | support | deprecated
+input:
+  - &lt;受け取る前提: ファイルパス規約・必須項目&gt;
+output:
+  - &lt;残す成果物: パス規約・形式&gt;
+knowledge_refs:
+  - &lt;参照するknowledgeファイル（テンプレート変数はREADMEで解決）&gt;
+---
+</code></pre>
+<h3>3-4. スキル間ハンドシェイク（プロモーション構築ハブ）</h3>
+<p>成果物の受け渡しは「案件フォルダの規約パス」で行う。口頭連携を排除する。</p>
+<pre><code>21_プロジェクト一覧/&lt;案件&gt;/
+├─ マスターデータ/案件マスター.md      ← 最小Config（既存規約）
+├─ 工程表.md                          ← 全体工程表＝スキル間の共通言語【標準アーティファクト】
+├─ 01_ビジネス設計/設計書.md           ← ステップ1の出力 → ステップ2の入力
+├─ 02_ファネル設計/ファネル決定書.md   ← ローンチ型一覧から選定（理由必須）
+├─ 03_コンセプト/コンセプト確定書.md
+└─ ...（以降、工程表の行と1対1対応）
+</code></pre>
+<p>各上流工程の出口に<strong>確認ゲート</strong>を置く: ①悪魔のフィードバックを自動適用 ②チェックリスト合格 ③田中さん（または案件ホルダー）の承認、の3点が揃うまで下流に進まない。</p>
+<hr />
+<h2>4. ワークパッケージ（WP）一覧</h2>
+<p>依存関係: <code>Phase A → (B ∥ C) → D → E</code>。同Phase内のWPは原則並列実行可。</p>
+<h3>Phase A: 基盤整備（Codex実行の前提）</h3>
+<h4>WP-A1: 検証ツール作成</h4>
+<ul>
+<li><strong>目的</strong>: 柱1のKPIを機械検証可能にする</li>
+<li><strong>入力</strong>: knowledge/ 全体、skills/*/SKILL.md</li>
+<li><strong>出力</strong>: <code>02_ツール/ナレッジ検証/</code> 3スクリプト（3-1参照）</li>
+<li><strong>手順</strong>: リンクチェッカー（md内リンク・frontmatter内related/used_byの実在検証）→ リンター（3-2スキーマ準拠）→ 連動度レポート（2章KPI表をMarkdown出力）</li>
+<li><strong>受け入れ条件</strong>: 現状のknowledge/に対して実行し、監査結果（準拠率19%・スタブ44件）と±5%以内で一致するレポートが出る</li>
+<li><strong>承認ゲート</strong>: なし（ツールのみ）</li>
+</ul>
+<h4>WP-A2: 固有名詞辞書の構築</h4>
+<ul>
+<li><strong>目的</strong>: Zoom文字起こしの音声認識誤り（5〜10%）補正</li>
+<li><strong>入力</strong>: configs/ 全ホルダー名、QA素材のメンバー名、商品名（会員サイトプログラム名・PLC用語）、Zoomファイル名の発話者名</li>
+<li><strong>出力</strong>: <code>13_データ原本保存庫/_固有名詞辞書.json</code>（正規表記・誤認識バリエーション・カテゴリ）</li>
+<li><strong>受け入れ条件</strong>: 受講生名280+・商品/講座名・田中用語（わしづかみ・サンチャレ等）を最低300エントリ収録。サンプル10ファイルへの適用で誤補正ゼロ</li>
+<li><strong>承認ゲート</strong>: なし</li>
+</ul>
+<h4>WP-A3: staging規約とfrontmatterスキーマの設置</h4>
+<ul>
+<li><strong>目的</strong>: knowledge/configs への安全な提案フロー確立</li>
+<li><strong>出力</strong>: <code>knowledge/_inbox/README.md</code>（提案ファイル命名規約・承認フロー）、スキーマ定義ファイル</li>
+<li><strong>受け入れ条件</strong>: 提案→承認→反映→バンドル再生成の手順が誰でも実行可能な粒度で文書化されている</li>
+<li><strong>承認ゲート</strong>: 規約自体を田中さん確認</li>
+</ul>
+<h4>WP-A4: ワークショップ63本から「17個のローンチ型」の所在特定</h4>
+<ul>
+<li><strong>目的</strong>: ローンチの型一覧（WP-B1）の素材確定</li>
+<li><strong>入力</strong>: <code>22_コミュニティサポート/会員サイト/PLC会員サイト/◇ワークショップ/書き起こし原本/</code>（63本）</li>
+<li><strong>出力</strong>: 所在レポート（型の名称リスト・該当ファイルパス・該当箇所）</li>
+<li><strong>受け入れ条件</strong>: 全63本を走査済み。17型が見つからない場合は「見つかった型の全リスト＋不足分」を明記し、田中さんへのヒアリング項目を生成</li>
+<li><strong>承認ゲート</strong>: なし（調査のみ）</li>
+</ul>
+<h4>WP-A5: スナイパーローンチ書き起こし重複の検出報告</h4>
+<ul>
+<li><strong>目的</strong>: 「スナイパーローンチマスター」の書き起こし7本が「コンセプト商品構築」と完全一致している問題の確定</li>
+<li><strong>出力</strong>: 重複検証レポート＋再エクスポート依頼事項（田中さん側作業の明示）</li>
+<li><strong>受け入れ条件</strong>: diff結果付き。原本の取り直しが必要かの判定が書かれている</li>
+<li><strong>承認ゲート</strong>: 田中さんへ報告（再取得はユーザー側作業）</li>
+</ul>
+<h3>Phase B: セミナーコンテンツ転記（「設計する田中祐一」充填・その1）</h3>
+<blockquote>
+<p>全WP共通: 出力は staging（<code>knowledge/_inbox/提案_WP-Bx_*.md</code>）。frontmatter（3-2）を付けた完成形で提案する。原本の発言の改変禁止、構造化と要約のみ。</p>
+</blockquote>
+<h4>WP-B1: プロモーション型データベース構築【2026-06-12 田中さん方針により「型一覧」から再設計】</h4>
+<ul>
+<li><strong>設計方針（田中さん指示の正本）</strong>:</li>
+<li><strong>「17の型」という固定数に当てはめない</strong>。型は4レイヤーのコンポーネント組み合わせとして整理する<ul>
+<li><strong>L1 セットアップ/集客イベント</strong>: サミット・マルシェ等。ローンチではなくプロモ本番前の認知・教育フェーズとして別レイヤー</li>
+<li><strong>L2 教育ファネル</strong>: チャレンジ型は日数をパラメータ化（2/3/4/5チャレ等、案件ごとにバリエーション）。動画N本型・ウェビナー型・SNS教育動画挟み込み型</li>
+<li><strong>L3 セールス形式</strong>: 「リアルかオンラインか」ではなく (a)1対多 vs 1対1 (b)1対多内のオンライン/リアル併用の組み合わせ軸。リアルセールス・体験セミナー・個別説明会は独立型ではなく組み合わせの一つ</li>
+<li><strong>L4 バックエンド/エバー化</strong></li>
+</ul>
+</li>
+<li>SNSリストイン時の「<strong>SNS教育動画</strong>」ステップが最近の主流（かず先生フォーマット）。教育ステップとして重要</li>
+<li>実案件の実績バリエーション（かず先生・ワンソウル・職種型投資コンサル・PLC素材集）を型DBに紐付け、オファー一覧・コンセプトの横並び体系化を行う</li>
+<li><strong>入力</strong>: WP-A4レポート（17候補・出典付き）＋ WP-B7実案件マッピング ＋ PLC 1-2 ＋ チャレンジローンチ素材集</li>
+<li><strong>出力</strong>: staging提案（①4レイヤーのコンポーネント体系 ②組み合わせ選定フロー（商材・ホルダー・リソース別） ③実案件マッピング表）</li>
+<li><strong>受け入れ条件</strong>: WP-A4の17候補すべてがコンポーネント組み合わせとして表現できる（消える型がない）。かず先生/ワンソウル/投資コンサルの実例が型表現でマッピング済み。スナイパーローンチは再取得待ちのためPLC 1-2の内容で初版を書き、再取得後に増補する二段構え</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h4>WP-B7: 実案件プロモ型マッピング【2026-06-12 新設】</h4>
+<ul>
+<li><strong>目的</strong>: 田中さんの脳内データベース（過去案件の型バリエーション）の外部化。オファー一覧・コンセプト横並び体系化の第一歩</li>
+<li><strong>入力</strong>: <code>21_プロジェクト一覧/かず先生/</code>（SNS教育動画フォーマット）・<code>21_プロジェクト一覧/伊藤直美/</code>（ワンソウル3期/4期＝過去最高成果）・<code>21_プロジェクト一覧/奥澤ともひろ/</code>（職種型投資コンサル）・<code>チャレンジローンチ構築プログラム/素材集</code></li>
+<li><strong>出力</strong>: <code>97_ザ・リード事業/AI構築/調査_20260612_実案件プロモ型マッピング.md</code>（案件ごと: ファネル構造・オファー・コンセプト・成果数値・4レイヤー型表現・素材所在）＋横並び比較表</li>
+<li><strong>受け入れ条件</strong>: 3案件＋PLC素材集が同一フォーマットで横並び比較できる。今後の案件追加手順が末尾に書かれている（DB拡張可能性）</li>
+<li><strong>承認ゲート</strong>: なし（調査。B1の入力になる）</li>
+</ul>
+<h4>WP-B2: 田中祐一メソッド 本文化</h4>
+<ul>
+<li><strong>入力</strong>: <code>コンセプト商品構築/</code>（7章）・<code>コンセプト構築プログラム/01〜11</code>・<code>PLC会員サイト/メイン講義/04_わしづかみコンセプト構築9STEP</code>・既存骨格（10原則）</li>
+<li><strong>出力</strong>: 提案ファイル4本（既存骨格の見出し構造を維持し本文充填。各原則に実例3つ以上＋発話引用）</li>
+<li><strong>受け入れ条件</strong>: 全10原則が本文化（status: 骨格→本文）。実例には出典パス付記</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h4>WP-B3: コンセプト設計・コピーライティング増強</h4>
+<ul>
+<li><strong>入力</strong>: <code>コピーライティング_21の感情トリガー/ノウハウまとめ/</code>（44レッスン）・<code>コンセプト構築プログラム/</code>（11MD）</li>
+<li><strong>出力</strong>: 提案ファイル群（21トリガーの体系表＋わしづかみ7要素/9STEP）</li>
+<li><strong>受け入れ条件</strong>: 既存knowledge（フレームワーク群）との重複チェック表付き。重複時は統合案を提示</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h4>WP-B4: Wファネル8ステージ構造 本文化</h4>
+<ul>
+<li><strong>入力</strong>: <code>チャレンジローンチ構築プログラム/マニュアルナレッジ/シナリオ全体像の説明.md</code> ほか</li>
+<li><strong>出力</strong>: 提案ファイル（8ステージ各論＋チャレンジ型との対応）</li>
+<li><strong>受け入れ条件</strong>: 15行→100行以上。各ステージに「目的・成果物・典型失敗」を記載</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h4>WP-B5: 4本動画構成/工程 充填</h4>
+<ul>
+<li><strong>入力</strong>: <code>PLC会員サイト/メイン講義/書き起こし原本/1-3-1_プロダクトローンチ工程の詳細説明.md</code>・<code>自動化ウェビナー/書き起こしデータ/1-3_17ステップ_全体戦略とプロモ導線.md</code></li>
+<li><strong>出力</strong>: 提案ファイル8本（LP/動画1〜4/メール/セールス等、各工程の手順＋チェックリスト）</li>
+<li><strong>受け入れ条件</strong>: 各19行→60行以上</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h4>WP-B6: LP添削 原則・チェックリスト本文化</h4>
+<ul>
+<li><strong>入力</strong>: <code>13_データ原本保存庫/_patterns_database.md</code>（LP添削1,707パターン）・<code>_学習資料_LP添削.md</code>・knowledge/共通/添削11観点</li>
+<li><strong>出力</strong>: 提案ファイル2本（頻出パターン上位から原則を逆引き構築。チェックリストは11観点と相互リンク）</li>
+<li><strong>受け入れ条件</strong>: 「（ここに追記していく）」が消滅。チェック項目は11観点の番号と紐付く</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h3>Phase C: Zoom蒸留（「話す・相談する田中祐一」充填）</h3>
+<h4>WP-C1: セッション統合・フィルタ前処理</h4>
+<ul>
+<li><strong>目的</strong>: 発話者別バラバラのファイルをセッション単位に統合し、処理対象を選別</li>
+<li><strong>入力</strong>: zoom個人コンサルデータ506件・zoomグルコンデータ121件・固有名詞辞書（WP-A2）</li>
+<li><strong>出力</strong>: <code>_抽出/sessions_index.json</code>（セッション一覧・参加者・時間・田中発話比率・処理対象フラグ）＋前処理スクリプト</li>
+<li><strong>選別基準</strong>: 個別コンサル＝田中発話比率40%以上かつ15分以上（推定約300件）。グルコン＝相談単位に分割</li>
+<li><strong>受け入れ条件</strong>: 全627件が index に分類済み（対象/対象外と理由）。段階的保存対応</li>
+<li><strong>承認ゲート</strong>: なし</li>
+</ul>
+<h4>WP-C2: 個別コンサル全件抽出</h4>
+<ul>
+<li><strong>入力</strong>: WP-C1の対象セッション・抽出スキーマv1（深読みテスト済み: opening/diagnosis_flow/recommendation/speaking_style/corrections_made）</li>
+<li><strong>出力</strong>: <code>zoom個人コンサルデータ/_抽出/&lt;セッションID&gt;.yaml</code>（約300件）</li>
+<li><strong>受け入れ条件</strong>: 全対象セッション処理済み。引用はverbatim・出典パス付き。中断・再開可能</li>
+<li><strong>承認ゲート</strong>: なし（原本リポジトリ内の中間生成物）</li>
+</ul>
+<h4>WP-C3: グルコン全件抽出</h4>
+<ul>
+<li><strong>入力</strong>: WP-C1の対象・グルコン抽出スキーマv1（Session/Consultations/Question_Patterns/Tactics/Recurring_Topics）</li>
+<li><strong>出力</strong>: <code>zoomグルコンデータ/_抽出/&lt;セッションID&gt;.yaml</code>（121件分）</li>
+<li><strong>受け入れ条件</strong>: 同上</li>
+<li><strong>承認ゲート</strong>: なし</li>
+</ul>
+<h4>WP-C4: 学習資料の生成</h4>
+<ul>
+<li><strong>入力</strong>: WP-C2/C3の全YAML</li>
+<li><strong>出力</strong>: <code>_学習資料_個人コンサル.md</code>・<code>_学習資料_グルコン.md</code>（Loom学習資料と同形式）＋既存自動更新パイプライン（添削データ更新.py）への組み込み提案</li>
+<li><strong>受け入れ条件</strong>: 質問パターン・診断フロー・定番回答が頻度順に集計され、各項目に実例3つ以上</li>
+<li><strong>承認ゲート</strong>: パイプライン改修のみ確認</li>
+</ul>
+<h4>WP-C5: knowledge/共通/相談観点/ 新設（4ファイル）</h4>
+<ul>
+<li><strong>入力</strong>: WP-C4の学習資料・深読みテスト結果（診断6段階・質問4階層・切り返し6パターン）</li>
+<li><strong>出力</strong>: staging提案4本（3-1参照）</li>
+<li><strong>受け入れ条件</strong>: 質問パターン100個以上（全てverbatim・文脈・機能タグ付き）。診断フローは「次に何を聞くか」が機械的に辿れる構造。<code>used_by</code> に相談モード・プロモーション構築を明記</li>
+<li><strong>承認ゲート</strong>: あり（新カテゴリ創設のため特に重要）</li>
+</ul>
+<h4>WP-C6: configs/田中祐一/話し方.md 新設</h4>
+<ul>
+<li><strong>入力</strong>: WP-C2/C3の speaking_style 集計・既存の言葉遣い.md（重複回避のため）</li>
+<li><strong>出力</strong>: staging提案1本（口癖・肯定→指摘の構造・例え話の型・グルコン/個別/メルマガの文体差分表・「ここぞ」の塩加減）</li>
+<li><strong>受け入れ条件</strong>: 言葉遣い.md（書き言葉）と相互参照し重複ゼロ。実発話引用20以上</li>
+<li><strong>承認ゲート</strong>: あり（層1=人格層のため田中さん必須）</li>
+</ul>
+<h3>Phase D: 連動度実装</h3>
+<h4>WP-D1: frontmatter一斉付与</h4>
+<ul>
+<li><strong>対象</strong>: knowledge/ 全ファイル（Phase B/C承認反映後）</li>
+<li><strong>受け入れ条件</strong>: リンター合格率100%。<code>related</code>/<code>used_by</code> 最低1本。既存内容の本文改変ゼロ（diff検証）</li>
+<li><strong>承認ゲート</strong>: メタデータのみのため一括承認可（変更一覧を提示）</li>
+</ul>
+<h4>WP-D2: カテゴリREADME（ルーター）整備</h4>
+<ul>
+<li><strong>出力</strong>: スキル別/ファネル型/媒体別/共通 各カテゴリのREADME＝マッピング表（テンプレート変数→実パス）</li>
+<li><strong>受け入れ条件</strong>: skills/ 内の全テンプレート変数参照がREADME経由で機械解決可能</li>
+</ul>
+<h4>WP-D3: 優先度マトリックス新設</h4>
+<ul>
+<li><strong>入力</strong>: 添削11観点・相談観点・ファネル型一覧・パターンDBの頻度データ</li>
+<li><strong>出力</strong>: staging提案（ファネル型×観点の重み表＋価格帯による補正ルール）</li>
+<li><strong>受け入れ条件</strong>: 添削エンジン設定・相談観点の両方から <code>related</code> 参照される。初版は仮重みでよいが「田中さん検収で調整する」前提を明記</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h4>WP-D4: SKILL.md契約一斉付与（39本）</h4>
+<ul>
+<li><strong>出力</strong>: 全SKILL.mdへ status/input/output/knowledge_refs 追記。参照ゼロ15本の分類提案（active/support/deprecated）</li>
+<li><strong>受け入れ条件</strong>: リンター合格。deprecated提案には根拠と代替を明記</li>
+<li><strong>承認ゲート</strong>: deprecated判定のみ田中さん確認</li>
+</ul>
+<h4>WP-D5: 添削v1/v2統合と統合添削ナレッジの移管</h4>
+<ul>
+<li><strong>出力</strong>: v1/v2機能差分表＋統合提案。<code>13_データ原本保存庫/統合添削/</code> の中身を knowledge/ への移管提案（staging）</li>
+<li><strong>受け入れ条件</strong>: 移管後も添削システムv2が参照切れを起こさない移行手順（参照書き換え一覧）付き</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h4>WP-D6: プロモーション構築SKILL.md改訂</h4>
+<ul>
+<li><strong>出力</strong>: 工程表アーティファクト標準（3-4）・確認ゲート・ローンチ型一覧/相談観点への参照を組み込んだ改訂版</li>
+<li><strong>受け入れ条件</strong>: ステップ1〜10の各工程に「入力→出力→ゲート」が定義され、出力パスが案件フォルダ規約と一致</li>
+<li><strong>承認ゲート</strong>: あり（ハブスキルのため）</li>
+</ul>
+<h4>WP-D7: 承認済み提案の反映とバンドル再生成</h4>
+<ul>
+<li><strong>手順</strong>: 田中さん承認済みの staging 提案を正本へ反映 → <code>_bundle_添削モード.md</code> 再生成 → KnowledgeOS（MCP）の knowledge 取得確認 → コミット・push</li>
+<li><strong>受け入れ条件</strong>: リンクチェッカー・リンター全合格。バンドル再生成ログ。MCPからの読み込み疎通確認</li>
+<li><strong>承認ゲート</strong>: 反映対象リストの最終確認</li>
+</ul>
+<h4>WP-D8: 添削モード出力スペック再設計</h4>
+<ul>
+<li><strong>目的</strong>: 「分量が弱い・俺っぽくない」の構造的解消（柱4の原因1〜5に対応）</li>
+<li><strong>入力</strong>: <code>_bundle_添削モード.md</code>・<code>TanakaKnowledgeOS/apps/mcp/src/mcp/tools/correction.ts</code>・承認済みのメソッド本文（WP-B2）/話し方.md（WP-C6）・<code>_学習資料_*</code> ＋ <code>_patterns_database.md</code>（実際の田中添削の分量・指摘数・構造の統計）</li>
+<li><strong>出力</strong>:</li>
+<li>ジャンル別出力スペック（最低指摘数・P0〜P3分布・代替案「僕だったらこう」必須率・文字数レンジ。すべて実Loom添削1,587件の統計から逆算）</li>
+<li>バンドル構成の改訂提案（メソッド本文・話し方・連想パターン・相談観点の注入と、18,000字制限内でのジャンル別取捨ルール）</li>
+<li>MCP仕様とのすり合わせ提案（「600文字制限・ビジュアル優先」と分量要求の両立案。例: 受講生向けビジュアルレビュー＋田中検収用フルテキストの2層出力）</li>
+<li><strong>受け入れ条件</strong>: 出力スペックの全数値に統計的根拠（出典）がある。KnowledgeOS開発側への変更依頼が具体的差分（ファイル・関数単位）で書かれている</li>
+<li><strong>承認ゲート</strong>: あり（MCP仕様変更を含むため）</li>
+</ul>
+<h3>Phase E: 検証・実走</h3>
+<h4>WP-E1: 全体検証</h4>
+<ul>
+<li><strong>出力</strong>: 連動度レポート（2章KPI表の達成状況）</li>
+<li><strong>受け入れ条件</strong>: 柱1・柱2の全KPIが目標値到達。未達項目は残課題リスト化</li>
+</ul>
+<h4>WP-E2: 実走テスト（プロモ一気通貫）</h4>
+<ul>
+<li><strong>手順</strong>: 新規または既存1案件で、プロモーション構築を工程表→ファネル選定（ローンチ型一覧使用）→コンセプト→LPまで実走。詰まり＝バグとして記録・修正</li>
+<li><strong>受け入れ条件</strong>: 上流3工程（ビジネス設計・ファネル設計・コンセプト）が確認ゲート付きで通過。実走レポート</li>
+</ul>
+<h4>WP-E3: ブラインドテスト（相談モードの精度測定）</h4>
+<ul>
+<li><strong>手順</strong>: 実際のZoom相談から「相談者の冒頭発言だけ」を抜き出したテストセット10件を作成（抽出済みYAMLから機械生成）。田中祐一AI（相談観点＋話し方を読み込んだ状態）に診断質問を生成させ、実際の田中さんの質問・判断と突き合わせる</li>
+<li><strong>受け入れ条件</strong>: 10件の比較表（AIの質問/実際の質問/一致度）。田中さん自身が「自分っぽさ」を5段階評価。3.5未満の項目は相談観点へフィードバック</li>
+<li><strong>承認ゲート</strong>: 田中さんの評価が必須（これが「誰が使ってもすごい精度」の最終検収）</li>
+</ul>
+<h4>WP-E4: 学習ループ稼働</h4>
+<ul>
+<li><strong>出力</strong>: ナレッジ更新ループ手順書（週次_inbox・添削毎の評価ログ・月次flagged還流・月次衛生チェック）＋評価ログ初回記入</li>
+<li><strong>受け入れ条件</strong>: 定義書6章の5ループすべてに「所有者・頻度・手順・次回実行日」が入る</li>
+</ul>
+<h4>WP-E5: ブラインドテスト（添削モード）</h4>
+<ul>
+<li><strong>手順</strong>: Loom実添削から「素材＋田中さんの実フィードバック」のペア10件を選定（ジャンル分散: LP/コンセプト/動画シナリオ/オファー等）。素材だけをWP-D8改訂後の添削モードに与え、AI添削と実際の田中添削を比較</li>
+<li><strong>受け入れ条件</strong>: 比較表（指摘の一致率・AIのみの指摘・田中さんのみの指摘＝見落とし・分量比・文体類似度）。田中さん「自分っぽさ」5段階評価3.5以上。未達の場合は原因をバンドル/出力スペックへフィードバックして再テスト（評価結果は評価ログに記録＝学習ループの初回実走を兼ねる）</li>
+<li><strong>承認ゲート</strong>: 田中さんの評価必須</li>
+</ul>
+<h3>Phase F: Config再現性パッケージ（他ホルダー展開の土台）</h3>
+<blockquote>
+<p>田中さん要望（2026-06-12）: 「Config自体のアップデートもして、今後他の方に再現性が高くなるように作ってほしい」。configs/田中祐一/ を参照実装として、誰でも同じ構造の人格カルテを構築できるパッケージにする。現状、他ホルダー（たかみずやすえ237行・ピグマリオン恵美子184行・片岡守350行）は人格.mdのみで言葉遣い・話し方が未整備。</p>
+</blockquote>
+<h4>WP-F1: 人格カルテ標準テンプレートv2</h4>
+<ul>
+<li><strong>入力</strong>: configs/田中祐一/（完成形＝参照実装）・configs/README.md・他ホルダー4名の現状</li>
+<li><strong>出力</strong>: <code>configs/_テンプレート/</code> の5点セット雛形＋記入ガイド</li>
+<li>人格.md（信念・ストーリー・実績・禁止表現）</li>
+<li>言葉遣い.md（書き言葉DNA）</li>
+<li>話し方.md（話し言葉DNA）</li>
+<li>しないことリスト.md（断る案件・出ない領域・ブランド毀損ライン）【田中さん本人分も未整備→ヒアリング項目を生成】</li>
+<li>ビジュアルスタイル.md（配色・見た目トーン）【同上】</li>
+<li><strong>受け入れ条件</strong>: 田中configの全セクションがテンプレート項目に対応（参照実装としての逆引きが成立）。記入ガイドは「50代一般人が迷わない」表現</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<h4>WP-F2: Config構築手順書（原材料→カルテ生成パイプライン）</h4>
+<ul>
+<li><strong>入力</strong>: 田中configの構築実績（メルマガ1,178本→言葉遣い.md、Zoom627件→話し方.md、という蒸留プロセスそのもの）</li>
+<li><strong>出力</strong>: 構築手順書（①ホルダーの原材料収集チェックリスト ②原材料→各ファイルの生成手順 ③検収基準）＋スキル化提案（<code>skills/人格カルテ構築/</code>）</li>
+<li><strong>受け入れ条件</strong>: 既存ホルダー1名（例: たかみずやすえ）への試適用シミュレーションが記述され、不足原材料が具体的に特定されている</li>
+<li><strong>承認ゲート</strong>: あり</li>
+</ul>
+<hr />
+<h2>5. 実行順序の推奨（/goal 投入順）</h2>
+<pre><code>第1便: WP-A1 → A2 → A3（直列。以降の全WPの前提）
+第2便: WP-A4 ∥ A5 ∥ B6 ∥ C1（並列可）
+第3便: WP-B1〜B5（A4完了後・並列可）∥ WP-C2 → C3 → C4（C1完了後）
+       └→ 田中さん承認バッチ①（B系提案）
+第4便: WP-C5 ∥ C6
+       └→ 田中さん承認バッチ②（C系提案・話し方.md）
+第5便: WP-D1〜D6 ∥ D8（並列可）→ D7（反映・再生成）
+       └→ 田中さん承認バッチ③（D系＋反映リスト＋添削出力スペック）
+第6便: WP-E1 → E2 ∥ E3 ∥ E5 → E4
+       └→ 田中さん最終検収（E3相談・E5添削のブラインドテスト評価）
+第7便: WP-F1 → F2（E系検収後。田中configが完成形になってから展開）
+       └→ 田中さん承認バッチ④（テンプレート＋構築手順書）
+</code></pre>
+<p>田中さんの承認は4バッチ＋最終検収の計5回に集約（毎WPで止めない設計）。</p>
+<h3>5-2. 承認運用モデル（キャリブレーション方式）</h3>
+<p>承認対象を重要度で3クラスに分け、「数件精読→基準言語化→残り一括」で田中さんの負荷を最小化する。</p>
+<table>
+<thead>
+<tr>
+<th>クラス</th>
+<th>対象</th>
+<th>承認方法</th>
+<th>想定件数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S級: 全件精読</strong></td>
+<td>configs/（話し方・しないことリスト等の層1）、相談観点4ファイル、優先度マトリックス、プロモーション構築改訂、添削出力スペック</td>
+<td>1件ずつ精読・修正指示</td>
+<td>約10ファイル</td>
+</tr>
+<tr>
+<td><strong>A級: キャリブレーション承認</strong></td>
+<td>Phase Bの転記提案（ローンチ型・メソッド・21トリガー・工程群）</td>
+<td>各WPの<strong>最初の2〜3件だけ精読</strong>→OK/NGの理由をAIが「承認基準メモ」に言語化→<strong>基準そのものを承認</strong>→残りは基準準拠で自動通し＋<strong>10%抜き打ちチェック</strong></td>
+<td>精読は各WP2〜3件、残り自動</td>
+</tr>
+<tr>
+<td><strong>B級: 事後サンプリング</strong></td>
+<td>frontmatter一斉付与・SKILL契約付与などメタデータのみの変更（本文diffゼロを機械検証済み）</td>
+<td>変更一覧＋ランダム5件チェックのみ</td>
+<td>一覧確認1回</td>
+</tr>
+</tbody>
+</table>
+<p><strong>運用ルール:</strong><br />
+1. 承認基準メモは <code>knowledge/_inbox/_承認基準メモ.md</code> に蓄積（却下理由が出るたび追記）<br />
+2. <strong>却下が出たら</strong>: 理由を基準メモに追記→同バッチの承認済み分にも新基準で機械再チェックをかける<br />
+3. 抜き打ちチェックでNGが出たら、そのWPはA級→全件再検査に格下げ<br />
+4. 承認不要のもの: Zoom抽出YAML（中間生成物・約421件）、検証ツール、調査レポート</p>
+<p><strong>実数の見積もり</strong>: 田中さんが実際に深く読むのは S級約10＋A級キャリブレーション約15＝<strong>25〜30ファイル程度</strong>。「何百件」は構造上発生しない（大量物は中間生成物かメタデータのみ）。</p>
+<hr />
+<h2>6. リスクと対策</h2>
+<table>
+<thead>
+<tr>
+<th>リスク</th>
+<th>対策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>音声認識誤りの混入</td>
+<td>WP-A2辞書＋補正ログ。引用は出典パス必須で検証可能に</td>
+</tr>
+<tr>
+<td>knowledge/の品質低下（大量流入）</td>
+<td>staging承認制＋重複チェック表＋リンター強制</td>
+</tr>
+<tr>
+<td>Codexの暴走（直接書き込み等）</td>
+<td>ガードレール1章＋WP単位の入出力ホワイトリスト</td>
+</tr>
+<tr>
+<td>スナイパーローンチ原本欠損</td>
+<td>WP-A5で早期確定→田中さんへ再取得依頼</td>
+</tr>
+<tr>
+<td>バンドル再生成漏れ（Dify/MCP先祖帰り）</td>
+<td>WP-D7の受け入れ条件に疎通確認を含める</td>
+</tr>
+<tr>
+<td>「17型」が見つからない</td>
+<td>WP-A4でヒアリング項目化→田中さん口頭補完（収録 or テキスト）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. 更新履歴</h2>
+<ul>
+<li>v1.5（2026-06-12）: <strong>ナレッジ取捨選択基準v2（5要素モデル）採用</strong>。旧3階層（判断基準/手順書のみ格納・参照資料除外）を「哲学・原理・判断基準・事例・基準値/語彙」の5要素＋3テスト（判断/移転/根拠）に再定義（knowledge/_inbox/提案_ナレッジ取捨選択基準v2.md が正本ドラフト）。第一原理=「マーケティングの正解ではなく田中祐一だったらどう考えるか」。影響: WP-B2/B6/C5等の出力は5要素タグ必須・WP-C2/C3のZoom抽出スキーマに「思想・判断軸の発話」セクションを追加（グルコン/個コン蓄積の具体例偏重への対処）・WP-D1のfrontmatter type値改訂・28原則は再タグ付け済み（哲学3/原理9/判断基準12/基準値4）</li>
+<li>v1.3（2026-06-12）: 田中さんの型分類思想を反映。WP-B1を「ローンチの型一覧（固定17型）」から「プロモーション型データベース（4レイヤーコンポーネント組み合わせ＋実案件マッピング）」へ再設計。WP-B7（実案件プロモ型マッピング: かず先生/ワンソウル/職種型投資コンサル）を新設</li>
+<li>v1.2（2026-06-12）: 承認運用モデル（5-2節・キャリブレーション方式）を追加。S級全件精読/A級基準承認＋抜き打ち/B級事後サンプリングの3クラス制</li>
+<li>v1.1（2026-06-12）: 田中さんフィードバック反映。柱4「3モード出力品質」追加（添削モードの弱さの構造的原因5つを特定）、WP-D8（添削出力スペック再設計）・WP-E5（添削ブラインドテスト）・Phase F（Config再現性パッケージ: テンプレートv2＋構築手順書）を追加</li>
+<li>v1（2026-06-12）: 初版。監査4本＋抽出テスト3本に基づく</li>
+</ul>
+<p>Produced by KATSUO MARKETING<br />
+Generated by: 田中祐一AI設計チーム（Claude Fable 5）</p>
+</main>
+</body>
+</html>

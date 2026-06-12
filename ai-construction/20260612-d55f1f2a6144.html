@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>調査_20260612_実案件プロモ型マッピング - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item active"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>実案件プロモ型マッピング（WP-B7成果物）</h1>
+<p>作成日: 2026-06-12（v1.1 同日訂正: 田中さん本人レビューによる）<br />
+目的: 田中祐一の脳内データベース（過去案件の型バリエーション）の外部化第1弾。プロモーション型データベース（WP-B1）の実例データとなる。<br />
+調査対象: かず先生・ワンソウル（伊藤直美）3期/4期・職種型投資コンサル（奥澤ともひろ）</p>
+<h2>0. 大原則（v1.1で確立・型DBの土台）</h2>
+<p><strong>商品とプロモーションを分離して記述する。</strong></p>
+<ul>
+<li>初版はかず先生の「30日チャレンジ」をプロモーション（教育ファネル）として誤記載した。実際は<strong>低単価商品</strong>であり、プロモーションとしては存在しない（田中さん訂正）</li>
+<li>フォルダに存在する素材＝プロモーションとは限らない。<strong>商品 / プロモーション / 運用ツール</strong> の3つを区別してから型表現に落とすこと</li>
+</ul>
+<hr />
+<h2>1. 横並び比較表（v1.1訂正版）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>かず先生（若返りセラピスト）</th>
+<th>ワンソウル4期（伊藤直美）</th>
+<th>投資コンサル起業（奥澤ともひろ）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>プロモ型の正式名称</strong></td>
+<td><strong>4日間チャレンジ型</strong></td>
+<td><strong>フルマックスローンチ</strong></td>
+<td>職種型（動画×体験セミナー×個別）</td>
+</tr>
+<tr>
+<td><strong>コンセプト型</strong></td>
+<td>専門家ブランド型（SNS65万人の権威→「-10歳」約束）</td>
+<td>ムーブメント型（「洗脳教育から覚醒教育へ」大義名分）</td>
+<td><strong>職種型＝新概念提示型</strong>（「お金の先生」という新しい概念へのチャレンジ提案。お悩み訴求ではない）</td>
+</tr>
+<tr>
+<td><strong>ターゲット</strong></td>
+<td>40-60代女性＋美容健康職志向</td>
+<td>30-60代起業家・セラピスト・覚醒志向</td>
+<td>コーチコンサル既業者・副業会社員</td>
+</tr>
+<tr>
+<td><strong>集客</strong></td>
+<td>第1クール: 公式LINE既存リストのみ／第2クール: SNSオーガニック（YouTube・インスタリール/ストーリーズ・TikTok・VOOM・Threads）。<strong>広告費¥0</strong></td>
+<td>メルマガ・既存リスト→オプトLP3種</td>
+<td>広告中心（686万円）→オプトLP7種（LP6採用）</td>
+</tr>
+<tr>
+<td><strong>プロモーション動線</strong></td>
+<td>オプトLP→<strong>オープンチャット</strong>（アーカイブ視聴条件）→Day1〜3チャレンジライブ＋ワーク提出→Day3で公式LINE導線案内→<strong>Day4卒業ライブ（参加リンクは公式LINE登録者のみ配信）</strong>→SL期限1→延長＋質問会→SL期限2</td>
+<td>オプトLP→動画5〜6本→体験セミナー→個別説明会（＋デイリーメール約80通/期が並走）</td>
+<td>動画5本（0〜4話）＋メール70本→体験セミナー（2h）→個別説明会</td>
+</tr>
+<tr>
+<td><strong>セールス形式</strong></td>
+<td>1対多（卒業ライブ）→<strong>セールスレター直販（個別説明会なし）</strong>・期間限定2段階クロージング（質問会で延長）</td>
+<td>1対多（体験セミナー・定員15名×8日程）→1対1（個別説明会）＋レター併用</td>
+<td>1対多（セミナー130名）→1対1（73枚スライド・セールス5人チーム）</td>
+</tr>
+<tr>
+<td><strong>商品ライン</strong></td>
+<td>若返りセラピストアカデミー 6ヶ月・期間限定398,000円（低単価別商品: 30日チャレンジ＝Chatwork自動配信）</td>
+<td>プレミアム実践コース 398,000円・6ヶ月・特典4種・3日間限定募集</td>
+<td>フルサポートコース 一括80万/分割88万・特典3種＋テンプレ</td>
+</tr>
+<tr>
+<td><strong>成果数値</strong></td>
+<td><strong>完全記録（2クール合計）</strong>: 2,664オプト（広告費0）→オプチャ2,046（76.8%）→卒業LINE申込741（36.2%）→<strong>成約45・売上1,791万円</strong>・経費150万</td>
+<td><strong>完全記録（2026-06-12 経理シートから集計値のみ取得）</strong>: セミナー参加700名超→<strong>成約158人</strong>（プレミアム146/オンライン自習9/継続3）・<strong>売上1億2,265万円・実質入金1億1,498万円</strong>（入金は2022年7月末〜2024年9月の分割含む）。個人情報を含む経理CSVはリポジトリ外で集計のみ実施</td>
+<td><strong>完全記録</strong>: 2,416オプト→196→130→107→36成約。売上2,936万・CPA2,830円・リスト単価1.2万</td>
+</tr>
+<tr>
+<td><strong>特徴的な発明</strong></td>
+<td>卒業ライブを転換点に「オープンチャット→公式LINE」の場の切替で限定性を発生させる導線。30日チャレンジ商品はGAS完全自動化（再現手順あり）</td>
+<td>受講生→講師化パイプ（覚醒リーダー制度）・オンライン化で参加障壁低下</td>
+<td>「説明会」→「体験セミナー」命名変更で参加率改善・LP軌道修正（3週間で判断）・0話追加制作</td>
+</tr>
+<tr>
+<td><strong>素材在庫</strong></td>
+<td>LP原稿・GASスクリプト・管理シート＋4チャレ全素材（台本・配信全文・数値、2026-06-12格納済み）</td>
+<td>LP3種・SL2版・メール約80通/期×3期分・動画台本・自動返信50+・お客様の声7本 ※ローカルMDは期混在＋3重複の汚染あり→再編成中（基準004）</td>
+<td>LP7種・動画台本10本・メール70本・セールススライド73枚・セミナー清書</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 4レイヤー型表現（v1.1訂正版）</h2>
+<h3>かず先生 = 4チャレ＋1ステップ販売（正式名称・2025年・2クール実施）</h3>
+<ul>
+<li><strong>L1 セットアップ</strong>: オプトLP→LINEオープンチャット（第1クール=既存公式LINEリスト、第2クール=SNSオーガニック。広告費¥0）</li>
+<li><strong>L2 教育</strong>: <strong>4チャレ</strong>（Day1美血流メソッド→Day2 12の秘訣→Day3最強の若返り法・各日ワーク提出48h以内・アーカイブ限定公開）</li>
+<li><strong>L3 セールス</strong>: Day4卒業ライブ（参加リンクは<strong>公式LINE登録者のみ</strong>＝オプチャ→公式LINEの場の切替）→<strong>SL直販（個別説明会なし）</strong>→SL期限1→延長＋質問会→SL期限2の2段階クロージング。公式LINE13通＋オプチャ18通の配信が並走</li>
+<li><strong>L4 商品構成</strong>: セラピストアカデミー 6ヶ月398,000円（別商品: 30日チャレンジ＝低単価・Chatwork自動配信）</li>
+<li><strong>型のポイント</strong>: ①「場の切替」（オプチャ=全体の場→公式LINE=クロージングの場）が限定性と精度を同時に作る ②個別説明会を挟まずSL直販で45成約＝<strong>教育の濃さ（ワーク提出・ライブ視聴）がクロージング工程を代替</strong>する ③広告費ゼロでもSNSオーガニック2,664オプト</li>
+<li><strong>素材格納先</strong>: <code>21_プロジェクト一覧/かず先生/若返りセラピスト/4チャレ1ステップ販売_2025/</code>（原本全文＋台本Day1-3＋卒業ライブセールス構成＋数値実績＋スケジュール・全10ファイル、2026-06-12格納）</li>
+</ul>
+<h3>ワンソウル4期 = フルマックスローンチ</h3>
+<ul>
+<li><strong>L1 セットアップ</strong>: オプトインLP（3種）＋デイリーメールによるリスト温め</li>
+<li><strong>L2 教育</strong>: 動画5〜6本（価値提供5話＋緊急メッセージ）＋デイリーメール約80通/期が並走</li>
+<li><strong>L3 セールス</strong>: 体験セミナー（1対多・定員15名×8日程・秘儀のその場体験）→個別説明会。レター併用のハイブリッド</li>
+<li><strong>L4 商品構成</strong>: プレミアム実践コース398,000円。半永久会員サイト・受講生→講師化（覚醒リーダー）</li>
+<li><strong>成果（2026-06-12確定）</strong>: 成約158人＝プレミアム146（@398,000円→入金1億1,116万）＋オンライン自習9（341万）＋継続3（40万）。売上計1億2,265万・実質入金1億1,498万。プレミアム成約はセミナー参加比 約21%</li>
+<li><strong>型のポイント</strong>: オプト→動画→体験セミナー→個別と全部盛りの「フルマックス」構成。教育量が最も厚い型。<strong>3案件中の最高売上（1.15億）はこの最厚教育×ハイブリッドセールスから出ている</strong></li>
+</ul>
+<h3>投資コンサル起業 = 職種型（新概念提示）</h3>
+<ul>
+<li><strong>L1 セットアップ</strong>: 広告→オプトLP（7種テスト・コピー主体の短いLP）</li>
+<li><strong>L2 教育</strong>: 動画5本（0話=WHYが転機）＋メール70本（1日2本の攻め配信）</li>
+<li><strong>L3 セールス</strong>: 体験セミナー（1対多・対談形式・即時募集）→個別説明会（73枚スライド・5人チーム・先着25名）</li>
+<li><strong>L4 商品構成</strong>: フルサポートコース80万。スクール化への段階設計（STEP0〜5）</li>
+<li><strong>型のポイント</strong>: 訴求が<strong>お悩み解決ではなく新概念の提示</strong>——「こういう新しい概念にチャレンジしてみませんか」。悩みを持つ人に「新しい考え方があるんだよ」と伝え、それによって各要素もうまくいく、という問題解決的アプローチの変形</li>
+</ul>
+<hr />
+<h2>3. この3案件から確定した型DB設計の含意（v1.1更新）</h2>
+<ol>
+<li><strong>商品とプロモーションの分離が大原則</strong>（0章）。素材フォルダの内容物を機械的に型へ写像しない</li>
+<li>チャレンジ日数はパラメータだが、<strong>プロモ用チャレンジ（3〜5日が中心）と商品用チャレンジ（30日等）は別物</strong></li>
+<li>L3セールスは「1対多の規模×1対1の担い手×媒体×<strong>場の切替</strong>」の組み合わせで記述（かず先生のオープンチャット→公式LINE切替が好例）</li>
+<li>訴求アプローチの軸を追加: <strong>お悩み訴求型 vs 新概念提示型</strong>（職種型は後者）。コンセプト設計ナレッジと接続する</li>
+<li>構造だけでなく<strong>心理装置</strong>（命名・定員・先着N名・期間限定・場の切替）も型DBの選択肢に載せる</li>
+<li><strong>軌道修正も型の一部</strong>（投資コンサルの3週間でのLP切替・0話追加——「どの数字を見て何を変えるか」をセットで記録）</li>
+<li><strong>成果数値の必須化を提案</strong> — 今後の案件マスターに数値記録欄を必須化（WP-D6に反映）</li>
+</ol>
+<h2>4. 横並び体系化の今後（案件追加手順）</h2>
+<p>新しい案件が完了するたびに、以下の9項目で本ファイルに行を追加する:</p>
+<ol>
+<li>プロモ型の正式名称（田中さんの呼び方を正とする）</li>
+<li>コンセプト型（職種型=新概念提示/専門家ブランド型/ムーブメント型/その他）</li>
+<li>ターゲット・集客チャネル</li>
+<li>L1〜L4の4レイヤー表現（<strong>商品とプロモを分離して</strong>）</li>
+<li>オファー（商品・価格・特典・募集期間）</li>
+<li>成果数値（オプト数・各遷移率・成約数・売上・CPA・リスト単価）← 必須</li>
+<li>特徴的な発明・軌道修正の記録</li>
+<li>素材在庫の所在</li>
+<li>担当チーム構成</li>
+</ol>
+<h2>5. 元調査の所在と未解決事項</h2>
+<ul>
+<li>かず先生: <code>21_プロジェクト一覧/かず先生/若返りセラピスト/4チャレ1ステップ販売_2025/</code>（2026-06-12にDriveスプレッドシートからMD格納済み・全10ファイル）。<strong>残課題</strong>: ①~~配信本文未格納~~→<strong>解決済み</strong>（2026-06-12 セルメモから36件全抽出。公式LINE13/13通＋2通目構成5通・オプチャ17/18通=10〜12のMD格納済み。オプチャNo.5のみ原本側で本文未登録） ②プロモ概要ページ（gensparkspace.com）はJSレンダリングのため未取得 ③会員サイトの「◇プロモーション素材・テンプレート置き場」（エバーグリーン×ステップチャレンジ/個別説明会ローンチ・説明会ローンチ・職種型ローンチ・体験セミナーセールス・LINEプロモーション・5チャレ・有料チャレンジ企画・サミットモデル・トリップワイヤー・ウェビナー・ステップメール）が未MD化の可能性→型DBの直接素材として要同期</li>
+<li>ワンソウル: <code>21_プロジェクト一覧/伊藤直美/ワンソウル4期/INDEX.md</code>・<code>04_デイリーメルマガ/</code>・<code>01_LP/セールスレター/</code></li>
+<li>投資コンサル: <code>21_プロジェクト一覧/奥澤ともひろ/投資コンサル起業/セールス/01_体験セミナー個別説明会_清書.md</code>（全数値記載）・<code>セールス/02_個別セールススライド.md</code>・<code>台本シナリオ/</code></li>
+</ul>
+<p>「職種型コンセプト」の一般化フレームワーク（5要素＋チェックリスト6項目）は投資コンサル調査から抽出済み。ただし<strong>v1.1の訂正を反映し「お悩み訴求ではなく新概念提示」を軸に再整理してWP-B3の素材とする</strong>。</p>
+<h2>更新履歴</h2>
+<ul>
+<li>v1.4（2026-06-12）: 田中さん指摘によりデイリーメール通数を訂正（435通→約80通/期。正本シートは2/3/4期横並び管理で、混在＋重複の誤計上だった＝承認基準004を新設）。ローカルMDの再編成計画を別途作成中</li>
+<li>v1.3（2026-06-12）: ワンソウル4期の確定数値を反映（経理シートから集計値のみ取得・個人情報はリポジトリ外）。成約158人・売上1億2,265万・実質入金1億1,498万。3案件すべて完全レコード化達成</li>
+<li>v1.2（2026-06-12）: かず先生の正式データ反映。Driveスプレッドシート（詳細資料）から素材10ファイルをMD格納し、正式型名「4チャレ＋1ステップ販売」・完全数値（2,664オプト/成約45/売上1,791万/広告費0）・SL直販構造（個別説明会なし）を記載。会員サイト「プロモーション素材・テンプレート置き場」の未同期を残課題に追加</li>
+<li>v1.1（2026-06-12）: 田中さん本人レビューによる訂正。①30日チャレンジは商品でありプロモではない（メインプロモは4日間チャレンジ＝Day1-3企画＋Day4卒業ライブ→公式LINE限定クロージング） ②ワンソウル=フルマックスローンチが正式名称 ③職種型=新概念提示型の明確化 ④大原則「商品とプロモーションの分離」を確立</li>
+<li>v1.0（2026-06-12）: 初版（エージェント調査3本の統合）</li>
+</ul>
+<p>Produced by KATSUO MARKETING<br />
+Generated by: 田中祐一AI設計チーム（Claude Fable 5）</p>
+</main>
+</body>
+</html>

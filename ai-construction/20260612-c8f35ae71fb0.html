@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>調査_20260612_ワンソウルメルマガ再編成計画 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item active"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>調査_20260612_ワンソウルメルマガ再編成計画</h1>
+<p>作成日: 2026-06-12<br />
+対象: <code>21_プロジェクト一覧/伊藤直美/ワンソウル4期/04_デイリーメルマガ/</code><br />
+正本: 【ワンソウル4期】ディレクトリ一覧（スプレッドシート ID: <code>1veVSnkH7eENrA-h2-4BLoE8bBjnUjtCH_xboBVkZ9Ps</code>）<br />
+ステータス: <strong>診断のみ完了。ファイルの移動・削除・リネームは未実施</strong></p>
+<hr />
+<h2>1. 結論（正しい通数）</h2>
+<p>正本スプレッドシートの「デイリーメルマガ」「デイリーLINE＠」2シートを列ブロック単位でパースした確定値:</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>4期</th>
+<th>3期</th>
+<th>2期</th>
+<th>計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>デイリーメール</td>
+<td><strong>94通</strong></td>
+<td><strong>92通</strong></td>
+<td><strong>85通</strong></td>
+<td>271通</td>
+</tr>
+<tr>
+<td>デイリーLINE</td>
+<td><strong>92通</strong></td>
+<td><strong>57通</strong></td>
+<td>（独立原稿なし※）</td>
+<td>149通</td>
+</tr>
+<tr>
+<td>合計（ユニークDoc）</td>
+<td>186</td>
+<td>149</td>
+<td>85</td>
+<td><strong>420通</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>※ 2期: 「デイリーLINE＠」シートの2期列ブロックは「デイリーメルマガ」シートの2期列と<strong>85本すべて同一のGoogle Doc</strong>。2期に独立したLINE原稿は存在しない。</li>
+<li>シート行数と通数の差分（同一Docを複数行から参照しているケース）:</li>
+<li>メール3期: 94行中2組が重複（行88/89 = osdm3-2-41 を2タイトルで使用、行95/97 = osdm3-2-43 の完全重複行）→ ユニーク92</li>
+<li>LINE4期: 93行中、31日目/32日目（行33/34）が同一Doc → ユニーク92</li>
+<li>LINE3期: 58行中、行20/21が同一Doc → ユニーク57</li>
+<li>過去の「435通」という計上は誤り。ローカルの重複除去後ユニークDoc数441（= 正本420 + 誤配置の「購入者未購入者メール」21）に由来する、<strong>期・媒体・別シートの混在合算</strong>だった。</li>
+</ul>
+<h3>正本シートの列構造（再取り込み時の注意）</h3>
+<p>「デイリーメルマガ」シート（A1:K120、ヘッダー行3、データ行4〜120）:</p>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+<th>I</th>
+<th>J</th>
+<th>K</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内容</td>
+<td>No(4期/3期共通)</td>
+<td>4期配信日時</td>
+<td>4期タイトル</td>
+<td>4期原稿URL</td>
+<td>3期配信日時</td>
+<td>3期タイトル</td>
+<td>3期原稿URL</td>
+<td>No(2期)</td>
+<td>2期配信日時</td>
+<td>2期タイトル</td>
+<td>2期原稿URL</td>
+</tr>
+</tbody>
+</table>
+<p>「デイリーLINE＠」シート（ヘッダー行2、データ行3〜）: A=No(4期) B-D=4期[配信日時/時間/原稿URL]、E=No(3期) F-H=3期[同]、I=No(2期) J-L=2期[配信日時/タイトル/原稿URL]。</p>
+<ul>
+<li><strong>1行 = 1通ではなく、1行に最大3期分（メルマガシートは3通分）が横並び</strong>。過去の取り込みはここを誤認した。</li>
+<li>A1「3期」・A2「osdm3-2-37_...」・J2「第2期」はヘッダー外のメモ書き（osdm3-2-37本体は3期列内に存在、取り込み対象外でよい）。</li>
+<li>隣接シート構成（全15シート）: ディレクトリ一覧 / 継続決済フォーム / 自動返信文一覧 / 動画一覧 / <strong>デイリーメルマガ</strong> / <strong>デイリーLINE＠</strong> / 購入者未購入者メール / スケジュール / 特典一覧 / 説明会スケジュール / 説明会会場一覧 / MTG動画一覧 / アフィリ通信配信履歴 / 疎通Wチェックリスト / 案件終了時チェックリスト</li>
+<li>ローカルの <code>21_プロジェクト一覧/伊藤直美/【ワンソウル4期】ディレクトリ一覧.xlsx</code> は全15シートを含む正本ミラーとして利用可能（本診断はこれとDownloadsのCSVエクスポートの両方で突合し一致確認済み）。</li>
+</ul>
+<hr />
+<h2>2. ローカル汚染状況サマリー</h2>
+<p><code>04_デイリーメルマガ/</code> 配下の .md 887ファイルを全件走査（Doc ID抽出＋本文MD5ハッシュ）した結果:</p>
+<h3>2-1. フォルダ別内訳</h3>
+<table>
+<thead>
+<tr>
+<th>場所</th>
+<th>件数</th>
+<th>実態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直下</td>
+<td>462</td>
+<td><strong>全件が不要</strong>（下記2-2参照）。正本由来408 + 誤配置42 + ゴミ断片12</td>
+</tr>
+<tr>
+<td><code>デイリーメール/</code></td>
+<td>95</td>
+<td><strong>4期メール94通の完全ミラー</strong>（正本と過不足ゼロ）+ INDEX.md</td>
+</tr>
+<tr>
+<td><code>デイリーライン/</code></td>
+<td>96</td>
+<td><strong>4期LINE92通の完全ミラー</strong>（93ファイル: 31日目/32日目が同一Doc）+ INDEX.md・対応表.md・移行手順.md</td>
+</tr>
+<tr>
+<td><code>_デイリーメール重複/</code></td>
+<td>177</td>
+<td>名前に反して重複ではなく、<strong>3期メール92通＋2期メール85通の完全ミラー</strong>（正本と過不足ゼロ）</td>
+</tr>
+<tr>
+<td><code>_デイリーライン重複/</code></td>
+<td>57</td>
+<td>同じく、<strong>3期LINE57通の完全ミラー</strong>（正本と過不足ゼロ）</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>4つのサブフォルダだけで正本420通が100%揃っている</strong>。<code>_〜重複/</code> という命名が「3期・2期の正規コンテンツ」を重複ゴミに見せていたのが、認識汚染の最大要因。</p>
+<h3>2-2. 直下462ファイルの内訳（期混在の実態）</h3>
+<table>
+<thead>
+<tr>
+<th>分類</th>
+<th>件数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4期メール（サブフォルダと同一内容の重複コピー）</td>
+<td>94</td>
+</tr>
+<tr>
+<td>3期メール（同上）</td>
+<td>92</td>
+</tr>
+<tr>
+<td>2期メール（同上）</td>
+<td>85</td>
+</tr>
+<tr>
+<td>4期LINE（同上・ただし82〜93日目の12本は直下に無くサブフォルダのみ）</td>
+<td>80</td>
+</tr>
+<tr>
+<td>3期LINE（同上）</td>
+<td>57</td>
+</tr>
+<tr>
+<td>「購入者未購入者メール」シート由来の誤配置（21Doc×2コピー）</td>
+<td>42</td>
+</tr>
+<tr>
+<td>「特典一覧」「疎通Wチェックリスト」由来の断片ゴミ（本文18〜65字・URLなし）</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+<h3>2-3. 重複・品質指標</h3>
+<ul>
+<li>重複率: 429 Doc が2〜3コピー存在（428 Doc×2 + 1 Doc×3）。887ファイル中、<strong>残すべき実体は420通＋README類のみ → 約53%が冗長</strong></li>
+<li>重複コピーの本文ハッシュは428/429組で完全一致（安全に1本へ集約可能）。唯一の差分は LINE4期 31日目/32日目（同一Docの取得時期違い、833字 vs 848字 → 848字の方を採用）</li>
+<li>「3重複」に見えていたのは: 直下ダンプ＋サブフォルダ整理版＋（メール/LINE間の2期共有）の合算</li>
+<li><strong>タイトル誤記（重要）</strong>: メール271ファイル中<strong>138ファイルでH1タイトルが正本と不一致</strong>。原因は過去取り込みが「同じ行の4期タイトル」を3期/2期のURLに付けたため（例: <code>_デイリーメール重複/「正直、アヤシイのですが」と言われました.md</code> は H1=osdm4-2-11 だが実体は osdm3-2-12_じつは残り96％の脳も使えている？）。<strong>Doc IDと本文は正しい</strong>ので、リネームは必ず「Doc ID→正本タイトル」で機械的に引き直す。ローカルのH1・ファイル名は信用しない</li>
+<li>空・断片ファイル: 本文0字4件（INDEX.md×2・対応表.md・移行手順.md = メタ文書）、本文100字未満16件（特典断片12・取得失敗プレースホルダ4）</li>
+</ul>
+<h3>2-4. 不足本文（Docs再取得が必要なもの）</h3>
+<p>取得時にタイムアウトし本文が「取得失敗:」プレースホルダのままのDoc。<strong>2本のみ</strong>（各2コピーとも失敗）:</p>
+<table>
+<thead>
+<tr>
+<th>期</th>
+<th>osdm番号</th>
+<th>タイトル</th>
+<th>Doc ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3期メール</td>
+<td>osdm3-2-12</td>
+<td>じつは残り96％の脳も使えている？</td>
+<td><code>1TMLtURvVYwmojhSE29Fqv-VogDPL_aX1AsbH7tb_9Ic</code></td>
+</tr>
+<tr>
+<td>4期メール</td>
+<td>osdm4-2-50</td>
+<td>「愛」と「成長」の波動</td>
+<td><code>1WkbHMVhJqbAnCk0NGcVfLqAd5_Dxt_3OYilgzvyFzHo</code></td>
+</tr>
+</tbody>
+</table>
+<p>上記2本を除く418通は本文がローカルに存在する（Docsリンクのみで本文未取得のものはゼロ）。</p>
+<hr />
+<h2>3. 新フォルダ構成案</h2>
+<p>正本（スプレッドシート）が4期のディレクトリ一覧の中で2期・3期を併記管理しているため、ローカルも <strong><code>ワンソウル4期/04_デイリーメルマガ/</code> 配下で期別に分離</strong>して一元管理する（推奨）。</p>
+<pre><code>ワンソウル4期/04_デイリーメルマガ/
+├── README.md                 ← 正本シートURL・列構造・通数・本計画へのリンクを記載
+├── 4期メール/                 94通
+├── 4期LINE/                   92通
+├── 3期メール/                 92通
+├── 3期LINE/                   57通
+└── 2期メール/                 85通（2期LINEはメールと同一原稿のため作らない。READMEに明記）
+</code></pre>
+<ul>
+<li><code>ワンソウル3期/</code> フォルダとの関係: 3期メルマガは<strong>移さない</strong>。<code>ワンソウル3期/INDEX.md</code> に「デイリーメルマガ・LINEは <code>../ワンソウル4期/04_デイリーメルマガ/3期メール/ ほか</code> を参照（正本シートが4期ディレクトリ一覧で3世代を併記管理しているため）」の参照リンクを追記するのみ。</li>
+<li>誤配置の「購入者未購入者メール」21通は新設 <code>ワンソウル4期/08_購入者未購入者メール/</code> へ移動（04_デイリーメルマガの管轄外のため）。</li>
+</ul>
+<h2>4. ファイル命名規約案</h2>
+<pre><code>NNN_osdm番号_タイトル.md        （メール）   例: 001_osdm4-1_【集合意識の秘密】公開スタートです♪.md
+NNN_LINE○日目_配信MMDD.md      （LINE）    例: 001_LINE1日目_配信0413.md
+</code></pre>
+<ul>
+<li><code>NNN</code> = シート行順の3桁連番（期内で1始まり）</li>
+<li>タイトルは<strong>Doc IDで正本シートから引き直したもの</strong>を使用（ローカルH1は138件誤記のため使用禁止）</li>
+<li>Windows非互換文字 <code>\/:*?"&lt;&gt;|</code> を除去・全体80文字以内（超過時はタイトル末尾を切り詰め）</li>
+<li>LINEはシートにタイトル列が無いため「日目＋配信日」で命名</li>
+<li>ファイル内のH1も正本タイトルに修正し、メタ情報（Doc URL・配信日時・シート行番号・期）は現行フォーマットを踏襲</li>
+</ul>
+<h2>5. 移行手順（git mv で履歴保持）</h2>
+<p>事前: 本診断のパース結果を再生成（xlsxの列構造は §1 の通り。Doc ID→期×No×タイトルの対応表を作るスクリプトを <code>ワンソウル4期/tools/</code> に置く）。</p>
+<ol>
+<li><strong>Phase 1 — サブフォルダのリネーム・分割</strong>（正規コンテンツの移動。すべて git mv）</li>
+<li><code>デイリーメール/</code> → <code>4期メール/</code>（94ファイル、命名規約に沿ってリネーム）</li>
+<li><code>デイリーライン/</code> → <code>4期LINE/</code>（93→92ファイル。31日目/32日目は同一Docのため848字版1本に集約し、メタに「31・32日目の2回配信」と記載）</li>
+<li><code>_デイリーメール重複/</code> → Doc IDで期判定し <code>3期メール/</code>（92）と <code>2期メール/</code>（85）へ分割 git mv＋リネーム（<strong>ファイル名・H1は正本タイトルで引き直し</strong>）</li>
+<li><code>_デイリーライン重複/</code> → <code>3期LINE/</code>（57ファイル）</li>
+<li><strong>Phase 2 — 誤配置の救出</strong></li>
+<li>直下の「購入者未購入者メール」由来42ファイル → 重複除去して21本を新設 <code>08_購入者未購入者メール/</code> へ git mv（命名整備は同シートの列構造確認後）</li>
+<li><strong>Phase 3 — 直下の重複・ゴミ処分</strong></li>
+<li>直下の正本由来408ファイル: サブフォルダ版と本文ハッシュ一致を機械確認済みのため<strong>削除</strong>（ハッシュ再確認スクリプトを通してから <code>git rm</code>）。心理的安全を取るなら一時的に <code>_旧データ_20260612/</code> へ隔離→次コミットで削除でも可（推奨は即削除。Git履歴に残るため復元可能）</li>
+<li>特典・疎通断片12ファイル（本文18〜65字・URLなし）: 削除</li>
+<li><code>INDEX.md</code>×2・<code>対応表.md</code>・<code>移行手順.md</code>: 新README.mdに要点を統合して削除</li>
+<li><strong>Phase 4 — 不足本文の取得</strong></li>
+<li>§2-4の2本をGoogle Docsから再取得し、該当ファイルの本文を差し替え</li>
+<li><strong>Phase 5 — 検証とコミット</strong></li>
+<li>検証: 各フォルダ件数 = 94/92/92/57/85、全ファイルのDoc IDが正本と1:1対応、重複Docゼロ、本文100字未満ゼロ（READMEを除く）</li>
+<li>状態台帳・進捗JSONに件数を反映（「435通」の記載があれば修正）</li>
+<li>コミット → 即push（main直接、ブランチ禁止ルール遵守）</li>
+</ol>
+<h2>6. 所要見積もり</h2>
+<table>
+<thead>
+<tr>
+<th>作業</th>
+<th>規模</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docs再取得</td>
+<td><strong>2本のみ</strong>（osdm3-2-12 / osdm4-2-50）</td>
+</tr>
+<tr>
+<td>git mv（リネーム・分割）</td>
+<td>326ファイル（94+92+92+57+85 ＋ LINE集約-1 ＋ 購入者21）</td>
+</tr>
+<tr>
+<td>git rm（重複・ゴミ）</td>
+<td>約441ファイル（直下408＋購入者重複21＋断片12）＋ メタ文書4</td>
+</tr>
+<tr>
+<td>スクリプト</td>
+<td>Doc ID対応表生成＋mv/rm計画生成＋検証の3本（本診断のロジック流用で小規模）</td>
+</tr>
+</tbody>
+</table>
+<p>API依存はDocs取得2本のみで、残りは全てローカルGit操作。1セッションで完了可能な規模。</p>
+<h2>7. 補足（スコープ外の気づき）</h2>
+<ul>
+<li><code>ワンソウル4期/07_LINE関連/</code> にも同内容の重複（line-qr/line-url系が新旧命名で2〜4重）が24ファイルあり、同様の整理候補。</li>
+<li>メール本文中で参照される価値提供ブログ等のリンク切れ確認は本計画の対象外。</li>
+</ul>
+</main>
+</body>
+</html>
