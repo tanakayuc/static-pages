@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- 表示確認: このファイルのあるディレクトリで python3 -m http.server 8000 を実行し、http://localhost:8000/ を開く -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>100万マイラーの新常識</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--navy:#0e2a52;--gold:#b8923a;--gold2:#c9a227;--gold3:#a87f1f;--text:#1d2430;--muted:#697282;--bg:#fff;--alt:#f7f8fb;--line:#e3e7ef}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#eef1f6;color:var(--text);font-family:"Noto Sans JP",sans-serif;line-height:1.85;letter-spacing:0}
+    .page{max-width:640px;margin:0 auto;background:var(--bg);box-shadow:0 0 32px rgba(14,42,82,.08)}
+    section{padding:48px 22px}
+    .alt{background:var(--alt)}
+    .navy{background:var(--navy);color:#fff}
+    h1,h2,h3,p{margin:0}
+    h2{color:var(--navy);font-size:26px;line-height:1.45;font-weight:900;text-align:center;margin-bottom:28px;padding:18px 0;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold)}
+    .navy h2{color:#fff}
+    h3{font-size:19px;line-height:1.55;font-weight:900;color:var(--navy);margin-bottom:10px}
+    .navy h3{color:#fff}
+    p+p{margin-top:18px}
+    strong{font-weight:900}
+    .marker{background:linear-gradient(transparent 64%,rgba(184,146,58,.28) 0)}
+    .gold{color:var(--gold);font-weight:900;font-size:1.14em}
+    .center{text-align:center}
+    .fv{padding:0;background:#fff}
+    .placeholder{display:grid;place-items:center;width:100%;border:1px solid #d4d9e3;background:linear-gradient(135deg,#f0f2f6,#dfe4ec);color:#6b7280;font-weight:700;text-align:center}
+    .ph-fv{height:auto;aspect-ratio:2/3;font-size:20px}
+    .ph-chart{aspect-ratio:8/5;margin:24px 0;color:#fff;background:linear-gradient(135deg,#183b6d,#0e2a52);border-color:rgba(255,255,255,.28)}
+    .ph-small{aspect-ratio:1/1;margin-bottom:14px}
+    .ph-profile{width:220px;max-width:70%;aspect-ratio:1/1;margin:0 auto 24px;border-radius:50%}
+    .cta-wrap{text-align:center;padding:28px 22px;background:#fff}
+    .cta-note{font-size:14px;color:var(--gold);font-weight:700;margin-bottom:8px}
+    .cta{display:inline-flex;align-items:center;justify-content:center;min-height:58px;width:100%;max-width:520px;padding:15px 24px;border-radius:999px;background:linear-gradient(180deg,var(--gold2),var(--gold3));color:#fff;text-decoration:none;font-size:18px;font-weight:900;line-height:1.35;box-shadow:0 12px 24px rgba(168,127,31,.28)}
+    .mail-note{font-size:10px;color:#7b8492;line-height:1.65;margin-top:14px}
+    .lead p{text-align:center}
+    .formula{display:grid;gap:14px;margin:28px 0}
+    .formula-card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:8px;padding:18px;text-align:center;font-weight:900;color:var(--navy);box-shadow:0 8px 20px rgba(14,42,82,.06)}
+    .caption{font-size:12px;line-height:1.65;color:rgba(255,255,255,.78);text-align:center;margin-top:-10px;margin-bottom:20px}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);font-size:14px}
+    th{background:var(--navy);color:#fff}
+    th,td{padding:13px 10px;border:1px solid var(--line);vertical-align:top}
+    .cards{display:grid;gap:14px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px;box-shadow:0 8px 20px rgba(14,42,82,.05)}
+    .day1{border:2px solid var(--gold);box-shadow:0 10px 24px rgba(184,146,58,.16)}
+    .ribbon{display:inline-block;background:var(--gold);color:#fff;border-radius:999px;padding:5px 13px;font-size:13px;font-weight:900;margin-bottom:10px}
+    ul{margin:0;padding:0;list-style:none}
+    li{margin:0 0 14px}
+    .checks li{position:relative;padding-left:30px}
+    .checks li::before{content:"";position:absolute;left:0;top:.55em;width:15px;height:15px;border-radius:50%;border:2px solid var(--gold)}
+    .checks li::after{content:"";position:absolute;left:5px;top:.78em;width:7px;height:4px;border-left:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(-45deg)}
+    .profile-list{padding-left:1.2em;list-style:disc}
+    .profile-list li{margin-bottom:8px}
+    blockquote{margin:26px 0 0;padding:4px 0 4px 18px;border-left:4px solid var(--gold);font-weight:700;color:var(--navy)}
+    .steps .card h3,.faq h3{margin-bottom:4px}
+    .optin{background:var(--alt);text-align:center}
+    .optin-form{display:grid;gap:12px;max-width:520px;margin:0 auto}
+    .optin-form input{min-height:54px;padding:12px 18px;border:1px solid var(--line);border-radius:8px;font-size:16px;font-family:inherit}
+    button.cta{border:0;cursor:pointer;font-family:inherit;width:100%;max-width:none}
+    footer{background:var(--navy);color:#fff;text-align:center;padding:28px 20px;font-size:12px}
+    footer a{color:#fff;text-decoration:none}
+    @media (max-width:420px){section{padding:40px 18px}h2{font-size:23px}.cta{font-size:16px;padding:14px 18px}.page{box-shadow:none}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="fv" aria-label="ファーストビュー">
+      <picture>
+        <source srcset="fv.webp" type="image/webp">
+        <img src="fv.jpg" alt="会社員をやめずに、お金を増やしながら毎月10万マイル。好きな場所に、好きなだけ行ける「100万マイラー」の新常識 5日間無料トレーニング" width="900" height="1200" style="width:100%;height:auto;display:block" loading="eager" fetchpriority="high" decoding="async">
+      </picture>
+    </section>
+
+    <div class="cta-wrap">
+      <div class="cta-note">＼ 登録は10秒で完了 ／</div>
+      <a class="cta" href="#optin-form">無料で5日間トレーニングに参加する</a>
+      <p class="mail-note">※登録された方には増田和彦または合同会社オフィスM2、または提携パートナーより定期的にメールマガジンをお送りします。不要な場合はメール内の解除リンクからいつでも解除できます。</p>
+    </div>
+
+    <section class="lead">
+      <p>ファーストクラスでハワイも、国内旅行も、自由自在。<br>年間100万マイル＝ファーストクラスでハワイ往復、約◯回分。</p>
+      <p>累計500名の会社員・主婦が実践。<br>それを、運でも裏ワザでもなく、仕組みで貯め続ける。</p>
+      <p>それが「100万マイラーの新常識」です。</p>
+    </section>
+
+    <section class="alt">
+      <h2>クレジットカードを頑張って使っているのに、マイルが貯まらないのは、なぜか。</h2>
+      <p>年会費の高いカードに変えた。還元率を比べた。入会キャンペーンも逃さず申し込んだ。<br>それでも、貯まったマイルは年に数万マイル。<br>家族で海外——どころか、国内往復がやっと。</p>
+      <p>もしあなたがそうなら、原因はあなたの努力不足ではありません。<br>カードの選び方でもありません。</p>
+      <p><strong class="marker">「そもそもの前提」が違うだけです。</strong></p>
+    </section>
+
+    <section class="alt">
+      <h2>マイルを決めるのは、「いくら決済したか」。それだけです。</h2>
+      <p>マイルは、決済額のおよそ1%が貯まります。<br>どのカードを選んでも、ここは大きく変わりません。</p>
+      <div class="formula" aria-label="計算式">
+        <div class="formula-card">決済額 × 約<span class="gold">1%</span> ＝ マイル</div>
+        <div class="formula-card">月<span class="gold">10万</span>マイル ＝ 月<span class="gold">1,000万円</span>の決済</div>
+      </div>
+      <p>つまり——<br><strong>月10万マイル貯めるには、月1,000万円の決済が必要。</strong><br>これが計算上の事実です。</p>
+      <p>「そんなの無理だ」と思いますよね。<br>そうです。自分の生活費だけなら、絶対に無理です。</p>
+      <p>でも、自分のお金を、減らすどころか<strong>増やしながら</strong>、決済額だけを大きくする方法があります。</p>
+      <p><strong>お金を稼ぎながら、マイルがザクザク貯まる。</strong><br>5日間の無料トレーニングで公開するのは、この仕組みです。</p>
+    </section>
+
+    <div class="cta-wrap">
+      <div class="cta-note">＼ 登録は10秒で完了 ／</div>
+      <a class="cta" href="#optin-form">無料で5日間トレーニングに参加する</a>
+    </div>
+
+    <section class="navy">
+      <h2>証拠をお見せします。——カード1枚で、年間<span class="gold">721,710</span>マイル。</h2>
+      <p>これは、講師・増田が使っているカード“1枚”の、この1年間のマイル獲得記録です。</p>
+      <div class="placeholder ph-chart" role="img" aria-label="12ヶ月マイル獲得棒グラフ">12ヶ月マイル獲得棒グラフ</div>
+      <p class="caption">2025年6月〜2026年6月・ユナイテッド航空 提携カード加算分</p>
+      <p>多い月は12万マイル超。もちろん波はあります。<br>それでも、<strong>毎月、必ず貯まり続けている。</strong><br>運や一発のキャンペーンではなく、「仕組み」だからです。</p>
+      <p>他の航空会社・プログラムを合わせると、年間100万マイルを超えていきます。</p>
+      <p>そして、貯めるだけではありません。<br>この1年間で、マイルを使った航空券の発券は<strong>30回以上</strong>。</p>
+      <p>「好きな場所に、好きなだけ」は、比喩ではありません。</p>
+    </section>
+
+    <section>
+      <h2>なぜ、今までのマイル術では届かなかったのか。</h2>
+      <p>世の中で語られているマイルの貯め方は、ほとんどがこの3つです。</p>
+      <table>
+        <thead><tr><th>よくあるマイル術</th><th>続かない理由</th></tr></thead>
+        <tbody>
+          <tr><td>クレカ入会キャンペーン</td><td>一度きりで終わる。カードの枚数にも限界</td></tr>
+          <tr><td>ポイントサイトの案件まわり</td><td>案件が枯れたら終わり。単発の積み上げ</td></tr>
+          <tr><td>紹介・アフィリエイト</td><td>発信力のある人にしかできない</td></tr>
+        </tbody>
+      </table>
+      <p>共通点は、<strong>「再現性」がない</strong>こと。<br>来月も、来年も、同じペースで貯まり続ける保証が、どこにもありません。</p>
+      <p>100万マイラーの新常識は、逆です。<br>毎月、同じ仕組みで、お金を稼ぎながらマイルを貯め続ける。<br>だから毎月10万マイルが、運ではなく「計算できる数字」になります。</p>
+      <p>メディアも、発信力も、特別な才能もいりません。<br><strong>普通の会社員が、今日から始められる方法です。</strong></p>
+    </section>
+
+    <section class="alt">
+      <h2>5日間で、ここまで公開します。</h2>
+      <div class="cards">
+        <div class="card day1"><h3>Day1｜100万マイラーの設計図</h3><p><strong>★5日間で一番大事な日</strong><br>マイルの常識を、数字で書き換えます。なぜカード選びでは一生届かないのか。年間100万マイルまでの設計図を、初日に全部お見せします。</p></div>
+        <div class="card"><h3>Day2｜お金を増やしながらマイルを貯める、中核の仕組み</h3><p>「マイル最適化物販」（仮称）を公開。月数時間・外注前提・マイルのために最適化された、合理的なやり方です。</p></div>
+        <div class="card"><h3>Day3｜貯まる量を一段引き上げる、2つ目の仕組み</h3></div>
+        <div class="card"><h3>Day4｜収入の柱そのものを増やす、3つ目の仕組み</h3></div>
+        <div class="card"><h3>Day5｜あなた自身の「100万マイラー・プラン」</h3><p>5日間の総仕上げ。あなたの生活に合わせた実践順を、その場で整理します。</p></div>
+      </div>
+      <p>各回ライブ配信（夜21時〜予定）。参加できない日はアーカイブ視聴OK（オープンチャット内で公開）。</p>
+    </section>
+
+    <section>
+      <h2>参加者には、3つの特典をご用意しています。</h2>
+      <div class="cards">
+        <div class="card"><div class="placeholder ph-small" role="img" aria-label="特典①モックアップ">特典①モックアップ</div><span class="ribbon">特典①</span><h3>オープンチャット参加特典「今すぐ2万マイル稼ぐ方法」（仮）</h3><p>オープンチャットに参加した瞬間に受け取れる、即効性レポート。トレーニング開始を待たずに、今日から動けます。</p></div>
+        <div class="card"><div class="placeholder ph-small" role="img" aria-label="特典②モックアップ">特典②モックアップ</div><span class="ribbon">特典②</span><h3>Day1ライブ参加特典「100万マイラー設計図シート」（仮）</h3><p>あなたの毎月の決済額と「行きたい旅行」を入れると、年間何マイル貯まり、どの旅行が叶うかが見える計算シート。Day1ライブの中で配布し、その場で一緒に使います。</p></div>
+        <div class="card"><div class="placeholder ph-small" role="img" aria-label="特典③モックアップ">特典③モックアップ</div><span class="ribbon">特典③</span><h3>Day2ライブ参加特典「マイル最適化物販 入門サイト・無料登録券」（仮）</h3><p>仕組みの実践手順を動画と資料で学べる会員サイトへの無料招待。Day2参加者限定です。</p></div>
+      </div>
+    </section>
+
+    <div class="cta-wrap">
+      <div class="cta-note">＼ 登録は10秒で完了 ／</div>
+      <a class="cta" href="#optin-form">無料で5日間トレーニングに参加する</a>
+    </div>
+
+    <section class="alt">
+      <h2>こんな方のための企画です</h2>
+      <ul class="checks">
+        <li>定年後の「第二の収入」と、夫婦で行く旅行——その両方を、あきらめたくない方</li>
+        <li>旅行が好きで、マイルやポイ活を試してきたけれど、「年に1回の特典航空券」で頭打ちの方</li>
+        <li>過去に副業の講座で結果が出ず、今度は<strong>数字で納得してから</strong>始めたい方</li>
+        <li>会社員・パート・主婦のまま、生活を変えずに始めたい方</li>
+      </ul>
+      <p>逆に、マイルの知識を極めたい上級者・マニアの方向けの企画ではありません。<br>公開するのは「知識」ではなく、普通の人が回し続けられる「仕組み」です。</p>
+    </section>
+
+    <section>
+      <h2>講師は、会社員です。</h2>
+      <div class="placeholder ph-profile" role="img" aria-label="増田氏 実写写真">増田氏 実写写真</div>
+      <p><strong>増田和彦</strong>（ますだ・かずひこ）<br>マイラー歴20年。IT企業勤務の現役会社員。</p>
+      <ul class="profile-list">
+        <li>テレビ東京「ガイアの夜明け」、TBS「がっちりアカデミー」出演。雑誌「BIG Tomorrow」掲載</li>
+        <li>お金を使わないファーストクラス海外旅行300回以上・累計1億円分</li>
+        <li>累計500名以上の会社員・主婦に「仕組み」を指導</li>
+      </ul>
+      <blockquote>「私は、会社員をやめません。<br>会社員のままこの仕組みが回り続けることが、<br>『あなたにも同じことができる』という、何よりの証明だからです。」</blockquote>
+    </section>
+
+    <section class="alt steps">
+      <h2>参加の流れ</h2>
+      <div class="cards">
+        <div class="card"><h3>STEP1｜メールアドレスを登録</h3><p>下のボタンから登録。10秒で完了します。</p></div>
+        <div class="card"><h3>STEP2｜挨拶動画（約5分）を視聴</h3><p>登録直後に動画ページへ切り替わります。5日間の全体像をお話しします。</p></div>
+        <div class="card"><h3>STEP3｜LINEオープンチャットに参加（必須）</h3><p>ライブの日程・参加URL・アーカイブ・特典の受け取りは、すべてオープンチャット内でご案内します。匿名で参加できます。</p></div>
+      </div>
+    </section>
+
+    <section class="faq">
+      <h2>よくあるご質問</h2>
+      <div class="cards">
+        <div class="card"><h3>Q. 「物販」と聞くと、難しそう／仕事が増えそうで不安です。</h3><p>A. Day2で公開するのは、月数時間・外注前提の、マイルのために最適化されたやり方です。やるかどうかは、5日間で全体像を見てから判断してください。</p></div>
+        <div class="card"><h3>Q. 参加にお金はかかりますか？</h3><p>A. 5日間すべて無料です。</p></div>
+        <div class="card"><h3>Q. 平日は仕事があり、時間が取れるか不安です。</h3><p>A. ライブは夜21時〜の予定です。参加できない回はアーカイブで視聴できます（オープンチャット内で公開）。</p></div>
+        <div class="card"><h3>Q. マイルのことをよく知らない初心者ですが大丈夫ですか？</h3><p>A. Day1は前提知識ゼロから始めます。むしろ、これから始める方のための5日間です。</p></div>
+      </div>
+    </section>
+
+    <section class="navy">
+      <h2>最後に</h2>
+      <p>世の中には、「マイルで素敵な旅を楽しみましょう」という話があふれています。</p>
+      <p>この5日間でするのは、その話ではありません。<br><strong>数字と、仕組みの話です。</strong></p>
+      <p>5日後、あなたの中で「マイルの常識」が書き換わっていたら、この5日間は成功です。<br>まずは無料で、設計図を見にきてください。</p>
+    </section>
+
+    <section id="optin-form" class="optin" aria-label="無料登録フォーム">
+      <div class="cta-note">＼ 登録は10秒で完了 ／</div>
+      <!-- ▼UTAGE実装時: このform要素をUTAGEの登録フォーム要素（メールアドレス1項目＋送信ボタン）に置き換える。下のformは表示確認用ダミー -->
+      <form class="optin-form" action="#" method="get">
+        <input type="email" name="email" required placeholder="メールアドレスを入力" aria-label="メールアドレス">
+        <button type="submit" class="cta">無料で5日間トレーニングに参加する</button>
+      </form>
+      <p class="mail-note">※登録された方には増田和彦または合同会社オフィスM2、または提携パートナーより定期的にメールマガジンをお送りします。不要な場合はメール内の解除リンクからいつでも解除できます。</p>
+    </section>
+
+    <footer>
+      <p><a href="https://sub.businessmiler.net/p/tokusho" target="_blank" rel="noopener">特定商取引法に基づく表記</a>｜<a href="https://sub.businessmiler.net/p/privacy" target="_blank" rel="noopener">プライバシーポリシー</a></p>
+      <p>© Office M2 All Rights Reserved.</p>
+    </footer>
+  </main>
+</body>
+</html>
