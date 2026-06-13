@@ -1,0 +1,535 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>v4 再点検レポート（3レンズ監査）</title><style>
+:root{--ink:#3A3A35;--soft:#7C7E74;--green:#5F8255;--green-l:#7FB069;--coral:#E8604C;
+--wood:#C8A87E;--paper:#F7F4EE;--card:#fff;--line:#E5E0D6;}
+*{box-sizing:border-box;}
+html{font-size:17px;} @media(max-width:720px){html{font-size:15.5px;}}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+background:var(--paper);color:var(--ink);line-height:1.9;-webkit-font-smoothing:antialiased;letter-spacing:.01em;}
+a{color:var(--green);text-decoration:none;} a:hover{text-decoration:underline;}
+.wrap{max-width:920px;margin:0 auto;padding:2.4rem 1.3rem 5rem;}
+.hero{background:linear-gradient(160deg,#fff 0%,var(--paper) 100%);border:1px solid var(--line);
+border-radius:20px;padding:2.6rem 2.4rem;box-shadow:0 8px 30px rgba(127,176,105,.08);margin-bottom:2rem;}
+.hero .ey{color:var(--coral);font-weight:700;font-size:.92rem;letter-spacing:.08em;}
+.hero h1{font-size:1.85rem;margin:.5rem 0 .6rem;color:var(--green);line-height:1.45;}
+.hero p{color:var(--soft);margin:.3rem 0 0;font-size:.98rem;}
+.barline{height:5px;width:64px;background:var(--coral);border-radius:3px;margin:.2rem 0 1.1rem;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.8rem 2rem;
+box-shadow:0 6px 22px rgba(127,176,105,.06);margin-bottom:1.5rem;}
+h2.sec{font-size:1.3rem;color:var(--green);margin:.2rem 0 1rem;padding-left:.7rem;border-left:5px solid var(--coral);}
+.dl{display:inline-flex;align-items:center;gap:.5rem;background:var(--coral);color:#fff;font-weight:700;
+padding:.85rem 1.5rem;border-radius:999px;box-shadow:0 6px 16px rgba(232,96,76,.25);}
+.dl:hover{text-decoration:none;opacity:.92;}
+.docs{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;} @media(max-width:640px){.docs{grid-template-columns:1fr;}}
+.doc{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem;transition:.15s;}
+.doc:hover{text-decoration:none;border-color:var(--green-l);box-shadow:0 6px 18px rgba(127,176,105,.12);transform:translateY(-1px);}
+.doc .t{font-weight:700;color:var(--ink);font-size:1.04rem;}
+.doc .d{color:var(--soft);font-size:.88rem;margin-top:.25rem;}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;} @media(max-width:640px){.gallery{grid-template-columns:repeat(2,1fr);}}
+.gallery img{width:100%;border:1px solid var(--line);border-radius:8px;display:block;background:#fff;cursor:zoom-in;}
+.gnum{font-size:.74rem;color:var(--soft);text-align:center;margin-top:.15rem;}
+.note{background:#FBF6EE;border:1px dashed var(--wood);border-radius:12px;padding:1rem 1.2rem;color:#7a6a4f;font-size:.92rem;}
+.back{display:inline-block;margin-bottom:1.2rem;color:var(--soft);}
+footer{text-align:center;color:var(--soft);font-size:.82rem;margin-top:2.5rem;}
+/* markdown body */
+.md h1{font-size:1.6rem;color:var(--green);border-bottom:2px solid var(--line);padding-bottom:.4rem;margin-top:0;}
+.md h2{font-size:1.28rem;color:var(--green);margin-top:2rem;padding-left:.6rem;border-left:5px solid var(--coral);}
+.md h3{font-size:1.1rem;color:var(--ink);margin-top:1.6rem;}
+.md h4{font-size:1rem;color:var(--coral);margin-top:1.3rem;}
+.md blockquote{margin:.6rem 0;padding:.8rem 1.1rem;background:var(--paper);border-left:4px solid var(--green-l);border-radius:6px;color:#43483f;}
+.md table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;overflow-x:auto;display:block;}
+.md th{background:var(--green-l);color:#fff;padding:.5rem .7rem;text-align:left;}
+.md td{border:1px solid var(--line);padding:.5rem .7rem;vertical-align:top;}
+.md tr:nth-child(even) td{background:#fafaf7;}
+.md code{background:#f0ece2;padding:.1rem .35rem;border-radius:4px;font-size:.86em;}
+.md hr{border:none;border-top:1px solid var(--line);margin:1.8rem 0;}
+.lightbox{position:fixed;inset:0;background:rgba(40,42,38,.92);display:none;align-items:center;justify-content:center;z-index:50;padding:2rem;}
+.lightbox.on{display:flex;} .lightbox img{max-width:96%;max-height:92%;border-radius:8px;}
+</style></head>
+<body><div class="wrap"><a class="back" href="./">← プロジェクトTOPへ戻る</a><div class="card md"><h1>v4 再点検レポート｜3つのレンズ（比較・密度・誘導×教育）</h1>
+<p>作成日: 2026-06-12<br />
+目的: v4完成版を「①旧3本とくらべてどれだけ上がったか ②短くして大事なものが落ちていないか ③誘導と真の教育の両立」の3レンズで再監査し、見つかった穴を v4.1 として追補した。チェック用の説明書。<br />
+対象: <code>構成案_統合スライドv4_完成版.md</code>（本レポートの修正を反映済み＝v4.1）</p>
+<hr />
+<h2>結論（先に要点）</h2>
+<ul>
+<li>旧3本の「効いている装置」<strong>14個は14個とも継承</strong>（下の継承マップ参照）。捨てたものはなく、全部「置き場所」を変えただけ。</li>
+<li>旧3本には<strong>存在しなかった安全装置を7つ</strong>追加。これは演出の改善ではなく、2026年4〜5月に実際に起きた失点（成約後キャンセル・入金前離脱・高熱意保留）の<strong>構造的封鎖</strong>。</li>
+<li>ただし今回の再監査で<strong>4つの穴</strong>を発見 → v4.1で追補した:<br />
+  1. 「有料級の個別アドバイス」を約束するのに渡す場面がない → 🆕<strong>S22b 処方箋</strong><br />
+  2. 自己選別（向き不向き）がない → 🆕<strong>S32b 向いている人・向いていない人</strong><br />
+  3. 涼子デッキ最強のキーフレーズ「人生最後の片付けに」が未使用 → S29へ<br />
+  4. 卒業生の通奏低音「もっと早くやればよかった」が画面にない → S21へ</li>
+</ul>
+<hr />
+<h1>レンズ1｜旧3本と比べて、実際どれだけグレードアップしたか</h1>
+<h2>1-1. 定量比較</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>雲野（現主力）</th>
+<th>エース</th>
+<th>涼子</th>
+<th><strong>統合v4.1</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>枚数</td>
+<td>207</td>
+<td>176</td>
+<td>142</td>
+<td><strong>51論理／57〜67物理</strong></td>
+</tr>
+<tr>
+<td>想定所要時間</td>
+<td>120〜150分（実績2.5h超の事故あり）</td>
+<td>同等</td>
+<td>やや短い</td>
+<td><strong>73〜90分</strong></td>
+</tr>
+<tr>
+<td>トーク台本</td>
+<td>スライドのノートに混在</td>
+<td>同</td>
+<td>同</td>
+<td><strong>別冊カンペに分離</strong></td>
+</tr>
+<tr>
+<td>担当者間のブレ</td>
+<td>3系統バラバラ・人依存</td>
+<td>—</td>
+<td>—</td>
+<td><strong>1本＋台本＋早見表で標準化</strong></td>
+</tr>
+<tr>
+<td>お客様の声の選択</td>
+<td>その場の記憶任せ</td>
+<td>—</td>
+<td>—</td>
+<td><strong>20本書き起こし＋属性早見表からマッチ</strong></td>
+</tr>
+<tr>
+<td>キャンセル防止</td>
+<td>⑧は口頭・実施任意（5月ほぼ全件未実施）</td>
+<td>—</td>
+<td>—</td>
+<td><strong>S46/S47として画面に実装＝飛ばせない</strong></td>
+</tr>
+<tr>
+<td>配偶者対策</td>
+<td>スライドなし（→山口様 入金前離脱）</td>
+<td>—</td>
+<td>—</td>
+<td><strong>S43で成約前に日程化＋ルートA/B</strong></td>
+</tr>
+<tr>
+<td>ブランド表現</td>
+<td>冒頭に理念が厚い（長さの主因）</td>
+<td>薄い</td>
+<td>終盤の哲学のみ</td>
+<td><strong>開幕S04・締めS48-49・D02・PVで一貫</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>1-2. 旧3本に「存在しなかった」7つの新装置</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>装置</th>
+<th>対応する実際の失点（マニュアル記録）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>S06 スクリーニングA/B二択</td>
+<td>櫻井様（業者ニーズで講座案内前終了・時間浪費）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>S42 迷いの点数化（残り何点）</td>
+<td>杉浦様（80-90点なのに保留）・古賀様（50点を深掘りせず）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>S43 配偶者ルートの成約前日程化</td>
+<td>山口様（成約→主人反対で入金前離脱）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>S47 保留分岐＋約束（LINE断り防止）</td>
+<td>小林様（LINEでキャンセル・覆らず）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>S46 ⑧キャンセル防止の完全版を画面化</td>
+<td>5月成約のほぼ全件で⑧未実施</td>
+</tr>
+<tr>
+<td>6</td>
+<td>S36 D02りょうこ動画を価格直前に配置</td>
+<td>（本人の声でブランドを立てつつ価格の感情的受け皿を作る）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>🆕S22b 処方箋（約束の回収）</td>
+<td>「有料級」の約束が口約束で終わっていた構造</td>
+</tr>
+</tbody>
+</table>
+<h2>1-3. 旧3本の強み 継承マップ（14/14）</h2>
+<table>
+<thead>
+<tr>
+<th>元の強み</th>
+<th>v4.1での居場所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>雲野① ADHD/ASD「あなたのせいじゃない」リフレーミング</td>
+<td>S18</td>
+</tr>
+<tr>
+<td>雲野② ビリーフ12問診断</td>
+<td>S11（エース13項目と統合・4カテゴリ化）</td>
+</tr>
+<tr>
+<td>雲野③ らせん上昇3ステップ（段階アニメの良い例）</td>
+<td>S19（ビルド表示で継承）</td>
+</tr>
+<tr>
+<td>雲野④ 損失可視化＋アンカリング二段構え</td>
+<td>S12＋S34/S35</td>
+</tr>
+<tr>
+<td>雲野⑤ 21Daysダウンセル フルファネル</td>
+<td>巻末別冊（そのまま接続）</td>
+</tr>
+<tr>
+<td>エース① 担当者自己紹介が早い</td>
+<td>S02</td>
+</tr>
+<tr>
+<td>エース② YES/NO診断が前面</td>
+<td>S11（Phase1に配置）</td>
+</tr>
+<tr>
+<td>エース③ 損失の金額の具体化</td>
+<td>S12（記入式）</td>
+</tr>
+<tr>
+<td>エース④ 部屋別Before-After</td>
+<td>S20</td>
+</tr>
+<tr>
+<td>涼子① ビリーフノート独自メソッド軸</td>
+<td>S17</td>
+</tr>
+<tr>
+<td>涼子② A/B/C未来予想（1年/3年/10年）</td>
+<td>S13/S14</td>
+</tr>
+<tr>
+<td>涼子③ ナチュラルウーマン世界観</td>
+<td>S26＋ブランドPV＋外出しブック</td>
+</tr>
+<tr>
+<td>涼子④ 講座MAP（冒険の旅）</td>
+<td>S28</td>
+</tr>
+<tr>
+<td>涼子⑤ 終盤を思想で締める</td>
+<td>S48/S49</td>
+</tr>
+</tbody>
+</table>
+<h2>1-4. 正直に言う「下がったもの」と、その代償の払い方</h2>
+<ul>
+<li><strong>物量の圧が消えた。</strong> 207枚×2時間という体験自体が「高額講座の重み」を演出していた面は否定できない。<br />
+  → 代わりに<strong>「個別性」で重みを作る</strong>：S22b処方箋（あなた専用のアドバイス）＋早見表による「あなたに近い人の声」。汎用の物量より、個別の的中の方が60万円の納得に効く、というのが本設計の賭け。</li>
+<li><strong>教育の詳細が当日からなくなった</strong>（事前動画依存）。<br />
+  → 視聴率が低いと納得感が下がるリスク。保険として S22 に<strong>当日90秒ダイジェスト（予備スライド2〜3枚）</strong>を明記。事前視聴の運用導線は要相談④のまま。</li>
+<li><strong>画面が減った分、セラーの対話力への依存が上がる。</strong><br />
+  → 別冊カンペ＋ロープレで担保する前提。導入時はA/B並走で成約率40〜54%レンジを下回らないか必ず検証（v1からの方針どおり）。</li>
+</ul>
+<hr />
+<h1>レンズ2｜密度 — 短くして、本当に大事なことが落ちていないか</h1>
+<h2>2-1. フェーズ別 時間予算（73〜90分に収まる設計）</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>スライド</th>
+<th>時間目安</th>
+<th>主な中身</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0 オープニング</td>
+<td>S01-05</td>
+<td>5〜7分</td>
+<td>約束・自己紹介・賞賛</td>
+</tr>
+<tr>
+<td>P0.5 スクリーニング</td>
+<td>S06</td>
+<td>2〜3分</td>
+<td>A/B二択×2＋環境確認</td>
+</tr>
+<tr>
+<td>P1 ヒアリング/SPIN</td>
+<td>S07-14</td>
+<td>20〜25分</td>
+<td>対話の主戦場（共有OFF）</td>
+</tr>
+<tr>
+<td>P2 価値の橋渡し</td>
+<td>S15-22b</td>
+<td>13〜16分</td>
+<td>差別化・声・<strong>処方箋</strong></td>
+</tr>
+<tr>
+<td>P3 オファー</td>
+<td>S23-32b</td>
+<td>10〜12分</td>
+<td>4要素・実物・<strong>向き不向き</strong></td>
+</tr>
+<tr>
+<td>P3.5 棚卸し</td>
+<td>S33</td>
+<td>3分</td>
+<td>価格前の必須</td>
+</tr>
+<tr>
+<td>P4 価格・クロージング</td>
+<td>S34-47</td>
+<td>15〜22分</td>
+<td>動画→価格→点数→配偶者→⑧</td>
+</tr>
+<tr>
+<td>P5 締め</td>
+<td>S48-49</td>
+<td>2分</td>
+<td>思想の余韻</td>
+</tr>
+<tr>
+<td><strong>計</strong></td>
+<td>51枚</td>
+<td><strong>73〜90分</strong></td>
+<td>旧運用の約半分</td>
+</tr>
+</tbody>
+</table>
+<h2>2-2. 外出し台帳（「削った」のではなく「移した」の証明）</h2>
+<table>
+<thead>
+<tr>
+<th>当日から外したもの</th>
+<th>受け皿</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>氷山・脳科学の長尺教育</td>
+<td>事前教育動画＋S22要約＋90秒予備</td>
+</tr>
+<tr>
+<td>ミッション・ビジョン・バリュー</td>
+<td>ブランドPV（スライド解説型・依頼済み）＋S04/S48</td>
+</tr>
+<tr>
+<td>ナチュラルウーマン定義6枚</td>
+<td>PV＋S26＋世界観ブック</td>
+</tr>
+<tr>
+<td>割れ窓理論・片付け適齢期</td>
+<td>外出しコラム＋台本（S51適齢期トークは台本のP3.5前後で使用可）</td>
+</tr>
+<tr>
+<td>反論処理・配偶者A/B全文</td>
+<td>別冊カンペ</td>
+</tr>
+<tr>
+<td>21Daysダウンセル23枚</td>
+<td>巻末別冊</td>
+</tr>
+</tbody>
+</table>
+<h2>2-3. マニュアル必須9要素の実装確認</h2>
+<table>
+<thead>
+<tr>
+<th>必須要素</th>
+<th>実装場所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>笑顔・環境確認</td>
+<td>台本S01前＋S06</td>
+</tr>
+<tr>
+<td>SPIN損失の引き出し</td>
+<td>S12（記入式）</td>
+</tr>
+<tr>
+<td>価値の棚卸し</td>
+<td>S33</td>
+</tr>
+<tr>
+<td>アンカリング</td>
+<td>S34/S35</td>
+</tr>
+<tr>
+<td>分割の具体提示</td>
+<td>S38/S39</td>
+</tr>
+<tr>
+<td>「やりましょうよ！」背中押し</td>
+<td>S44＋台本</td>
+</tr>
+<tr>
+<td>⑧キャンセル防止（完全版）</td>
+<td>S46</td>
+</tr>
+<tr>
+<td>配偶者ルートA/B</td>
+<td>S43＋台本</td>
+</tr>
+<tr>
+<td>保留時の約束</td>
+<td>S47</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>9/9実装</strong>。v3時点では⑧不完全・配偶者後置・保留なしの6/9だった。</p>
+<h2>2-4. 今回の監査で見つけた穴 → v4.1追補</h2>
+<ol>
+<li><strong>約束の回収装置がない（最重要）</strong>: S04で「有料級の情報・個別アドバイス」を約束し、涼子原版P004は「何から始めるか／なぜ続かなかったか／あなたに合うやり方、を必ず持ち帰っていただく」とまで言っていた。v4はこれを渡すスライドがなかった。→ 🆕<strong>S22b「今日の、あなたへの処方箋」</strong>を新設。教育の核であり、返報性で成約にも効く。</li>
+<li><strong>自己選別がない</strong>: 涼子P097-098「向いている人」が落ちていた。→ 🆕<strong>S32b</strong>。「向いていない人」を正直に言うことで、S04の「無理に売らない」が行動で証明され、決断の質が上がりキャンセル率が下がる。</li>
+<li><strong>キーフレーズの未使用</strong>: 涼子P059「これを人生最後の片付けにしましょう」→ S29に採用。</li>
+<li><strong>卒業生の通奏低音が画面にない</strong>: 全デッキ共通の「もっと早くやればよかった」→ S21に採用。</li>
+</ol>
+<hr />
+<h1>レンズ3｜スライドの目的 — 「誘導」と「真の教育」の両立</h1>
+<h2>3-1. 整理（本デッキでの定義）</h2>
+<ul>
+<li><strong>誘導</strong> ＝ 決断の摩擦を取り除く設計。アンカリング・点数化・特典・背中押し・キャンセル防止。</li>
+<li><strong>真の教育</strong> ＝ 買わなくても顧客の人生が良くなる理解を渡すこと。「あなたのせいじゃない」「ビリーフが原因」「あなたの場合の処方箋」。</li>
+</ul>
+<h2>3-2. v4.1の構成比</h2>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>スライド</th>
+<th>枚数感</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信頼・対話（聞く）</td>
+<td>S01-S14</td>
+<td>14枚</td>
+</tr>
+<tr>
+<td>教育（渡す）</td>
+<td>S15-S22b</td>
+<td>9枚</td>
+</tr>
+<tr>
+<td>オファー・誘導（導く）</td>
+<td>S23-S47</td>
+<td>26枚</td>
+</tr>
+<tr>
+<td>思想（残す）</td>
+<td>S48-S49</td>
+<td>2枚</td>
+</tr>
+</tbody>
+</table>
+<h2>3-3. ここが一番大事な論点</h2>
+<p>雲野207枚の中身は機械分類で「講座・メソッド説明85枚」。これは<strong>教育に見えて、実は一方通行の説明</strong>——まさに涼子さんが嫌った「セミナースライド化」の正体。<br />
+v4.1は情報量を減らした代わりに、教育の形を<strong>「顧客の文脈に当てはめる教育」</strong>（診断S11→記入S12-14→処方箋S22b）に変えた。</p>
+<blockquote>
+<p><strong>密度は「情報の量」ではなく「相手が動ける量」で測る。</strong> これがv4.1の設計思想。</p>
+</blockquote>
+<h2>3-4. 教育はキャンセル対策そのものである</h2>
+<p>このプロジェクトの出発点は、りょうこさんの「疲れてクーリングオフが出る」だった。5月の実データでも、失点は成約率ではなく<strong>成約後の剥落</strong>（キャンセル・入金前離脱）に集中している。<br />
+納得の浅い成約は剥がれる。だから構造は「<strong>誘導で取って、教育で守る</strong>」：</p>
+<ul>
+<li>処方箋（S22b）で「買わなくても得をした」状態を作る → 返報性と信頼</li>
+<li>向き不向き（S32b）で「選ばれた」納得を作る → 決断の自己所有</li>
+<li>⑧完全版（S46）＋保留の約束（S47）で決断を本人の言葉に固定する</li>
+</ul>
+<p>S04の約束（無理に売らない・有料級を渡す）と S22b/S32b が対応しているので、<strong>約束が嘘にならない＝ブランドが守られる</strong>。誘導と教育は対立せず、教育が誘導の持続性を担保する関係になっている。</p>
+<hr />
+<h1>v4.1 変更一覧（v4ファイルに反映済み）</h1>
+<table>
+<thead>
+<tr>
+<th>変更</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🆕 S22b</td>
+<td>「今日の、あなたへの処方箋」（Phase2末・約束①③の回収）</td>
+</tr>
+<tr>
+<td>🆕 S32b</td>
+<td>「向いている人・向いていない人」（Phase3末・自己選別）</td>
+</tr>
+<tr>
+<td>✏️ S29</td>
+<td>「これを、人生最後の片付けにしましょう」を追加</td>
+</tr>
+<tr>
+<td>✏️ S21</td>
+<td>「もっと早くやればよかった」をテロップ化</td>
+</tr>
+<tr>
+<td>✏️ S22注記</td>
+<td>未視聴者向け90秒ダイジェスト予備スライドを明記</td>
+</tr>
+<tr>
+<td>✏️ S37注記</td>
+<td>台本キーライン「比較するのは商品ではなく、今後10年の人生」</td>
+</tr>
+<tr>
+<td>数値</td>
+<td>本編49→<strong>51論理／57〜67物理</strong>、全体約80〜85枚</td>
+</tr>
+</tbody>
+</table>
+<p>※ S22b/S32bの枝番は実制作時に通し番号へ振り直す。</p>
+<h1>変わらず残る判断ポイント（チェック時にご意見ください）</h1>
+<ol>
+<li><strong>S40 特典の中身</strong>（今決める理由になる特典の確定）— クロージングの核</li>
+<li><strong>S35 他社比較</strong>を消すか・ぼかして残すか（Codexは「消す」推奨）</li>
+<li>S11 診断項目の中身確定（4カテゴリ×各項目）</li>
+<li>事前動画（PV＋教育）の視聴導線が運用で組めるか</li>
+</ol>
+<h1>チェックの観点ガイド（上から通すとき）</h1>
+<ol>
+<li>P1の問い（S08-S14）が、実際の顧客像で答えやすいか</li>
+<li>🆕S22b処方箋が、各セラーのスキルで回せるか（型は台本に記載）</li>
+<li>🆕S32b「向いていない人」の言い方がブランドとして許容範囲か</li>
+<li>S40特典に入れたいものが浮かぶか</li>
+</ol>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-12)<br />
+Generated by: 田中祐一<br />
+</content></p></div></div>
+<footer>Produced by KATSUO MARKETING ／ 中田りょうこ 1秒収納 セールススライド刷新プロジェクト</footer>
+</body></html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>スライド構成案 v5（正本）</title><style>
+:root{--ink:#3A3A35;--soft:#7C7E74;--green:#5F8255;--green-l:#7FB069;--coral:#E8604C;
+--wood:#C8A87E;--paper:#F7F4EE;--card:#fff;--line:#E5E0D6;}
+*{box-sizing:border-box;}
+html{font-size:17px;} @media(max-width:720px){html{font-size:15.5px;}}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+background:var(--paper);color:var(--ink);line-height:1.9;-webkit-font-smoothing:antialiased;letter-spacing:.01em;}
+a{color:var(--green);text-decoration:none;} a:hover{text-decoration:underline;}
+.wrap{max-width:920px;margin:0 auto;padding:2.4rem 1.3rem 5rem;}
+.hero{background:linear-gradient(160deg,#fff 0%,var(--paper) 100%);border:1px solid var(--line);
+border-radius:20px;padding:2.6rem 2.4rem;box-shadow:0 8px 30px rgba(127,176,105,.08);margin-bottom:2rem;}
+.hero .ey{color:var(--coral);font-weight:700;font-size:.92rem;letter-spacing:.08em;}
+.hero h1{font-size:1.85rem;margin:.5rem 0 .6rem;color:var(--green);line-height:1.45;}
+.hero p{color:var(--soft);margin:.3rem 0 0;font-size:.98rem;}
+.barline{height:5px;width:64px;background:var(--coral);border-radius:3px;margin:.2rem 0 1.1rem;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.8rem 2rem;
+box-shadow:0 6px 22px rgba(127,176,105,.06);margin-bottom:1.5rem;}
+h2.sec{font-size:1.3rem;color:var(--green);margin:.2rem 0 1rem;padding-left:.7rem;border-left:5px solid var(--coral);}
+.dl{display:inline-flex;align-items:center;gap:.5rem;background:var(--coral);color:#fff;font-weight:700;
+padding:.85rem 1.5rem;border-radius:999px;box-shadow:0 6px 16px rgba(232,96,76,.25);}
+.dl:hover{text-decoration:none;opacity:.92;}
+.docs{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;} @media(max-width:640px){.docs{grid-template-columns:1fr;}}
+.doc{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem;transition:.15s;}
+.doc:hover{text-decoration:none;border-color:var(--green-l);box-shadow:0 6px 18px rgba(127,176,105,.12);transform:translateY(-1px);}
+.doc .t{font-weight:700;color:var(--ink);font-size:1.04rem;}
+.doc .d{color:var(--soft);font-size:.88rem;margin-top:.25rem;}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;} @media(max-width:640px){.gallery{grid-template-columns:repeat(2,1fr);}}
+.gallery img{width:100%;border:1px solid var(--line);border-radius:8px;display:block;background:#fff;cursor:zoom-in;}
+.gnum{font-size:.74rem;color:var(--soft);text-align:center;margin-top:.15rem;}
+.note{background:#FBF6EE;border:1px dashed var(--wood);border-radius:12px;padding:1rem 1.2rem;color:#7a6a4f;font-size:.92rem;}
+.back{display:inline-block;margin-bottom:1.2rem;color:var(--soft);}
+footer{text-align:center;color:var(--soft);font-size:.82rem;margin-top:2.5rem;}
+/* markdown body */
+.md h1{font-size:1.6rem;color:var(--green);border-bottom:2px solid var(--line);padding-bottom:.4rem;margin-top:0;}
+.md h2{font-size:1.28rem;color:var(--green);margin-top:2rem;padding-left:.6rem;border-left:5px solid var(--coral);}
+.md h3{font-size:1.1rem;color:var(--ink);margin-top:1.6rem;}
+.md h4{font-size:1rem;color:var(--coral);margin-top:1.3rem;}
+.md blockquote{margin:.6rem 0;padding:.8rem 1.1rem;background:var(--paper);border-left:4px solid var(--green-l);border-radius:6px;color:#43483f;}
+.md table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem;overflow-x:auto;display:block;}
+.md th{background:var(--green-l);color:#fff;padding:.5rem .7rem;text-align:left;}
+.md td{border:1px solid var(--line);padding:.5rem .7rem;vertical-align:top;}
+.md tr:nth-child(even) td{background:#fafaf7;}
+.md code{background:#f0ece2;padding:.1rem .35rem;border-radius:4px;font-size:.86em;}
+.md hr{border:none;border-top:1px solid var(--line);margin:1.8rem 0;}
+.lightbox{position:fixed;inset:0;background:rgba(40,42,38,.92);display:none;align-items:center;justify-content:center;z-index:50;padding:2rem;}
+.lightbox.on{display:flex;} .lightbox img{max-width:96%;max-height:92%;border-radius:8px;}
+</style></head>
+<body><div class="wrap"><a class="back" href="./">← プロジェクトTOPへ戻る</a><div class="card md"><h1>統合セールススライド v5.2｜実データ強化版（正本）</h1>
+<p>策定日: 2026-06-12（v5.3: 学校ポジショニング＋価値の散りばめを反映。v5.2: 421件調査反映）<br />
+位置づけ: 田中フィードバック反映版（v5）に、<strong>実セールス421件の成功・失敗調査</strong>（<code>../セールス/セールスマニュアル/調査_価格セットアップとオファー説明.md</code>）を反映した実制作用の正本。<br />
+ボリューム: 本編 <strong>71枚（論理・S36b/c含む）／物理82〜97枚</strong>＋巻末ダウンセル約20枚 ＝ <strong>本編100枚以下（50〜100枚のベスト着地狙い）</strong><br />
+方針: 「見せる画面」と「喋る台本（別冊カンペ）」の分離／教育の軸＝<strong>片付けは人生のセンターピン</strong>／価格・オファーは実データで増強</p>
+<p>関連: <code>構成案_統合スライドv4_完成版.md</code>（アーカイブ）／<code>別冊_セラートーク台本.md</code>（v5.2同期済み）／<code>../セールス/セールスマニュアル/調査_価格セットアップとオファー説明.md</code>（421件調査・本版の根拠）</p>
+<h2>凡例</h2>
+<ul>
+<li><code>&gt;</code> ＝スライド表示文言。〔注記〕＝デザイン・進行メモ。🆕5.2＝今回新設（調査由来）。</li>
+<li>〔研究〕＝421件調査の根拠。ビルド①→②＝段階表示（物理ページ増）。</li>
+</ul>
+<hr />
+<h2>v5.2 変更サマリー（調査結果 → スライド）</h2>
+<table>
+<thead>
+<tr>
+<th>調査の発見</th>
+<th>反映</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最大の死因＝「10万円くらいと思ってた」期待価格ギャップ（事前アンカー不在）</td>
+<td>🆕<strong>S51 世の中の選択肢と相場</strong>（価格発表より手前で他社90万円台を提示）</td>
+</tr>
+<tr>
+<td>「なぜ60万円か」の体系的な語りが421件中ほぼ存在しない</td>
+<td>🆕<strong>S54 この価格に込めたもの</strong>＋🆕<strong>S55 1日換算</strong></td>
+</tr>
+<tr>
+<td>「分割できます」だけでは不安は消えない</td>
+<td>🆕<strong>S57 分割シミュ一覧表</strong>（6/12/24/36回の月額を常備）</td>
+</tr>
+<tr>
+<td>オファーで動いた瞬間＝Discord実画面・分割シミュ実演・声の動画（成約群89% vs 否決群73%）</td>
+<td>S45実物・S58実演を必須化／S24動画「必ず流す」を台本で必須化</td>
+</tr>
+<tr>
+<td>逆効果＝サポート12個の羅列・3時間超・抽象語の連発</td>
+<td>サポートは<strong>構造化2枚</strong>（S43-44）＋「あなたに関係する3つ」ナビ（S42）</td>
+</tr>
+<tr>
+<td>「変われる」納得＝免罪→診断→ビリーフ本人史再解釈の3段＋担当の自己開示</td>
+<td>S11→S12→S19の3段は維持／自己開示を台本S20に必須化</td>
+</tr>
+<tr>
+<td>アカデミーの必然が弱い（田中FB「確実に書き換えられる理由」）</td>
+<td>🆕<strong>S37〜S41「理由は4つあります」</strong>（脳の特性×サポートの紐付け）</td>
+</tr>
+</tbody>
+</table>
+<h3>v5.3 追補（学校ポジショニング・価値の散りばめ／田中FB 2026-06-12第2弾）</h3>
+<table>
+<thead>
+<tr>
+<th>田中FB</th>
+<th>反映</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1(a) 資格講座との比較（米国等→それ以上のサポート）</td>
+<td>🆕<strong>S36b</strong>「"資格の学校"は世界中にある→変わるまで伴走する学校はなかった」</td>
+</tr>
+<tr>
+<td>1(b) 「二度とリバウンドしない講座」の定義</td>
+<td>✏️<strong>S17</strong>で前半に定義（S21・S40と呼応）</td>
+</tr>
+<tr>
+<td>1(c) 学校としての打ち出し＋学費アンカー（心理学の学校・4年制大学）</td>
+<td>✏️<strong>S35</strong>「講座ではなく学校」宣言＋🆕<strong>S36c</strong>学費相場（大学400万〜・心理学スクール・ジム）</td>
+</tr>
+<tr>
+<td>2(a) 脳・マインドの変化（自己肯定感爆上がり）</td>
+<td>✏️<strong>S24</strong>に「自信が戻った」追加（S68クレッシェンドと呼応）</td>
+</tr>
+<tr>
+<td>2(b) 強制的に実践する環境</td>
+<td>✏️<strong>S38</strong>「実践が時間割に組み込まれた学校」</td>
+</tr>
+<tr>
+<td>2(c) 卒業後の継続コミュニティ</td>
+<td>✏️<strong>S46</strong>「卒業後もコミュニティがある」（金額は根拠未確認のため5.3.1で削除）</td>
+</tr>
+<tr>
+<td>価値を前半から随所に散りばめる</td>
+<td>✏️<strong>S25</strong>に「心理学の学校で学ぶレベル」の伏線→S36cで回収</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>■ Phase 0 オープニング（S01〜S05）</h1>
+<h2>S01｜表紙＋本日の約束</h2>
+<blockquote>
+<p><strong>1秒収納 個別相談会</strong></p>
+<p>真面目で、がんばり屋なあなたのための時間</p>
+<p>〔小さく〕りょうこ先生への共有と、品質向上のため録画させていただきます</p>
+</blockquote>
+<h2>S02｜担当者の自己紹介</h2>
+<blockquote>
+<p><strong>ご案内するのは、わたしです</strong></p>
+<p>〔顔写真〕〇〇 〇〇（1秒収納 認定パートナー）<br />
+・りょうこ先生の「1秒収納」をご案内して〇年<br />
+・りょうこ先生の分身として、橋渡し役を務めます</p>
+</blockquote>
+<h2>S03｜あなたのことを教えてください</h2>
+<blockquote>
+<p><strong>まずは、あなたのことを聞かせてください</strong></p>
+<p>・お名前　・お住まいの地域　・今日いちばん相談したいこと</p>
+<p>〔小さく〕事前にご提出いただいた診断・課題は、すべて読んでいます</p>
+</blockquote>
+<h2>S04｜この個別相談についての4つの約束</h2>
+<blockquote>
+<p><strong>この時間の、4つのお約束</strong></p>
+<ol>
+<li>有料級の情報を、出し惜しみせずお伝えします</li>
+<li>無理におすすめはしません。ただし、必要だと感じた方には、今日きちんとご提案します</li>
+<li>あなたに合った、個別のアドバイスをします</li>
+<li>最後に決めるのは、いつもあなたです</li>
+</ol>
+<p>〔小さく〕ここは秘密厳守の、安心安全の場です</p>
+</blockquote>
+<h2>S05｜ここまで進んでこられたあなたへ</h2>
+<blockquote>
+<p><strong>ここまで進んでこられたあなたは、それだけで素晴らしい</strong></p>
+<p>3本の動画も、お絵描きムービーの課題も、最後までやり切った。<br />
+途中であきらめる方が多い中で、あなたはちゃんと、ここまで来られました。</p>
+</blockquote>
+<hr />
+<h1>■ Phase 0.5 スクリーニング（S06）</h1>
+<h2>S06｜はじめに、3つだけ確認させてください</h2>
+<blockquote>
+<p><strong>はじめに、3つだけ確認させてください</strong></p>
+<ol>
+<li>今日は——<strong>A. 講座も含めて相談したい</strong> ／ <strong>B. 無料のアドバイスだけ聞きたい</strong>　どちらが近いですか？</li>
+<li>今いちばん困っているのは——<strong>A. 片付けの習慣・考え方</strong> ／ <strong>B. 大型ゴミ・業者の手配</strong>　どちらに近いですか？</li>
+<li>このあと60〜90分、お時間は大丈夫そうですか？（周りにご家族がいれば先に教えてください）</li>
+</ol>
+</blockquote>
+<p>〔注記〕両問Bなら丁寧に早期終了。〔研究〕講座案内前終了37件——ここで正しく見極めれば双方の時間を守れる。</p>
+<hr />
+<h1>■ Phase 1 ヒアリング・SPIN（S07〜S16）〔画面共有を一旦停止し、対話中心〕</h1>
+<h2>S07｜ここからは、あなたのための時間</h2>
+<blockquote>
+<p><strong>ここからは、あなたのための時間です</strong></p>
+<p>これから少しの間、あなたの今の状況を、一緒に整理させてください。</p>
+</blockquote>
+<h2>S08｜あるある特性チェック</h2>
+<blockquote>
+<p><strong>こんなこと、ありませんか？</strong></p>
+<p>□ 気づくと、後回しにしてしまう　□「あとでやろう」が積み重なる<br />
+□ 一度散らかると、どこから手をつけるか分からない　□ 片付けても、すぐ元に戻る</p>
+</blockquote>
+<h2>S09｜【現状】お悩みは、いつ頃から？</h2>
+<blockquote>
+<p><strong>今の状態は、いつ頃から続いていますか？</strong></p>
+<p>・今、お部屋はどんな状態ですか？　・いつ頃から、そう感じていますか？</p>
+</blockquote>
+<h2>S10｜根本原因の追求（努力の棚卸し→問いの大型1枚）</h2>
+<blockquote>
+<p>ビルド①<br />
+<strong>今まで、何冊の片付け本を買いましたか？</strong><br />
+<strong>何本の動画を見ましたか？</strong><br />
+<strong>何回、「今年こそ」と思いましたか？</strong></p>
+<p>ビルド②<br />
+<strong>それでも——変われなかった理由は、</strong><br />
+<strong>何だと思いますか？</strong></p>
+</blockquote>
+<p>〔注記〕涼子原版P020-021の完全復元。①で努力を数えさせ（承認でもある）、②で黙って待ち、<strong>「自力では難しかった」を本人の口から言わせる</strong>。</p>
+<h2>S11｜【問題】あなたのせいじゃない</h2>
+<blockquote>
+<p><strong>片付けられないのは、あなたの能力のせいじゃない</strong></p>
+<p>続かなかったのは「意志が弱いから」ではありません。<br />
+原因は、<strong>脳のクセ</strong>と、<strong>今いる環境</strong>にあります。</p>
+</blockquote>
+<p>〔注記〕〔研究〕「変われる」納得の3段構造の1段目＝<strong>免罪</strong>。強く承認（「1mmも悪くない」）。</p>
+<h2>S12｜片付けビリーフ診断（YES / NO）</h2>
+<blockquote>
+<p><strong>あなたの「片付けの思い込み」を見てみましょう</strong></p>
+<p>〔A. 片付けへの思い込み〕面倒くさい／大変／私の仕事じゃない<br />
+〔B. 続かないことへの思い込み〕どうせリバウンドする／時間がないとムリ<br />
+〔C. モノへの思い込み〕いつか使うかも／捨てるのはもったいない<br />
+〔D. 自分への思い込み〕どうせ私には無理／片付けできない私はダメ</p>
+<p>〔下部〕<strong>当てはまる数が多い人ほど、講座で劇的に変わります</strong></p>
+</blockquote>
+<p>〔注記〕3段構造の2段目＝<strong>診断による当事者化</strong>。4カテゴリのビルド。</p>
+<h2>S13｜【示唆】このまま続くと、失い続けるもの</h2>
+<blockquote>
+<p><strong>片付けが苦手なまま続くと、こんな"見えない損"が積み上がります</strong></p>
+<p>ビルド① 外食が増える … 月〇円　ビルド② 同じものを買う … 月〇円<br />
+ビルド③ 探し物の時間 … 年60時間　ビルド④ 活かせていない家のスペース … 家賃の〇％</p>
+<p>〔最終〕<strong>1年で〇〇円、10年で〇〇〇万円</strong></p>
+</blockquote>
+<p>〔注記〕〔研究〕「顧客が既に払っている金額」を可視化した案件は価格反応が軽い——ここが最初のアンカー。</p>
+<h2>S14｜【示唆】このまま、1年・3年・10年後は？</h2>
+<blockquote>
+<p><strong>もし何も変えなかったら——</strong></p>
+<p>ビルド① 1年後 …〔記入〕　ビルド② 3年後 …〔記入〕　ビルド③ 10年後 …〔記入〕</p>
+</blockquote>
+<h2>S15｜【解決】片付いたら、どんな毎日？</h2>
+<blockquote>
+<p><strong>逆に、片付いたら——あなたの未来は？</strong></p>
+<p>ビルド① 1年後 …〔記入〕　ビルド② 3年後 …〔記入〕　ビルド③ 10年後 …〔記入〕</p>
+</blockquote>
+<h2>S16｜フューチャーペーシング：すべての制限がなかったとしたら</h2>
+<blockquote>
+<p><strong>もし——お金の制限も、時間の制限も、</strong><br />
+<strong>そして「片付けの悩み」も、ぜんぶなかったとしたら。</strong></p>
+<p><strong>本当に成し遂げたいことは、何ですか？</strong></p>
+<p>〔家族軸〕ご家族と、どんな時間を過ごしたいですか？<br />
+　（例：友達を呼べる家でホームパーティ／子どもと笑って過ごす週末／夫婦でゆっくり旅行）…〔記入〕<br />
+〔健康軸〕どんな心と体で、毎日を生きたいですか？<br />
+　（例：ぐっすり眠れる寝室／イライラしない毎日／自分の体をいたわる時間）…〔記入〕<br />
+〔自己実現軸〕本当は、何に挑戦したかったですか？<br />
+　（例：学び直し・資格／仕事復帰・新しい仕事／ずっとやりたかった趣味や夢）…〔記入〕</p>
+<p>〔めくって〕片付けが変わっていくと、これが、どんどん実現に近づいていきます。<br />
+<strong>——そう思いませんか？</strong></p>
+</blockquote>
+<p>〔注記〕全制限解除フレーム＋家族・健康・自己実現の3軸（例つき）。1軸ずつビルド。<strong>ここで出た言葉がS22・S48・S63の最大の弾</strong>。</p>
+<hr />
+<h1>■ Phase 2 価値の橋渡し（S17〜S27）〔画面共有を再開〕</h1>
+<h2>S17｜1秒収納は、ここが違う ✏️5.3</h2>
+<blockquote>
+<p><strong>1秒収納が、他の片付けと決定的に違うこと</strong></p>
+<p>片付けが「上手になる」講座は、世の中にたくさんあります。<br />
+1秒収納は——<strong>二度とリバウンドしない自分になる</strong>ための学びです。</p>
+<p>片付けの技術だけでは、続きません。<br />
+土台にある<strong>「思い込み」が変わると、技術が初めて定着する</strong>——ここが核です。</p>
+</blockquote>
+<p>〔注記〕田中FB 1(b)：「お片付けができるようになる講座」ではなく<strong>「二度とリバウンドしない講座」とここで定義</strong>（前半に散りばめる価値提示の1つ目）。S21・S40の「戻らない」と呼応。</p>
+<h2>S18｜片付けは「一気に」が正解</h2>
+<blockquote>
+<p><strong>片付けは、コツコツ？　それとも一気に？</strong></p>
+<p>A：毎日コツコツ　B：一気に集中<br />
+〔めくって〕<strong>答えは B。</strong> 一気にやることで脳が活性化し、「片付いた状態」が記憶に残ります。</p>
+</blockquote>
+<h2>S19｜ビリーフノート——ここを扱わない限り、変わりません</h2>
+<blockquote>
+<p><strong>ビリーフノートを書き換えない限り、</strong><br />
+<strong>何をやっても、元に戻ります。</strong></p>
+<p>片付けとは、実は「決断の連続」。<br />
+今まで何をやっても変わらなかったのは、<strong>ビリーフ（思い込み）に手をつけていなかったから</strong>です。</p>
+</blockquote>
+<p>〔注記〕3段構造の3段目＝<strong>ビリーフを「本人史の再解釈」として語る</strong>（S10で本人が話した過去とつなげる）。</p>
+<h2>S20｜あなたのせいじゃない（特性リフレーミング）</h2>
+<blockquote>
+<p><strong>片付けが苦手なのは、「個性」です</strong></p>
+<p>実は、1秒収納の考え方をつくった人自身も、片付けが大の苦手でした。<br />
+それは欠点ではなく、<strong>脳の個性</strong>。合った仕組みがあれば、変化は起こせます。</p>
+</blockquote>
+<p>〔注記〕〔研究〕<strong>担当自身のメンタル危機・苦手体験の自己開示が説得力を倍化</strong>——台本に必須化。</p>
+<h2>S21｜だから、もう戻らない</h2>
+<blockquote>
+<p><strong>書き換える → 動ける → 定着する。そして、らせんで上がっていく</strong></p>
+<p>ビルド① 思い込みを書き換える　ビルド② 自然と動ける　ビルド③ 習慣として定着し、戻らない</p>
+</blockquote>
+<h2>S22｜片付けは、人生のセンターピン</h2>
+<blockquote>
+<p><strong>片付けは、「片付けだけ」の問題ではありません</strong></p>
+<p>〔図〕<strong>センターピン＝片付け</strong> を倒すと、後ろのピンが連鎖して倒れる——<br />
+<strong>お金</strong>（ダブり買い・浪費が消える）　<strong>時間</strong>（探し物のロスが消える）<br />
+<strong>家族</strong>（家族にも、自分にも優しくなれる）　<strong>健康</strong>（心と体の余裕が戻る）<br />
+<strong>夢・自己実現</strong>（あきらめていたことに手が伸びる）</p>
+<p>あなたの人生のボトルネックの<strong>センターピン</strong>が、片付けです。</p>
+</blockquote>
+<p>〔注記〕S16の3軸（家族・健康・自己実現）とピンの並びを揃えた。S16で出た言葉と必ず接続して語る。</p>
+<h2>S23｜お客様の声①（お部屋が変わった・写真を大きく）</h2>
+<blockquote>
+<p><strong>同じように悩んでいた方が、変わりました</strong></p>
+<p>〔写真大〕リビング：Before → After　〔写真大〕キッチン：Before → After　〔写真大〕物置部屋：Before → After</p>
+</blockquote>
+<p>〔注記〕部屋ごとに写真を大きく（物理2〜3枚）。顧客の悩み部屋に近いものから。</p>
+<h2>S24｜お客様の声②（人生が変わった）＋動画</h2>
+<blockquote>
+<p><strong>変わったのは、お部屋だけじゃありません</strong></p>
+<p>卒業生がいちばん口にする言葉——<strong>「もっと早くやればよかった」</strong></p>
+<p>・家族との関係がやわらかくなった　・「どうせ私なんて」が消えて、自信が戻った<br />
+・自分を、好きになれた　・子どもが、自分から動くようになった</p>
+<p>〔動画再生〕お客様の声（顧客の属性に近い1本を早見表から選ぶ）</p>
+</blockquote>
+<p>〔注記〕〔研究〕<strong>声の動画は成約群89% vs 否決群73%——「時間がないので省略」をしない。必ず流す</strong>（台本で必須化）。</p>
+<h2>S25｜なぜ変われるのか（脳のしくみ・要約）✏️5.3</h2>
+<blockquote>
+<p><strong>人の行動の95%は、無意識で決まっています</strong></p>
+<p>〔氷山の図：顕在意識5% / 潜在意識95%〕</p>
+<p>〔小さく〕これは本来、心理学や脳科学の学校で学ぶレベルの内容です。<br />
+詳しいお話は、事前にご覧いただいた動画の通りです</p>
+</blockquote>
+<p>〔注記〕未視聴者向け90秒ダイジェスト（予備2〜3枚）を付録に。✏️5.3：「心理学の学校で学ぶレベル」の一言で、S36c（学費アンカー）への伏線を前半に設置。</p>
+<h2>S26｜今日の、あなたへの処方箋</h2>
+<blockquote>
+<p><strong>今日の、〇〇さんへの処方箋</strong></p>
+<p>① 最初に手をつける場所 …〔記入〕<br />
+② あなたに合う進め方 …〔記入〕<br />
+③ 続かなくなる引き金 …〔記入〕</p>
+<p>〔小さく〕これだけでも、今日から始められます</p>
+</blockquote>
+<p>〔注記〕S04の約束「有料級・個別アドバイス」の回収。渡し切ってから「処方箋だけで"続く"かは別問題」とPhase 3へ。</p>
+<h2>S27｜ここから先に進む前に（決め方の確認）</h2>
+<blockquote>
+<p><strong>ここから先に進む前に、2つだけ確認させてください</strong></p>
+<ol>
+<li>この先、講座のご提案をしてもよいですか？</li>
+<li>もし「やってみたい」となったとき——<br />
+　〇〇さんのお家では、こういう決断は<strong>どなたと、どう決めますか？</strong></li>
+</ol>
+</blockquote>
+<p>〔注記〕パートナー対策のオファー前確認。②でルートA/Bをここで判定し、S62で日程化を実行。</p>
+<hr />
+<h1>■ Phase 3 オファー（S28〜S47）</h1>
+<h2>S28｜あなたに必要なのは、情報ではありません</h2>
+<blockquote>
+<p><strong>あなたに必要なのは、もっと情報を知ることではありません</strong></p>
+<p>必要なのは、<strong>二度と戻らない"仕組み"</strong>です。</p>
+</blockquote>
+<h2>S29｜脳は、いきなりは変わりません ✏️5.2.1</h2>
+<blockquote>
+<p><strong>脳は、いきなりは変わりません</strong></p>
+<p>・脳は、<strong>一気には変わらない</strong>——繰り返しでしか書き換わらない<br />
+・脳のクセは、<strong>人それぞれ</strong>——あなたに合うやり方は、あなた専用<br />
+・脳は、<strong>元に戻ろうとする</strong>——一度の決意では続かない<br />
+・脳は、<strong>周りの影響を受ける</strong>——環境に引っ張られる</p>
+<p>だから——<strong>意志の力だけでは、難しいんです。</strong></p>
+</blockquote>
+<p>〔注記〕Codex指摘：S38-41の「理由4つ」と<strong>1対1対応の4特性</strong>に再編（①繰り返し→S38、②人それぞれ→S39、③戻ろうとする→S40、④周りの影響→S41）。</p>
+<h2>S30｜だから、必要なものは3つ</h2>
+<blockquote>
+<p><strong>ビリーフノートを書き換え、脳が変わるまで続けるために——必要なものは3つ</strong></p>
+<p>① 環境　② 指導体制　③ ロードマップ</p>
+<p>この3つを繰り返し実践することが、脳が変わる<strong>最短ルート</strong>です。</p>
+</blockquote>
+<h2>S31｜①環境 ✏️5.3.2</h2>
+<blockquote>
+<p><strong>① 環境 — 同じ志の仲間がいる場所</strong></p>
+<p>脳は周りの影響を受ける。だからこそ——<br />
+整える仲間の中に身を置けば、<strong>戻る力ではなく、進む力に引っ張られます。</strong></p>
+<p>1秒収納では、そんな仲間のことを<strong>「ナチュラルウーマン」</strong>と呼んでいます。</p>
+</blockquote>
+<p>〔注記〕✏️5.3.2：v5書き直し時に落ちていた「ナチュラルウーマン」の橋渡しを復活（田中指摘）。用語方針＝<strong>ここで1回紹介→S68の締めで回収</strong>の2箇所のみ（〔研究〕抽象語の連発は逆効果のため、S41等では使わない）。</p>
+<h2>S32｜②指導体制</h2>
+<blockquote>
+<p><strong>② 指導体制 — 買って終わり、にしません</strong></p>
+<p>・一生サポート宣言　・つまずいたら家庭教師スタイルで個別補講　・認定パートナーが伴走</p>
+</blockquote>
+<h2>S33｜③ロードマップ</h2>
+<blockquote>
+<p><strong>③ ロードマップ — 5ヶ月の"冒険の旅"</strong></p>
+<p>〔RPG風の講座MAP：今ここ → 月別ステップ → ゴール〕</p>
+<p>脳は繰り返しで変わる。<strong>その繰り返しを、迷わず続けられる地図</strong>です。</p>
+</blockquote>
+<h2>S34｜そして、最後のひとつ——勇気</h2>
+<blockquote>
+<p><strong>この3つを動かす、最後のひとつ</strong></p>
+<p>思い切って、<strong>人に頼る勇気</strong>。<br />
+ダメな自分を、<strong>一旦そのまま受け入れる勇気</strong>。</p>
+<p>〔小さく〕頑張り屋のあなたに足りなかったのは、努力ではなく——これだけかもしれません。</p>
+</blockquote>
+<h2>S35｜今日から、変わっていきませんか？ ✏️5.3</h2>
+<blockquote>
+<p><strong>今日から、変わっていきませんか？</strong></p>
+<p>「よし、変わろう」——そう思ったあなたが実行する場所が、<br />
+<strong>1秒収納アカデミー</strong>です。</p>
+<p>これは"講座"ではありません。<strong>あなたが変わるまで伴走する、学校です。</strong></p>
+<p>これを、<strong>人生最後の片付け</strong>にしましょう。</p>
+</blockquote>
+<p>〔注記〕田中FB 1(c)：「学校（アカデミー）」としての打ち出しをここで宣言。以降、台本でも「講座」でなく「学校・アカデミー」で統一して呼ぶ。</p>
+<h2>S36｜誰のために、何のために ✏️5.2.1</h2>
+<blockquote>
+<p><strong>このアカデミーは、誰のために？</strong></p>
+<p>真面目で、頑張り屋で、周りを大切にしてきたのに——<br />
+なぜか片付けだけが苦手。そんな女性のためにつくられました。</p>
+<p><strong>何のために？</strong><br />
+片付けを直すためではありません。<strong>生き方を変えるため</strong>です。</p>
+</blockquote>
+<p>〔注記〕5.3で相場アンカーは直後のS36b/S36cへ移設・本格化（このスライドは「誰のため・何のため」に専念）。</p>
+<h2>S36b｜"資格の学校"は、世界中にあります 🆕5.3</h2>
+<blockquote>
+<p><strong>"片付けの資格"は、世界中にあります</strong></p>
+<p>・アメリカには、片付けのプロの職業資格（プロフェッショナル・オーガナイザー等）〔要裏取り〕<br />
+・日本にも、整理収納の資格講座がたくさん</p>
+<p>でも——<strong>資格を取っても、自分の家が片付かない人は、たくさんいます。</strong></p>
+<p>知識を学ぶ学校はあっても、<br />
+<strong>あなたが変わるまで伴走する学校</strong>は、ありませんでした。</p>
+</blockquote>
+<p>〔注記〕田中FB 1(a)：一般的な資格講座との比較。「知識の学校 vs 変わるまで伴走する学校」の対比が核（クリエイターアカデミー型の比較対象の再定義）。米国資格の名称・実態は実制作前に裏取り必須（要相談⑭）。</p>
+<h2>S36c｜「自分を変える学び」の相場 🆕5.3</h2>
+<blockquote>
+<p><strong>「自分を変える学び」って、いくらの世界？</strong></p>
+<p>・4年制大学 …… 400万円〜<br />
+・心理学・カウンセラー養成スクール …… 数十万〜100万円超<br />
+・パーソナルジム（たった2ヶ月で） …… 30〜40万円<br />
+・他社の片付け講座 …… 45日間で90万円台のものも</p>
+<p>人生を変える学びは、本来——<strong>このくらいの投資の世界</strong>です。</p>
+</blockquote>
+<p>〔注記〕田中FB 1(c)：学費アンカーの本格版。S25の伏線（心理学の学校レベル）をここで回収。〔研究〕最大の死因「10万円くらいと思ってた」をオファー序盤のここで根絶し、S51（価格直前）で再掲する二段構え。各相場の数値は実制作前に裏取り（要相談⑮）。</p>
+<h2>S37｜なぜ、ここなら書き換えが進むのか 🆕5.2 ✏️5.2.1</h2>
+<blockquote>
+<p><strong>なぜ、1秒収納アカデミーなら</strong><br />
+<strong>ビリーフの書き換えが進み——もう、戻らないのか。</strong></p>
+<p><strong>理由は、4つあります。</strong></p>
+</blockquote>
+<p>〔注記〕田中FBの「理由は4つあります→1つ目は…」構成。Codex指摘により画面文言から「確実」を削除（60万円商談で突かれると誇大に見える断言を回避。構造とロジックで確実性を伝える）。S29の4特性と1対1対応で以降4枚。</p>
+<h2>S38｜理由①：毎日触れる実践環境 🆕5.2</h2>
+<blockquote>
+<p><strong>理由① 脳は「繰り返し」で変わる——だから、毎日触れる環境</strong></p>
+<p>・毎朝の挨拶・15分お片付け・作業会・勉強会<br />
+・「やる気が出たら」ではなく、<strong>毎日、動き出すきっかけがある</strong><br />
+・学ぶだけで終わらせない——<strong>実践が時間割に組み込まれた学校</strong>です</p>
+</blockquote>
+<p>〔注記〕〔研究〕Discord/NWCの日常の賑わいは成約の決め手（実画面はS45で見せる）。</p>
+<h2>S39｜理由②：あなた専用の個別指導 🆕5.2</h2>
+<blockquote>
+<p><strong>理由② 脳のクセは人それぞれ——だから、あなた専用の指導</strong></p>
+<p>・家庭教師スタイルの個別補講　・ビリーフノートの個別添削<br />
+・今日の「処方箋」（S26）の本格版が、5ヶ月続くということです</p>
+</blockquote>
+<p>〔注記〕処方箋（S26）→講座の接続。「汎用の動画教材」との違いを明確に。</p>
+<h2>S40｜理由③：戻る前に、手が入る伴走 🆕5.2</h2>
+<blockquote>
+<p><strong>理由③ 脳は「戻ろう」とする——だから、戻る前に手が入る</strong></p>
+<p>・5ヶ月のロードマップで、つまずく場所が先回りで分かっている<br />
+・卒業後も、一生サポート。<strong>戻りかけたら、小さいうちに一緒に立て直します</strong></p>
+</blockquote>
+<h2>S41｜理由④：引っ張られる先を、変える 🆕5.2</h2>
+<blockquote>
+<p><strong>理由④ 脳は環境に引っ張られる——だから、引っ張られる先を変える</strong></p>
+<p>・同じ志で「整える」仲間のコミュニティ<br />
+・〔写真〕実際の仲間の様子（朝の宣言・作業会・できた報告）</p>
+</blockquote>
+<p>〔注記〕「ナチュラルウーマン」の語はここでは使わず<strong>具体の様子</strong>で見せる（〔研究〕抽象語の連発は逆効果）。</p>
+<h2>S42｜サポート全体図（あなたに関係するものだけ）</h2>
+<blockquote>
+<p><strong>アカデミーで受け取れるもの——今日は、あなたに関係するものだけ見ます</strong></p>
+<p>〔全体図：12個のサポートを4分類で配置。顧客に刺さる3つに○を付ける〕</p>
+</blockquote>
+<p>〔注記〕〔研究〕12個の羅列読み上げは逆効果——全体図は見せるが、深掘りは○を付けた3つだけ。</p>
+<h2>S43｜サポート詳細A：学ぶ・やる 🆕5.2</h2>
+<blockquote>
+<p><strong>〔学ぶ〕</strong> 体系化された動画講座／月例勉強会／ビリーフノート講座<br />
+<strong>〔やる〕</strong> 毎朝の15分お片付け／みんなでの作業会／実践課題と添削</p>
+</blockquote>
+<p>〔注記〕オファーの「書き込み」増強（田中FB「説明しないと安く感じる」）。各項目は1行＋アイコンで、読み上げず指差しで使う。</p>
+<h2>S44｜サポート詳細B：支えられる・つながる 🆕5.2</h2>
+<blockquote>
+<p><strong>〔支えられる〕</strong> 家庭教師スタイル個別補講／質問し放題／卒業後の一生サポート<br />
+<strong>〔つながる〕</strong> 受講生コミュニティ／感謝祭／先輩のルームツアー</p>
+</blockquote>
+<p>〔注記〕同上。S45の実物画面共有への前振り。</p>
+<h2>S45｜コミュニティを"実物"で</h2>
+<blockquote>
+<p><strong>実際の様子を、お見せしますね</strong></p>
+<p>〔画面共有：コミュニティ（NWC / Discord）のライブ画面〕</p>
+</blockquote>
+<p>〔注記〕〔研究〕実画面共有で「楽しそう！」の反応＝成約の決め手として複数案件で記録。<strong>省略しない。</strong></p>
+<h2>S46｜卒業しても、つながりは続く ✏️5.3.1</h2>
+<blockquote>
+<p><strong>卒業は、ゴールじゃなくスタート</strong></p>
+<p>卒業後も、先生や先輩たちと一緒に整え続けられる<strong>コミュニティ</strong>があります。</p>
+<p>〔写真〕感謝祭・ルームツアー・卒業生のいま</p>
+</blockquote>
+<p>〔注記〕✏️5.3.1（田中FB）：金額（月3,000円）は既存スライド・マニュアルに根拠がないため<strong>画面から削除</strong>。「卒業後はコミュニティがある」という事実だけを伝える。参考：エース原版には特典文脈で「NWCに継続参加（1日100円）」の記載が実在するが、現行料金が未確認のため金額は出さない。聞かれたときの回答は台本（要相談⑯）。</p>
+<h2>S47｜向いている人・向いていない人</h2>
+<blockquote>
+<p><strong>正直にお伝えします。アカデミーが向いていない方もいます</strong></p>
+<p>向いていない方：<br />
+・業者さんに丸ごと片付けてほしい方　・学ぶだけで満足したい方　・誰かに変えてもらいたい方</p>
+<p>向いている方：<br />
+・真面目で頑張り屋なのに、片付けだけが苦手な方<br />
+・自分の手で変わりたい方　・仲間と一緒なら続けられる方</p>
+</blockquote>
+<hr />
+<h1>■ Phase 3.5 価値の棚卸し（S48）</h1>
+<h2>S48｜ここまでを、一度整理させてください</h2>
+<blockquote>
+<p><strong>ここまでのお話を、整理させてください</strong></p>
+<p>あなたの今のお悩み：・〔記入1〕・〔記入2〕・〔記入3〕<br />
+あなたが本当に成し遂げたいこと：・〔S16の記入を再掲〕<br />
+〔下部〕この理解で、合っていますか？</p>
+</blockquote>
+<p>〔注記〕〔研究〕否決171件の最頻出課題（棚卸しなしの価格提示）を構造で防ぐ、価格前の必須1枚。</p>
+<hr />
+<h1>■ Phase 4 価格・クロージング（S49〜S66）</h1>
+<h2>S49｜アンカリング①：やらない損</h2>
+<blockquote>
+<p><strong>「変わらない」ことにも、コストがあります</strong></p>
+<p>さきほどの"見えない損"——10年で〇〇〇万円。何もしなければ、これは増え続けます。</p>
+</blockquote>
+<p>〔注記〕Codex指摘：S13の再掲なので<strong>一言で済ませる</strong>（「さっきの見えない損も含めると——」程度）。独立して深掘りせず、価格前の中だるみを防ぐ。</p>
+<h2>S50｜アンカリング②：これまで使ってきたお金</h2>
+<blockquote>
+<p><strong>これまで、片付けのために使ってきたお金は？</strong></p>
+<p>・収納用品の買い直し … 〇円　・片付け本・セミナー … 〇円<br />
+・引っ越し／家事代行を考えたことは？ … 〇万円</p>
+</blockquote>
+<p>〔注記〕〔研究〕「顧客が既に払った金額」アンカーの案件は価格反応が軽い。本人の数字で語る。</p>
+<h2>S51｜世の中の選択肢と、その相場 🆕5.2</h2>
+<blockquote>
+<p><strong>片付けを「なんとかする」方法は、世の中に3つあります</strong></p>
+<ol>
+<li><strong>業者の片付け代行</strong> … 1回 〇〇万円（また散らかれば、また〇〇万円。あなた自身は変わらない）</li>
+<li><strong>他社の片付け講座</strong> … 45日間で<strong>90万円台</strong>のものも</li>
+<li><strong>自力でがんばる</strong> … 0円。ただし、これまでの結果は——</li>
+</ol>
+<p>〔小さく〕この後、1秒収納アカデミーの内容と価格をお伝えします</p>
+</blockquote>
+<p>〔注記〕🚨〔研究〕期待価格ギャップ（最大の死因）対策。<strong>事前アンカーの本体はS36（オファー前）に前倒し済み——ここは価格直前の「再掲」</strong>として短く。相場の実数値（他社90万円台等）は調査日・条件・税込/税別まで裏取りして台本に保持（Codex指摘）。</p>
+<h2>S52｜りょうこ先生からのメッセージ（動画）〔価格の前に〕</h2>
+<blockquote>
+<p><strong>価格をお伝えする前に、りょうこ先生からあなたへ</strong></p>
+<p>〔動画再生：D02 りょうこ本人 価格発表前メッセージ（98秒）〕</p>
+</blockquote>
+<h2>S53｜価格のご案内</h2>
+<blockquote>
+<p><strong>1秒収納アカデミー</strong></p>
+<p>定価　660,000円（税込）　↓　<strong>個別相談 特別価格　600,000円</strong><br />
+〔小さく〕海外在住の方は免税で600,000円</p>
+</blockquote>
+<p>〔注記〕台本キーライン:「60万円と比較するのは、商品ではなく<strong>今後10年の人生</strong>です」。〔研究〕2026年導入案件では「定価98万→当日66/60万」の二段階提示が納得構造として機能した記録あり→<strong>価格表示の二段階化は要相談⑪</strong>。</p>
+<h2>S54｜この価格に、込めたもの 🆕5.2</h2>
+<blockquote>
+<p><strong>600,000円の中身</strong></p>
+<p>・5ヶ月間、<strong>あなた専用の個別伴走</strong>（家庭教師スタイル）<br />
+・卒業後も切れない、<strong>一生サポート</strong><br />
+・毎日使える実践コミュニティと勉強会・作業会<br />
+・りょうこ先生のメソッドの、すべて</p>
+<p>大量生産の動画教材でも、"資格を取る学校"でもありません。<br />
+<strong>あなたが変わるまで伴走する、学校の値段</strong>です。</p>
+</blockquote>
+<p>〔注記〕🚨〔研究〕<strong>「なぜこの価格か」の体系的な語りは421件中ほぼ存在しなかった＝最大の欠落を新設</strong>。個別伴走の人件費構造・一生サポートで価格の必然を語る。</p>
+<h2>S55｜1日に換算すると 🆕5.2</h2>
+<blockquote>
+<p><strong>この片付けは、一生モノです</strong></p>
+<p>仮に30年使うなら——<strong>1日あたり、約55円。</strong></p>
+<p>毎日のコーヒー1杯にも満たない投資で、<br />
+残りの人生の「土台」が変わります。</p>
+</blockquote>
+<p>〔注記〕〔研究〕「30年で1日換算」は成功トークとして散発的に存在→標準スライド化。<strong>60万円一括の場合＝約55円／66万円の場合＝約60円</strong>（Codex指摘：価格表示と数値を必ず一致させる）。</p>
+<h2>S56｜お支払いプラン</h2>
+<blockquote>
+<p><strong>無理のないお支払いも選べます</strong></p>
+<p>・6回払い（頭金165,000円＋6分割）・12回払い（頭金165,000円＋12分割）・カード24回／36回払い</p>
+</blockquote>
+<h2>S57｜分割シミュレーション一覧 🆕5.2</h2>
+<blockquote>
+<p><strong>月々にすると、いくら？</strong></p>
+<p>〔一覧表〕<br />
+| 回数 | 月額目安 | 備考 |<br />
+|---|---|---|<br />
+| 6回 | 〇〇円 | 頭金あり |<br />
+| 12回 | 〇〇円 | 頭金あり |<br />
+| 24回 | 〇〇円 | カード・手数料含む目安 |<br />
+| 36回 | 〇〇円 | 繰り上げ返済で総額圧縮可 |</p>
+</blockquote>
+<p>〔注記〕🚨〔研究〕「分割できます」だけでは不安は消えない（否決多数）→<strong>具体的な月額表を常備</strong>。数値は決済会社の最新条件で要確定。<strong>Codex指摘：S56と統合運用——全員に出すのはS56の概要まで。本表とS58実演は「残りの不安＝お金」の人（S61で特定）にだけ出す分岐スライド</strong>（買う気が固まる前に支払いの話を重ねない）。</p>
+<h2>S58｜分割シミュレーション（実演）</h2>
+<blockquote>
+<p><strong>あなたの場合は？　今、一緒に計算しましょう</strong></p>
+<p>〔画面共有：その場で分割・繰り上げ返済シミュレーションを実演〕</p>
+</blockquote>
+<p>〔注記〕〔研究〕ChatGPT分割シミュの画面共有は成約の決め手として記録あり。「高い」という感情を「払えるか」の論理に変換。<strong>分岐スライド＝S61で「残りはお金」と特定された人にだけ実施</strong>（Codex指摘）。</p>
+<h2>S59｜保証と、今日決める理由</h2>
+<blockquote>
+<p><strong>安心の保証と、"今日"に意味がある特典</strong></p>
+<p>・再受講保証　・つまずいても個別補講<br />
+・〔今決める理由になる特典に限定〕例：初月の個別補講／ビリーフノート初回添削／ご家族への説明サポート／ルームツアー招待（交通費補助）</p>
+</blockquote>
+<p>〔注記〕〔研究〕ルームツアー特典＋交通費補助が決め手になった記録→候補に追加。特典の最終確定は要相談⑩。</p>
+<h2>S60｜迷う気持ちは、当然です</h2>
+<blockquote>
+<p><strong>迷う気持ちは、当然です</strong></p>
+<p>高いと感じること、考えたいこと、家族に相談したいこと——ぜんぶ、自然な気持ちです。</p>
+</blockquote>
+<h2>S61｜今の気持ちは、何点ですか？</h2>
+<blockquote>
+<p><strong>今の「やってみたい」気持ちは、100点中、何点ですか？</strong></p>
+<p>残りの〇点、引っかかっているのは——<br />
+<strong>お金</strong> ／ <strong>時間</strong> ／ <strong>家族</strong> ／ <strong>本当に私に変われるか</strong>　どれに近いですか？</p>
+</blockquote>
+<p>〔注記〕〔研究〕点数化→残りの特定→その場で解消が<strong>成約の最強の型</strong>として全期間で確認された。必ず実施。</p>
+<h2>S62｜ご家族との進め方（30分Zoomの日程化）</h2>
+<blockquote>
+<p><strong>ご家族と一緒に、安心して決めましょう</strong></p>
+<p>・S27で伺った「決め方」に沿って——<br />
+・<strong>今日この場で「今夜5分の共有」と「夫婦30分Zoom」を、一緒に日程に入れます</strong>（ご主人を敵にしません）</p>
+</blockquote>
+<h2>S63｜背中を、押させてください</h2>
+<blockquote>
+<p><strong>一人で頑張るのは、今日で終わりにしませんか</strong></p>
+<p>ここから先は、わたしたちと一緒に進みましょう。</p>
+</blockquote>
+<p>〔注記〕70点以上なら「やりましょうよ！」。<strong>S16のフューチャーペーシング（本当に成し遂げたいこと）をここで引用</strong>。</p>
+<h2>S64｜お申し込みの流れ</h2>
+<blockquote>
+<p><strong>お申し込みは、かんたんです</strong></p>
+<p>〔決済方法・手続きステップ〕</p>
+</blockquote>
+<p>〔注記〕現金一括はネットバンキングをその場で手伝う。〔研究〕振込最得の案内が機能した記録あり（二段階価格と合わせて要相談⑪）。</p>
+<h2>S65｜この決断を、あなたの言葉で 〔成約直後〕</h2>
+<blockquote>
+<p><strong>最後に、いくつか聞かせてください</strong></p>
+<p>・なぜ、受けようと決めましたか？<br />
+・もし「やっぱりやめたい」と思ったら、どうしますか？<br />
+・一度ご自身で少し片付いても、それは長続きしそうですか？<br />
+・ご家族が一緒に片付けてくれた場合、それだけで根本から解決しそうですか？<br />
+〔約束〕LINEでのお断りはなし。迷ったら、まず一声ください。</p>
+</blockquote>
+<p>〔注記〕⑧キャンセル防止 完全版。〔研究〕申込後キャンセル25件——成約後30秒のここが防波堤。</p>
+<h2>S66｜（保留のとき）次に話す時間まで決めましょう</h2>
+<blockquote>
+<p><strong>大切な決断だから、"いつ決めるか"まで一緒に決めましょう</strong></p>
+<p>・次にお話しする日時を、今ここで決めます<br />
+・ご家族と話すなら、30分Zoomをご用意します<br />
+〔約束〕LINEでお断りする前に、必ず一度、わたしに声をかけてください<br />
+〔ひとこと〕もう講座は始まっています。「小さな約束を守る」ことから、片付けられる自分への一歩が始まります</p>
+</blockquote>
+<hr />
+<h1>■ Phase 5 締め（S67〜S69）</h1>
+<h2>S67｜部屋は、あなたの内側を映す鏡</h2>
+<blockquote>
+<p><strong>部屋は、あなたの内側を映す鏡</strong></p>
+<p>空間が整うと、人は動けるようになる。<br />
+整えられた部屋は、あなたが<strong>次の一歩を踏み出すための、土台</strong>です。</p>
+</blockquote>
+<h2>S68｜片付けが変わると、生き方が変わる</h2>
+<blockquote>
+<p><strong>片付けが変わると、生き方が変わる</strong></p>
+<p>自信がついて、心が楽になる。<br />
+過去の嫌だった自分も、ぜんぶ消化できて——世界が変わって見える。<br />
+これからの人生が楽しくなり、思い通りになっていく。<br />
+もっとわがままに。もっと、本当の自分に。</p>
+<p>——それが、<strong>ナチュラルウーマン</strong>になるということです。</p>
+</blockquote>
+<h2>S69｜一生、あなたの片付けに伴走します</h2>
+<blockquote>
+<p><strong>あなたはもう、一人じゃない</strong></p>
+<p>一生、あなたの片付けに伴走します。</p>
+</blockquote>
+<hr />
+<h1>■ 巻末：ダウンセル別冊「やさしい捨て活 21Days（99,000円）」〔修正対象外〕</h1>
+<ul>
+<li>本編を予算面で断った方にだけ提示する第2オファー。最後尾に接続（約20枚）。〔研究〕ダウンセル成約39件＝取りこぼし回収として実績ある仕組み。</li>
+</ul>
+<hr />
+<h1>ボリューム最終像</h1>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>枚数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本編（S01〜S69・段階アニメ/写真フレーム込み）</td>
+<td><strong>80〜95枚</strong></td>
+</tr>
+<tr>
+<td>巻末ダウンセル別冊</td>
+<td>約20枚</td>
+</tr>
+<tr>
+<td><strong>合計</strong></td>
+<td><strong>約100〜115枚（本編は100枚以下の目標内）</strong></td>
+</tr>
+</tbody>
+</table>
+<h1>要相談リスト（実制作前に確定）</h1>
+<ol>
+<li>~~ブランド基調色・フォント（トンマナの正）~~ → <strong>解決済み（2026-06-12）</strong>: りょうこさん書籍『毎日がちょっと軽くなる！1秒収納』カバー準拠（白×ナチュラルグリーン×コーラル・明るいナチュラル写真・手書き風イラスト）。詳細は <code>指示書_PPTX生成_codex用.md</code> のトンマナ定義</li>
+<li>S12 診断項目の中身確定</li>
+<li>S23 Before/After写真の実物素材（許諾済み）</li>
+<li>S59 特典の最終確定（ルームツアー＋交通費補助を含めるか）</li>
+<li>S50-51 他社相場・業者相場の実数値（最新確認）</li>
+<li>事前動画（ブランドPV＋脳の教育）の視聴導線</li>
+<li>S22 センターピン図・S33 冒険MAPのデザイン</li>
+<li>S34「勇気」の言い回し最終確認</li>
+<li>S55 1日換算の正確な数値（価格確定後）</li>
+<li>S57 分割表の実数値（決済会社の最新条件）</li>
+<li>⚠️ <strong>価格表示の二段階化（定価98万→当日66/60万）＋振込最得——実制作前の必須決定</strong>。〔研究〕2026年導入案件で機能した記録あり。Codex指摘「採用か不採用か中途半端が一番弱い」——どちらかに決めてからS53を確定する</li>
+<li>🆕 S52 D02動画（98秒）の60秒以内への再編集（Codex指摘：価格直前では98秒は長く、緊張が切れる）</li>
+<li>🆕 S30-S33（3要素）とS37-S41（理由4つ）の圧縮可否——Codexは「内容が重複し中だるみの主因。5〜6枚への統合」を推奨。ただし両方とも田中FB由来の構造のため、削るかは要判断（台本運用では S31-33を軽く流しS38-41で深掘り、と差をつける前提）</li>
+<li>🆕 S36b 米国等の片付け資格の名称・実態の裏取り（プロフェッショナル・オーガナイザー等。事実確認してから画面に出す）</li>
+<li>🆕 S36c 学費相場の数値裏取り（4年制大学・心理学/カウンセラー養成スクール・パーソナルジム・他社講座。調査日と条件を台本に保持）</li>
+<li>S46 卒業後コミュニティ（NWC）の現行料金の確認——エース原版に「1日100円」の記載あり。確認が取れるまで画面・トークとも金額は出さない（5.3.1で金額削除済み。確認後に出すかどうかも要判断）</li>
+</ol>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 5.2 (2026-06-12・421件商談調査を反映: 期待価格ギャップ対策／なぜこの価格か／1日換算／分割表／理由4つ／サポート書き込み増強。本編69論理・100枚以下目標内)<br />
+Generated by: 田中祐一<br />
+</content></p></div></div>
+<footer>Produced by KATSUO MARKETING ／ 中田りょうこ 1秒収納 セールススライド刷新プロジェクト</footer>
+</body></html>
