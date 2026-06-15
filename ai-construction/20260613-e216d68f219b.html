@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>実装_20260613_MCP統合クリーンアップ_ランブック - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item active"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>田中祐一AI MCP 統合クリーンアップ ランブック</h1>
+<p>作成日: 2026-06-13<br />
+目的: バラけた田中祐一AIのMCP接続を <strong>1本（mcp.tanaka.app）に統合</strong>し、Cursor/Codex/Claude どこから呼んでも同じMCPに繋がるようにする。<br />
+実装担当: Cursor/技術担当（Vercelアクセスが要る手順あり）。設計: Claude。</p>
+<h2>0. 確認済みの現状（2026-06-13 実査）</h2>
+<ul>
+<li><strong>正本アプリ = <code>apps/mcp</code></strong>（QAも内包・1アプリで完結）。Vercelプロジェクト <code>mcp</code>（team: promoter-crm スラッグ）にリンク。env <code>GITHUB_KNOWLEDGE_PATH=knowledge</code> ✅</li>
+<li><strong>MCPエンドポイント = <code>/api/mcp/g/{grant_code}</code></strong></li>
+<li>現在の接続バラつき:<br />
+  | ツール | 現在の接続先 | 状態 |<br />
+  |---|---|---|<br />
+  | Cursor | <code>mcp-promoter-crm.vercel.app/api/mcp/g/{grant}</code> | 動作（<code>mcp</code>プロジェクトのURL） |<br />
+  | Codex | <code>admin-psi-rose.vercel.app/api/mcp</code> | <strong>壊れ</strong>（adminに<code>/api/mcp</code>は無い） |<br />
+  | Claude | （要確認） | 未確認 |</li>
+<li>「promoter-crm」= Vercelチームのスラッグ。全プロジェクト（mcp/admin/promoter-crm/…）がこの配下。PALMOプロジェクト名と衝突 → 全混乱の元</li>
+</ul>
+<h2>1. ターゲット構成（あるべき姿）</h2>
+<ul>
+<li><strong>正規URL = <code><a href="https://mcp.tanaka.app" target="_blank" rel="noopener noreferrer">https://mcp.tanaka.app</a></code></strong>（Vercelプロジェクト <code>mcp</code> にエイリアス）</li>
+<li><strong>全ツールの接続先を統一</strong>: <code>https://mcp.tanaka.app/api/mcp/g/{grant_code}</code></li>
+<li>余分なURL（mcp-jade-beta直叩き・admin/api/mcp誤り）は使わない</li>
+<li>QA・添削・制作・相談は全て <code>apps/mcp</code>（=<code>mcp</code>プロジェクト）の中。別アプリ化しない</li>
+</ul>
+<h2>2. 実装手順（順番厳守・順番を間違えると本番MCPが落ちる）</h2>
+<h3>⚠️ 順序の鉄則</h3>
+<p><strong>先にドメインを用意してから接続先を切り替える</strong>。逆をやると、Cursorで日常使用中のMCPが切れる。</p>
+<h3>Step 1【Vercelアクセス必須・技術担当/田中】mcp.tanaka.app を <code>mcp</code> プロジェクトに割当</h3>
+<ul>
+<li>Vercel管理画面 → <code>mcp</code> プロジェクト → Settings → Domains → <code>mcp.tanaka.app</code> を追加</li>
+<li>既に他プロジェクトに割当済みなら、<code>mcp</code> へ付け替え</li>
+<li>完了条件: <code><a href="https://mcp.tanaka.app/api/mcp/g/test-plc-2026" target="_blank" rel="noopener noreferrer">https://mcp.tanaka.app/api/mcp/g/test-plc-2026</a></code> が応答する</li>
+</ul>
+<h3>Step 2【Vercel・技術担当】最新コードを <code>mcp</code> プロジェクトへ本番デプロイ</h3>
+<ul>
+<li>今日のバンドル修正（哲学/原理の型ベース包含）を含む最新を本番反映</li>
+<li>完了条件: 本番が最新コミットを指す</li>
+</ul>
+<h3>Step 3【Claude/Cursorが実施可・Step1完了後のみ】接続先を mcp.tanaka.app に統一</h3>
+<ul>
+<li><code>~/.cursor/mcp.json</code>: url を <code>https://mcp.tanaka.app/api/mcp/g/{grant}</code> に変更</li>
+<li><code>~/.codex/config.toml</code>: 壊れた <code>admin-psi-rose.vercel.app/api/mcp</code> を <code>https://mcp.tanaka.app/api/mcp/g/{grant}</code> に修正</li>
+<li>Claude（claude_desktop_config 等）にMCP接続があれば同様に統一</li>
+<li><strong>Step1が未完了のうちは絶対に切り替えない</strong>（落ちる）</li>
+</ul>
+<h3>Step 4【Vercel・技術担当】余分なURL/エイリアスの整理</h3>
+<ul>
+<li><code>mcp-jade-beta</code> / <code>mcp-promoter-crm</code> の直叩きを段階的に廃止（リダイレクト or 非公開）</li>
+<li>急がず、Step3で全ツールが mcp.tanaka.app に移行したのを確認してから</li>
+</ul>
+<h3>Step 5【検証】3ツール全部が同じMCPを叩くか</h3>
+<ul>
+<li>Cursor / Codex / Claude それぞれで田中祐一AIのMCPを起動し、同じ <code>mcp.tanaka.app</code> に繋がること</li>
+<li>添削モードで哲学/原理（疑いのレベル・マーケ=教育）がロードされること（バンドル修正の本番反映確認）</li>
+</ul>
+<h2>3. 役割分担</h2>
+<table>
+<thead>
+<tr>
+<th>手順</th>
+<th>担当</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Step1 ドメイン割当</td>
+<td>技術担当/田中（Vercelアクセス）</td>
+<td>本番ドメイン操作・落とすリスク</td>
+</tr>
+<tr>
+<td>Step2 本番デプロイ</td>
+<td>技術担当/田中</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Step3 接続先統一</td>
+<td>Claude/Cursor（Step1後）</td>
+<td>ローカル設定編集・差分は本ランブックで用意可</td>
+</tr>
+<tr>
+<td>Step4 余分URL整理</td>
+<td>技術担当</td>
+<td>Vercel操作</td>
+</tr>
+<tr>
+<td>Step5 検証</td>
+<td>田中＋Claude</td>
+<td>実使用確認</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 確定版リネーム計画（2026-06-13 田中確定・.vercel.app方式）</h2>
+<p><strong>命名原則: 社長が見て機能が分かる名前にする</strong>（dev用語の <code>admin</code>/<code>mcp</code> 単体は避ける。<code>mcp</code>は full名 <code>tanaka-knowledge-mcp</code> ならOK＝Cursor設定と対応が取れる）。</p>
+<table>
+<thead>
+<tr>
+<th>旧プロジェクト名</th>
+<th>中身</th>
+<th>新プロジェクト名</th>
+<th>新URL（想定）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mcp</code></td>
+<td>田中祐一AI本体（受講生/Cursorが繋ぐ）</td>
+<td><strong><code>tanaka-knowledge-mcp</code></strong></td>
+<td>tanaka-knowledge-mcp.vercel.app</td>
+</tr>
+<tr>
+<td><code>admin</code></td>
+<td>田中祐一AI 管理画面</td>
+<td><strong><code>tanaka-knowledge-admin-view</code></strong></td>
+<td>tanaka-knowledge-admin-view.vercel.app</td>
+</tr>
+<tr>
+<td><code>promoter-crm</code></td>
+<td>PALMO（顧客CRM）</td>
+<td><strong><code>palmo-crm</code></strong></td>
+<td>palmo-crm.vercel.app</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>PALMOリネームの影響: 機能/データ/envは無事。URLのみ変化 → PALMO閲覧スタッフに新URL通知が必要。</li>
+<li>チームスラッグ <code>promoter-crm</code>: リネーム後に新URLがまだ <code>-promoter-crm</code> 付きで汚れる場合のみ、スラッグ変更を検討（bare名が取れればスラッグ変更は不要）。</li>
+</ul>
+<h2>5. 旧URLが埋まっている全箇所（リネームと同期更新）</h2>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>ファイル</th>
+<th>担当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受講生マニュアル</td>
+<td><code>static-pages/tanaka-os-manual/index.html</code>（10箇所）→再デプロイ</td>
+<td>Claude更新→田中push</td>
+</tr>
+<tr>
+<td>スタッフマニュアル</td>
+<td><code>static-pages/tanaka-os-staff-manual/index.html</code>→再デプロイ</td>
+<td>Claude更新→田中push</td>
+</tr>
+<tr>
+<td>接続マニュアル等(内部)</td>
+<td>TanakaKnowledgeOS/docs/接続マニュアル.md・スタッフテスト手順.md・QAボット系・開発引き継ぎノート.md</td>
+<td>Claude</td>
+</tr>
+<tr>
+<td>ルール/識別doc</td>
+<td>AGENTS.md・rules/システム識別・警告マーカー・CLAUDE.md</td>
+<td>Claude</td>
+</tr>
+<tr>
+<td>接続設定</td>
+<td>Cursor <code>~/.cursor/mcp.json</code>・Codex <code>~/.codex/config.toml</code>（admin誤り修正）・Claude</td>
+<td>Claude（差分）／田中（確認）</td>
+</tr>
+<tr>
+<td>受講生・スタッフ通知</td>
+<td>新URLの案内</td>
+<td>田中</td>
+</tr>
+</tbody>
+</table>
+<h2>6. 実行順序（厳守）</h2>
+<ol>
+<li>【田中・Vercel】3プロジェクトをリネーム（STEP A・下記クリック手順）</li>
+<li>【Claude】新URLを読み取りで確認</li>
+<li>【Claude】マニュアル2本＋内部doc＋ルールのURLを一括更新→田中がpush/再デプロイ</li>
+<li>【Claude→田中】Cursor/Codex/Claude の接続設定を新URLへ（Codexのadmin誤りも修正）</li>
+<li>【田中】受講生・スタッフへ新URL通知</li>
+<li>【田中/Claude】旧URL（mcp-jade-beta等）の整理・確認</li>
+</ol>
+<p>Produced by KATSUO MARKETING<br />
+Generated by: 田中祐一AI設計チーム（Claude）</p>
+<h2>7. 実行結果（2026-06-13 リネーム実施）</h2>
+<ul>
+<li>✅ 3プロジェクトの表示名を変更: <code>mcp</code>→<code>tanaka-knowledge-mcp</code> / <code>admin</code>→<code>tanaka-knowledge-admin-view</code> / <code>promoter-crm</code>→<code>palmo-crm</code></li>
+<li>✅ <strong>重要: 本番URLは不変だった</strong>（Vercelは表示名のみ変更、<code>.vercel.app</code>の本番URLは据え置き）。実測で mcp-jade-beta / mcp-promoter-crm / promoter-crm / admin-psi-rose は全て200/307で<strong>生存</strong>。</li>
+<li>➡️ 結果として <strong>受講生通知・接続繋ぎ直し・マニュアルURL書き換えは不要</strong>（既存URLが生きているため）。当初想定の「URL一斉変更」は発生せず。</li>
+<li>📝 残課題（任意）: ①Codex接続先 <code>admin-psi-rose/api/mcp</code> が壊れている→ <code>mcp-promoter-crm.vercel.app/api/mcp/g/{grant}</code> に直す ②綺麗なURL <code>mcp.tanaka.app</code> 化は別途ドメイン作業</li>
+</ul>
+</main>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>設計_20260613_ナレッジ検索アーキテクチャ_v1 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item active"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</h1>
+<p>作成日: 2026-06-13<br />
+背景: 検証の結果、足したv2ナレッジ（哲学/原理）が本番AIに届いていなかった。2段フィルタ（バンドルSOURCESのハードコード許可リスト＋buildCompactKnowledgeのキーワード上位10）が原因。田中さん指示「MCPは全ナレッジを読めない→インデックス化して読む範囲を限定する設計が必要」を実装する。</p>
+<h2>1. 問題の構造</h2>
+<ul>
+<li>MCPがClaudeへ返せるのは18,000字（KNOWLEDGE_RETURN_LIMIT）。knowledge/は210+ファイル＝全部は載らない</li>
+<li>現状の2段フィルタが哲学/原理を落とす:</li>
+<li><code>02_ツール/開発支援/統合添削_bundle.py</code> のSOURCESがハードコード許可リスト（スキル別は<code>ジャンル別固有論点.md</code>のみ・共通は特定4フォルダのみ）→ 新規の5要素ファイルがバンドルに入らない</li>
+<li><code>apps/mcp/src/mcp/tools/correction.ts</code> の <code>buildCompactKnowledge</code> がキーワードスコア上位10セクション→哲学/原理が表層語(LP/CTA)に負ける</li>
+</ul>
+<h2>2. 設計原則</h2>
+<h3>原則1: 型で自動包含（ハードコード許可リスト廃止）</h3>
+<p>frontmatter <code>type ∈ {哲学,原理,判断基準,事例,基準値,用語,手順書,ルーター,エンジン設定}</code> のファイルは自動でインデックス対象。新ファイルを足すだけで届く（スクリプト改修不要）。</p>
+<h3>原則2: 3層ロード（容量を型で配分）</h3>
+<p>18,000字を型で予算配分し、各層が必ず席を持つ。哲学がキーワード勝負で消えない。</p>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>内容</th>
+<th>予算目安</th>
+<th>選抜方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tier0 OS核（常時）</strong></td>
+<td>哲学・横断共通仕様・該当モードの中核原理・絶対ルール</td>
+<td>約5,000字</td>
+<td>常時全載（小さく保つ）</td>
+</tr>
+<tr>
+<td><strong>Tier1 モード判断基準</strong></td>
+<td>correction_typeに対応する判断基準・該当ジャンルの観点重み</td>
+<td>約7,000字</td>
+<td>モードで選抜</td>
+</tr>
+<tr>
+<td><strong>Tier2 関連事例・詳細</strong></td>
+<td>入力に関連する事例・ジャンル論点・基準値</td>
+<td>約6,000字</td>
+<td>インデックスで関連上位のみ</td>
+</tr>
+</tbody>
+</table>
+<h3>原則3: インデックス駆動（バンドル丸読み→keyword pick をやめる）</h3>
+<p><code>knowledge/_index.json</code> を生成。各ファイルの {path, type, genre, used_by, keywords, char数, 1行要約, tier} を持つ。MCPはインデックスで「どのファイルのどのセクションを、どの層で載せるか」を決める。</p>
+<h3>原則4: 容量回避は設計で（削るのでなく階層化）</h3>
+<ul>
+<li>Tier0が予算超過したら警告を出し、哲学を削らず「核の核」要約版を別途持つ</li>
+<li>Tier2は関連上位のみ＝入力ごとに動的に変わる（事例は全部載せない前提）</li>
+<li>大きいファイルはセクション単位で分割インデックス化（ファイル全文でなくセクションを選ぶ）</li>
+</ul>
+<h3>原則5: 出典信頼度（Codex指摘3・基準010連動）</h3>
+<p>frontmatterに <code>source_tier: 本人発話 | 田中監修 | 教材 | 推定</code> を追加。同じ内容でも本人発話を優先ロード・優先表示。田中本人でないゲストメソッドは除外（基準010）。</p>
+<h2>3. 実装ブロック（細切れ・kill対策で1本ずつ）</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>ブロック</th>
+<th>担当</th>
+<th>依存</th>
+<th>破壊性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B1</strong></td>
+<td>frontmatter拡張: 全knowledgeに <code>source_tier</code> と <code>tier</code>（0/1/2）を付与（移行157件と統合）</td>
+<td>Codex小バッチ</td>
+<td>なし</td>
+<td>低（メタのみ）</td>
+</tr>
+<tr>
+<td><strong>B2</strong></td>
+<td>index生成スクリプト <code>02_ツール/開発支援/ナレッジインデックス生成.py</code>（frontmatter→_index.json）</td>
+<td>Claude</td>
+<td>B1</td>
+<td>なし（新規）</td>
+</tr>
+<tr>
+<td><strong>B3</strong></td>
+<td>バンドル生成を型ベース自動包含へ改修（SOURCESハードコード廃止・Tier別バンドル出力）</td>
+<td>Claude/Codex</td>
+<td>B1</td>
+<td>中（既存スクリプト改修・Codex検証必須）</td>
+</tr>
+<tr>
+<td><strong>B4</strong></td>
+<td><code>buildCompactKnowledge</code> 3層ロード書き換え（Tier0常時＋Tier1モード＋Tier2関連・予算配分）</td>
+<td>Codex</td>
+<td>B2,B3</td>
+<td>中（MCP中核・type-check必須）</td>
+</tr>
+<tr>
+<td><strong>B5</strong></td>
+<td>本番env <code>GITHUB_KNOWLEDGE_PATH</code> 実値確認（knowledge であること）</td>
+<td>田中/Vercel</td>
+<td>なし</td>
+<td>なし</td>
+</tr>
+<tr>
+<td><strong>B6</strong></td>
+<td>検証: 5要素（特に哲学/原理）が実際にロードされるテスト＋旧比較</td>
+<td>Claude</td>
+<td>B4</td>
+<td>なし</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 検証の合格条件（B6）</h2>
+<ul>
+<li>添削モードで「LP添削」依頼時、ロードされたナレッジに <strong>疑いのレベル/マーケ=教育/横断共通仕様（哲学・原理）が必ず含まれる</strong></li>
+<li>各correction_typeで Tier0 が常に載る（哲学が0件になるケースがない）</li>
+<li>18,000字を超えない</li>
+<li>旧（哲学なし）と新（哲学あり）で、同一入力への添削出力が「田中らしさ」で差が出る（→E5ブラインドテストへ）</li>
+</ul>
+<h2>5. 進め方</h2>
+<p>Claude設計→Codex実装。kill対策で1ブロックずつ・小バッチ。まずB2（index生成・Claude直接・破壊性ゼロ）から着手し、インデックスの形を確定させてからB3/B4の実装仕様をCodexに渡す。</p>
+<p>Produced by KATSUO MARKETING<br />
+Generated by: 田中祐一AI設計チーム（Claude）</p>
+</main>
+</body>
+</html>

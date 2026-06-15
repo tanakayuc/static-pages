@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>承認バッチ01_レビューシート_20260613 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item active"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>承認バッチ① レビューシート（2026-06-13）</h1>
+<p>対象3束・計63項目。<strong>全部を見る必要はありません。</strong> 私が「要判断（△）」と印を付けた8件だけ見ていただき、残り55件（◎高確信）は一括承認でOKという形にしています。</p>
+<h2>レビュー方法</h2>
+<ul>
+<li><strong>◎ 高確信</strong>: 田中さんの発話verbatimに直接根拠があり、既知の田中思想と整合。→ 抜き打ち数件だけ見て一括承認推奨</li>
+<li><strong>△ 要判断</strong>: 私が拡張解釈した／田中本人の声でない（他講師章）／新しい軸で「OSに合うか」確認したい／格納場所に迷いがある。→ ここだけ ○（採用）/×（却下）/修正 をください</li>
+</ul>
+<p>返し方の例: 「△は7-1◎ 28-原則28は人格へ 残り全部◎」のように、△の判定＋束ごとのOKだけで完了します。</p>
+<hr />
+<h2>束A: ナレハブ原理原則 30件（哲学7・原理18・判断基準3・基準値2）</h2>
+<p>正本: <a href="../../knowledge/_inbox/候補_20260613_ナレハブ原理原則.md">候補_20260613_ナレハブ原理原則.md</a></p>
+<h3>△ 要判断（4件）</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>内容</th>
+<th>なぜ要判断か</th>
+<th>私の推奨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>7-1 / 7-2</strong></td>
+<td>疑いのレベル＝市場の成熟度（結果→方法→感情）。市場が広告に疲れるほど訴求が左にシフトする</td>
+<td><strong>OSに完全欠落していた新しい軸</strong>。意識レベルと直交する「どう話すか」。価値が非常に高い分、田中さんの感覚に本当に合うか確認したい</td>
+<td>◎採用＋既存「5レベルマーケティング」と相互リンク</td>
+</tr>
+<tr>
+<td><strong>8-1</strong></td>
+<td>マーケティングは「教育」である（マーケ≠セールス。問題を教育すればセールスは簡単になる）</td>
+<td>哲学の根幹。他講師章（監修）由来で、田中本人の言葉ではない。OSの第一原理に据えてよいか</td>
+<td>◎採用（田中思想と強く整合と判断）</td>
+</tr>
+<tr>
+<td><strong>8-2</strong></td>
+<td>価値ある広告＝広告そのものに価値（買わなくても価値を感じさせる）</td>
+<td>同上。煽り合戦を超える設計思想として強いが、本人確認したい</td>
+<td>◎採用</td>
+</tr>
+</tbody>
+</table>
+<h3>◎ 高確信（26件）— 一括承認推奨</h3>
+<p>田中本人章（第0・3章）＋監修カリキュラムの原理18件・判断基準3件・基準値2件。既存重複は除外済み（5段階レベル定義・タイトル型・ストーリー構造等はカバー済みのため候補化していない）。</p>
+<hr />
+<h2>束B: プロモ解説 一般化原則 28件（哲学3・原理9・判断基準12・基準値4）</h2>
+<p>正本: <a href="分析_20260612_プロモ解説_一般化原則集ドラフト.md">分析_20260612_プロモ解説_一般化原則集ドラフト.md</a></p>
+<h3>△ 要判断（3件）</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>内容</th>
+<th>なぜ要判断か</th>
+<th>私の推奨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>原則1</strong></td>
+<td>プロモ＝申し込みやすくなる綺麗な一本線を作ること</td>
+<td>判断基準というより「定義」。格納場所が哲学かファネル型README前文か迷う</td>
+<td>哲学として採用（OSの導入定義に）</td>
+</tr>
+<tr>
+<td><strong>原則28</strong></td>
+<td>プロモーターの生存条件は「売れない時に粘れる」（帳尻合わせ力）</td>
+<td>これは<strong>人格・信念寄り</strong>。knowledge（哲学）か configs/人格.md か</td>
+<td>configs/人格.md へ（プロモ哲学でなく田中個人の信念）</td>
+</tr>
+<tr>
+<td><strong>原則5</strong></td>
+<td>ワーディング（認知単語）が売れる価格帯を決める</td>
+<td>田中さん自身が「全然ノウハウになってない」と言った未言語化領域。原理として立てて良いか</td>
+<td>◎原理として採用（最も価値が高い1本）</td>
+</tr>
+</tbody>
+</table>
+<h3>◎ 高確信（25件）— 一括承認推奨</h3>
+<p>すべて田中さんご自身のセミナー発話verbatim（かず先生・ゆう先生解説）が根拠。</p>
+<hr />
+<h2>束C: 横断共通仕様 5件</h2>
+<p>正本: <a href="../../knowledge/_inbox/提案_横断共通仕様.md">提案_横断共通仕様.md</a></p>
+<h3>◎ 高確信（5件全部）— 一括承認推奨</h3>
+<p>表示速度／ページをやかましくしない（色4色）／スマホ基準／流入元・出口の前提確認／差別化最優先。<strong>全て田中さんご自身の直接フィードバックが根拠</strong>（基準005〜008＋速度指摘）。要判断項目なし。</p>
+<hr />
+<h2>承認後の処理（私が実行）</h2>
+<ol>
+<li>承認分を5要素タグ付きで knowledge/ へ反映（哲学/原理/判断基準/事例/基準値）</li>
+<li>ナレハブ統合フラグ処理（疑いレベルと5レベルの相互リンク等）</li>
+<li>バンドル再生成 → リンター・リンクチェッカー合格確認</li>
+<li>候補ファイルを _処理済み/ へアーカイブ</li>
+</ol>
+<h2>要判断サマリー（これだけ返せば完了）</h2>
+<ul>
+<li>束A: 7-1/7-2（疑いレベル）・8-1（マーケ=教育）・8-2（価値ある広告）→ 採用可否</li>
+<li>束B: 原則1（哲学化）・原則28（人格へ移すか）・原則5（原理化）→ 可否</li>
+<li>束C: 判断不要（全◎）</li>
+<li>残り55件: 一括◎でよいか</li>
+</ul>
+<p>Produced by KATSUO MARKETING<br />
+Generated by: 田中祐一AI設計チーム（Claude）</p>
+</main>
+</body>
+</html>

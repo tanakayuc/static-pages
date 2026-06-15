@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>測定_20260613_v2取りこぼし率 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item active"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</h1>
+<h2>このレポートの目的</h2>
+<p>旧基準（判断基準・手順書のみを抽出）で処理した6原本から旧20候補が出た（<code>knowledge/_inbox/_処理済み/候補_20260605.md</code>）。同じ6原本を v2基準（<code>knowledge/ナレッジ取捨選択基準.md</code> の5要素モデル：哲学・原理・判断基準・事例・基準値）で再スキャンし、<strong>旧で取りこぼした分を数字で測定する</strong>。</p>
+<p>田中さんの投資判断（過去の全蓄積＝Loom1,587・Zoom627・ルームを v2で再抽出する価値があるか）の材料を出すのが狙い。</p>
+<p>判定は v2の3テスト（判断テスト／移転テスト／根拠テスト）を全通過したものだけをカウント。引用は全て原本からの verbatim（行番号付き）。捏造なし。本レポートは knowledge本体には書き込まない／コミットしない。</p>
+<hr />
+<h2>★ 測定サマリー（最優先）</h2>
+<h3>原本ごとの表</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>原本</th>
+<th>旧抽出数</th>
+<th>v2新規数</th>
+<th>v2合計</th>
+<th>増加率%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6/5 グループコンサル_2203</td>
+<td>5</td>
+<td>4</td>
+<td>9</td>
+<td>+80%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>6/2 グループコンサル_1400</td>
+<td>7</td>
+<td>6</td>
+<td>13</td>
+<td>+86%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6/1 田中なんでもMTG_1117</td>
+<td>5</td>
+<td>3</td>
+<td>8</td>
+<td>+60%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>6/4 補助金最前線セミナー_2047</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+<td>+67%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6/5 Personal Meeting Room_1358（旧0件）</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>±0%</td>
+</tr>
+<tr>
+<td>6</td>
+<td>6/3 Personal Meeting Room_2001（旧0件）</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+<td>新規4件</td>
+</tr>
+<tr>
+<td><strong>合計</strong></td>
+<td></td>
+<td><strong>20</strong></td>
+<td><strong>19</strong></td>
+<td><strong>39</strong></td>
+<td><strong>+95%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>全体集計</h3>
+<ul>
+<li><strong>旧20件 → v2で +19件（合計39件）。増加率 19/20 = 95%（ほぼ倍増）</strong></li>
+<li>新規19件の5要素内訳：</li>
+<li><strong>哲学：5件</strong></li>
+<li><strong>原理：8件</strong></li>
+<li><strong>判断基準：3件</strong></li>
+<li><strong>基準値：3件</strong></li>
+<li>（事例・用語：旧候補が既に事例形式を含んでいたため、純粋な新規事例は上記原理・基準値に内包してカウント）</li>
+<li>旧が「正しく除外」と判定した <strong>PMR系2本のうち、6/3 PMR から v2で4件抽出</strong>。これは旧基準の取りこぼしを示す最重要指標（後述）。</li>
+<li>6/5 PMR（_1358）は v2でも0件。日程調整＋雑談のみで、旧判定どおり正しい除外。</li>
+</ul>
+<hr />
+<h2>投資判断の所見（結論を先に）</h2>
+<h3>結論：<strong>過去の全蓄積の v2 再処理は「やる価値あり」。ただし全件一律ではなく「種別で優先度をつけて」やるのが妥当。</strong></h3>
+<p>根拠：</p>
+<ol>
+<li>
+<p><strong>増加率が高い（+95%）かつ中身の質が高い。</strong> 新規分の主役は哲学・原理（13/19件）で、これは v2基準が「LLMの精度を最も上げる」と明記している要素（基準書 L42）。旧基準は判断基準・手順書しか拾わなかったため、田中OSの「なぜそう在るか／なぜそうなるか」がごっそり抜け落ちていた。この層が抜けたAIは未知ケースで壊れる、というのが v2の第一原理そのもの。</p>
+</li>
+<li>
+<p><strong>PMR系（チーム進捗MTG）の再処理価値が想定より高い。</strong> 旧基準は PMR2本を「0件・正しい除外」とした。しかし 6/3 PMR を v2で読むと、「過度な自動化は反応を鈍らせる」「単一動線はビジネスとして弱い」など、案件を超えて効く原理が4件出た。<strong>つまり旧基準は "判断に繋がらない雑談" と "判断を変える思想発話" を区別できておらず、思想層を雑談ごと捨てていた。</strong> これは Loom（添削＝思想が濃い）や Zoom（進捗MTGに見える原理発話）の蓄積で同じ取りこぼしが大量発生していることを強く示唆する。</p>
+</li>
+<li>
+<p><strong>ただし全件一律スキャンはコスト過大。</strong> 6/5 PMR（純日程調整）が v2でも0件だったとおり、ノイズ原本は確実に存在する。種別による優先度づけが効率的：</p>
+</li>
+<li><strong>最優先：個人コンサル・グルコン・添削Loom</strong>（思想・原理の密度が最も高い。本測定でも増加率80〜86%）</li>
+<li><strong>次点：チーム進捗MTG（PMR系・なんでもMTG）</strong>（旧基準が最も取りこぼした層。原理が雑談に紛れている）</li>
+<li>
+<p><strong>低優先：純粋な日程調整・事務連絡</strong>（v2でも0件になりやすい。タイトル・長さ（13分等）で事前フィルタ可能）</p>
+</li>
+<li>
+<p><strong>「新規だけでよい」では不十分。</strong> 取りこぼしの主因は「v2以前に処理した原本に哲学・原理が眠っている」こと。新規原本だけ v2運用しても、過去の最も濃い思想資産（PMR・グルコンの原理層）は埋もれたまま。<strong>ROIが最も高いのは「過去の高密度種別（コンサル・グルコン・添削Loom）を優先再処理」する一手。</strong></p>
+</li>
+</ol>
+<hr />
+<h2>v2で新たに拾えた哲学／原理 トップ3</h2>
+<p>過去全再処理の価値を最も裏付ける、移転性の高い新規抽出。</p>
+<h3>1.【原理】過度な自動化は反応を鈍らせる／入り口は自動化・引き上げはライブ（6/3 PMR）</h3>
+<p>旧が「0件・正しい除外」とした原本から。verbatim：</p>
+<blockquote>
+<p>「全部自動化するとすごく機械損失する」（L159）<br />
+「フロントでずっとサンジャレエバーでずっとやってるとまあ当然飽きてるコンテンツホルダーが飽きるのが制約率に影響する」（L162）<br />
+「入り口自動化で漆がライブでいいのかなと思いましたね」（L164）<br />
+「ハイエンドハイエンドの自動化が結構かなりガクッと数字が落ちる」（L181）</p>
+</blockquote>
+<p>判断を変える点：自動化提案が来たとき、AIは「入り口だけ自動化・引き上げはライブを残す」を既定案として出せるようになる。旧基準では完全に捨てられていた原理。</p>
+<h3>2.【哲学／原理】絶対に一個しか通り道がないのはビジネスとして弱い（複線動線＝ホームを案内所化）（6/3 PMR）</h3>
+<p>verbatim：</p>
+<blockquote>
+<p>「絶対に一個しか通り道がないっていうのは、ビジネスとして弱いと思っていて」（L648）<br />
+「事業が大きくなればなるほど…どんどんどんどんなんかこう計測不能になっていくんですよ」（L652）<br />
+「クッションページです。案内所です。」「全て谷口のコンテンツでございます。」（L656-664）</p>
+</blockquote>
+<p>判断を変える点：計測不能になるほど動線が増えても「それでいい」と田中は判断する＝計測純度より動線の複線化を優先する価値観。集客一本依存の危険（旧候補1-5）の上位にある哲学。これも PMR から。</p>
+<h3>3.【原理】「後から言うと言い訳・先に言うと説明」／内部通知は先出しでネガティブに（6/2 グルコン・6/5 グルコン）</h3>
+<p>verbatim（6/2 L1241）：</p>
+<blockquote>
+<p>「田中さんのおっしゃる後から言うと言い訳だけど、先に言うと説明っていう」<br />
+verbatim（6/5 L484-495、スイッチ防止の先出し）：<br />
+「先に行っちゃうと、なんか後からどうこう言われることは可能性は低くなる」<br />
+「これだけ買っても成果には繋がりませんから。でも知識としては価値がありますので。」（ネガティブ言い回し）</p>
+</blockquote>
+<p>判断を変える点：反論処理・告知設計・スイッチ防止に共通で効く時間順序の原理。旧候補1-2（スイッチ防止）は「手法」だけ拾ったが、その根にある「先に言う＝説明」という田中固有の言語原理は取りこぼしていた。</p>
+<hr />
+<h2>v2新規抽出の全リスト（19件・原本別）</h2>
+<p>各項目に5要素タグ＋verbatim出典（行番号）。旧20候補と重複しないことを確認済み。</p>
+<h3>原本1：6/5 グルコン_2203（新規4件）</h3>
+<ul>
+<li>
+<p><strong>1-N1【哲学】低単価商品を買った人はお客様ではない（コミット対象を価格帯で峻別）</strong></p>
+<blockquote>
+<p>「すごく口の悪い事を言うと低炭化商品を買った人はお客様ではないですよ。コンサル的に言うと。」（L519-521）「手がかからないものは利益にならない…リスト構築とか次のためのプロモーションのためのリストビルディング」（L530-532）<br />
+  旧候補1-3はブートキャンプの設計"手順"を拾ったが、その背後の「誰を顧客と定義するか」の哲学は未抽出。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>1-N2【原理】コンテンツの価値は本の価格に収束する（低単価コンテンツ単体は成立しない）</strong></p>
+<blockquote>
+<p>「時代的に言うとコンテンツだけの価値は下がっている…本の価格に収束するっていうふうに思いれますけどね。コンテンツは。」（L533-535）<br />
+  だから低単価商品はサポート・期間プログラム型にせざるを得ない、という判断の根。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>1-N3【原理】メール／レターだけでは鈍い・追い込みライブで申込が跳ねる（"待っている人"がいる）</strong></p>
+<blockquote>
+<p>「最初メールだけで売ろうとしたんですけど、やっぱりなんか伸び悩んで…最後ライブをやってもらったら…販売がポーズ伸びた」「先生から一緒にやりましょうよって一言と待ってんだろう人はいるんだな」（L623-626）<br />
+  旧候補1-3に「追い込みライブを入れる」は手順としてあるが、その理由＝"ライブを待っている層が存在する"という原理は別物として明示価値あり。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>1-N4【基準値／事例】30日ブートキャンプ実数値（149,000円・売上2,000,000・講座本体1,800万の約1/10）</strong></p>
+<blockquote>
+<p>「149,000円」（L609）「2,000,000ぐらい売れたかな…講座の方が1800ぐらい…十分の一ぐらいの売り上げ」（L617-618）「440,000買ってる人の見栄え上安くしすぎると問題がある」（L610-611）<br />
+  旧候補1-3は範囲（10万〜14.9万・約200万）を記載済みだが、価格決定の制約（高単価購入者の見栄え）という較正ルールは新規。</p>
+</blockquote>
+</li>
+</ul>
+<h3>原本2：6/2 グルコン_1400（新規6件）</h3>
+<ul>
+<li>
+<p><strong>2-N1【原理】「後から言うと言い訳・先に言うと説明」（時間順序の言語原理）</strong> — トップ3で詳述（L1241）</p>
+</li>
+<li>
+<p><strong>2-N2【基準値／事例】セールス休憩中のアルフォートで成約率が上がる（ブレイク＝判断を促す装置）</strong></p>
+<blockquote>
+<p>「僕の知り合いのセミナーセールスプロモーターはあのセミナーセールスの休憩中にアルフォートをあげると制約率が上がったっていうデータを持ってる人がいます。」（L1211）「今から講座の説明をしますね。っていうとき、お手元に届いた秘密のキットを開けてください」（L1214-1218）<br />
+  疲労が翌日キャンセルを生むので「ご機嫌なまま即決させる」を狙う、という基準値付きの実務知。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>2-N3【原理】顧客に成果を上げさせる責任は"思い込み"・成果コミットは価格帯と揃える</strong></p>
+<blockquote>
+<p>「顧客に成果を上げないといけないっていうのって俺は思い込みだと思ってて。成果をあげなくてよくないっていう価格帯の商品もある」（L136-137）<br />
+  旧候補2-4は「コミット型/非コミット型の分類」を拾ったが、その根にある「成果責任＝思い込み」という哲学的気づきは未抽出。哲学寄りに格上げ可能。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>2-N4【原理】ペルソナは自分のプラス-10歳・過去の自分には高額商品を売れない</strong></p>
+<blockquote>
+<p>「自分のプラス-10ぐらいがメインのペルソナん。なる」（L729）「12年前の独立したての田中祐一に向けて高額商品を売ることは出来ない…共感しないもんだ」（L731-738）「過去の自分のやつは…本とかそういう安い商品に任せる」（L741）<br />
+  ターゲット設計の移転可能な原理。年齢でペルソナを切らない（L723）も同根。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>2-N5【原理】社内AI人材育成は"作らせる"課題のみが効く（リンク共有は無効）</strong></p>
+<blockquote>
+<p>「エエックスでやってたぜ。200人のデザインの会社が五ヶ月間でクロードのアプリを全員作りなさいって…」（L998-1011）「リンク共有しても一向にスキルアップすることはない…強制的にやらせる事しかない」（L1012-1015）<br />
+  旧候補2-6にこの200人事例は含まれるが、6/2原本にも独立して濃く出現＝原理の再現性を裏付ける素材。AIコスト負担の切り分け（時給メンバー＝会社／業務委託＝自己負担、L1035）も同席。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>2-N6【原理／哲学】究極のセールススライドは一人一人違う（提案書＋固定スライドの二段）・想いは映像で</strong></p>
+<blockquote>
+<p>「究極なセールススライドって何？って言ったら一人一人違うセールススライドなんですよ」（L1170）「コンテンツホルダーしか知らない頭の中ってセールススライドでカバーすることなのか…セールス中に動画流してもらうとかの方が良くない」（L1093-1101）<br />
+  旧候補2-5（スライド設計原則）は判断基準を拾ったが、「想いはスライドでなく映像で」「個人化スライドが理想」という上位思想は補強価値あり。</p>
+</blockquote>
+</li>
+</ul>
+<h3>原本3：6/1 なんでもMTG_1117（新規3件）</h3>
+<ul>
+<li>
+<p><strong>3-N1【哲学】先生（コンテンツホルダー）の主張を守りつつ、入り口は代理店判断を優先する</strong></p>
+<blockquote>
+<p>「コンテンツホルダーは…言いたいこと通りにやると結構売れないこともある」（L599-602）「コンテンツホルダーの言うことをそのまま広告に出さない方がいいこともある」（L618）「俺的にはがん無視しした広告を出してほしい」（L597）<br />
+  旧候補3-3は「主張と訴求のズレ」を判断基準として拾ったが、その根にある「ホルダーを尊重しつつ入り口の決定権は代理店が握る」という関係性の哲学は別軸。半年同じことを繰り返す観察（L596）も。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>3-N2【原理】顧客の脳は広告かけたらバッと集まる解像度＝トーンダウン資料で期待値管理（ローンチは短距離走）</strong></p>
+<blockquote>
+<p>「お客さんは。の脳みそは航空かけたらバアって集まるっていう。この解像度なので…トーンダウンさせてあげなきゃいけない」（L766-769）「エヴァじゃないからね…僕らの論地の業界…スピード短距離走なのから結構なだめてあげないと期待値キャップは結構出る」（L799-800）「慣らし運転に二週間…図解とかないといけなくなる」（L771-772）<br />
+  外部クライアント運用の期待値管理。旧候補3-4（アカウント管理）に隣接するが、こちらは「顧客の認知解像度」という原理。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>3-N3【基準値】教育熱心層・意識高い層を集める案件はCPAが相場より高くなるのが前提（一般子育て系は安い）</strong></p>
+<blockquote>
+<p>「一般的な子育て系のジャンルって俺の中でシーピーエーが安いんですよね…この案件はどっちかって教育熱心なママを集めたい。だからシーピーエーが普通の案件より高くなる」（L82-85）<br />
+  旧候補3-2（CPA許容水準）と近接するが、ジャンル別CPA較正値（一般子育て＝安い／意識高い特定層＝高い）という基準値として独立価値あり。なお3-2と統合検討対象。</p>
+</blockquote>
+</li>
+</ul>
+<h3>原本4：6/4 補助金セミナー_2047（新規2件）</h3>
+<ul>
+<li>
+<p><strong>4-N1【判断基準】補助率で案件を選別する（2分の1は案内しない・3分の2以上を狙う）</strong></p>
+<blockquote>
+<p>「8000件ある中で、私は実は一番最初に見てるのはこの補助率を見てます。補助率を見てて、二分の一のやつは基本ご案内しないです。」（L390-391）<br />
+  旧候補4-2は「補助率2/3以上で効く」を条件に含むが、「2分の1は案内しない」という閾値＋除外ルールは判断基準として明確化価値あり。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>4-N2【原理／哲学】百万円以下だと逆に売れない・プロセスは金額不問で同一だから旨味の大きいゾーンを提案する</strong></p>
+<blockquote>
+<p>「逆に百万円以下だと売れなくなるんですよ…十万円でも百万でも10,000,000円でもプロセスが一緒なのでできたら旨味が大きいゾーンのところをお客様にも提案したい」（L648）<br />
+  旧候補4-1（補助金で天井突破）に通じるが、「労力が同じなら高単価ゾーンを選ぶ」という受注設計の哲学として独立。</p>
+</blockquote>
+</li>
+</ul>
+<h3>原本5：6/5 PMR_1358（新規0件）</h3>
+<ul>
+<li>v2でも抽出なし。内容は2026年末までの講座終了スケジュール調整＋ゆう先生の近況雑談のみ。唯一の思想的発話「特に事前に減るよとか多分言うことなくしれっと減らす作戦」（L53）は個別案件のオファー運用戦術で、移転テスト不通過。<strong>旧判定（正しい除外）を v2でも追認。</strong></li>
+</ul>
+<h3>原本6：6/3 PMR_2001（新規4件・旧0件からの逆転）</h3>
+<p>旧が「チーム進捗・既存カバー済み・正しい除外」とした原本。v2で以下4件が3テスト全通過。<strong>この原本が本測定の最重要指標。</strong></p>
+<ul>
+<li>
+<p><strong>6-N1【原理】過度な自動化は反応を鈍らせる／入り口自動化・引き上げライブ</strong> — トップ3で詳述（L159-181）</p>
+</li>
+<li>
+<p><strong>6-N2【哲学／原理】単一動線はビジネスとして弱い／ホームを案内所化（計測不能でも複線優先）</strong> — トップ3で詳述（L648-664）</p>
+</li>
+<li>
+<p><strong>6-N3【原理】ハイエンド自動化よりダウンセルの方が強い（規格適合の連動性が成約を決める）</strong></p>
+<blockquote>
+<p>「どっちかっちゅうとハイエンドよりダウンセルの方が強い」（L233）「ビジネスライバーの30日間プログラムは結構本編との連動性がすごく強い…ハイエンドの方が規格とマッチしてない」（L217-221）<br />
+  ダウンセル設計の判断原理。本編との規格連動性で成約強度が決まる、という移転可能な見方。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>6-N4【判断基準／基準値】銀行振込特典の経済設計（クレカ手数料4〜5%を超えない範囲で特典を付け振込誘導）</strong></p>
+<blockquote>
+<p>「クレジットカードだと五パーの手数料…40,000円よりもお得になるようにしてある。だから40,000円よりお得になるんだったらそっちなんか用意していいじゃん」（L719-722）「大手の会社さんは銀行振り込みに特典つけてます」（L710）<br />
+  決済設計の数値ルール。100万商品ならクレカ手数料4〜5万＞特典原価なら振込特典は利益が上がる、という基準値付き判断。</p>
+</blockquote>
+</li>
+</ul>
+<hr />
+<h2>補足：測定の限界と注意</h2>
+<ul>
+<li>本測定は「6原本」という旧トライアルと同一サンプルでの比較。種別構成（グルコン2・MTG1・セミナー1・PMR2）が母集団（Loom1,587＝添削主体／Zoom627／ルーム）と異なるため、増加率95%をそのまま全蓄積に外挿するのは過大。特に Loom は添削＝思想密度が高く、増加率はさらに上振れする可能性がある一方、ルーム（チャット）は事実羅列が多く下振れする可能性がある。</li>
+<li>PMR系のサンプルは2本で、うち1本（6/3）が突出して濃かった。チーム進捗MTGの再処理価値は「平均的に高い」ではなく「当たり外れがあり、当たりの取りこぼしが大きい」と理解するのが正確。</li>
+<li>旧候補との重複判定は、旧候補の「格納先・根拠・追加テキスト全文」と照合して非重複を確認したが、一部（3-N3とCPA、6-N3とダウンセル）は旧候補と"近接"する。統合・親子関係の整理は反映フェーズで田中さん確認を要する。</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+測定実施：2026-06-13（v2取りこぼし率トライアル）</p>
+</main>
+</body>
+</html>

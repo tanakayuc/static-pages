@@ -75,6 +75,15 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
 <a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
 <a href="20260612-fbb020c57056.html" class="sidebar-item active"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
 <a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
@@ -682,6 +691,15 @@ knowledge_refs:
 3. 抜き打ちチェックでNGが出たら、そのWPはA級→全件再検査に格下げ<br />
 4. 承認不要のもの: Zoom抽出YAML（中間生成物・約421件）、検証ツール、調査レポート</p>
 <p><strong>実数の見積もり</strong>: 田中さんが実際に深く読むのは S級約10＋A級キャリブレーション約15＝<strong>25〜30ファイル程度</strong>。「何百件」は構造上発生しない（大量物は中間生成物かメタデータのみ）。</p>
+<h3>5-3. 進め方の鉄則（2026-06-13・田中さんの作業スタイルに合わせて確定）</h3>
+<ol>
+<li><strong>役割分担</strong>: 設計はClaude、大量実装はCodex。「Claudeで設計→Codexでガリガリ」が基本動線</li>
+<li><strong>一度に大量レビューを出さない</strong>: 「20ファイル見て」は禁止。1〜3項目ずつ、ちょこちょこ確認で進める</li>
+<li><strong>田中さんの読み込みは約70%・タイトル先読み</strong>: 全文精査でなく、タイトル＋一行で判断している前提で出す。だから<strong>一行サマリーが判断を左右する＝AI側が一行を磨く</strong></li>
+<li><strong>承認はveto方式（承認モデルでなく拒否モデル）</strong>: 私が推奨を既定として提示し、「違和感のあるものだけ×してください、無言＝GO」。全項目に○を付けさせない</li>
+<li><strong>正しさの担保はAI側が持つ</strong>: 田中さんが70%しか見ない前提で安全にするため、提示前にAIが敵対的セルフ検証（出典実在・捏造ゼロ・既存重複・矛盾）を済ませる。承認は「gut-checkとveto」であって精査ではない</li>
+<li><strong>要判断（△）は3件まで/回を目安</strong>: それ以上は分割。残りは◎一括（veto対象）</li>
+</ol>
 <hr />
 <h2>6. リスクと対策</h2>
 <table>
@@ -721,6 +739,7 @@ knowledge_refs:
 <hr />
 <h2>7. 更新履歴</h2>
 <ul>
+<li>v1.6（2026-06-13）: <strong>横断共通仕様の一元管理を原則化</strong>（田中さん指摘: 速度チェックが添削モード実装だけに入りナレッジに無かった）。複数モード（添削/制作/相談）・AI開発に効く仕様は <code>knowledge/共通/横断共通仕様.md</code> に一元登録し、各モードはそこを参照する（モード実装へのサイロ化を禁止）。正本ドラフト: knowledge/_inbox/提案_横断共通仕様.md、統治ルール: 承認基準メモ 基準009。影響: WP-D6（プロモ構築改訂）・WP-D8（添削出力スペック）・KnowledgeOSのMCP実装は横断共通仕様との整合確認を必須化。シードした横断仕様5件=表示速度/ページをやかましくしない（色4色）/スマホ基準/流入元・出口の前提確認/差別化最優先</li>
 <li>v1.5（2026-06-12）: <strong>ナレッジ取捨選択基準v2（5要素モデル）採用</strong>。旧3階層（判断基準/手順書のみ格納・参照資料除外）を「哲学・原理・判断基準・事例・基準値/語彙」の5要素＋3テスト（判断/移転/根拠）に再定義（knowledge/_inbox/提案_ナレッジ取捨選択基準v2.md が正本ドラフト）。第一原理=「マーケティングの正解ではなく田中祐一だったらどう考えるか」。影響: WP-B2/B6/C5等の出力は5要素タグ必須・WP-C2/C3のZoom抽出スキーマに「思想・判断軸の発話」セクションを追加（グルコン/個コン蓄積の具体例偏重への対処）・WP-D1のfrontmatter type値改訂・28原則は再タグ付け済み（哲学3/原理9/判断基準12/基準値4）</li>
 <li>v1.3（2026-06-12）: 田中さんの型分類思想を反映。WP-B1を「ローンチの型一覧（固定17型）」から「プロモーション型データベース（4レイヤーコンポーネント組み合わせ＋実案件マッピング）」へ再設計。WP-B7（実案件プロモ型マッピング: かず先生/ワンソウル/職種型投資コンサル）を新設</li>
 <li>v1.2（2026-06-12）: 承認運用モデル（5-2節・キャリブレーション方式）を追加。S級全件精読/A級基準承認＋抜き打ち/B級事後サンプリングの3クラス制</li>

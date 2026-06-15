@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04_LP作成指示書_Codex用 - 増田 W3EV 挨拶動画台本 v2.1</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+@media (max-width: 720px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--line); }
+  .content { padding: 1.2rem; }
+  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>増田 W3EV 挨拶動画台本 v2.1</h3>
+<a href="001.html" class="sidebar-item"><span class="date">2026年06月15日</span> 00_コンセプトシート_増田</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年06月15日</span> 01_LP原稿</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年06月15日</span> 02_挨拶動画台本</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年06月15日</span> 03_第1話台本</a>
+<a href="005.html" class="sidebar-item active"><span class="date">2026年06月15日</span> 04_LP作成指示書_Codex用</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>LP作成指示書（Codex用・自己完結版）</h1>
+<p>作成日: 2026-06-12<br />
+依頼内容: 以下の仕様に従い、オプトインLPのHTMLサンプルを1ファイルで作成すること<br />
+納品先: <code>21_プロジェクト一覧/増田/20260612_改善後ファネル案/LP_HTML/index.html</code></p>
+<p>この指示書だけで作業が完結するよう、コピー全文・デザイン仕様・技術要件をすべて記載している。<br />
+<strong>コピー（文言）の改変・追加・要約は禁止。</strong> 文言の責任は原稿側（<a class="ref-link" href="002.html">01_LP原稿.md</a>）が持つ。</p>
+<hr />
+<h2>1. 案件概要</h2>
+<ul>
+<li>案件: 「100万マイラーの新常識」5日間無料トレーニング（講師: 増田和彦）のオプトインLP</li>
+<li>目的: メールアドレス登録（オプトイン）。広告・SNS流入のコールド層向け</li>
+<li>ターゲット: 50〜60代の会社員・パート・主婦（6割女性）。旅行好き・マイルに関心・物販未経験</li>
+<li>トーン: <strong>ロジックと数字で信頼を作る左脳型</strong>。高級感はあるが品がある（ネイビー×ゴールド）。キラキラ・虹色・装飾過多は禁止</li>
+</ul>
+<h2>2. 技術要件（必須）</h2>
+<ol>
+<li><strong>HTML 1ファイル完結</strong>（UTAGEのraw_html貼付を想定）。DOCTYPE〜閉じタグまで完全なHTML</li>
+<li>CSSは <code>&lt;style&gt;</code> インライン1ブロックのみ。外部CSS禁止</li>
+<li><strong>JavaScript禁止</strong>（CTAボタンは <code>&lt;a href="#optin-form"&gt;</code> のアンカーリンクでOK。フォーム自体はUTAGE側が後で差し込むため、<code>id="optin-form"</code> の空セクションを最下部CTA直前に置く）</li>
+<li>フォント: Google Fonts <code>Noto Sans JP</code>（400/700/900の3ウェイトまで）。<code>preconnect</code> + <code>display=swap</code></li>
+<li>モバイルファースト1カラム。コンテンツ最大幅 <strong>640px</strong> 中央固定。PCでは左右に背景色が残る</li>
+<li>画像は全箇所<strong>プレースホルダ</strong>でよい（後述§5）。<code>width</code>/<code>height</code>属性必須、FV以外は <code>loading="lazy" decoding="async"</code>、FVのみ <code>loading="eager" fetchpriority="high"</code></li>
+<li>HTML 50KB以下目標</li>
+</ol>
+<h2>3. デザイン仕様</h2>
+<h3>カラーパレット</h3>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ベース背景</td>
+<td>#ffffff / セクション交互に #faf6ee（温かいアイボリー。※2026-06-12ソフト化改訂）</td>
+</tr>
+<tr>
+<td>メインネイビー（見出し・S5証拠セクション・フッター帯）</td>
+<td>#0e2a52（<strong>ベタ塗り反転はS5証拠の1箇所のみ</strong>。S13はアイボリー基調）</td>
+</tr>
+<tr>
+<td>アクセントゴールド（数字・強調・罫線）</td>
+<td>#bc8a4b（温かいシャンパン寄り）</td>
+</tr>
+<tr>
+<td>CTAボタン</td>
+<td>背景 #d2a049→#b08032 の縦グラデ、白文字、角丸999px、影あり</td>
+</tr>
+<tr>
+<td>強調マーカー</td>
+<td>ゴールド系の薄い下線マーカー（蛍光ピンク・水色は禁止）</td>
+</tr>
+<tr>
+<td>トーン原則</td>
+<td>ヘッダー＝濃紺×ゴールドで信頼を締める／本文＝アイボリー基調で柔らかく（女性6割への配慮は紺を薄めるのではなく紺の<strong>面積</strong>で調整する）</td>
+</tr>
+</tbody>
+</table>
+<h3>共通ルール</h3>
+<ul>
+<li>見出し（h2）: Noto Sans JP 900・ネイビー。中央揃え。装飾は上下の細いゴールド罫線程度</li>
+<li>数字はゴールドで一回り大きく（例: 721,710 / 10万 / 100万 / 30回）</li>
+<li>「キラキラ系」装飾の禁止: 虹色グラデ・絵文字の多用・パーティクル風背景・観光地コラージュ</li>
+<li>CTAボタンは全箇所同文言・同デザイン。ボタン上に小さく「＼ 登録は10秒で完了 ／」のマイクロコピー</li>
+</ul>
+<h3>CTAボタン（全4箇所共通）</h3>
+<pre><code>＼ 登録は10秒で完了 ／
+[ 無料で5日間トレーニングに参加する ]
+</code></pre>
+<p>配置箇所: S1直下／S4末尾／S8末尾／S13末尾</p>
+<h2>4. セクション構成とコピー全文</h2>
+<p>セクション順は S1→S14。<strong>文言は以下をそのまま使うこと（一字も変えない）。</strong><br />
+（※「◯回分」「（仮）」「（※〜待ち）」等の未確定表記も、そのまま表示してよい。後で差し替える）</p>
+<h3>S1｜ファーストビュー</h3>
+<ul>
+<li>FV画像プレースホルダ（縦長2:3。後で支給される確定ヘッダー画像が入る）</li>
+<li>直下にCTAボタン</li>
+<li>ボタン下に注記（10px・グレー）:</li>
+</ul>
+<blockquote class="callout-box">
+<p>※登録された方には増田和彦または合同会社オフィスM2、または提携パートナーより定期的にメールマガジンをお送りします。不要な場合はメール内の解除リンクからいつでも解除できます。</p>
+</blockquote>
+<h3>S2｜解説ブロック（白背景・中央揃え・静かな高級感）</h3>
+<blockquote class="callout-box">
+<p>ファーストクラスでハワイも、国内旅行も、自由自在。<br />
+年間100万マイル＝ファーストクラスでハワイ往復、約◯回分。</p>
+<p>累計500名の会社員・主婦が実践。<br />
+それを、運でも裏ワザでもなく、仕組みで貯め続ける。</p>
+<p>それが「100万マイラーの新常識」です。</p>
+</blockquote>
+<h3>S3｜問題提起</h3>
+<p>見出し: <strong>クレジットカードを頑張って使っているのに、マイルが貯まらないのは、なぜか。</strong></p>
+<blockquote class="callout-box">
+<p>年会費の高いカードに変えた。還元率を比べた。入会キャンペーンも逃さず申し込んだ。<br />
+それでも、貯まったマイルは年に数万マイル。<br />
+家族で海外——どころか、国内往復がやっと。</p>
+<p>もしあなたがそうなら、原因はあなたの努力不足ではありません。<br />
+カードの選び方でもありません。</p>
+<p><strong>「そもそもの前提」が違うだけです。</strong></p>
+</blockquote>
+<h3>S4｜核心ロジック（薄グレー背景）</h3>
+<p>見出し: <strong>マイルを決めるのは、「いくら決済したか」。それだけです。</strong></p>
+<blockquote class="callout-box">
+<p>マイルは、決済額のおよそ1%が貯まります。<br />
+どのカードを選んでも、ここは大きく変わりません。</p>
+<p>つまり——<br />
+<strong>月10万マイル貯めるには、月1,000万円の決済が必要。</strong><br />
+これが計算上の事実です。</p>
+<p>「そんなの無理だ」と思いますよね。<br />
+そうです。自分の生活費だけなら、絶対に無理です。</p>
+<p>でも、自分のお金を、減らすどころか<strong>増やしながら</strong>、決済額だけを大きくする方法があります。</p>
+<p><strong>お金を稼ぎながら、マイルがザクザク貯まる。</strong><br />
+5日間の無料トレーニングで公開するのは、この仕組みです。</p>
+</blockquote>
+<p>→ CTAボタン</p>
+<p>※「決済額 × 約1% ＝ マイル」「月10万マイル ＝ 月1,000万円の決済」は計算式カード（白カード・ゴールド数字）として図解的に組んでよい</p>
+<h3>S5｜証拠（ネイビー背景・白文字。このLPで一番格調高く）</h3>
+<p>見出し: <strong>証拠をお見せします。——カード1枚で、年間721,710マイル。</strong></p>
+<blockquote class="callout-box">
+<p>これは、講師・増田が使っているカード“1枚”の、この1年間のマイル獲得記録です。</p>
+</blockquote>
+<ul>
+<li>棒グラフ画像プレースホルダ（12ヶ月・横長）</li>
+<li>注記（小・白）: 2025年6月〜2026年6月・ユナイテッド航空 提携カード加算分</li>
+</ul>
+<blockquote class="callout-box">
+<p>多い月は12万マイル超。もちろん波はあります。<br />
+それでも、<strong>毎月、必ず貯まり続けている。</strong><br />
+運や一発のキャンペーンではなく、「仕組み」だからです。</p>
+<p>他の航空会社・プログラムを合わせると、年間100万マイルを超えていきます。</p>
+<p>そして、貯めるだけではありません。<br />
+この1年間で、マイルを使った航空券の発券は<strong>30回以上</strong>。</p>
+<p>「好きな場所に、好きなだけ」は、比喩ではありません。</p>
+</blockquote>
+<h3>S6｜共通の敵</h3>
+<p>見出し: <strong>なぜ、今までのマイル術では届かなかったのか。</strong></p>
+<blockquote class="callout-box">
+<p>世の中で語られているマイルの貯め方は、ほとんどがこの3つです。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>よくあるマイル術</th>
+<th>続かない理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>クレカ入会キャンペーン</td>
+<td>一度きりで終わる。カードの枚数にも限界</td>
+</tr>
+<tr>
+<td>ポイントサイトの案件まわり</td>
+<td>案件が枯れたら終わり。単発の積み上げ</td>
+</tr>
+<tr>
+<td>紹介・アフィリエイト</td>
+<td>発信力のある人にしかできない</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout-box">
+<p>共通点は、<strong>「再現性」がない</strong>こと。<br />
+来月も、来年も、同じペースで貯まり続ける保証が、どこにもありません。</p>
+<p>100万マイラーの新常識は、逆です。<br />
+毎月、同じ仕組みで、お金を稼ぎながらマイルを貯め続ける。<br />
+だから毎月10万マイルが、運ではなく「計算できる数字」になります。</p>
+<p>メディアも、発信力も、特別な才能もいりません。<br />
+<strong>普通の会社員が、今日から始められる方法です。</strong></p>
+</blockquote>
+<h3>S7｜5日間のカリキュラム（Day1のカードだけゴールド枠で強調）</h3>
+<p>見出し: <strong>5日間で、ここまで公開します。</strong></p>
+<ul>
+<li><strong>Day1｜100万マイラーの設計図</strong> ★5日間で一番大事な日<br />
+  マイルの常識を、数字で書き換えます。なぜカード選びでは一生届かないのか。年間100万マイルまでの設計図を、初日に全部お見せします。</li>
+<li><strong>Day2｜お金を増やしながらマイルを貯める、中核の仕組み</strong><br />
+  「マイル最適化物販」（仮称）を公開。月数時間・外注前提・マイルのために最適化された、合理的なやり方です。</li>
+<li><strong>Day3｜貯まる量を一段引き上げる、2つ目の仕組み</strong></li>
+<li><strong>Day4｜収入の柱そのものを増やす、3つ目の仕組み</strong></li>
+<li><strong>Day5｜あなた自身の「100万マイラー・プラン」</strong><br />
+  5日間の総仕上げ。あなたの生活に合わせた実践順を、その場で整理します。</li>
+</ul>
+<blockquote class="callout-box">
+<p>各回ライブ配信（夜21時〜予定）。参加できない日はアーカイブ視聴OK（オープンチャット内で公開）。</p>
+</blockquote>
+<h3>S8｜3大特典（特典カード3枚・ゴールドのリボン風見出し）</h3>
+<p>見出し: <strong>参加者には、3つの特典をご用意しています。</strong></p>
+<ul>
+<li><strong>特典①｜オープンチャット参加特典「今すぐ2万マイル稼ぐ方法」（仮）</strong><br />
+  オープンチャットに参加した瞬間に受け取れる、即効性レポート。トレーニング開始を待たずに、今日から動けます。</li>
+<li><strong>特典②｜Day1ライブ参加特典「100万マイラー設計図シート」（仮）</strong><br />
+  あなたの毎月の決済額と「行きたい旅行」を入れると、年間何マイル貯まり、どの旅行が叶うかが見える計算シート。Day1ライブの中で配布し、その場で一緒に使います。</li>
+<li><strong>特典③｜Day2ライブ参加特典「マイル最適化物販 入門サイト・無料登録券」（仮）</strong><br />
+  仕組みの実践手順を動画と資料で学べる会員サイトへの無料招待。Day2参加者限定です。</li>
+</ul>
+<p>→ CTAボタン</p>
+<p>※各特典カードに小さな画像プレースホルダ（特典モックアップ用）を置く</p>
+<h3 class="callout-h" style="--bar:#3E8CC0;--bg:#E9F3FA"><span class="callout-ico">📋</span>S9｜こんな方のための企画です（チェックリスト形式・ゴールドのチェックアイコン）</h3>
+<ul>
+<li>定年後の「第二の収入」と、夫婦で行く旅行——その両方を、あきらめたくない方</li>
+<li>旅行が好きで、マイルやポイ活を試してきたけれど、「年に1回の特典航空券」で頭打ちの方</li>
+<li>過去に副業の講座で結果が出ず、今度は<strong>数字で納得してから</strong>始めたい方</li>
+<li>会社員・パート・主婦のまま、生活を変えずに始めたい方</li>
+</ul>
+<blockquote class="callout-box">
+<p>逆に、マイルの知識を極めたい上級者・マニアの方向けの企画ではありません。<br />
+公開するのは「知識」ではなく、普通の人が回し続けられる「仕組み」です。</p>
+</blockquote>
+<h3>S10｜講師プロフィール</h3>
+<p>見出し: <strong>講師は、会社員です。</strong></p>
+<ul>
+<li>プロフィール写真プレースホルダ（正方形・実写が入る予定）</li>
+</ul>
+<blockquote class="callout-box">
+<p><strong>増田和彦</strong>（ますだ・かずひこ）<br />
+マイラー歴20年。IT企業勤務の現役会社員。</p>
+</blockquote>
+<ul>
+<li>テレビ東京「ガイアの夜明け」、TBS「がっちりアカデミー」出演。雑誌「BIG Tomorrow」掲載</li>
+<li>お金を使わないファーストクラス海外旅行300回以上・累計1億円分</li>
+<li>累計500名以上の会社員・主婦に「仕組み」を指導</li>
+</ul>
+<blockquote class="callout-box">
+<p>「私は、会社員をやめません。<br />
+会社員のままこの仕組みが回り続けることが、<br />
+『あなたにも同じことができる』という、何よりの証明だからです。」</p>
+</blockquote>
+<p>（最後の引用は囲み・縦のゴールド罫線つきの引用ブロックで）</p>
+<h3>S11｜参加の流れ（STEP3枚カード）</h3>
+<ul>
+<li><strong>STEP1｜メールアドレスを登録</strong> — 下のボタンから登録。10秒で完了します。</li>
+<li><strong>STEP2｜挨拶動画（約5分）を視聴</strong> — 登録直後に動画ページへ切り替わります。5日間の全体像をお話しします。</li>
+<li><strong>STEP3｜LINEオープンチャットに参加（必須）</strong> — ライブの日程・参加URL・アーカイブ・特典の受け取りは、すべてオープンチャット内でご案内します。匿名で参加できます。</li>
+</ul>
+<h3>S12｜よくあるご質問（静的なQ&amp;Aリスト。アコーディオン不可＝JS禁止のため）</h3>
+<ul>
+<li><strong>Q. 「物販」と聞くと、難しそう／仕事が増えそうで不安です。</strong><br />
+  A. Day2で公開するのは、月数時間・外注前提の、マイルのために最適化されたやり方です。やるかどうかは、5日間で全体像を見てから判断してください。</li>
+<li><strong>Q. 参加にお金はかかりますか？</strong><br />
+  A. 5日間すべて無料です。</li>
+<li><strong>Q. 平日は仕事があり、時間が取れるか不安です。</strong><br />
+  A. ライブは夜21時〜の予定です。参加できない回はアーカイブで視聴できます（オープンチャット内で公開）。</li>
+<li><strong>Q. マイルのことをよく知らない初心者ですが大丈夫ですか？</strong><br />
+  A. Day1は前提知識ゼロから始めます。むしろ、これから始める方のための5日間です。</li>
+</ul>
+<h3>S13｜最後に（ネイビー背景・白文字・締めの静けさ）</h3>
+<blockquote class="callout-box">
+<p>世の中には、「マイルで素敵な旅を楽しみましょう」という話があふれています。</p>
+<p>この5日間でするのは、その話ではありません。<br />
+<strong>数字と、仕組みの話です。</strong></p>
+<p>5日後、あなたの中で「マイルの常識」が書き換わっていたら、この5日間は成功です。<br />
+まずは無料で、設計図を見にきてください。</p>
+</blockquote>
+<p>→ <code>id="optin-form"</code> の空ブロック（UTAGEフォーム差し込み位置のコメント付き）<br />
+→ CTAボタン</p>
+<h3>S14｜フッター</h3>
+<blockquote class="callout-box">
+<p>特定商取引法に基づく表記｜プライバシーポリシー<br />
+© Office M2 All Rights Reserved.</p>
+</blockquote>
+<p>（リンクは <code>href="#"</code> のダミーでよい。コメントで「現行LPと同じリンク先に差し替え」と記載）</p>
+<h2>5. 画像プレースホルダ一覧</h2>
+<p>実画像は後から差し替えるため、<strong>グレー背景＋ラベル文字のプレースホルダdiv</strong>（または同サイズのダミー<code>&lt;img&gt;</code>）で組むこと。</p>
+<table>
+<thead>
+<tr>
+<th>箇所</th>
+<th>サイズ目安</th>
+<th>ラベル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1 FV</td>
+<td>640×960（2:3）※最終支給画像は900×1200（3:4）で確定済み</td>
+<td>「FV画像（支給済みヘッダーが入る）」</td>
+</tr>
+<tr>
+<td>S5 棒グラフ</td>
+<td>640×400</td>
+<td>「12ヶ月マイル獲得棒グラフ」</td>
+</tr>
+<tr>
+<td>S8 特典×3</td>
+<td>各200×200</td>
+<td>「特典①/②/③モックアップ」</td>
+</tr>
+<tr>
+<td>S10 プロフィール</td>
+<td>280×280</td>
+<td>「増田氏 実写写真」</td>
+</tr>
+</tbody>
+</table>
+<h2>6. 禁止事項</h2>
+<ol>
+<li>コピーの改変・追加・要約・並べ替え（誤字と思っても直さず、HTMLコメントで指摘する）</li>
+<li>JavaScriptの追加</li>
+<li>「誰でも」「簡単に」「絶対」「必ず」等の文言追加（コピーに存在しない訴求を足さない）</li>
+<li>虹色・キラキラ装飾、観光地コラージュ風の背景</li>
+<li>外部リソース読み込み（Google Fonts以外）</li>
+</ol>
+<h2>7. 納品物</h2>
+<ul>
+<li><code>LP_HTML/index.html</code> 1ファイル</li>
+<li>作業後、ブラウザ表示確認用に <code>python3 -m http.server</code> 等での確認手順をREADMEコメントとしてHTML冒頭に1行記載</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-12)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 8NW4QK3R<br />
+Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3／W3EV</dt><dd>W3はザ・リードが決済を担当する案件群の総称。W3EVは増田案件の商品名</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>

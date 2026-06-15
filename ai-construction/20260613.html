@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>レビュー_20260613_Codex独立レビュー - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item active"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>Codex独立レビュー（田中祐一AI OS）2026-06-13</h1>
+<p>レビュアー: Codex（gpt-5.5）/ 依頼: Claude / 目的: 見落とし・盲点・精度を下げるリスクの指摘<br />
+原文ログ: /tmp/codex_review_tanaka_ai_result.txt（セッション 019ec3ba）</p>
+<h2>1. 精度の見落とし（未知ケースで田中らしくなくなる穴）</h2>
+<ol>
+<li><strong>反例・不採用例がない</strong> — 「採用された原則」は増えたが「田中なら捨てる案／一見よさそうだが捨てる案」が体系化されていない。未知ケースでは正解候補を出す力より<strong>違う案を捨てる力</strong>が田中らしさを決める。反例がないAIは一般マーケの正解を混ぜる。（該当: 詳細設計書・28原則ドラフト）</li>
+<li><strong>「しないことリスト」が後回し（Phase F）</strong> — 断る案件・出ない領域・ブランド毀損ラインは本来、添削/相談/制作すべての前提。ないと「田中なら止める案件」にも改善案を出す＝親切なマーケ相談AIに堕ちる。（該当: WP-F1）</li>
+<li><strong>ナレッジの出典信頼度がない</strong> — source が「講師不明・田中監修カリキュラム」等。田中本人発話／田中監修／ゲスト講師／教材を同じ重みで扱うと<strong>基準010と衝突</strong>する。重みを分けないと混線。（該当: マーケティングは教育である.md・疑いのレベル_市場の成熟度.md）</li>
+<li><strong>「迷い・保留・正解がない」の抽出欄がない</strong> — Zoom蒸留スキーマに diagnosis/recommendation はあるが、田中の「悩むポイント」「正解がない」「次やるなら」の揺らぎを拾えていない。ここに未知ケース対応の核（仮説思考・テスト思考）がある。（該当: WP-C2/C3）</li>
+<li><strong>相談モードの「聞く順番」と「答えない判断」が薄い</strong> — 質問100個は良いが、どの条件で助言せず追加質問するか/いつ仮説を置くか/いつ止めるかが必要。相談は初手の診断質問で田中らしさが決まる。（該当: WP-C5・相談観点）</li>
+</ol>
+<h2>2. 矛盾・リスク</h2>
+<ol>
+<li><strong>5要素モデルと既存frontmatterの不整合</strong> — 既存に旧 <code>type: 共通基盤</code> が残存。特に <code>knowledge/共通/添削エンジン設定/04_観点×ジャンル重み付け表.md</code> は <code>---</code> の後に <code>## type:</code> という壊れた形で機械処理上危険。ロード優先順が崩れると哲学・原理が実行時に入らない。</li>
+<li><strong>横断共通仕様がまだ _inbox・MCPに直書きが残る</strong> — 速度チェック等がMCPに直書きされる一方、正本は提案中。基準009と実装が噛み合っていない。</li>
+<li><strong>11観点×ジャンル重み付け表が古い（2026-04-17初版）</strong> — 横断共通仕様・5要素・差別化最優先・速度P0が未反映。古い重み表を使い続けると増やしたナレッジより古い優先順位が勝つ。</li>
+<li><strong>承認運用が二重基準（全件確認 vs veto）</strong> — 責任範囲を明文化しないと「承認済みのはずだが田中は読んでいない」誤抽出が正本化され、以後AIが根拠に再利用する。</li>
+<li><strong>評価ループが最後すぎ・評価ログ0件</strong> — 大量反映後にブラインドテストだと、どの変更が効いたか因果が見えない。</li>
+</ol>
+<h2>3. 検証の弱さ（ブラインドテスト10件/5段階3.5は弱い）</h2>
+<ul>
+<li>Holdout固定: 抽出に使わないLoom/Zoomを20〜30件確保</li>
+<li>比較対象: 旧AI／新AI／一般マーケAI／実田中フィードバック</li>
+<li>指標: 指摘一致率・優先順位一致・田中のみ指摘した見落とし・AIのみの過剰指摘・代替案の具体性・文体類似・質問順序</li>
+<li>NG判定: 「一般論として正しいが田中ではない」を明示的に減点</li>
+<li>再テスト: 同一セットで改善前後を比較し差分を評価ログに残す</li>
+</ul>
+<h2>4. 並列化</h2>
+<p><strong>並列可:</strong> ①Zoom627蒸留 ∥ frontmatter移行157（type分類ルールだけ先に固定）②28原則反映 ∥ 相談観点/話し方（共通語彙・source信頼度だけ統一）③ナレハブ反映 ∥ 優先度マトリックス再設計 ④添削出力スペック ∥ MCP取得ロジック検証</p>
+<p><strong>直列必須:</strong> ①source信頼度スキーマ→本体反映 ②横断共通仕様の正本化→MCP/各モード反映 ③優先度マトリックス更新→添削出力スペック確定 ④話し方.md→相談/添削トーン最終化 ⑤D7バンドル再生成→E3/E5ブラインドテスト</p>
+<h2>5. 今やるべき最重要の1手</h2>
+<p><strong><code>apps/mcp/src/mcp/tools/correction.ts</code> の <code>buildCompactKnowledge</code> が、5要素（哲学・原理・判断基準・事例・基準値）を意図通りロードできるか検証する。</strong></p>
+<p>理由: どれだけ良いナレッジを増やしても、18,000字制限の軽量抽出に入らなければ実行時の田中祐一AIは変わらない。今の実装はキーワードスコア中心なので、増やした哲学・原理が「LP」「CTA」「セールス」等の表層語に負けて落ちるリスクがある。</p>
+<hr />
+<h2>Claudeの所見（採否の一次判断）</h2>
+<ul>
+<li>1-1反例/1-2しないこと/1-3出典信頼度/1-4迷い保留/2-1壊れたfrontmatter/2-5評価先行 は<strong>全て妥当・要対応</strong>。特に「最重要1手（buildCompactKnowledge検証）」は盲点だった——ナレッジ反映の前提を崩しかねない</li>
+<li>対応方針はこのファイル下流の実行計画（設計書WPへ反映）で管理する</li>
+</ul>
+</main>
+</body>
+</html>

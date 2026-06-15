@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>設計_20260613_PALMO×田中祐一AI_データ経済圏 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item active"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>PALMO × 田中祐一AI 二層データ経済圏 設計</h1>
+<p>作成日: 2026-06-13<br />
+ステータス: 設計ドラフト（田中さんレビュー＋デプロイ事実確認待ち）<br />
+前提資料: <code>rules/プロジェクト責務分担表.md</code>・<code>rules/システム識別_PALMO_と_田中祐一AI.md</code>・<code>21_プロジェクト一覧/_横断_セールス/Palmo連動_検討メモ.md</code>（未着手）</p>
+<h2>0. このドキュメントの目的</h2>
+<p>田中さんの構想「PALMOと田中祐一AIが連動してデータが行き来する巨大なナレッジ経済圏」を、<strong>境界を曖昧にせず</strong>設計する。<br />
+かつ <strong>Codex / Claude Code / Cursor のどの環境から呼んでも混乱しない</strong>実装ルールを定める。</p>
+<h2>1. 二層の役割境界（誰が何を持つか）</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>🟢 田中祐一AI（ナレッジ層）</th>
+<th>🔵 PALMO（顧客データ層）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>本質</strong></td>
+<td>田中の思考・判断の再現</td>
+<td>顧客の事実・実績の管理</td>
+</tr>
+<tr>
+<td><strong>持つデータ</strong></td>
+<td>思考ナレッジ・添削/制作/相談の生成物・パターンDB・個人コンテキスト・5要素ナレッジ</td>
+<td>顧客マスター・申込・入金・LTV・セールスKPI・クリエイティブ別流入・案件横断ライフサイクル</td>
+</tr>
+<tr>
+<td><strong>正本の場所</strong></td>
+<td>theleadpromotion/<code>knowledge/</code> <code>configs/</code> ＋ Supabase(tanaka-knowledge-os)</td>
+<td>Supabase(promoter-crm) ＋ 各案件管理/決済シート</td>
+</tr>
+<tr>
+<td><strong>問い</strong></td>
+<td>「田中ならどう判断するか」</td>
+<td>「この顧客は誰で、何を買い、いくら払い、どうなったか」</td>
+</tr>
+<tr>
+<td><strong>やらない</strong></td>
+<td>顧客個票・入金管理</td>
+<td>思考ナレッジ抽出・添削ノウハウ・knowledge正本管理</td>
+</tr>
+</tbody>
+</table>
+<p><strong>一文で</strong>: 田中祐一AI＝「脳」、PALMO＝「顧客台帳」。脳は判断を、台帳は事実を持つ。</p>
+<h2>2. データ経済圏（双方向の流れ）</h2>
+<pre><code>                  ┌─────────────── 名寄せキー（顧客の同一性）───────────────┐
+                  │  正規化: 氏名 / 電話 / メール の複合キー（表記揺れ吸収）   │
+                  └──────────────────────────────────────────────────────────┘
+   🟢 田中祐一AI                                            🔵 PALMO
+   （脳／判断）                                              （顧客台帳／事実）
+        │                                                        │
+        │  ── AI→PALMO ──▶ 添削/制作の成果・個人コンテキスト・     │
+        │                  「この顧客にこの判断をした」履歴を顧客票へ │
+        │                                                        │
+        │  ◀── PALMO→AI ── 顧客の実績（成約率/LTV/効いたセールス・   │
+        │                  クリエイティブ）を AIの「事例・基準値」へ  │
+        ▼                                                        ▼
+   knowledge/ の事例・基準値が                          顧客票に「AIの添削/制作/相談ログ」が
+   実データで裏打ちされる                                紐づき、LTVと判断履歴が1画面に
+</code></pre>
+<ul>
+<li><strong>AI→PALMO</strong>: 田中祐一AIが出した添削・制作物・相談ログ・個人コンテキストを、PALMOの該当顧客レコードに紐づける（「誰に何を生成したか」が顧客台帳で見える）</li>
+<li><strong>PALMO→AI</strong>: PALMOが持つ実績（どのセールス/クリエイティブが成約した・LTVが高い顧客像）を、田中祐一AIの<strong>事例（要素4）・基準値（要素5）</strong>として還流する（ナレッジが実データで裏打ちされる＝5要素モデルと直結）</li>
+<li><strong>共通基盤</strong>: 顧客の同一性を担保する<strong>名寄せキー</strong>（氏名/電話/メールの正規化＋複合キー。Palmo連動メモの課題2の解決策）</li>
+</ul>
+<h2>3. どのツールから呼んでも混乱しない仕組み（最重要）</h2>
+<p>Codex / Claude Code / Cursor は<strong>全て同じ in-repo ドキュメントを起動時に読む</strong>。境界はそこで強制する。</p>
+<table>
+<thead>
+<tr>
+<th>仕掛け</th>
+<th>役割</th>
+<th>全ツール共通か</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AGENTS.md</code>（ルート）</td>
+<td>全AIの共通入口。ここから識別doc・責務分担表へ誘導</td>
+<td>✅ Codex/Cursor/Claude全部読む</td>
+</tr>
+<tr>
+<td><code>rules/システム識別_PALMO_と_田中祐一AI.md</code></td>
+<td>2システムの対照表＋3秒チェック</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>rules/プロジェクト責務分担表.md</code></td>
+<td>役割境界＋命名規約</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>apps/mcp/_警告_PALMOと取り違え注意.md</code></td>
+<td>作業エリアでの警告マーカー</td>
+<td>✅（その場で見える）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ルール</strong>: どのツールも、PALMO/AIのコード・DB・envに触れる前に「3秒チェック（pwd→.vercel→ドメイン）」を実行する。これが守られれば入口がどこでも取り違えない。<br />
+→ この設計を AGENTS.md の冒頭に明記し、全ツールが最初に必ず通るようにする（実装タスクA）。</p>
+<h2>4. 現状（正直な実装ステータス・2026-06-13 田中確認＋URL実査で更新）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>役割境界の文書化</td>
+<td>✅ 済（責務分担表・識別doc・命名規約・AGENTS.md冒頭）</td>
+</tr>
+<tr>
+<td>田中祐一AI MCP の稼働</td>
+<td>✅ <strong>本番稼働中</strong>（Cursorで日常使用）</td>
+</tr>
+<tr>
+<td>田中祐一AI のSupabase</td>
+<td>✅ 実在・更新中</td>
+</tr>
+<tr>
+<td>田中祐一AIのナレッジ配信（バンドル/インデックス）</td>
+<td>🟡 修正中（哲学/原理が届くよう型ベース包含・B4未）</td>
+</tr>
+<tr>
+<td>PALMO</td>
+<td>✅ 稼働中（顧客データ）・現在は副次</td>
+</tr>
+<tr>
+<td>PALMO↔AI のデータ連動（経済圏）</td>
+<td>🔴 <strong>未着手</strong>（Palmo連動メモが検討段階のみ・実装ゼロ）</td>
+</tr>
+<tr>
+<td>名寄せキー基盤</td>
+<td>🔴 未設計</td>
+</tr>
+<tr>
+<td><strong>デプロイの一意性</strong></td>
+<td>⚠️ <strong>混乱</strong>: 田中祐一AIのMCPが複数URL（Cursor=<code>mcp-promoter-crm.vercel.app</code>／Codex=<code>admin-psi-rose.vercel.app</code>／他 <code>mcp-jade-beta</code>・<code>tanaka-knowledge-os.vercel.app</code>）。ツールで接続先が違い、名前にpromoter-crmが入り紛らわしい。<strong>どのVercelプロジェクトが正本かは未特定</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>実査で判明した実URL（2026-06-13）</h3>
+<ul>
+<li>田中祐一AI MCP（Cursor接続・日常使用）: <code>https://mcp-promoter-crm.vercel.app/api/mcp/g/{grant}</code></li>
+<li>田中祐一AI MCP（Codex接続）: <code><a href="https://admin-psi-rose.vercel.app/api/mcp" target="_blank" rel="noopener noreferrer">https://admin-psi-rose.vercel.app/api/mcp</a></code></li>
+<li>田中祐一AI QA検索: 同じ<code>apps/mcp</code>内の <code>/api/v1/{grant}/qa/search</code>（別サービスではない。Codex検証2026-06-14で旧記載 <code>tanaka-knowledge-os.vercel.app/api/qa/search</code> は実装と不一致と判明・訂正）</li>
+<li><code>mcp</code>プロジェクト既定URL: <code>https://mcp-jade-beta.vercel.app/c/{grant}</code></li>
+<li>PALMO本体: <code><a href="https://promoter-crm.vercel.app" target="_blank" rel="noopener noreferrer">https://promoter-crm.vercel.app</a></code></li>
+<li>意図する正規ドメイン: <code>mcp.tanaka.app</code></li>
+</ul>
+<p>→ <strong>最優先クリーンアップ</strong>: 田中祐一AIのMCPを <code>mcp.tanaka.app</code> 1本に統一し、Cursor/Codex/Claude を同じURLに向ける（現状はバラバラ）。</p>
+<h2>5. 実装フェーズ（デプロイ事実が判明してから着手）</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>内容</th>
+<th>依存</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>デプロイ実態の確定（mcpはAI?PALMO? / AI本番稼働? / tanaka-knowledge-os実在?）</td>
+<td>田中さん</td>
+</tr>
+<tr>
+<td><strong>A</strong></td>
+<td>AGENTS.md冒頭に「2システム境界＋3秒チェック」を明記（全ツール共通の入口強化）</td>
+<td>なし・即可</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td>名寄せキー設計（氏名/電話/メール正規化＋複合キー）— 経済圏の土台</td>
+<td>Phase0</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>PALMO→AI 還流（実績→事例/基準値）。5要素の事例・基準値に実データを紐づけ</td>
+<td>B</td>
+</tr>
+<tr>
+<td><strong>D</strong></td>
+<td>AI→PALMO 紐づけ（添削/制作/相談ログを顧客票へ）</td>
+<td>B・AI本番稼働</td>
+</tr>
+</tbody>
+</table>
+<h2>6. 田中さんに要確認（Phase0・これが無いと実装に進めない）</h2>
+<ol>
+<li><code>mcp</code>（mcp-jade-beta、theleadpromotion接続）は <strong>田中祐一AI？ PALMO？</strong></li>
+<li>田中祐一AIのMCPは <strong>本番稼働している？</strong>（受講生が使えている？）</li>
+<li><code>tanaka-knowledge-os</code> の Vercel/Supabase は <strong>実在する？</strong>（別アカウント？）</li>
+<li>PALMO（promoter-crm）のSupabaseに、顧客マスターは<strong>もう入っている？</strong>（経済圏のPALMO側土台があるか）</li>
+</ol>
+<p>Produced by KATSUO MARKETING<br />
+Generated by: 田中祐一AI設計チーム（Claude）</p>
+</main>
+</body>
+</html>
