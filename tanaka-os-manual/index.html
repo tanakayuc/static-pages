@@ -1109,8 +1109,22 @@ footer p { margin: 4px 0; }
 <section class="card" id="mcp">
   <h2><span class="num">6</span>MCP で使う（任意）</h2>
   <p>普段から Claude.ai を使っている方は、MCP コネクタを設定すると、<strong>Claude.ai のチャット内で田中祐一AIのナレッジを呼び出せます</strong>。登録・承認後に使ってください。</p>
+  <div class="callout warning">
+    <strong>重要:</strong> MCPは2026年6月から<strong>個人MCP</strong>に切り替わりました。以前案内していた共通URL（<code>/api/mcp/g/test-plc-2026</code>）は使えません。必ず田中祐一AIにログインして、自分専用のMCP接続URLをコピーしてください。
+  </div>
 
-  <h3>6-1. Claude.ai に MCP コネクタを追加</h3>
+  <h3>6-1. 自分専用の MCP 接続URLをコピー</h3>
+  <ol>
+    <li>PLCメンバー専用URL（<a href="https://mcp-promoter-crm.vercel.app/c/test-plc-2026" target="_blank" rel="noopener">https://mcp-promoter-crm.vercel.app/c/test-plc-2026</a>）を開く</li>
+    <li>登録メールアドレスとパスワードでログインする</li>
+    <li>左側の利用者エリアに表示される「<strong>MCP接続URLをコピー</strong>」を押す</li>
+    <li>コピーされるURLが、あなた専用のMCP接続URLです</li>
+  </ol>
+  <div class="callout info">
+    <strong>個人MCPとは:</strong> 誰がMCPを使ったかを正しく記録するため、ユーザーごとに別々の接続URLを発行する仕組みです。他の人に共有せず、自分のClaude.ai / Claude Code / Cursorにだけ設定してください。
+  </div>
+
+  <h3>6-2. Claude.ai に MCP コネクタを追加</h3>
   <ol>
     <li>Claude.ai を開いて、<strong>左下のアイコン</strong>（自分のアバター）をクリック</li>
     <li>表示されるメニューから「<strong>設定</strong>」を選ぶ</li>
@@ -1119,17 +1133,17 @@ footer p { margin: 4px 0; }
     <li>以下を入力:
       <ul>
         <li><strong>名前</strong>: <code>田中祐一AI</code></li>
-        <li><strong>URL</strong>: <code>https://mcp-promoter-crm.vercel.app/api/mcp/g/test-plc-2026</code></li>
+        <li><strong>URL</strong>: 6-1でコピーした<strong>自分専用のMCP接続URL</strong></li>
       </ul>
     </li>
     <li>「<strong>保存</strong>」を押す</li>
     <li>Claude.ai を一度リロード</li>
   </ol>
   <div class="callout warning">
-    <strong>URL末尾の <code>test-plc-2026</code> は PLCメンバー専用のキー</strong>です。Web UI と同じものを使います。
+    <strong>旧MCP URLは使えません。</strong> <code>https://mcp-promoter-crm.vercel.app/api/mcp/g/test-plc-2026</code> のような共通URLを登録している場合は、ログイン後にコピーした個人MCP URLへ差し替えてください。
   </div>
 
-  <h3>6-2. Claude.ai で実際に使う</h3>
+  <h3>6-3. Claude.ai で実際に使う</h3>
   <p>新しい会話を開き、コネクタが有効になっていることを確認したうえで、こう話しかける:</p>
   <pre><code>田中祐一として添削してください。
 
@@ -1152,8 +1166,8 @@ footer p { margin: 4px 0; }
   </div>
 
   <h3>6-4. Cursor / Claude Code でも使える？</h3>
-  <p>はい。MCPに対応しているコードエディタや開発環境でも、同じエンドポイントを登録できます。</p>
-  <pre><code>https://mcp-promoter-crm.vercel.app/api/mcp/g/test-plc-2026</code></pre>
+  <p>はい。MCPに対応しているコードエディタや開発環境でも使えます。ただし、登録するURLは共通URLではなく、ログイン後にコピーした<strong>自分専用のMCP接続URL</strong>です。</p>
+  <pre><code>https://mcp-promoter-crm.vercel.app/api/mcp/u/あなた専用のトークン</code></pre>
   <p>ただし、田中祐一AI MCPは <strong>GitHub上のナレッジ、スタティックページ、ワークフローを直接書き換えるためのものではありません</strong>。受講生向けの主用途は、中央管理されたナレッジを参照し、工程表に沿って台本・LP・オファーなどを作成、または添削することです。</p>
   <div class="callout warning">
     <strong>更新と制作は分けます。</strong> ソースコードやナレッジの更新は田中祐一側のGitHubアカウントと開発フローで管理し、MCPは「制作・添削・工程ナビゲート」の入口として使います。
@@ -1229,6 +1243,11 @@ footer p { margin: 4px 0; }
     <summary>改修履歴を表示する</summary>
     <div class="changelog-scroll">
       <div class="timeline">
+        <div class="timeline-item">
+          <p class="timeline-date">2026年6月17日</p>
+          <p class="timeline-title">MCPを個人MCP方式へ変更</p>
+          <p>共通MCP URLでは誰が利用したか特定できないため、ログイン後にユーザーごとのMCP接続URLを発行する方式へ変更しました。旧URL（<code>/api/mcp/g/test-plc-2026</code>）は廃止され、今後は左側の利用者エリアから「MCP接続URLをコピー」して再接続する必要があります。</p>
+        </div>
         <div class="timeline-item">
           <p class="timeline-date">2026年6月10日</p>
           <p class="timeline-title">導入部分を4機能の入口へ更新</p>
