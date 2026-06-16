@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>再設計_20260615_3モード脳アーキテクチャ - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="023.html" class="sidebar-item"><span class="date">2026年06月16日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item active"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</h1>
+<p>作成: 2026-06-15 / 方法: 24エージェント・ワークフロー（現状解剖7次元 → 設計4案競争 → 3レンズ審査12 → 統合1）<br />
+位置づけ: 3モード（制作・添削・相談）の知識取得・推論アーキテクチャの全体再設計。<strong>実装はこの設計を田中が確認してから着手</strong>。</p>
+<blockquote>
+<p>⚠️ <strong>改訂 v2（2026-06-15 精査レビュー反映）</strong>: 9エージェントの精査でコード照合の上、重大な漏れ22件・効率改善・第一分岐の詰め切りが出た。<strong>本文の一部記述（特に「tier0常時100%」「現状の問題」「視点は生成器に1行足すだけ」「コスト最大3倍」）は誤り/staleと判明</strong>。最新の正は末尾 <strong>「§改訂v2」</strong> を参照（本文より優先）。</p>
+</blockquote>
+<h2>結論（混合比 思考再現3 : 索引・検索5 : 視点ルーター2）</h2>
+<p><strong>索引・検索型を土台にし、その上に田中の思考骨格（8工程ループ）を被せる混合型。</strong></p>
+<p>配信制約（correct=サーバLLM無し／consult=サーバLLM有り）が振る舞いの非対称を生む以上、再現を全モードで均質に保証する唯一の現実解は「<strong>サーバ側で強制できる部分＝索引選抜・視点宣言・状態保存に田中らしさの担保を移し、クライアントLLMの従順さに依存する多段往復を最小化する</strong>」こと。</p>
+<p>第一原理「田中だったらどう考えるか」を構造で担保する3点：<br />
+1. <strong>tier0＝人格カーネルの常時100%ロード</strong>（知識は「答え」でなく「思考のトリガー」）<br />
+2. <strong>視点を知識選抜の一次キーに昇格</strong>（n-gram検索の前に立場を固定）<br />
+3. <strong>連想パターン集をトリガー索引化</strong>（現状は完全に死んでいる資産を生かす）</p>
+<h3>審査スコア（4案競争の結果）</h3>
+<table>
+<thead>
+<tr>
+<th>案</th>
+<th>平均</th>
+<th>採った要素</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多段クエリ型（Plan→Retrieve→Deepen→Synthesize）</td>
+<td>7.33</td>
+<td>checkpoint読み戻し・consult多段化・目次→選択fetch分離</td>
+</tr>
+<tr>
+<td>構造索引・検索型 TIR</td>
+<td>7.00</td>
+<td>_index.json一級化・why_selected透明性・bundle_offsetスライス</td>
+</tr>
+<tr>
+<td>思考再現型（人格カーネル）</td>
+<td>6.67</td>
+<td>tier0=人格OS主従定義・視点三点セット固定</td>
+</tr>
+<tr>
+<td>視点ルーター×階層想起</td>
+<td>5.33</td>
+<td>視点を最上流ルーターに置く</td>
+</tr>
+</tbody>
+</table>
+<p>勝者単独でなく、各案の長所を統合。</p>
+<h2>現状の問題（実ファイル検証済み）</h2>
+<blockquote>
+<p>⚠️ 検証で<strong>私の初期診断の一部が訂正</strong>された：tier0は実バンドルで10,836字（JS .length）でTIER0_BUDGET 11,000字に収まり今は切れていない（過去の「24,565」はwc -cのバイト数取り違え）。<strong>ただし残り余裕164字</strong>でZoom知識追加で近未来に破綻する。</p>
+</blockquote>
+<ol>
+<li><strong>_index.json が壊れている（最重要発見）</strong>: on-diskの396本は全てtype/genre付き（perspective 187本）なのに、索引は<strong>199本しか拾えず</strong>type/genre 42本・<strong>perspective/bundle_offset は0本</strong>。索引生成.pyが半分しか再パースしない。<strong>事例134本は索引に0件</strong>。</li>
+<li><strong>索引も連想パターン集も buildCompactKnowledge から一切参照されていない</strong>（grep一致ゼロ＝dead asset）。連想パターン集の used_by は空配列。</li>
+<li><strong>splitMarkdownSections が #{1,6} 全マッチ→3,590セクションに過分割</strong>（##だけなら372）。毎リクエスト1.8MB全文を線形スコアリング＝スケール耐性の本丸。</li>
+<li>n-gramスコアは頻度のみ・意味/文脈を見ない。haystack=先頭4000字でCTA等後半が評価外。埋め込み実装ゼロ。</li>
+<li><strong>consult N+1</strong>: route.ts:237 が hitごとに db.plcQa.detail() 再取得。withAnswerPreviews が既に一括取得済みで純粋な無駄。</li>
+<li>consult QAが tanaka_only=true 固定でメンバー回答を捨てている（多視点哲学と矛盾）。</li>
+<li><strong>視点が「指示テキスト」止まり</strong>: どの立場を採ったか構造に残らず（perspective列なし）、UIバッジなし、受講生が「どこで立場が変わったか」気づけない。</li>
+<li>制作: workflow.ts:207 が sourceNotes を echo するだけで fetch せず、受講生は手動GitHub検索を強いられる。一括/段階生成の制御ロジック未実装。</li>
+<li>log_correction_checkpoint は書くだけで次工程に読み戻されない（往復思考が死んでいる）。</li>
+<li>github.ts はメモリMap+TTL300s、コールドスタートで消滅。1.8MBバンドルでGitHub APIレート圧迫リスク。</li>
+</ol>
+<h2>目標アーキテクチャ（データの流れ）</h2>
+<pre><code>[入力] → 【層0 視点ルーター】role×viewpoint×timeframe×stage をルールベース判定(LLM不要)→applied_perspective構造化
+       → 【層1 候補生成】_index.json(常駐)に対し genre絞り＋視点ブースト＋summary照合＋連想トリガー
+       → 【層2 リランク】type重み×genre一致×perspective一致×n-gram + 連想ボーナス (EMBED時のみcosine加点)
+       → 【層3 予算充填】bundle_offsetスライス取得・tier0は別建て100%保証・フォールバックで文書順補充
+       → 【出力】tier0(人格カーネル)＋視点宣言＋抽出ナレッジ＋knowledge_index(why_selected)＋思考プロトコル(8工程)
+</code></pre>
+<ul>
+<li>バンドルを物理2分割（<code>_bundle_tier0.md</code>＝哲学・原理100%保証／<code>_bundle_tier12.md</code>＝判断基準・事例選抜）。</li>
+<li>経路別の実行主体：correct=層0-3をサーバで確定しクライアントには確定済み選抜＋プロトコルを渡す／consult=サーバLLMで真の多段ループ／制作=ステップ局所索引でプリロード。</li>
+</ul>
+<h2>モード別の脳の動き</h2>
+<ul>
+<li><strong>制作</strong>: 全体像を50%でぼかして掴む→視点を置いてから1工程ずつ。get_workflow_step が sourceNotes紐づきナレッジを索引経由で自動プリロード。確認ゲート(ファネル/コンセプト/訴求軸/参考デザイン)が埋まるまで生成系を返さない。深掘り質問を固定→動的生成へ。</li>
+<li><strong>添削</strong>: 常時ONの人格カーネル(tier0)で見る→視点宣言→8工程(intake→…→final_qa)を内省的に→番号付きBefore/After。サーバ側で選抜確定しクライアント往復に品質を賭けない。critic_review を「別視点での再点検(ホルダー視点のAをプロデューサー視点で叩く)」と再定義し checkpoint読み戻しで思考軌跡を残す。HTTP 90K→45K削減。</li>
+<li><strong>相談</strong>: 受け止め→視点移して前提整理→複数判断軸→決定権を返す。唯一サーバLLMを持つので真の多段(計画→検索→統合の2〜3コール)。薄い相談は深掘り質問のみの短絡ループでトークン節約。N+1解消・QA緩和・相談プロトコル挿入。</li>
+</ul>
+<h2>視点の実装（判定→宣言→決定権返却を全モード一貫）</h2>
+<ul>
+<li><strong>判定</strong>: inferCorrectionType の隣に viewpoint分類器(ルールベース＋語彙辞書)。stage で視点深さを段階切替(初期=ホルダー/中盤=プロデューサー/後期=市場)。confidence&lt;0.5は複数候補並置。</li>
+<li><strong>宣言</strong>: 全返却に <code>applied_perspective:{role,viewpoint,timeframe,confidence}</code> 必須化＋出力冒頭UIバッジ「視点:プロデューサー＋市場目線・3ヶ月」。feedback_sessions に perspective_applied 追加。</li>
+<li><strong>索引一次キー昇格</strong>: _index.json に perspective列必須化(on-diskに187本既存＝生成器に1行足すだけ)。層2で perspective一致を加点。</li>
+<li><strong>矛盾検出</strong>: 複数立場が違う結論なら「ホルダーならA/プロデューサーならB」と分離提示を機械担保。</li>
+<li><strong>決めるのはあなた</strong>: 3経路共通関数で version一元管理、思考プロトコル最終ステップに順序固定で組み込む。</li>
+</ul>
+<h2>段階移行プラン</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>目標</th>
+<th>主な作業</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phase0(完了)</strong></td>
+<td>n-gramの檻を半分出る・哲学末尾カット防止</td>
+<td>クエリ依存n-gram・10件上限廃止・予算充填・フォールバック・consult30K・tier0保証(実装済)</td>
+</tr>
+<tr>
+<td><strong>Phase A(新インフラ0)</strong></td>
+<td>壊れた索引を直し、既存サーバLLMのconsultで体感品質UP</td>
+<td>①索引生成.py修正＆再生成(396本・perspective/offset出力) ②連想パターンused_by記入 ③consult N+1解消・QA緩和・相談プロトコル・空状態動的化 ④budget上限管理 ⑤LLM呼び出し増やさず即出荷</td>
+</tr>
+<tr>
+<td><strong>Phase B(Codex検証必須)</strong></td>
+<td>田中らしさを構造に残す</td>
+<td>①viewpoint分類器＋applied_perspective構造化＋UIバッジ ②perspective_applied列マイグレーション ③_index.json接続(層1-2リランク・視点ブースト・連想トリガー)＋why_selected ④checkpoint読み戻し ⑤workflow sourceNotes自動プリロード ⑥consult 2コール多段化 ⑦HTTP 90K→45K</td>
+</tr>
+<tr>
+<td><strong>Phase C(スケール本体)</strong></td>
+<td>知識数倍時の破綻を構造で断つ</td>
+<td>①バンドル物理2分割 ②索引×bundle同一CIでoffset/md5一致を不変条件化 ③セクション本文をSupabase/KV常駐 ④EMBED_ENABLEDでembedding(二層フォールバック) ⑤fetch_knowledge_sectionsツール(任意)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Phase0の暫定修正は全て恒久的に活きる</strong>（リランクのn-gram成分・予算充填機構・フォールバック安全弁・tier0保証として昇格、廃棄ゼロ）。</p>
+<h2>田中が決めるべき分岐点</h2>
+<ol>
+<li><strong>consult多段ループのコール数上限</strong>（OpenAIコスト最大3倍＝運営負担。env 1〜3可変、月次budget上限と超過時UX）</li>
+<li><strong>HTTP correct予算 90K→45K に下げてよいか</strong>（索引で到達品質を保てる前提・A/B検証要）</li>
+<li><strong>embedding(pgvector)を Phase C で導入するか</strong>（田中固有語の意味の檻リスク・遅延判断を推奨）</li>
+<li><strong>DBマイグレーション(perspective_applied等)を実施してよいか</strong>（視点透明性に必要・未適用環境耐性確認）</li>
+<li><strong>視点バッジ・複数視点並置を常時出すか confidence&lt;0.5時だけか</strong>（常時は認知負荷リスク）</li>
+<li><strong>索引とbundleの同時生成CI化(Phase C)で2つの.pyを単一パイプライン統合してよいか</strong>（規模変更・Codex検証必須）</li>
+</ol>
+<h2>リスク</h2>
+<p>索引staleness再発(CI同期前は手動再生成依存で脆い)／correct経路のクライアント依存(ツール呼び出し強制不可)／視点ルーター誤判定／embeddingの意味の檻／bundle_offset行ドリフト／consult多段化のコスト暴走(budget先行必須)／tier0将来肥大(残164字)／マイグレーション耐性(.catch握り潰し)。</p>
+<hr />
+<h1>§改訂v2（2026-06-15 精査レビュー反映・本文より優先）</h1>
+<p>9エージェント精査（6レンズ批評＋レッドチーム＋統合）が全主張をコード照合。全6レンズ＋レッドチームが「要補強」で一致。以下が最新の正。</p>
+<h2>v2-0. 現状スナップショット（2026-06-15・実測。本文「現状の問題」を置換）</h2>
+<ul>
+<li><strong>索引は再生成済み（Phase A）</strong>: <code>_index.json</code> 392本・type全付与・perspective183（うち共通172/specific11=01-11観点軸）・bundle_offset357・core8・事例141全件in_bundle。→ 本文「現状の問題1（索引199本/perspective0/事例0）」は<strong>解消済み・stale</strong>。</li>
+<li><strong>consult N+1 解消済み（Phase A）</strong>: detail() per-hit撤去・withAnswerPreviews前提。→ 本文の N+1 指摘も解消済み。</li>
+<li><strong>残る真の未完</strong>: (a)索引がruntime未接続（grep一致ゼロ＝まだ誰も使っていない）(b)triggers列なし (c)used_by183本がstringified-list（parse未正規化）(d)<strong>perspectiveが立場視点と別オントロジー</strong> (e)<strong>bundle_md5不在・索引とbundleが別コミットで2.5hドリフト</strong> (f)<strong>bundle内path重複</strong>（<code>スキル別/セールス/ジャンル別固有論点.md</code>×2）。</li>
+</ul>
+<h2>v2-1. 設計の主従矛盾（最優先で解消）</h2>
+<ul>
+<li><strong>tier0「常時100%」は誤り</strong>: sentinel内=<strong>core8本のみ（実測10,892字でTIER0_BUDGET 11,000をほぼ飽和・残約108字）</strong>。type=0分類93本のうち残り85本（原理/哲学）は rest で事例141本と同じn-gram土俵で選抜・予算打ち切りされる。→ <strong>tier0の定義を一義確定</strong>: ❶core8本のみ100%とし表現を「core8本100%＋非core原理/哲学85本はリランク対象」へ書換、または❷93本全部を <code>_bundle_tier0.md</code> へ物理分離（Phase C前倒し）で予算競合から外す。<strong>層3予算充填で type=0 と希少type（基準値/用語/連想）を他typeより先に充填する優先キュー/quotaを明記</strong>。</li>
+<li><strong>視点は「生成器に1行足すだけ」は撤回</strong>: index perspective（172=共通/11=観点軸）と ルーターの role/viewpoint/timeframe は<strong>別オントロジー</strong>。→ <strong>視点の二層モデルで分離</strong>: ❶添削観点軸（01-11=既存perspective）＝rerankのgenre/観点フィルタ用、❷立場視点（role/viewpoint/timeframe）＝出力宣言とFBの型用で<strong>知識選抜キーに直結させない</strong>。立場視点で選抜したいなら新フィールド <code>viewpoint_applicable</code> の付与主体・基準・工数を別途定義。</li>
+</ul>
+<h2>v2-2. 田中らしさが消える核心リスク（critical・添削13種別）</h2>
+<p>索引×視点を一次キー化した瞬間、<strong>correction.ts に埋まる種別別の禁則が落ちる</strong>（本文の添削節に動画/メール/LINE/スライド/セールスがgrep 0件）。保持必須の田中固有禁則：<br />
+- メール/LINEステップ配信は混ぜない・媒体/通数/Day別<br />
+- スプレッドシート/XLSXはセルメモ・コメント・非表示列を本文として抽出<br />
+- 動画は代表フレーム/時間指定・スライドはページ番号・LP/Web速度は独立見出し<br />
+- 動画台本/LINE/個別相談/オファーは単体添削しない（ファネル接続必須）<br />
+- SALES_PROCESS/SLIDE_PINNED が _index.json 接続後も生き残ること<br />
+→ <strong>correction_type（13種）を視点ルーターの第0軸</strong>として明記し、各種別の(a)ピン留めナレッジ(b)固有禁則を <strong>工程×種別マトリクス</strong>で「層2リランク」か「出力プロトコル」かを定義。索引genre絞りは『素材種別×視点×timeframe』の3次元で行う。</p>
+<h2>v2-3. 第一分岐【consult多段コスト】= 詰め切り（本文§分岐点1を確定）</h2>
+<ul>
+<li><strong>コスト</strong>: モデル gpt-4.1-mini（入$0.40/出$1.60/キャッシュ入$0.10 per1M）。現状one-shot ≈ <strong>$0.018/相談</strong>（入力約40K字≈15Kt＋出力2K。入力の30Kは毎回再注入のknowledge＝コスト支配項）。多段化＝計画コール（知識を載せない・約5.1Kt＋出力200t≈$0.0023）＋検索（LLM非依存$0）＋統合コール（現状同等≈$0.018）＝<strong>合計約$0.020＝現状の約1.1倍</strong>。本文「最大3倍」は<strong>「各コールに知識フルロードを重複した場合のみ」で誤り</strong>。</li>
+<li><strong>不変条件（最重要）</strong>: <strong>知識フルロードは統合コール1回だけ</strong>。<code>runTanakaPlan(query, contextSummary)</code> / <code>runTanakaSynthesis(messages)</code> に型分離し、計画コールが知識を物理的に受け取れないシグネチャにする。</li>
+<li><strong>さらに安くなる2手</strong>: ❶プロンプトキャッシュ（tier0＋共通＋persona＋視点≈30.6Kは不変→system先頭固定で入力単価75%減）で統合コール≈$0.0083 → 多段でも≈<strong>$0.011/相談で現状より安い</strong>。❷薄い相談（input&lt;150字 かつ profiles=0 かつ QAヒット0）は計画LLMも呼ばず深掘り質問テンプレ2-3問で即終了（<strong>LLMコール0</strong>）。30%が薄いなら実効平均 ≈ <strong>$0.0077/相談（現状の約43%）</strong>。</li>
+<li><strong>budget機構（実装粒度）</strong>: Supabase <code>consult_usage_monthly(grant_code, user_id, year_month, request_count, llm_call_count, est_input_tokens, est_output_tokens, PK(user_id,year_month))</code> をUPSERT集計（envは grant別/月初リセット不可なので正本にしない）。上限は <code>access_grants.enabled_features</code> に <code>consult_monthly_request_limit</code> / <code>consult_monthly_call_limit</code> を追加。route.ts の feature lock直後に <code>checkConsultBudget</code> → 超過は <code>CONSULT_BUDGET_EXCEEDED</code>(429) でUIが「枠切れ」と「機能ロック」を区別。</li>
+<li><strong>超過UX（段階フォールバック）</strong>: 残枠あり=多段／call_limit 80%超=<strong>自動で簡易1コール</strong>（現状one-shot温存）にダウングレード＋「簡易モードで回答中」小表示で<strong>止めない</strong>／request_limit到達=丁寧な上限通知で停止(429)。「止める」は最終段だけ。</li>
+<li><strong>推奨env初期値</strong>（母数 PLC200名×月20回≈月4,000相談）: <code>CONSULT_MAX_LLM_CALLS_PER_REQUEST=2</code>／enabled_features: community=300/500・individual=150/250・experience=20/20（体験会はqa:false軽量・実質簡易固定）／グローバル安全弁 env <code>CONSULT_GLOBAL_MONTHLY_CALL_CAP=20000</code>（≈月$160で全grant簡易化）。</li>
+<li><strong>月次見込み</strong>: キャッシュ＋薄い相談LLM0適用後 平均$0.0077×4,000≈<strong>月$31（約4,600円）</strong>、素の多段でも≈月$80（約12,000円）。</li>
+</ul>
+<h2>v2-4. 効率改善（容量内でスムーズに呼ぶ・移行期前倒し可／新インフラ0）</h2>
+<ol>
+<li><strong>索引による候補事前絞り込みをPhase Aから</strong>: correctionType→genreで392→候補数十本、bundle_offset(357本)で必要本文だけ826K字バンドルからスライス。毎回3,590分割＋線形スコアをほぼ消す。<strong>bundle_md5突合安全弁とセット必須</strong>。</li>
+<li><strong><code>splitMarkdownSections</code> を <code>#{1,6}</code>→<code>#{1,2}</code> に（1行）</strong>: 3,590→372セクション（≈1/10）。過分割で後半本文(CTA等)が散ってscore薄まる問題も同時緩和。</li>
+<li><strong>tier0物理分離 = トークン削減＋可用性＋APIコール半減の三重効果</strong>: バンドル実測1.8MB&gt;GitHub inline上限1MB＝毎コールドスタートで download_url 2API。tier0別ファイル(最大~33KB)なら1API＋correct失敗時の縮退受け皿。</li>
+<li><strong>プロンプトキャッシュ</strong>（v2-3）／<strong>buildCompactKnowledge のメモ化</strong>（(commit,type,inputハッシュ)キーのLRU）／<strong>haystackに summary列を含める</strong>（後半要点を拾いつつ走査減）／<strong>視点プロトコルの重複注入を1 versioned定数に集約</strong>。</li>
+</ol>
+<h2>v2-5. 6分岐の整理（推奨／条件／可逆性）</h2>
+<table>
+<thead>
+<tr>
+<th>分岐</th>
+<th>推奨</th>
+<th>着手条件</th>
+<th>可逆性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①consult多段＋budget</td>
+<td>上限=2／Supabase consult_usage_monthly正本／community300:500等／グローバル20000</td>
+<td>budgetテーブル＋列＋429＋ai-client堅牢化＋Plan/Synthesis型分離が揃う。知識フルロードは統合1回だけ</td>
+<td>高（env/列で多段OFF=現状復帰）。budget不在の多段化はコスト暴走で不可逆</td>
+</tr>
+<tr>
+<td>②HTTP correct 90K→45K</td>
+<td>索引接続後にA/B検証してから。単独先行は禁止。別途personaのlimitText抑制で~1万字即減</td>
+<td>索引runtime接続が動き45Kでも後半が落ちぬとA/B確認</td>
+<td>高（数値1つ）。索引未接続で下げると品質劣化＝危険</td>
+</tr>
+<tr>
+<td>③embedding(pgvector)</td>
+<td>遅延判断。先に索引絞り＋offset＋##化＋summary照合で1桁落とし、不足時のみEMBED_ENABLED二層フォールバック</td>
+<td>Phase B後も田中固有語で意味的に引けないと定量観測されたら</td>
+<td>高（フラグON/OFF・n-gram温存）。導入コスト中</td>
+</tr>
+<tr>
+<td>④DBマイグレ(perspective_applied)</td>
+<td>実施。順序=列追加→デプロイ固定。未適用は縮退を<code>degraded_schema</code>で可視化（.catch握り潰し改修）</td>
+<td>視点永続化が要るPhase B①②着手時＋無言握り潰し対策とセット</td>
+<td>中（列追加は前方互換・削除注意）</td>
+</tr>
+<tr>
+<td>⑤視点バッジ/並置</td>
+<td>バッジ常時／並置はconfidence中間域のみ最大2・結論分岐論点だけ／辞書0ヒットは既定1本化／明示上書き導線</td>
+<td>4軸既定値テーブル＋confidence式＋しきい値0.5根拠＋決定木が明記</td>
+<td>高（表示ロジック調整）。常時並置はトークン膨張で要上限</td>
+</tr>
+<tr>
+<td>⑥索引/bundle CI統合</td>
+<td>統合推奨。CI(Phase C)を待つ間にPhase Aへ最小同期不変条件を前倒し（md5突合＋順序固定sh＋path一意性）</td>
+<td>Phase B③のoffsetスライス接続前にmd5突合安全弁とpath重複解消</td>
+<td>CI統合は規模変更でCodex検証必須（中）。暫定不変条件は新インフラ0で高</td>
+</tr>
+</tbody>
+</table>
+<h2>v2-6. Phase B着手前に必ず潰す前提（レッドチーム反映）</h2>
+<ol>
+<li><strong>索引×bundle同期不変条件の先行</strong>: 生成器に bundle_md5/bundle_bytes 必須出力＋自己検証（不一致なら非0 exit）。runtimeはmd5突合一致時のみoffsetスライス、不一致は全文経路へフォールバック。bundle内重複path（ジャンル別固有論点.md×2）を統合添削_bundle.pyで失敗させるかoffsetを(path,連番)化。<strong>これ無しでPhase B③接続＝「田中の哲学を聞いたら他人の事例が返る」事故</strong>。</li>
+<li><strong>tier0定義の一義確定</strong>（v2-1）。</li>
+<li><strong>視点の二層分離＋4軸既定値テーブル＋決定木</strong>（v2-1, v2-5⑤）。</li>
+<li><strong>applied_perspective のサーバ確定単一関数化</strong>: correct/consult/workflow 3経路で同一構造体。correctは unified_prompt 冒頭に「確定済み・変更不可」で差し込み（policy文字列は補足に降格）。これ無しでは設計の核心「非対称解消」が未達。</li>
+<li><strong>consult堅牢化＋budget先行</strong>: ai-clientに per-call timeout(AbortController)＋429/5xx指数バックオフ、route maxDuration、consult_usage_monthly＋2上限列＋429、Plan/Synthesis型分離。多段化はこの後。</li>
+<li><strong>縮退階梯</strong>: correctのバンドルfetch <code>.catch</code>（現状無し＝即500）→直近キャッシュ→tier0別ファイルで人格カーネル＋固定ルールのみ返す縮退（degraded=true付与）。consultのナレッジ健全性ゲート。永続キャッシュ(KV)＋stale-while-revalidate。</li>
+<li><strong>Phase A見積りのstale更新</strong>（v2-0）。</li>
+<li><strong>安価な効率改善の前倒し</strong>（v2-4の1-2＝新インフラ0・LLM増0・トークン増0）。</li>
+</ol>
+<h2>v2-7. 段階移行プラン（v2修正）</h2>
+<ul>
+<li><strong>Phase A（更新）</strong>: ✅索引再生成 ✅consult N+1＋相談プロトコル ／ 追加候補（新インフラ0）= 索引候補事前絞り込み・split <code>#{1,2}</code>化・bundle_md5突合安全弁＋path一意性・runTanakaChat堅牢化・budget機構・薄い相談の前段ヒューリスティック・縮退階梯。</li>
+<li><strong>Phase B</strong>: v2-6の前提を潰した上で、視点ルーター（二層・4軸既定値）＋applied_perspectiveサーバ確定＋_index.js接続（md5突合フォールバック必須）＋checkpoint読み戻し＋consult多段化（型分離・budget）＋HTTP予算はA/B後。要Codex検証。</li>
+<li><strong>Phase C</strong>: バンドル物理2分割（tier0別建て＝三重効果）＋索引/bundle同一CI（offset/md5不変条件）＋セクション本文KV常駐＋embedding（二層フォールバック）。</li>
+</ul>
+<h1>§Codexクロスチェック（2026-06-15・独立レビュー反映・v2と相互チェック）</h1>
+<p>Codexが実装者でなく独立レビュアとしてコード照合。Claude(v2)の主要指摘の検証＋Claudeの見落としを炙り出した。</p>
+<h2>CC-1. Codexがv2を確認（高確度・両者一致）</h2>
+<p>tier0=core8本のみ（sentinel実測10,836字でTIER0_BUDGET飽和）／索引perspectiveと立場視点は別オントロジー／correctのbundle fetchは.catch無しで失敗時500・ai-clientにtimeout/retry無し・budget機構皆無／索引とbundleはmd5突合無しでpath重複（ジャンル別固有論点.md×2）あり／索引再生成済(392/183/357)・consult N+1解消済は事実で本文stale。→ <strong>v2の方向は正しいと独立に裏付けられた</strong>。</p>
+<h2>CC-2. Codexの補正（v2を一部弱める）</h2>
+<ul>
+<li><strong>添削13種別禁則は「完全欠落」ではない</strong>: v2で明示済・コードにも在る。ただし <code>buildCompactKnowledge</code> 内の固定文字列と <code>buildModeNote</code> に<strong>散在</strong>しており、索引接続時に落ちるリスクは実在（指摘の方向は維持、表現を「散在→集約が必要」に補正）。</li>
+<li><strong>consult $0.0077/相談は「希望値」</strong>: Plan/Synthesis型分離もprompt cache固定化も薄い相談LLM0も<strong>現行コードに無い</strong>ため、意思決定の根拠数字に使うのは危険。実装後に実測（CC-3のtoken会計）で確定すべき。consult入力は最大20万字許容(limits.ts)で外れ値が大きい。</li>
+</ul>
+<h2>CC-3. Codex新発見（Claude/9エージェントが見落とし・要追加）</h2>
+<ul>
+<li>🔴 <strong>critical セキュリティ(IDOR)</strong>: <code>log_correction_checkpoint</code> / <code>log_correction_output</code>（correction.ts:903,981）に<strong>session所有者チェックが無い</strong>。登録ユーザーが他人の <code>session_id</code> を知れば、他人の途中メモ追加・完了上書きが可能。<code>recordWorkspaceCheckpoint</code>(db.ts:328)もsession idだけで取得。→ <strong>MCPツール側で <code>session.grant_code===grant.grant_code &amp;&amp; session.user_id===user.id</code> を必須化</strong>。本番稼働中のため最優先で修正。</li>
+<li><strong>high</strong>: 制作 workflow tools が <code>creation</code> feature lock未確認（authByNameのみ・workflow.ts:53）→ 全workflow toolで <code>authByName(name,grant,'creation')</code>。</li>
+<li><strong>high</strong>: consult QA が per-user <code>qa:false</code> を無視（resolvePortalConfig(grant)のみ・consult/route.ts:94）→ <code>resolvePortalConfig(grant,user)</code> 化。</li>
+<li><strong>high</strong>: <strong>受講生トークン会計が無い</strong>（ai-clientが<code>usage</code>未読・ai-client.ts:51）→ Chat Completionsの<code>usage</code>を戻り値に含めsession/tool eventへ保存。budgetを作っても実測補正できない。</li>
+<li><strong>medium</strong>: <code>enabled_features</code> はboolean前提型（types.ts:70）→ v2の <code>consult_monthly_request_limit</code> 等の数値は現行resolverが無視。<strong>専用列か別テーブルが必要</strong>（v2の enabled_features 追加案を訂正）。</li>
+<li><strong>medium</strong>: QA検索は最大8variant×top50 RPCを毎相談で並列（hybrid-search.ts:139）＝LLM費でなくDB負荷。薄い相談・短文時はQA検索スキップ/variant段階化。</li>
+</ul>
+<h2>CC-4. 分岐への異論（Codex）</h2>
+<ul>
+<li><strong>分岐①</strong>: <code>community=300/500</code> は <strong>per_user か per_grant か曖昧</strong>。usage PKが(user_id,year_month)なら per_user で300/人は高すぎ、per_grantならPLC200名×20回=4,000と矛盾。→ <strong>per_user と per_grant を分離</strong>して上限を持つ。</li>
+<li><strong>分岐②</strong>: 90K→45Kの順序はv2に同意。加えて <strong>HTTP correctが unified/system/user prompt を三重返却</strong>（correct/route.ts:312）＝転送・保存の無駄。重複返却の削減も。</li>
+<li><strong>分岐③</strong>: embedding遅延は妥当。ただし <strong>QAはpg_trgmで弱い</strong>ので、添削ナレッジのembeddingより先に <strong>QA側（田中回答無い時のみmember／weak除外／公式確認要の質問のWeb導線）</strong> を詰める方が体感に効く。</li>
+</ul>
+<h2>CC-5. 総評（Codex）＝Phase B前提を「8→11件」へ</h2>
+<p>v2のtier0/視点二層/md5/N+1整理はコードと一致。だが <strong>Phase B前提8件だけでは不足</strong>。<strong>「①権限境界(IDOR修正) ②creation/QA feature lock ③実token会計」の3つをPhase B前提に追加</strong>すべき。これを飛ばすと田中らしさ以前に、受講生向けMCPの<strong>安全性と運用費制御が崩れる</strong>。</p>
+<p>→ <strong>実装順の改訂</strong>: 最優先=🔴IDOR修正（本番稼働中の脆弱性・即）。次にPhase A地盤（md5安全弁・split#{1,2}・haystack summary）。feature lock・token会計はbudget/多段化(S4)の前提として組込み。enabled_featuresは専用列で実装。consultコストは実測(token会計)で確定。</p>
+<h1>§決定（2026-06-15・田中確定。S1/S2/S3の実装方針）</h1>
+<p>レビューを受け、田中が2分岐を確定。これで S3(索引runtime接続) の仕様が確定。</p>
+<h2>決定1: tier0の定義 = 「core8本は常時100% ＋ 原理/哲学を事例より優先充填」</h2>
+<ul>
+<li>core8本(sentinel)は従来通り常時100%ロード(変更なし)。</li>
+<li>加えて <strong>層3予算充填で type優先キュー</strong> を導入: 原理/哲学/判断基準 → 事例 → 用語 の順で予算を埋める。</li>
+<li>非core原理/哲学85本が事例141本にn-gram同土俵で押し負ける問題を、常時ロード(予算膨張)でなく<strong>選抜の優先順位</strong>で解消。トークン予算は据え置き。</li>
+</ul>
+<h2>決定2: 視点 = 「出力で立場宣言 ＋ perspective一致で軽い選抜ブースト」</h2>
+<ul>
+<li>立場(プロデューサー/コンテンツホルダー/市場目線・短期/長期)を層0で軽く推定し、出力冒頭で applied_perspective を宣言＋「決めるのはあなた」を担保。</li>
+<li>知識選抜では、<strong>既存の index.perspective を補助シグナルとして軽く加点</strong>(perspective一致 +α)。<strong>新フィールド viewpoint_applicable の付与はしない</strong>(工数回避)。</li>
+<li>= 視点は主に「出力の型」で効かせ、選抜には軽いブーストだけ。重いオントロジー整備はしない。</li>
+</ul>
+<h2>→ S3(索引runtime接続)の確定仕様</h2>
+<ol>
+<li><code>buildCompactKnowledge</code> で <code>_index.json</code> を取得し、<code>index.bundle_md5 === md5(取得bundle)</code> を突合。<strong>不一致なら現行の全文splitMarkdownSections経路へフォールバック</strong>(S0安全弁・無回帰保証)。</li>
+<li>一致時: tier0はsentinelで常時(決定1)。rest候補は index entries(in_bundle・索引type除外)から、correctionType→genre で事前絞り。</li>
+<li>スコア = 既存(キーワード+4 / n-gram+1) ＋ <strong>type優先(原理/哲学/判断基準&gt;事例&gt;用語)</strong> ＋ <strong>perspective一致の軽ブースト</strong>(決定2)。</li>
+<li>予算充填は <strong>type優先キュー</strong>(決定1)で原理/哲学を先に。本文は <code>bundle_offset</code> で該当ナレッジを直接スライス(次マーカーまで)＝全文走査を廃す。フォールバック(文書順補充)は維持。</li>
+<li>出力に applied_perspective 宣言を付与(決定2)。</li>
+<li>着手前提(Codex指摘): creation/QA feature lock・実token会計は S4 で統合(S3はretrieval接続に集中)。</li>
+</ol>
+<p>Produced by KATSUO MARKETING / Generated by: 田中祐一AI設計チーム（Claude 24+9エージェント ＋ Codex独立クロスチェック）</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>golden_query_baseline_20260616 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item active"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="023.html" class="sidebar-item"><span class="date">2026年06月16日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>Golden Query ベースライン（2026-06-16）</h1>
+<p>embedding移行（Phase B）の効果を測る基準点。Codex条件「recall改善を測れないまま移行すると悪化に気づけない→golden queryで現行バンドルとの比較を移行ゲートにする」への対応。</p>
+<p>測定: 実バンドル <code>knowledge/_bundle_添削モード.md</code> に対し <code>buildCompactKnowledge(mode, {inputText, bare:true, indexJson})</code> を実行し、期待語の浮上を判定（2026-06-16時点・キーワード/n-gram検索）。</p>
+<h2>A. 現状PASS（回帰ガード＝<code>tests/correction-recall-live.test.ts</code> で自動検証）</h2>
+<table>
+<thead>
+<tr>
+<th>クエリ概要</th>
+<th>期待語</th>
+<th>現状</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>わしづかみコンセプト15質問</td>
+<td>わしづかみコンセプト構築</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>潜在意識ライティング7通</td>
+<td>潜在意識ライティング</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>個別相談クロージング/価格提示</td>
+<td>価格提示</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>オプトインLP冒頭フック</td>
+<td>グラデーション設計</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>セミナースライド教えすぎ</td>
+<td>ノウハウ教えすぎ</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>個別相談の入口 審査制か面談相談会30分</td>
+<td>面談</td>
+<td>✅（新規Q1）</td>
+</tr>
+<tr>
+<td>高単価コンセプトは料金でなく集客</td>
+<td>高単価は料金でなく</td>
+<td>✅（新規Q4・見出し）</td>
+</tr>
+</tbody>
+</table>
+<p>→ embedding導入後もこれらは<strong>浮上し続けること（無回帰）</strong>がゲート条件。</p>
+<h2>B. 現状FAIL（embeddingで解消すべき既知ギャップ＝KPI）</h2>
+<p>2026-06-16にマージした実体験レコードのうち、<strong>強いキーワード重複があるのに浮上しないもの</strong>。キーワード/n-gram検索の限界の実証。</p>
+<table>
+<thead>
+<tr>
+<th>クエリ概要</th>
+<th>期待語</th>
+<th>現状</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>業務委託より社員・専業で組織を作る方が生産性高いか（AI時代の人員設計）</td>
+<td>組織体制 / 社員・専業</td>
+<td>❌ 全く浮上しない</td>
+<td>クエリに 組織・業務委託・社員・専業 が含まれるのに未取得</td>
+</tr>
+<tr>
+<td>経営とコミュニティ運営は別物・ホメホメクラブの場づくり</td>
+<td>経営とコミュニティ運営 / ホメホメ</td>
+<td>❌ 全く浮上しない</td>
+<td>クエリに 経営・コミュニティ・ホメホメ が含まれるのに未取得</td>
+</tr>
+<tr>
+<td>高単価コンセプトの深部</td>
+<td>変化をコミット</td>
+<td>❌ section truncate(2800字)で欠落</td>
+<td>見出しは出るが深部が切れる</td>
+</tr>
+</tbody>
+</table>
+<h3>何を意味するか</h3>
+<ul>
+<li>マージした原理レコード（[[組織体制_社員と業務委託_AI時代]] [[経営とコミュニティ運営は別物_場の設計]]）は、<strong>バンドルには載っているが相談AIに取得されない</strong>。＝knowledge追加だけでは「呼ばれる」とは限らない。</li>
+<li>強い字面一致でも落ちる＝スコアリング/選抜（大プールでの競合・section長・budget）が原因で、字面の問題ではない。</li>
+<li><strong>これがembedding（意味検索）が必要な直接証拠</strong>。embedding導入後、Bの❌が✅に変わり、Aの✅が維持されることを移行の合否基準にする。</li>
+</ul>
+<h2>暫定の打ち手（embedding前にできること・要判断）</h2>
+<ul>
+<li>案1: 完全一致見出しブースト（クエリn-gramが見出しに高一致なら強制加点）。engine変更＝Codex検証要。</li>
+<li>案2: section truncate(2800)の見直し（深部の重要句が切れる問題）。</li>
+<li>案3: embeddingまで待つ（Phase B）。Bの❌はembeddingの主目的なので、ここで無理にキーワード調整を重ねるより、embeddingで根治が筋。</li>
+</ul>
+<p>現時点はBを「embeddingのKPI」として固定し、AをCI回帰ガードで守る。</p>
+</main>
+</body>
+</html>

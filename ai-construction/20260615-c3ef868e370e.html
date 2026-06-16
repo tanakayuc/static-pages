@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>進捗_20260615_大型ブラッシュアップ_チェックポイント - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="023.html" class="sidebar-item"><span class="date">2026年06月16日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item active"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</h1>
+<p>ゴール: プロモーションを一気通貫で設計・制作・添削・改善できる「田中祐一の脳の再現」。第一原理＝「マーケの正解ではなく、田中祐一だったらどう考えるか」。Claude設計／Codex実装の分担。</p>
+<h2>✅ 完了（すべてmainにpush済み・本番反映済み）</h2>
+<h3>B4: 哲学を本番AIへ常時ロード</h3>
+<ul>
+<li>問題: MCPの <code>buildCompactKnowledge</code> がキーワードscore0のセクションを捨て、哲学が本番に届いていなかった。</li>
+<li>修正: bundle.py が tier0(哲学/原理)を <code>★TIER0-START/END★</code> センチネルで囲む → MCPが常時抽出して返却先頭に配置。返却上限18,000→24,000字。</li>
+<li>検証: 本番MCP実呼び出しで「## 田中祐一OS 核（哲学・原理）｜常時適用」が乗ることを確認（実地検証済み）。</li>
+<li>設計: <code>設計_20260614_B4_哲学を本番AIへ常時ロード.md</code></li>
+</ul>
+<h3>tier0設計を「coreフラグ式」に進化（スケール対策）</h3>
+<ul>
+<li>tier0(常時ロード)= <code>type:哲学</code> ＋ <code>core: true</code> の原理のみ。通常の原理/判断基準/基準値/事例/用語は「関連時ロード(tier1)」。</li>
+<li>これで原理・事例が何百件増えてもtier0が膨張しない。<code>疑いのレベル</code> に core:true 付与。tier0=現在約10本/1万字前後。</li>
+</ul>
+<h3>③ 承認バッチ①（ナレハブ原理原則）反映完了</h3>
+<ul>
+<li>全30候補＋田中修正6件をknowledge化。哲学5本(Claude)＋候補21件(Codex実装)＋修正6件(Claude)。</li>
+<li>哲学例: 脱ノウハウ中毒/翻訳ツール/明確さは説得に勝る/価値ある広告/コンテンツマーケ本質/疑いのレベル/マーケ=教育。</li>
+<li>修正例: ファネルのポートフォリオ/入口コンセプト連動性/決済設計振込/ワーディング往復/ホルダー訴求の誤フレーム修正/補助金削除。</li>
+</ul>
+<h3>本番デプロイ運用の恒久対策（要・田中実施）</h3>
+<ul>
+<li>事故: 本番デプロイがCodexのブランチ作業ツリーからCLIされ、mainのコードが届いていなかった。</li>
+<li>暫定: mainから手動 <code>vercel --prod</code> ＋ <code>mcp-promoter-crm.vercel.app</code> を手動aliasで復旧済み。</li>
+<li>恒久: <strong>Vercelをmainにgit連携</strong>（田中選択・未実施）。手順=<code>実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック.md</code>。メモリ=<code>project_mcp_deploy_mechanism</code>。</li>
+</ul>
+<h2>🔄 進行中: ② 知識ソースの充填</h2>
+<h3>知識ソースの役割整理（重要な発見）</h3>
+<ul>
+<li><strong>事例（結果付き完成事例）</strong>: コンサル（Zoom）は"設計途中"で結果が出ない → <strong>YouTube顧客実績＋PLC成功事例集が正本ソース</strong>。</li>
+<li><strong>思考層（哲学/原理/判断基準/基準値）</strong>: Zoomコンサル＋YouTube教え動画＋ナレハブ。</li>
+<li>knowledge/に「事例」型は元々0件だった → 充填開始。</li>
+</ul>
+<h3>Zoom蒸留（思考層）: 17/627本</h3>
+<ul>
+<li>スキーマ <code>02_ツール/Zoom抽出/抽出スキーマv2.md</code>（v2.1: referenced_cases/worldview/script_demos/closing 追加）。</li>
+<li>抽出YAML(中間生成物)は <code>13_データ原本保存庫/zoom*/_抽出/</code>。哲学/原理/基準値が濃い。事例化は稀。</li>
+</ul>
+<h3>YouTube（田中チャンネル 204本）</h3>
+<ul>
+<li>棚卸しindex: <code>13_データ原本保存庫/田中祐一YouTube/channel_index.json</code></li>
+<li>内訳: 事例153（PLC45/PP18/実践者インタビュー86/記述4。手元46と重複29・新規124）＋教え発信36＋除外15。</li>
+<li><strong>書き起こし原本を取り込み中</strong>: <code>21_プロジェクト一覧/田中祐一/Youtube保存庫/{PLC事例, PP事例, その他}/</code>。ファイル名=<code>YYYYMMDD_タイトル.md</code>（新しさ重視）。字幕ベース（無料）。</li>
+<li>PLC成功事例集（手元46本・蒸留3本済）はYouTube事例の部分コピー。</li>
+</ul>
+<h2>⏭ 残タスク</h2>
+<ol>
+<li>YouTube書き起こし取り込み完了（204本）→ コミット＋日付順index</li>
+<li>字幕なし動画のリスト化（必要ならwhisper）</li>
+<li><strong>蒸留</strong>: YouTube事例→<code>knowledge/事例/</code>（PLC/PPタグ・転用ポイント）／教え36→哲学/原理。手元46とdedup</li>
+<li>Zoom思考層の残り（深掘り用・後回し可）</li>
+<li>抽出YAML→knowledge横断synthesize（基準値集・事例集）</li>
+<li>_inbox処理済みファイルの整理（軽微）</li>
+</ol>
+<h2>設計の要点（再利用ルール）</h2>
+<ul>
+<li>5要素モデル（哲学・原理・判断基準・事例・基準値/語彙）＋3テスト（判断/移転/根拠）。正本=<code>knowledge/ナレッジ取捨選択基準.md</code></li>
+<li>tier0=哲学＋core原理（常時）／他=関連時。<code>type:哲学</code>は自動tier0、原理の常時化は<code>core:true</code>。</li>
+<li>バンドル=<code>knowledge/_bundle_添削モード.md</code>（<code>02_ツール/開発支援/統合添削_bundle.py</code>で再生成）。実行時GitHub mainから取得＝push後5分で反映（コード変更時のみ要デプロイ）。</li>
+<li>デプロイは必ずmainから。ブランチ作業ツリーからの<code>vercel --prod</code>禁止。</li>
+</ul>
+<h2>🔴 ナレッジ到達性の全面監査・修正（2026-06-15 後半・最重要）</h2>
+<p>ゴール再定義（/goal）: 田中祐一AIの精度向上をノンストップで。最優先は「ナレッジが届かない／更新しても読み取れない」の完全解消。細かい確認は省き最後にまとめて報告。</p>
+<h3>構造的原因（全モード横断）</h3>
+<ul>
+<li>来歴監査の副産物: knowledge 395本中186本がfrontmatter未整備。うち<strong>129本がバンドル未到達</strong>（コピーフレーム/コンセプト設計/ファネル型/Meta広告等の中核）。→ 三分類し A=149本を5要素type付与で点灯（コミット・push済み）。bundle.pyはtype:索引/README系をSOURCES経由でも除外。</li>
+<li><strong>MCP添削</strong>(<code>correction.ts</code> buildCompactKnowledge): キーワード固定リストでscore&gt;0の<strong>上位10件のみ</strong>＋クエリ非依存＝固定語非該当ナレッジは永久不可視。</li>
+<li><strong>UI/コピー経路</strong>(<code>correct/route.ts</code>): バンドル<strong>全文(約1.7MB)をプロンプト注入</strong>→クライアントLLMでコンテキスト超過・切り捨て。更新で悪化。</li>
+<li><strong>相談</strong>(<code>consult/route.ts</code>): 先頭12K truncate＝実質tier0のみ。</li>
+</ul>
+<h3>修正（コア取得エンジン・要デプロイ）</h3>
+<ul>
+<li><code>buildCompactKnowledge</code> に <code>options{inputText, returnLimit, bare}</code>:</li>
+<li><strong>クエリ依存化＝日本語は文字n-gram(2/3字)照合</strong>（形態素解析なしで本文一致。Codex初回NO-GO指摘=連続文字塊で不一致 を修正）。固定キーワード+4 / gram +1。</li>
+<li><strong>10件上限廃止→予算充填</strong>（returnLimit - tier0 - 4500）。</li>
+<li><strong>文書順フォールバック</strong>でスコア0でも予算まで補充＝更新が必ず届く。</li>
+<li>tier0センチネル除去・bare（添削ルール非注入）・mode.id由来で不正type防御・returnLimit下限フロアでtier0常時保持。</li>
+<li><code>correct/route.ts</code>: 全文→<code>buildCompactKnowledge(returnLimit:90_000, inputText)</code>。<code>consult/route.ts</code>: →<code>(returnLimit:30_000, bare:true, inputText)</code>。</li>
+<li>テスト 6→10件（クエリ依存はフォールバック排除構成で検証）。tsc=0。実バンドル807K字で concept→わしづかみ15質問 / email→潜在意識7通 / video→太陽のマーケ が浮上（いずれも新点灯・固定語非該当）。tier0全経路保持。</li>
+</ul>
+<h3>状態（2026-06-15時点）= Phase0 完了・本番反映済み</h3>
+<ul>
+<li>来歴移行＋bundle.py＋来歴一覧: コミット・push済み。</li>
+<li>取得エンジン改修(correction.ts/correct/consult/tests): commit済・Codex GO・<strong>本番デプロイ済</strong>（両URL mcp-jade-beta / tanaka-knowledge-mcp-promoter-crm が新デプロイを指す）。</li>
+<li>注意: <code>mcp-promoter-crm.vercel.app</code> はPALMO側。田中AIは <code>tanaka-knowledge-mcp</code>。<code>vercel --prod</code>はmcp-jade-betaのみ自動alias→tanaka-knowledge-mcp-promoter-crmは手動aliasが必要。</li>
+</ul>
+<h2>🧠 3モード脳の全体再設計（2026-06-15・24エージェントWF）</h2>
+<ul>
+<li>正本: <code>97_ザ・リード事業/AI構築/再設計_20260615_3モード脳アーキテクチャ.md</code></li>
+<li>結論: 索引・検索型を土台に思考骨格(8工程)を被せる混合(思考再現3:索引5:視点2)。配信非対称(correct=サーバLLM無/consult=有)を直視し「サーバで強制できる所(索引選抜・視点宣言・状態保存)に田中らしさを寄せる」。</li>
+<li>WF発見の実バグ: _index.json破損(396中199・perspective/offset 0)・連想パターン未参照・consult N+1・splitMarkdownSections過分割(3590)。</li>
+<li>段階: Phase0(済)→A(索引再生成+consult即改善)→B(視点ルーター+checkpoint+索引接続・要Codex)→C(索引常駐+bundle2分割+embedding)。</li>
+</ul>
+<h3>Phase A 完了（2026-06-15・本番デプロイ済 a2mtrmb6v）</h3>
+<ul>
+<li>✅ 索引再生成: ナレッジインデックス生成.py 修正(perspective/program/core/bundle_offset出力・TIER_BY_TYPE拡充)→ _index.json 199→392本完全捕捉(perspective183/offset357/core8)。<strong>まだ取得エンジン未接続(Phase Bで接続)</strong>。</li>
+<li>✅ consult: db.plcQa.detail per-hit(N+1)撤去→hit.tanaka_answer_preview直用。相談思考プロトコル(受け止め→前提確認→複数判断軸=立場分け→次アクション→決定権返却)注入。Codex GO。</li>
+<li>⏸ QA緩和(tanaka_only=false・メンバー回答補助)はトークン増・品質リスクでCodex NO-GO→<strong>撤回しPhase Bへ</strong>(田中回答無い時のみ＋weak除外＋budget付き)。</li>
+<li>⏸ budget上限管理はPhase B(多段化と同時)。</li>
+</ul>
+<h3>デプロイ運用メモ（このセッション確定）</h3>
+<ul>
+<li>田中の標準authあり: このセッションのPhase A/B系デプロイは Codex GO＋テストpass を条件に都度確認なしで進めてよい。</li>
+<li>手順: WIP <code>git stash push -u</code>→<code>vercel --prod --yes</code>(apps/mcp)→<code>git stash pop</code>→<code>vercel alias set &lt;deploy&gt; tanaka-knowledge-mcp-promoter-crm.vercel.app</code>→両URL curl 200確認。pop競合時は comm で非編集ファイルのみ checkout 復元。</li>
+</ul>
+<h3>残（次の判断・作業）</h3>
+<ul>
+<li><strong>Phase B 着手は田中の6分岐判断後</strong>: consultコール数上限/HTTP90K→45K/embedding導入/DBマイグレーション/視点バッジ常時表示/索引CI統合（再設計書 §田中が決めるべき分岐点）。</li>
+<li>来歴クラスD重複疑い9本の統合 / クラスC 14本(プロンプト)の格上げ（田中「両方やる」指示→Phase B前後で実施）。</li>
+<li>制作(workflow.ts)・QA(plc-qa)は別系統。性能(毎req 1.7MB走査)はPhase Cで解消。</li>
+</ul>
+<h2>実装の進行（2026-06-15 後半・再設計v2を土台に）</h2>
+<p>設計レビューは v2(Claude 9エージェント) ＋ §Codexクロスチェック(独立) の二段で確定。実装はステップ順 S0→S0′→S1→S2→S3→S4→S5→Phase C。実装パワーはCodex、Claudeは設計/検証/commit。</p>
+<h3>✅ S0（取得の地盤・完了 push済）</h3>
+<ul>
+<li>索引×bundle md5同期安全弁(_index.jsonにbundle_md5/bytes・順序固定 ナレッジ再生成.sh)・path重複根治(bundle.py dedup ジャンル別固有論点2→1)。</li>
+<li>splitMarkdownSections #{1,2}化は<strong>検証で品質後退(わしづかみ取りこぼし)を検出し撤回</strong>。効率化はS3の索引offsetスライスで実現。</li>
+<li>correction.tsロジック不変=デプロイ不要。バンドルはfetch自動反映。</li>
+</ul>
+<h3>✅ S0′（IDORセキュリティ・完了 本番デプロイ済 6e5ci9fqh）</h3>
+<ul>
+<li>Codex独立レビューが発見したIDOR(他人session_idへの書き込み)を全経路で遮断。共有ガード <code>src/lib/session-access.ts</code> assertSessionWritable(同一grant＋本人or管理者代理・存在オラクル排除)。</li>
+<li>適用: MCP log_correction_checkpoint/log_correction_output/attach_session_material・previous_session_id継承(MCP/HTTP correct)・HTTP log/checkpoint(404/403→統一403)。管理者代理(access_tier=admin)は維持。</li>
+<li>tests/session-access.test.ts 5ケース＋既存=21 pass・Codex GO。両本番URL反映済。</li>
+</ul>
+<h3>✅ S1/S2決定 → S3(索引runtime接続)・完了 本番デプロイ済 7gpa92op1</h3>
+<ul>
+<li>田中の2決定: ❶tier0=core8常時＋原理/哲学を事例より優先充填 ❷視点=出力宣言＋軽い選抜ブースト(再設計書§決定)。</li>
+<li><strong>当初S3(索引bundle_offsetでファイル単位スライス)は実バンドル検証でrecall後退</strong>(わしづかみ/太陽が未浮上)を確認し撤回。split#{1,2}化と同じ「ファイル粒度が狙った小見出しの集中スコアを薄める」失敗(3度目の同教訓)。</li>
+<li><strong>recall安全版で実装</strong>: splitMarkdownSectionsは###粒度維持(分割不変=recall不変)＋各セクションにsourcePath付与。buildTypeBoosterが_index.json(md5突合)からpath→typeを引き、決定1のtype-boost(原理/哲学/判断基準+3,基準値等+1,事例/用語0)をscore第一ソートのまま加点。md5不一致/索引なし/壊れJSONは全てboost無効=現行縮退(無回帰)。3経路(MCP/correct/consult)に_index.json配線。出典マーカー正規表現を空白パス対応([^\n]+?)に(索引offset 357→358)。</li>
+<li>効率化(offsetスライスで全文走査回避)はrecall犠牲のためPhase Cへ。決定2の視点選抜ブーストはindex.perspectiveとrole/viewpointが別オントロジーのため正規の視点ルーター(S4以降)へ。</li>
+<li>検証: tsc=0/correction 13 pass(同関連で原理優先・高関連事例は勝つ=recall安全・md5フォールバック・空白パス帰属)/実バンドルで わしづかみ/潜在意識/太陽 点灯維持/Codex GO。両本番URL反映済。</li>
+</ul>
+<h3>🧠 設計プロセスの教訓(記録)</h3>
+<ul>
+<li><strong>「ファイル粒度はrecallを下げる」を3度の実証で確定</strong>(split#{1,2}・索引offsetスライス・両方撤回)。###粒度＋索引はboost/フィルタにのみ使うのが正解。</li>
+<li>Claudeの実バンドル検証＋Codex独立レビューの二段で、見落とし(IDOR・空白パス・stale索引・recall後退)を着実に潰せている。各ステップ「わしづかみ/潜在意識/太陽が点灯し続けるか」を回帰チェックの基準にする。</li>
+</ul>
+<h3>✅ S4a/S4b 完了 本番デプロイ済(S4a=5hexrkh0d / S4b=541gh0t89)</h3>
+<ul>
+<li><strong>S4a</strong>: ai-client runTanakaChat に per-call timeout(20s・AbortController)＋429/5xx/timeout/network/空content の指数バックオフ最大3試行(4xx・apiKey未設定はNonRetryableで即throw)＋usage/attempts返却。consult maxDuration=90・mcp_tool_eventsにtoken会計(llm_attempts/prompt/completion/total_tokens)。通常系コール数・トークンは不変。Codex GO。</li>
+<li><strong>S4b</strong>: feature lock=制作workflow4ツールにcreation(全grant既定trueで無影響・明示falseのみブロック)＋相談QAをper-user判定(canUseFeature export, qaEnabled)。テスト: api-correct previous_session_id mockをS0′ガードに整合＋api-consult per-user qa:falseテスト追加。Codex GO。</li>
+</ul>
+<h3>⏭ 残(次の着手候補)</h3>
+<ul>
+<li><strong>S4c(新インフラ・要確認)</strong>: Supabase <code>consult_usage_monthly</code> migration＋<code>enabled_features</code>に上限(<strong>per_user/per_grant分離が要検討=Codex指摘</strong>)＋budgetゲート＋CONSULT_BUDGET_EXCEEDED(429)＋80%で簡易降格。token会計(S4a)で実測補正可能に。</li>
+<li><strong>S4d</strong>: consult多段化(runTanakaPlan/Synthesis型分離・<strong>知識フルロードは統合コール1回のみ</strong>・薄い相談はLLM0)。budget(S4c)先行が前提。コストは正しく作れば現状1.1倍(再設計書§改訂v2 v2-3)。</li>
+<li><strong>S5</strong>: HTTP correct 90K→45K(索引接続後A/B)＋unified/system/user三重返却の重複削減。</li>
+<li><strong>Phase C</strong>: bundle物理2分割(tier0別建て=トークン+可用性+API半減)・索引/bundle同一CI・offsetスライス効率化・embedding(二層フォールバック)。</li>
+<li><strong>C/D corpus仕分け</strong>(田中「両方やる」): クラスC14本格上げ・クラスD9本重複統合(ナレッジ管理ルール=全件確認)。</li>
+<li><strong>視点ルーター(決定2の選抜ブースト本体)</strong>: role/viewpoint/timeframe 4軸既定値テーブル＋applied_perspectiveサーバ確定。</li>
+</ul>
+<h3>🔍 全体レビュー結論(2026-06-15・各モードの実取得を可視化)</h3>
+<ul>
+<li>実バンドルで「今AIが各入力で頭に呼び出すナレッジ」を抽出し田中の目で判定可能に。tier0哲学は全モード常時OK。</li>
+<li><strong>sales(個別相談)=的確</strong>(個別セールスの流れ/価格提示/質問→後出し/17ステップ/汎用セールスFB)。pinned＋固有語が強い。</li>
+<li><strong>発見→対処済(本番デプロイ 7v8ab6qto)</strong>: コンセプト/動画で「添削エンジン設定(ジャンル判定/出力フォーマット/重み付け/優先度)」＋バンドル目次が抽出ナレッジ枠を占有しわしづかみ等を押し出していた→<strong>取得プールから除外</strong>(<code>RETRIEVAL_EXCLUDED_PATH_PATTERNS</code>・マーカー前ヘッダ除外)。recall維持・sales維持。</li>
+<li><strong>残課題＝embedding(分岐③)の実証根拠</strong>: 除外後も曖昧クエリ(「AIコンサル型のわしづかみコンセプト」)では、ボイラープレート見出し(ソースとの対応/関連ファイル)が残り、わしづかみが確実には出ない。キーワード/n-gramの天井。<strong>次の大きなレバー＝意味検索(embedding)</strong>、と全体レビューで実証された(設計分岐③「Phase B後も意味的に引けないと観測されたら導入」の観測が出た)。</li>
+<li>次セッションの選択肢: ❶embedding(Phase C・分岐③)で曖昧クエリの意味的取得 ❷田中が実出力(声/視点)をmcp-jade-beta /c/{grant}で体感し声/事例/視点の重点決め ❸C/D仕分け ❹S4c/S4d相談多段化。</li>
+</ul>
+<h3>🤖 自律改善の到達点(2026-06-15・田中の主観入力なしで進めた範囲)</h3>
+<ul>
+<li><strong>A 取得クリーンアップ</strong>: 添削エンジン設定＋バンドル目次の除外=本番ライブ済(7v8ab6qto)。ボイラープレート見出し除外は試したがrecall後退(潜在意識)で撤回(索引系が見出し下に実内容を持つ)。</li>
+<li><strong>B 性能メモ化</strong>: 重いのは入力依存スコアリング(キャッシュ不可)でパースキャッシュは部分的得のみ＋今遅くない＋ホットパスリスク→<strong>低価値で見送り</strong>。</li>
+<li><strong>C 知識拡充</strong>: 生の未抽出Zoom書き起こしの所在が0_データ原本側に散在し「何を抽出すべきか」に田中の土地勘が要る→<strong>完全自律では切り出せず保留</strong>(データ所在の指定待ち)。</li>
+<li><strong>D recall回帰テスト</strong>: 実バンドルに対し8モードのcanonical recall(わしづかみ/潜在意識/価格提示/グラデーション設計/ノウハウ教えすぎ/価格/ファネル/冒頭フック)＋tier0常時＋予算内＋添削エンジン設定ノイズ非混入を回帰テスト化(tests/correction-recall-live.test.ts)。今後の取得変更が静かにrecallを壊したらCIが落ちる。</li>
+</ul>
+<p>→ <strong>取得エンジン側の高価値・自律作業はほぼ完了</strong>。残る大物(embedding/知識merge/consult多段化/視点ルーター)は全て田中の決定・レビュー・土地勘が要る。</p>
+<p>Produced by KATSUO MARKETING<br />
+Generated by: 田中祐一AI設計チーム（Claude）</p>
+</main>
+</body>
+</html>

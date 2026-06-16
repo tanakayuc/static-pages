@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>設計_構造化レコード＋embedding＋Q&Aループ_20260616 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="023.html" class="sidebar-item"><span class="date">2026年06月16日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item active"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</h1>
+<p>田中の意思決定（2026-06-16）に基づく、田中祐一AIの知識層の次アーキテクチャ。</p>
+<h2>決定事項</h2>
+<ol>
+<li><strong>正本（source of truth）= git上の構造化レコード</strong>（DBに移さない）。理由＝差分レビュー／Codex検証／AIのEdit直接編集／インフラ非依存、という現行資産を維持。</li>
+<li><strong>検索＝embedding（意味検索）</strong>。必要になった段で Supabase pgvector を「正本から再生成する派生・読み取り専用インデックス」として導入。SQLストレージ自体がノーミスを生むのではなく、①明示リンク＋②意味検索がノーミスを生む。</li>
+<li><strong>網羅性の充填＝毎日10-20件のQ&amp;Aループ</strong>。AIが上流データの空欄カラム（特に事例・背景・因果）から質問を生成→田中がChatworkで回答→構造化レコードに折り返す。1ヶ月で背景情報を網羅。</li>
+<li>移行中も<strong>現行フラットMD＋バンドルで田中AIは稼働し続ける</strong>（無停止）。</li>
+</ol>
+<h2>なぜDB全面移行を今やらないか</h2>
+<ul>
+<li>重複の原因は「リンクが無く各MDに事実をコピーしている」こと。<strong>事例を"コピー"でなく"参照(パス/ID)"にした時点で重複は消える</strong>＝構造化レコードで解決、DB不要。</li>
+<li>ノーミス取得は embedding（意味検索）が本体。DBに入れてもキーワード一致のままなら取りこぼす。embeddingはMD/レコードのままでも載る。</li>
+<li>正本をDBにすると、移行数日＋buildCompactKnowledge全書き換え＋認証配線、かつ git/レビュー/AI編集の資産を失う。費用対効果が今は合わない。</li>
+</ul>
+<h2>構造化レコードのスキーマ（1ナレッジ＝1レコード）</h2>
+<p>frontmatter(YAML)＋本文(MD)。<code>knowledge/</code> 配下に追加（バンドルビルドがレンダリングできる形）。</p>
+<pre><code class="language-yaml">---
+id: &lt;kebab-slug&gt;                 # 安定ID（リンクの宛先）
+type: 哲学 | 原理 | 判断基準 | 基準値 | 事例 | 語彙
+主張: &lt;一文&gt;
+立場: [プロデューサー, ホルダー, 事業者, 受講生]   # 複数可
+活用シーン: [&lt;タグ&gt;, ...]
+哲学原理link: [&lt;id&gt;, ...]          # 上位の哲学/原理レコードへの参照
+事例link: [&lt;事例ファイルパス or session_id#line&gt;, ...]
+リフレーム: &lt;一般論を何で裏返すか&gt;
+出典: [&lt;session_id#line&gt;, ...]     # 来歴（verbatim追跡用）
+status: 採用 | 保留(事例待ち) | 仮説
+空欄: [事例link, リフレーム]        # 未充填カラム＝Q&amp;Aループの質問源
+---
+（本文：補足・verbatim・文脈）
+</code></pre>
+<ul>
+<li><strong>重複ゼロの担保</strong>：事例・哲学は実体を1レコードに置き、他は <code>link</code> で参照（コピー禁止）。</li>
+<li><strong>空欄フラグ</strong>：埋まっていないカラムを明示＝「次に取材すべき箇所」をデータ自身が持つ。4/6でも価値あり、の運用を支える。</li>
+</ul>
+<h2>パイプライン（一方通行）</h2>
+<pre><code>正本: knowledge/ の構造化レコード（人/AI/Codexが編集・git管理）
+   │  ← 毎日のQ&amp;Aループが追記（空欄を埋める）
+   ▼ ビルド（既存スクリプト拡張）
+   ├─ ①実行用バンドル _bundle_添削モード.md  [現行・無停止]
+   └─ ②embedding索引（Phase B：必要時にSupabase pgvector等）
+</code></pre>
+<h2>Q&amp;Aループの運用（Chatwork）</h2>
+<ol>
+<li><strong>質問生成</strong>：AIが構造化レコード／上流YAMLを走査し、<code>空欄</code> カラムと「事例・背景・因果が薄い主張」から、田中固有性を引き出す質問を毎日10-20件生成。</li>
+<li><strong>配信</strong>：Chatworkに通知（[info]タグ・ルームは要確認）。※自動送信は田中の都度/標準承認を取ってから。初回は内容を提示し確認後に送る。</li>
+<li><strong>回答</strong>：田中がChatworkで返信（スマホ可・低摩擦）。</li>
+<li><strong>取り込み</strong>：返信を該当レコードの該当カラムへ折り返し、<code>空欄</code> から外し、<code>status</code> を再判定（事例が付けば保留→採用へ昇格し得る）。</li>
+<li>反復。1ヶ月で網羅性を底上げ。</li>
+</ol>
+<h2>フェーズ</h2>
+<ul>
+<li><strong>Phase A（今）</strong>：構造化レコード形式の確定＋Q&amp;Aループ起動（第1バッチ生成）。バンドルは現行のまま無停止。</li>
+<li><strong>Phase B</strong>：embedding索引を正本から生成（意味検索）。曖昧クエリのrecallを解決（[[project_tanaka_brain_retrieval_rearchitecture]] の積み残し）。</li>
+<li><strong>Phase C（条件付き）</strong>：同時多重書き込み・リアルタイム・大規模クエリが実害化したら、派生読み取り層としてSupabase導入。正本は最後までgit。</li>
+</ul>
+<h2>留意</h2>
+<ul>
+<li>Chatwork自動送信＝「田中の代理送信」。標準承認の範囲を都度確認。</li>
+<li>knowledge/本体への取り込みは全件ユーザー確認・全文提示・重複チェック（既存ルール厳守）。</li>
+<li>構造変更につき本設計はCodex検証にかける。</li>
+</ul>
+<h2>Codex検証（2026-06-16 / 条件付きGO）→ 反映済み修正</h2>
+<p>Codexレビューで以下の致命リスクが指摘され、設計を改訂した。<strong>これらを満たさず「1レコード=1ファイル/リンク参照/embedding」を先に実装すると、構造はきれいでも本番AIの回答が薄くなる</strong>との警告。</p>
+<ol>
+<li><strong>検索単位は「ファイル」でなく「record_id ＋ ###チャンク」</strong>（最重要）</li>
+<li>1レコード=1ファイルにするとファイル粒度が上がり、過去3度実証の「ファイル粒度↑→recall↓」に逆行する。</li>
+<li>
+<p>対策＝<strong>frontmatterは既存MDに"追加"するメタデータ</strong>とし、ファイルは分割しない。取得は従来どおり###チャンク粒度を維持。構造化は「メタ層」であって「ファイル分割」ではない。</p>
+</li>
+<li>
+<p><strong>二重管理を作らない（正本は1つ）</strong></p>
+</li>
+<li>「現行フラットMD」と「新構造化レコード」を人が並行編集すると必ずズレる。</li>
+<li>
+<p>移行順序＝①既存MDに最小frontmatter追加 → ②bundle生成を壊さず構造化メタだけ読み始める → ③link/schema/duplicate lint導入 → ④段階移行 → ⑤新レコードから現行 <code>_bundle_添削モード.md</code> を生成 → ⑥embeddingは最後に派生追加。</p>
+</li>
+<li>
+<p><strong>bundle/embeddingの同時性保証</strong></p>
+</li>
+<li>
+<p><code>knowledge_build_id</code>（commit hash＋bundle md5＋schema version＋embedding model version）を両方に付け、publishは原子的に。片方だけ更新なら旧版へフォールバック。本番は「最新main」でなく「検証済みbuild manifest」を読む。Q&amp;A反映後はCI/jobで再ビルド。</p>
+</li>
+<li>
+<p><strong>Q&amp;Aループは「raw保存→蒸留→レビュー→採用」の段階を必須化</strong></p>
+</li>
+<li>空欄から質問生成→回答を直接レコード追記、だと低品質レコード製造機になる（質問の一般論化・回答の断片化・主張/事例/判断基準の混在）。</li>
+<li>対策＝質問に「対象record_id／埋めるカラム／想定ユースケース／不足している判断」を添付。田中回答は <code>raw_answer</code> として保存し、採用ナレッジは別途要約（蒸留）。状態遷移 <code>仮説→レビュー待ち→採用→廃止</code>。</li>
+<li>
+<p><strong>初回は10-20件でなく5件で品質基準を固定</strong>してから日次10-20へ増やす。</p>
+</li>
+<li>
+<p><strong>embedding移行のゲート＝golden queryセット</strong></p>
+</li>
+<li>
+<p>recall改善を測れないまま移行すると悪化に気づけない。移行前に golden query（既知の正解recall集）で現行バンドルとの比較を必須ゲートに。<code>tests/correction-recall-live.test.ts</code> を母体に拡張。</p>
+</li>
+<li>
+<p><strong>リンク健全性・トークン予算・PII</strong></p>
+</li>
+<li>ビルド必須＝link解決／逆参照／循環検知／孤立検知。</li>
+<li>リンク展開はトークンを食う。展開優先度と上限を設け、哲学/事例/出典で本文が押し出されないようにする（3モードで必要な展開が異なる点も考慮）。</li>
+<li>事例レコードは個人情報・案件情報が混ざる。<strong>受講生向けAIに渡してよい要約</strong>と<strong>内部出典</strong>を分離する。</li>
+<li><code>core:true</code>（常時ロード哲学/原理）の肥大化を監視。</li>
+</ol>
+</main>
+</body>
+</html>
