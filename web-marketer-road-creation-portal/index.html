@@ -555,10 +555,13 @@
     .layer-map {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 16px;
+      gap: 16px;
+      margin-top: 18px;
     }
     .layer-card {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
       padding: 18px;
       border: 1px solid var(--line);
       border-radius: 14px;
@@ -577,17 +580,61 @@
       color: var(--sub);
       font-size: 12px;
       font-weight: 800;
-      margin-bottom: 12px;
     }
     .layer-card strong {
       display: block;
-      margin-bottom: 7px;
       font-size: 17px;
     }
     .layer-card p {
       color: var(--muted);
       font-size: 14px;
       margin-bottom: 0;
+    }
+    .layer-items {
+      display: grid;
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .layer-item {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--soft);
+    }
+    .layer-item a {
+      color: var(--ink);
+      font-weight: 800;
+    }
+    .layer-item span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .layer-third {
+      display: grid;
+      gap: 5px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .layer-third li {
+      position: relative;
+      padding-left: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .layer-third li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .72em;
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--main);
     }
     footer {
       margin-top: 34px;
@@ -675,10 +722,11 @@
         <p class="side-label">工程表</p>
         <nav class="side-nav" aria-label="工程ナビゲーション">
           <a href="#overview"><span class="nav-index">0</span><span>全体像</span></a>
-          <a href="#layers"><span class="nav-index">1</span><span>3階層設計</span></a>
+          <a href="#layers"><span class="nav-index">1</span><span>階層構造</span></a>
           <a href="#roadmap"><span class="nav-index">2</span><span>工程表</span></a>
-          <a href="#assets"><span class="nav-index">3</span><span>制作物一覧</span></a>
-          <a href="#kpi"><span class="nav-index">4</span><span>KPI</span></a>
+          <a href="#sheets"><span class="nav-index">3</span><span>各種設計シート</span></a>
+          <a href="#assets"><span class="nav-index">4</span><span>制作物</span></a>
+          <a href="#kpi"><span class="nav-index">5</span><span>KPI</span></a>
         </nav>
       </div>
 
@@ -708,7 +756,7 @@
         <div class="hero-panel">
           <p class="eyebrow">田中祐一AI 制作モード</p>
           <h1>田中祐一様の<br>制作ポータル</h1>
-          <p class="lead">「WEBマーケターへの道」で販売する45日間WEBマーケター超実践ブートキャンプの制作状況を、工程表・制作物一覧・各種シートとして一画面で確認できます。</p>
+          <p class="lead">「WEBマーケターへの道」で販売する45日間WEBマーケター超実践ブートキャンプの制作状況を、工程表・各種設計シート・制作物として一画面で確認できます。</p>
           <div class="identity-grid" aria-label="案件基本情報">
             <div class="identity-card"><span>お名前</span><strong>田中祐一 様</strong></div>
             <div class="identity-card"><span>案件名</span><strong>WEBマーケターへの道</strong></div>
@@ -716,7 +764,8 @@
           </div>
           <div class="hero-actions">
             <a class="button primary" href="#roadmap">工程表を見る</a>
-            <a class="button primary" href="#assets">制作物一覧を見る</a>
+            <a class="button primary" href="#sheets">設計シートを見る</a>
+            <a class="button primary" href="#assets">制作物を見る</a>
             <a class="button" href="#concept">コンセプトを見る</a>
             <a class="button" href="#files">MD原本を見る</a>
           </div>
@@ -767,25 +816,58 @@
 
       <section id="layers">
         <div class="section-head">
-          <h2>3階層設計</h2>
+          <h2>階層構造</h2>
           <span class="badge">制作ポータル標準</span>
         </div>
-        <p class="muted">工程表と制作物一覧を別々の資料にせず、1つのポータル内で「見る場所」「判断する場所」「原本を差し替える場所」を分けます。</p>
+        <p class="muted">1階層目は「工程表」「各種設計シート」「制作物」の大項目です。2階層目でカテゴリを選び、3階層目で個別原稿・個別ページ・個別メールまで降りて確認します。</p>
         <div class="layer-map" aria-label="制作ポータルの3階層">
           <div class="layer-card">
-            <span class="layer-no">1階層目</span>
-            <strong>制作ポータル</strong>
-            <p>案件全体、工程表、現在地、KPI、主要URLを俯瞰する入口。ユーザーはまずここを見れば全体像を理解できます。</p>
+            <span class="layer-no">第1層 大項目</span>
+            <strong>工程表</strong>
+            <p>プロモーション全体の流れと現在地を確認する大項目です。</p>
+            <div class="layer-items">
+              <div class="layer-item">
+                <a href="#roadmap">第2層: 9つの工程</a>
+                <span>全体設計、コンセプト、オファー、集客、価値提供、販売、改善</span>
+                <ul class="layer-third">
+                  <li>第3層: 各工程のチェック項目</li>
+                  <li>第3層: その工程で完成する成果物</li>
+                  <li>第3層: 次に更新すべき原本やURL</li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="layer-card">
-            <span class="layer-no">2階層目</span>
-            <strong>成果物レポート</strong>
-            <p>コンセプト、リサーチ、オファー、LP指示、配信設計など、意思決定に使う内容をHTMLで読みやすく整理します。</p>
+            <span class="layer-no">第1層 大項目</span>
+            <strong>各種設計シート</strong>
+            <p>判断材料をまとめる中間レイヤーです。ここで方針が固まると制作物に落とせます。</p>
+            <div class="layer-items">
+              <div class="layer-item">
+                <a href="#sheets">第2層: 設計シート一覧</a>
+                <span>コンセプト、リサーチ、オファー、ヘッド指示、LINE配信設計</span>
+                <ul class="layer-third">
+                  <li>第3層: シート内の仮説・判断・未確定項目</li>
+                  <li>第3層: コンセプト候補や訴求素材</li>
+                  <li>第3層: 差し替え対象のMarkdown原本</li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="layer-card">
-            <span class="layer-no">3階層目</span>
-            <strong>原本素材</strong>
-            <p>Markdown、参考資料、URL、差し替え対象を保存する編集レイヤー。AIが再生成するときはここを参照します。</p>
+            <span class="layer-no">第1層 大項目</span>
+            <strong>制作物</strong>
+            <p>実際に使うページ、台本、メール、配信、特典を管理するレイヤーです。</p>
+            <div class="layer-items">
+              <div class="layer-item">
+                <a href="#assets">第2層: 制作物カテゴリ</a>
+                <span>ページ、ライブ、ステップメール、LINE配信、特典、購入後導線</span>
+                <ul class="layer-third">
+                  <li>第3層: ステップメール1通ずつ</li>
+                  <li>第3層: Day1〜Day5の台本や課題</li>
+                  <li>第3層: HTML、画像指示、公開URL、原本MD</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -850,6 +932,40 @@
             <div><h3>購入後/改善</h3><p>購入者を受け入れ、次回改善に使う。</p></div>
             <div class="output-list"><span class="badge">購入完了</span><span class="badge">振り返り</span></div>
             <span class="badge slate">一部原本</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="sheets">
+        <div class="section-head">
+          <h2>各種設計シート</h2>
+          <span class="badge">第1層: 設計</span>
+        </div>
+        <div class="callout">設計シートは、制作物を作る前に方針を固定する場所です。第2層でシートを選び、第3層で各シート内の論点や原本を確認します。</div>
+        <div class="asset-board">
+          <div class="asset-group">
+            <h3>コンセプト設計</h3>
+            <div class="asset-row"><strong>コンセプトシート</strong><span><a href="#concept">HTMLで確認</a></span></div>
+            <div class="asset-row"><strong>リサーチシート</strong><span><a href="#research">HTMLで確認</a></span></div>
+            <div class="asset-row"><strong>コンフィグ/判断材料</strong><span><a href="#files">MD原本へ</a></span></div>
+          </div>
+          <div class="asset-group">
+            <h3>オファー設計</h3>
+            <div class="asset-row"><strong>オファーシート</strong><span><a href="#offer">HTMLで確認</a></span></div>
+            <div class="asset-row"><strong>購入障壁と解消策</strong><span><a href="#offer">シート内で確認</a></span></div>
+            <div class="asset-row"><strong>価格/保証/特典メモ</strong><span>未確定を管理</span></div>
+          </div>
+          <div class="asset-group">
+            <h3>ページ/配信設計</h3>
+            <div class="asset-row"><strong>ヘッドデザイン指示</strong><span><a href="#head">HTMLで確認</a></span></div>
+            <div class="asset-row"><strong>LINE配信管理</strong><span><a href="#line">HTMLで確認</a></span></div>
+            <div class="asset-row"><strong>KPI仮シミュレーション</strong><span><a href="#kpi">HTMLで確認</a></span></div>
+          </div>
+          <div class="asset-group">
+            <h3>原本/差し替え</h3>
+            <div class="asset-row"><strong>Markdown原本</strong><span><a href="#files">一覧へ</a></span></div>
+            <div class="asset-row"><strong>レビュー確認事項</strong><span><a href="08_レビュー確認事項.md">MDを開く</a></span></div>
+            <div class="asset-row"><strong>標準仕様対応表</strong><span><a href="00_標準仕様対応表.md">MDを開く</a></span></div>
           </div>
         </div>
       </section>
