@@ -926,16 +926,15 @@ pages.set("sales-page.html", page({
   file: "sales-page.html",
   title: "セールスページ原稿",
   eyebrow: "制作物",
-  lead: "公式LINE内で期間限定公開する販売ページ構成を、実LPの書き起こしと制作指示として確認します。",
-  body: `<section class="panel"><h2>公開ページ</h2><p class="note">このセールスレターは、Day5でレター希望者を公式LINEへ誘導した後、公式LINE内で期間限定公開する想定です。</p><p>セールスページ: <a href="${urls.sales}">${urls.sales}</a></p><p>購入完了ページ: <a href="${urls.salesThanks}">${urls.salesThanks}</a></p>${source("06_セールス/01_セールスページ.md")}</section>
-<section class="panel"><h2>逆生成したページ骨子</h2><table class="asset-table"><thead><tr><th>ブロック</th><th>役割</th><th>主要メッセージ</th></tr></thead><tbody>
-<tr><td>ファーストビュー</td><td>対象者と緊急性</td><td>実績がない、顔出しが苦手。その真面目さが可能性を止めている。</td></tr>
-<tr><td>問題提起</td><td>旧世界の破壊</td><td>ノウハウや努力ではなく、最初の実績を安全に作る場所がない。</td></tr>
-<tr><td>解決策</td><td>新世界の提示</td><td>社長の右腕として、裏方から売上に関わる実践環境に入る。</td></tr>
-<tr><td>商品説明</td><td>オファー</td><td>45日間WEBマーケター超実践ブートキャンプ。</td></tr>
-<tr><td>締切</td><td>決断</td><td>期限を明示し、参加意思を前に進めるCTAを置く。</td></tr>
+  lead: "公式LINE内で期間限定公開する販売ページを、公開URL、本文原稿、ヘッド指示、購入後導線に分けて確認します。",
+  body: `<section class="panel"><h2>セールスページ情報</h2><p class="note">Day5でレター希望者を公式LINEへ誘導した後、公式LINE内で期間限定公開する販売ページです。制作物は混ぜずに、用途ごとに原本MDを分けて管理します。</p><table class="asset-table"><thead><tr><th>制作物</th><th>役割</th><th>確認先</th></tr></thead><tbody>
+<tr><td>公開ページ</td><td>公式LINE内で案内する期間限定セールスページ。</td><td><a href="${urls.sales}">${urls.sales}</a></td></tr>
+<tr><td>セールスレター本文</td><td>ページ全体の文章原稿。見出し、本文、CTAをここで管理する。</td><td>${source("06_セールス/01_セールスページ.md")}</td></tr>
+<tr><td>ヘッド作成用プロンプト</td><td>ChatGPTや制作担当へ渡すファーストビュー制作指示。</td><td>${source("90_制作パッケージサンプル/06_ヘッドデザイン指示書.md")}</td></tr>
+<tr><td>購入完了ページ</td><td>決済後の案内、次アクション、参加導線を伝えるページ。</td><td><a href="${urls.salesThanks}">${urls.salesThanks}</a></td></tr>
+<tr><td>販売期配信</td><td>公開後に公式LINEとメールでレター閲覧、締切、購入を促す。</td><td><a href="line.html">LINE配信</a> / <a href="stepmail.html">ステップメール</a></td></tr>
 </tbody></table></section>
-<section class="panel"><h2>ヘッド制作指示</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。</div></section>
+<section class="panel"><h2>ヘッド作成用プロンプト</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。</div></section>
 <section class="panel"><h2>セールスレター全文</h2><p class="note">取得済みのセールスページ原本を、抜粋ではなくHTML上で読める本文として展開します。</p>
 ${sourceDetails("セールスページ原稿 本文", "06_セールス/01_セールスページ.md", 62000, true)}
 </section>

@@ -41,6 +41,8 @@ const forbidden = [
   "テキストレポート対応",
   "関連レポート一覧",
   "hierarchy.html",
+  "逆生成",
+  "ページ骨子",
 ];
 
 const contentChecks = [
@@ -79,7 +81,11 @@ const contentChecks = [
   ["live-scripts.html", "Day1 ライブ台本全文"],
   ["live-scripts.html", "実録/動画書き起こし"],
   ["sales-page.html", "公式LINE内で期間限定公開"],
+  ["sales-page.html", "セールスページ情報"],
   ["sales-page.html", "セールスレター全文"],
+  ["sales-page.html", "ヘッド作成用プロンプト"],
+  ["sales-page.html", "購入完了ページ"],
+  ["sales-page.html", "販売期配信"],
   ["sales-page.html", "申し込み期限は9月21日（日）"],
   ["files.html", "差し替え運用"],
 ];
@@ -109,6 +115,13 @@ for (const file of requiredPages) {
   if (!html.includes("田中祐一AI")) fail(`${file} missing brand name`);
   for (const word of forbidden) {
     if (html.includes(word)) fail(`${file} contains forbidden term: ${word}`);
+  }
+}
+
+for (const file of fs.readdirSync(root).filter((name) => /\.(md|txt)$/i.test(name))) {
+  const text = read(file);
+  for (const word of forbidden) {
+    if (text.includes(word)) fail(`${file} contains forbidden term: ${word}`);
   }
 }
 
