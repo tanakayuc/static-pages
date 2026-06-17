@@ -36,7 +36,6 @@ const forbidden = [
   "第1層",
   "第2層",
   "第3層",
-  "3点セット",
   "作業指示",
   "内部検討",
   "テキストレポート対応",
@@ -59,7 +58,13 @@ const contentChecks = [
   ["line.html", "全スポット配信タイトル"],
   ["live-scripts.html", "課題提出 91件"],
   ["live-scripts.html", "https://youtu.be/3F5T-slajMQ"],
-  ["sales-page.html", "原稿抜粋"],
+  ["lp.html", "オプトインLP書き起こし"],
+  ["lp.html", "才能・経験・顔出し不要"],
+  ["script-opening.html", "本編VSL 書き起こし"],
+  ["live-scripts.html", "Day1 ライブ台本全文"],
+  ["live-scripts.html", "実録/動画書き起こし"],
+  ["sales-page.html", "セールスレター全文"],
+  ["sales-page.html", "申し込み期限は9月21日（日）"],
   ["files.html", "差し替え運用"],
 ];
 

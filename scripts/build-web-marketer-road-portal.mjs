@@ -65,6 +65,7 @@ const liveRows = [
     count: "91件",
     video: "https://youtu.be/oeNkXpu4f8E",
     script: "04_価値提供/01_ライブシナリオ/01_Day1ライブシナリオ.md",
+    videoDoc: "04_価値提供/02_ライブ動画/01_Day1ライブ動画.md",
   },
   {
     day: "Day2",
@@ -75,6 +76,7 @@ const liveRows = [
     count: "52件",
     video: "https://youtu.be/uOeKd74L164",
     script: "04_価値提供/01_ライブシナリオ/02_Day2ライブシナリオ.md",
+    videoDoc: "04_価値提供/02_ライブ動画/02_Day2ライブ動画.md",
   },
   {
     day: "Day3",
@@ -85,6 +87,7 @@ const liveRows = [
     count: "45件",
     video: "https://youtu.be/xGaZDcEKu9o",
     script: "04_価値提供/01_ライブシナリオ/03_Day3ライブシナリオ.md",
+    videoDoc: "04_価値提供/02_ライブ動画/03_Day3ライブ動画.md",
   },
   {
     day: "Day4",
@@ -95,6 +98,7 @@ const liveRows = [
     count: "40件",
     video: "https://youtu.be/bj1ctIfUSJc",
     script: "04_価値提供/01_ライブシナリオ/04_Day4ライブシナリオ.md",
+    videoDoc: "04_価値提供/02_ライブ動画/04_Day4ライブ動画.md",
   },
   {
     day: "Day5",
@@ -105,6 +109,7 @@ const liveRows = [
     count: "37件",
     video: "https://youtu.be/3F5T-slajMQ",
     script: "04_価値提供/01_ライブシナリオ/05_Day5ライブシナリオ.md",
+    videoDoc: "04_価値提供/02_ライブ動画/05_Day5ライブ動画.md",
   },
 ];
 
@@ -171,6 +176,84 @@ function bodyExcerpt(relative, limit = 360) {
     .trim();
   const compact = text.replace(/\s+\n/g, "\n").trim();
   return compact.length > limit ? `${compact.slice(0, limit)}...` : compact;
+}
+
+function bodyFull(relative, limit = 36000) {
+  const text = read(relative)
+    .replace(/^Produced by[\s\S]*$/m, "")
+    .replace(/\n{4,}/g, "\n\n\n")
+    .trim();
+  if (!text) return "";
+  return text.length > limit ? `${text.slice(0, limit).trim()}\n\n（以下、原本MDに続きます）` : text;
+}
+
+function inlineMarkdown(value = "") {
+  return esc(value)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function markdownToHtml(markdown) {
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  const out = [];
+  let paragraph = [];
+  let listOpen = false;
+
+  const flushParagraph = () => {
+    if (!paragraph.length) return;
+    out.push(`<p>${paragraph.map(inlineMarkdown).join("<br>")}</p>`);
+    paragraph = [];
+  };
+  const closeList = () => {
+    if (!listOpen) return;
+    out.push("</ul>");
+    listOpen = false;
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trimEnd();
+    if (!line.trim()) {
+      flushParagraph();
+      closeList();
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,4})\s+(.+)$/);
+    if (heading) {
+      flushParagraph();
+      closeList();
+      const level = Math.min(heading[1].length + 1, 4);
+      out.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      continue;
+    }
+
+    const bullet = line.match(/^\s*[-*]\s+(.+)$/);
+    if (bullet) {
+      flushParagraph();
+      if (!listOpen) {
+        out.push("<ul>");
+        listOpen = true;
+      }
+      out.push(`<li>${inlineMarkdown(bullet[1])}</li>`);
+      continue;
+    }
+
+    paragraph.push(line.trim());
+  }
+
+  flushParagraph();
+  closeList();
+  return out.join("\n");
+}
+
+function articleFrom(relative, limit = 36000) {
+  const markdown = bodyFull(relative, limit);
+  if (!markdown) return `<p class="muted">原本MDが見つかりません。</p>${source(relative)}`;
+  return `<div class="article">${markdownToHtml(markdown)}</div>${source(relative)}`;
+}
+
+function sourceDetails(label, relative, limit = 36000, open = false) {
+  return `<details ${open ? "open" : ""}><summary>${esc(label)}</summary><div class="details-body">${articleFrom(relative, limit)}</div></details>`;
 }
 
 function parseMail(relative) {
@@ -397,6 +480,16 @@ details { border: 1px solid var(--line); border-radius: 8px; background: #fff; o
 details + details { margin-top: 10px; }
 summary { cursor: pointer; padding: 14px 16px; color: var(--ink); font-weight: 850; }
 details .details-body { padding: 0 16px 16px; }
+.article { max-width: 880px; color: #243648; font-size: 14px; line-height: 1.9; }
+.article h2 { margin: 24px 0 10px; padding-top: 6px; color: var(--ink); font-size: 22px; border-top: 1px solid var(--line); }
+.article h3 { margin: 20px 0 8px; color: var(--sub); font-size: 18px; }
+.article h4 { margin: 16px 0 6px; font-size: 15px; color: var(--ink); }
+.article p { margin: 10px 0 0; color: #324b44; }
+.article ul { margin-top: 8px; }
+.article li { color: #324b44; }
+.article strong { color: var(--ink); }
+.article code { padding: 1px 5px; border-radius: 5px; background: var(--soft); color: var(--sub); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; }
+.full-source-list { display: grid; gap: 12px; }
 .two-col-list { columns: 2; column-gap: 36px; }
 .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 @media (max-width: 1080px) {
@@ -645,7 +738,12 @@ pages.set("lp.html", page({
 <tr><td>セールスページ</td><td>45日間WEBマーケター超実践ブートキャンプを直接販売するページ。</td><td><a href="${urls.sales}">${urls.sales}</a></td><td>${source("06_セールス/01_セールスページ.md")}</td></tr>
 <tr><td>購入完了ページ</td><td>決済後の案内と次アクションを伝えるページ。</td><td><a href="${urls.salesThanks}">${urls.salesThanks}</a></td><td>${source("06_セールス/02_購入完了サンキューページ.md")}</td></tr>
 </tbody></table></section>
-<section class="panel"><h2>オプトインLPのヘッド</h2><p class="quote">地味で平凡な会社員向け。才能・経験・顔出し不要の裏方起業のロードマップを公開。</p><p>登録導線はLINEオープンチャット参加までがセットです。メール登録だけで終わらせず、サンキューページと登録後メールで正式参加へ進めます。</p></section>`}));
+<section class="panel"><h2>オプトインLPのヘッド</h2><p class="quote">地味で平凡な会社員向け。才能・経験・顔出し不要の裏方起業のロードマップを公開。</p><p>登録導線はLINEオープンチャット参加までがセットです。メール登録だけで終わらせず、サンキューページと登録後メールで正式参加へ進めます。</p></section>
+<section class="panel"><h2>オプトインLP書き起こし</h2><div class="full-source-list">
+${sourceDetails("登録経路なしLP 本文", "02_オプトインLP/01_オプトページ_登録経路なし.md", 52000, true)}
+${sourceDetails("動画視聴後LP 本文", "02_オプトインLP/02_オプトページ_動画視聴後LP.md", 36000)}
+${sourceDetails("登録後サンキューページ 本文", "03_サンキューページ/01_オプトイン後サンキューページ.md", 26000)}
+</div></section>`}));
 
 pages.set("head.html", page({
   file: "head.html",
@@ -704,6 +802,9 @@ pages.set("script-opening.html", page({
 <div class="script-block"><span class="time">2:10-3:10</span><h3>5日間の約束</h3><p>この5日間で、売れる仕組みをD.E.C.O.D.E.として分解し、あなたが裏方Webマーケターとしてどこから始めればいいかを具体的に見せていきます。</p></div>
 <div class="script-block"><span class="time">3:10-3:40</span><h3>CTA</h3><p>ライブリンク、課題、特典、質問回答はLINEオープンチャットで案内します。まだ参加していない方は、必ずこのページから参加してください。</p></div>
 </section>
+<section class="panel"><h2>本編VSL 書き起こし</h2><p class="note">LP原本内に取得済みの本編VSLを書き起こしとして展開します。挨拶動画やサンキューページ動画を作るときの素材として参照します。</p>
+${sourceDetails("オプトインLP内 VSL/動画本文", "02_オプトインLP/01_オプトページ_登録経路なし.md", 52000, true)}
+</section>
 <section class="panel"><h2>制作意図</h2><div class="grid-3">${card("自己認識の変換", "Concept", "地味で平凡を弱みではなく、裏方の適性として再定義する。")}${card("正式参加への誘導", "CTA", "メール登録だけで終わらせず、オープンチャット参加へ進ませる。")}${card("Day1への橋渡し", "Flow", "Day1の世界観とD.E.C.O.D.E.全体像へ自然につなぐ。")}</div></section>`}));
 
 pages.set("live-scripts.html", page({
@@ -712,7 +813,7 @@ pages.set("live-scripts.html", page({
   eyebrow: "制作物",
   lead: "5日間チャレンジの各ライブ台本を、目的、コア論点、課題、動画URL、原本パスで確認します。",
   body: `<section class="panel"><h2>5日間の教育設計</h2><div class="flow">${liveRows.map((row) => `<div class="flow-row"><strong>${esc(row.day)}</strong><p>${esc(row.title)}</p>${pills([row.core, row.task, `課題提出 ${row.count}`])}${status("原本あり")}</div>`).join("")}</div></section>
-<section class="panel"><h2>各Dayの台本</h2><div class="timeline">${liveRows.map((row) => `<article class="timeline-item"><div class="timeline-index">${row.day.replace("Day", "D")}</div><div><div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.count)}</div><p>${esc(row.purpose)}</p><p class="muted">課題: ${esc(row.task)}</p><p class="cta-line">動画: <a href="${row.video}">${row.video}</a></p>${source(row.script)}<details><summary>原本抜粋を見る</summary><div class="details-body"><div class="copy-box">${esc(bodyExcerpt(row.script, 560))}</div></div></details></div></article>`).join("")}</div></section>
+<section class="panel"><h2>各Dayの台本</h2><div class="timeline">${liveRows.map((row) => `<article class="timeline-item"><div class="timeline-index">${row.day.replace("Day", "D")}</div><div><div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.count)}</div><p>${esc(row.purpose)}</p><p class="muted">課題: ${esc(row.task)}</p><p class="cta-line">動画: <a href="${row.video}">${row.video}</a></p>${sourceDetails(`${row.day} ライブ台本全文`, row.script, 52000, row.day === "Day1")}${sourceDetails(`${row.day} 実録/動画書き起こし`, row.videoDoc, 36000)}</div></article>`).join("")}</div></section>
 <section class="panel"><h2>共通のライブ構成</h2><ol><li>オープニング、前日課題へのフィードバック、安心安全な場づくり。</li><li>本編教育。ストーリー、図解、事例を使ってコア概念を伝える。</li><li>まとめ。当日の学びの核心を言語化する。</li><li>当日課題の提示。アウトプットと特典導線をつなぐ。</li><li>次回予告。Day5はブートキャンプ案内へ接続する。</li><li>Q&A。参加者の不安や具体質問を拾い、次の配信にも反映する。</li></ol></section>`}));
 
 pages.set("sales-page.html", page({
@@ -729,7 +830,12 @@ pages.set("sales-page.html", page({
 <tr><td>締切</td><td>決断</td><td>期限を明示し、参加意思を前に進めるCTAを置く。</td></tr>
 </tbody></table></section>
 <section class="panel"><h2>ヘッド制作指示</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。</div></section>
-<section class="panel"><h2>原稿抜粋</h2><div class="copy-box">${esc(bodyExcerpt("06_セールス/01_セールスページ.md", 800))}</div></section>`}));
+<section class="panel"><h2>セールスレター全文</h2><p class="note">取得済みのセールスページ原本を、抜粋ではなくHTML上で読める本文として展開します。</p>
+${sourceDetails("セールスページ原稿 本文", "06_セールス/01_セールスページ.md", 62000, true)}
+</section>
+<section class="panel"><h2>購入完了ページ</h2>
+${sourceDetails("購入完了サンキューページ 本文", "06_セールス/02_購入完了サンキューページ.md", 30000, true)}
+</section>`}));
 
 pages.set("files.html", page({
   file: "files.html",
