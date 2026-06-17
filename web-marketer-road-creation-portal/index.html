@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WEBマーケターへの道 制作ポータル</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #667085;
+      --quiet: #98a2b3;
+      --line: #e4e7ec;
+      --paper: #ffffff;
+      --wash: #f5f7f8;
+      --soft: #fafafa;
+      --accent: #2f6f7e;
+      --accent-strong: #234f59;
+      --accent-soft: #eaf3f5;
+      --green: var(--accent);
+      --green-2: var(--accent-strong);
+      --green-soft: var(--accent-soft);
+      --blue: #2f5f9d;
+      --blue-soft: #e8f0fb;
+      --amber: #b7791f;
+      --amber-soft: #fff3d6;
+      --rose: #b64b4b;
+      --rose-soft: #ffe8e8;
+      --slate: #344256;
+      --slate-soft: #e9eef5;
+      --shadow: 0 14px 38px rgba(16, 24, 40, .07);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      color: var(--ink);
+      background: var(--wash);
+      line-height: 1.72;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .layout {
+      display: grid;
+      grid-template-columns: 304px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      padding: 24px 18px;
+      background: var(--paper);
+      border-right: 1px solid var(--line);
+    }
+    .brand {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--ink);
+      font-weight: 800;
+      font-size: 18px;
+    }
+    .brand-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.35;
+      font-weight: 800;
+    }
+    .brand-sub {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .side-block {
+      margin: 22px 0;
+    }
+    .side-label {
+      margin: 0 0 9px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .side-nav {
+      display: grid;
+      gap: 6px;
+    }
+    .side-nav a {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .side-nav a:hover {
+      background: var(--soft);
+      text-decoration: none;
+    }
+    .nav-index {
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: #f2f4f7;
+      color: #475467;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--soft);
+    }
+    .mini-card strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+    .mini-card span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .main {
+      min-width: 0;
+      padding: 36px 38px 64px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 26px;
+    }
+    .hero-panel {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--accent-strong);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    h1 {
+      margin: 0;
+      font-size: 40px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+    .lead {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .button.primary {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+    .button:hover { text-decoration: none; }
+    .metric-stack {
+      display: grid;
+      gap: 10px;
+    }
+    .metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .metric strong {
+      font-size: 24px;
+      line-height: 1;
+    }
+    .identity-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .identity-card {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+    .identity-card span {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .identity-card strong {
+      display: block;
+      font-size: 16px;
+      line-height: 1.45;
+    }
+    section {
+      margin: 24px 0;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+    }
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    p { margin: 10px 0; }
+    .muted { color: var(--muted); }
+    .source-link {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      color: #344054;
+      background: #f2f4f7;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge.blue { color: var(--blue); background: var(--blue-soft); }
+    .badge.amber { color: var(--amber); background: var(--amber-soft); }
+    .badge.rose { color: var(--rose); background: var(--rose-soft); }
+    .badge.slate { color: var(--slate); background: var(--slate-soft); }
+    .callout {
+      margin: 14px 0;
+      padding: 14px 16px;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: #344054;
+      font-weight: 600;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card {
+      min-height: 128px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+    .card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 17px;
+    }
+    .card span, .card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .funnel {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .funnel-step {
+      position: relative;
+      min-height: 130px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff, #f8fbfa);
+    }
+    .funnel-step::after {
+      content: ">";
+      position: absolute;
+      right: -9px;
+      top: 46px;
+      color: var(--quiet);
+      font-weight: 800;
+    }
+    .funnel-step:last-child::after { content: ""; }
+    .funnel-step small {
+      display: block;
+      color: var(--accent-strong);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .funnel-step strong {
+      display: block;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .funnel-step p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 0;
+    }
+    .roadmap-list {
+      display: grid;
+      gap: 10px;
+    }
+    .roadmap-item {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) minmax(220px, .8fr) 104px;
+      gap: 14px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+    .phase-no {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--slate);
+      font-weight: 800;
+    }
+    .roadmap-item h3 {
+      margin: 0 0 3px;
+      font-size: 17px;
+    }
+    .roadmap-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .output-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .concept-strip {
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      background: #fbfcfd;
+      color: var(--ink);
+    }
+    .concept-strip strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-strong);
+      font-size: 13px;
+      letter-spacing: .04em;
+    }
+    .concept-strip p {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .compare-box {
+      min-height: 148px;
+      padding: 18px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+    }
+    .compare-box.old { border-color: #f2c7c7; background: var(--rose-soft); }
+    .compare-box.new { border-color: #b9d7df; background: var(--accent-soft); }
+    .compare-box strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .asset-board {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .asset-group {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      overflow: hidden;
+    }
+    .asset-group h3 {
+      margin: 0;
+      padding: 14px 16px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      font-size: 17px;
+    }
+    .asset-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .asset-row:last-child { border-bottom: 0; }
+    .asset-row span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .asset-row strong {
+      font-size: 14px;
+    }
+    .links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .links a {
+      display: block;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      color: var(--ink);
+      font-weight: 700;
+    }
+    footer {
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: .92em;
+      color: var(--slate);
+    }
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        position: relative;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .side-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .main { padding: 24px 16px 44px; }
+      .hero { grid-template-columns: 1fr; }
+      .funnel, .grid, .grid.two, .asset-board, .links, .identity-grid { grid-template-columns: 1fr; }
+      .funnel-step::after { content: ""; }
+      .roadmap-item { grid-template-columns: 44px minmax(0, 1fr); }
+      .roadmap-item .output-list, .roadmap-item .badge { grid-column: 2; }
+      .compare { grid-template-columns: 1fr; }
+      h1 { font-size: 32px; }
+      section, .hero-panel { padding: 20px; }
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+    @media (max-width: 560px) {
+      .sidebar { padding: 18px 16px; }
+      .side-block.side-meta { display: none; }
+      .side-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .side-nav a {
+        min-height: 38px;
+        padding: 7px 8px;
+        font-size: 13px;
+      }
+      .section-head { display: block; }
+      .source-link { margin-top: 10px; }
+      .roadmap-item { grid-template-columns: 1fr; }
+      .roadmap-item .output-list, .roadmap-item .badge { grid-column: auto; }
+      .concept-strip p { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">祐</div>
+        <div>
+          <p class="brand-title">田中祐一AI</p>
+          <p class="brand-sub">個別制作ポータル</p>
+        </div>
+      </div>
+
+      <div class="side-block side-meta">
+        <p class="side-label">利用者</p>
+        <div class="mini-card">
+          <strong>田中祐一 様</strong>
+          <span>ログイン中の制作案件</span>
+        </div>
+      </div>
+
+      <div class="side-block side-meta">
+        <p class="side-label">案件</p>
+        <div class="mini-card">
+          <strong>WEBマーケターへの道</strong>
+          <span>45日間WEBマーケター超実践ブートキャンプ</span>
+        </div>
+      </div>
+
+      <div class="side-block">
+        <p class="side-label">工程表</p>
+        <nav class="side-nav" aria-label="工程ナビゲーション">
+          <a href="#overview"><span class="nav-index">0</span><span>全体像</span></a>
+          <a href="#roadmap"><span class="nav-index">1</span><span>工程表</span></a>
+          <a href="#assets"><span class="nav-index">2</span><span>制作物一覧</span></a>
+          <a href="#kpi"><span class="nav-index">3</span><span>KPI</span></a>
+        </nav>
+      </div>
+
+      <div class="side-block">
+        <p class="side-label">主要シート</p>
+        <nav class="side-nav" aria-label="成果物ナビゲーション">
+          <a href="#concept"><span class="nav-index">C</span><span>コンセプト</span></a>
+          <a href="#research"><span class="nav-index">R</span><span>リサーチ</span></a>
+          <a href="#offer"><span class="nav-index">O</span><span>オファー</span></a>
+          <a href="#head"><span class="nav-index">H</span><span>ヘッド指示</span></a>
+          <a href="#line"><span class="nav-index">L</span><span>LINE配信</span></a>
+          <a href="#files"><span class="nav-index">M</span><span>MD原本</span></a>
+        </nav>
+      </div>
+
+      <div class="side-block side-meta">
+        <p class="side-label">現在地</p>
+        <div class="mini-card">
+          <strong>制作ポータル生成済み</strong>
+          <span>工程表と主要成果物を確認できます</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="hero" id="overview">
+        <div class="hero-panel">
+          <p class="eyebrow">田中祐一AI 制作モード</p>
+          <h1>田中祐一様の<br>制作ポータル</h1>
+          <p class="lead">「WEBマーケターへの道」で販売する45日間WEBマーケター超実践ブートキャンプの制作状況を、工程表・制作物一覧・各種シートとして一画面で確認できます。</p>
+          <div class="identity-grid" aria-label="案件基本情報">
+            <div class="identity-card"><span>お名前</span><strong>田中祐一 様</strong></div>
+            <div class="identity-card"><span>案件名</span><strong>WEBマーケターへの道</strong></div>
+            <div class="identity-card"><span>販売商品</span><strong>45日間WEBマーケター超実践ブートキャンプ</strong></div>
+          </div>
+          <div class="hero-actions">
+            <a class="button primary" href="#roadmap">工程表を見る</a>
+            <a class="button primary" href="#assets">制作物一覧を見る</a>
+            <a class="button" href="#concept">コンセプトを見る</a>
+            <a class="button" href="#files">MD原本を見る</a>
+          </div>
+        </div>
+        <div class="hero-panel metric-stack" aria-label="案件サマリー">
+          <div class="metric"><span>案件</span><strong>WEBマーケターへの道</strong></div>
+          <div class="metric"><span>販売方式</span><strong>WEB直接販売</strong></div>
+          <div class="metric"><span>ファネル</span><strong>直販型</strong></div>
+          <div class="metric"><span>チャレンジ</span><strong>5日間</strong></div>
+          <div class="metric"><span>商品期間</span><strong>45日間</strong></div>
+          <div class="metric"><span>主要成果物</span><strong>7種</strong></div>
+        </div>
+      </div>
+
+      <section id="funnel">
+        <div class="section-head">
+          <h2>ファネル全体像</h2>
+          <span class="badge blue">オプトインLP -> LINE -> ライブ -> セールス</span>
+        </div>
+        <div class="funnel" aria-label="ファネル図">
+          <div class="funnel-step">
+            <small>Step 1</small>
+            <strong>オプトインLP</strong>
+            <p>地味で平凡な会社員に、裏方Webマーケターという入口を提示する。</p>
+          </div>
+          <div class="funnel-step">
+            <small>Step 2</small>
+            <strong>LINE登録</strong>
+            <p>オープンチャットへ誘導し、期待値と参加行動を整える。</p>
+          </div>
+          <div class="funnel-step">
+            <small>Step 3</small>
+            <strong>5日間ライブ</strong>
+            <p>DECODE、全体設計、右腕モデル、課題で認識を変える。</p>
+          </div>
+          <div class="funnel-step">
+            <small>Step 4</small>
+            <strong>セールスページ</strong>
+            <p>45日間ブートキャンプの必要性を伝えて販売する。</p>
+          </div>
+          <div class="funnel-step">
+            <small>Step 5</small>
+            <strong>決済/購入後</strong>
+            <p>購入完了ページと受講導線へ接続する。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="roadmap">
+        <div class="section-head">
+          <h2>工程表</h2>
+          <a class="source-link" href="04_工程表.md">Markdown原本</a>
+        </div>
+        <div class="callout">工程表はサイドバーと本体の両方で確認できます。細かい操作説明ではなく「何を決めるか」「何が完成するか」に絞っています。</div>
+        <div class="roadmap-list">
+          <div class="roadmap-item">
+            <div class="phase-no">1</div>
+            <div><h3>全体設計</h3><p>商品、販売方式、ファネル、KPIを仮決めする。</p></div>
+            <div class="output-list"><span class="badge">全体設計メモ</span><span class="badge">KPI仮シミュレーション</span></div>
+            <span class="badge amber">設計済み</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="phase-no">2</div>
+            <div><h3>コンセプト構築</h3><p>ターゲット、競合、自社強み、ポジションを固める。</p></div>
+            <div class="output-list"><span class="badge">コンセプト</span><span class="badge">リサーチ</span><span class="badge">コンフィグ</span></div>
+            <span class="badge">作成済み</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="phase-no">3</div>
+            <div><h3>オファー設計</h3><p>本命商品の約束、提供内容、特典、限定性を整理する。</p></div>
+            <div class="output-list"><span class="badge">オファーシート</span><span class="badge">購入障壁</span></div>
+            <span class="badge">作成済み</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="phase-no">4</div>
+            <div><h3>集客ページ制作</h3><p>登録させるための訴求とヘッドを作る。</p></div>
+            <div class="output-list"><span class="badge">オプトインLP</span><span class="badge">ヘッド指示</span></div>
+            <span class="badge slate">原本あり</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="phase-no">5</div>
+            <div><h3>登録後導線</h3><p>登録直後の行動を明確にする。</p></div>
+            <div class="output-list"><span class="badge">サンキュー</span><span class="badge">固定ノート</span></div>
+            <span class="badge slate">原本あり</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="phase-no">6</div>
+            <div><h3>価値提供</h3><p>5日間で認識を変え、課題で参加度を上げる。</p></div>
+            <div class="output-list"><span class="badge">ライブ台本</span><span class="badge">動画</span><span class="badge">課題</span></div>
+            <span class="badge slate">原本あり</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="phase-no">7</div>
+            <div><h3>配信運用</h3><p>参加者に必要な案内と教育配信を届ける。</p></div>
+            <div class="output-list"><span class="badge">OC配信</span><span class="badge">メルマガ</span><span class="badge">LINE</span></div>
+            <span class="badge slate">原本あり</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="phase-no">8</div>
+            <div><h3>セールス</h3><p>価値提供後に本命商品を販売する。</p></div>
+            <div class="output-list"><span class="badge">販売ページ</span><span class="badge">販売LINE</span><span class="badge">決済</span></div>
+            <span class="badge slate">原本あり</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="phase-no">9</div>
+            <div><h3>購入後/改善</h3><p>購入者を受け入れ、次回改善に使う。</p></div>
+            <div class="output-list"><span class="badge">購入完了</span><span class="badge">振り返り</span></div>
+            <span class="badge slate">一部原本</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="concept">
+        <div class="section-head">
+          <h2>コンセプトシート</h2>
+          <a class="source-link" href="01_コンセプトシート.md">Markdown原本</a>
+        </div>
+        <div class="concept-strip">
+          <strong>CORE CONCEPT</strong>
+          <p>地味で平凡な会社員こそ、社長の右腕として売上を動かす「裏方Webマーケター」になれる。</p>
+        </div>
+        <div class="grid two" style="margin-top: 14px;">
+          <div class="card">
+            <strong>ターゲット</strong>
+            <p>顔出しや派手な発信が苦手で、自分の商品や強い実績をまだ持っていない会社員、またはフリーランス志望者。</p>
+          </div>
+          <div class="card">
+            <strong>入口の約束</strong>
+            <p>才能、経験、顔出し、自分の商品がなくても、売上に直結する裏方の役割を担える。</p>
+          </div>
+        </div>
+        <div class="compare">
+          <div class="compare-box old">
+            <strong>旧世界</strong>
+            <p>起業するには、自分がスターになり、SNSで目立ち、自分の商品や実績を持たなければならない。</p>
+          </div>
+          <div class="compare-box new">
+            <strong>新世界</strong>
+            <p>表に立たなくても、プロモーション全体を支える裏方として売上に貢献できる。</p>
+          </div>
+        </div>
+        <h3>真の原因</h3>
+        <p>努力不足やセンス不足ではなく、最初の実績を安全に作れる実践環境と、売上までの全体構造を見通す型がないこと。</p>
+        <h3>解決策</h3>
+        <p>DECODEを軸に集客、教育、販売、オファー、LTVまでを一連の構造として理解し、45日間の実践環境で売上に関わる経験を作る。</p>
+        <h3>素材化する論点</h3>
+        <div class="pill-list">
+          <span class="pill">顔出し不要</span>
+          <span class="pill">実績ゼロの不安</span>
+          <span class="pill">社長の右腕</span>
+          <span class="pill">裏方起業</span>
+          <span class="pill">全体設計</span>
+          <span class="pill">実践環境</span>
+          <span class="pill">45日間</span>
+        </div>
+        <h3>採用コンセプト</h3>
+        <p><strong>会社員はWEBマーケターを目指しなさい</strong></p>
+        <p class="muted">強い断定があり、「自分にも別ルートがあるかもしれない」と認識を切り替えられる。職種型の訴求なので、新しい働き方への憧れも作れる。</p>
+      </section>
+
+      <section id="research">
+        <div class="section-head">
+          <h2>リサーチシート</h2>
+          <a class="source-link" href="02_リサーチシート.md">Markdown原本</a>
+        </div>
+        <div class="grid">
+          <div class="card"><strong>市場</strong><span>副業、Webマーケティング、SNS運用、広告運用、コンテンツ販売、AI副業。</span></div>
+          <div class="card"><strong>競合の強み</strong><span>月収、自由、在宅、スキル習得、高単価案件などのわかりやすい訴求。</span></div>
+          <div class="card"><strong>競合の弱み</strong><span>顔出しが苦手な人、初実績がない人、裏方気質の人を拾い切れていない。</span></div>
+        </div>
+        <h3>比較される選択肢</h3>
+        <table>
+          <thead><tr><th>選択肢</th><th>魅力</th><th>取りこぼし</th></tr></thead>
+          <tbody>
+            <tr><td>SNS起業/インフルエンサー型</td><td>自分の名前で売れる、華やか</td><td>顔出しや発信が苦手な人には重い</td></tr>
+            <tr><td>Webデザイン/制作スクール</td><td>スキルが明確で始めやすい</td><td>時給型、作業者型に留まりやすい</td></tr>
+            <tr><td>広告運用スクール</td><td>数字に近く収益化しやすい</td><td>全体設計やオファーには踏み込まないことが多い</td></tr>
+            <tr><td>ライティング講座</td><td>LPや文章に強くなる</td><td>導線全体や販売後まで見えにくい</td></tr>
+            <tr><td>AI副業系</td><td>新しさと話題性がある</td><td>実践環境や実績作りが曖昧になりやすい</td></tr>
+          </tbody>
+        </table>
+        <h3>空きポジション</h3>
+        <p>スター型起業でも単体スキル習得でもなく、起業家のプロモーションを裏方から支え、売上に関わる実績を作るWebマーケター。</p>
+        <div class="pill-list">
+          <span class="pill">世界観をずらす</span>
+          <span class="pill">立ち位置をずらす</span>
+          <span class="pill">ノウハウをずらす</span>
+          <span class="pill">会社員気質を武器にする</span>
+        </div>
+        <h3>原本から抽出した根拠</h3>
+        <table>
+          <thead><tr><th>抽出テーマ</th><th>原本上の根拠</th><th>反映先</th></tr></thead>
+          <tbody>
+            <tr><td>地味で平凡な会社員</td><td>オプトインLPの対象者訴求、オープンチャット名</td><td>ターゲット定義、LPヘッド</td></tr>
+            <tr><td>顔出し/才能/経験不要</td><td>オプトインLPの入口メッセージ</td><td>旧世界/新世界、登録訴求</td></tr>
+            <tr><td>社長の右腕</td><td>LP/配信内の裏方Webマーケター訴求</td><td>ポジショニング</td></tr>
+            <tr><td>45日間の実践環境</td><td>セールスページ、公式LINE販売期ログ</td><td>オファー設計</td></tr>
+            <tr><td>30名参加</td><td>販売終了後のオープンチャットログ</td><td>実績メモ、改善分析</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="offer">
+        <div class="section-head">
+          <h2>オファーシート</h2>
+          <a class="source-link" href="03_オファーシート.md">Markdown原本</a>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <strong>商品</strong>
+            <p>45日間WEBマーケター超実践ブートキャンプ</p>
+            <span>実践型Webマーケター育成プログラム</span>
+          </div>
+          <div class="card">
+            <strong>約束</strong>
+            <p>社長の右腕として、プロモーションを支えるWebマーケターになるための実践環境を提供する。</p>
+          </div>
+        </div>
+        <h3>提供内容</h3>
+        <table>
+          <thead><tr><th>項目</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td>期間</td><td>45日間</td></tr>
+            <tr><td>学習テーマ</td><td>Webマーケターとして売上に関わるための全体設計</td></tr>
+            <tr><td>実践テーマ</td><td>ファネル理解、オファー設計、導線設計、上流ディレクション</td></tr>
+            <tr><td>特典</td><td>Day1〜Day5課題特典、オファーシート、コンプリート特典3種</td></tr>
+            <tr><td>要確認</td><td>正式価格、支払い方法、保証、サポート範囲、PLC差額参加条件</td></tr>
+          </tbody>
+        </table>
+        <h3>購入障壁と解消策</h3>
+        <table>
+          <thead><tr><th>購入障壁</th><th>解消策</th></tr></thead>
+          <tbody>
+            <tr><td>実績がない</td><td>最初の実績を作るための実践環境として打ち出す</td></tr>
+            <tr><td>顔出しが苦手</td><td>裏方Webマーケターという立ち位置を提示する</td></tr>
+            <tr><td>スキルが足りない</td><td>単体スキルより全体設計を学ぶと伝える</td></tr>
+            <tr><td>自分に案件が取れるか不安</td><td>チーム、場、実践環境を強調する</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="assets">
+        <div class="section-head">
+          <h2>制作物一覧</h2>
+          <a class="source-link" href="05_制作物一覧.md">Markdown原本</a>
+        </div>
+        <div class="callout">制作物一覧は、サイドバー内の現在地と連動する素材集です。ページ、台本、配信、特典、原本URLをここから確認します。</div>
+        <div class="asset-board">
+          <div class="asset-group">
+            <h3>主要ページ</h3>
+            <div class="asset-row"><strong>オプトインLP</strong><span><a href="https://sub.the-lead10.com/p/house_lp01">公開URL</a></span></div>
+            <div class="asset-row"><strong>LINEオープンチャット</strong><span><a href="https://line.me/ti/g2/PZPs8BovqdqcMVu3OB14ewhtHHKgp2VJ2GU30Q?utm_source=invitation&utm_medium=link_copy&utm_campaign=default">参加URL</a></span></div>
+            <div class="asset-row"><strong>セールスページ</strong><span><a href="https://sub.the-lead10.com/p/webmarke">公開URL</a></span></div>
+            <div class="asset-row"><strong>購入完了ページ</strong><span><a href="https://sub.the-lead10.com/p/webmarke_thanks">公開URL</a></span></div>
+          </div>
+          <div class="asset-group">
+            <h3>設計系アウトプット</h3>
+            <div class="asset-row"><strong>コンセプトシート</strong><span><a href="#concept">HTML内で確認</a></span></div>
+            <div class="asset-row"><strong>リサーチシート</strong><span><a href="#research">HTML内で確認</a></span></div>
+            <div class="asset-row"><strong>オファーシート</strong><span><a href="#offer">HTML内で確認</a></span></div>
+            <div class="asset-row"><strong>ヘッドデザイン指示書</strong><span><a href="#head">HTML内で確認</a></span></div>
+          </div>
+          <div class="asset-group">
+            <h3>5日間ライブ/課題</h3>
+            <div class="asset-row"><strong>Day1〜Day5ライブシナリオ</strong><span>原本あり</span></div>
+            <div class="asset-row"><strong>Day1〜Day5ライブ動画</strong><span>YouTube整理済み</span></div>
+            <div class="asset-row"><strong>Day1〜Day5課題</strong><span>Forms/Sheets整理済み</span></div>
+            <div class="asset-row"><strong>課題特典</strong><span>原本あり</span></div>
+          </div>
+          <div class="asset-group">
+            <h3>配信/運用</h3>
+            <div class="asset-row"><strong>オープンチャット配信</strong><span>73通</span></div>
+            <div class="asset-row"><strong>メルマガ</strong><span>5通</span></div>
+            <div class="asset-row"><strong>公式LINE</strong><span>6通+実ログ</span></div>
+            <div class="asset-row"><strong>Q&A/個別対応</strong><span>知見抽出対象</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="kpi">
+        <div class="section-head">
+          <h2>KPI仮シミュレーション</h2>
+          <span class="badge amber">仮シミュレーション</span>
+        </div>
+        <table>
+          <thead><tr><th>指標</th><th>仮値</th><th>算出</th></tr></thead>
+          <tbody>
+            <tr><td>目標購入数</td><td>30件</td><td>販売終了後ログの参加者数を基準にする</td></tr>
+            <tr><td>商品単価</td><td>60,000円</td><td>仮値。正式価格は要確認</td></tr>
+            <tr><td>目標売上</td><td>1,800,000円</td><td>30件 x 60,000円</td></tr>
+            <tr><td>オプトインLP成約率</td><td>10%</td><td>入口LPの仮基準値</td></tr>
+            <tr><td>チャレンジ有効参加率</td><td>60%</td><td>LINE登録後にライブ/課題へ動く割合</td></tr>
+            <tr><td>セールスページ遷移率</td><td>80%</td><td>有効参加者のうち販売ページを見る割合</td></tr>
+            <tr><td>セールスページ購入率</td><td>12.5%</td><td>240アクセス中30件購入の想定</td></tr>
+            <tr><td>必要オプトイン数</td><td>500件</td><td>30件 / 60% / 80% / 12.5%</td></tr>
+            <tr><td>必要アクセス数</td><td>5,000アクセス</td><td>500件 / 10%</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="head">
+        <div class="section-head">
+          <h2>ヘッドデザイン指示</h2>
+          <a class="source-link" href="06_ヘッドデザイン指示書.md">Markdown原本</a>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <strong>オプトインLPヘッド</strong>
+            <p>地味で平凡な会社員向け。才能・経験・顔出し不要の裏方起業ロードマップを提示する。</p>
+          </div>
+          <div class="card">
+            <strong>セールスページヘッド</strong>
+            <p>知識だけで終わらせず、45日間の実践環境で最初の実績を作る必要性を伝える。</p>
+          </div>
+        </div>
+        <h3>画像生成/デザイン指示</h3>
+        <p>地味で平凡な会社員が、表に立つ起業家ではなく、社長の右腕としてプロモーション戦略を支える世界観。ノートPC、ファネル図、売上グラフ、チャット画面、設計資料が並ぶ静かな作戦室。落ち着いた白とチャコール、信頼感のあるグリーン、アクセントに淡いゴールド。人物は背中や横顔程度で、顔出し不要の裏方感を出す。スマホでも文字が読みやすい余白を確保。</p>
+      </section>
+
+      <section id="line">
+        <div class="section-head">
+          <h2>LINE配信管理</h2>
+          <a class="source-link" href="07_LINE配信管理シート.md">Markdown原本</a>
+        </div>
+        <table>
+          <thead><tr><th>タイプ</th><th>内容</th><th>管理方針</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge slate">事務連絡</span></td><td>開始時間、URL、課題締切、アーカイブ、募集終了</td><td>テンプレート化し、正確性を優先する。</td></tr>
+            <tr><td><span class="badge">定期配信</span></td><td>教育配信、リマインド、販売プッシュ</td><td>コンセプトの認識変化に沿って作り込む。</td></tr>
+            <tr><td><span class="badge rose">Q&A</span></td><td>質問回答、追加補足、個別返信</td><td>ログとして残し、次回改善やナレッジ候補にする。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="files">
+        <div class="section-head">
+          <h2>Markdown原本</h2>
+          <span class="badge slate">編集/差し替え用</span>
+        </div>
+        <p class="muted">ここは閲覧用の主役ではなく、AIが再生成するための原本です。HTMLポータルで見せ、Markdownは編集・差し替え・ダウンロード用に残します。</p>
+        <div class="links">
+          <a href="00_案件マニフェスト.md">00_案件マニフェスト.md</a>
+          <a href="00_標準仕様対応表.md">00_標準仕様対応表.md</a>
+          <a href="01_コンセプトシート.md">01_コンセプトシート.md</a>
+          <a href="02_リサーチシート.md">02_リサーチシート.md</a>
+          <a href="03_オファーシート.md">03_オファーシート.md</a>
+          <a href="04_工程表.md">04_工程表.md</a>
+          <a href="05_制作物一覧.md">05_制作物一覧.md</a>
+          <a href="06_ヘッドデザイン指示書.md">06_ヘッドデザイン指示書.md</a>
+          <a href="07_LINE配信管理シート.md">07_LINE配信管理シート.md</a>
+          <a href="08_レビュー確認事項.md">08_レビュー確認事項.md</a>
+          <a href="README.md">README.md</a>
+          <a href="00_標準仕様対応表.md">共通標準仕様への対応表</a>
+        </div>
+      </section>
+
+      <footer>
+        <p>Generated package for Tanaka Yuichi AI creation mode. User: 田中祐一様. Project: WEBマーケターへの道. Updated: 2026-06-17.</p>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
