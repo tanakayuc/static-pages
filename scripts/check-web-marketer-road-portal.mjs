@@ -46,14 +46,20 @@ const forbidden = [
 const contentChecks = [
   ["index.html", "田中祐一様の制作パッケージ"],
   ["index.html", "期間限定セールスレター"],
-  ["roadmap.html", "9工程"],
+  ["roadmap.html", "9章の詳細工程"],
   ["roadmap.html", "公式LINE内で期間限定レター公開"],
+  ["roadmap.html", "コンテンツ本数表"],
+  ["roadmap.html", "チャレンジ項目一覧"],
+  ["roadmap.html", "全体スケジュール"],
   ["concept.html", "旧世界と新世界"],
   ["research.html", "空きポジション"],
   ["offer.html", "購入障壁"],
   ["head.html", "セールスページヘッド"],
   ["visual-report.html", "動画埋め込みLP"],
   ["visual-report.html", "公式LINE内で期間限定セールスレター"],
+  ["visual-report.html", "制作ボリューム"],
+  ["visual-report.html", "チャレンジ課題"],
+  ["visual-report.html", "全体スケジュール"],
   ["stepmail.html", "高額投資に失敗してきたあなたへ"],
   ["stepmail.html", "CTA:"],
   ["stepmail.html", "オプトイン自動返信メール"],
@@ -117,8 +123,8 @@ for (const [file, snippet] of contentChecks) {
   if (!ok) fail(`${file} missing content: ${snippet}`);
 }
 
-const roadmapRows = (read("roadmap.html").match(/class="flow-row"/g) || []).length;
-if (roadmapRows !== 9) fail(`roadmap rows expected 9, got ${roadmapRows}`);
+const roadmapPhaseRows = (read("roadmap.html").match(/<td><strong>[0-9]\./g) || []).length;
+if (roadmapPhaseRows !== 9) fail(`roadmap phase rows expected 9, got ${roadmapPhaseRows}`);
 
 for (const file of requiredPages) {
   const html = read(file);

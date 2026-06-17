@@ -15,7 +15,7 @@ const navGroups = [
       ["index.html", "P", "制作ポータル", "入口"],
       ["visual-report.html", "R", "全体構成", "ファネル全体"],
       ["text-report.html", "T", "制作テキスト", "読み物版"],
-      ["roadmap.html", "M", "工程表", "9工程"],
+      ["roadmap.html", "M", "工程表", "9章/詳細"],
       ["kpi.html", "K", "KPI設計", "規模感"],
     ],
   },
@@ -123,15 +123,87 @@ const liveRows = [
 ];
 
 const roadmapRows = [
-  ["1. 全体設計", "動画埋め込みLPから公式LINE内の期間限定レターまで、今回専用の特殊ファネルとKPIを仮決めする。", ["全体設計メモ", "ファネル全体図", "KPI仮シミュレーション"], "完了"],
-  ["2. コンセプト構築", "ターゲット、競合、自社強み、旧世界/新世界、真の原因、コアシナリオをまとめる。", ["コンセプトシート", "リサーチシート", "プロフィール", "コンフィグ"], "作成中"],
-  ["3. オファー設計", "本命商品の約束、提供内容、特典、価格、限定性、購入障壁を整理する。", ["オファーシート", "購入障壁整理", "保証/特典メモ"], "要確認"],
-  ["4. オプトイン開始セット制作", "動画埋め込みLPを起点に、LP本文、ヘッド、挨拶動画、サンキュー、自動返信メールを一気に揃える。", ["オプトインLP本文", "ヘッド指示", "挨拶動画台本", "サンキューページ", "自動返信メール"], "原本あり"],
-  ["5. LINEオープンチャット準備", "サンキューページ後の受け皿として、固定ノート、事務連絡、ライブ案内、課題提出導線を整える。", ["OC固定ノート", "参加案内", "課題受け取りLINE", "事務連絡"], "原本あり"],
-  ["6. Day1〜Day5価値提供制作", "ライブ台本、課題、特典、アーカイブ導線を、5日間の教育体験としてまとめる。", ["ライブ台本", "課題フォーム", "特典", "アーカイブ"], "原本あり"],
-  ["7. Day5公式LINE誘導制作", "Day5でレターを受け取りたい方を公式LINEへ移動させ、販売ページ公開の期待値を作る。", ["公式LINE誘導文", "販売前メッセージ", "登録CTA"], "原本あり"],
-  ["8. 期間限定レター販売", "公式LINE内で期間限定セールスレターを公開し、販売期メール、LINE、購入完了ページを整える。", ["セールスレター", "販売期メール", "販売期LINE", "購入完了ページ"], "原本あり"],
-  ["9. レビュー・差し替え", "原本を差し替えたときにHTMLとMDを更新し、制作物の最新版を残す。", ["原本MD", "レビュー確認事項", "更新履歴"], "順次"],
+  {
+    name: "1. 全体設計",
+    goal: "商品、目標、KPI、特殊ファネルを50%で仮決めする。",
+    steps: ["商品/価格/目標売上", "販売方式", "KPI仮算出", "既存素材確認"],
+    outputs: ["全体設計レポート", "ファネル全体図", "KPI仮シミュレーション", "既存素材リスト"],
+    label: "完了",
+  },
+  {
+    name: "2. コンセプト構築",
+    goal: "誰に、どんな新世界を見せるかを決める。",
+    steps: ["ターゲット仮止め", "ライバル逆抽出", "自社強み整理", "旧世界/新世界", "真の原因"],
+    outputs: ["コンセプトシート", "リサーチシート", "プロフィール", "コンフィグ", "ヘッド方向性"],
+    label: "作成中",
+  },
+  {
+    name: "3. オファー設計",
+    goal: "本命商品の見せ方、提供範囲、購入理由を整理する。",
+    steps: ["商品コンセプト", "サポート範囲", "特典/保証", "価格/支払い", "購入障壁"],
+    outputs: ["オファーシート", "商品概要", "特典/保証メモ", "購入障壁整理"],
+    label: "要確認",
+  },
+  {
+    name: "4. コンテンツ設計",
+    goal: "KPIに基づき、動画本数、チャレンジ項目、スケジュールを決める。",
+    steps: ["チャレンジ日数", "動画/ライブ本数", "課題の有無", "特典の有無", "Day別スケジュール"],
+    outputs: ["コンテンツ本数表", "Day別テーマ一覧", "チャレンジ項目一覧", "全体スケジュール"],
+    label: "原本あり",
+  },
+  {
+    name: "5. オプトイン開始セット制作",
+    goal: "登録してすぐ参加できる入口一式を揃える。",
+    steps: ["動画埋め込みLP", "挨拶動画", "ヘッド指示", "サンキュー", "自動返信メール"],
+    outputs: ["オプトインLP本文", "挨拶動画台本", "ヘッド指示書", "サンキューページ", "自動返信メール"],
+    label: "原本あり",
+  },
+  {
+    name: "6. LINE/メール導線制作",
+    goal: "登録者をLINEオープンチャットとライブ参加へ動かす。",
+    steps: ["OC固定ノート", "参加案内", "ライブ前リマインド", "課題提出導線", "未参加フォロー"],
+    outputs: ["固定ノート", "事務連絡", "定期配信", "課題受け取りLINE"],
+    label: "原本あり",
+  },
+  {
+    name: "7. 動画/ライブ台本制作",
+    goal: "コンセプトを5日間の価値提供と販売導入に変換する。",
+    steps: ["Day1台本", "Day2台本", "Day3台本", "Day4台本", "Day5台本", "課題/特典"],
+    outputs: ["Day1〜Day5ライブ台本", "課題フォーム", "提出特典", "アーカイブ導線"],
+    label: "原本あり",
+  },
+  {
+    name: "8. 販売導線制作",
+    goal: "Day5後に公式LINEへ移動し、期間限定レターで販売する。",
+    steps: ["公式LINE登録誘導", "販売前メッセージ", "期間限定レター", "販売期配信", "購入完了案内"],
+    outputs: ["公式LINE誘導文", "セールスレター", "販売期メール", "販売期LINE", "購入完了ページ"],
+    label: "原本あり",
+  },
+  {
+    name: "9. 公開/改善",
+    goal: "URL、MD、HTML、添削結果をまとめて改善できる状態にする。",
+    steps: ["公開URL台帳", "MD原本保存", "HTML更新", "添削確認", "差し替え履歴"],
+    outputs: ["制作ポータル", "公開URL一覧", "原本MD", "添削レポート", "更新履歴"],
+    label: "順次",
+  },
+];
+
+const contentVolumeRows = [
+  ["動画/ライブ", "6本", "挨拶動画1本 + Day1〜Day5ライブ5本"],
+  ["チャレンジ課題", "5本", "Day1〜Day5で課題あり。提出数をKPIとして見る。"],
+  ["課題提出特典", "5点想定", "課題提出の動機づけと完走率を上げる。"],
+  ["オプトイン開始セット", "5点", "LP本文、挨拶動画、ヘッド指示、サンキュー、自動返信メール。"],
+  ["LINEオープンチャット", "固定3件 + 計画73件", "固定ノート、事務連絡、ライブ案内、課題、Q&A。"],
+  ["販売導線", "レター1本 + 公式LINE8通", "Day5後に公式LINEへ移動し、期間限定レターを公開する。"],
+];
+
+const scheduleRows = [
+  ["準備", "全体設計、コンセプト、オファー、コンテンツ設計を固める。"],
+  ["オプトイン開始", "動画埋め込みLP、サンキュー、自動返信でLINEオープンチャットへ誘導する。"],
+  ["参加前", "固定ノート、事務連絡、ライブ前リマインドで参加率を上げる。"],
+  ["Day1〜Day5", "毎日ライブ、課題、特典、Q&Aで価値提供する。"],
+  ["Day5後", "レター希望者を公式LINEへ移動させる。"],
+  ["販売期", "公式LINE内で期間限定セールスレターを公開し、販売期配信と購入完了案内を出す。"],
 ];
 
 function esc(value = "") {
@@ -334,6 +406,10 @@ function pills(items) {
   return `<div class="pills">${items.map((item) => `<span class="pill">${esc(item)}</span>`).join("")}</div>`;
 }
 
+function inlineList(items) {
+  return `<ul class="mini-list">${items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`;
+}
+
 function status(label) {
   const cls = label.includes("要") ? "need" : label.includes("順次") ? "todo" : "";
   return `<span class="status ${cls}">${esc(label)}</span>`;
@@ -454,6 +530,8 @@ li { margin: 4px 0; }
 .flow-row:first-child { border-top: 0; }
 .flow-row strong { font-size: 15px; }
 .flow-row p { color: var(--muted); font-size: 13px; }
+.mini-list { margin: 0; padding-left: 1.1em; color: #4c625b; font-size: 13px; line-height: 1.55; }
+.mini-list li { margin: 2px 0; }
 .status { justify-self: start; padding: 4px 9px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 12px; font-weight: 850; white-space: nowrap; }
 .status.todo { background: var(--warn-bg); color: var(--warn); }
 .status.need { background: var(--danger-bg); color: var(--danger); }
@@ -562,7 +640,7 @@ ${card("45日間WEBマーケター超実践ブートキャンプ", "本命商品
 ${card("HTMLとMDを同時に残す", "管理方針", "見せるページはHTML、AI参照と原本差し替え用はMDとして保存し、更新時に再生成します。", "files.html")}
 </div></section>
 <section class="panel"><h2>完成パッケージの現在地</h2><div class="grid-4">
-<div class="kpi"><span>制作工程</span><strong>9工程</strong></div>
+<div class="kpi"><span>制作工程</span><strong>9章</strong></div>
 <div class="kpi"><span>設計シート</span><strong>5種</strong></div>
 <div class="kpi"><span>配信原稿</span><strong>${registrationMails.length + salesMails.length + officialLines.length + spots.length + fixedNotes.length}件</strong></div>
 <div class="kpi"><span>課題提出</span><strong>Day1 91件</strong></div>
@@ -582,6 +660,8 @@ pages.set("visual-report.html", page({
   lead: "WEBマーケターへの道のファネル、教育設計、制作物パッケージを一枚で把握します。",
   body: `
 <section class="panel"><h2>ファネルの流れ</h2><div class="funnel">${funnelSteps.map(([label]) => `<div class="funnel-step">${esc(label)}</div>`).join("")}</div><p class="quote">個別説明会を挟まず、5日間の価値提供と課題提出で熱量を上げます。Day5でレター希望者を公式LINEへ移し、公式LINE内で期間限定セールスレターを公開する特殊な直販モデルです。</p></section>
+<section class="panel"><h2>制作ボリューム</h2><p class="note">第1章のKPIと第4章のコンテンツ設計をつなぐため、何本作るのか、チャレンジ項目があるのか、どこまで準備すれば公開できるのかをここで固定します。</p><table class="asset-table"><thead><tr><th>領域</th><th>本数/点数</th><th>内容</th></tr></thead><tbody>${contentVolumeRows.map(([area, count, detail]) => `<tr><td>${esc(area)}</td><td><strong>${esc(count)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
+<section class="panel"><h2>全体スケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>進めること</th></tr></thead><tbody>${scheduleRows.map(([timing, detail]) => `<tr><td>${esc(timing)}</td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
 <section class="panel"><h2>今回の特殊ファネル</h2><div class="flow">${funnelSteps.map(([label, detail], index) => `<div class="flow-row"><strong>${index + 1}. ${esc(label)}</strong><p>${esc(detail)}</p>${status(index < 4 ? "原本あり" : "要確認")}</div>`).join("")}</div></section>
 <section class="panel"><h2>教育設計</h2><div class="grid-2">${liveRows.map((row) => `<div class="card white"><span class="meta">${row.day}</span><h3>${esc(row.title)}</h3><p>${esc(row.purpose)}</p>${pills([row.core, `課題提出 ${row.count}`])}</div>`).join("")}</div></section>
 <section class="panel"><h2>制作物パッケージ</h2><table class="asset-table"><thead><tr><th>区分</th><th>成果物</th><th>確認ページ</th></tr></thead><tbody>
@@ -611,9 +691,11 @@ pages.set("roadmap.html", page({
   file: "roadmap.html",
   title: "制作工程表",
   eyebrow: "工程表",
-  lead: "細かな操作手順ではなく、今回の特殊ファネルで何を作り、どんな成果物が揃うかを確認する9工程です。",
+  lead: "工程は削らず、各章で何を決め、何を作るかだけをシンプルに確認する9章の工程表です。",
   body: `<section class="panel"><h2>今回のファネル</h2><div class="funnel">${funnelSteps.map(([label]) => `<div class="funnel-step">${esc(label)}</div>`).join("")}</div><p class="quote">動画埋め込みLPからLINEオープンチャットへ進み、Day5で公式LINE登録を促し、公式LINE内で期間限定レター公開へつなげます。</p></section>
-<section class="panel flush"><h2>9工程</h2><div class="flow">${roadmapRows.map(([name, desc, outputs, label]) => `<div class="flow-row"><strong>${esc(name)}</strong><p>${esc(desc)}</p>${pills(outputs)}${status(label)}</div>`).join("")}</div></section>`}));
+<section class="panel"><h2>第4章で決める制作量</h2><table class="asset-table"><thead><tr><th>領域</th><th>本数/点数</th><th>内容</th></tr></thead><tbody>${contentVolumeRows.map(([area, count, detail]) => `<tr><td>${esc(area)}</td><td><strong>${esc(count)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
+<section class="panel"><h2>全体スケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>進めること</th></tr></thead><tbody>${scheduleRows.map(([timing, detail]) => `<tr><td>${esc(timing)}</td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
+<section class="panel flush"><h2>9章の詳細工程</h2><table class="asset-table"><thead><tr><th>章</th><th>目的</th><th>必要ステップ</th><th>完成アウトプット</th><th>状態</th></tr></thead><tbody>${roadmapRows.map((row) => `<tr><td><strong>${esc(row.name)}</strong></td><td>${esc(row.goal)}</td><td>${inlineList(row.steps)}</td><td>${pills(row.outputs)}</td><td>${status(row.label)}</td></tr>`).join("")}</tbody></table></section>`}));
 
 pages.set("kpi.html", page({
   file: "kpi.html",
