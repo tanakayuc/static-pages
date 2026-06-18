@@ -228,69 +228,375 @@ const liveRows = [
   },
 ];
 
-const roadmapRows = [
+const roadmapPhases = [
   {
     name: "1. 全体設計",
-    goal: "商品、目標、KPI、特殊ファネルを50%で仮決めする。",
-    steps: ["商品/価格/目標売上", "販売方式", "KPI仮算出", "既存素材確認"],
-    outputs: ["全体設計レポート", "ファネル全体図", "KPI仮シミュレーション", "既存素材リスト"],
-    label: "完了",
+    summary: "何を売るか、どう売るか、どれくらい集めるかを仮決めし、制作判断の前提を置く。",
+    items: [
+      {
+        name: "目的意識を明確にする",
+        make: "この案件で作る最終成果物、売上目標、今回のプロモーションで達成したいことを1枚にまとめる。",
+        input: "セールスレター、オプトインLP、既存の販売導線",
+        output: "目的リスト",
+        href: "visual-report.html",
+      },
+      {
+        name: "販売したい商品を決める",
+        make: "45日間実践コース、見るだけプラン、教材プランなど、販売する商品と価格帯を整理する。",
+        input: "セールスページ、決済後導線、商品説明",
+        output: "商品リスト（価格・期間付き）",
+        href: "offer.html",
+      },
+      {
+        name: "販売ファネルを決める",
+        make: "オプトインLP、サンキュー、オープンチャット、Day1〜Day5、公式LINE、期間限定レターの流れを固定する。",
+        input: "LP、サンキューページ、LINE導線、販売ページ",
+        output: "ファネル種別と全体導線",
+        href: "visual-report.html",
+      },
+      {
+        name: "KPI仮設定",
+        make: "登録数、参加率、課題提出、公式LINE移動、レター購入の見るべき数字を決める。",
+        input: "販売価格、目標売上、過去の課題提出数",
+        output: "KPI仮シミュレーション",
+        href: "kpi.html",
+      },
+      {
+        name: "既存素材確認",
+        make: "LP、メール、LINE、ライブ台本、動画、販売ページ、MD原本の有無を棚卸しする。",
+        input: "既存URL、MDファイル、動画URL",
+        output: "既存素材リスト",
+        href: "files.html",
+      },
+    ],
   },
   {
-    name: "2. コンセプト構築",
-    goal: "誰に、どんな新世界を見せるかを決める。",
-    steps: ["ターゲット仮止め", "ライバル逆抽出", "自社強み整理", "旧世界/新世界", "真の原因"],
-    outputs: ["コンセプトシート", "リサーチシート", "プロフィール", "コンフィグ", "ヘッド方向性"],
-    label: "作成中",
+    name: "2. コンセプト設計",
+    summary: "ターゲット、競合、自社の強みから、戦う場所と採用コンセプトを決める。",
+    items: [
+      {
+        name: "事前情報収集",
+        make: "講師プロフィール、実績、プロモーション背景、今回使う言葉の前提を整理する。",
+        input: "LP掲載プロフィール、セールスレター、既存紹介文",
+        output: "プロフィールシート",
+        href: "profile.html",
+      },
+      {
+        name: "ターゲットシート作成",
+        make: "顔出しや発信が苦手で、自分の商品や強い実績がまだない会社員を具体化する。",
+        input: "LPコピー、ライブ台本、販売ページの悩み訴求",
+        output: "ターゲットシート",
+        href: "concept.html",
+      },
+      {
+        name: "ライバル情報の整理",
+        make: "転職、スクール、副業、SNS起業など、見込み客が比較しそうな選択肢を並べる。",
+        input: "競合リサーチ、既存LP、ターゲットの検索意図",
+        output: "ライバル分析シート",
+        href: "research.html",
+      },
+      {
+        name: "空いている訴求の特定",
+        make: "目立つ個人になる訴求ではなく、裏方で売上を支えるWebマーケター導線としてずらす。",
+        input: "ライバル比較、3C分析、ターゲット感情",
+        output: "空きポジション",
+        href: "research.html",
+      },
+      {
+        name: "ポジショニングの作成",
+        make: "旧世界、新世界、真の原因、ベネフィット、ミッションを縦並びで整理する。",
+        input: "ターゲット、ライバル、自社の強み",
+        output: "コンセプトシート",
+        href: "concept.html",
+      },
+      {
+        name: "プロモーションコンセプト",
+        make: "今回のキーワード「WEBマーケターへの道」を、LP、ライブ、レターで使える1行にする。",
+        input: "コンセプトシート、コアシナリオ",
+        output: "プロモコンセプト1行＋補強文",
+        href: "head.html",
+      },
+      {
+        name: "制作コンフィグ作成",
+        make: "田中祐一AIとして避ける表現、判断軸、トーン、制作物ごとの優先順位をまとめる。",
+        input: "田中祐一AIの判断軸、今回の案件素材",
+        output: "制作コンフィグ",
+        href: "config.html",
+      },
+    ],
   },
   {
     name: "3. オファー設計",
-    goal: "本命商品の見せ方、提供範囲、購入理由を整理する。",
-    steps: ["商品コンセプト", "サポート範囲", "特典/保証", "価格/支払い", "購入障壁"],
-    outputs: ["オファーシート", "商品概要", "特典/保証メモ", "購入障壁整理"],
-    label: "要確認",
+    summary: "何を提供するのか、それがいくらなのかを中心に、本命商品の条件を整理する。",
+    items: [
+      {
+        name: "商品名",
+        make: "販売する商品名とプラン名を、購入者が理解できる粒度で整理する。",
+        input: "セールスページ、決済ページ、販売期配信",
+        output: "商品名一覧",
+        href: "offer.html",
+      },
+      {
+        name: "提供内容",
+        make: "45日間の実践環境、メインプログラム、サポート、教材、特典を分けて整理する。",
+        input: "セールスレター、特典記載、購入後案内",
+        output: "商品オファーシート",
+        href: "offer.html",
+      },
+      {
+        name: "サポート期間",
+        make: "5日間チャレンジと45日間実践コースの期間、参加導線、実践の開始条件を整理する。",
+        input: "LP、販売ページ、サンキューページ",
+        output: "サポート設計",
+        href: "offer.html",
+      },
+      {
+        name: "特典/保証",
+        make: "ナレハブ無料、PLC差額参加の権利、返金保証なしなど、購入条件として伝える要素を整理する。",
+        input: "販売ページの特典/保証記載",
+        output: "特典/保証シート",
+        href: "offer.html",
+      },
+      {
+        name: "価格と支払い方法",
+        make: "各プランの税込価格、支払い方法、価格差の意味を整理する。",
+        input: "決済ページ、セールスページ",
+        output: "価格表",
+        href: "offer.html",
+      },
+    ],
   },
   {
     name: "4. コンテンツ設計",
-    goal: "KPIに基づき、動画本数、チャレンジ項目、スケジュールを決める。",
-    steps: ["チャレンジ日数", "動画/ライブ本数", "課題の有無", "特典の有無", "Day別スケジュール"],
-    outputs: ["コンテンツ本数表", "Day別テーマ一覧", "チャレンジ項目一覧", "全体スケジュール"],
-    label: "原本あり",
+    summary: "チャレンジ全体の流れと、各日の教育テーマ、課題、特典、販売への接続を決める。",
+    items: [
+      {
+        name: "お客様の声/実績素材整理",
+        make: "課題提出数、実績、講師の過去ストーリーを、信頼形成に使える材料として整理する。",
+        input: "Day別課題提出数、プロフィール、セールスレター",
+        output: "お客様の声・実績素材リスト",
+        href: "kpi.html",
+      },
+      {
+        name: "全体カリキュラム",
+        make: "5日間で見込み客の認識をどう変え、最後に45日間実践環境へ進ませるかを設計する。",
+        input: "コンセプトシート、オファーシート、KPI",
+        output: "全体カリキュラム",
+        href: "live-scripts.html",
+      },
+      {
+        name: "Day別テーマ",
+        make: "Day1は全体像、Day2は左脳設計、Day3は右脳設計、Day4は実践、Day5は継続導線として整理する。",
+        input: "既存ライブ台本、動画URL、チャレンジ設計",
+        output: "Day別テーマ一覧",
+        href: "live-scripts.html",
+      },
+      {
+        name: "コアシナリオ",
+        make: "旧世界から新世界へ移動する順番を、各日の教育テーマと販売導入に接続する。",
+        input: "コンセプト、真の原因、パラダイムシフト材料",
+        output: "コアシナリオシート",
+        href: "concept.html",
+      },
+      {
+        name: "ワーク/特典案",
+        make: "各日の課題、提出特典、完走を促す動機づけを決める。",
+        input: "Day別テーマ、既存課題、特典案",
+        output: "ワーク/特典案リスト",
+        href: "live-scripts.html",
+      },
+      {
+        name: "スケジュール",
+        make: "登録前、参加前、Day1〜Day5、Day5後、販売期の全体カレンダーを置く。",
+        input: "ファネル全体、配信導線、販売期",
+        output: "プロモ全体カレンダー",
+        href: "roadmap.html",
+      },
+    ],
   },
   {
-    name: "5. オプトイン開始セット制作",
-    goal: "登録してすぐ参加できる入口一式を揃える。",
-    steps: ["動画埋め込みLP", "挨拶動画", "ヘッド指示", "サンキュー", "自動返信メール"],
-    outputs: ["オプトインLP本文", "挨拶動画台本", "ヘッド指示書", "サンキューページ", "自動返信メール"],
-    label: "原本あり",
+    name: "5. オプトイン開始セット",
+    summary: "登録ページ、登録後ページ、挨拶動画、自動返信まで、入口で必要な素材を揃える。",
+    items: [
+      {
+        name: "オプトインLP原稿",
+        make: "誰に、何を約束し、なぜ今参加するのかをLP本文として整理する。",
+        input: "コンセプト、プロフィール、ヘッド方向性",
+        output: "オプトインLP原稿",
+        href: "lp.html",
+      },
+      {
+        name: "ヘッドデザイン指示",
+        make: "ファーストビューで伝える約束、キーワード、デザイン方向を指示書にする。",
+        input: "プロモーションコンセプト、LP本文",
+        output: "ヘッドデザイン指示書",
+        href: "head.html",
+      },
+      {
+        name: "挨拶動画台本",
+        make: "登録直後に、参加理由、世界観、次アクションを伝える動画台本を作る。",
+        input: "LP、サンキューページ、参加導線",
+        output: "挨拶動画台本",
+        href: "script-opening.html",
+      },
+      {
+        name: "サンキューページ原稿",
+        make: "登録後にオープンチャット参加へ進めるための案内文を作る。",
+        input: "サンキューページURL、オープンチャットURL",
+        output: "サンキューページ原稿",
+        href: "lp.html",
+      },
+      {
+        name: "オプトイン自動返信",
+        make: "メール登録だけで止まった人をオープンチャットへ戻す自動返信を作る。",
+        input: "LP、サンキューページ、LINE導線",
+        output: "自動返信メール",
+        href: "stepmail.html",
+      },
+    ],
   },
   {
-    name: "6. LINE/メール導線制作",
-    goal: "登録者をLINEオープンチャットとライブ参加へ動かす。",
-    steps: ["OC固定ノート", "参加案内", "ライブ前リマインド", "課題提出導線", "未参加フォロー"],
-    outputs: ["固定ノート", "事務連絡", "定期配信", "課題受け取りLINE"],
-    label: "原本あり",
+    name: "6. 配信導線",
+    summary: "オープンチャット、メール、公式LINEを役割別に分け、参加と販売への移動を作る。",
+    items: [
+      {
+        name: "オープンチャット全体ポータル",
+        make: "参加者が最初に見る全体案内、ライブURL、課題、注意事項をまとめる。",
+        input: "オープンチャットURL、Day別テーマ、課題",
+        output: "全体ポータル文",
+        href: "line.html",
+      },
+      {
+        name: "オープンチャット固定投稿",
+        make: "固定しておくべき参加ルール、ライブ案内、課題導線を整える。",
+        input: "運用ルール、ライブ日程、課題フォーム",
+        output: "固定投稿",
+        href: "line.html",
+      },
+      {
+        name: "通常配信",
+        make: "Dayごとの案内、リマインド、課題提出、Q&A、未参加フォローを時系列に並べる。",
+        input: "Day別スケジュール、ライブ台本、課題",
+        output: "通常配信一覧",
+        href: "line.html",
+      },
+      {
+        name: "メルマガ件名と配信タイミング",
+        make: "オプトイン後、ライブ前、販売期に送るメールを目的別に整理する。",
+        input: "ステップメール、販売期配信",
+        output: "メール配信一覧",
+        href: "stepmail.html",
+      },
+      {
+        name: "公式LINE登録誘導",
+        make: "Day5後、レター希望者だけを公式LINEへ移動させる導線を作る。",
+        input: "Day5台本、販売ページ、公式LINE URL",
+        output: "公式LINE誘導文",
+        href: "line.html",
+      },
+    ],
   },
   {
-    name: "7. 動画/ライブ台本制作",
-    goal: "コンセプトを5日間の価値提供と販売導入に変換する。",
-    steps: ["Day1台本", "Day2台本", "Day3台本", "Day4台本", "Day5台本", "課題/特典"],
-    outputs: ["Day1〜Day5ライブ台本", "課題フォーム", "提出特典", "アーカイブ導線"],
-    label: "原本あり",
+    name: "7. 台本制作",
+    summary: "コンセプトを5日間の価値提供に変換し、Day5で販売導線へ接続する。",
+    items: [
+      {
+        name: "Day1〜Day5ライブ台本",
+        make: "各日の目的、教育テーマ、導入、メイン講義、課題、次回予告を整える。",
+        input: "全体カリキュラム、Day別テーマ、既存台本",
+        output: "Day1〜Day5ライブ台本",
+        href: "live-scripts.html",
+      },
+      {
+        name: "課題フォーム",
+        make: "各日の課題提出先、提出内容、提出後の動機づけを整理する。",
+        input: "ワーク/特典案、課題導線",
+        output: "課題フォーム構成",
+        href: "live-scripts.html",
+      },
+      {
+        name: "提出特典",
+        make: "課題提出者が受け取る特典や次アクションを明確にする。",
+        input: "特典案、チャレンジ目的",
+        output: "提出特典リスト",
+        href: "live-scripts.html",
+      },
+      {
+        name: "アーカイブ導線",
+        make: "ライブ未参加者や復習者が動画へ戻れる導線を作る。",
+        input: "動画URL、LINE配信、メール",
+        output: "アーカイブ案内",
+        href: "line.html",
+      },
+    ],
   },
   {
-    name: "8. 販売導線制作",
-    goal: "Day5後に公式LINEへ移動し、期間限定レターで販売する。",
-    steps: ["公式LINE登録誘導", "販売前メッセージ", "期間限定レター", "販売期配信", "購入完了案内"],
-    outputs: ["公式LINE誘導文", "セールスレター", "販売期メール", "販売期LINE", "購入完了ページ"],
-    label: "原本あり",
+    name: "8. 販売導線",
+    summary: "Day5後に公式LINEへ移動し、期間限定セールスレターで本命商品を販売する。",
+    items: [
+      {
+        name: "販売前メッセージ",
+        make: "レターを読む前に、誰に向けた案内なのか、なぜ今読むべきかを伝える。",
+        input: "Day5台本、オファーシート、公式LINE",
+        output: "販売前メッセージ",
+        href: "line.html",
+      },
+      {
+        name: "セールスレター",
+        make: "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を1本にまとめる。",
+        input: "コンセプト、オファー、プロフィール、実績素材",
+        output: "セールスレター",
+        href: "sales-page.html",
+      },
+      {
+        name: "販売期メール/LINE",
+        make: "公開、理由、事例、締切、最終案内の配信を目的別に整理する。",
+        input: "販売ページ、締切、購入導線",
+        output: "販売期配信一覧",
+        href: "stepmail.html",
+      },
+      {
+        name: "購入完了ページ",
+        make: "決済後に必要な参加案内と次アクションをまとめる。",
+        input: "購入後URL、運営連絡、参加導線",
+        output: "購入完了ページ",
+        href: "sales-page.html",
+      },
+    ],
   },
   {
     name: "9. 公開/改善",
-    goal: "URL、MD、HTML、添削結果をまとめて改善できる状態にする。",
-    steps: ["公開URL台帳", "MD原本保存", "HTML更新", "添削確認", "差し替え履歴"],
-    outputs: ["制作ポータル", "公開URL一覧", "原本MD", "添削レポート", "更新履歴"],
-    label: "順次",
+    summary: "公開URL、MD原本、添削結果、差し替え履歴をまとめ、改善できる状態にする。",
+    items: [
+      {
+        name: "公開URL台帳",
+        make: "LP、サンキュー、オープンチャット、公式LINE、販売ページ、購入完了ページのURLをまとめる。",
+        input: "公開済みURL",
+        output: "公開URL台帳",
+        href: "assets.html",
+      },
+      {
+        name: "MD原本保存",
+        make: "AIが再編集できるよう、各制作物のMD原本を一覧化する。",
+        input: "MDファイル、HTML、元素材",
+        output: "原本MD一覧",
+        href: "files.html",
+      },
+      {
+        name: "添削確認",
+        make: "公開物と設計シートを見比べ、田中祐一AIの構成に合わない箇所を直す。",
+        input: "公開ページ、フィードバック、設計シート",
+        output: "添削レポート",
+        href: "text-report.html",
+      },
+      {
+        name: "差し替え履歴",
+        make: "何を変更したか、どの公開URLへ反映したかを残す。",
+        input: "Git差分、公開確認、修正メモ",
+        output: "更新履歴",
+        href: "files.html",
+      },
+    ],
   },
 ];
 
@@ -529,6 +835,18 @@ function source(relative) {
 
 function linkedAssetTable(rows) {
   return `<table class="asset-table"><thead><tr><th>素材</th><th>役割</th><th>確認ページ</th></tr></thead><tbody>${rows.map(([label, detail, href]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td><td><a href="${esc(href)}">開く</a></td></tr>`).join("")}</tbody></table>`;
+}
+
+function roadmapJump(phases) {
+  return `<nav class="jump-nav">${phases.map((phase, index) => `<a href="#phase-${index + 1}">${esc(phase.name)}</a>`).join("")}</nav>`;
+}
+
+function roadmapPhaseSection(phase, index) {
+  return `<section class="panel roadmap-phase" id="phase-${index + 1}">
+<h2>${esc(phase.name)}</h2>
+<p class="note">${esc(phase.summary)}</p>
+<table class="asset-table roadmap-table"><thead><tr><th>項目</th><th>作るもの</th><th>入力/確認</th><th>完成アウトプット</th><th>確認先</th></tr></thead><tbody>${phase.items.map((item) => `<tr><td><strong>${esc(item.name)}</strong></td><td>${esc(item.make)}</td><td>${esc(item.input)}</td><td>${esc(item.output)}</td><td><a href="${esc(item.href)}">開く</a></td></tr>`).join("")}</tbody></table>
+</section>`;
 }
 
 function card(title, metaLabel, text, href = "") {
@@ -931,10 +1249,19 @@ li { margin: 4px 0; }
 .status.need { background: var(--danger-bg); color: var(--danger); }
 .pills { display: flex; flex-wrap: wrap; gap: 7px; }
 .pill { display: inline-flex; align-items: center; min-height: 24px; padding: 3px 9px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 12px; font-weight: 800; }
+.jump-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.3rem; }
+.jump-nav a { display: inline-flex; align-items: center; min-height: 36px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: #2d6f61; font-size: 14px; font-weight: 850; text-decoration: none; }
+.jump-nav a:hover { background: var(--soft); }
 .asset-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; font-size: .95rem; }
 .asset-table th, .asset-table td { padding: 13px 12px; border-top: 1px solid var(--line); text-align: left; vertical-align: top; }
 .asset-table th { background: linear-gradient(180deg, var(--main), var(--sub)); color: #fff; font-size: .86rem; font-weight: 800; border-top: 0; }
 .asset-table td p { color: var(--muted); font-size: 13px; }
+.roadmap-phase { scroll-margin-top: 18px; }
+.roadmap-table th:nth-child(1) { width: 18%; }
+.roadmap-table th:nth-child(2) { width: 32%; }
+.roadmap-table th:nth-child(3) { width: 22%; }
+.roadmap-table th:nth-child(4) { width: 18%; }
+.roadmap-table th:nth-child(5) { width: 10%; }
 .source-path { display: inline-block; margin-top: 6px; color: #607970; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; font-weight: 650; word-break: break-all; }
 .copy-box { margin-top: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: #26384c; white-space: pre-wrap; font-size: 14px; line-height: 1.82; }
 .note { padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); color: #426158; font-weight: 650; }
@@ -1120,12 +1447,13 @@ pages.set("roadmap.html", page({
   file: "roadmap.html",
   title: "制作工程表",
   eyebrow: "工程表",
-  lead: "細かい作業手順ではなく、ワンステップ販売型ファネルで必要な素材が揃っているかを確認する工程表です。",
-  body: `<section class="panel"><h2>全体設計で見る5素材</h2><p class="note">この案件はワンステップ販売型です。全体設計では、まず以下の5素材が組み込まれていれば十分です。</p>${linkedAssetTable(coreFunnelRows)}</section>
-<section class="panel"><h2>詳細設計で追加された素材</h2><p class="note">LP公開や販売開始に近づくほど、周辺素材の粒度を上げます。ここで自動返信、挨拶動画、公式LINE移動、購入完了ページなどを追加します。</p>${linkedAssetTable(detailedAssetRows)}</section>
-<section class="panel"><h2>第4章で決める制作量</h2><table class="asset-table"><thead><tr><th>領域</th><th>本数/点数</th><th>内容</th></tr></thead><tbody>${contentVolumeRows.map(([area, count, detail]) => `<tr><td>${esc(area)}</td><td><strong>${esc(count)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
+  lead: "各章で何を作るのかを、入力、完成アウトプット、確認ページまで分解して確認します。",
+  body: `<section class="panel"><h2>工程表の使い方</h2><p class="note">この工程表は、ワンステップ販売型ファネルを作るために必要な成果物を、章ごとではなく項目ごとに確認するためのものです。工程表の順番で素材を作り、前の章の成果物は後続のLP、配信、台本、販売導線で随時更新します。</p>${roadmapJump(roadmapPhases)}</section>
+<section class="panel"><h2>ワンステップ販売型の必須素材</h2><p class="note">全体設計では、まず以下の5素材がファネル内に組み込まれているかを確認します。</p>${linkedAssetTable(coreFunnelRows)}</section>
+<section class="panel flush"><h2>9章の詳細工程</h2></section>
+${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}
 <section class="panel"><h2>全体スケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>進めること</th></tr></thead><tbody>${scheduleRows.map(([timing, detail]) => `<tr><td>${esc(timing)}</td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel flush"><h2>9章の素材工程</h2><table class="asset-table"><thead><tr><th>章</th><th>揃える素材/目的</th><th>確認すること</th><th>完成アウトプット</th><th>状態</th></tr></thead><tbody>${roadmapRows.map((row) => `<tr><td><strong>${esc(row.name)}</strong></td><td>${esc(row.goal)}</td><td>${inlineList(row.steps)}</td><td>${pills(row.outputs)}</td><td>${status(row.label)}</td></tr>`).join("")}</tbody></table></section>`}));
+<section class="panel"><h2>制作ボリューム</h2><table class="asset-table"><thead><tr><th>領域</th><th>本数/点数</th><th>内容</th></tr></thead><tbody>${contentVolumeRows.map(([area, count, detail]) => `<tr><td>${esc(area)}</td><td><strong>${esc(count)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>`}));
 
 pages.set("kpi.html", page({
   file: "kpi.html",

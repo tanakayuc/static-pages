@@ -50,12 +50,43 @@ const forbidden = [
 const contentChecks = [
   ["index.html", "田中祐一様の制作パッケージ"],
   ["index.html", "期間限定セールスレター"],
-  ["roadmap.html", "全体設計で見る5素材"],
+  ["roadmap.html", "工程表の使い方"],
   ["roadmap.html", "ワンステップ販売型"],
-  ["roadmap.html", "詳細設計で追加された素材"],
+  ["roadmap.html", "9章の詳細工程"],
+  ["roadmap.html", "項目"],
+  ["roadmap.html", "作るもの"],
+  ["roadmap.html", "入力/確認"],
+  ["roadmap.html", "完成アウトプット"],
+  ["roadmap.html", "目的意識を明確にする"],
+  ["roadmap.html", "販売したい商品を決める"],
+  ["roadmap.html", "販売ファネルを決める"],
+  ["roadmap.html", "KPI仮設定"],
+  ["roadmap.html", "2. コンセプト設計"],
+  ["roadmap.html", "ターゲットシート作成"],
+  ["roadmap.html", "ライバル情報の整理"],
+  ["roadmap.html", "空いている訴求の特定"],
+  ["roadmap.html", "3. オファー設計"],
+  ["roadmap.html", "商品オファーシート"],
+  ["roadmap.html", "サポート期間"],
+  ["roadmap.html", "4. コンテンツ設計"],
+  ["roadmap.html", "全体カリキュラム"],
+  ["roadmap.html", "Day別テーマ"],
+  ["roadmap.html", "コアシナリオ"],
+  ["roadmap.html", "ワーク/特典案"],
+  ["roadmap.html", "5. オプトイン開始セット"],
+  ["roadmap.html", "オプトインLP原稿"],
+  ["roadmap.html", "サンキューページ原稿"],
+  ["roadmap.html", "6. 配信導線"],
+  ["roadmap.html", "オープンチャット固定投稿"],
+  ["roadmap.html", "メルマガ件名と配信タイミング"],
+  ["roadmap.html", "7. 台本制作"],
+  ["roadmap.html", "Day1〜Day5ライブ台本"],
+  ["roadmap.html", "8. 販売導線"],
+  ["roadmap.html", "セールスレター"],
+  ["roadmap.html", "9. 公開/改善"],
+  ["roadmap.html", "公開URL台帳"],
+  ["roadmap.html", "MD原本保存"],
   ["roadmap.html", "セールスレター販売"],
-  ["roadmap.html", "コンテンツ本数表"],
-  ["roadmap.html", "チャレンジ項目一覧"],
   ["roadmap.html", "全体スケジュール"],
   ["concept.html", "田中祐一AIのコンセプト設計フロー"],
   ["concept.html", "プロダクト理解"],
@@ -217,8 +248,8 @@ for (const snippet of ["決済後の流れ", "決済確認", "Chatwork申請", "
   if (read("offer.html").includes(snippet)) fail(`offer.html should not include ${snippet}`);
 }
 
-const roadmapPhaseRows = (read("roadmap.html").match(/<td><strong>[0-9]\./g) || []).length;
-if (roadmapPhaseRows !== 9) fail(`roadmap phase rows expected 9, got ${roadmapPhaseRows}`);
+const roadmapPhaseSections = (read("roadmap.html").match(/id="phase-[0-9]"/g) || []).length;
+if (roadmapPhaseSections !== 9) fail(`roadmap phase sections expected 9, got ${roadmapPhaseSections}`);
 
 for (const file of requiredPages) {
   const html = read(file);
