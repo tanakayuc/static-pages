@@ -1151,7 +1151,7 @@ pages.set("sheets.html", page({
  ${conceptItem(2, "リサーチシート", "Research", "ターゲットが見ているライバル、比較対象、取りこぼし、3C分析、空きポジション、ずらし方、ターゲット感情を整理する。", ["コンセプトの根拠になる市場・競合・顧客理解を置く。"])}
  ${conceptItem(3, "プロフィール", "Profile", "LP、ライブ冒頭、セールスページで信頼形成に使う田中祐一プロフィールを置く。")}
  ${conceptItem(4, "コンフィグ", "Config", "田中祐一AIが制作判断するときの視点、トーン、避ける表現、制作物ごとの優先順位を置く。")}
-${conceptItem(5, "オファーシート", "Offer", "商品名、特徴、サポート期間、価格戦略、特典、返金保証を中心に、本命商品として提示する条件を整理する。")}
+${conceptItem(5, "オファーシート", "Offer", "何を提供するのか、それがいくらなのかを中心に、本命商品として提示する条件を整理する。")}
  ${conceptItem(6, "ヘッドデザイン指示書", "Design", "LPとセールスページのファーストビューで、誰に何を約束するかを視覚化する。")}
  </div></section>`}));
 
@@ -1250,32 +1250,25 @@ pages.set("offer.html", page({
   file: "offer.html",
   title: "オファーシート",
   eyebrow: "設計シート",
-  lead: "本命商品のオファーとして、商品名、特徴、サポート期間、価格戦略、特典、返金保証を整理します。",
-  body: `<section class="panel"><h2>商品オファーシート</h2><table class="asset-table"><thead><tr><th>項目</th><th>タイトル</th><th>詳細</th></tr></thead><tbody>
+  lead: "本命商品のオファーとして、何を提供するのか、それがいくらなのかをシンプルに整理します。",
+  body: `<section class="panel"><h2>1. 何を提供するのか</h2><table class="asset-table"><thead><tr><th>項目</th><th>内容</th><th>詳細</th></tr></thead><tbody>
 <tr><td><strong>商品名</strong></td><td>45日間Webマーケター“超”実践ブートキャンプ</td><td>45日で売る流れを体感し、Webマーケターとして最初の成功体験を掴む実践プログラム。</td></tr>
-<tr><td><strong>特徴</strong></td><td>前半15日間 + 後半30日間のチーム戦</td><td>前半15日間でプロの思考OSをインストールし、後半30日間でチーム運用、顔出し不要のInstagramアカウント運用、note販売まで実践する。</td></tr>
-<tr><td><strong>特徴</strong></td><td>最初の売上を安全に作る</td><td>クライアント案件の前に、自分たちで集客から販売までをやり切り、最初の小さな売上体験を作る。</td></tr>
-<tr><td><strong>特徴</strong></td><td>プロの現場を疑似体験する</td><td>チーム専用Chatworkと全体サポート用Chatworkを使い、クライアントワークに近い進捗共有、作戦会議、全体報告を体験する。</td></tr>
-<tr><td><strong>サポート期間</strong></td><td>45日間</td><td>アカウント設計&役割分担: 2025年10月6日〜10月21日。アカウント投稿&販売: 2025年10月21日〜11月19日。</td></tr>
-<tr><td><strong>価格戦略</strong></td><td>実践コース 69,800円（税込）</td><td>次回以降は99,800円で提供予定。5日間チャレンジ参加者向けの今回限りの特別価格として提示する。</td></tr>
-<tr><td><strong>価格戦略</strong></td><td>見るだけプラン / 教材プラン 49,800円（税込）</td><td>チーム実践や直接サポートはなし。実践コースの活動をウォッチし、講義動画と特典を受け取る。ナレハブは付かない。</td></tr>
-<tr><td><strong>価格戦略</strong></td><td>4日間限定</td><td>受付は9月18日21時から9月21日21時まで。短い募集期間で決断理由を作る。</td></tr>
+<tr><td><strong>メインプログラム</strong></td><td>前半15日間 + 後半30日間のチーム戦</td><td>前半15日間でプロの思考OSをインストールし、後半30日間でチーム運用、顔出し不要のInstagramアカウント運用、note販売まで実践する。</td></tr>
+<tr><td><strong>実践環境</strong></td><td>最初の売上を安全に作る場</td><td>クライアント案件の前に、自分たちで集客から販売までをやり切り、最初の小さな売上体験を作る。</td></tr>
+<tr><td><strong>サポート</strong></td><td>プロの現場を疑似体験するChatwork環境</td><td>チーム専用Chatworkと全体サポート用Chatworkを使い、クライアントワークに近い進捗共有、作戦会議、全体報告を体験する。</td></tr>
+<tr><td><strong>サポート</strong></td><td>田中祐一による毎週1回のライブフォローアップ</td><td>45日間の進捗を支え、実践中の詰まりを全体で解消する。</td></tr>
+<tr><td><strong>サポート</strong></td><td>インスタ専門家による週次添削サポート</td><td>プロの視点から投稿や運用を改善し、チーム実践を前に進める。</td></tr>
 <tr><td><strong>特典</strong></td><td>5日間チャレンジ プロモーション素材一式</td><td>LP、セールスレター、動画シナリオ、各種クリエイティブなど、今回の5日間チャレンジで使った全設計図と全素材を丸ごと譲渡する。</td></tr>
 <tr><td><strong>特典</strong></td><td>7つの絶対達成パッケージ</td><td>45日間の行動を前に進めるための補助パッケージとして提示する。詳細名称はセールスページ側で追加確認する。</td></tr>
 <tr><td><strong>特典</strong></td><td>ナレハブ6か月無料</td><td>マーケティングを学ぶ完全招待制コミュニティ。3か月に1度の勉強会、動画教材、参加者だけの懇親会を含む。見るだけプラン/教材プランには付かない。</td></tr>
 <tr><td><strong>特典</strong></td><td>PLC差額参加の権利</td><td>実践コース参加者は、1年以内にPLCへ参加する場合、今回の商品購入費用との差額で参加できる。</td></tr>
 <tr><td><strong>返金保証</strong></td><td>返金保証なし</td><td>売上保証や返金保証で安心させる商品ではなく、何度でもテストできる最高の環境と本物の哲学を提供する方針。</td></tr>
 </tbody></table></section>
-<section class="panel"><h2>プラン別整理</h2><table class="asset-table"><thead><tr><th>プラン</th><th>価格</th><th>含まれるもの</th></tr></thead><tbody>
+<section class="panel"><h2>2. それがいくらなのか</h2><table class="asset-table"><thead><tr><th>プラン</th><th>価格</th><th>含まれるもの</th></tr></thead><tbody>
 <tr><td><strong>実践コース</strong></td><td>69,800円（税込）</td><td>45日間の実践、チーム戦、全特典、サポート、ナレハブ、PLC差額参加の権利。</td></tr>
 <tr><td><strong>見るだけプラン</strong></td><td>49,800円（税込）</td><td>実践コースの活動をウォッチできる。講義動画とプロモーション素材一式を受け取れる。直接サポートとナレハブはなし。</td></tr>
 <tr><td><strong>教材プラン</strong></td><td>49,800円（税込）</td><td>講義動画とプロモーション素材一式を受け取れる。チーム実践、直接サポート、ナレハブはなし。</td></tr>
-</tbody></table></section>
-<section class="panel"><h2>決済後の流れ</h2><div class="concept-sequence">
-${conceptItem(1, "決済確認", "Payment", "決済確認後、自動返信にあるキーワードを公式LINEへ送る。")}
-${conceptItem(2, "Chatwork申請", "Onboarding", "プロジェクト運営者のChatworkアカウントにコンタクト申請する。")}
-${conceptItem(3, "グループ参加", "Start", "Chatworkグループに参加し、45日間の実践を開始する。")}
-</div></section>`}));
+</tbody></table><p class="quote">受付は9月18日21時から9月21日21時までの4日間限定。実践コースは次回以降99,800円で提供予定のところ、5日間チャレンジ参加者向けに69,800円で提示する。</p></section>`}));
 
 pages.set("assets.html", page({
   file: "assets.html",

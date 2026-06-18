@@ -88,20 +88,23 @@ const contentChecks = [
   ["research.html", "ずらし方"],
   ["research.html", "ターゲットの感情"],
   ["research.html", "LP/動画に使う論点"],
-  ["offer.html", "商品オファーシート"],
   ["offer.html", "商品名"],
-  ["offer.html", "特徴"],
-  ["offer.html", "サポート期間"],
-  ["offer.html", "価格戦略"],
+  ["offer.html", "1. 何を提供するのか"],
+  ["offer.html", "2. それがいくらなのか"],
+  ["offer.html", "メインプログラム"],
+  ["offer.html", "実践環境"],
+  ["offer.html", "サポート"],
   ["offer.html", "特典"],
   ["offer.html", "返金保証"],
-  ["offer.html", "実践コース 69,800円（税込）"],
-  ["offer.html", "見るだけプラン / 教材プラン 49,800円（税込）"],
+  ["offer.html", "実践コース"],
+  ["offer.html", "69,800円（税込）"],
+  ["offer.html", "見るだけプラン"],
+  ["offer.html", "教材プラン"],
+  ["offer.html", "49,800円（税込）"],
   ["offer.html", "5日間チャレンジ プロモーション素材一式"],
   ["offer.html", "ナレハブ6か月無料"],
   ["offer.html", "PLC差額参加の権利"],
   ["offer.html", "返金保証なし"],
-  ["offer.html", "決済後の流れ"],
   ["head.html", "セールスページヘッド"],
   ["assets.html", "サンキューページ"],
   ["assets.html", "https://sub.the-lead10.com/p/webmarketer_thanks"],
@@ -207,6 +210,9 @@ for (const [file, snippet] of contentChecks) {
 
 for (const file of ["concept.html", "profile.html", "config.html", "research.html", "offer.html"]) {
   if (read(file).includes("source-path")) fail(`${file} should not expose source paths`);
+}
+for (const snippet of ["決済後の流れ", "決済確認", "Chatwork申請", "グループ参加", "価格戦略"]) {
+  if (read("offer.html").includes(snippet)) fail(`offer.html should not include ${snippet}`);
 }
 
 const roadmapPhaseRows = (read("roadmap.html").match(/<td><strong>[0-9]\./g) || []).length;
