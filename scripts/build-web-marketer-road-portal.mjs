@@ -97,11 +97,13 @@ const individualProductionRows = [
 
 const researchFlowRows = [
   ["1. ターゲット仮説", "誰が、何と比較して、どこで止まっているのかを仮置きする。", "ターゲット仮説"],
-  ["2. 同業ライバル抽出", "見込み客が比較しそうな同業ライバルを5人挙げる。現時点では指定4名を確定枠とし、5人目は追加候補枠として残す。", "ライバル候補リスト"],
+  ["2. 同業ライバル抽出", "見込み客が比較しそうな同業ライバルを5件挙げる。個人講座系だけでなく、BtoB支援会社や書籍導線も含める。", "ライバル候補リスト"],
   ["3. 媒体別リサーチ", "Instagram、YouTube、ホームページで何を訴求しているかを見る。", "媒体別観察メモ"],
-  ["4. 訴求軸の比較", "誰向けか、何を約束しているか、何を信じさせているか、何をオファーしているかを並べる。", "訴求比較表"],
-  ["5. 取りこぼし抽出", "ライバルが強いからこそ拾えていない顧客、違和感、空白を探す。", "取りこぼし顧客"],
-  ["6. コンセプト接続", "空きポジション、旧世界/新世界、真の原因、ベネフィットへ変換する。", "コンセプト素材"],
+  ["4. 強み分析", "競合がどこで勝っているのか、なぜ選ばれているのかを整理する。", "競合の強み"],
+  ["5. 狙い目の弱み抽出", "強みの裏側で拾えていない顧客、違和感、空白を探す。", "突きやすいポイント"],
+  ["6. 勝てるポイント整理", "自社の実績、思想、商品、文化を組み合わせ、勝てそうな場所を決める。", "勝ち筋"],
+  ["7. ターゲット接続", "ターゲットの未充足欲求と勝ち筋をつなぎ、動ける理由に変換する。", "ターゲット接続"],
+  ["8. コンセプト接続", "空きポジション、旧世界/新世界、真の原因、ベネフィット、訴求表現へ変換する。", "コンセプト素材"],
 ];
 
 const competitorResearchRows = [
@@ -137,6 +139,14 @@ const competitorResearchRows = [
     concept: "強みは、コンセプト開発とコンサル型ビジネスの上位設計。今回の空きは、講座主宰者になる前に、現場でファネルを動かす右腕人材の道。",
     sources: [["公式サイト", "https://kitanotetsumasa.com/"], ["Instagram", "https://www.instagram.com/tetsumasakitano/"], ["YouTube", "https://www.youtube.com/user/parade01"]],
   },
+  {
+    name: "才流（サイル）",
+    instagram: "個人インフルエンサー型のInstagramより、BtoB企業向けのホームページ、メソッド記事、資料DL、セミナー、書籍・メディア露出が主導線。",
+    youtube: "才流のBtoBチャンネルで、新規事業、BtoBマーケティング、営業、施策設計などをコンサルタントが解説する。",
+    website: "BtoBマーケティング、法人営業、新規事業開発の支援会社として、サービス、知見、事例、資料、書籍・メディア掲載を体系的に配置している。",
+    concept: "強みは、BtoBの方法論、メソッド化、書籍化、法人向け信頼形成。今回の空きは、企業向け専門会社ほど堅くなく、個人が実践で売上導線を体験できる入口。",
+    sources: [["公式サイト", "https://sairu.co.jp/"], ["知見", "https://sairu.co.jp/method/"], ["書籍・メディア", "https://sairu.co.jp/media/"], ["YouTube", "https://www.youtube.com/channel/UCp6q-DNpHwyOsHLmINB2ZKw"]],
+  },
 ];
 
 const researchCutRows = [
@@ -146,6 +156,22 @@ const researchCutRows = [
   ["どの媒体を主戦場にしているか", "Instagram、YouTube、ホームページ、メルマガ、LINE、コミュニティの使い方を見る。"],
   ["何を取りこぼしているか", "顔出しが苦手、自分の商品がない、スターになりたくない、単体スキルでは不安という層が残っていないかを見る。"],
   ["田中祐一AIならどうずらすか", "本人が目立つ道ではなく、社長の右腕として売上導線を支えるWebマーケターへ変換する。"],
+];
+
+const positioningLogicRows = [
+  ["競合の強み", "相手がどの市場、媒体、実績、思想、オファーで選ばれているのかを見る。"],
+  ["狙い目となる弱み", "強みの裏側で、ターゲットがついていけない点、重く感じる点、未充足の点を探す。"],
+  ["自分が勝てそうなポイント", "田中祐一AI側の実績、プロダクトローンチ、全員で勝つ文化、実践環境、素材一式提供を掛け合わせる。"],
+  ["ターゲットとの接続", "顔出しが苦手、自分の商品がない、でも売上に関わりたい会社員が動ける理由に変換する。"],
+  ["訴求表現", "空きポジションを一文で言えるようにし、LP、動画、ステップメール、セールスレターへ展開する。"],
+];
+
+const competitorPositionRows = [
+  ["YCS 横山直宏さん", "自分らしさ、共感、経営者コミュニティ、ファンマーケティング。", "経営者本人の価値観や発信が前提になりやすい。", "前に出る経営者ではなく、裏方としてプロモーションを支える道を出せる。", "顔出しや自己表現が苦手な会社員。", "自分らしく発信できなくても、社長の右腕として売上を支える道がある。"],
+  ["YouTubeマーケターおさるさん", "SNS動画、コンテンツ販売、高い実績、スピード感。", "個人発信力、スター性、SNSで伸ばす前提が重く見える。", "SNSで目立つ前に、ファネル全体を理解して売上導線に関われる入口を出せる。", "発信は苦手だがマーケティングには興味がある会社員。", "目立つ人にならなくても、売れる仕組みを支えるWebマーケターになれる。"],
+  ["仙道達也さん", "魂の差別化、個人起業家のコンセプト作り、伴走支援。", "自分の商品や強い内的テーマがない人は入り口で止まりやすい。", "自分の商品ではなく、他者の価値を売れる形にするプロデューサー的実践を出せる。", "商品作りから始めることに抵抗がある会社員。", "自分の商品がなくても、価値ある商品を世に出す側に回れる。"],
+  ["北野哲正さん", "AHAコンセプト、講座ビジネス、コンサル型ビジネスの上位設計。", "講座主宰者やコンサルとして独立する前提が強く見える。", "主宰者になる前に、現場でファネルを動かす右腕人材という段階を提示できる。", "独立や講座主宰にはまだ早いと感じる会社員。", "講座を売る人になる前に、講座が売れる構造を作る人になれる。"],
+  ["才流（サイル）", "BtoB支援会社としての信頼、メソッド、事例、書籍・メディア、資料DL導線。", "法人向けで堅く、未経験個人が最初の実践体験へ入る導線にはなりにくい。", "BtoBマーケの体系性を尊重しつつ、個人が小さく実践して売上導線を体験できる場を出せる。", "BtoBやマーケ職に興味はあるが、実績や会社内ポジションがまだない会社員。", "BtoBの正攻法を学ぶ前に、まず小さなファネルを回してマーケターの感覚を掴む。"],
 ];
 
 const tanakaProfileMarkdown = `## 講師プロフィール
@@ -933,6 +959,23 @@ function competitorResearchTable() {
 </article>`).join("")}</div>`;
 }
 
+function competitorPositionCards() {
+  return `<div class="concept-sequence">${competitorPositionRows.map(([name, strength, weakness, win, target, appeal], index) => `<article class="concept-item">
+<span class="concept-number">${String(index + 1).padStart(2, "0")}</span>
+<div>
+<span class="meta">Positioning</span>
+<h3>${esc(name)}</h3>
+<table class="asset-table compact-table"><tbody>
+<tr><th>競合の強み</th><td>${esc(strength)}</td></tr>
+<tr><th>狙い目となる弱み</th><td>${esc(weakness)}</td></tr>
+<tr><th>自分が勝てそうなポイント</th><td>${esc(win)}</td></tr>
+<tr><th>ターゲット接続</th><td>${esc(target)}</td></tr>
+<tr><th>訴求表現</th><td>${esc(appeal)}</td></tr>
+</tbody></table>
+</div>
+</article>`).join("")}</div>`;
+}
+
 function roadmapJump(phases) {
   return `<nav class="jump-nav">${phases.map((phase, index) => `<a href="#phase-${index + 1}">${esc(phase.name)}</a>`).join("")}</nav>`;
 }
@@ -1648,11 +1691,13 @@ pages.set("research.html", page({
   lead: "コンセプトを導き出す前半戦として、同業ライバル、媒体別発信、取りこぼし、空きポジションを整理します。",
   body: `<section class="panel"><h2>リサーチ目的</h2><p class="note">リサーチはコンセプトの前半戦です。市場を広く眺めるだけではなく、ターゲットが見ているライバル、見込み客が何と比較し、どこで諦め、どの空きポジションなら動けるかを確認し、コンセプトシートへ渡す材料を作ります。</p></section>
 <section class="panel"><h2>リサーチの順番</h2><table class="asset-table"><thead><tr><th>順番</th><th>見ること</th><th>完成アウトプット</th></tr></thead><tbody>${researchFlowRows.map(([step, detail, output]) => `<tr><td><strong>${esc(step)}</strong></td><td>${esc(detail)}</td><td>${esc(output)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel"><h2>同業ライバルリサーチ</h2><p class="note">まずは同業ライバルを5人挙げる前提で進めます。現時点では、リスペクトを込めた確定調査枠として以下4名を置き、5人目は追加候補枠として残します。</p>${competitorResearchTable()}</section>
+<section class="panel"><h2>同業ライバルリサーチ</h2><p class="note">まずは同業ライバルを5件挙げる前提で進めます。個人講座系4名に加え、BtoB支援会社・書籍/メディア導線の比較対象として才流を入れます。</p>${competitorResearchTable()}</section>
 <section class="panel"><h2>リサーチの切り口</h2><table class="asset-table"><thead><tr><th>切り口</th><th>見ること</th></tr></thead><tbody>${researchCutRows.map(([label, detail]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
+<section class="panel"><h2>空きポジション分析ロジック</h2><p class="note">空きポジションは、競合の強みを否定して探すのではなく、強みの裏側にある未充足を見つけ、自社が勝てそうな点とターゲットの未充足欲求を接続して作ります。</p><table class="asset-table"><thead><tr><th>観点</th><th>見ること</th></tr></thead><tbody>${positioningLogicRows.map(([label, detail]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
+<section class="panel"><h2>空きポジション分析結果</h2>${competitorPositionCards()}</section>
 <section class="panel"><h2>3C分析</h2><div class="concept-sequence">
 ${conceptItem(1, "Customer", "顧客", "顔出しや商品作りに抵抗があり、発信者として目立つことに違和感がある会社員。真面目さや支援力はあるが、売上に関わる経験がない。")}
-${conceptItem(2, "Competitor", "競合", "横山直宏さんは自分らしい経営と温かいコミュニティ、おさるさんはSNS動画とコンテンツ販売、仙道達也さんは魂の差別化と伴走支援、北野哲正さんはAHAコンセプトとコンサル型ビジネスに強い。")}
+${conceptItem(2, "Competitor", "競合", "横山直宏さんは自分らしい経営と温かいコミュニティ、おさるさんはSNS動画とコンテンツ販売、仙道達也さんは魂の差別化と伴走支援、北野哲正さんはAHAコンセプトとコンサル型ビジネス、才流はBtoBメソッドと書籍・メディア導線に強い。")}
 ${conceptItem(3, "Company", "自社", "売上導線、プロモーション全体、プロダクトローンチ、コンテンツホルダー支援、全員で勝つ文化を持つ。")}
 </div></section>
 <section class="panel"><h2>ライバルが取りこぼしている顧客</h2><div class="concept-sequence">
