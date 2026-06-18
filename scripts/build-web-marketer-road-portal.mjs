@@ -95,6 +95,59 @@ const individualProductionRows = [
   ["ヘッド/デザイン指示", "LPとセールスページのファーストビュー指示", "head.html", "工程2 / 工程5"],
 ];
 
+const researchFlowRows = [
+  ["1. ターゲット仮説", "誰が、何と比較して、どこで止まっているのかを仮置きする。", "ターゲット仮説"],
+  ["2. 同業ライバル抽出", "見込み客が比較しそうな同業ライバルを5人挙げる。現時点では指定4名を確定枠とし、5人目は追加候補枠として残す。", "ライバル候補リスト"],
+  ["3. 媒体別リサーチ", "Instagram、YouTube、ホームページで何を訴求しているかを見る。", "媒体別観察メモ"],
+  ["4. 訴求軸の比較", "誰向けか、何を約束しているか、何を信じさせているか、何をオファーしているかを並べる。", "訴求比較表"],
+  ["5. 取りこぼし抽出", "ライバルが強いからこそ拾えていない顧客、違和感、空白を探す。", "取りこぼし顧客"],
+  ["6. コンセプト接続", "空きポジション、旧世界/新世界、真の原因、ベネフィットへ変換する。", "コンセプト素材"],
+];
+
+const competitorResearchRows = [
+  {
+    name: "YCS 横山直宏さん",
+    instagram: "自分らしさ、経営、SNS/ファンマーケティング、活動報告を広く発信。Instagramは約6.7万フォロワー規模の導線として確認。",
+    youtube: "YCS会員と主宰・横山さんの対談動画を中心に、受講生の成果やコミュニティの雰囲気を見せる。",
+    website: "YCSは、想いや共感を重視し、経営者コミュニティ、実践と継続サポート、オーダーメイド戦略を打ち出す。",
+    concept: "強みは、経営者本人の価値観とコミュニティの温かさを軸にしたファン作り。今回の空きは、経営者本人ではなく、裏方でプロモーションを支える実践者ポジション。",
+    sources: [["公式サイト", "https://yokoyamanaohiro.com/"], ["YCS", "https://ycs.ctw-hd.com/"], ["Instagram", "https://www.instagram.com/naohiro518/"], ["YouTube", "https://www.youtube.com/@YCS-jissensya"]],
+  },
+  {
+    name: "YouTubeマーケターおさるさん",
+    instagram: "SNS集客、ローンチ、海外マーケ、実績訴求を前面に出す。Instagramでは大きな実績と教育者からの転身ストーリーが目立つ。",
+    youtube: "YouTubeマーケティング、SNS動画、コンテンツ販売、受講生対談など、動画起点の集客と販売を見せる。",
+    website: "おさるマーケティング講座は、セールスファネル、商品設計、集客、YouTube、LINE/メルマガ、ローンチ動画、セールスまで幅広く体系化している。",
+    concept: "強みは、SNS動画とコンテンツ販売を高実績で見せるスピード感。今回の空きは、スター性や個人発信の強さを前提にしない会社員向けの裏方導線。",
+    sources: [["公式サイト", "https://osaru-marketing.com/"], ["Instagram", "https://www.instagram.com/marketer_osaru1/"], ["YouTube", "https://www.youtube.com/@marketerosaru"]],
+  },
+  {
+    name: "仙道達也さん",
+    instagram: "起業家育成、差別化、商品作り、ライブ発信、コーチ/コンサル/セラピスト向けの実績を発信。",
+    youtube: "仙道塾、起業家育成、独自コンセプト、差別化、商品設計など、個人起業家向けの教育コンテンツが中心。",
+    website: "仙道塾は、マインドセット、魂の差別化、再現性の高い集客ステップ、伴走サポートを訴求する。",
+    concept: "強みは、個人の内側から独自コンセプトを作る支援。今回の空きは、自分の魂の商品を作る前段階で、他者の価値を売れる形にするマーケター導線。",
+    sources: [["仙道塾", "https://i-shift.com/sendojuku/"], ["Instagram", "https://www.instagram.com/sendo.tatsuya/"], ["YouTube", "https://www.youtube.com/channel/UChHXdmU6rFyqWjDfEILR7ng"]],
+  },
+  {
+    name: "北野哲正さん",
+    instagram: "AHAコンセプト、講座ビジネス、コンサル起業、マーケティングコーチ養成、AI活用を発信。",
+    youtube: "コンサル型ビジネス、コンテンツビジネス、講座ビジネス、マーケティングコーチ養成に関する発信が中心。",
+    website: "公式サイトはマーケティングコーチ養成を軸に、ブログ、成功事例、サービス、無料コンテンツ、メルマガ導線を持つ。",
+    concept: "強みは、コンセプト開発とコンサル型ビジネスの上位設計。今回の空きは、講座主宰者になる前に、現場でファネルを動かす右腕人材の道。",
+    sources: [["公式サイト", "https://kitanotetsumasa.com/"], ["Instagram", "https://www.instagram.com/tetsumasakitano/"], ["YouTube", "https://www.youtube.com/user/parade01"]],
+  },
+];
+
+const researchCutRows = [
+  ["誰に向けているか", "経営者、個人起業家、講師、コーチ、コンサル、SNSで伸ばしたい人など、対象の違いを見る。"],
+  ["何を約束しているか", "売上、集客、ファン化、差別化、コンテンツ販売、講座ビジネス化など、見込み客が欲しい未来を見る。"],
+  ["何を信じさせているか", "自分らしさ、SNS動画、魂の差別化、AHAコンセプトなど、行動の前提になる信念を見る。"],
+  ["どの媒体を主戦場にしているか", "Instagram、YouTube、ホームページ、メルマガ、LINE、コミュニティの使い方を見る。"],
+  ["何を取りこぼしているか", "顔出しが苦手、自分の商品がない、スターになりたくない、単体スキルでは不安という層が残っていないかを見る。"],
+  ["田中祐一AIならどうずらすか", "本人が目立つ道ではなく、社長の右腕として売上導線を支えるWebマーケターへ変換する。"],
+];
+
 const tanakaProfileMarkdown = `## 講師プロフィール
 
 **田中祐一**
@@ -859,6 +912,27 @@ function individualProductionTable() {
   return `<table class="asset-table"><thead><tr><th>個別制作物</th><th>中身</th><th>入る場所</th><th>工程</th></tr></thead><tbody>${individualProductionRows.map(([label, detail, href, phase]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td><td><a href="${esc(href)}">開く</a></td><td>${esc(phase)}</td></tr>`).join("")}</tbody></table>`;
 }
 
+function sourceLinks(items) {
+  return items.map(([label, href]) => `<a href="${esc(href)}">${esc(label)}</a>`).join(" / ");
+}
+
+function competitorResearchTable() {
+  return `<div class="concept-sequence">${competitorResearchRows.map((row, index) => `<article class="concept-item">
+<span class="concept-number">${String(index + 1).padStart(2, "0")}</span>
+<div>
+<span class="meta">Competitor</span>
+<h3>${esc(row.name)}</h3>
+<table class="asset-table compact-table"><tbody>
+<tr><th>Instagram</th><td>${esc(row.instagram)}</td></tr>
+<tr><th>YouTube</th><td>${esc(row.youtube)}</td></tr>
+<tr><th>ホームページ</th><td>${esc(row.website)}</td></tr>
+<tr><th>コンセプトへの示唆</th><td>${esc(row.concept)}</td></tr>
+<tr><th>参照</th><td>${sourceLinks(row.sources)}</td></tr>
+</tbody></table>
+</div>
+</article>`).join("")}</div>`;
+}
+
 function roadmapJump(phases) {
   return `<nav class="jump-nav">${phases.map((phase, index) => `<a href="#phase-${index + 1}">${esc(phase.name)}</a>`).join("")}</nav>`;
 }
@@ -1571,23 +1645,20 @@ pages.set("research.html", page({
   file: "research.html",
   title: "リサーチシート",
   eyebrow: "設計シート",
-  lead: "ターゲットが見ているライバル、取りこぼし、3C、空きポジションを整理し、コンセプトの根拠を確認します。",
-  body: `<section class="panel"><h2>リサーチ目的</h2><p class="note">市場を広く眺めるだけではなく、見込み客が何と比較し、どこで諦め、どの空きポジションなら動けるかを確認します。</p></section>
-<section class="panel"><h2>ターゲットが見ているライバル</h2><div class="concept-sequence">
-${conceptItem(1, "SNS起業/インフルエンサー型", "Competitor", "自分の名前で売れる、華やかに見える。", ["取りこぼし: 顔出しや発信が苦手な会社員には重い。"])}
-${conceptItem(2, "Web制作スクール", "Competitor", "スキルが明確で始めやすい。", ["取りこぼし: 時給型、作業者型に留まりやすく、売上全体の設計に入りにくい。"])}
-${conceptItem(3, "広告運用講座", "Competitor", "数字に近く収益化のイメージを持ちやすい。", ["取りこぼし: コンセプト、教育、オファー、販売導線まで踏み込みにくい。"])}
-${conceptItem(4, "AI副業系", "Competitor", "新しさと話題性がある。", ["取りこぼし: 実践環境や実績作りが曖昧になりやすい。"])}
-</div></section>
+  lead: "コンセプトを導き出す前半戦として、同業ライバル、媒体別発信、取りこぼし、空きポジションを整理します。",
+  body: `<section class="panel"><h2>リサーチ目的</h2><p class="note">リサーチはコンセプトの前半戦です。市場を広く眺めるだけではなく、ターゲットが見ているライバル、見込み客が何と比較し、どこで諦め、どの空きポジションなら動けるかを確認し、コンセプトシートへ渡す材料を作ります。</p></section>
+<section class="panel"><h2>リサーチの順番</h2><table class="asset-table"><thead><tr><th>順番</th><th>見ること</th><th>完成アウトプット</th></tr></thead><tbody>${researchFlowRows.map(([step, detail, output]) => `<tr><td><strong>${esc(step)}</strong></td><td>${esc(detail)}</td><td>${esc(output)}</td></tr>`).join("")}</tbody></table></section>
+<section class="panel"><h2>同業ライバルリサーチ</h2><p class="note">まずは同業ライバルを5人挙げる前提で進めます。現時点では、リスペクトを込めた確定調査枠として以下4名を置き、5人目は追加候補枠として残します。</p>${competitorResearchTable()}</section>
+<section class="panel"><h2>リサーチの切り口</h2><table class="asset-table"><thead><tr><th>切り口</th><th>見ること</th></tr></thead><tbody>${researchCutRows.map(([label, detail]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
 <section class="panel"><h2>3C分析</h2><div class="concept-sequence">
 ${conceptItem(1, "Customer", "顧客", "顔出しや商品作りに抵抗があり、発信者として目立つことに違和感がある会社員。真面目さや支援力はあるが、売上に関わる経験がない。")}
-${conceptItem(2, "Competitor", "競合", "個人が目立つ、単体スキルを習得する、短期収益化を見せる講座が多い。")}
+${conceptItem(2, "Competitor", "競合", "横山直宏さんは自分らしい経営と温かいコミュニティ、おさるさんはSNS動画とコンテンツ販売、仙道達也さんは魂の差別化と伴走支援、北野哲正さんはAHAコンセプトとコンサル型ビジネスに強い。")}
 ${conceptItem(3, "Company", "自社", "売上導線、プロモーション全体、プロダクトローンチ、コンテンツホルダー支援、全員で勝つ文化を持つ。")}
 </div></section>
 <section class="panel"><h2>ライバルが取りこぼしている顧客</h2><div class="concept-sequence">
 ${conceptItem(1, "顔出しが苦手な人", "Gap", "発信者本人が目立つモデルに入りづらい。")}
 ${conceptItem(2, "自分の商品がない人", "Gap", "商品作りから始めるモデルだと止まりやすい。")}
-${conceptItem(3, "単体スキルだけでは不安な人", "Gap", "Web制作、広告運用、AI活用を学んでも、売上全体にどうつながるかが見えない。")}
+${conceptItem(3, "単体スキルだけでは不安な人", "Gap", "SNS動画、広告運用、AI活用を学んでも、売上全体にどうつながるかが見えない。")}
 ${conceptItem(4, "チームで支えたい人", "Gap", "自分が前に出るより、起業家や社長を支援する方が自然に力を出せる。")}
 </div></section>
 <section class="panel"><h2>空きポジション</h2><p class="quote">スター型起業でも単体スキル習得でもなく、起業家のプロモーションを裏方から支え、売上に関わる実績を作るWebマーケター。</p></section>
