@@ -43,6 +43,8 @@ const forbidden = [
   "hierarchy.html",
   "逆生成",
   "ページ骨子",
+  "オプトインLPに掲載されている講師プロフィール",
+  "そのまま制作ポータルへ反映",
 ];
 
 const contentChecks = [
@@ -55,6 +57,14 @@ const contentChecks = [
   ["roadmap.html", "コンテンツ本数表"],
   ["roadmap.html", "チャレンジ項目一覧"],
   ["roadmap.html", "全体スケジュール"],
+  ["concept.html", "コンセプト設計の前提"],
+  ["concept.html", "ライバルリサーチ"],
+  ["concept.html", "ポジショニング分析"],
+  ["concept.html", "総評"],
+  ["concept.html", "ノウハウ"],
+  ["concept.html", "ベネフィット"],
+  ["concept.html", "キーワード"],
+  ["concept.html", "パラダイムシフトを起こすための材料"],
   ["concept.html", "旧世界と新世界"],
   ["profile.html", "講師プロフィール"],
   ["profile.html", "株式会社ザ・リード 創業者"],

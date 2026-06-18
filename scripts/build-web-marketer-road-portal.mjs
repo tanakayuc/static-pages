@@ -534,6 +534,19 @@ function card(title, metaLabel, text, href = "") {
   return `<article class="report-item"><span class="meta">${esc(metaLabel)}</span><h3>${esc(title)}</h3><p>${esc(text)}</p>${link}</article>`;
 }
 
+function conceptItem(number, title, metaLabel, text, bullets = []) {
+  const list = bullets.length ? `<ul>${bullets.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : "";
+  return `<article class="concept-item">
+<span class="concept-number">${String(number).padStart(2, "0")}</span>
+<div>
+<span class="meta">${esc(metaLabel)}</span>
+<h3>${esc(title)}</h3>
+<p>${esc(text)}</p>
+${list}
+</div>
+</article>`;
+}
+
 const registrationMails = list("12_メルマガ/フェーズ1_ライブ前/メルマガ").map(parseMail);
 const salesMails = list("12_メルマガ/フェーズ3_セールスプッシュ/メルマガ").map(parseMail);
 const officialLines = list("12_メルマガ/フェーズ3_セールスプッシュ/公式LINE").filter((file) => !file.includes("00_")).map(parseMail);
@@ -832,17 +845,17 @@ body {
 }
 a { color: var(--sub); text-decoration: none; font-weight: 760; }
 a:hover { text-decoration: underline; }
-.layout { display: grid; grid-template-columns: 292px minmax(0, 1fr); min-height: 100vh; max-width: 100vw; }
-.side { position: sticky; top: 0; height: 100vh; overflow: auto; padding: 24px 18px; background: var(--paper); border-right: 1px solid var(--line); }
+.layout { display: block; min-height: 100vh; max-width: 100vw; padding-left: 292px; }
+.side { position: fixed; left: 0; top: 0; bottom: 0; width: 292px; height: 100dvh; overflow-y: auto; overflow-x: hidden; padding: 18px 14px 72px; background: var(--paper); border-right: 1px solid var(--line); scrollbar-gutter: stable; overscroll-behavior: contain; }
 .brand { display: grid; grid-template-columns: 46px 1fr; gap: 12px; align-items: center; margin-bottom: 24px; }
 .brand-mark { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 8px; background: var(--main); color: #fff; font-weight: 850; }
 .brand-title { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 850; }
 .brand-sub { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; font-weight: 650; }
-.nav-section { margin: 20px 0 7px; color: var(--muted); font-size: 11px; font-weight: 900; }
-.nav-link { display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: center; min-height: 39px; padding: 8px 9px; border-radius: 8px; color: #223449; font-size: 13px; font-weight: 760; }
+.nav-section { margin: 14px 0 5px; color: var(--muted); font-size: 11px; font-weight: 900; }
+.nav-link { display: grid; grid-template-columns: 24px 1fr; gap: 8px; align-items: center; min-height: 34px; padding: 6px 8px; border-radius: 8px; color: #223449; font-size: 13px; font-weight: 760; }
 .nav-link small { display: block; color: var(--muted); font-size: 10px; font-weight: 650; line-height: 1.35; }
 .nav-link:hover, .nav-link.active { background: var(--soft); color: var(--sub); text-decoration: none; }
-.nav-num { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 11px; font-weight: 850; }
+.nav-num { display: grid; place-items: center; width: 21px; height: 21px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 11px; font-weight: 850; }
 .main { min-width: 0; padding: 44px min(5vw, 64px) 88px; }
 .wrap { max-width: 880px; margin: 0 auto; }
 .hero { margin-bottom: 30px; }
@@ -878,6 +891,29 @@ li { margin: 4px 0; }
 .card p { color: #324b44; font-size: 1rem; line-height: 1.8; }
 .report-link,
 .card-link { display: inline-flex; margin-top: .35rem; }
+.concept-sequence { display: grid; gap: 1rem; }
+.concept-item {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.15rem 0 1.15rem 1rem;
+  border-left: 4px solid var(--line);
+  border-bottom: 1px dashed var(--line);
+}
+.concept-item:last-child { border-bottom: 0; }
+.concept-number {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--sub);
+  font-size: .86rem;
+  font-weight: 900;
+}
+.concept-item p { color: #324b44; line-height: 1.85; }
+.concept-item ul { margin-top: .65rem; color: #324b44; }
 .kpi { padding: .95rem 0 .95rem 1rem; border: 0; border-left: 4px solid var(--line); border-radius: 0; background: transparent; }
 .kpi span { display: block; color: var(--muted); font-size: 12px; font-weight: 800; }
 .kpi strong { display: block; margin-top: 6px; font-size: 24px; line-height: 1.2; }
@@ -965,10 +1001,11 @@ details .details-body { padding: 0 16px 16px; }
 }
 @media (max-width: 900px) {
   html { font-size: 16.5px; }
-  .layout { display: block; }
+  .layout { display: block; padding-left: 0; }
   .side {
     position: sticky;
     top: 0;
+    width: auto;
     z-index: 20;
     height: auto;
     padding: 12px 14px;
@@ -1122,20 +1159,27 @@ pages.set("concept.html", page({
   file: "concept.html",
   title: "コンセプトシート",
   eyebrow: "設計シート",
-  lead: "このプロモーションの根幹になる、ターゲット、世界観、真の原因、解決策、採用コンセプトを確認します。",
+  lead: "見込み客、競合、ポジショニングを踏まえ、プロモーションの採用コンセプトをまとめます。",
   body: `
-<section class="panel"><h2>採用コンセプト</h2><p class="quote">会社員はWEBマーケターを目指しなさい</p><div class="grid-2">${card("ターゲット", "Customer", "顔出しや派手な発信が苦手で、自分の商品や強い実績をまだ持っていない地味で平凡な会社員。")}${card("入口の約束", "Promise", "才能、経験、顔出し、自分の商品がなくても、社長の右腕として売上に関われる。")}</div></section>
-<section class="panel"><h2>旧世界と新世界</h2><table class="asset-table"><thead><tr><th>観点</th><th>旧世界</th><th>新世界</th></tr></thead><tbody>
-<tr><td>起業観</td><td>自分がスターになり、SNSで目立つ必要がある。</td><td>社長の右腕として、裏方で売上を支える道がある。</td></tr>
-<tr><td>実績作り</td><td>自分の商品やフォロワーがないと始められない。</td><td>他者のプロモーションに関わることで実績を作れる。</td></tr>
-<tr><td>スキル観</td><td>単体スキルを積み上げれば稼げる。</td><td>ファネル全体を理解し、売上構造を設計する。</td></tr>
-</tbody></table></section>
-<section class="panel"><h2>コアシナリオ素材</h2><div class="grid-2">
-${card("真の原因", "Cause", "努力不足やセンス不足ではなく、最初の実績を安全に作れる実践環境と、売上までの全体構造を見通す型がないこと。")}
-${card("解決策", "Solution", "D.E.C.O.D.E.で集客、教育、販売、オファー、LTVを構造として理解し、45日間の実践環境で経験を作る。")}
-${card("ミッション", "Mission", "スターになれない人を置き去りにせず、売上を支える実務と戦略で価値を出せる人を増やす。")}
-${card("ストーリー", "Story", "自分には何もない人ほど、表に立つより、全体を組み立て数字を見て導線を整える裏方の仕事で力を発揮する。")}
-</div>${source("90_制作パッケージサンプル/01_コンセプトシート.md")}</section>
+<section class="panel"><h2>コンセプト設計の前提</h2><div class="concept-sequence">
+${conceptItem(1, "ターゲット/見込み客", "Input", "顔出しや派手な発信が苦手で、自分の商品や強い実績をまだ持っていない地味で平凡な会社員。", ["副業や起業に興味はあるが、自分が前に出るイメージを持てない。", "SNS発信、商品作り、単体スキル習得だけでは動き出せない。"])}
+${conceptItem(2, "ライバルリサーチ", "Research", "比較対象は、SNS起業、副業スクール、Webマーケティング講座、スキル習得系の講座。多くは発信者本人が目立つこと、単体スキルを身につけること、個人で商品を売ることに寄りやすい。")}
+${conceptItem(3, "ポジショニング分析", "Positioning", "空きポジションは、表に立つ起業家ではなく、社長の右腕として売上導線を支える裏方Webマーケター。顔出しや自分の商品を前提にしないため、地味で平凡な会社員でも入りやすい。")}
+${conceptItem(4, "総評", "Summary", "このプロモーションでは、見込み客の弱みを否定せず、裏方として売上を支える適性へ変換する。ノウハウそのものより、売れる仕組みを理解して実践経験を作る環境を主軸にする。")}
+</div></section>
+<section class="panel"><h2>採用コンセプト</h2><p class="quote">会社員はWEBマーケターを目指しなさい</p><div class="concept-sequence">
+${conceptItem(1, "ターゲット", "Customer", "顔出しや派手な発信が苦手で、自分の商品や強い実績をまだ持っていない地味で平凡な会社員。")}
+${conceptItem(2, "ノウハウ", "Know-how", "D.E.C.O.D.E.を使い、集客、教育、販売、オファー、LTVを構造として理解する。単体スキルではなく、プロモーション全体を見て売上導線を組み立てる。")}
+${conceptItem(3, "ベネフィット", "Benefit", "才能、経験、顔出し、自分の商品がなくても、社長の右腕として売上に関われる。自分がスターにならずに、裏方として価値を出せる道を持てる。")}
+${conceptItem(4, "キーワード", "Keyword", "WEBマーケターへの道。会社員が、表に立つ起業家ではなく、売上を支えるWebマーケターとして進むための入口。")}
+${conceptItem(5, "オファー", "Offer", "45日間WEBマーケター超実践ブートキャンプ。知識を増やすだけではなく、実践環境、伴走、チーム、最初の経験作りを提供する。")}
+${conceptItem(6, "真の原因", "Cause", "努力不足やセンス不足ではなく、最初の実績を安全に作れる実践環境と、売上までの全体構造を見通す型がないこと。")}
+${conceptItem(7, "パラダイムシフトを起こすための材料", "Worldview", "旧世界は、自分がスターになり、SNSで目立ち、自分の商品を持たなければ始められないという前提。新世界は、社長の右腕として、裏方で売上を支える道があるという前提。", ["旧世界: 単体スキルを積み上げれば稼げる。自分の商品やフォロワーがないと始められない。", "新世界: ファネル全体を理解し、他者のプロモーションに関わることで実績を作れる。"])}
+</div></section>
+<section class="panel"><h2>旧世界と新世界</h2><div class="concept-sequence">
+${conceptItem(1, "旧世界", "Before", "自分がスターになり、SNSで目立ち、自分の商品やフォロワーを持たなければ始められない。スキルを積み上げても、売上までの全体構造が見えず、実践経験を作れない。")}
+${conceptItem(2, "新世界", "After", "社長の右腕として、裏方でプロモーションを支えながら売上に関われる。顔出しや自分の商品を前提にせず、ファネル全体を理解して実績を作れる。")}
+</div></section>
 `}));
 
 pages.set("profile.html", page({
@@ -1145,7 +1189,7 @@ pages.set("profile.html", page({
   lead: "LP、ライブ冒頭、セールスページで信頼形成に使う田中祐一プロフィールです。",
   body: `<section class="panel article-panel"><div class="article">
 ${markdownToHtml(tanakaProfileMarkdown)}
-</div><p class="note">このプロフィールは、オプトインLPに掲載されている講師プロフィールをベースに、そのまま制作ポータルへ反映しています。</p>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</section>`}));
+</div></section>`}));
 
 pages.set("config.html", page({
   file: "config.html",
