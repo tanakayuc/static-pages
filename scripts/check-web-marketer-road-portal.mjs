@@ -54,10 +54,6 @@ const contentChecks = [
   ["index.html", "一気通貫モード"],
   ["index.html", "個別制作モード"],
   ["roadmap.html", "工程表の使い方"],
-  ["roadmap.html", "一気通貫モードと個別制作モード"],
-  ["roadmap.html", "個別制作物"],
-  ["roadmap.html", "LP/ページ"],
-  ["roadmap.html", "ステップメール"],
   ["roadmap.html", "ワンステップ販売型"],
   ["roadmap.html", "9章の詳細工程"],
   ["roadmap.html", "項目"],
@@ -68,7 +64,7 @@ const contentChecks = [
   ["roadmap.html", "販売したい商品を決める"],
   ["roadmap.html", "販売ファネルを決める"],
   ["roadmap.html", "KPI仮設定"],
-  ["roadmap.html", "2. コンセプト設計"],
+  ["roadmap.html", "2. リサーチ/コンセプト設計"],
   ["roadmap.html", "ターゲットシート作成"],
   ["roadmap.html", "ライバル情報の整理"],
   ["roadmap.html", "空いている訴求の特定"],
@@ -166,9 +162,10 @@ const contentChecks = [
   ["offer.html", "返金保証なし"],
   ["head.html", "セールスページヘッド"],
   ["assets.html", "サンキューページ"],
-  ["assets.html", "個別制作モードの受け皿"],
-  ["assets.html", "LPはこちら"],
-  ["assets.html", "ステップメールはこちら"],
+  ["assets.html", "章別制作素材集"],
+  ["assets.html", "2. リサーチ/コンセプト"],
+  ["assets.html", "5. オプトイン開始セット"],
+  ["assets.html", "8. 販売導線"],
   ["assets.html", "https://sub.the-lead10.com/p/webmarketer_thanks"],
   ["visual-report.html", "ワンステップ販売型の必須素材"],
   ["visual-report.html", "オープンチャット"],
@@ -277,6 +274,9 @@ for (const file of ["concept.html", "profile.html", "config.html", "research.htm
 }
 for (const snippet of ["決済後の流れ", "決済確認", "Chatwork申請", "グループ参加", "価格戦略"]) {
   if (read("offer.html").includes(snippet)) fail(`offer.html should not include ${snippet}`);
+}
+for (const snippet of ["一気通貫モードと個別制作モード", "個別制作物", "<th>確認先</th>"]) {
+  if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include ${snippet}`);
 }
 
 const roadmapPhaseSections = (read("roadmap.html").match(/id="phase-[0-9]"/g) || []).length;

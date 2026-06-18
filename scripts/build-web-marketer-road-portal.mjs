@@ -95,6 +95,18 @@ const individualProductionRows = [
   ["ヘッド/デザイン指示", "LPとセールスページのファーストビュー指示", "head.html", "工程2 / 工程5"],
 ];
 
+const chapterAssetRows = [
+  ["1. 全体設計", "全体構成レポート、ファネル方針、KPI仮シミュレーション、既存素材リスト", "visual-report.html"],
+  ["2. リサーチ/コンセプト", "リサーチシート、ターゲット、3C、空きポジション、コンセプトシート、プロフィール、コンフィグ", "research.html"],
+  ["3. オファー設計", "商品オファーシート、提供内容、サポート、特典/保証、価格表", "offer.html"],
+  ["4. コンテンツ設計", "全体カリキュラム、Day別テーマ、コアシナリオ、ワーク/特典案", "live-scripts.html"],
+  ["5. オプトイン開始セット", "オプトインLP、ヘッド指示、挨拶動画、サンキューページ、自動返信メール", "lp.html"],
+  ["6. 配信導線", "オープンチャット全体ポータル、固定投稿、通常配信、メルマガ件名と配信タイミング", "line.html"],
+  ["7. 台本制作", "Day1〜Day5ライブ台本、課題フォーム、提出特典、アーカイブ導線", "live-scripts.html"],
+  ["8. 販売導線", "販売前メッセージ、セールスレター、販売期メール/LINE、購入完了ページ", "sales-page.html"],
+  ["9. 公開/改善", "公開URL台帳、MD原本一覧、添削レポート、更新履歴", "files.html"],
+];
+
 const researchFlowRows = [
   ["1. ターゲット仮説", "誰が、何と比較して、どこで止まっているのかを仮置きする。", "ターゲット仮説"],
   ["2. 同業ライバル抽出", "見込み客が比較しそうな同業ライバルを5件挙げる。個人講座系だけでなく、BtoB支援会社や書籍導線も含める。", "ライバル候補リスト"],
@@ -364,8 +376,8 @@ const roadmapPhases = [
     ],
   },
   {
-    name: "2. コンセプト設計",
-    summary: "ターゲット、競合、自社の強みから、戦う場所と採用コンセプトを決める。",
+    name: "2. リサーチ/コンセプト設計",
+    summary: "ターゲット、競合、自社の強みを先に調べ、戦う場所と採用コンセプトを決める。",
     items: [
       {
         name: "事前情報収集",
@@ -938,6 +950,10 @@ function individualProductionTable() {
   return `<table class="asset-table"><thead><tr><th>個別制作物</th><th>中身</th><th>入る場所</th><th>工程</th></tr></thead><tbody>${individualProductionRows.map(([label, detail, href, phase]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td><td><a href="${esc(href)}">開く</a></td><td>${esc(phase)}</td></tr>`).join("")}</tbody></table>`;
 }
 
+function chapterAssetTable() {
+  return `<table class="asset-table chapter-asset-table"><thead><tr><th>章</th><th>素材集</th><th>主な確認ページ</th></tr></thead><tbody>${chapterAssetRows.map(([chapter, assets, href]) => `<tr><td><strong>${esc(chapter)}</strong></td><td>${esc(assets)}</td><td><a href="${esc(href)}">開く</a></td></tr>`).join("")}</tbody></table>`;
+}
+
 function sourceLinks(items) {
   return items.map(([label, href]) => `<a href="${esc(href)}">${esc(label)}</a>`).join(" / ");
 }
@@ -984,7 +1000,7 @@ function roadmapPhaseSection(phase, index) {
   return `<section class="panel roadmap-phase" id="phase-${index + 1}">
 <h2>${esc(phase.name)}</h2>
 <p class="note">${esc(phase.summary)}</p>
-<table class="asset-table roadmap-table"><thead><tr><th>項目</th><th>作るもの</th><th>入力/確認</th><th>完成アウトプット</th><th>確認先</th></tr></thead><tbody>${phase.items.map((item) => `<tr><td><strong>${esc(item.name)}</strong></td><td>${esc(item.make)}</td><td>${esc(item.input)}</td><td>${esc(item.output)}</td><td><a href="${esc(item.href)}">開く</a></td></tr>`).join("")}</tbody></table>
+<table class="asset-table roadmap-table"><thead><tr><th>項目</th><th>作るもの</th><th>入力/確認</th><th>完成アウトプット</th></tr></thead><tbody>${phase.items.map((item) => `<tr><td><strong>${esc(item.name)}</strong></td><td>${esc(item.make)}</td><td>${esc(item.input)}</td><td>${esc(item.output)}</td></tr>`).join("")}</tbody></table>
 </section>`;
 }
 
@@ -1395,12 +1411,17 @@ li { margin: 4px 0; }
 .asset-table th, .asset-table td { padding: 13px 12px; border-top: 1px solid var(--line); text-align: left; vertical-align: top; }
 .asset-table th { background: linear-gradient(180deg, var(--main), var(--sub)); color: #fff; font-size: .86rem; font-weight: 800; border-top: 0; }
 .asset-table td p { color: var(--muted); font-size: 13px; }
+.note + .asset-table,
+.note + .concept-sequence,
+.note + .jump-nav,
+.asset-table + .asset-table { margin-top: 1rem; }
 .roadmap-phase { scroll-margin-top: 18px; }
-.roadmap-table th:nth-child(1) { width: 18%; }
-.roadmap-table th:nth-child(2) { width: 32%; }
-.roadmap-table th:nth-child(3) { width: 22%; }
-.roadmap-table th:nth-child(4) { width: 18%; }
-.roadmap-table th:nth-child(5) { width: 10%; }
+.roadmap-table th:nth-child(1) { width: 22%; }
+.roadmap-table th:nth-child(2) { width: 34%; }
+.roadmap-table th:nth-child(3) { width: 24%; }
+.roadmap-table th:nth-child(4) { width: 20%; }
+.chapter-asset-table th:nth-child(1) { width: 24%; }
+.chapter-asset-table th:nth-child(3) { width: 16%; }
 .source-path { display: inline-block; margin-top: 6px; color: #607970; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; font-weight: 650; word-break: break-all; }
 .copy-box { margin-top: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: #26384c; white-space: pre-wrap; font-size: 14px; line-height: 1.82; }
 .note { padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); color: #426158; font-weight: 650; }
@@ -1587,9 +1608,8 @@ pages.set("roadmap.html", page({
   file: "roadmap.html",
   title: "制作工程表",
   eyebrow: "工程表",
-  lead: "各章で何を作るのかを、入力、完成アウトプット、確認ページまで分解して確認します。",
+  lead: "各章で何を作るのかを、入力と完成アウトプットまで分解して確認します。",
   body: `<section class="panel"><h2>工程表の使い方</h2><p class="note">この工程表は、ワンステップ販売型ファネルを作るために必要な成果物を、章ごとではなく項目ごとに確認するためのものです。工程表の順番で素材を作り、前の章の成果物は後続のLP、配信、台本、販売導線で随時更新します。</p>${roadmapJump(roadmapPhases)}</section>
-<section class="panel"><h2>一気通貫モードと個別制作モード</h2><p class="note">全体を作る場合は工程表の順番で進めます。個別制作の場合は、指定された制作物だけを作り、完成後に対応ページへ入れて、必要な章の成果物として合流させます。</p>${productionModeTable()}${individualProductionTable()}</section>
 <section class="panel"><h2>ワンステップ販売型の必須素材</h2><p class="note">全体設計では、まず以下の5素材がファネル内に組み込まれているかを確認します。</p>${linkedAssetTable(coreFunnelRows)}</section>
 <section class="panel flush"><h2>9章の詳細工程</h2></section>
 ${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}
@@ -1748,7 +1768,7 @@ pages.set("assets.html", page({
   body: `<section class="panel"><h2>制作物カテゴリ</h2><div class="grid-3">
 ${sourceInventory().map(([label, count]) => card(label, `${count}件`, "原本MDとHTML確認ページをセットで管理します。")).join("")}
 </div></section>
-<section class="panel"><h2>個別制作モードの受け皿</h2><p class="note">個別制作モードでは、指定された制作物だけを生成し、この一覧の該当ページへ追加します。全体工程を止めずに、LPはこちら、ステップメールはこちら、LINEはこちらという形で素材が合流します。</p>${individualProductionTable()}</section>
+<section class="panel"><h2>章別制作素材集</h2><p class="note">制作構築で扱う素材は、工程表と同じ章立てで管理します。個別に作ったLP、ステップメール、LINE、台本も、最終的には該当する章の素材としてここへ合流させます。</p>${chapterAssetTable()}</section>
 <section class="panel"><h2>制作物の入口</h2><table class="asset-table"><thead><tr><th>制作物</th><th>中身</th><th>確認</th></tr></thead><tbody>
 <tr><td>オプトイン開始セット</td><td>動画埋め込みオプトインLP、挨拶動画台本、ヘッド指示、サンキューページ、オプトイン自動返信メール。</td><td><a href="lp.html">LP一覧</a></td></tr>
 <tr><td>サンキューページ</td><td>登録直後にオープンチャット参加を正式登録として促すページ。公開URL: <a href="${urls.thanks}">${urls.thanks}</a></td><td><a href="lp.html">原稿を見る</a></td></tr>
