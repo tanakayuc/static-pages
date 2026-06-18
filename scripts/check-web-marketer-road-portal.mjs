@@ -57,14 +57,23 @@ const contentChecks = [
   ["roadmap.html", "コンテンツ本数表"],
   ["roadmap.html", "チャレンジ項目一覧"],
   ["roadmap.html", "全体スケジュール"],
-  ["concept.html", "コンセプト設計の前提"],
-  ["concept.html", "ライバルリサーチ"],
-  ["concept.html", "ポジショニング分析"],
-  ["concept.html", "総評"],
-  ["concept.html", "ノウハウ"],
+  ["concept.html", "田中祐一AIのコンセプト設計フロー"],
+  ["concept.html", "プロダクト理解"],
+  ["concept.html", "ターゲット仮止め"],
+  ["concept.html", "ライバル理解"],
+  ["concept.html", "3C分析"],
+  ["concept.html", "空きポジション"],
+  ["concept.html", "自社の強み"],
+  ["concept.html", "旧世界 / 新世界"],
+  ["concept.html", "勘違い"],
+  ["concept.html", "真の原因"],
+  ["concept.html", "解決策"],
+  ["concept.html", "ストーリー"],
   ["concept.html", "ベネフィット"],
-  ["concept.html", "キーワード"],
-  ["concept.html", "パラダイムシフトを起こすための材料"],
+  ["concept.html", "ミッション"],
+  ["concept.html", "パラダイムシフトトーク"],
+  ["concept.html", "コアシナリオ"],
+  ["concept.html", "今回の採用コンセプト"],
   ["concept.html", "旧世界と新世界"],
   ["profile.html", "講師プロフィール"],
   ["profile.html", "株式会社ザ・リード 創業者"],
@@ -73,6 +82,18 @@ const contentChecks = [
   ["config.html", "避ける表現"],
   ["config.html", "誰でも簡単"],
   ["research.html", "空きポジション"],
+  ["research.html", "ターゲットが見ているライバル"],
+  ["research.html", "3C分析"],
+  ["research.html", "ライバルが取りこぼしている顧客"],
+  ["research.html", "ずらし方"],
+  ["research.html", "ターゲットの感情"],
+  ["research.html", "LP/動画に使う論点"],
+  ["offer.html", "商品コンセプト"],
+  ["offer.html", "誰に対して、どんな変化を約束する商品か"],
+  ["offer.html", "なぜその変化が可能か"],
+  ["offer.html", "商品形態"],
+  ["offer.html", "サポート体制"],
+  ["offer.html", "保証"],
   ["offer.html", "購入障壁"],
   ["head.html", "セールスページヘッド"],
   ["assets.html", "サンキューページ"],
@@ -175,6 +196,10 @@ if (!css.includes("overflow-x: auto")) fail("portal.css missing mobile horizonta
 for (const [file, snippet] of contentChecks) {
   const ok = read(file).includes(snippet);
   if (!ok) fail(`${file} missing content: ${snippet}`);
+}
+
+for (const file of ["concept.html", "profile.html", "config.html", "research.html", "offer.html"]) {
+  if (read(file).includes("source-path")) fail(`${file} should not expose source paths`);
 }
 
 const roadmapPhaseRows = (read("roadmap.html").match(/<td><strong>[0-9]\./g) || []).length;
