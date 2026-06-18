@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Q&A第2バッチ反映案_20260616 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="027.html" class="sidebar-item"><span class="date">2026年06月18日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item active"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</h1>
+<p>raw: <code>Q&amp;A第2バッチ回答_raw_20260616.md</code>。status=レビュー待ち。実体験ゲート・帰属・声の根幹を適用。<br />
+回答あり5件を採用候補、4件(Q03/04/05/08)＋Q10は「回答なし/背景不足」で<strong>今回は不採用</strong>（実体験ゲート＝未回答は入れない）。</p>
+<hr />
+<h2>★最優先：目的すり合わせ動線（原理・新規＝田中AIの応答動線）</h2>
+<p>Q10への指摘から確立。これはQ個別でなく田中AIの根幹挙動。</p>
+<ul>
+<li><strong>主張</strong>：背景・目的が不明な相談には即答しない。「なぜそれを聞くのか／どんな背景か／ビジネスの状況は」をまず確認し、相手の目的と自分の目的をすり合わせてから答える。</li>
+<li><strong>上位の哲学</strong>：意味の分からない問いに即答すると一般論・的外れになる（＝AIっぽい無駄回答）。田中本人も背景を聞き返してから答える。</li>
+<li><strong>立場</strong>：プロデューサー／コンサルタント。<strong>活用シーン</strong>：相談モードの初手、曖昧な質問を受けた時。</li>
+<li><strong>リフレーム</strong>：「早く答える」より「正しく目的をすり合わせる」が先。制作モードの代表質問→深掘りと同思想を相談モードにも。</li>
+<li>取り込み先：<code>knowledge/共通/</code> に原理レコード新規（core検討）。将来はシステム挙動（相談route）にも反映＝ルール変更でCodex。</li>
+</ul>
+<hr />
+<h2>Q02 → サブスク・継続課金の判断（基準値＋原理・採用）★主役</h2>
+<ul>
+<li><strong>主張</strong>：継続課金（サブスク）は安定売上欲しさで選びがちだが、<strong>高単価商品以上に売るのが難しく</strong>、単独モデルは基本やるべきでない。代わりに<strong>会員制コミュニティ</strong>の方がよい。</li>
+<li><strong>唯一の例外</strong>：サブスクを<strong>高単価商品＋継続サポート</strong>として組み合わせる形。入口が濃い関係性／高ハードルならサブスクは良い。</li>
+<li><strong>基準値（他社事例・帰属明示）</strong>：「受講生の例ですが」ネイルサロン系で月額8,800円／「友人の例ですが」100万円のマーケ講座で月額2万円（高単価の後ろに置く継続サポート単価）。</li>
+<li><strong>実体験（自社・田中の話）</strong>：「リードフリックス」月額3,000円・最大2,000人まで伸びたが毎月200人ずつ減るのはメンタルがきつい。何百人・月100万でもライブに2〜3人だと虚しい。サブスク単独は販売もアップセルも難しい。</li>
+<li><strong>田中リフレーム</strong>：サブスク＝安定、ではない。むしろ最難関。安定が欲しいなら会員制コミュニティ。サブスクは「高単価の後ろの継続サポート」としてのみ機能する。</li>
+<li>立場：事業者　活用シーン：継続課金/サブスク導入の是非、安定収益設計</li>
+<li><strong>採用</strong>：実体験＋他社基準値＋明確なリフレームで差別化十分。</li>
+</ul>
+<h2>Q01 → プロデューサー気質とモデル選択（判断基準・採用、ただし前提を訂正）</h2>
+<ul>
+<li><strong>訂正/リフレーム</strong>：「プロデューサー気質かどうかは事前に判定できない」。コンテンツホルダーとプロデューサーを両方やってみて、どちらがハマるか見て判断する。</li>
+<li><strong>主張</strong>：自社高単価とプロデュース両方を高レベルで使いこなせる人＝マーケッターとして向くが<strong>希少種</strong>。多くの人はそうでないので、プロデューサーは<strong>制作代行・コンサル業・マンツーマンサポート</strong>でやるのが現実的。アフィリ・低単価・マンツーマンの組み合わせもあり。講座スクールはレベルが高い。</li>
+<li>立場：プロデューサー／受講生　活用シーン：自分に合うビジネスモデルの選択</li>
+<li><strong>採用</strong>：「気質は事前判定でなくやって見極める」が田中固有の判断。</li>
+</ul>
+<h2>Q06 → セールス代行・オーバートーク対策（原理・採用）</h2>
+<ul>
+<li><strong>主張</strong>：オーバートークで売れてしまった時は、動画・実態を確認し「現実が追いついているか」を聞く。AIで全体の横チェックもやる。</li>
+<li><strong>完全成果報酬の課題</strong>：売れる案件だけに群がる。成功報酬だけのセールス代行でなく、<strong>自社のようにスタッフが売りたいと思えるセールス代行モデル</strong>へシフトすべき。長期的には<strong>受講生から案件を持ってくる</strong>のが理想。</li>
+<li>立場：事業者　活用シーン：セールス組織・代行設計</li>
+<li><strong>採用</strong>：実体験ベースの組織設計判断。</li>
+</ul>
+<h2>Q07 → 人材採用のチャネル別コスト（基準値・採用）</h2>
+<ul>
+<li><strong>基準値（自社・田中の話）</strong>：メタ広告での採用は1人あたり約25万円。ポータルサイトだと10万〜15万で済む場合もある。</li>
+<li><strong>補足</strong>：メタ広告＋LINEステップ配信は難しく今後の課題（＝現時点は「メタ広告採用は割高・難あり」が判断）。</li>
+<li>立場：事業者　活用シーン：採用チャネルの費用対効果判断</li>
+<li><strong>採用</strong>：実数の基準値。</li>
+</ul>
+<h2>Q09 → 短い動画導線の限界（判断基準・採用、premise訂正）</h2>
+<ul>
+<li><strong>訂正</strong>：「5分動画→個別」だけでは成約まで持っていく<strong>信頼関係構築が難しい</strong>ので、田中はあまりやらない（第2バッチ質問の前提を訂正）。</li>
+<li><strong>主張</strong>：5分動画の次に<strong>60分動画</strong>を見てもらうなど、PV的に信頼を積む導線にするしかない。</li>
+<li>立場：プロデューサー　活用シーン：動画導線の長さ設計</li>
+<li><strong>採用</strong>：短尺単独を否定する田中の判断。</li>
+</ul>
+<hr />
+<h2>不採用（今回）</h2>
+<ul>
+<li>Q03 サミット訴求／Q04 全員個別／Q05 3年計画／Q08 接客担当募集：<strong>回答なし（わからない/データなし）</strong>＝実体験ゲートで入れない。</li>
+<li>Q10 壮大テーマ：背景不足で回答不可＝質問の作り方の問題（→目的すり合わせ動線・Claudeの質問改善で対処）。</li>
+</ul>
+<h2>反映先サマリー（採用時）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>反映先</th>
+<th>種別</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的すり合わせ動線</td>
+<td>knowledge/共通/ 新規（core検討）＋将来システム挙動</td>
+<td>原理</td>
+</tr>
+<tr>
+<td>サブスク判断</td>
+<td>knowledge/スキル別/商品設計 or 共通 新規</td>
+<td>判断基準＋基準値</td>
+</tr>
+<tr>
+<td>プロデューサー気質</td>
+<td>knowledge/スキル別/ビジネス設計 新規 or 追記</td>
+<td>判断基準</td>
+</tr>
+<tr>
+<td>セールス代行モデル</td>
+<td>knowledge/スキル別/セールス 新規</td>
+<td>原理</td>
+</tr>
+<tr>
+<td>採用チャネルコスト</td>
+<td>knowledge/共通/田中の基準値集 追記</td>
+<td>基準値</td>
+</tr>
+<tr>
+<td>短い動画導線の限界</td>
+<td>knowledge/媒体別 or スキル別 新規</td>
+<td>判断基準</td>
+</tr>
+</tbody>
+</table>
+</main>
+</body>
+</html>

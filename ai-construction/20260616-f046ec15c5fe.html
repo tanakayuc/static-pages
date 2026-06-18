@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="027.html" class="sidebar-item"><span class="date">2026年06月18日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item active"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</h1>
+<p>田中の指示（2026-06-16）：会員サイト（メイン講義＝プロダクトローンチ体系の背骨）は最重要かつ大容量。受講生はこの根幹の上でグルコン/添削を受けている。土台がAI側に無いのはおかしい。これを「引用しやすく・容量をオーバーフローさせず・綺麗に抽出できる仕組み」で格納し直す。DB移植も見据えた設計にする。</p>
+<h2>問題の核心</h2>
+<p>背骨は大容量（メイン講義77レッスン＋他11プログラム）。現アーキテクチャ（フラットbundle全fetch → buildCompactKnowledgeがkeyword/n-gramで約24k字選抜）では：</p>
+<ol>
+<li><strong>オーバーフロー</strong>：背骨を全部knowledge/に入れるとbundleが肥大。tier0予算（11,000字）はすぐ超える（先日13,344字で視点のマッピングが落ちた実例）。</li>
+<li><strong>そもそも浮上しない</strong>：keyword/n-gram選抜では、字面一致が強くても大プールの競合で関連背骨が選ばれない（golden baseline B群＝組織体制/経営が浮上せず、見出しブーストも回帰で撤回＝通算4回目の実証）。</li>
+</ol>
+<p>→ <strong>「全部載せる」ことも「キーワードで選ぶ」ことも、背骨の規模では破綻する。</strong></p>
+<h2>設計原則（オーバーフロー回避の本質）</h2>
+<p><strong>AIに渡す量は総量に依らず一定にする。「意味で近い背骨だけ top-K」を渡す。</strong></p>
+<ol>
+<li><strong>正本＝git上の構造化レコード</strong>（章アンカー付き・引用しやすい・DB移植可）。</li>
+<li><strong>検索＝embedding（意味検索）でtop-K選抜</strong>。総コーパスがどれだけ増えても、クエリに意味的に近い少数だけ予算内で注入＝オーバーフローしない。これがキーワード検索の限界（B群）を根治する。</li>
+<li><strong>tier0は最小</strong>（普遍的な哲学/原理のみ・常時）。背骨は「常時ロード」でなく「関連時にembeddingで取得」。</li>
+<li><strong>DB移植は派生</strong>：構造化レコード（正本・git）→ build → ①実行用index ②embeddingベクトル。ベクトルはローカル or Supabase pgvector。正本は最後までgit（差分レビュー/Codex/AI編集の資産維持）。</li>
+</ol>
+<h2>背骨レコードのスキーマ（引用しやすさ＝アンカー＋出典）</h2>
+<p>既存frontmatter＋matrix＋<strong>背骨アンカー</strong>を持たせる：</p>
+<pre><code class="language-yaml">---
+type: 哲学|原理|判断基準|基準値|事例|語彙
+program: PLC会員サイト        # どのプログラムか
+chapter: 8                     # 章（体系の背骨位置）
+lesson: 8-3                    # レッスンID（安定・引用の宛先）
+backbone: true                 # 背骨フラグ（体系の軸）
+主張: &lt;一文&gt;
+立場/活用シーン/事例link/リフレーム: ...（matrix）
+出典: &quot;メイン講義 8-3 書き起こし原本#L&lt;行&gt;&quot;   # 原本まで遡れる
+status: 採用
+---
+</code></pre>
+<ul>
+<li><strong>引用しやすさ</strong>：<code>program/chapter/lesson</code> で「8章ローンチ運営の入金率基準」と体系位置で引ける。出典で原本まで遡れる。</li>
+<li><strong>体系（面）の保持</strong>：chapter順がそのまま脳の背骨。点（グルコン/添削）は将来 <code>backbone_ref: 8-3</code> で背骨に紐付ける。</li>
+</ul>
+<h2>取得の仕組み（オーバーフローしない）</h2>
+<pre><code>クエリ
+ → ① tier0(普遍哲学・常時・最小)
+ → ② embedding近傍検索で関連レコードtop-K（背骨含む・予算内）
+ → ③ keyword/n-gramは補助シグナル（完全一致の僅差調整のみ）
+ → AIに渡す量は常に一定（予算24k等）。総量が増えても変わらない＝オーバーフロー回避
+</code></pre>
+<h2>DB移植を見据えた段階設計</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>内容</th>
+<th>DB移植との関係</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B0 スキーマ確定</strong></td>
+<td>背骨アンカー付きレコード形式を確定。lint拡張（chapter/lesson/backbone検証）</td>
+<td>レコード＝将来のDB行。今のうちに構造を整える</td>
+</tr>
+<tr>
+<td><strong>B1 embeddingパイプライン</strong></td>
+<td>レコード→チャンク→ベクトル生成（モデル選定）。ローカルindex（JSON/sqlite-vss等）でまず動かす</td>
+<td>ベクトルは正本から再生成可能な派生</td>
+</tr>
+<tr>
+<td><strong>B2 retrieval接続</strong></td>
+<td>buildCompactKnowledgeをembedding top-K選抜に接続。<strong>golden baseline A群で無回帰検証必須</strong>（わしづかみ等が浮上し続ける）。B群が✅化することがゲート</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>B3 背骨ingest</strong></td>
+<td>会員サイト背骨を段階的にレコード化（章順）。embeddingで取得されることを都度確認</td>
+<td>レコード増＝DB行増。retrieval量は一定</td>
+</tr>
+<tr>
+<td><strong>B4 (条件付き) pgvector</strong></td>
+<td>同時多重・大規模・横断クエリが実害化したらSupabase pgvectorへベクトル/レコードを投影</td>
+<td>正本はgitのまま。DBは派生・読み取り</td>
+</tr>
+</tbody>
+</table>
+<h2>重要な判断（田中の確認が要る大きな分岐）</h2>
+<ul>
+<li><strong>embedding着手＝Phase B本体</strong>。これは「本番AIの取得を変える」構造判断。コスト（embedding API・ベクトル保存）が発生。</li>
+<li>embeddingモデル：OpenAI text-embedding-3-small等（多言語・安価）か、ローカルモデルか。日本語性能とコストで選ぶ。</li>
+<li>まずローカルindexで動かし（B1-B3）、規模が要求したらpgvector（B4）＝段階的でコスト最小。</li>
+</ul>
+<h2>まとめ</h2>
+<p>背骨の大容量が、ついにembeddingを「あったらいい」から「無いと土台が載らない」に変えた。設計の肝＝<strong>正本はgit構造化レコード（章アンカー・引用容易・DB可）／取得はembedding top-Kで総量に依らず一定（オーバーフロー回避）／tier0最小／DBは最後に派生</strong>。これで会員サイト背骨を高精度かつ破綻なく載せられる。</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>会員サイト_メイン講義_ナレッジ化点検_20260616 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="027.html" class="sidebar-item"><span class="date">2026年06月18日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item active"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>会員サイト メイン講義 ナレッジ化点検レポート</h1>
+<p>作成日: 2026-06-18<br />
+作成者: ナレッジ管理担当サブエージェント<br />
+対象: PLCメイン講義（第0章〜第12章）</p>
+<hr />
+<h2>1. 前提確認：ファイル構造の実態</h2>
+<h3>内容まとめの空/非空の分布</h3>
+<p>点検の結果、<strong>内容まとめ（<code>内容まとめ/</code>）の65ファイルのうち40ファイルが実質空</strong>であることが判明した。</p>
+<ul>
+<li>空ファイルの特徴: 「（セクションを検出できませんでした。）」と表示されるのみ</li>
+<li>原因: <code>PLCメイン講義_内容まとめ生成.py</code> による機械抽出が、書き起こし原本に <code>##</code> 見出しが存在しない（= タイムスタンプ形式の逐語書き起こし）場合に完全空白になる</li>
+<li>書き起こし原本そのものは存在し、内容も豊富（確認済み: 7-1, 8-3, 11-1, 12-1 等）</li>
+</ul>
+<p><strong>空ファイルは「未抽出」であり「未講義」ではない。</strong> 原本に情報はある。</p>
+<h3>内容まとめが有効（内容あり）なファイル（約25本）</h3>
+<p>機械抽出が成功しているファイル（<code>##</code> 見出し構造を持つ原本から抽出できた分）:<br />
+- 0-1, 0-2系（手動整形済み）<br />
+- 1-1, 1-2, 1-3-1, 1-3-2<br />
+- 2-2, 2-3, 2-4（部分的）<br />
+- 3-1, 3-2（一方のみ）, 3-3, 3-4<br />
+- 9-1（とマインドセット版）, 9-2, 9-3-1〜9-3-7, 9-4-1, 9-4-2（一方）<br />
+- 01, 02-1, 03, 04（旧番号系）</p>
+<hr />
+<h2>2. カバレッジ・マトリックス</h2>
+<p>凡例: 充分=knowledgeに確立したナレッジあり / 部分=内容まとめはあるが未抽出 / 欠落=内容まとめ空+knowledge未抽出</p>
+<h3>第0章（受講にあたって・チームビルド）</h3>
+<p>章テーマ: 受講マインド・チームビルド・プロデューサーとホルダーの役割分担</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-1</td>
+<td>プロダクトローンチの可能性</td>
+<td>有効（手動整形済み）</td>
+<td>なし（直接対応なし）</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>0-2</td>
+<td>プレミアムコースへようこそ！</td>
+<td>有効（手動整形済み）</td>
+<td>なし</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>0-3</td>
+<td>事前準備</td>
+<td>要確認</td>
+<td>なし</td>
+<td>要確認</td>
+</tr>
+<tr>
+<td>0-4</td>
+<td>チームで働くこと</td>
+<td>有効か要確認</td>
+<td><code>プロデューサー気質向けビジネス設計.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>0-4-1</td>
+<td>ビジネスパートナーの見つけ方</td>
+<td>有効か要確認</td>
+<td><code>サポーターからプロデューサーへの単価上昇モデル.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>0-4-2</td>
+<td>チームで働くこと（改）ホルダー向け</td>
+<td>有効か要確認</td>
+<td>なし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>0-4-3</td>
+<td>組むプロデューサーの見極め方</td>
+<td>有効か要確認</td>
+<td><code>プロデュース事業のターゲット選定基準.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>0-4-4</td>
+<td>ローンチ講座に参加したら最初にやること</td>
+<td>有効か要確認</td>
+<td>なし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>0-4-5</td>
+<td>よくある失敗例</td>
+<td>有効か要確認</td>
+<td>なし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>0-4-6</td>
+<td>プロデューサーの契約前チェックリスト</td>
+<td>有効か要確認</td>
+<td>なし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>0-4-7</td>
+<td>契約書の考え方</td>
+<td>有効か要確認</td>
+<td>なし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>0-5</td>
+<td>第0章アウトプット</td>
+<td>有効か要確認</td>
+<td>なし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<p>※ 0-4系は内容まとめファイルは存在するが中身確認未実施。0-4-5「よくある失敗例」は実務直結の高価値コンテンツ。</p>
+<h3>第1章（プロダクトローンチ全体戦略・型・工程・心理トリガー）</h3>
+<p>章テーマ: PLの全体像・Wファネル・4つの型（+最新17型）・工程表・心理トリガー</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-1</td>
+<td>プロダクトローンチ活用戦略</td>
+<td>有効（Wファネル・マインドセット・戦略）</td>
+<td><code>Wファネル8ステージ構造.md</code>（PLCメイン講義1-1出典・内容充実）</td>
+<td>充分</td>
+</tr>
+<tr>
+<td>1-2</td>
+<td>プロダクトローンチの型の解剖</td>
+<td>有効（4型解説）</td>
+<td><code>ローンチの型一覧.md</code>（<strong>プレースホルダー・中身未入力</strong>）</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>1-3-1</td>
+<td>プロダクトローンチ工程の詳細説明</td>
+<td>有効（9工程・カレンダー・セットアップ）</td>
+<td><code>期待値コントロール5日間の仕込み.md</code>（1-3-1出典・部分対応）</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>1-3-2</td>
+<td>プロダクトローンチ工程の全体像</td>
+<td>有効（内容確認済み）</td>
+<td>直接対応ファイルなし</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>1-4</td>
+<td>心理トリガー</td>
+<td>空（セクション検出不可）</td>
+<td><code>心理トリガー16選.md</code>（PLCメイン講義1-4出典・有効）</td>
+<td>充分</td>
+</tr>
+</tbody>
+</table>
+<h3>第2章（コンセプト設計・わしづかみ）</h3>
+<p>章テーマ: わしづかみコンセプト構築・質問法・9STEP・セグメント</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2-1（旧02-1）</td>
+<td>セグメントマーケティング</td>
+<td>有効（02-1として存在）</td>
+<td><code>5レベルマーケティング.md</code>・<code>セグメント別の訴求パターン.md</code>・<code>訴求メッセージの思考フレーム.md</code>・<code>ターゲットの深い悩みへのアプローチ.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>2-2</td>
+<td>わしづかみコンセプト構築戦略</td>
+<td>有効（コンセプト概論・感情→論理）</td>
+<td><code>わしづかみコンセプト.md</code>・<code>ポジショニングはコンセプトの8割を決める.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>2-3</td>
+<td>わしづかみ質問法</td>
+<td>有効（6つのマインドセット・質問の極め方）</td>
+<td><code>わしづかみコンセプト構築_15質問.md</code>・<code>リサーチ質問テンプレート.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>2-4</td>
+<td>わしづかみコンセプト構築の9STEP</td>
+<td>空（セクション検出不可）</td>
+<td>直接対応ファイルなし（15質問が部分カバー）</td>
+<td>部分</td>
+</tr>
+</tbody>
+</table>
+<h3>第3章（商品設計・オファー・体験商品・プロフィール）</h3>
+<p>章テーマ: 本命商品コンセプト・高単価設計・オファー・フロントエンド体験商品・プロフィール</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3-1</td>
+<td>本命商品戦略</td>
+<td>有効（高単価30万〜理由・LTV構造）</td>
+<td><code>FE価格_BE価値の原則.md</code>・<code>高単価商品の価格設計.md</code>・<code>強いオファー3要素.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>3-2</td>
+<td>本命商品コンセプト＆オファー</td>
+<td>空（セクション検出不可）※ファイル重複あり</td>
+<td><code>商品コンセプト4つの鍵.md</code>・<code>アップセルの設計原則.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>3-3</td>
+<td>体験商品作り</td>
+<td>有効か要確認</td>
+<td><code>低単価商品・フロントエンド設計.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>3-4</td>
+<td>プロフィール構築</td>
+<td>有効か要確認</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<p>※ 3-2はファイル名に「コンセプト_オファー」と「コンセプト＆オファー」の重複あり。要整理。</p>
+<h3>第4章（情報発信・メディア戦略）</h3>
+<p>章テーマ: 発信の本質・仕組み化・媒体別戦略・メディアの育て方</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4-1</td>
+<td>情報発信とは？</td>
+<td>空</td>
+<td><code>コンテンツマーケティングの本質.md</code>・<code>コンテンツとコンテキスト.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>4-2</td>
+<td>発信の仕組み化</td>
+<td>空</td>
+<td><code>SNS集客のジャブと勝負動画.md</code>・<code>価値提供動画_3本構成と配信基準.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>4-3</td>
+<td>メディア別基本戦略</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>4-4</td>
+<td>メディアの育て方</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<h3>第5章（シナリオ・動画・ストーリー）</h3>
+<p>章テーマ: 価値提供動画のシナリオ構成・ストーリー作り・撮影</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5-1</td>
+<td>シナリオ概論</td>
+<td>空</td>
+<td><code>コルブ4WHYフレームワーク.md</code>（関連）</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>5-2</td>
+<td>動画シナリオの作り方</td>
+<td>空</td>
+<td><code>メソッドは発見から検証から確信の流れ.md</code>（関連）</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>5-3</td>
+<td>ストーリーの作り方</td>
+<td>空</td>
+<td><code>4つのストーリー.md</code>・<code>ストーリーの長さと目的.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>5-4</td>
+<td>動画撮影のポイント</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<h3>第6章（ページ作り・コピーライティング・LP）</h3>
+<p>章テーマ: オプトLP・説明会ページ・コピーライティング・ページ運用</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6-1</td>
+<td>ページ作り概論</td>
+<td>空</td>
+<td><code>LP添削/原則.md</code>・<code>制作手順.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>6-2</td>
+<td>コピーライティング</td>
+<td>空</td>
+<td><code>シナリオの起点はビリーフの設定.md</code>・<code>パワーワード集.md</code>・<code>IRQA構造.md</code> 他多数</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>6-3</td>
+<td>オプトページ・説明会ページ作成</td>
+<td>空</td>
+<td><code>デザイン指示書_作成ナレッジ.md</code>（LP作成）</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>6-3-1</td>
+<td>特別編：説明会ページ構築の考え方</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>6-4</td>
+<td>ページ運用</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<h3>第7章（見込み客集め・集客）</h3>
+<p>章テーマ: 集客の本質・自力集客・他力（JV）集客・セットアップ</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7-1</td>
+<td>見込み客集め概論＆マインドセット</td>
+<td>空（書き起こし原本には豊富な内容あり）</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>7-2</td>
+<td>見込み客を自力で集める</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>7-3</td>
+<td>見込み客を他力で集める（JV・紹介）</td>
+<td>空</td>
+<td><code>紹介マーケティングは善意でなく仕組み化する.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>7-4</td>
+<td>セットアップの考え方</td>
+<td>空（書き起こし原本には豊富な内容あり）</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<h3>第8章（ローンチ運営・価値提供・メルマガ）</h3>
+<p>章テーマ: プロモーションメルマガ・価値提供スケジュール・ローンチ運営・ライブ価値提供</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8-1</td>
+<td>プロモーションメルマガ</td>
+<td>空（書き起こし原本には内容あり）</td>
+<td><code>ハウス統合ステップメール_全体構成.md</code>・<code>基本構成.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>8-2</td>
+<td>価値提供スケジュール</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>8-3</td>
+<td>プロダクトローンチ運営（数値管理・PDCA）</td>
+<td>空（書き起こし原本に数値管理・KPI論あり）</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>8-4</td>
+<td>ライブを使った価値提供</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<h3>第9章（セールス）</h3>
+<p>章テーマ: セールスマインド・個別セールス17STEP・1対多セールス・事前準備</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>9-1</td>
+<td>セールス全体像＆マインドセット</td>
+<td>有効（脳内辞書・価値の方程式・3プロセス）</td>
+<td><code>高単価はクロージングしない_価値観を変える.md</code>・<code>3つのWHYで売り込みを提案に変える.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>9-2</td>
+<td>事前準備（アンケート・リマインド・情報収集）</td>
+<td>有効</td>
+<td><code>高単価セールスの事前準備.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>9-3-1</td>
+<td>個別セールス（全体像・Zoom・カフェ）</td>
+<td>有効</td>
+<td><code>問題点を育てる_田中式SPINの使い方.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>9-3-2</td>
+<td>個別セールスロープレセミナー1</td>
+<td>有効</td>
+<td><code>複数コースか1本勝負かの判断.md</code>・<code>価格提示の見せ方.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>9-3-3</td>
+<td>個別セールスロープレセミナー2</td>
+<td>有効</td>
+<td>直接対応ファイルなし（ロープレ実録）</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>9-3-4</td>
+<td>個別セールスロープレセミナー3</td>
+<td>有効</td>
+<td>直接対応ファイルなし</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>9-3-5</td>
+<td>個別セールスに関しての補講</td>
+<td>有効</td>
+<td>直接対応ファイルなし</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>9-3-6</td>
+<td>セールススライド勉強会</td>
+<td>有効</td>
+<td><code>セールススライドの設計原則.md</code>・<code>セールススライドの原則.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>9-3-7</td>
+<td>セールスロープレのやり方</td>
+<td>有効</td>
+<td>直接対応ファイルなし</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>9-4-1</td>
+<td>1対多セールス（概論・Zoom・環境）</td>
+<td>有効</td>
+<td><code>セミナーセールス/セールススライドの原則.md</code>・<code>ノウハウ教えすぎの罠.md</code></td>
+<td>充分</td>
+</tr>
+<tr>
+<td>9-4-2</td>
+<td>1対多セールス2day特別セミナー1日目</td>
+<td>空（重複ファイルあり）</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<h3>第10章（お金をかけるローンチ・FB広告）</h3>
+<p>章テーマ: 有料広告ローンチの12ステップ・FB広告基礎・実践・マインドセット・トラブル</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10-1</td>
+<td>マインドセット</td>
+<td>空</td>
+<td><code>広告運用の原則.md</code>（関連）</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>10-2</td>
+<td>お金をかけるPLの12ステップ</td>
+<td>空</td>
+<td><code>お金をかけないプロダクトローンチ.md</code>（逆側のみ）</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>10-2-2</td>
+<td>特別編：トラブル事例集</td>
+<td>空</td>
+<td><code>広告審査で弾かれる表現.md</code>（部分）</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>10-3</td>
+<td>FB広告基礎編</td>
+<td>空</td>
+<td><code>媒体別/Meta広告/</code>配下に複数ファイル</td>
+<td>部分</td>
+</tr>
+<tr>
+<td>10-4</td>
+<td>FB広告実践編</td>
+<td>空</td>
+<td><code>媒体別/Meta広告/</code>配下に複数ファイル</td>
+<td>部分</td>
+</tr>
+</tbody>
+</table>
+<h3>第11章（仕組み化・自動化・KPI・改善）</h3>
+<p>章テーマ: エバーグリーン化・KPI数値管理・改善のPDCA・ゼロから仕組み化</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11-1</td>
+<td>全体像（エバーグリーン化の定義・種類）</td>
+<td>空（書き起こし原本に内容あり）</td>
+<td><code>VSLでエバーグリーン化.md</code>・<code>ファネルのポートフォリオ.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>11-2</td>
+<td>ゼロから仕組み化するステップ全体像</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>11-3</td>
+<td>KPI・数値管理</td>
+<td>空（書き起こし原本に数値・KPI論あり）</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>11-4</td>
+<td>改善の方法</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<h3>第12章（ビジネスモデル・コンサル・コミュニティ・次のステージ）</h3>
+<p>章テーマ: 上位モデル・コンサルの極意・コミュニティ運営・次のステージへ</p>
+<table>
+<thead>
+<tr>
+<th>レッスンID</th>
+<th>タイトル</th>
+<th>内容まとめ状態</th>
+<th>knowledge対応</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12-1</td>
+<td>ビジネスモデルの構築（前編）</td>
+<td>空（書き起こし原本に内容あり）</td>
+<td><code>講座からコミュニティからコンサルの三段構造.md</code>・<code>価格帯別のファネル構成.md</code></td>
+<td>部分</td>
+</tr>
+<tr>
+<td>12-1</td>
+<td>ビジネスモデルの構築（後編）</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>12-2</td>
+<td>コンサルティングの極意</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>12-3</td>
+<td>コミュニティ運営の秘訣</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+<tr>
+<td>12-4</td>
+<td>次のステージに行くために</td>
+<td>空</td>
+<td>直接対応ファイルなし</td>
+<td>欠落</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. 章別充足率サマリ</h2>
+<table>
+<thead>
+<tr>
+<th>章</th>
+<th>テーマ</th>
+<th>総レッスン数</th>
+<th>充分</th>
+<th>部分</th>
+<th>欠落/要確認</th>
+<th>充足率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第0章</td>
+<td>受講マインド・チームビルド</td>
+<td>12</td>
+<td>0</td>
+<td>3</td>
+<td>9</td>
+<td>低（25%）</td>
+</tr>
+<tr>
+<td>第1章</td>
+<td>PL全体戦略・型・工程・心理トリガー</td>
+<td>5</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>中（40%）</td>
+</tr>
+<tr>
+<td>第2章</td>
+<td>コンセプト設計（わしづかみ）</td>
+<td>4</td>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>高（75%）</td>
+</tr>
+<tr>
+<td>第3章</td>
+<td>商品設計・オファー・プロフィール</td>
+<td>4</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>中（25%）</td>
+</tr>
+<tr>
+<td>第4章</td>
+<td>情報発信・メディア戦略</td>
+<td>4</td>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+<td>低（25%）</td>
+</tr>
+<tr>
+<td>第5章</td>
+<td>シナリオ・動画・ストーリー</td>
+<td>4</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>低（25%）</td>
+</tr>
+<tr>
+<td>第6章</td>
+<td>ページ作り・コピーライティング</td>
+<td>5</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+<td>低（20%）</td>
+</tr>
+<tr>
+<td>第7章</td>
+<td>見込み客集め・集客</td>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+<td>低（0%直接）</td>
+</tr>
+<tr>
+<td>第8章</td>
+<td>ローンチ運営・価値提供・メルマガ</td>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+<td>低（0%直接）</td>
+</tr>
+<tr>
+<td>第9章</td>
+<td>セールス（個別・1対多）</td>
+<td>11</td>
+<td>5</td>
+<td>5</td>
+<td>1</td>
+<td>中〜高（55%）</td>
+</tr>
+<tr>
+<td>第10章</td>
+<td>有料広告ローンチ・FB広告</td>
+<td>5</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+<td>低（25%）</td>
+</tr>
+<tr>
+<td>第11章</td>
+<td>仕組み化・自動化・KPI</td>
+<td>4</td>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+<td>低（0%直接）</td>
+</tr>
+<tr>
+<td>第12章</td>
+<td>ビジネスモデル・コンサル・コミュニティ</td>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>4</td>
+<td>低（0%直接）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>全体の概算: 充分 11本 / 部分 28本 / 欠落 38本（内容まとめ空40本のうち2本はknowledgeで部分カバー）</strong></p>
+<hr />
+<h2>4. 高価値ギャップ 優先リスト</h2>
+<p>田中AIの添削・相談・制作支援で「判断を変える」のに最も効くのに未抽出のレッスンを優先度順に列挙する。</p>
+<h3>優先度 S（最高・体系の背骨で穴が致命的）</h3>
+<p><strong>1. 1-2「プロダクトローンチの型の解剖」</strong><br />
+- 状況: knowledge に <code>ローンチの型一覧.md</code> があるが<strong>中身がプレースホルダーのまま</strong>（version 0.1、「時代に合っていない部分があるため差し替え予定」と明記）<br />
+- 問題: PLCの核心である「どの型を使うか」の判断がAIにできない。今の内容まとめ（4型）はあるが最新17型への更新が滞っている<br />
+- 対策: ワークショップ動画の書き起こしと照合の上、ローンチの型一覧を本番コンテンツで埋める</p>
+<p><strong>2. 8-3「プロダクトローンチ運営（数値管理・PDCA）」</strong><br />
+- 状況: 内容まとめ空。書き起こし原本には「オプトLP成約率10%割ったらやばい」「鎖論（最弱リンク改善）」「KPI管理フロー」等の具体的判断基準あり<br />
+- 問題: 添削でボトルネック改善アドバイスができない。KPI基準値がknowledge未収録<br />
+- 対策: 書き起こし原本から基準値・判断基準を抽出（数値付き）</p>
+<p><strong>3. 7-1「見込み客集め概論＆マインドセット」+ 7-4「セットアップの考え方」</strong><br />
+- 状況: 両方空。書き起こし原本には「セットアップを怠るな（冷やし中華始めましたになる）」「10万リスト積み上げのメソッド」等の哲学・原理あり<br />
+- 問題: 集客相談に対してknowledge由来の判断が出せない（最重要ステップが空白）<br />
+- 対策: 原本から「セットアップの原理」を単独ナレッジ化</p>
+<p><strong>4. 11-3「KPI・数値管理」</strong><br />
+- 状況: 空。書き起こし原本（8-3）でKPIへの言及あり。11-3は数値基準値の専門講義のはず<br />
+- 問題: 「オプトLP成約率の目安」「説明会誘導率」「成約率」等の基準値が未収録<br />
+- 対策: 原本から基準値を抽出し <code>knowledge/共通/田中祐一メソッド/KPI基準値一覧.md</code> を作成</p>
+<p><strong>5. 12-2「コンサルティングの極意」</strong><br />
+- 状況: 空。田中祐一のコンサルビジネス上位モデルの核心<br />
+- 問題: コンサル志向の受講生への相談でknowledge由来判断が出せない<br />
+- 対策: 書き起こし原本から哲学・判断基準を抽出</p>
+<h3>優先度 A（高・体系ステップとして重要）</h3>
+<p><strong>6. 2-4「わしづかみコンセプト構築の9STEP」</strong><br />
+- 内容まとめ空。9STEPの順序・各STEPの判断基準が未収録<br />
+- 既存の15質問と統合することで「コンセプト構築の全工程」ナレッジになる</p>
+<p><strong>7. 11-1「全体像」+ 11-2「ゼロから仕組み化するステップ全体像」</strong><br />
+- 書き起こし原本にはエバーグリーン化の種類・難易度・レベル1/2の定義あり<br />
+- 現在 <code>VSLでエバーグリーン化.md</code> 等はグルコン由来で講義体系との接続が薄い</p>
+<p><strong>8. 12-3「コミュニティ運営の秘訣」</strong><br />
+- PLCコミュニティ自体の設計哲学。田中祐一の「全員で勝つ」思想の源泉<br />
+- 受講生コミュニティ設計の相談で必須のナレッジ</p>
+<p><strong>9. 3-4「プロフィール構築」</strong><br />
+- 「選ばれる理由の構築」は添削で頻出。知識なしでは表面的なアドバイスしか出せない</p>
+<p><strong>10. 0-4-5「よくある失敗例」</strong><br />
+- チーム型ローンチの失敗パターンカタログ。事例として高価値。現状完全欠落</p>
+<h3>優先度 B（中・直接の補完価値あり）</h3>
+<ul>
+<li>4-3「メディア別基本戦略」: SNS別の田中判断が未収録</li>
+<li>6-4「ページ運用」: ABテストや数値改善の判断基準</li>
+<li>9-3-7「セールスロープレのやり方」: ロープレ設計の判断基準</li>
+<li>8-1「プロモーションメルマガ」: ローンチ期のメール戦略（ステップメールと別物）</li>
+<li>8-4「ライブを使った価値提供」: ライブ活用の判断基準</li>
+</ul>
+<hr />
+<h2>5. 精度向上の具体提案</h2>
+<h3>5-1「章背骨」の保持方針</h3>
+<p>現状のknowledgeはスキル別（コンセプト設計/セールス等）で切られており、<strong>第何章のどの概念か</strong>という体系的文脈が失われている。田中AIが「今あなたのローンチは第7章の集客フェーズ」という文脈で話せるようにするためには、knowledgeのfrontmatterに <code>plc_chapter: 7</code> のような章番号フィールドを追加し、章順の背骨をメタデータで保持する方法が有効。</p>
+<p>具体的には:<br />
+- 既存knowledgeのうちメイン講義由来のもの（source に PLCメイン講義 X-X と明記されているもの）に <code>plc_chapter</code> フィールドを追加<br />
+- 新規抽出時に必ず章番号を付与</p>
+<h3>5-2 抽出の進め方（実体験ゲート付き）</h3>
+<p>内容まとめ空ファイルは「未加工の書き起こし原本が存在する」状態。そこから6要素モデルで抽出する際の優先手順:</p>
+<ol>
+<li><strong>書き起こし原本を精読</strong>（タイムスタンプ形式のまま田中発言を読む）</li>
+<li><strong>5要素テスト適用</strong>: 「これを読むとAIのどの判断がどう変わるか」を言えるものだけを拾う</li>
+<li><strong>実体験ゲート</strong>: 「田中祐一が実際にやって確認した判断」でないものは除外（例: 11-1「うちの会社もいろんな種類にたくさんチャレンジしてるんですけど、実はうちの実力不足もあって…難易度がある」という正直な失敗言及は事例として有効）</li>
+<li><strong>数値は必ず文脈付きで抽出</strong>: 「オプトLP成約率10%」だけでなく「10%を切ったらもうやばい（ざるみたいなもの）」という閾値+比喩+田中発言のセットで記録</li>
+</ol>
+<h3>5-3 帰属・声の根幹との整合</h3>
+<p>書き起こし原本は「未設定話者」のタイムスタンプ形式。発言の帰属は明確（田中祐一の講義のみ）だが、knowledgeに格納する際は <code>source: PLCメイン講義 X-X（田中祐一）</code> と明記することで帰属を担保する。</p>
+<p>他者の話（受講生事例・引用）は本人の発言と区別し、「田中のAIのように語らせない」原則を守る。書き起こし内の他者言及は事例の文脈内のみで扱う。</p>
+<h3>5-4 重複・統合の整理</h3>
+<p>現状のknowledge内に同一源泉から独立して抽出されているものが散見される:<br />
+- <code>9-1_セールス全体像＆マインドセット.md</code>（内容まとめ）と <code>9-1_セールス全体像とマインドセット.md</code>（ファイル重複）<br />
+- <code>3-2_本命商品コンセプト_オファー.md</code> と <code>3-2_本命商品コンセプト＆オファー.md</code>（ファイル重複）</p>
+<p>これらは内容まとめ側の整理と同時に、knowledge格納時に統合ルールを明確にする。</p>
+<hr />
+<h2>6. 現状の一言評価と精度を上げる最短の一手</h2>
+<p><strong>現状の一言評価</strong></p>
+<p>「背骨は設計されているが、肉が8割ついていない骨格の状態」。第1・2・9章のコンセプト設計とセールス周辺は実用水準に近いが、第7章（集客）・第8章（ローンチ運営）・第11章（仕組み化）・第12章（上位モデル）はknowledge上ほぼ空白であり、これらの相談が来た場合に田中祐一の判断を出せない。最も深刻なのは「ローンチの型一覧.md」がプレースホルダーのまま本番に出ていること。</p>
+<p><strong>精度を上げる最短の一手（3ステップ）</strong></p>
+<ol>
+<li>
+<p><strong>即時</strong>: <code>ローンチの型一覧.md</code>（プレースホルダー）を 1-2 の内容まとめ＋ワークショップ動画照合で本番コンテンツに差し替える。ここは本番AIが参照しているにも関わらず中身がない致命的な空洞。</p>
+</li>
+<li>
+<p><strong>翌日以内</strong>: 優先度S上位3本（1-2, 8-3, 7-1+7-4）の書き起こし原本から、基準値と判断基準に絞って抽出・格納。原本はすでに存在するので読んで5要素テストを通すだけでよい。</p>
+</li>
+<li>
+<p><strong>週内</strong>: 章番号フィールド（<code>plc_chapter</code>）を既存のメイン講義由来knowledgeに追加し、体系の背骨をメタデータで復元する。これにより田中AIが「あなたは今第7章の課題を抱えている」と体系的に文脈を持てるようになる。</p>
+</li>
+</ol>
+<hr />
+<p>対象ディレクトリ:<br />
+- 書き起こし原本: <code>/Users/tanakayuichi/Projects/theleadpromotion/22_コミュニティサポート/会員サイト/PLC会員サイト/メイン講義/書き起こし原本/</code><br />
+- 内容まとめ: <code>/Users/tanakayuichi/Projects/theleadpromotion/22_コミュニティサポート/会員サイト/PLC会員サイト/メイン講義/内容まとめ/</code><br />
+- knowledge格納先: <code>/Users/tanakayuichi/Projects/theleadpromotion/knowledge/</code><br />
+- 本ドキュメント: <code>/Users/tanakayuichi/Projects/theleadpromotion/97_ザ・リード事業/AI構築/会員サイト_メイン講義_ナレッジ化点検_20260616.md</code></p>
+</main>
+</body>
+</html>

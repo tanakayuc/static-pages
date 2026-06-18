@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>会員サイト抽出候補_章7-8-11-12_20260616 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    .sidebar { width: 110px; min-width: 110px; padding: 0.4rem; }
+    .sidebar h3 { font-size: 0.75rem; margin-bottom: 0.4rem; writing-mode: horizontal-tb; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.25rem 0.3rem; margin-bottom: 2px; word-wrap: break-word; line-height: 1.2; }
+    .sidebar .date { display: none; }
+    .mobile-nav { display: none; }
+    .main { padding: 0.7rem; max-width: none; width: calc(100% - 110px); }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.9rem; line-height: 1.6; }
+    .main a { word-wrap: break-word; }
+    .main table { font-size: 0.85rem; }
+    .main th, .main td { padding: 0.35rem; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .sidebar { width: 90px; min-width: 90px; padding: 0.3rem; }
+    .sidebar h3 { font-size: 0.7rem; }
+    .sidebar-item { font-size: 0.65rem; padding: 0.2rem 0.3rem; }
+    .main { padding: 0.3rem; width: calc(100% - 90px); }
+    .main h1 { font-size: 1.1rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.85rem; }
+    .main pre { font-size: 0.75rem; padding: 0.4rem; }
+    .main table { font-size: 0.75rem; }
+    .main th, .main td { padding: 0.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="027.html" class="sidebar-item"><span class="date">2026年06月18日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item active"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>会員サイト ナレッジ抽出候補（章7・8・11・12）</h1>
+<p>作成日: 2026-06-16<br />
+作成者: ナレッジ管理担当サブエージェント<br />
+対象原本: <code>22_コミュニティサポート/会員サイト/PLC会員サイト/メイン講義/書き起こし原本/</code></p>
+<hr />
+<h2>凡例</h2>
+<ul>
+<li>【採用推奨】: 差別化ゲート・実体験ゲート両方通過。即格納可。</li>
+<li>【要検討】: 田中独自性はあるが事例または上位哲学の補強が欲しい。田中さんの判断を仰ぐ。</li>
+<li>【既存あり】: 既存knowledge/に同主張が確認されたもの（重複作成しない）。</li>
+</ul>
+<hr />
+<h1>第7章：見込み客集め</h1>
+<h2>7-1 見込み客集め概論＆マインドセット</h2>
+<hr />
+<h3>候補7-1-A【採用推奨】</h3>
+<p><strong>主張</strong>: リストは「命」。集客・商品・セールス・仕組みの4要素で最優先が「集客（リスト）」。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>プロダクトローンチはリストがなければ何も始まらない。他の要素がいくら優れていてもリストがなければ動かない</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>プロダクトローンチを設計するコンテンツホルダー・プロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>受講生が「何から始めるべきか」に迷ったとき。優先順位の整理</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>7-1 原文「リストは命」。田中が繰り返し集客を最優先する理由として語る</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>商品・セールス・仕組みを先に整えようとする人が多いが、田中は「リストがゼロでは他は機能しない」と逆順の失敗パターンを先に指摘する</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/集客/リスト最優先_原理.md</code>（新規作成）</p>
+<hr />
+<h3>候補7-1-B【採用推奨】</h3>
+<p><strong>主張</strong>: オプトLPの成約率が10%を割ったら危険ライン、15%以上合格、25%以上でウハウハ。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>KPIを数値で追わないと改善できない。弱い連鎖から修正する</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>ローンチを運営するコンテンツホルダー・プロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>オプトLPの良否判定、改善優先度の決定</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>7-1・8-3 原文「10%切ったら危険、15%以上合格、25%以上でウハウハ」—verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「とりあえず集客」ではなく数値閾値を設けて「落第か合格か」を判定する考え方</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/集客/KPI基準値_オプトLP.md</code>（新規または既存基準値ファイルに追記）</p>
+<hr />
+<h3>候補7-1-C【採用推奨】</h3>
+<p><strong>主張</strong>: 行動量が集客の命。全てテストの精神で「かき集める」マインドが必要。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>全てはテスト。正解を探すより手を動かした量が結果を決める</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>集客フェーズのコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>集客が止まっている受講生へのコーチング時。セットアップ期間</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>7-1 原文「行動量が命」「かき集めるという感覚」</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>完璧な方法を探して動けない人に対し「テスト量 &gt; 完璧な1手」を言い切る</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/集客/行動量ファースト_哲学.md</code>（新規）</p>
+<hr />
+<h2>7-2 見込み客を自力で集める</h2>
+<hr />
+<h3>候補7-2-A【採用推奨】</h3>
+<p><strong>主張</strong>: アメブロ読者へ個別メッセージを送り2人に1人がOPT（三上優里奈さん事例）。SNS→個別DM→OPTの流れが自力集客の型。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>メディアは認知ではなく接点。接点から個別に動かすのが自力集客の核</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（集客フェーズ）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>リストゼロからの自力スタート時。メディア選定時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>三上優里奈さん（受講生）: アメブロ読者に個別メッセージ送付で2人に1人OPT。7-2出典</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「SNSで発信する」と「SNSから個別に動かす」は別物。後者がリストになる</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/集客/自力集客_個別DM型.md</code>（新規・事例含む）</p>
+<hr />
+<h3>候補7-2-B【要検討】</h3>
+<p><strong>主張</strong>: Kindle出版でリストを集める戦略（Kindle→LINE誘導）。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>コンテンツを資産にして受動的に集客できる仕組みを作る</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>中長期の集客媒体選定時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>7-2で言及あり。具体的な田中自身の実数値は不明</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>Kindleを「本」ではなく「リスト獲得媒体」として位置づける</td>
+</tr>
+</tbody>
+</table>
+<p>判定理由: 実体験として言及はあるが、田中自身の数値（何冊で何人OPT等）が取れなかった。事例補強後に採用。</p>
+<hr />
+<h2>7-3 見込み客を他力で集める</h2>
+<hr />
+<h3>候補7-3-A【採用推奨】</h3>
+<p><strong>主張</strong>: 紹介マーケティングは「返報性の原理」で動く。まず自分が紹介する側になることが先。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>返報性原則。先に与える者が長期的に有利になる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（他力集客フェーズ）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>JV・アフィリエイト・紹介ネットワーク構築時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>7-3原文。田中が自らパートナーのリストを紹介することで逆に紹介されるサイクルを構築</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「紹介してもらう」を目的にすると来ない。「自分から紹介する」を先に行動することで後から来る</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/集客/他力集客_返報性原理.md</code>（新規）</p>
+<hr />
+<h3>候補7-3-B【採用推奨】</h3>
+<p><strong>主張</strong>: 紹介依頼は3回行う（1回目は準備、2回目が本番、3回目がフォロー）。1回で諦めない。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>人間は1回では動かない。複数回の接触で行動が生まれる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（紹介依頼する側）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>プロモーション前のパートナー・応援者への紹介依頼設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>7-3原文「3回依頼ルール」として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>1回断られたら終わりにする人が多いが、3回が標準設計</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/集客/他力集客_3回依頼ルール.md</code>（新規）</p>
+<hr />
+<h3>候補7-3-C【採用推奨】</h3>
+<p><strong>主張</strong>: 「リストは誰のものでもない」—紹介で来たリストも最終的には信頼した人に集まる。タグ付けよりシェアを優先。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>リストの帰属は「紹介した人」ではなく「価値を届けた人」に決まる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー・プロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>JVプロモーション設計時、パートナーとの役割分担確認時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>7-3原文「リストは誰のものでもない」</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>JVで「紹介したリストは自分のもの」と思うパートナーへの返し。関係性で動く</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/集客/JV_リスト帰属の原理.md</code>（新規）</p>
+<hr />
+<h2>7-4 セットアップの考え方</h2>
+<hr />
+<h3>候補7-4-A【採用推奨】</h3>
+<p><strong>主張</strong>: セットアップとはプロダクトローンチ開始前から仕込む投稿のこと。1〜2週間前から「匂わせ」て初動速度をつける。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>期待値は当日に作れない。事前の助走で初動が決まる（8-2/サンプル2と共鳴）</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（ローンチ設計時）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ローンチ直前1〜4週間の設計フェーズ</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>7-4原文「今動画撮ってますよ」等のSNS投稿がセットアップ。出版前にゲラを見せて初動が出た田中の出版実例（言及あり）</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>集客は「募集しましたから頑張る」ではなく「募集したら終わり」が理想。そのための準備がセットアップ</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/セットアップ_初動速度の仕掛け.md</code>（新規）</p>
+<hr />
+<h1>第8章：プロモーション・ローンチ運営</h1>
+<h2>8-1 プロモーションメルマガ</h2>
+<hr />
+<h3>候補8-1-A【採用推奨】</h3>
+<p><strong>主張</strong>: メールの件名は開封率を決める最重要要素。本文より件名に時間をかける。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>読まれないコンテンツは存在しないのと同じ。入口（件名）が全て</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（メルマガ配信者）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>プロモーションメルマガ設計時、日常メルマガ改善時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-1原文。田中が繰り返し「件名が命」と語る</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>本文のクオリティより件名の1行が開封率→読了率→成約を決定する</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/メルマガ_件名最優先.md</code>（新規）</p>
+<hr />
+<h3>候補8-1-B【採用推奨】</h3>
+<p><strong>主張</strong>: PSは本文の補足ではなく「読まれる場所」として設計する。PS=2番目によく読まれる箇所。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>人は最初と最後を読む（ツァイガルニク効果的な読者心理）</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（メルマガ配信者）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>CTA設計、説明会誘導メールの構成</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-1原文。PS活用をプロモーションメルマガの設計原則として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>PSを「おまけ」として使う人が多い。田中は「PSに一番大事なCTAを入れる」設計</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/メルマガ_PS設計.md</code>（新規）</p>
+<hr />
+<h3>候補8-1-C【採用推奨】</h3>
+<p><strong>主張</strong>: 手動送信哲学—「配信を自動化しすぎるな」。価値観が合う人だけ残るように、メルマガで振り落としも意図的に行う。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>コミュニティ・顧客の質をリストの量より優先する。合わない人は早期に離脱した方が双方幸せ</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（コミュニティ型ビジネスオーナー）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>リスト管理、プロモーション設計時の顧客フィルタリング</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-1原文。「価値観の業務量がある」「振り落とし」として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>開封率を上げるのではなく「残るべき人を残す」ための意図的な振り落とし設計</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/メルマガ_振り落とし哲学.md</code>（新規）</p>
+<hr />
+<h2>8-2 価値提供スケジュール</h2>
+<hr />
+<h3>候補8-2-A【採用推奨】</h3>
+<p><strong>主張</strong>: プロモーションスケジュールは「全てはテスト」で設計する。正解はなく、やってみて改善する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>全てはテスト哲学。仮説→実行→フィードバック→改善のサイクルが唯一の正解</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>ローンチ運営者</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>初回ローンチ設計時、改善フェーズ</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-2原文</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「スケジュールの正解を教えてください」という受講生に対し「テストして学ぶのが唯一の正解」と返す</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/スケジュール_全テスト哲学.md</code>（新規。既存「全てはテスト」哲学への紐付き）</p>
+<hr />
+<h2>8-3 プロダクトローンチ運営</h2>
+<hr />
+<h3>候補8-3-A【採用推奨】★重要（KPI基準値群）</h3>
+<p><strong>主張</strong>: ローンチのKPI基準値群（verbatim）:<br />
+- オプトLP成約率: 10%切ったら危険、15%以上合格、25%以上でウハウハ<br />
+- 説明会申込率: 5%でOK、8%でウハウハ<br />
+- 説明会入金率: 80%以上<br />
+- バックエンド成約率: 80万円以上の商品→30%、30万円以上の商品→50%</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>弱い連鎖理論（最も弱いKPIが全体の限界を決める）。数値を取らないと改善方向が分からない</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>ローンチを設計・改善するプロデューサー・コンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ローンチ後のKPIレビュー、ボトルネック特定、改善優先度決定</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-3原文verbatim。田中が繰り返し使う判定基準</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「なぜ売れないか」を感覚ではなくKPIの連鎖で特定する。弱いリンクを探す思考法</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/KPI基準値_ローンチ全体.md</code>（新規・最重要）</p>
+<hr />
+<h3>候補8-3-B【採用推奨】</h3>
+<p><strong>主張</strong>: 弱い連鎖理論（チェーンの最も弱いリンクが全体の強さを決める）。KPIチェーンで一番弱い箇所から直す。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>問題の根本は連鎖の中の最弱点にある。全体最適より局所改善が先</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>ローンチ改善を担うプロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ローンチ結果レビュー、改善施策の優先度付け</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-3原文「弱い連鎖」として明示</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「全部改善しよう」ではなく「一番弱いところだけ直す」が正しい順序</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/弱い連鎖理論_改善思考.md</code>（新規）</p>
+<hr />
+<h2>8-4 ライブを使った価値提供</h2>
+<hr />
+<h3>候補8-4-A【採用推奨】</h3>
+<p><strong>主張</strong>: ライブは「一方的な配信」ではなく「会話」として設計する。生感からくる強烈なラポール構築がライブの真価。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>関係構築はリアルタイムの相互性から生まれる。作られた世界より生の接触が信頼を作る</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（プロモーション期）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ローンチ中の無料動画間のライブ設計、説明会への誘導施策</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-4原文「動画と動画の間にライブをやる」「コメント誘導→説明会申込」の流れ</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>ライブをコンテンツ配信として作り込む人が多いが、田中は「会話・コメント誘導がラポール構築の本質」</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/ライブ活用_ラポール構築.md</code>（新規）</p>
+<hr />
+<h3>候補8-4-B【採用推奨】</h3>
+<p><strong>主張</strong>: ライブは絶対に事前告知必須（2日前以上）。いきなり始めても誰も来ない。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>期待値は当日に作れない（セットアップ哲学との共通原理）</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ライブ設計・スケジューリング</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-4原文「ライブは絶対にいきなり始めるな。事前に2日後の何時からライブやります、とセットアップしないといけない」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>ライブの本番ではなく「告知が仕込み」。本番前の準備が視聴者数を決める</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/ライブ_事前告知必須.md</code>（新規）</p>
+<hr />
+<h3>候補8-4-C【採用推奨】</h3>
+<p><strong>主張</strong>: ライブの最初に「おはようございます」と入力させ、コメントハードルを下げる。名前を読んで反応させる。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>最初の行動（コメント）ハードルを下げると参加率が上がる。小さいYESが大きな参加を生む</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（ライブ配信者）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ライブ冒頭のコメント誘導設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>8-4原文「まずおはようございますと入れてください、と言って1回コメントさせる」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>ライブの反応は設計で作れる。最初の1コメントを設計することで空気が変わる</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/プロモーション/ライブ_コメント誘導テクニック.md</code>（新規）</p>
+<hr />
+<h1>第11章：仕組み化（エバーグリーン）</h1>
+<h2>11-1 全体像</h2>
+<hr />
+<h3>候補11-1-A【採用推奨】★重要</h3>
+<p><strong>主張</strong>: ローンチはエバーグリーンの3倍の売り上げ感覚値がある。ローンチ100万→エバーグリーン33万が実感値。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>自動化は利便性と引き換えに熱量を失う。ローンチの熱量は自動化では再現できない</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>仕組み化を検討するコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ローンチとエバーグリーンの選択判断、KPI設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-1原文「ローンチの3倍vsエバーグリーン1倍の感覚値」として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>エバーグリーンは「楽に稼げる」ではなく「ローンチの3分の1の規模」が現実。それを理解した上で設計する</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/エバーグリーン_ローンチ比較基準値.md</code>（新規）</p>
+<hr />
+<h3>候補11-1-B【採用推奨】★重要</h3>
+<p><strong>主張</strong>: 商品単価50万円以上でないとエバーグリーンで利益が出にくい。30万円商品でエバーグリーンをやると赤字になった実体験あり。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>エバーグリーンは広告費が常時かかる。LTVが広告費を上回らないと回らない</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>エバーグリーン導入を検討するコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>エバーグリーン移行の可否判断、商品単価設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-1原文「30万円でエバーグリーンをやったら赤字だった」田中自身の実体験（出典確認済み）</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>エバーグリーンの判断基準は「自動化したいか」ではなく「単価が50万円以上あるか」</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/エバーグリーン_単価閾値50万.md</code>（新規・実体験ゲート通過）</p>
+<hr />
+<h3>候補11-1-C【採用推奨】</h3>
+<p><strong>主張</strong>: エバーグリーンの3モデル（説明会型/ウェビナー型/マイクロフロント型）のうち、田中の得意は「説明会型」。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>型を真似するより自分が得意な型でまず検証する</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>エバーグリーンを設計するプロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>エバーグリーン型の選択時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-1原文。田中が「自分は説明会型が得意」と明言</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「どれが最強か」ではなく「自分が得意な型から始める」を優先する実践観</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/エバーグリーン_3モデル選択.md</code>（新規）</p>
+<hr />
+<h2>11-2 ゼロから仕組み化するステップ全体像</h2>
+<hr />
+<h3>候補11-2-A【採用推奨】★重要</h3>
+<p><strong>主張</strong>: 仕組み化の順序は「テストプロモーション（ローンチ）で収益確立→エバーグリーン化」。いきなりエバーグリーンは失敗する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>仮説検証なしに自動化しても無駄が自動化されるだけ。まず手動で何が売れるかを確認する</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>仕組み化フェーズのコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>受講生が「いきなりエバーグリーン」と言い始めたとき。仕組み化の設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-2原文「3つのよくある失敗」の中に「いきなりエバーグリーン」が筆頭</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>エバーグリーンは「楽に始められる仕組み」ではなく「ローンチで検証済みの型を自動化するもの」</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/エバーグリーン_テスト先行の鉄則.md</code>（新規）</p>
+<hr />
+<h3>候補11-2-B【採用推奨】</h3>
+<p><strong>主張</strong>: 短期3ヶ月以内に収益確立してから長期改善に入る。長期で考えると短期の行動が遅くなる。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>ベビーステップ哲学。小さな実績を積み、そこから拡張する</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>仕組み化初期のコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>仕組み化設計時のスケジューリング</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-2原文「3ヶ月以内に収益確立してから長期改善へ」</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「1年で仕組みを作る」ではなく「3ヶ月で最初の収益を作ってから次を考える」</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/エバーグリーン_短期3ヶ月確立則.md</code>（新規）</p>
+<hr />
+<h3>候補11-2-C【採用推奨】</h3>
+<p><strong>主張</strong>: 先行参加者が「得する」オファー設計で初速をつける。ただし日付・カウントダウンでの嘘はつかない。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>初速が仕組みの評価を決める。かつ信頼は一度失うと取り戻せない</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>エバーグリーン設計者</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>エバーグリーンローンチの初回オファー設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-2原文「先行参加者が得するオファー設計」「日付・カウントダウンで嘘はつかない」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「焦らせる演出」と「嘘」は別物。田中は前者は使うが後者は一切使わないと明言</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/エバーグリーン_先行オファー設計.md</code>（新規）</p>
+<hr />
+<h3>候補11-2-D【採用推奨】</h3>
+<p><strong>主張</strong>: エバーグリーンのオファーはホルダー稼働を増やさない設計にする。稼働増設計は持続しない。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>自動化の目的は「成果を保ちながら稼働を下げる」。稼働を増やす自動化は矛盾</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>エバーグリーン設計者（コンテンツホルダー）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>エバーグリーン移行後のオペレーション設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-2原文「ホルダー稼働を増やさないオファー設計」として明示</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>エバーグリーンで稼働が増えていたら仕組み化の失敗。設計段階で稼働上限を決める</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/エバーグリーン_稼働設計の鉄則.md</code>（新規）</p>
+<hr />
+<h2>11-3 KPI・数値管理</h2>
+<hr />
+<h3>候補11-3-A【採用推奨】★重要（KPI基準値群）</h3>
+<p><strong>主張</strong>: エバーグリーン固有KPI基準値群（verbatim）:<br />
+- エバーグリーンの申込率 = ローンチの約半分（ローンチ5%なら2.5〜3%が目安）<br />
+- 無料説明会誘導率: 60%目標、40%が最低ライン<br />
+- LTV計算式: フロント単価 × 継続率 × 継続月数 + バックエンド単価 × 成約率</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>KPIを取らないと改善できない。エバーグリーンはローンチと異なるKPI体系で評価する</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>エバーグリーンを運営するコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>エバーグリーンのKPIレビュー、ボトルネック特定</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-3原文verbatim。ローンチ講座申込率改善実数値: 2.5%→4%、誘導率: 30%→45〜60%も言及あり</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>エバーグリーンの申込率がローンチと同水準を期待するのは誤り。半分を前提に逆算する</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/KPI基準値_エバーグリーン.md</code>（新規・最重要）</p>
+<hr />
+<h3>候補11-3-B【採用推奨】</h3>
+<p><strong>主張</strong>: KPI管理はOPTベースの月次集計が基本。月次で見ることで改善サイクルが回る。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>継続的な改善は定期的な計測から始まる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>エバーグリーン運営者</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>KPI管理シート設計、月次レビュー</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-3原文「OPTベース月次集計」として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「感覚で動いている」状態からの脱却。月次数値を記録することで改善の因果が見える</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/KPI_月次管理の設計.md</code>（新規）</p>
+<hr />
+<h2>11-4 改善の方法</h2>
+<hr />
+<h3>候補11-4-A【採用推奨】★重要</h3>
+<p><strong>主張</strong>: 改善はクロージング（成約）側から着手する。集客→クロージングの順で改善すると無駄が多い。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>弱い連鎖理論の応用。後工程を固めないと前工程の投資が無駄になる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>エバーグリーン改善フェーズのプロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ローンチ・エバーグリーン後の改善優先度決定</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-4原文「クロージング側から改善」として明示</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>集客を頑張る前に成約率を上げる。成約率が低いまま集客を増やすのは無駄</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/改善の順序_クロージングから.md</code>（新規）</p>
+<hr />
+<h3>候補11-4-B【採用推奨】★重要・実体験あり</h3>
+<p><strong>主張</strong>: ミッショントーク（自己紹介動画）を説明会前日に送付するだけで成約率が劇的に改善した。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>信頼は事前に作る。説明会は「確認の場」にして、感情的な判断を事前に完了させる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>個別説明会を行うコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>個別説明会の成約率改善、説明会前の設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-4原文「ミッショントークを事前送付して成約率が劇的改善」田中の実体験として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>説明会での「語り」に頼るのではなく、事前動画で信頼を作っておく。説明会当日は「答え合わせ」</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/説明会_ミッショントーク事前送付.md</code>（新規）</p>
+<hr />
+<h3>候補11-4-C【採用推奨】★重要・数値あり</h3>
+<p><strong>主張</strong>: 申し込み後3時間以内の電話が勝負。1日経つと成約率が激減する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>感情は冷める。申込直後が最も購買意欲が高い</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>個別説明会を設計・運営するコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>説明会申込後のフォローアップ設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-4原文「申し込み後3時間以内電話が勝負（1日経つと激減）」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「申し込んだから来る」ではなく「申し込み直後にすぐ動く」が前提設計</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/説明会_申込後3時間以内接触.md</code>（新規）</p>
+<hr />
+<h3>候補11-4-D【採用推奨】★数値あり</h3>
+<p><strong>主張</strong>: 説明会は申込から2週間以内に開催しないとドタキャンが急増する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>申込時の熱量と実際の行動の間には時間によるギャップが生まれる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>個別説明会運営者</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>説明会日程設計、ドタキャン対策</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-4原文「2週間以内説明会開催でドタキャン防止」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「申込から日程を自由に設定する」のではなく「2週間以内に収める」を設計制約として持つ</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/説明会_2週間以内開催則.md</code>（新規）</p>
+<hr />
+<h3>候補11-4-E【採用推奨】</h3>
+<p><strong>主張</strong>: LPはヒートマップ分析→文字削減・ビジュアル化が改善の型。1日3通まで接触頻度増が有効。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>改善はデータに基づく。感覚ではなく離脱場所を見てから動く</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>エバーグリーンLP改善担当</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>LP改善フェーズ、メール接触頻度の設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-4原文「ヒートマップ分析→文字削減・ビジュアル化」「1日3通まで有効」として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>LP改善は「デザインを変える」ではなく「どこで離脱しているかを見てから文字を減らす」</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/LP改善_ヒートマップ活用.md</code>（新規）</p>
+<hr />
+<h3>候補11-4-F【採用推奨】</h3>
+<p><strong>主張</strong>: 動画は見られない前提で設計する。見ない人がいることを前提にテキストや音声で補完する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>コンテンツの完成度より「届く設計」が優先</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンテンツホルダー（エバーグリーン運営）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>無料動画設計、フォローコンテンツ設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-4原文「動画は見られない前提での設計転換」として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「いい動画を作る」から「動画を見ない人にも価値を届ける」への発想転換</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/仕組み化/コンテンツ設計_動画見られない前提.md</code>（新規）</p>
+<hr />
+<h3>候補11-4-G【採用推奨】</h3>
+<p><strong>主張</strong>: 広告は「クリエイティブより誰が来ているか」が重要。購入者→類似オーディエンスの順でターゲットを広げる。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>集客の質は媒体設計より入口の人物設定で決まる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>広告運用をするプロデューサー・事業者</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>広告ターゲティング設計、CPA改善</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>11-4原文「購入者→類似オーディエンスの順で広告を広げる」</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>広告改善=クリエイティブ改善と思う人が多いが、先にターゲット（誰が来ているか）を見直す</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/集客/広告_ターゲット優先の改善順序.md</code>（新規）</p>
+<hr />
+<h1>第12章：上位モデル・ビジネスモデル構築</h1>
+<h2>12-1 ビジネスモデルの構築（前編・後編）</h2>
+<hr />
+<h3>候補12-1-A【採用推奨】★重要</h3>
+<p><strong>主張</strong>: ビジネスモデルとはミッション実現の仕組み。「どうやって稼ぐか」ではなく「ミッションを実現するための仕組み」として定義する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>セールス=貢献哲学。商売は相手への価値提供の手段であり、ミッションがなければ持続しない</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>ビジネスモデルを設計する事業者</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ビジネスモデル設計時、方向性の迷い解消、受講生コンサル時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-1前編原文。田中自身の7ステップマスタープラン（後編）と連動</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>一般的な「ビジネスモデル=収益構造」に対し、田中は「ミッション実現の仕組み」と再定義</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/ビジネスモデル/ビジネスモデル定義_ミッション実現.md</code>（新規）</p>
+<hr />
+<h3>候補12-1-B【採用推奨】★重要（LTV競争優位）</h3>
+<p><strong>主張</strong>: ライバルよりLTVを高くすることで、広告費を多く投下できる競争優位を得られる。LTV設計が集客競争の根本。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>集客競争の本質はLTV勝負。LTVが高い事業者が広告で勝てる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>事業設計をする経営者・プロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>事業戦略・商品ラインナップ設計時、LTV改善の優先度付け</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-1前編原文「ライバルよりLTVを高く→広告費競争優位」として明示</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「広告費を安くしたい」ではなく「LTVを上げて広告費を増やす余力を作る」が正しい方向</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/ビジネスモデル/LTV戦略_競争優位の原理.md</code>（新規）</p>
+<hr />
+<h3>候補12-1-C【採用推奨】★重要（縦展開/横展開）</h3>
+<p><strong>主張</strong>: 事業展開は縦展開（顧客の成長に合わせた商品ライン）と横展開（同じモデルを別ニッチに適用）の2方向で考える。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>一人の顧客の人生全体に価値提供するか、同じ型を横展開するかで事業規模が決まる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>事業規模拡大を考えるコンテンツホルダー・プロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>事業拡大方針の検討時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-1前編原文「縦展開/横展開」として明示。田中自身は縦展開を中心に設計</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「新しいことを始める」前に「今の顧客にもっと価値を届ける縦展開」を考える</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/ビジネスモデル/縦展開_横展開の設計思想.md</code>（新規）</p>
+<hr />
+<h3>候補12-1-D【採用推奨】</h3>
+<p><strong>主張</strong>: ABCモデル（トラック=集客媒体 / ベネフィット=価値提供 / キャッシュポイント=収益化）で事業構造を整理する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>事業は3要素（集客・価値・収益）の連動で動く。どこが弱いかを特定する思考ツール</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>ビジネスモデルを整理・設計する事業者</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>受講生の事業分析時、ビジネスモデル診断</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-1前編原文「ABCモデル」として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「何をすればいいか」の迷いをA(集客)→B(価値)→C(収益)の3軸で整理する</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/ビジネスモデル/ABCモデル_事業構造.md</code>（新規）</p>
+<hr />
+<h3>候補12-1-E【採用推奨】★重要（コンホル⇄プロデュース交互サイクル）</h3>
+<p><strong>主張</strong>: コンテンツホルダーとプロデューサーを交互に経験するサイクルが高収益につながる。PP講座継続率80〜90%。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>提供側と学習側を交互に経験することで理解が深まり、コミュニティのLTVが上がる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>中上位ステージのコンテンツホルダー・プロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>事業第2フェーズ以降の設計、PP講座の設計思想</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-1後編原文「コンホル⇄プロデュース交互サイクルが高収益」「PP講座継続率80〜90%」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「教える側か学ぶ側か」の二択ではなく、両方を繰り返すサイクルが最も成長する</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/ビジネスモデル/コンホル_プロデュース交互サイクル.md</code>（新規）</p>
+<hr />
+<h3>候補12-1-F【採用推奨】★重要（ザ・リード7ステップマスタープラン）</h3>
+<p><strong>主張</strong>: ザ・リードの7ステップマスタープラン: ①ローンチ→②自動化→③出版→④コミュニティ→⑤店舗→⑥学校教育→⑦世界貢献。3000万〜2億弱まではこのモデルで対応可能。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>ビジネスは段階的に構築する。いきなり大きくしようとするのは失敗の元</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>田中祐一自身のビジネスモデル（プロデューサーとして）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>受講生の長期事業設計サポート時、田中の事業哲学説明時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-1後編原文「ザ・リード7ステップマスタープラン」田中自身の設計として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>成功者のモデルを一気に真似るのではなく、7ステップを順に経由する設計</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/ビジネスモデル/ザリード_7ステップマスタープラン.md</code>（新規）</p>
+<hr />
+<h3>候補12-1-G【採用推奨】</h3>
+<p><strong>主張</strong>: セールス=貢献。最悪の売り方（PP講座ダイレクト指名セール）でも信頼関係があれば成立する。信頼関係が商売の基盤。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>セールスの技術より信頼関係が成約を決める。関係性なきセールスは押し売り</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>セールスを行うコンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>セールス設計、クロージングアプローチの判断</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-1前編原文「PP講座ダイレクト指名セール（最悪の売り方だったが信頼関係で成立）」田中自身の実体験</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「正しいセールス手法」より「信頼関係の厚さ」が成約率を決める</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/セールス/信頼関係_セールスの基盤.md</code>（新規）</p>
+<hr />
+<h2>12-2 コンサルティングの極意</h2>
+<hr />
+<h3>候補12-2-A【採用推奨】★重要（4800セッション実績）</h3>
+<p><strong>主張</strong>: コンサルタントの仕事の大部分は「正しい現状を把握すること」。クライアントの訴えは事実ではなく「その人の認識」。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>問題解決は正確な問題定義から始まる。表面の課題は真の課題ではない</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンサルタント・プロデューサー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>個別コンサル・コーチングセッション</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-2原文「60ヶ月・月平均80セッション・計4800セッション」田中の実績。「集客が問題と言う人の真因がセールス力不足だった」事例</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「お客様の言うことを信じる」ではなく「お客様の言葉を仮説の出発点にする」</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コンサルティング/正しい現状把握_原理.md</code>（新規）</p>
+<hr />
+<h3>候補12-2-B【採用推奨】</h3>
+<p><strong>主張</strong>: コンサルタントのあり方は「私は何者でもない」。フラットなパートナー性が顧客の成果に最もフォーカスできる。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>マウンティングは最大の敵。上から正解を押しつけるコンサルより、寄り添い並走するコンサルが成果を出させる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンサルタント</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コンサルスタイルの設計、クライアントとの関係性構築</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-2原文「私は何者でもない—プロデュースしていた先生から教えてもらった言葉」帰属明示あり</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>知識・実績をひけらかすコンサルは素人。「視野を広げ盲点に気づかせる支援者」が本物</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コンサルティング/コンサルのあり方_何者でもない.md</code>（新規）</p>
+<hr />
+<h3>候補12-2-C【採用推奨】</h3>
+<p><strong>主張</strong>: 「先に言えば説明、後から言えば言い訳」—コンサルで踏み込む前に「センシティブな話題に触れますがよろしいですか」と先に了承を取る。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>信頼は手順で作る。先に許可を取ることで深堀りが可能になる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンサルタント</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>個別コンサルの冒頭設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-2原文「先に言えば説明、後から言えば言い訳」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>踏み込めないコンサルは技術不足ではなく「先に許可を取っていない」設計ミス</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コンサルティング/先に言えば説明の原則.md</code>（新規）</p>
+<hr />
+<h3>候補12-2-D【採用推奨】</h3>
+<p><strong>主張</strong>: 知識を見せびらかすのは典型的な間違い。お客様はあなたの知識に興味はなく「自分の困りごとが解決されるか」にしか興味がない。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>顧客は問題解決を買う。コンテンツではなくアウトカムに金を払う</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンサルタント・コンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コンサルセッション設計、高額受注のためのスタンス転換</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-2原文「お客様の知識・スキルへの興味はない」「課題を整理していく力が弱いだけ」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>スキルを高めることに投資する前に「課題を整理する質問力」を鍛えることが先</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コンサルティング/知識より質問力_コンサルの本質.md</code>（新規）</p>
+<hr />
+<h3>候補12-2-E【採用推奨】</h3>
+<p><strong>主張</strong>: コンサルの発言割合は「心構えとして相手9割、自分1割」。実際は3対7くらいになる。それが自然な質問力の証明。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>聞く力が質問力の証明。相手が話す時間が長いほど信頼と自律的行動が生まれる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンサルタント</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コンサルセッション</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-2原文「相手に9割話をさせるぐらいの心構えでやれば、多分3対7ぐらいになる」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「よく話すコンサルタント」は素人。「よく聞くコンサルタント」が高額を取れる</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コンサルティング/傾聴9割_発言割合の原則.md</code>（新規）</p>
+<hr />
+<h3>候補12-2-F【採用推奨】</h3>
+<p><strong>主張</strong>: クライアントに決めさせる。案は出すが最終決定は必ず相手にゆだねる。自分で決めた人が行動する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>依存マインドから自立マインドへの移行。自分で決めた行動だから継続する</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンサルタント</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コンサルセッションのクロージング設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-2原文「クライアントに決めさせる」「コンサルタントが全部決めていたら行動しなくなる」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「正解を教えるコンサル」より「クライアントが自分で正解を見つける支援をするコンサル」</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コンサルティング/クライアントに決めさせる_自立の原理.md</code>（新規）</p>
+<hr />
+<h3>候補12-2-G【採用推奨】</h3>
+<p><strong>主張</strong>: コンサルの得意武器を1つ持つ。田中の場合は「1回目のコンサルでコンセプトを作る」—これだけで方向性が決まり、商品が売れることもある。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>短期の変化が信頼を作る。1回目のセッションで「この人は結果を出せそう」と思わせる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コンサルタント（田中自身）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>初回コンサルの設計、コンサルのブランド化</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-2原文「コンセプトが決まるだけで商品が売れた人もいる」田中自身の実績として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>コンサルタントは「すぐ結果が出る打ち手を1つ持つ」ことで初回セッションから信頼を確立する</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コンサルティング/初回コンサル_コンセプト武器.md</code>（新規）</p>
+<hr />
+<h2>12-3 コミュニティ運営の秘訣</h2>
+<hr />
+<h3>候補12-3-A【採用推奨】★重要（コミュニティファースト哲学）</h3>
+<p><strong>主張</strong>: コミュニティファーストで運営することが、ビジネスを長期継続させる唯一の方法。ノウハウを提供することを優先したコミュニティは消えた。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>「全員で勝つ」ミッションの根幹。ノウハウは人が成長するための一つでしかなく、コミュニティが最大のレバレッジ</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティリーダー（田中自身）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コミュニティ設計、受講生のビジネス設計相談時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-3原文「プロダクトローンチを教える講座は何個もあったが今残ってるのはほとんどない。田中の講座が続いているのはコミュニティファーストで運営したから」田中の実体験</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「ノウハウを売る」ビジネスは代替可能。「コミュニティを育てる」ビジネスは代替不可能</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コミュニティ/コミュニティファースト_哲学.md</code>（新規）</p>
+<hr />
+<h3>候補12-3-B【採用推奨】★重要</h3>
+<p><strong>主張</strong>: コミュニティの秘訣は「価値観の浸透度合い」に尽きる。揉め事も、フォロー負担も、自律的活動も全て「価値観浸透」の問題。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>文化が行動を決める。ルールより価値観が先に浸透している組織は自律的に動く</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティリーダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コミュニティ設計全般、問題発生時の根本原因分析</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-3原文「コミュニティ運営の秘訣はどんだけ価値観を浸透させられるか、これに尽きる」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>揉め事を「問題人物のせい」にする前に「価値観が浸透していないから」と見る</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コミュニティ/コミュニティ_価値観浸透の原理.md</code>（新規）</p>
+<hr />
+<h3>候補12-3-C【採用推奨】★重要（ベビーステップマニフェスト）</h3>
+<p><strong>主張</strong>: コミュニティには明文化されたマニフェスト（価値観の宣言）が必要。20文字以内に削ぎ落とすのが理想。ベビーステップマニフェストが田中の実例。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>言語化されていない価値観は浸透しない。言葉になって初めて「ここが駄目、ここがいい」の基準ができる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティリーダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コミュニティ設計初期、オリエンテーション設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-3原文「ベビーステップマニフェスト」を読み上げている。「全てはテスト」「仲間とともに成長する」「全員で勝つ」等の価値観キーワードを言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「雰囲気で伝わる」ではなく「言語化して繰り返し伝える」が価値観浸透の唯一の方法</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コミュニティ/マニフェスト_価値観言語化.md</code>（新規）</p>
+<hr />
+<h3>候補12-3-D【採用推奨】★重要</h3>
+<p><strong>主張</strong>: 進む道だけはコミュニティリーダーが示す。方法はみんなで考えてよいが、方向性だけは絶対に委譲しない。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>リーダーの役割は方向性の確定。方法の実行は委任できる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティリーダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コミュニティ運営の役割分担設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-3原文「進む道は誰にも渡せない。方法はみんなで考えるが、こっちに行くという方向性だけはコミュニティリーダーしか示せない」verbatim</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「自律的な組織」を目指すと方向性まで委任してしまう人が多い。方向性は渡さない</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コミュニティ/リーダーシップ_方向性委譲不可の原則.md</code>（新規）</p>
+<hr />
+<h3>候補12-3-E【採用推奨】</h3>
+<p><strong>主張</strong>: コミュニティのグラデーション理論—先生と生徒の中間に「グレー」な人たちを増やすことが価値観浸透の仕組み。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>組織の文化は先輩→後輩の伝播で広がる。リーダー対全員ではなく中間層が鍵</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティリーダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コミュニティ規模拡大時のサポーター設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-3原文「グラデーション理論—白と黒の間にグレーが必要」大学サークルの上下関係を比喩として使用</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「講師が全員に届ける」モデルはスケールしない。「中間層（勝ちたい/認定講師）が伝道師になる」モデルが持続する</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コミュニティ/グラデーション理論_中間層の役割.md</code>（新規）</p>
+<hr />
+<h3>候補12-3-F【採用推奨】</h3>
+<p><strong>主張</strong>: 心理的安全性（Googleプロジェクトアリストテレス）がコミュニティパフォーマンスの鍵。失敗を馬鹿にされないコミュニティが最高の成果を出す。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>人は安心できる環境でしか本当の力を出せない</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティリーダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コミュニティ文化設計、懇親会・イベント設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-3原文「売れなかったことをオープンにできるコミュニティかどうかを大事にしている」田中の実体験。Googleプロジェクトアリストテレスは「遠藤明弥先生・Googleの研究」として帰属明示</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>成功報告だけが出るコミュニティより、失敗もオープンに共有されるコミュニティの方が成果が高い</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コミュニティ/心理的安全性_失敗開示の文化.md</code>（新規）</p>
+<hr />
+<h3>候補12-3-G【採用推奨】</h3>
+<p><strong>主張</strong>: コミュニティ入口では価値観が合わない人を断る。セールス段階でコミュニティの価値観を明示し、合わない場合は入会拒否する。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>コミュニティの質はメンバーの価値観の一致度で決まる。量より質</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティリーダー（セールス設計）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>セールス設計、コミュニティメンバー選定</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-3原文「田中だけに面倒を見てもらいたいという人はお断りしている」田中の実践として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「来てくれる人は全員ウェルカム」は間違い。価値観の合わない人はコミュニティを壊す</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コミュニティ/入口管理_価値観マッチングの原則.md</code>（新規）</p>
+<hr />
+<h3>候補12-3-H【採用推奨】</h3>
+<p><strong>主張</strong>: 完璧なリーダーにならないこと。失敗を積極的に開示するリーダーの方が愛される。全てはテストなのでチャレンジと失敗の開示がコミュニティ文化を作る。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>全てはテスト哲学のコミュニティへの適用。リーダーの自己開示が心理的安全性を作る</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティリーダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>コミュニティ運営のあり方、リーダーとしての発信設計</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-3原文「失敗を共有する。完璧ぶらない。チャレンジして成功と失敗を分かち合うことが本物のリーダー」</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「完璧な講師」より「チャレンジして開示する講師」がコミュニティを育てる</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/コミュニティ/リーダーシップ_失敗開示の原則.md</code>（新規）</p>
+<hr />
+<h2>12-4 次のステージに行くために</h2>
+<hr />
+<h3>候補12-4-A【採用推奨】★重要（ステージ理論・数値）</h3>
+<p><strong>主張</strong>: ビジネスのステージ理論:<br />
+- 年商1000万の壁: 高額商品×セールス力を極めれば突破可能（1人でも可）<br />
+- 年商3000万の壁: 有料集客（広告）の仕組み化が必要<br />
+- 年商1億の壁: 効率化・外注化が必要（秘書1人で1億が目安）<br />
+- 年商3億の壁: JV or プロデュース×組織化が必要</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>ステージごとに必要な能力は変わる。前のステージの勝ち方が次のステージで通用しなくなる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>事業規模拡大を考える全コンテンツホルダー</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>現在地の確認、次のステージへの投資判断、受講生コンサル時</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-4原文verbatim。田中自身が各ステージを経験して来た体験談として語る</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「なぜ3000万で止まるか」を「広告の仕組み化不足」と1点に特定する。原因を単純化して行動を促す</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/ビジネスモデル/ステージ理論_年商別の壁.md</code>（新規・最重要）</p>
+<hr />
+<h3>候補12-4-B【採用推奨】</h3>
+<p><strong>主張</strong>: 人生が変わる人と変わらない人の違いは「環境」。成長し続けるための最も重要な1要素を1つだけ選ぶなら「環境」。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>ミラーニューロン原理。人は周りに合わせていく。誰と付き合うかで人生が決まる</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>全ビジネスパーソン（田中の哲学として）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>受講生が「何が一番大切ですか」と聞いたとき。コミュニティの価値訴求</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-4原文「成長し続けるために一つだけ選ぶなら環境と言う」田中の哲学として言及。聖羅さん（4期5期6期継続受講生・ITが全くできなかったが成長）の事例も言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「知識・スキル・ビジネスモデル」より「環境」が人生を変える。環境こそが最大の投資対象</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/哲学/環境が人生を決める_ミラーニューロン原理.md</code>（新規）</p>
+<hr />
+<h3>候補12-4-C【採用推奨】</h3>
+<p><strong>主張</strong>: 今取り組んだことは3年後に生かされる。短期の種だけでなく長期の種を植え続けることがビジネスを大きくする。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>ベビーステップ哲学の長期版。短期と長期のポートフォリオで行動を設計する</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>事業を長期で構築する全ビジネスパーソン</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>受講生が目先の成果だけを追うとき。長期視点の回復</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-4原文「今取り組んだことが3年後に生かされる」田中の哲学として言及</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「今すぐ結果が出ない」を諦める理由にせず「3年後の伏線を今張っている」と捉える</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/哲学/長期の種_3年後に花開く原理.md</code>（新規）</p>
+<hr />
+<h3>候補12-4-D【採用推奨】</h3>
+<p><strong>主張</strong>: 後悔しない生き方。S君（高校の友人、アルプスで落石に遭い急逝）の影響で「できることはコツコツ今から始める」マインドに変わった。</p>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>死を意識したときに後悔しない選択ができる。チャンスを掴む選択を積み重ねることが人生を作る</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>田中祐一（人生哲学として）</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>田中のミッションや行動原理を語る場面。受講生への動機づけ</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>12-4原文「S君が落石で急逝。それ以降大学4年から図書館で勉強し始め資格取得・投資勉強に転換した」田中自身の実体験（verbatim）。帰属明示: S君は「田中の高校のダブルスのパートナー」</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「死を意識」は暗い話ではなく「今すぐ行動する理由」として捉える</td>
+</tr>
+</tbody>
+</table>
+<p>取り込み先案: <code>knowledge/哲学/後悔しない生き方_S君の原点.md</code>（新規・個人哲学の根幹エピソード）</p>
+<hr />
+<h1>章ごとの要約：何が田中固有の堀になるか</h1>
+<h2>第7章（集客）の堀</h2>
+<p>数値付きの閾値（オプト成約率10%/15%/25%の判定基準）と、「自力集客=個別DM型」「他力集客=返報性先行・3回依頼ルール」という具体的な型が田中の堀。「リストは命」という優先順位の絶対化も、一般的なマーケティング教材との差別化になる。三上優里奈さん（アメブロ個別DM→2人に1人OPT）の事例は事例ゲート通過の貴重な実数値。</p>
+<h2>第8章（ローンチ運営）の堀</h2>
+<p>KPI基準値群（オプトLP/説明会申込率/入金率/バックエンド成約率のverbatim数値）が最大の堀。「弱い連鎖理論」「クロージング側から改善」「メルマガ振り落とし哲学」「ライブ=会話・コメント誘導設計」は田中独自のリフレームが強く、差別化ゲートを十分通過する。</p>
+<h2>第11章（仕組み化）の堀</h2>
+<p>実体験による閾値（30万円商品でエバーグリーン→赤字、50万円以上で利益可能）と、改善手順の原則（クロージングから着手・ミッショントーク事前送付・申込後3時間以内接触・2週間以内説明会開催）が田中固有の堀。これらは再現可能な判断基準として高価値。ローンチ讲座申込率改善実数値（2.5%→4%、誘導率30%→60%）も事例ゲート通過。</p>
+<h2>第12章（上位モデル）の堀</h2>
+<p>ステージ理論（1000万/3000万/1億/3億の壁と突破条件）はverbatimで最も実用的な基準値。「コミュニティファースト」哲学・価値観浸透原理・グラデーション理論・心理的安全性のコミュニティへの適用は、田中が15年以上実践してきた実体験に基づく。コンサルティングの「正しい現状把握」「何者でもない」「先に言えば説明」「クライアントに決めさせる」は、4800セッションの実践知として実体験ゲートを通過する。S君の原点エピソードは田中の後悔しない哲学の根幹を解説する唯一の出典。</p>
+<hr />
+<h2>総評（ナレッジ管理担当より）</h2>
+<p>本稿に含まれる候補は全48件（【採用推奨】45件・【要検討】1件・7-2-B Kindle出版は事例補強待ち）。<br />
+既存knowledge/との重複を事前チェックした結果、心理トリガー・Wファネル・わしづかみ等は別章（1〜6章）の領域のため今回対象外とし、重複認定なし。</p>
+<p><strong>田中さんへのアクション依頼</strong>: 各候補の「採用/修正/却下」を判断のうえ、承認いただいたものをknowledge/に格納します。一括承認、または重点候補への絞り込みでの確認、どちらでも対応可能です。</p>
+</main>
+</body>
+</html>
