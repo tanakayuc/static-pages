@@ -185,6 +185,8 @@ for (const file of requiredPages) {
   const html = read(file);
   if (!html.includes('class="side"')) fail(`${file} missing sidebar`);
   if (!html.includes("田中祐一AI")) fail(`${file} missing brand name`);
+  if (!html.includes('<meta name="robots" content="noindex, nofollow, noarchive">')) fail(`${file} missing robots noindex`);
+  if (!html.includes('<meta name="googlebot" content="noindex, nofollow, noarchive">')) fail(`${file} missing googlebot noindex`);
   for (const word of forbidden) {
     if (html.includes(word)) fail(`${file} contains forbidden term: ${word}`);
   }

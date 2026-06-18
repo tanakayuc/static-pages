@@ -493,6 +493,8 @@ function page({ file, title, eyebrow, lead, body }) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow, noarchive">
   <title>${esc(title)} | WEBマーケターへの道 制作ポータル</title>
   <link rel="stylesheet" href="portal.css?v=20260618-full-package">
 </head>
