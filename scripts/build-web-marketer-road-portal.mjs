@@ -2229,7 +2229,7 @@ pages.set("offer.html", page({
   lead: "本命商品のオファーとして、何を提供するのか、それがいくらなのかをシンプルに整理します。",
   body: `<section class="panel"><h2>1. 何を提供するのか</h2><table class="asset-table"><thead><tr><th>項目</th><th>内容</th><th>詳細</th></tr></thead><tbody>
 <tr><td><strong>商品名</strong></td><td>45日間Webマーケター“超”実践ブートキャンプ</td><td>45日で売る流れを体感し、Webマーケターとして最初の成功体験を掴む実践プログラム。</td></tr>
-<tr><td><strong>メインプログラム</strong></td><td>前半15日間 + 後半30日間のチーム戦</td><td>前半15日間でプロの思考OSをインストールし、後半30日間でチーム運用、顔出し不要のInstagramアカウント運用、note販売まで実践する。</td></tr>
+<tr><td><strong>メインプログラム</strong></td><td>前半15日間 + 後半30日間のチーム戦</td><td>前半15日間でプロの思考基準を身につけ、後半30日間でチーム運用、顔出し不要のInstagramアカウント運用、note販売まで実践する。</td></tr>
 <tr><td><strong>実践環境</strong></td><td>最初の売上を安全に作る場</td><td>クライアント案件の前に、自分たちで集客から販売までをやり切り、最初の小さな売上体験を作る。</td></tr>
 <tr><td><strong>サポート</strong></td><td>プロの現場を疑似体験するChatwork環境</td><td>チーム専用Chatworkと全体サポート用Chatworkを使い、クライアントワークに近い進捗共有、作戦会議、全体報告を体験する。</td></tr>
 <tr><td><strong>サポート</strong></td><td>田中祐一による毎週1回のライブフォローアップ</td><td>45日間の進捗を支え、実践中の詰まりを全体で解消する。</td></tr>
