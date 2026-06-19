@@ -1502,6 +1502,81 @@ function roadmapFunnelTagHtml(item) {
   return `<a class="funnel-location-link" href="#${esc(tag.target)}">${esc(tag.label)}</a>`;
 }
 
+function roadmapStepSpot(item) {
+  const step = Number(item.sourceStep);
+  const text = `${item.name} ${item.make} ${item.input} ${item.output}`;
+
+  if (step === 1) return { label: "全体構成 / 目的", focus: "all", visual: false };
+  if (step === 2) return { label: "商品提供 / オファー", focus: "offer-product", visual: true };
+  if (step === 3) return { label: "ファネル全体", focus: "all", visual: true };
+  if (step === 4) return { label: "全体構成 / KPI", focus: "all", visual: false };
+  if (step === 5) return { label: "教育グループ", focus: "content", visual: true };
+  if (step === 6) return { label: "Day1〜Day5", focus: "content", visual: true };
+
+  if (step >= 7 && step <= 10) return { label: "設計シート / 前提素材", focus: "concept", visual: false };
+  if (step === 11 || step === 12) return { label: "集客ページ内のコンセプト", focus: "concept", visual: true };
+  if (step === 13) return { label: "集客ページ / ヘッド", focus: "opt-before-vsl", visual: true };
+  if (step === 14) return { label: "LP・販売ページに使うプロフィール素材", focus: "all", visual: false };
+
+  if (step >= 15 && step <= 16) return { label: "商品提供 / オファー構築", focus: "offer-product", visual: true };
+
+  if (step === 17) return { label: "LP・販売ページに使う証拠素材", focus: "all", visual: false };
+  if (step === 18 || step === 19) return { label: "Day1〜Day5の中身", focus: "content", visual: true };
+  if (step === 20) return { label: "全体構成 / 狙うスケジュール", focus: "all", visual: false };
+  if (step === 21) return { label: "Day1ライブ", focus: "day1", visual: true };
+  if (step === 22) return { label: "販売側の中間オファー", focus: "sales", visual: true };
+  if (step === 23) return { label: "サンキューページ上のVSL枠", focus: "thanks", visual: true };
+  if (step === 24 || step === 25) return { label: "教育グループ内の特典", focus: "content", visual: true };
+  if (step === 26) return { label: "サンキューページ / 登録直後案内", focus: "thanks", visual: true };
+
+  if (step === 27) return { label: "ランディングページ / オプト前VSL", focus: "opt-before-vsl", visual: true };
+  if (step >= 28 && step <= 30) return { label: "ランディングページ", focus: "opt-before-vsl", visual: true };
+  if (step === 31 || step === 32) return { label: "サンキューページ本体", focus: "thanks", visual: true };
+
+  if (step >= 33 && step <= 35) return { label: "教育グループ", focus: "content", visual: true };
+  if (step === 36) return { label: "自動返信文 / リスト化", focus: "list", visual: true };
+  if (step >= 37 && step <= 40) return { label: "流入元からランディングページへ送る素材", focus: "traffic", visual: true };
+
+  if (step === 41) return { label: "Day1ライブ", focus: "day1", visual: true };
+  if (step === 42) return { label: "Day2ライブ", focus: "day2", visual: true };
+  if (step === 43) return { label: "Day3ライブ", focus: "day3", visual: true };
+  if (step === 44) return { label: "Day4ライブ", focus: "day4", visual: true };
+  if (step === 45 || step === 46) return { label: "Day5ライブ", focus: "day5", visual: true };
+  if (step === 47) return { label: "Day1〜Day5の課題提出先", focus: "content", visual: true };
+
+  if (step === 48) return { label: "リスト化 / ライブ前メール", focus: "list", visual: true };
+  if (step === 49) return { label: "教育グループの投稿", focus: "content", visual: true };
+  if (step >= 50 && step <= 52) return { label: "販売側の別パターン導線", focus: "sales", visual: true };
+  if (step === 53) return { label: "販売ページ", focus: "sales-page", visual: true };
+  if (step === 54 || step === 55) return { label: "成約後 / 商品提供", focus: "product", visual: true };
+
+  if (step === 56) return { label: "流入元からランディングページへ送る", focus: "traffic", visual: true };
+  if (step === 57) return { label: "Day1〜Day5ライブ", focus: "content", visual: true };
+  if (step >= 58 && step <= 60) return { label: "販売ページ / 販売期配信", focus: "sales", visual: true };
+  if (step === 61 || step === 62) return { label: "販売側の別パターン素材", focus: "sales", visual: true };
+  if (step === 63 || step === 64) return { label: "販売ページの確認素材", focus: "sales-page", visual: true };
+  if (step === 65) return { label: "全体構成 / 改善メモ", focus: "all", visual: false };
+
+  if (/サンキュー|登録直後/.test(text)) return { label: "サンキューページ", focus: "thanks", visual: true };
+  if (/メール|自動返信|リマインド|リスト化/.test(text)) return { label: "リスト化 / 配信文", focus: "list", visual: true };
+  if (/Day[1-5]|ライブ|課題|特典|教育グループ|オープンチャット|LINE/.test(text)) return { label: "教育グループ", focus: "content", visual: true };
+  if (/販売|セールス|購入|成約|説明会|特商法|法定書面/.test(text)) return { label: "販売ページ", focus: "sales", visual: true };
+  if (/LP|ヘッド|VSL|広告|紹介|集客/.test(text)) return { label: "ランディングページ", focus: "opt-before-vsl", visual: true };
+  return { label: "設計シート / 前提素材", focus: "all", visual: false };
+}
+
+function roadmapStepTargetHtml(item) {
+  const target = roadmapStepSpot(item);
+  const figure = target.visual ? `<details class="roadmap-step-figure">
+<summary>図で確認する</summary>
+${spotlightFigure(target.focus, target.label, "mini-spotlight")}
+</details>` : "";
+  return `<div class="roadmap-step-target">
+<div class="roadmap-step-target-main"><span class="target-koko">ここ</span><strong>${esc(target.label)}</strong></div>
+${figure}
+</div>`;
+}
+
 function findFunnelPart(id) {
   const row = funnelPartRows.find(([partId]) => partId === id);
   if (!row) throw new Error(`Missing funnel part: ${id}`);
@@ -1549,13 +1624,19 @@ function funnelSpotlightCard({ title, note, focus, label }) {
   return `<section class="panel funnel-spotlight-panel">
 <h2>${esc(title)}</h2>
 <p class="note">${esc(note)}</p>
-<figure class="spotlight-figure">
+${spotlightFigure(focus, label)}
+</section>`;
+}
+
+function spotlightFigure(focus, label, extraClass = "") {
+  const current = funnelPatternRows.find((row) => row.id === "CURRENT");
+  const className = ["spotlight-figure", extraClass].filter(Boolean).join(" ");
+  return `<figure class="${esc(className)}">
 <div class="spotlight-image-wrap">
 <img src="${esc(current.image)}" alt="${esc(current.label)}">
 <span class="spotlight-box ${esc(focus)}"><span>${esc(label)}</span></span>
 </div>
-</figure>
-</section>`;
+</figure>`;
 }
 
 function funnelPartLibrary() {
@@ -1700,13 +1781,13 @@ ${spotlight}
     return `<article class="roadmap-step">
 <span class="roadmap-step-num">${esc(stepNumber)}</span>
 <div>
+${roadmapStepTargetHtml(item)}
 <span class="roadmap-source-step">Step ${esc(item.sourceStep)}</span>
 <h3>${esc(item.name)}</h3>
 <p>${esc(item.make)}</p>
 <div class="roadmap-step-meta">
 <div><span>入力</span><strong>${esc(item.input)}</strong></div>
 <div><span>完成物</span><strong>${esc(item.output)}</strong></div>
-<div><span>対応位置</span>${roadmapFunnelTagHtml(item)}</div>
 </div>
 ${link}
 </div>
@@ -1728,15 +1809,9 @@ function roadmapPhaseSpotlight(phaseNumber) {
   const setting = settings[phaseNumber];
   if (!setting) return "";
   const [title, focus, label] = setting;
-  const current = funnelPatternRows.find((row) => row.id === "CURRENT");
   return `<div class="roadmap-phase-spotlight">
 <h3>${esc(title)}</h3>
-<figure class="spotlight-figure">
-<div class="spotlight-image-wrap">
-<img src="${esc(current.image)}" alt="${esc(current.label)}">
-<span class="spotlight-box ${esc(focus)}"><span>${esc(label)}</span></span>
-</div>
-</figure>
+${spotlightFigure(focus, label)}
 </div>`;
 }
 
@@ -2473,6 +2548,36 @@ li { margin: 4px 0; }
 .spotlight-box.content { left: 39%; top: 24%; width: 31%; height: 50%; }
 .spotlight-box.lp { left: 5%; top: 18%; width: 29%; height: 45%; }
 .spotlight-box.sales { left: 70%; top: 20%; width: 26%; height: 51%; }
+.spotlight-box.all { left: 2%; top: 18%; width: 96%; height: 56%; }
+.spotlight-box.traffic { left: 1.5%; top: 29%; width: 8%; height: 25%; }
+.spotlight-box.opt-before-vsl { left: 8%; top: 24%; width: 17%; height: 31%; }
+.spotlight-box.thanks { left: 25%; top: 24%; width: 14%; height: 31%; }
+.spotlight-box.list { left: 15%; top: 56%; width: 18%; height: 13%; }
+.spotlight-box.day1 { left: 41.5%; top: 34%; width: 5.5%; height: 20%; }
+.spotlight-box.day2 { left: 46.1%; top: 34%; width: 5.5%; height: 20%; }
+.spotlight-box.day3 { left: 50.8%; top: 34%; width: 5.5%; height: 20%; }
+.spotlight-box.day4 { left: 55.5%; top: 34%; width: 5.5%; height: 20%; }
+.spotlight-box.day5 { left: 60.2%; top: 34%; width: 5.5%; height: 20%; }
+.spotlight-box.sales-page { left: 69%; top: 24%; width: 13%; height: 34%; }
+.spotlight-box.product { left: 88%; top: 36%; width: 10%; height: 18%; }
+.mini-spotlight {
+  max-width: 560px;
+  margin-top: .7rem;
+}
+.mini-spotlight .spotlight-image-wrap {
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(19, 32, 51, .07);
+}
+.mini-spotlight .spotlight-box {
+  border-width: 3px;
+  border-radius: 14px;
+}
+.mini-spotlight .spotlight-box span {
+  top: -17px;
+  min-width: 92px;
+  padding: 4px 10px;
+  font-size: .68rem;
+}
 .funnel-composite-panel { overflow: visible; }
 .funnel-composite-wrap { overflow-x: auto; margin-top: 1.1rem; padding: 0 0 .65rem; }
 .funnel-composite {
@@ -2669,7 +2774,51 @@ li { margin: 4px 0; }
 .roadmap-step h3 { margin-bottom: .3rem; }
 .roadmap-step p { color: #324b44; line-height: 1.8; }
 .roadmap-step .report-link { margin-top: .75rem; }
-.roadmap-step-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem; margin-top: .75rem; }
+.roadmap-step-target {
+  display: grid;
+  gap: .55rem;
+  margin: 0 0 .85rem;
+  padding: .72rem .85rem;
+  border: 1px solid #F3D67B;
+  border-radius: 10px;
+  background: #FFFDF2;
+}
+.roadmap-step-target-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: center;
+}
+.target-koko {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: #FFD24D;
+  color: #3F2A00;
+  font-size: .72rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+.roadmap-step-target strong {
+  color: var(--ink);
+  font-size: .95rem;
+  line-height: 1.55;
+}
+.roadmap-step-figure {
+  margin: 0;
+}
+.roadmap-step-figure summary {
+  cursor: pointer;
+  color: var(--sub);
+  font-size: .78rem;
+  font-weight: 900;
+  line-height: 1.5;
+}
+.roadmap-step-figure summary:hover { color: var(--main); }
+.roadmap-step-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: .75rem; }
 .roadmap-step-meta div { padding: .65rem .8rem; border: 1px solid var(--line); border-radius: 8px; background: var(--pale); }
 .roadmap-step-meta span { display: block; color: var(--sub); font-size: .72rem; font-weight: 900; }
 .roadmap-step-meta strong { display: block; color: var(--ink); font-size: .92rem; line-height: 1.6; }
