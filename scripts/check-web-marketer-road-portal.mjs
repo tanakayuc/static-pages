@@ -384,11 +384,23 @@ for (const file of requiredPages) {
 async function checkPublic() {
   if (!publicBase) return;
   const base = publicBase.replace(/\/$/, "");
-  for (const file of ["index.html", "roadmap.html", "stepmail.html", "line.html", "live-scripts.html", "sales-page.html"]) {
-    const res = await fetch(`${base}/${file}`);
+  const publicText = new Map();
+  const cacheBust = `portal_check=${Date.now()}`;
+  for (const file of requiredPages) {
+    const res = await fetch(`${base}/${file}?${cacheBust}`);
     if (!res.ok) fail(`public ${file} returned ${res.status}`);
+    publicText.set(file, await res.text());
   }
-  const old = await fetch(`${base}/hierarchy.html`);
+  for (const file of requiredPages) {
+    const html = publicText.get(file);
+    for (const word of forbidden) {
+      if (html.includes(word)) fail(`public ${file} contains forbidden term: ${word}`);
+    }
+  }
+  for (const [file, snippet] of contentChecks) {
+    if (!publicText.get(file)?.includes(snippet)) fail(`public ${file} missing content: ${snippet}`);
+  }
+  const old = await fetch(`${base}/hierarchy.html?${cacheBust}`);
   if (old.status !== 404) fail(`public hierarchy.html should be 404, got ${old.status}`);
 }
 
