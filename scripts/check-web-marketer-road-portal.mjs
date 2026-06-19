@@ -20,6 +20,8 @@ const requiredPages = [
   "offer.html",
   "assets.html",
   "lp.html",
+  "optin-lp-copy.html",
+  "thank-you-copy.html",
   "value.html",
   "head.html",
   "stepmail.html",
@@ -51,6 +53,8 @@ const forbidden = [
   "挨拶動画",
   "サンキュー動画",
   "オプトインVSL",
+  "オプト後VSL台本",
+  "OPT5のVSL台本",
   "集客レイヤー",
   "販売レイヤー",
   "個別説明会",
@@ -233,9 +237,20 @@ const contentChecks = [
   ["lp.html", "LPヘッド指示書"],
   ["lp.html", "オプト前VSL台本"],
   ["lp.html", "サンキューページ原稿"],
-  ["lp.html", "オプト後VSL台本"],
   ["lp.html", "オプトイン自動返信メール"],
-  ["lp.html", "才能・経験・顔出し不要"],
+  ["lp.html", "原本MD管理"],
+  ["lp.html", "02_オプトインLP/01_オプトページ_登録経路なし.md"],
+  ["lp.html", "03_サンキューページ/01_オプトイン後サンキューページ.md"],
+  ["lp.html", "12_メルマガ/フェーズ1_ライブ前/メルマガ/フェーズ1_01_登録直後_Webマーケターへの道必ずご確認ください.md"],
+  ["lp.html", "12_メルマガ/フェーズ1_ライブ前/メルマガ/フェーズ1_02_1時間後_コチラ、見逃していませんか？.md"],
+  ["optin-lp-copy.html", "オプトインLP原稿"],
+  ["optin-lp-copy.html", "才能・経験・顔出し不要"],
+  ["optin-lp-copy.html", "動画視聴前"],
+  ["optin-lp-copy.html", "動画視聴後"],
+  ["optin-lp-copy.html", "02_オプトインLP/01_オプトページ_登録経路なし.md"],
+  ["thank-you-copy.html", "サンキューページ原稿"],
+  ["thank-you-copy.html", "LINEオープンチャットに参加する"],
+  ["thank-you-copy.html", "03_サンキューページ/01_オプトイン後サンキューページ.md"],
   ["value.html", "価値提供の素材一覧"],
   ["value.html", "価値提供で作る素材"],
   ["value.html", "production-side"],
@@ -246,12 +261,9 @@ const contentChecks = [
   ["value.html", "Day1〜Day5ライブ台本"],
   ["value.html", "課題/特典案内文"],
   ["script-opening.html", "今回のVSL台本"],
-  ["script-opening.html", "VSL台本"],
+  ["script-opening.html", "オプト前VSL台本"],
   ["script-opening.html", "VSLスライド指示書"],
   ["script-opening.html", "オプト前VSL"],
-  ["script-opening.html", "オプト後VSL"],
-  ["script-opening.html", "5〜10分"],
-  ["script-opening.html", "ビデオセールスレター"],
   ["live-scripts.html", "Day別ライブ台本一覧"],
   ["live-scripts.html", "Day別スライド指示書"],
   ["sales-page.html", "販売の素材一覧"],
@@ -381,6 +393,15 @@ for (const file of ["lp.html", "value.html", "sales-page.html"]) {
   for (const snippet of ['<div class="nav-section">レポート</div>', '<div class="nav-section">設計シート</div>']) {
     if (html.includes(snippet)) fail(`${file} should show production subnav, not top-level sidebar section: ${snippet}`);
   }
+}
+
+for (const snippet of ["オプト後VSL台本", "登録直後VSL", "OPT5のVSL台本"]) {
+  if (read("lp.html").includes(snippet)) fail(`lp.html should not include nonexistent acquisition material: ${snippet}`);
+  if (read("script-opening.html").includes(snippet)) fail(`script-opening.html should not include nonexistent acquisition material: ${snippet}`);
+}
+
+for (const snippet of ['href="#optin-lp-copy"', 'href="#thank-you-copy"']) {
+  if (read("lp.html").includes(snippet)) fail(`lp.html should link to independent material pages, not in-page anchors: ${snippet}`);
 }
 
 const roadmapPhaseSections = (read("roadmap.html").match(/id="phase-[0-9]"/g) || []).length;

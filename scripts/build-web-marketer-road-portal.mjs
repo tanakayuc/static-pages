@@ -95,7 +95,7 @@ const acquisitionPatternRows = [
     position: "標準",
     placement: "フォーム登録後のサンキューページでオプト後VSLを見せる。",
     chooseWhen: "チャレンジローンチの基本形。LPは短く登録を優先し、登録直後に正式参加、OC参加、Day1着席への期待値を高めたいとき。",
-    assets: ["オプトインLP原稿", "サンキューページ原稿", "オプト後VSL台本", "OC参加CTA"],
+    assets: ["オプトインLP原稿", "サンキューページ原稿", "OC参加CTA"],
     flow: ["集客ページ", "登録フォーム", "サンキューページ", "オプト後VSL", "LINE/メールリスト化"],
   },
   {
@@ -212,7 +212,7 @@ const productionLayerRows = [
       ["メルマガ紹介文章", "今回採用。自分のリストや紹介元のメルマガから、チャレンジ登録へ送る紹介文を作る。", "stepmail.html"],
       ["広告クリエイティブ指示書", "広告画像、広告文、遷移先、テストパターン。広告運用ありの案件で作る。", "head.html"],
       ["オプトインLP原稿", "LP本文、ファーストビュー、登録CTA、オプト前VSLの配置方針を作る。", "lp.html"],
-      ["オプト前VSL/オプト後VSL台本", "選択した配置に合わせ、登録前または登録後に見せる5〜10分のVSL台本を作る。", "script-opening.html"],
+      ["オプト前VSL台本", "今回の配置に合わせ、登録前に見せるVSL台本を作る。", "script-opening.html"],
       ["VSLスライド指示書", "VSLにスライドが必要な場合、CodeX等へ渡せる構成案と画面指示を作る。", "script-opening.html"],
       ["サンキューページ/自動返信原稿", "登録直後ページと、メール登録で止まった人を正式参加へ戻す自動返信を作る。", "lp.html"],
     ],
@@ -268,11 +268,10 @@ const productionCategoryRows = [
 
 const acquisitionMaterialRows = [
   ["メルマガ紹介文章", "紹介元/自社リスト", "今回採用。チャレンジ登録へ送る件名、本文、CTAを作る。", "stepmail.html"],
-  ["オプトインLP原稿", "登録前", "誰に、何を約束し、なぜ今参加するのかをLP本文として作る。", "#optin-lp-copy"],
+  ["オプトインLP原稿", "登録前", "誰に、何を約束し、なぜ今参加するのかをLP本文として作る。", "optin-lp-copy.html"],
   ["LPヘッド指示書", "ファーストビュー", "ヘッドのコピー、画像方向、CTA、スマホ表示の指示を作る。", "head.html"],
   ["オプト前VSL台本", "登録前VSL", "LP上で登録前の教育と選別を行う動画台本を作る。", "script-opening.html"],
-  ["サンキューページ原稿", "登録直後", "メール登録で止めず、LINEオープンチャット参加へ進めるページ本文を作る。", "#thank-you-copy"],
-  ["オプト後VSL台本", "登録直後VSL", "OC参加、Day1着席、完走意欲を高める5〜10分のVSL台本を作る。", "script-opening.html"],
+  ["サンキューページ原稿", "登録直後", "メール登録で止めず、LINEオープンチャット参加へ進めるページ本文を作る。", "thank-you-copy.html"],
   ["オプトイン自動返信メール", "登録直後", "メール登録で止まった人を正式参加へ戻す自動返信を作る。", "stepmail.html"],
 ];
 
@@ -299,6 +298,31 @@ const salesMaterialRows = [
 const productionSubnav = {
   "lp.html": {
     title: "集客素材",
+    categoryHref: "lp.html",
+    currentCode: "L",
+    currentLabel: "集客素材",
+    currentSub: "LP/VSL",
+    rows: acquisitionMaterialRows,
+  },
+  "optin-lp-copy.html": {
+    title: "集客素材",
+    categoryHref: "lp.html",
+    currentCode: "L",
+    currentLabel: "集客素材",
+    currentSub: "LP/VSL",
+    rows: acquisitionMaterialRows,
+  },
+  "thank-you-copy.html": {
+    title: "集客素材",
+    categoryHref: "lp.html",
+    currentCode: "L",
+    currentLabel: "集客素材",
+    currentSub: "LP/VSL",
+    rows: acquisitionMaterialRows,
+  },
+  "script-opening.html": {
+    title: "集客素材",
+    categoryHref: "lp.html",
     currentCode: "L",
     currentLabel: "集客素材",
     currentSub: "LP/VSL",
@@ -306,6 +330,7 @@ const productionSubnav = {
   },
   "value.html": {
     title: "価値提供素材",
+    categoryHref: "value.html",
     currentCode: "V",
     currentLabel: "価値提供素材",
     currentSub: "LINE/ライブ",
@@ -313,6 +338,7 @@ const productionSubnav = {
   },
   "sales-page.html": {
     title: "販売素材",
+    categoryHref: "sales-page.html",
     currentCode: "S",
     currentLabel: "販売素材",
     currentSub: "レター/購入後",
@@ -326,7 +352,6 @@ const lpAssetRows = [
   ["LPヘッド指示書", "登録前", "ファーストビューで見せる約束、画像方向、CTA、スマホ表示の指示を作る。"],
   ["オプト前VSL台本", "登録前", "LP上の動画として、登録前の教育と選別を行う台本を作る。"],
   ["サンキューページ原稿", "登録直後", "メール登録で終わらせず、LINEオープンチャット参加へ進めるページ本文を作る。"],
-  ["オプト後VSL台本", "登録直後", "登録後にOC参加、Day1着席、完走意欲を高める5〜10分のVSL台本を作る。"],
   ["オプトイン自動返信メール", "登録直後〜1時間後", "メールだけで止まった人を正式参加へ戻す配信原稿を作る。"],
 ];
 
@@ -1131,12 +1156,13 @@ function productionSideNav(active, config) {
     ["value.html", "V", "価値提供素材", "LINE/ライブ"],
     ["sales-page.html", "S", "販売素材", "販売"],
   ];
+  const categoryActive = config.categoryHref || active;
   return `<aside class="side production-side">
     <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
     <div class="nav-section">制作物</div>
-    ${categoryLinks.map(([href, code, label, sub]) => `<a class="nav-link ${href === active ? "active" : ""}" href="${href}"><span class="nav-num">${code}</span><span>${label}<small>${sub}</small></span></a>`).join("")}
+    ${categoryLinks.map(([href, code, label, sub]) => `<a class="nav-link ${href === categoryActive ? "active" : ""}" href="${href}"><span class="nav-num">${code}</span><span>${label}<small>${sub}</small></span></a>`).join("")}
     <div class="nav-section">${esc(config.title)}</div>
-    ${config.rows.map(([label, metaLabel, _detail, href]) => `<a class="nav-link material-nav-link" href="${esc(href)}"><span class="nav-num">${esc(label.slice(0, 1))}</span><span>${esc(label)}<small>${esc(metaLabel)}</small></span></a>`).join("")}
+    ${config.rows.map(([label, metaLabel, _detail, href]) => `<a class="nav-link material-nav-link ${href === active ? "active" : ""}" href="${esc(href)}"><span class="nav-num">${esc(label.slice(0, 1))}</span><span>${esc(label)}<small>${esc(metaLabel)}</small></span></a>`).join("")}
   </aside>`;
 }
 
@@ -2259,8 +2285,42 @@ pages.set("lp.html", page({
   eyebrow: "制作物",
   lead: "登録前から登録直後までに作る素材を、一覧からすぐ確認できるようにまとめます。",
   body: `<section class="panel"><h2>集客で作る素材</h2>${materialShelf(acquisitionMaterialRows)}</section>
-<section class="panel" id="optin-lp-copy"><h2>オプトインLP原稿</h2><p class="quote">地味で平凡な会社員向け。才能・経験・顔出し不要の裏方起業のロードマップを公開。</p><p>登録導線はLINEオープンチャット参加までがセットです。メール登録だけで終わらせず、サンキューページと自動返信で正式参加へ進めます。</p></section>
-<section class="panel" id="thank-you-copy"><h2>サンキューページ原稿</h2><p>登録ありがとうございます。5日間チャレンジのライブ案内、課題、特典、質問受付はLINEオープンチャットで行います。メール登録だけでは正式参加が完了しないため、このページからオープンチャットへ参加してください。</p><p class="quote">次の行動: LINEオープンチャットへ参加し、固定投稿でDay1の開始時間と課題提出先を確認する。</p></section>`}));
+<section class="panel"><h2>原本MD管理</h2><table class="asset-table compact-table"><thead><tr><th>素材</th><th>原本MD</th></tr></thead><tbody>
+<tr><td>オプトインLP原稿</td><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}<br>${source("02_オプトインLP/02_オプトページ_動画視聴後LP.md")}</td></tr>
+<tr><td>サンキューページ原稿</td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
+<tr><td>LPヘッド指示書</td><td>${source("90_制作パッケージサンプル/06_ヘッドデザイン指示書.md")}</td></tr>
+<tr><td>メルマガ/自動返信</td><td>${source("12_メルマガ/フェーズ1_ライブ前/メルマガ/フェーズ1_01_登録直後_Webマーケターへの道必ずご確認ください.md")}<br>${source("12_メルマガ/フェーズ1_ライブ前/メルマガ/フェーズ1_02_1時間後_コチラ、見逃していませんか？.md")}</td></tr>
+</tbody></table></section>`}));
+
+pages.set("optin-lp-copy.html", page({
+  file: "optin-lp-copy.html",
+  title: "オプトインLP原稿",
+  eyebrow: "集客素材",
+  lead: "登録前に見込み客へ提示するLP本文です。今回の構成ではLP上にオプト前VSLを置きます。",
+  body: `<section class="panel"><h2>ヘッドコピー</h2><p class="quote">地味で平凡な会社員向け<br>才能・経験・顔出し不要の<br>裏方起業のロードマップを公開</p></section>
+<section class="panel"><h2>サブヘッド</h2><p>社長の右腕として活躍する、プロモーション戦略を担う希少価値の高い「裏方Webマーケターの道」はすぐに視聴できます。</p></section>
+<section class="panel"><h2>動画視聴前の案内</h2><p>この動画は検索しても出てきませんので、見逃さないようにご注意ください。</p><p>6分ほど動画を視聴すると、ページ下部に特別なご案内が表示されます。</p></section>
+<section class="panel"><h2>動画視聴後LP</h2><div class="concept-sequence">
+${conceptItem(1, "特徴1", "再現性", "カリスマ性やセンスは一切不要。売れる仕組みの暗号を解き明かすテンプレートに沿って進めるだけで、社長の右腕になれる再現性の高い仕組み。")}
+${conceptItem(2, "特徴2", "働き方", "作業者から脱却し、クライアントの事業の根幹を支える戦略的パートナーという働き方へ進む。")}
+${conceptItem(3, "特徴3", "適性", "顔出し、実績、商品がなくても、真面目さや分析力を活かして裏方Webマーケターとして価値を出せる。")}
+</div></section>
+<section class="panel"><h2>CTA</h2><p class="quote">社長の右腕として活躍する裏方Webマーケターの道を手に入れて、希少価値の高いキャリアを歩みませんか？</p><p>登録後にLINEオープンチャットの参加をもって正式な登録完了となります。</p></section>
+<section class="panel"><h2>原本MD</h2><table class="asset-table compact-table"><tbody>
+<tr><th>動画視聴前</th><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</td></tr>
+<tr><th>動画視聴後</th><td>${source("02_オプトインLP/02_オプトページ_動画視聴後LP.md")}</td></tr>
+</tbody></table></section>`}));
+
+pages.set("thank-you-copy.html", page({
+  file: "thank-you-copy.html",
+  title: "サンキューページ原稿",
+  eyebrow: "集客素材",
+  lead: "メール登録直後に表示し、LINEオープンチャット参加へ進めるページ本文です。",
+  body: `<section class="panel"><h2>ページ本文</h2><p class="quote">まだ完全に登録は完了していません！</p><p>Webマーケターへの道「5日間チャレンジ・LINEオープンチャット」に今すぐ登録してください。</p><p>以下のボタンをクリックして、LINEオープンチャットにアクセスし、ライブ参加と質問権利を受け取ってください。</p></section>
+<section class="panel"><h2>CTA</h2><p class="quote">LINEオープンチャットに参加する</p></section>
+<section class="panel"><h2>原本MD</h2><table class="asset-table compact-table"><tbody>
+<tr><th>サンキューページ</th><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
+</tbody></table></section>`}));
 
 pages.set("value.html", page({
   file: "value.html",
@@ -2304,13 +2364,10 @@ pages.set("line.html", page({
 
 pages.set("script-opening.html", page({
   file: "script-opening.html",
-  title: "VSL台本",
+  title: "オプト前VSL台本",
   eyebrow: "制作物",
-  lead: "オプト前VSLまたはオプト後VSLとして使う、5日間チャレンジ参加前の説得動画台本です。",
-  body: `<section class="panel"><h2>今回のVSL台本</h2><div class="grid-2">
-${card("オプト前VSL台本", "登録前", "LP上で見せる台本。登録前に世界観を提示し、登録CTAへ進ませる。")}
-${card("オプト後VSL台本", "登録直後", "サンキューページで見せる場合の5〜10分のビデオセールスレター台本。")}
-</div></section>
+  lead: "LP上で登録前に見せる動画台本です。今回の案件ではオプト前VSLのみを制作対象にします。",
+  body: `<section class="panel"><h2>今回のVSL台本</h2><p class="quote">登録前に世界観を提示し、5日間チャレンジの登録CTAへ進ませるための台本です。</p></section>
 <section class="panel"><h2>台本ドラフト</h2>
 <div class="script-block"><span class="time">0:00-0:20</span><h3>冒頭フック</h3><p>「才能も、顔出しも、自分の商品もない。そんな地味で平凡な会社員こそ、WEBマーケターを目指してほしい。」</p></div>
 <div class="script-block"><span class="time">0:20-1:10</span><h3>共感</h3><p>副業や起業に挑戦したい。でも、自分が前に出るのは苦手。SNSでキラキラ発信する自分も想像できない。そう感じているなら、この5日間はあなたのための内容です。</p></div>
