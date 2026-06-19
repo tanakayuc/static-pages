@@ -104,8 +104,8 @@ const kpiFunnelRows = [
 ];
 
 const productionModeRows = [
-  ["一気通貫モード", "工程表に基づいて、全体設計から公開/改善まで順番に制作する。", "全体構成、設計シート、LP、配信、台本、販売導線、原本MDをまとめて更新する。", "roadmap.html"],
-  ["個別制作モード", "LP、ステップメール、LINE、台本など、指定された制作物だけを切り出して制作する。", "作ったものは対応ページと制作物一覧に追加し、必要に応じて工程表の該当章へ合流させる。", "assets.html"],
+  ["一気通貫モード", "工程表に基づいて、全体設計から公開/改善まで順番に制作する。", "工程表の番号順に進め、設計シート、LP、配信、台本、販売導線、原本MDを該当工程の成果物として更新する。", "roadmap.html"],
+  ["個別制作モード", "LP、ステップメール、LINE、台本など、指定された制作物だけを切り出して制作する。", "工程表の該当項目を起点に作り、完成後は対応ページへ追加して必要な工程へ合流させる。", "roadmap.html"],
 ];
 
 const individualProductionRows = [
@@ -487,7 +487,7 @@ const roadmapPhases = [
         make: "登録数、参加率、課題提出、公式LINE移動、レター購入の見るべき数字を決める。",
         input: "販売価格、目標売上、過去の課題提出数",
         output: "KPI仮シミュレーション",
-        href: "kpi.html",
+        href: "visual-report.html",
       },
       {
         name: "既存素材確認",
@@ -603,7 +603,7 @@ const roadmapPhases = [
         make: "課題提出数、実績、講師の過去ストーリーを、信頼形成に使える材料として整理する。",
         input: "Day別課題提出数、プロフィール、セールスレター",
         output: "お客様の声・実績素材リスト",
-        href: "kpi.html",
+        href: "visual-report.html",
       },
       {
         name: "全体カリキュラム",
@@ -815,7 +815,7 @@ const roadmapPhases = [
         make: "公開物と設計シートを見比べ、田中祐一AIの構成に合わない箇所を直す。",
         input: "公開ページ、フィードバック、設計シート",
         output: "添削レポート",
-        href: "text-report.html",
+        href: "files.html",
       },
       {
         name: "差し替え履歴",
@@ -1728,9 +1728,9 @@ const pages = new Map();
 
 pages.set("index.html", page({
   file: "index.html",
-  title: "田中祐一様の制作パッケージ",
+  title: "制作ポータル",
   eyebrow: "田中祐一AI / 制作ポータル",
-  lead: "WEBマーケターへの道を、工程表、設計シート、制作物、原本MDまで一つの制作ポータルとして確認します。",
+  lead: "全体の入口です。何があるか、どこから進めるかを確認し、新規制作モードは工程表を基準に進行します。",
   body: `
 <section class="panel"><h2>案件の全体像</h2><div class="grid-3">
 ${card("会社員はWEBマーケターを目指しなさい", "企画", "地味で平凡な会社員に、裏方Webマーケターという別ルートを提示する5日間チャレンジ。", "concept.html")}
@@ -1743,12 +1743,12 @@ ${card("HTMLとMDを同時に残す", "管理方針", "見せるページはHTML
 <div class="kpi"><span>配信原稿</span><strong>${registrationMails.length + salesMails.length + officialLines.length + spots.length + fixedNotes.length}件</strong></div>
 <div class="kpi"><span>課題提出</span><strong>Day1 91件</strong></div>
 </div></section>
-<section class="panel"><h2>ポータルから確認できるもの</h2><div class="grid-3">
-${card("工程表", "レポート", "細かな操作手順ではなく、各フェーズで何を作り、どんな成果物が揃うかを確認します。", "roadmap.html")}
-${card("各種設計シート", "設計", "コンセプト、プロフィール、コンフィグ、リサーチ、オファーを制作物の前提として管理します。", "sheets.html")}
-${card("制作物一覧", "制作", "LP、ヘッド、メール、LINE、VSL台本、ライブ台本、セールスページを制作物として確認します。", "assets.html")}
+<section class="panel"><h2>主導線</h2><div class="grid-3">
+${card("制作ポータル", "入口", "このページです。全体の入口として、何があり、どこから進めるかを確認します。", "index.html")}
+${card("工程表", "本体", "新規制作モードの本体です。1-2、2-5のように工程番号を基準に制作を進めます。", "roadmap.html")}
+${card("全体構成", "俯瞰", "ファネル全体、必要素材、VSL配置、KPI、導線の全体像を確認します。", "visual-report.html")}
 </div></section>
-<section class="panel"><h2>制作モード</h2><p class="note">プロモーション素材一式を作る場合は、工程表に基づいて一気通貫で進めます。LPやステップメールだけを作る場合は、個別制作物として切り出し、対応するページへ追加します。</p>${productionModeTable()}</section>
+<section class="panel"><h2>制作モード</h2><p class="note">プロモーション素材一式を作る場合も、LPやステップメールだけを個別で作る場合も、主導線は工程表です。設計シートや制作物ページは、工程表から入る詳細ページとして扱います。</p>${productionModeTable()}</section>
 <section class="panel"><h2>ワンステップ販売型の全体像</h2><div class="funnel">${coreFunnelRows.map(([label]) => `<div class="funnel-step">${esc(label)}</div>`).join("")}</div><p class="quote">全体設計では、LP、サンキューページ、オープンチャット、Day1〜Day5コンテンツ、期間限定セールスレター販売の5素材が揃っているかを確認します。詳細設計では、VSL配置、自動返信、公式LINE移動、購入完了ページなどを追加して導線を厚くします。</p></section>
 `}));
 
@@ -1780,21 +1780,6 @@ pages.set("visual-report.html", page({
 </tbody></table></section>
 `}));
 
-pages.set("text-report.html", page({
-  file: "text-report.html",
-  title: "制作テキストレポート",
-  eyebrow: "レポート",
-  lead: "見た目のポータルとは別に、制作判断の前提を文章で読み返すためのページです。",
-  body: `
-<section class="panel"><h2>このパッケージの読み方</h2><p>最初に全体構成と工程表で現在地を確認し、次に設計シートでコンセプトとオファーの根拠を見ます。その後、制作物一覧からLP、配信、動画台本、セールスページへ入る流れです。</p></section>
-<section class="panel"><h2>田中祐一AIとして守る判断軸</h2><div class="checklist">
-<div class="checkitem"><strong>商品から逆算する</strong><span>コンセプト、配信、台本は、45日間実践環境への納得感を作るために配置する。</span></div>
-<div class="checkitem"><strong>ターゲットの自己認識を変える</strong><span>「地味で平凡」「顔出しが苦手」は弱みではなく、裏方Webマーケターの適性として言語化する。</span></div>
-<div class="checkitem"><strong>制作物は原本とセットで残す</strong><span>HTMLは見せるため、MDはAI参照と差し替えのために保持する。</span></div>
-</div></section>
-<section class="panel"><h2>次に厚くするべき箇所</h2><ul><li>実際の競合名と比較対象を追加し、リサーチシートを強化する。</li><li>正式価格、分割、保証、サポート範囲を確認し、オファーシートを完成させる。</li><li>ヘッド画像とLPデザインの生成指示を、実際の制作ツール向けにさらに細かくする。</li></ul></section>
-`}));
-
 pages.set("roadmap.html", page({
   file: "roadmap.html",
   title: "制作工程表",
@@ -1807,22 +1792,6 @@ pages.set("roadmap.html", page({
 ${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}
 <section class="panel"><h2>全体スケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>進めること</th></tr></thead><tbody>${scheduleRows.map(([timing, detail]) => `<tr><td>${esc(timing)}</td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
 <section class="panel"><h2>制作ボリューム</h2><table class="asset-table"><thead><tr><th>領域</th><th>本数/点数</th><th>内容</th></tr></thead><tbody>${contentVolumeRows.map(([area, count, detail]) => `<tr><td>${esc(area)}</td><td><strong>${esc(count)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>`}));
-
-pages.set("kpi.html", page({
-  file: "kpi.html",
-  title: "KPI設計",
-  eyebrow: "レポート",
-  lead: "動画埋め込みLPから公式LINE内の期間限定レターへ進む直販型チャレンジローンチの規模感を確認します。",
-  body: `
-<section class="panel"><h2>仮シミュレーション</h2><div class="grid-4">
-<div class="kpi"><span>仮単価</span><strong>60,000円</strong></div>
-<div class="kpi"><span>販売実績メモ</span><strong>30名</strong></div>
-<div class="kpi"><span>仮売上</span><strong>180万円</strong></div>
-<div class="kpi"><span>販売方式</span><strong>直販</strong></div>
-</div><p class="quote">価格と実売上は正式確認が必要です。現状はオファーシート上の仮値として扱います。</p></section>
-<section class="panel"><h2>参加行動の実績</h2><table class="asset-table"><thead><tr><th>課題</th><th>提出数</th><th>意味</th></tr></thead><tbody>${liveRows.map((row) => `<tr><td>${row.day}</td><td>${row.count}</td><td>${esc(row.task)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel"><h2>見るべき数字</h2><div class="grid-3">${card("登録率", "入口", "オプトインLPごとの登録率と登録経路別の反応を見る。")}${card("ライブ参加/課題提出", "価値提供", "Dayごとの離脱と提出数を見る。Day1からDay5までの落ち方が重要。")}${card("公式LINEレター購入率", "販売", "Day5後に公式LINEへ移動した人が、期間限定レターから購入する率を見る。")}</div></section>
-`}));
 
 pages.set("sheets.html", page({
   file: "sheets.html",

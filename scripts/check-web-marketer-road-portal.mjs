@@ -9,9 +9,7 @@ const publicBase = publicBaseArg?.split("=").slice(1).join("=");
 const requiredPages = [
   "index.html",
   "visual-report.html",
-  "text-report.html",
   "roadmap.html",
-  "kpi.html",
   "sheets.html",
   "concept.html",
   "profile.html",
@@ -51,7 +49,9 @@ const forbidden = [
 ];
 
 const contentChecks = [
-  ["index.html", "田中祐一様の制作パッケージ"],
+  ["index.html", "制作ポータル"],
+  ["index.html", "主導線"],
+  ["index.html", "新規制作モードは工程表を基準"],
   ["index.html", "期間限定セールスレター"],
   ["index.html", "制作モード"],
   ["index.html", "一気通貫モード"],
