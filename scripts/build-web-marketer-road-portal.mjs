@@ -101,6 +101,7 @@ const funnelPartRows = [
   ["day3", "Day3", "価値提供", `${funnelPartAssetDir}/day3.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/day3.png"],
   ["day4", "Day4", "価値提供", `${funnelPartAssetDir}/day4.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/day4.png"],
   ["day5", "Day5", "価値提供", `${funnelPartAssetDir}/day5.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/day5.png"],
+  ["thanks-no-video", "サンクスページ / 動画なし", "集客", `${funnelPartAssetDir}/thanks-no-video.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材 2/サンクスページ_動画なし.png"],
   ["thanks-opt-after-vsl", "サンクスページ / オプト後VSL", "集客", `${funnelPartAssetDir}/thanks-opt-after-vsl.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/サンクス_オプト後VSL.png"],
   ["seminar-to-individual", "セミナー→個別説明会", "販売", `${funnelPartAssetDir}/seminar-to-individual.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/セミナーページ_セミナー_個別説明会.png"],
   ["seminar-direct", "セミナー販売", "販売", `${funnelPartAssetDir}/seminar-direct.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/セミナーページ_セミナー.png"],
@@ -1642,7 +1643,7 @@ function currentFunnelComposite() {
       ${compositeArrow()}
       ${compositeImagePart("part-optin", "opt-before-vsl-page", "登録前", "集客ページ / オプト前VSL", "メールアドレス登録")}
       ${compositeArrow()}
-      ${compositeTextPart("part-thanks", "登録直後", "サンクスページ", "教育グループへ案内")}
+      ${compositeImagePart("part-thanks", "thanks-no-video", "登録直後", "サンクスページ", "教育グループへ案内")}
       ${compositeArrow()}
       ${compositeImagePart("part-list", "list-building", "リスト", "リスト化", "LINE / メール")}
     </div>
