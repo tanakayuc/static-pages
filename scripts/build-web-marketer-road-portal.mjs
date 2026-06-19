@@ -793,251 +793,128 @@ const liveRows = [
   },
 ];
 
+function roadmapStep(sourceStep, name, make, input, output, href = "") {
+  return { sourceStep, name, make, input, output, href };
+}
+
 const roadmapPhases = [
   {
-    name: "1. 全体設計",
-    summary: "まず、作る順番と今回の完成形を確認する。",
+    name: "1. 事前設計",
+    summary: "Step 1〜6。プロモーションを始める前に、目的・商品・ファネル・KPI・教育グループ・ライブ本数を決める。",
     items: [
-      {
-        name: "全体導線を確認する",
-        make: "オプトインLP、登録CTA、サンキューページ、オープンチャット、Day1〜Day5、公式LINE、セールスレター、購入完了ページの順番を確認する。",
-        input: "全体構成",
-        output: "導線メモ",
-        href: "visual-report.html",
-      },
-      {
-        name: "販売商品を確認する",
-        make: "販売する商品、価格、サポート、特典、保証を確認する。",
-        input: "既存レター、決済ページ、商品説明",
-        output: "商品メモ",
-        href: "offer.html",
-      },
-      {
-        name: "見る数字を置く",
-        make: "登録数、参加率、課題提出、公式LINE移動、レター購入の確認数字を置く。",
-        input: "目標売上、商品価格、過去実績",
-        output: "KPIメモ",
-        href: "visual-report.html",
-      },
-      {
-        name: "既存素材を棚卸しする",
-        make: "使える原稿、動画、ページ、配信、指示書の所在を確認する。",
-        input: "既存ファイル、既存ページ、過去素材",
-        output: "素材リスト",
-        href: "assets.html",
-      },
+      roadmapStep("1", "目的意識を明確にする", "なぜこのプロモーションを行うのかを3〜5項目で書き出す。", "プロフィール・背景情報", "目的リスト", "visual-report.html"),
+      roadmapStep("2", "販売したい商品を決める", "販売する商品、価格、期間、販売本数を決める。", "既存の商品・サービス一覧", "商品リスト", "offer.html"),
+      roadmapStep("3", "販売ファネルを決める", "今回採用するファネル種別を確定する。", "プロモーションのゴール・販売商品", "ファネル種別", "visual-report.html"),
+      roadmapStep("4", "目標KPIの設定", "目標売上から必要な登録数、参加率、購入率を逆算する。", "目標売上・商品単価・販売本数", "KPI逆算メモ", "visual-report.html"),
+      roadmapStep("5", "教育グループを決める", "参加者をどこに集めるかを決める。", "ターゲットが普段使う媒体", "教育グループ種別", "line.html"),
+      roadmapStep("6", "ライブ回数を決める", "2チャレ、3チャレ、5チャレなど、何日間で進めるかを決める。", "期間・本人の稼働条件", "ライブ本数", "live-scripts.html"),
     ],
   },
   {
-    name: "2. 設計シート",
-    summary: "集客素材を作る前に、見込み客、リサーチ、コンセプト、本人情報、オファーを固める。",
+    name: "2. コンセプト設計",
+    summary: "Step 7〜14。背景情報、ターゲット、リサーチ、ポジショニング、コンセプト、プロフィールを作る。",
     items: [
-      {
-        name: "ターゲットを整理する",
-        make: "誰に向けて作るのか、悩み、勘違い、動く条件をまとめる。",
-        input: "既存LP、既存レター、見込み客情報",
-        output: "ターゲットシート",
-        href: "target.html",
-      },
-      {
-        name: "リサーチを行う",
-        make: "ライバルの強訴求、ついていけない人、別手段、空きポジションを整理する。",
-        input: "競合、媒体、書籍、既存情報",
-        output: "リサーチシート",
-        href: "research.html",
-      },
-      {
-        name: "コンセプトを作る",
-        make: "旧世界、新世界、真の原因、ベネフィット、ミッション、コアシナリオをまとめる。",
-        input: "ターゲット、リサーチ、商品情報",
-        output: "コンセプトシート",
-        href: "concept.html",
-      },
-      {
-        name: "コンフィグ＋プロフィールを整える",
-        make: "制作判断のトーン、避ける表現、本人プロフィール、信頼形成素材をまとめる。",
-        input: "本人情報、LP掲載プロフィール、制作判断軸",
-        output: "コンフィグ＋プロフィール",
-        href: "config.html",
-      },
-      {
-        name: "オファーを整理する",
-        make: "何を提供するのか、それがいくらなのかを、販売ページへ渡せる形にする。",
-        input: "商品内容、サポート、特典、価格",
-        output: "オファーシート",
-        href: "offer.html",
-      },
+      roadmapStep("7", "事前情報収集（背景情報）", "本人情報、実績、背景、判断材料を集める。", "プロフィール・音声入力・テキスト", "プロフィールシート", "config.html"),
+      roadmapStep("8", "ターゲットシート作成", "見込み客の悩み、願望、動く条件を整理する。", "背景情報", "ターゲットシート", "target.html"),
+      roadmapStep("9", "ライバル情報の収集", "同業ライバルの訴求、媒体、商品、強みを整理する。", "市場名・キーワード・競合候補", "ライバル分析シート", "research.html"),
+      roadmapStep("10", "空いている訴求の特定", "ライバルの強訴求から、ついていけない人と狙える余白を整理する。", "ターゲット情報・ライバル情報", "空き訴求リスト", "research.html"),
+      roadmapStep("11", "ポジショニングの作成", "ターゲット、ライバル、コンテンツホルダーの強みをつなぎ、狙う立ち位置を言語化する。", "ターゲット・ライバル・背景情報", "ポジショニングシート", "concept.html"),
+      roadmapStep("12", "プロモーションコンセプト", "LP、配信、台本、販売ページへ展開する中核コピーを決める。", "ポジショニング", "プロモコンセプト", "concept.html"),
+      roadmapStep("13", "プロモヘッダーバナーの作成", "プロモーションの見た目に使うヘッドコピーと画像方向を決める。", "コンセプト・配色・サンプルデザイン", "ヘッド指示書", "head.html"),
+      roadmapStep("14", "プロフィール作成（ブラッシュアップ）", "ポジショニングに合わせて信頼形成用プロフィールを整える。", "背景情報・コンセプト", "プロフィール文", "config.html"),
     ],
   },
   {
-    name: "3. 集客フェーズ",
-    summary: "登録前から登録直後までに必要な原稿、台本、指示書を作る。",
+    name: "3. オファー構築",
+    summary: "Step 15〜16。提供内容、期間、価格、特典、保証をオファーシートへまとめる。",
     items: [
-      {
-        name: "オプトインLP原稿を作る",
-        make: "誰に、何を約束し、なぜ今参加するのかをLP本文として作る。",
-        input: "ターゲット、コンセプト、プロフィール",
-        output: "オプトインLP原稿",
-        href: "lp.html",
-      },
-      {
-        name: "LPヘッド指示書を作る",
-        make: "ファーストビューで伝える約束、画像方向、CTA、スマホ表示の指示を作る。",
-        input: "LP原稿、コンセプト",
-        output: "LPヘッド指示書",
-        href: "head.html",
-      },
-      {
-        name: "オプト前VSL台本を作る",
-        make: "登録前に見せる動画として、教育、選別、登録CTAまでの台本を作る。",
-        input: "LP原稿、コンセプト、CTA方針",
-        output: "オプト前VSL台本",
-        href: "script-opening.html",
-      },
-      {
-        name: "サンキューページ原稿を作る",
-        make: "登録CTAの後に表示し、オープンチャット参加へ進めるページ本文を作る。",
-        input: "登録後導線、参加案内",
-        output: "サンキューページ原稿",
-        href: "lp.html",
-      },
-      {
-        name: "登録直後メールを作る",
-        make: "メール登録で止まった人を、オープンチャット参加へ戻す自動返信を作る。",
-        input: "サンキューページ、参加導線",
-        output: "登録直後メール",
-        href: "stepmail.html",
-      },
-      {
-        name: "紹介文章を作る",
-        make: "LPと登録後導線が固まった後に、登録ページへ送る紹介文、件名、CTAを作る。",
-        input: "LP原稿、登録URL、配信先",
-        output: "紹介文章",
-        href: "stepmail.html",
-      },
+      roadmapStep("15", "本命商品オファー", "商品名、特徴、サポート期間、価格、特典、保証を整理する。", "コンセプト・ターゲット・BEFORE/AFTER・期間・価格", "オファーシート", "offer.html"),
+      roadmapStep("16", "フロント商品オファー", "必要な場合のみ、入口側の商品や中間商品の提供内容を整理する。", "コンセプト・ターゲット", "フロント商品オファー", "offer.html"),
     ],
   },
   {
-    name: "4. 教育（活性化）フェーズ",
-    summary: "登録後に参加者を迷わせず、Day1〜Day5の価値提供へ進める素材を作る。",
+    name: "4. コンテンツ設計",
+    summary: "Step 17〜26。5日間の内容、課題、特典、コアストーリー、登録直後の案内素材を作る。",
     items: [
-      {
-        name: "価値提供全体を整理する",
-        make: "Day1〜Day5でどの順番で認識を変えるのかを整理する。",
-        input: "コンセプト、オファー、全体構成",
-        output: "全体カリキュラム",
-        href: "live-scripts.html",
-      },
-      {
-        name: "Day1〜Day5台本を作る",
-        make: "各日の導入、本編、課題、次回予告、販売接続を台本にする。",
-        input: "全体カリキュラム、コアシナリオ",
-        output: "Day1〜Day5台本",
-        href: "live-scripts.html",
-      },
-      {
-        name: "課題と特典を作る",
-        make: "各日の課題、提出先、提出特典、提出後の案内を作る。",
-        input: "Day別テーマ、特典案",
-        output: "課題/特典案内",
-        href: "live-scripts.html",
-      },
-      {
-        name: "固定投稿を作る",
-        make: "参加者が毎回見る基本案内、提出先、注意事項を固定投稿として作る。",
-        input: "参加導線、課題、運用ルール",
-        output: "固定投稿",
-        href: "line.html",
-      },
-      {
-        name: "通常配信を作る",
-        make: "各日の案内、リマインド、課題提出、Q&A、未参加フォローを時系列に並べる。",
-        input: "Day別台本、課題、固定投稿",
-        output: "通常配信一覧",
-        href: "line.html",
-      },
-      {
-        name: "公式LINE登録誘導を作る",
-        make: "Day5後、レター希望者を公式LINEへ移動させる案内文を作る。",
-        input: "販売導線、Day5台本",
-        output: "公式LINE登録誘導",
-        href: "line.html",
-      },
+      roadmapStep("17", "お客様の声ファイル生成", "既存の感想、実績、体験談を素材として使える形にする。", "既存の感想・実績・体験談", "お客様の声リスト", "assets.html"),
+      roadmapStep("18", "5日間コンテンツ設計", "Day1〜Day5のテーマと小タイトルを決める。", "コンセプトシート・ターゲットシート", "5日間テーマ一覧", "live-scripts.html"),
+      roadmapStep("19", "チャレンジ課題＆特典設計", "各日の課題、提出特典、コンプリート特典を決める。", "コンセプト・ターゲット", "課題/特典設計", "live-scripts.html"),
+      roadmapStep("20", "スケジュール決め", "募集開始日、ライブ日、販売開始日、販売終了日を決める。", "開始日・販売終了日", "プロモ全体カレンダー", "visual-report.html"),
+      roadmapStep("21", "ライブ1コアストーリー", "Day1の核になるストーリー骨格を作る。", "コンセプト・ターゲット", "コアストーリーシート", "live-scripts.html"),
+      roadmapStep("22", "中間オファー構築", "説明会や個別相談を挟む場合の中間オファーを整理する。", "本命オファー", "中間オファーシート", "offer.html"),
+      roadmapStep("23", "オプト後VSLシナリオ作成", "登録直後に動画を置く場合の自己紹介、世界観共有、次アクションを整理する。", "コンセプト・プロフィール・特典", "オプト後VSLシナリオ", "script-opening.html"),
+      roadmapStep("24", "特典の作成（実体）", "特典タイトル案をもとに、配布できる内容へ落とす。", "特典タイトル案", "特典コンテンツ", "live-scripts.html"),
+      roadmapStep("25", "特典サムネイル生成", "特典を見せるためのサムネイル方向を決める。", "特典タイトル・参考サムネ", "特典サムネイル指示書", "head.html"),
+      roadmapStep("26", "登録直後案内素材を用意する", "登録直後に次の一歩へ進ませる案内素材を用意する。", "登録直後案内シナリオ", "登録直後案内素材", "thank-you-copy.html"),
     ],
   },
   {
-    name: "5. 販売ページ設計",
-    summary: "価値提供後に、販売ページと販売期配信、購入後案内を作る。",
+    name: "5. オプトインLPの作成",
+    summary: "Step 27〜32。LP原稿、画像指示、実装指示、サンキューページ原稿を作る。",
     items: [
-      {
-        name: "販売前メッセージを作る",
-        make: "レターを読む前に、誰に向けた案内なのか、なぜ今読むべきかを伝える。",
-        input: "Day5台本、オファー、公式LINE",
-        output: "販売前メッセージ",
-        href: "line.html",
-      },
-      {
-        name: "セールスレター原稿を作る",
-        make: "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を1本にまとめる。",
-        input: "コンセプト、オファー、プロフィール、実績素材",
-        output: "セールスレター原稿",
-        href: "sales-page.html",
-      },
-      {
-        name: "セールスページヘッド指示書を作る",
-        make: "販売ページ冒頭のコピー、CTA、締切、画面指示を作る。",
-        input: "セールスレター原稿、オファー",
-        output: "セールスページヘッド指示書",
-        href: "head.html",
-      },
-      {
-        name: "販売期配信を作る",
-        make: "販売開始、理由、事例、質問回答、締切、終了案内の配信を作る。",
-        input: "販売ページ、締切、購入導線",
-        output: "販売期メール/LINE",
-        href: "stepmail.html",
-      },
-      {
-        name: "購入完了ページ原稿を作る",
-        make: "決済後に必要な参加案内、連絡先、開始までの流れをまとめる。",
-        input: "購入後導線、運営連絡、開始日",
-        output: "購入完了ページ原稿",
-        href: "sales-page.html",
-      },
+      roadmapStep("27", "オプトインLP ライティング", "ファーストビュー、共感、ベネフィット、参加理由、CTAを原稿化する。", "コンフィグ・VSLシナリオ・参考LP・プロモコンセプト", "オプトインLP原稿", "lp.html"),
+      roadmapStep("28", "画像指示書の作成", "LPに必要な画像、ヘッド、CTA、スマホ表示の指示を作る。", "オプトインLP原稿", "LPヘッド指示書", "head.html"),
+      roadmapStep("29", "画像素材の作成", "必要な場合のみ、LPで使う画像素材を作る。", "LPヘッド指示書", "LP用画像素材", "head.html"),
+      roadmapStep("30", "HTMLコードの生成と公開", "実装担当へ渡せるHTML化指示と公開先メモを作る。", "LP原稿・画像素材", "LP実装指示書", "lp.html"),
+      roadmapStep("31", "サンキューページライティング", "登録後に教育グループへ進ませるサンキューページ本文を作る。", "コンセプト・登録直後案内素材", "サンキューページ原稿", "thank-you-copy.html"),
+      roadmapStep("32", "サンキューページ作成", "サンキューページの実装指示と遷移先を整理する。", "サンキューページ原稿・教育グループURL", "サンキューページ実装指示書", "thank-you-copy.html"),
     ],
   },
   {
-    name: "6. 納品/添削準備",
-    summary: "作った原稿、台本、指示書を一覧化し、次に直す場所を見えるようにする。",
+    name: "6. 集客素材の作成",
+    summary: "Step 33〜40。教育グループ、固定投稿、自動返信、紹介文、広告素材を用意する。",
     items: [
-      {
-        name: "成果物一覧を更新する",
-        make: "集客、価値提供、販売の3カテゴリで作った素材を一覧化する。",
-        input: "各工程の成果物",
-        output: "成果物一覧",
-        href: "assets.html",
-      },
-      {
-        name: "原稿/指示書所在を確認する",
-        make: "再編集できるよう、原稿、台本、スライド構成案、デザイン指示書の所在を残す。",
-        input: "原稿ファイル、台本、指示書",
-        output: "所在一覧",
-        href: "assets.html",
-      },
-      {
-        name: "添削確認を行う",
-        make: "設計シートと制作物を見比べ、ズレている箇所を直す。",
-        input: "成果物、設計シート、フィードバック",
-        output: "添削メモ",
-        href: "assets.html",
-      },
-      {
-        name: "差し替え履歴を残す",
-        make: "何を変更したか、どの原稿/指示書へ反映したかを残す。",
-        input: "Git差分、修正メモ",
-        output: "更新履歴",
-        href: "assets.html",
-      },
+      roadmapStep("33", "教育グループ（オープンチャット）作成", "参加場所を作り、登録後に案内できる状態にする。", "コンセプト・グループ名案", "教育グループURL", "line.html"),
+      roadmapStep("34", "オープンチャットの固定メッセージを整える", "参加者が最初に見る固定投稿を作る。", "ノート用文章・掲示板用文章", "固定投稿", "line.html"),
+      roadmapStep("35", "オープンチャット事前案内の整備", "ライブ開始前までに送る事前案内文を作る。", "コンセプト・VSLシナリオ・特典・スケジュール", "事前案内文", "line.html"),
+      roadmapStep("36", "オプト後自動返信メール", "登録直後に教育グループへ戻すメール文面を作る。", "コンセプト・登録直後案内素材", "自動返信メール文面", "stepmail.html"),
+      roadmapStep("37", "セットアップライティング", "メルマガやSNSで登録ページへ送る紹介文を作る。", "ターゲット情報・LP原稿", "紹介文章", "stepmail.html"),
+      roadmapStep("38", "セットアップ用画像生成", "必要な場合のみ、投稿や紹介に使う画像方向を作る。", "紹介文章", "投稿用画像指示書", "head.html"),
+      roadmapStep("39", "広告用文章", "広告を使う場合に必要なコピー案を作る。", "コンセプト・ターゲット・Day1シナリオ", "広告コピー案", "assets.html"),
+      roadmapStep("40", "広告用クリエイティブ", "広告を使う場合に必要な画像・動画方向を作る。", "広告コピー案", "広告クリエイティブ指示書", "assets.html"),
+    ],
+  },
+  {
+    name: "7. ライブ台本の作成",
+    summary: "Step 41〜47。Day1〜Day5の台本と課題フォームを作る。",
+    items: [
+      roadmapStep("41", "ライブ1シナリオ作成", "Day1の導入、本編、課題、次回予告を台本化する。", "コンセプト・ターゲット・コアストーリー・プロフィール・お客様の声", "Day1ライブ台本", "live-scripts.html"),
+      roadmapStep("42", "ライブ2シナリオ作成", "Day2の導入、本編、課題、次回予告を台本化する。", "Day1台本・コンセプト類・オファー", "Day2ライブ台本", "live-scripts.html"),
+      roadmapStep("43", "ライブ3シナリオ作成", "Day3の導入、本編、課題、次回予告を台本化する。", "Day1〜Day2台本・コンセプト類・オファー", "Day3ライブ台本", "live-scripts.html"),
+      roadmapStep("44", "ライブ4シナリオ作成", "Day4の導入、本編、課題、次回予告を台本化する。", "Day1〜Day3台本・コンセプト類・オファー", "Day4ライブ台本", "live-scripts.html"),
+      roadmapStep("45", "ライブ5シナリオ作成（2ステップ版）", "説明会や個別相談へ接続する場合のDay5台本を作る。", "Day1〜Day4台本・本命オファー", "Day5台本（2ステップ版）", "live-scripts.html"),
+      roadmapStep("46", "ライブ5シナリオ作成（1ステップ版）", "販売ページへ直接接続する場合のDay5台本を作る。", "Day1〜Day4台本・本命オファー", "Day5台本（1ステップ版）", "live-scripts.html"),
+      roadmapStep("47", "チャレンジ課題のアウトプットフォーム", "各日の課題提出先を用意する。", "課題内容", "回答フォームURL", "live-scripts.html"),
+    ],
+  },
+  {
+    name: "8. プロモ素材の作成",
+    summary: "Step 48〜55。配信、LINE投稿、販売ページ、購入後案内を作る。",
+    items: [
+      roadmapStep("48", "リマインドメール", "教育グループ登録誘導とライブ前リマインドを作る。", "スケジュール・コンセプト", "リマインドメール", "stepmail.html"),
+      roadmapStep("49", "LINEオープンチャット投稿文章", "期間中に送る固定投稿と通常配信を時系列で作る。", "スケジュール・課題・ライブ内容", "LINE投稿文", "line.html"),
+      roadmapStep("50", "説明会ページ（2ステップ販売用）", "説明会や個別相談を挟む場合の申込みページ原稿を作る。", "中間オファー・本命オファー", "説明会ページ原稿", "sales-page.html"),
+      roadmapStep("51", "説明会ページ自動返信", "説明会申込み後の日時確認、準備事項、リマインドを作る。", "申込み完了情報", "説明会自動返信メール", "stepmail.html"),
+      roadmapStep("52", "説明会ページサンキューページ", "説明会申込み後のサンキューページ原稿を作る。", "申込み完了情報", "説明会サンキューページ原稿", "sales-page.html"),
+      roadmapStep("53", "1ステップ販売ページ", "販売ページ直販用のセールスレター原稿を作る。", "本命オファー・コンセプト・証拠素材", "セールスレター原稿", "sales-page.html"),
+      roadmapStep("54", "1ステップ販売ページ サンキュー", "購入後に必要な案内をページ原稿にする。", "購入完了情報", "購入完了ページ原稿", "sales-page.html"),
+      roadmapStep("55", "1ステップ販売ページ 自動返信", "購入後に送る自動返信メールを作る。", "購入完了情報", "購入後自動返信メール", "stepmail.html"),
+    ],
+  },
+  {
+    name: "9. 本番運用",
+    summary: "Step 56〜65。素材完成後に、運用・販売・法務・改善で確認する項目。",
+    items: [
+      roadmapStep("56", "集客の実施", "用意した紹介文、投稿、広告素材から登録ページへ送る。", "紹介文・広告素材・サンキューページ・教育グループ", "目標オプト数", "visual-report.html"),
+      roadmapStep("57", "ライブの実施", "Day1〜Day5の台本に沿ってライブ、課題、質問対応を行う。", "Day1〜Day5台本", "ライブ実施ログ", "live-scripts.html"),
+      roadmapStep("58", "限定性のプッシュ（1ステップ販売）", "販売ページ直販の場合の販売開始、締切、終了案内を作る。", "販売ページ・限定特典", "販売期配信", "stepmail.html"),
+      roadmapStep("59", "限定性のプッシュ（2ステップ販売）", "説明会や個別相談へ進む場合の締切案内を作る。", "説明会ページ・視聴期限", "説明会誘導配信", "stepmail.html"),
+      roadmapStep("60", "説明会申込み後のステップ＆リマインド", "説明会申込み後のリマインド配信を作る。", "申込者情報・説明会日時", "説明会リマインド", "stepmail.html"),
+      roadmapStep("61", "販売スライド（2ステップ用）", "説明会で使うスライド構成案を作る。", "本命オファー・お客様の声", "販売スライド指示書", "sales-page.html"),
+      roadmapStep("62", "セールストーク（クロージング）", "個別販売がある場合の相談前後の会話台本を整える。", "販売スライド・想定問答", "セールストーク台本", "sales-page.html"),
+      roadmapStep("63", "特商法・プライバシーポリシー", "販売条件に合わせて必要ページを確認する。", "事業者情報・販売条件", "特商法/プライバシーポリシー", "sales-page.html"),
+      roadmapStep("64", "法定書面", "該当する場合のみ概要書面と契約書面を用意する。", "商品情報・提供条件", "概要書面/契約書面", "sales-page.html"),
+      roadmapStep("65", "セールス改善（次回プロモへ）", "成約データ、離脱データ、録画から次回の改善点をまとめる。", "セールス録画・成約データ・離脱データ", "改善レポート", "visual-report.html"),
     ],
   },
 ];
@@ -1548,28 +1425,36 @@ function roadmapJump(phases) {
   return `<nav class="jump-nav">${phases.map((phase, index) => `<a href="#phase-${index + 1}">${esc(phase.name)}</a>`).join("")}</nav>`;
 }
 
-function roadmapFunnelTag(phaseNumber, itemName) {
-  if (phaseNumber <= 2) return { label: "設計準備", target: "" };
-  if (phaseNumber === 3) {
-    if (itemName.includes("サンキューページ")) return { label: "サンクスページ", target: "part-thanks" };
-    if (itemName.includes("登録直後メール")) return { label: "リスト化", target: "part-list" };
-    if (itemName.includes("紹介文章")) return { label: "ハウス/広告/紹介", target: "part-reach" };
-    return { label: "集客ページ", target: "part-optin" };
-  }
-  if (phaseNumber === 4) {
-    if (itemName.includes("公式LINE登録誘導")) return { label: "販売接続", target: "part-sales" };
+function roadmapFunnelTag(item) {
+  const step = Number(item.sourceStep);
+  if (step <= 22) return { label: "設計シート", target: "" };
+  if (step >= 23 && step <= 26) {
+    if (step === 23 || step === 26) return { label: "サンクスページ", target: "part-thanks" };
     return { label: "教育グループ", target: "part-value" };
   }
-  if (phaseNumber === 5) {
-    if (itemName.includes("購入完了")) return { label: "商品提供", target: "part-sales" };
-    if (itemName.includes("販売期配信")) return { label: "販売期配信", target: "part-sales" };
-    return { label: "販売ページ", target: "part-sales" };
-  }
-  return { label: "納品/添削", target: "" };
+  if (step >= 27 && step <= 30) return { label: "集客ページ", target: "part-optin" };
+  if (step >= 31 && step <= 32) return { label: "サンクスページ", target: "part-thanks" };
+  if (step >= 33 && step <= 35) return { label: "教育グループ", target: "part-value" };
+  if (step === 36 || step === 48) return { label: "リスト化", target: "part-list" };
+  if (step >= 37 && step <= 40) return { label: "集客ページ", target: "part-optin" };
+  if (step >= 41 && step <= 47) return { label: "教育グループ", target: "part-value" };
+  if (step === 49) return { label: "教育グループ", target: "part-value" };
+  if (step >= 50 && step <= 55) return { label: "販売ページ", target: "part-sales" };
+  if (step === 56) return { label: "集客ページ", target: "part-optin" };
+  if (step === 57) return { label: "教育グループ", target: "part-value" };
+  if (step >= 58) return { label: "販売ページ", target: "part-sales" };
+
+  const text = `${item.name} ${item.make} ${item.input} ${item.output}`;
+  if (/販売|セールス|購入|成約|説明会|特商法|法定書面/.test(text)) return { label: "販売ページ", target: "part-sales" };
+  if (/Day[1-5]|ライブ|課題|特典|教育グループ|オープンチャット|LINE投稿|固定投稿|通常配信/.test(text)) return { label: "教育グループ", target: "part-value" };
+  if (/サンキュー|登録直後/.test(text)) return { label: "サンクスページ", target: "part-thanks" };
+  if (/メール|リマインド|自動返信|リスト化/.test(text)) return { label: "リスト化", target: "part-list" };
+  if (/LP|ヘッド|VSL|広告|紹介|セットアップ|集客/.test(text)) return { label: "集客ページ", target: "part-optin" };
+  return { label: "設計シート", target: "" };
 }
 
-function roadmapFunnelTagHtml(phaseNumber, itemName) {
-  const tag = roadmapFunnelTag(phaseNumber, itemName);
+function roadmapFunnelTagHtml(item) {
+  const tag = roadmapFunnelTag(item);
   if (!tag.target) return `<strong>${esc(tag.label)}</strong>`;
   return `<a class="funnel-location-link" href="#${esc(tag.target)}">${esc(tag.label)}</a>`;
 }
@@ -1756,11 +1641,13 @@ function roadmapPhaseSection(phase, index) {
     return `<article class="roadmap-step">
 <span class="roadmap-step-num">${esc(stepNumber)}</span>
 <div>
+<span class="roadmap-source-step">Step ${esc(item.sourceStep)}</span>
 <h3>${esc(item.name)}</h3>
 <p>${esc(item.make)}</p>
 <div class="roadmap-step-meta">
-<div><span>対応位置</span>${roadmapFunnelTagHtml(phaseNumber, item.name)}</div>
+<div><span>入力</span><strong>${esc(item.input)}</strong></div>
 <div><span>完成物</span><strong>${esc(item.output)}</strong></div>
+<div><span>対応位置</span>${roadmapFunnelTagHtml(item)}</div>
 </div>
 ${link}
 </div>
@@ -2583,10 +2470,11 @@ li { margin: 4px 0; }
 .roadmap-step { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; padding: 1.1rem 0; border-top: 1px dashed var(--line); }
 .roadmap-step:first-child { padding-top: 0; border-top: 0; }
 .roadmap-step-num { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: var(--soft); color: var(--sub); font-weight: 900; }
+.roadmap-source-step { display: inline-flex; align-items: center; margin-bottom: .25rem; padding: .16rem .45rem; border: 1px solid var(--line); border-radius: 999px; color: var(--brand); font-size: .72rem; font-weight: 900; }
 .roadmap-step h3 { margin-bottom: .3rem; }
 .roadmap-step p { color: #324b44; line-height: 1.8; }
 .roadmap-step .report-link { margin-top: .75rem; }
-.roadmap-step-meta { display: grid; grid-template-columns: 1fr; gap: .55rem; margin-top: .75rem; }
+.roadmap-step-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem; margin-top: .75rem; }
 .roadmap-step-meta div { padding: .65rem .8rem; border: 1px solid var(--line); border-radius: 8px; background: var(--pale); }
 .roadmap-step-meta span { display: block; color: var(--sub); font-size: .72rem; font-weight: 900; }
 .roadmap-step-meta strong { display: block; color: var(--ink); font-size: .92rem; line-height: 1.6; }
