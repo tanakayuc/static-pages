@@ -5,6 +5,7 @@ import path from "node:path";
 const root = "/Users/tanakayuichi/Projects/static-pages/web-marketer-road-creation-portal";
 const publicBaseArg = process.argv.find((arg) => arg.startsWith("--public-base="));
 const publicBase = publicBaseArg?.split("=").slice(1).join("=");
+const deprecatedOptAfterVsl = "オプトイン後" + "VSL";
 
 const requiredPages = [
   "index.html",
@@ -45,7 +46,7 @@ const forbidden = [
   "そのまま制作ポータルへ反映",
   "挨拶動画",
   "サンキュー動画",
-  "オプト後VSL",
+  deprecatedOptAfterVsl,
 ];
 
 const contentChecks = [
@@ -68,7 +69,7 @@ const contentChecks = [
   ["roadmap.html", "販売ファネルを決める"],
   ["roadmap.html", "VSL配置を選択する"],
   ["roadmap.html", "オプトインVSL"],
-  ["roadmap.html", "オプトイン後VSL"],
+  ["roadmap.html", "オプト後VSL"],
   ["roadmap.html", "5分前後"],
   ["roadmap.html", "5〜10分"],
   ["roadmap.html", "VSL台本/CTA設計"],
@@ -201,7 +202,7 @@ const contentChecks = [
   ["visual-report.html", "チャレンジローンチ / ワンステップ販売"],
   ["visual-report.html", "VSL配置の選択"],
   ["visual-report.html", "オプトインVSL"],
-  ["visual-report.html", "オプトイン後VSL"],
+  ["visual-report.html", "オプト後VSL"],
   ["visual-report.html", "ビデオセールスレター"],
   ["visual-report.html", "遅延CTA"],
   ["visual-report.html", "KPIの見方"],
@@ -241,7 +242,7 @@ const contentChecks = [
   ["lp.html", "オプトイン開始セット"],
   ["lp.html", "VSL配置方針"],
   ["lp.html", "オプトインVSL"],
-  ["lp.html", "オプトイン後VSL"],
+  ["lp.html", "オプト後VSL"],
   ["lp.html", "5分前後"],
   ["lp.html", "遅延CTA"],
   ["lp.html", "オプトイン開始4点確認"],
@@ -253,7 +254,7 @@ const contentChecks = [
   ["script-opening.html", "VSL配置の前提"],
   ["script-opening.html", "VSL台本"],
   ["script-opening.html", "オプトインVSL"],
-  ["script-opening.html", "オプトイン後VSL"],
+  ["script-opening.html", "オプト後VSL"],
   ["script-opening.html", "5〜10分"],
   ["script-opening.html", "ビデオセールスレター"],
   ["live-scripts.html", "Day1 ライブ台本全文"],
