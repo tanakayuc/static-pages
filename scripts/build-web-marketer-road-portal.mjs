@@ -296,6 +296,30 @@ const salesMaterialRows = [
   ["購入完了ページ原稿", "申込後", "決済後の案内、参加導線、連絡先、次アクションを作る。", "#purchase-complete"],
 ];
 
+const productionSubnav = {
+  "lp.html": {
+    title: "集客素材",
+    currentCode: "L",
+    currentLabel: "集客素材",
+    currentSub: "LP/VSL",
+    rows: acquisitionMaterialRows,
+  },
+  "value.html": {
+    title: "価値提供素材",
+    currentCode: "V",
+    currentLabel: "価値提供素材",
+    currentSub: "LINE/ライブ",
+    rows: valueMaterialRows,
+  },
+  "sales-page.html": {
+    title: "販売素材",
+    currentCode: "S",
+    currentLabel: "販売素材",
+    currentSub: "レター/購入後",
+    rows: salesMaterialRows,
+  },
+};
+
 const lpAssetRows = [
   ["メルマガ紹介文章", "集客メディア", "今回採用。自分のリストや紹介元に向けて、チャレンジ登録へ送る紹介文、件名、CTAを作る。"],
   ["オプトインLP原稿", "登録前", "誰に、何を約束し、なぜ今参加するのかを本文として作る。オプト前VSL採用時は動画前提の構成にする。"],
@@ -1100,7 +1124,25 @@ function parseSpot(relative) {
   };
 }
 
+function productionSideNav(active, config) {
+  const categoryLinks = [
+    ["assets.html", "A", "制作物一覧", "カテゴリ"],
+    ["lp.html", "L", "集客素材", "LP/VSL"],
+    ["value.html", "V", "価値提供素材", "LINE/ライブ"],
+    ["sales-page.html", "S", "販売素材", "販売"],
+  ];
+  return `<aside class="side production-side">
+    <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
+    <div class="nav-section">制作物</div>
+    ${categoryLinks.map(([href, code, label, sub]) => `<a class="nav-link ${href === active ? "active" : ""}" href="${href}"><span class="nav-num">${code}</span><span>${label}<small>${sub}</small></span></a>`).join("")}
+    <div class="nav-section">${esc(config.title)}</div>
+    ${config.rows.map(([label, metaLabel, _detail, href]) => `<a class="nav-link material-nav-link" href="${esc(href)}"><span class="nav-num">${esc(label.slice(0, 1))}</span><span>${esc(label)}<small>${esc(metaLabel)}</small></span></a>`).join("")}
+  </aside>`;
+}
+
 function nav(active) {
+  const subnav = productionSubnav[active];
+  if (subnav) return productionSideNav(active, subnav);
   return `<aside class="side">
     <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
     ${navGroups.map((group) => `<div class="nav-section">${group.label}</div>${group.items.map(([href, code, label, sub]) => `<a class="nav-link ${href === active ? "active" : ""}" href="${href}"><span class="nav-num">${code}</span><span>${label}<small>${sub}</small></span></a>`).join("")}`).join("")}
@@ -1700,6 +1742,8 @@ a:hover { text-decoration: underline; }
 .nav-link small { display: block; color: var(--muted); font-size: 10px; font-weight: 650; line-height: 1.35; }
 .nav-link:hover, .nav-link.active { background: var(--soft); color: var(--sub); text-decoration: none; }
 .nav-num { display: grid; place-items: center; width: 21px; height: 21px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 11px; font-weight: 850; }
+.production-side .material-nav-link { grid-template-columns: 22px 1fr; padding-left: 14px; }
+.production-side .material-nav-link .nav-num { width: 19px; height: 19px; font-size: 10px; }
 .main { min-width: 0; padding: 44px min(5vw, 64px) 88px; }
 .wrap { max-width: 880px; margin: 0 auto; }
 .hero { margin-bottom: 30px; }

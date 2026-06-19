@@ -240,6 +240,8 @@ const contentChecks = [
   ["live-scripts.html", "課題提出 91件"],
   ["lp.html", "集客の素材一覧"],
   ["lp.html", "集客で作る素材"],
+  ["lp.html", "production-side"],
+  ["lp.html", "material-nav-link"],
   ["lp.html", "メルマガ紹介文章"],
   ["lp.html", "オプトインLP原稿"],
   ["lp.html", "LPヘッド指示書"],
@@ -250,6 +252,8 @@ const contentChecks = [
   ["lp.html", "才能・経験・顔出し不要"],
   ["value.html", "価値提供の素材一覧"],
   ["value.html", "価値提供で作る素材"],
+  ["value.html", "production-side"],
+  ["value.html", "material-nav-link"],
   ["value.html", "LINEオープンチャット全体ポータル"],
   ["value.html", "固定投稿"],
   ["value.html", "通常配信"],
@@ -266,6 +270,8 @@ const contentChecks = [
   ["live-scripts.html", "Day別スライド指示書"],
   ["sales-page.html", "販売の素材一覧"],
   ["sales-page.html", "販売で作る素材"],
+  ["sales-page.html", "production-side"],
+  ["sales-page.html", "material-nav-link"],
   ["sales-page.html", "販売前メッセージ原稿"],
   ["sales-page.html", "セールスレター原稿"],
   ["sales-page.html", "セールスページヘッド指示書"],
@@ -296,7 +302,7 @@ if (fs.existsSync(path.join(root, "hierarchy.html"))) fail("hierarchy.html shoul
 
 for (const file of requiredPages) {
   const html = read(file);
-  if (!html.includes('class="side"')) fail(`${file} missing sidebar`);
+  if (!html.includes('class="side')) fail(`${file} missing sidebar`);
   if (!html.includes("田中祐一AI")) fail(`${file} missing brand name`);
   if (!html.includes('<meta name="robots" content="noindex, nofollow, noarchive">')) fail(`${file} missing robots noindex`);
   if (!html.includes('<meta name="googlebot" content="noindex, nofollow, noarchive">')) fail(`${file} missing googlebot noindex`);
@@ -364,6 +370,13 @@ for (const snippet of [
   "KPIの見方",
 ]) {
   if (read("visual-report.html").includes(snippet)) fail(`visual-report.html should not include know-how snippet: ${snippet}`);
+}
+
+for (const file of ["lp.html", "value.html", "sales-page.html"]) {
+  const html = read(file);
+  for (const snippet of ['<div class="nav-section">レポート</div>', '<div class="nav-section">設計シート</div>']) {
+    if (html.includes(snippet)) fail(`${file} should show production subnav, not top-level sidebar section: ${snippet}`);
+  }
 }
 
 const roadmapPhaseSections = (read("roadmap.html").match(/id="phase-[0-9]"/g) || []).length;
