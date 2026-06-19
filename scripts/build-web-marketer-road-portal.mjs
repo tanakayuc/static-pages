@@ -89,6 +89,8 @@ const activeFunnelFormat = {
   acquisitionMedia: "メルマガ紹介文章",
 };
 
+const materialMdRoot = "90_制作パッケージサンプル/05_制作物一覧";
+
 const acquisitionPatternRows = [
   {
     label: "オプト後VSLパターン",
@@ -120,7 +122,7 @@ const salesPatternRows = [
     label: "個別販売パターン",
     position: "代表",
     chooseWhen: "高額商品や個別事情の確認が必要で、ページだけでは購入判断が重いとき。",
-    output: "個別販売ページ原稿、事前案内、相談前メッセージ、相談後フォロー。",
+    output: "個別説明会ページ原稿、事前案内、相談前メッセージ、相談後フォロー。",
     nodes: ["個別販売ページ", "個別相談", "成約", "商品提供"],
   },
   {
@@ -134,7 +136,7 @@ const salesPatternRows = [
     label: "セミナー→個別販売パターン",
     position: "選択肢",
     chooseWhen: "セミナーで教育し、その後に個別相談で条件確認や提案を行うとき。",
-    output: "セミナーページ原稿、セミナー台本、個別販売ページ原稿、相談導線。",
+    output: "セミナーページ原稿、セミナー台本、個別説明会ページ原稿、相談導線。",
     nodes: ["セミナーページ", "セミナー", "個別相談", "成約", "商品提供"],
   },
   {
@@ -222,7 +224,7 @@ const productionLayerRows = [
     purpose: "登録後に参加者を迷わせず、ライブ、課題、特典で納得感を作る素材群。",
     items: [
       ["LINEオープンチャット文面", "全体ポータル、固定投稿、通常配信、ライブ前リマインドを作る。", "line.html"],
-      ["ステップメール/LINE原稿", "ライブ前、価値提供中、アーカイブ、課題、特典の案内原稿を作る。", "stepmail.html"],
+      ["価値提供中メール", "今回の本編はLINEオープンチャットとライブで担うため、メールを使う場合だけ分けて作る。", "value.html"],
       ["Day1〜Day5ライブ台本", "各日の教育テーマ、導入、本編、課題、次回予告を台本として分けて作る。", "live-scripts.html"],
       ["Day別スライド指示書", "各ライブにスライドが必要な場合、1日ごとのスライド構成案を作る。", "live-scripts.html"],
       ["課題/特典案内文", "課題フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html"],
@@ -236,7 +238,7 @@ const productionLayerRows = [
       ["セールスレター原稿", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "sales-page.html"],
       ["セールスページデザイン指示書", "ヘッド、CTA、証拠、オファー表など、実装担当へ渡す画面指示を作る。", "sales-page.html"],
       ["販売期メール/LINE原稿", "販売開始、質問回答、実績共有、締切、終了案内を作る。", "stepmail.html"],
-      ["個別販売ページ原稿", "個別販売型・セミナー→個別販売型ファネルの場合に追加する申込ページ原稿を作る。", "sales-page.html"],
+      ["LINEオープンチャット販売導線", "Day5後に販売へ接続するOC内メッセージを作る。", "line.html"],
       ["購入完了ページ原稿", "決済後の案内、参加導線、次アクションを作る。", "sales-page.html"],
     ],
   },
@@ -247,52 +249,51 @@ const productionCategoryRows = [
     label: "集客の素材一覧",
     meta: "Traffic",
     href: "lp.html",
-    detail: "登録前から登録直後まで。メルマガ紹介文章、オプトインLP、VSL、サンキューページ、自動返信を確認します。",
-    items: ["メルマガ紹介文章", "オプトインLP原稿", "オプト前VSL台本", "サンキューページ原稿"],
+    detail: "登録前から正式参加・Day1着席まで。紹介文章、LP、VSL、サンキューページ、登録直後メールを確認します。",
+    items: ["メルマガ紹介文章", "オプトインLP原稿", "オプト前VSL台本", "登録直後メール"],
   },
   {
     label: "価値提供の素材一覧",
     meta: "Value",
     href: "value.html",
-    detail: "登録後からDay1〜Day5まで。LINEオープンチャット、配信、ライブ台本、課題、特典を確認します。",
+    detail: "Day1着席後からDay5本編まで。LINEオープンチャット、ライブ台本、課題、特典を確認します。",
     items: ["LINEオープンチャット", "固定投稿", "通常配信", "Day1〜Day5ライブ台本"],
   },
   {
     label: "販売の素材一覧",
     meta: "Sales",
     href: "sales-page.html",
-    detail: "販売前から購入完了まで。セールスレター、販売期配信、ヘッド指示、購入完了ページを確認します。",
-    items: ["セールスレター原稿", "販売期メール", "販売期LINE", "購入完了ページ原稿"],
+    detail: "Day5後から購入完了まで。販売接続、セールスレター、販売期配信、購入完了ページを確認します。",
+    items: ["販売前メッセージ", "セールスレター原稿", "販売期メルマガ", "販売期LINE"],
   },
 ];
 
 const acquisitionMaterialRows = [
-  ["メルマガ紹介文章", "紹介元/自社リスト", "今回採用。チャレンジ登録へ送る件名、本文、CTAを作る。", "stepmail.html"],
-  ["オプトインLP原稿", "登録前", "誰に、何を約束し、なぜ今参加するのかをLP本文として作る。", "optin-lp-copy.html"],
-  ["LPヘッド指示書", "ファーストビュー", "ヘッドのコピー、画像方向、CTA、スマホ表示の指示を作る。", "head.html"],
-  ["オプト前VSL台本", "登録前VSL", "LP上で登録前の教育と選別を行う動画台本を作る。", "script-opening.html"],
-  ["サンキューページ原稿", "登録直後", "メール登録で止めず、LINEオープンチャット参加へ進めるページ本文を作る。", "thank-you-copy.html"],
-  ["オプトイン自動返信メール", "登録直後", "メール登録で止まった人を正式参加へ戻す自動返信を作る。", "stepmail.html"],
+  ["メルマガ紹介文章", "紹介元/自社リスト", "今回採用。チャレンジ登録へ送る件名、本文、CTAを作る。", "lp.html", `${materialMdRoot}/01_集客素材/01_メルマガ紹介文章/`],
+  ["オプトインLP原稿", "登録前", "誰に、何を約束し、なぜ今参加するのかをLP本文として作る。", "optin-lp-copy.html", `${materialMdRoot}/01_集客素材/02_オプトインLP原稿/`],
+  ["LPヘッド指示書", "ファーストビュー", "ヘッドのコピー、画像方向、CTA、スマホ表示の指示を作る。", "head.html", `${materialMdRoot}/01_集客素材/03_LPヘッド指示書/`],
+  ["オプト前VSL台本", "登録前VSL", "LP上で登録前の教育と選別を行う動画台本を作る。", "script-opening.html", `${materialMdRoot}/01_集客素材/04_オプト前VSL台本/`],
+  ["サンキューページ原稿", "登録直後", "メール登録で止めず、LINEオープンチャット参加へ進めるページ本文を作る。", "thank-you-copy.html", `${materialMdRoot}/01_集客素材/05_サンキューページ原稿/`],
+  ["登録直後メール", "正式参加/着席導線", "登録直後から正式参加・Day1着席へ戻すメールを作る。", "stepmail.html", `${materialMdRoot}/01_集客素材/06_登録直後メール/`],
 ];
 
 const valueMaterialRows = [
-  ["LINEオープンチャット全体ポータル", "参加場所", "全体案内、ライブ導線、課題、特典、Q&Aの入口をまとめる。", "line.html"],
-  ["固定投稿", "OC内の常設案内", "参加直後に見るべき情報、ライブURL、提出先、注意事項を固定する。", "line.html"],
-  ["通常配信", "OC内の時系列配信", "ライブ前後の案内、課題提出、リマインド、特典案内を送る。", "line.html"],
-  ["ステップメール/リマインド", "メール配信", "メール側からライブ着席、課題提出、アーカイブ確認へ戻す。", "stepmail.html"],
-  ["Day1〜Day5ライブ台本", "価値提供本編", "各日の導入、本編、課題、次回予告、販売接続を分けて作る。", "live-scripts.html"],
-  ["Day別スライド指示書", "ライブ補助", "必要な場合だけ、各Dayの画面構成案と図解指示を作る。", "live-scripts.html"],
-  ["課題/特典案内文", "行動促進", "提出フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html"],
+  ["LINEオープンチャット", "参加場所", "固定投稿とDay1前〜Day5本編の通常配信をまとめる。", "line.html", `${materialMdRoot}/02_価値提供素材/01_LINEオープンチャット/`],
+  ["固定投稿", "OC内の常設案内", "参加直後に見るべき情報、ライブURL、提出先、注意事項を固定する。", "line.html", `${materialMdRoot}/02_価値提供素材/01_LINEオープンチャット/01_固定投稿/`],
+  ["通常配信", "Day1前〜Day5本編", "ライブ前後の案内、課題提出、リマインド、特典案内を送る。", "line.html", `${materialMdRoot}/02_価値提供素材/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編/`],
+  ["Day1〜Day5ライブ台本", "価値提供本編", "各日の導入、本編、課題、次回予告、販売接続を分けて作る。", "live-scripts.html", `${materialMdRoot}/02_価値提供素材/02_Day1〜Day5ライブ台本/`],
+  ["課題/特典案内文", "行動促進", "提出フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html", `${materialMdRoot}/02_価値提供素材/03_課題・特典/`],
+  ["価値提供中メール", "今回は未使用", "今回の価値提供本編はOCとライブで担うため、メールは独立制作物にしない。", "value.html", `${materialMdRoot}/02_価値提供素材/04_価値提供中メール/`],
 ];
 
 const salesMaterialRows = [
-  ["販売前メッセージ原稿", "販売前接続", "Day5後に、レター閲覧の理由と期待値を作る。", "stepmail.html"],
-  ["セールスレター原稿", "販売ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "#sales-letter"],
-  ["セールスページヘッド指示書", "ファーストビュー", "販売ページ冒頭のコピー、CTA、締切、画面指示を作る。", "head.html"],
-  ["販売期メルマガ原稿", "メール配信", "販売開始、質問回答、不安解消、締切のメール原稿を作る。", "stepmail.html"],
-  ["販売期公式LINE原稿", "公式LINE", "販売開始、質問回答、実績共有、締切、終了案内を作る。", "line.html"],
-  ["個別販売ページ原稿", "分岐素材", "個別販売型に切り替える場合だけ、申込ページ原稿を作る。", "#individual-sales"],
-  ["購入完了ページ原稿", "申込後", "決済後の案内、参加導線、連絡先、次アクションを作る。", "#purchase-complete"],
+  ["販売前メッセージ原稿", "販売前接続", "Day5後に、レター閲覧の理由と期待値を作る。", "stepmail.html", `${materialMdRoot}/03_販売素材/01_販売前メッセージ/`],
+  ["セールスレター原稿", "販売ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "#sales-letter", `${materialMdRoot}/03_販売素材/02_セールスレター原稿/`],
+  ["販売期メルマガ原稿", "メール配信", "販売開始、質問回答、不安解消、締切のメール原稿を作る。", "stepmail.html", `${materialMdRoot}/03_販売素材/03_販売期メルマガ/`],
+  ["LINEオープンチャット販売導線", "Day5後", "Day5後に販売へ接続するOC内メッセージをまとめる。", "line.html", `${materialMdRoot}/03_販売素材/04_LINEオープンチャット_Day5後販売導線/`],
+  ["販売期公式LINE原稿", "公式LINE", "販売開始、質問回答、実績共有、締切、終了案内を作る。", "line.html", `${materialMdRoot}/03_販売素材/05_販売期公式LINE/`],
+  ["セールスページヘッド指示書", "ファーストビュー", "販売ページ冒頭のコピー、CTA、締切、画面指示を作る。", "head.html", `${materialMdRoot}/03_販売素材/06_セールスページヘッド指示書/`],
+  ["購入完了ページ原稿", "申込後", "決済後の案内、参加導線、連絡先、次アクションを作る。", "#purchase-complete", `${materialMdRoot}/03_販売素材/07_購入完了ページ原稿/`],
 ];
 
 const productionSubnav = {
@@ -352,7 +353,7 @@ const lpAssetRows = [
   ["LPヘッド指示書", "登録前", "ファーストビューで見せる約束、画像方向、CTA、スマホ表示の指示を作る。"],
   ["オプト前VSL台本", "登録前", "LP上の動画として、登録前の教育と選別を行う台本を作る。"],
   ["サンキューページ原稿", "登録直後", "メール登録で終わらせず、LINEオープンチャット参加へ進めるページ本文を作る。"],
-  ["オプトイン自動返信メール", "登録直後〜1時間後", "メールだけで止まった人を正式参加へ戻す配信原稿を作る。"],
+  ["登録直後メール", "正式参加/着席導線", "メールだけで止まった人を正式参加・Day1着席へ戻す配信原稿を作る。"],
 ];
 
 const vslSlideRows = [
@@ -376,7 +377,7 @@ const salesAssetRows = [
   ["セールスページヘッド指示書", "デザイン指示", "ファーストビュー、CTA、対象者、変化の約束、締切表示の画面指示を作る。"],
   ["販売期メール原稿", "メール", "販売開始、理由、事例、不安解消、締切の配信原稿を作る。"],
   ["販売期LINE原稿", "公式LINE", "販売開始、質問回答、実績共有、締切、終了案内の配信原稿を作る。"],
-  ["個別販売ページ原稿", "分岐素材", "個別販売型・セミナー→個別販売型ファネルの場合だけ追加する申込ページ原稿を作る。"],
+  ["LINEオープンチャット販売導線", "Day5後", "Day5後に販売へ接続するOC内メッセージを作る。"],
   ["購入完了ページ原稿", "申込後", "決済後に必要な参加案内、連絡先、次アクションを作る。"],
 ];
 
@@ -809,10 +810,10 @@ const roadmapPhases = [
         href: "lp.html",
       },
       {
-        name: "自動返信メールを作る",
+        name: "登録直後メールを作る",
         make: "メール登録で止まった人を、オープンチャット参加へ戻す自動返信を作る。",
         input: "サンキューページ、参加導線",
-        output: "オプトイン自動返信メール",
+        output: "登録直後メール",
         href: "stepmail.html",
       },
       {
@@ -1272,11 +1273,16 @@ function productionAssetTable(rows) {
 }
 
 function materialShelf(rows) {
-  return `<div class="material-shelf">${rows.map(([label, metaLabel, detail, href]) => `<a class="material-card" href="${esc(href)}">
+  return `<div class="material-shelf">${rows.map(([label, metaLabel, detail, href, folder]) => `<a class="material-card" href="${esc(href)}">
 <span class="meta">${esc(metaLabel)}</span>
 <strong>${esc(label)}</strong>
 <span>${esc(detail)}</span>
+${folder ? `<code>${esc(folder)}</code>` : ""}
 </a>`).join("")}</div>`;
+}
+
+function materialFolderTable(rows) {
+  return `<table class="asset-table compact-table"><thead><tr><th>素材</th><th>MDフォルダ</th></tr></thead><tbody>${rows.map(([label, , , , folder]) => `<tr><td><strong>${esc(label)}</strong></td><td><code>${esc(folder || "")}</code></td></tr>`).join("")}</tbody></table>`;
 }
 
 function categoryShelf(rows) {
@@ -1664,7 +1670,7 @@ function stepmailPageBody() {
 <p>今回のWEBマーケターへの道では、メールは5日間の教育を全部担うのではなく、オプトイン直後の正式参加、販売前の再接続、販売開始、価格不安、締切クロージングを担当します。</p>
 </section>
 <section class="stepmail-block">
-<p class="block-label">オプトイン自動返信メール / 販売期メルマガ</p>
+<p class="block-label">登録直後メール / 販売期メルマガ</p>
 <h2>目的別の全体像</h2>
 ${stepmailHierarchyTable(stepmailHierarchy).replace("<th>階層</th>", "<th>目的</th>")}
 </section>
@@ -1958,6 +1964,7 @@ li { margin: 4px 0; }
 .material-card .meta { display: block; margin-bottom: .2rem; color: var(--sub); font-size: .82rem; font-weight: 900; }
 .material-card strong { display: block; margin-bottom: .25rem; color: var(--ink); font-size: 1.08rem; line-height: 1.55; }
 .material-card span:not(.meta):not(.pill) { display: block; color: #324b44; font-size: 1rem; line-height: 1.8; }
+.material-card code { display: block; margin-top: .45rem; color: #607970; font-size: .72rem; line-height: 1.55; word-break: break-all; }
 .category-card .pills { margin-top: .65rem; }
 .concept-sequence { display: grid; gap: 1rem; }
 .concept-item {
@@ -2475,7 +2482,12 @@ pages.set("assets.html", page({
   title: "制作物一覧",
   eyebrow: "制作物",
   lead: "集客、価値提供、販売の3カテゴリで、生成された原稿、台本、指示書を確認します。",
-  body: `<section class="panel"><h2>制作物ポータル</h2>${categoryShelf(productionCategoryRows)}</section>`}));
+  body: `<section class="panel"><h2>制作物ポータル</h2>${categoryShelf(productionCategoryRows)}</section>
+<section class="panel"><h2>MDフォルダ構成</h2><p class="note">制作物MDは、<code>${materialMdRoot}</code> 配下で集客、価値提供、販売に分けて管理します。</p><table class="asset-table compact-table"><tbody>
+<tr><th>集客素材</th><td><code>${materialMdRoot}/01_集客素材/</code></td></tr>
+<tr><th>価値提供素材</th><td><code>${materialMdRoot}/02_価値提供素材/</code></td></tr>
+<tr><th>販売素材</th><td><code>${materialMdRoot}/03_販売素材/</code></td></tr>
+</tbody></table></section>`}));
 
 pages.set("lp.html", page({
   file: "lp.html",
@@ -2483,12 +2495,7 @@ pages.set("lp.html", page({
   eyebrow: "制作物",
   lead: "登録前から登録直後までに作る素材を、一覧からすぐ確認できるようにまとめます。",
   body: `<section class="panel"><h2>集客で作る素材</h2>${materialShelf(acquisitionMaterialRows)}</section>
-<section class="panel"><h2>原本MD管理</h2><table class="asset-table compact-table"><thead><tr><th>素材</th><th>原本MD</th></tr></thead><tbody>
-<tr><td>オプトインLP原稿</td><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}<br>${source("02_オプトインLP/02_オプトページ_動画視聴後LP.md")}</td></tr>
-<tr><td>サンキューページ原稿</td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
-<tr><td>LPヘッド指示書</td><td>${source("90_制作パッケージサンプル/06_ヘッドデザイン指示書.md")}</td></tr>
-<tr><td>メルマガ/自動返信</td><td>${source("12_メルマガ/フェーズ1_ライブ前/メルマガ/フェーズ1_01_登録直後_Webマーケターへの道必ずご確認ください.md")}<br>${source("12_メルマガ/フェーズ1_ライブ前/メルマガ/フェーズ1_02_1時間後_コチラ、見逃していませんか？.md")}</td></tr>
-</tbody></table></section>`}));
+<section class="panel"><h2>MDフォルダ構成</h2><p class="note">集客素材は、登録前から正式参加・Day1着席までを担う素材としてまとめています。</p>${materialFolderTable(acquisitionMaterialRows)}</section>`}));
 
 pages.set("optin-lp-copy.html", page({
   file: "optin-lp-copy.html",
@@ -2526,6 +2533,7 @@ pages.set("value.html", page({
   eyebrow: "制作物",
   lead: "LINEオープンチャット、ステップメール、Day1〜Day5ライブ、課題、特典をまとめて確認します。",
   body: `<section class="panel"><h2>価値提供で作る素材</h2>${materialShelf(valueMaterialRows)}</section>
+<section class="panel"><h2>MDフォルダ構成</h2><p class="note">Day1着席後からDay5本編までを価値提供素材として扱います。Day5後の販売導線は販売素材へ分けます。</p>${materialFolderTable(valueMaterialRows)}</section>
 <section class="panel"><h2>今回の価値提供構成</h2><div class="grid-3">
 ${card("5チャレ", "Challenge", "今回のサンプルはDay1〜Day5の5日間で、次ライブ Day2 を起点に設計する。", "live-scripts.html")}
 ${card("LINEオープンチャット", "Community", "全体ポータル、固定投稿、通常配信で、参加者の動きを止めない。", "line.html")}
@@ -2634,9 +2642,9 @@ pages.set("sales-page.html", page({
   eyebrow: "制作物",
   lead: "販売前メッセージ、セールスレター、販売期配信、購入完了ページを一覧で確認します。",
   body: `<section class="panel"><h2>販売で作る素材</h2>${materialShelf(salesMaterialRows)}</section>
+<section class="panel"><h2>MDフォルダ構成</h2><p class="note">Day5後に販売へ接続するメッセージ、セールスレター、販売期配信、購入完了ページを販売素材としてまとめています。</p>${materialFolderTable(salesMaterialRows)}</section>
 <section class="panel" id="sales-letter"><h2>セールスレター原稿</h2><ol><li>地味で平凡な会社員が売上に関われないと思っている問題提起。</li><li>スター型起業ではなく、社長の右腕として裏方で売上を支える新世界。</li><li>5日間チャレンジで得た学びと、45日間実践環境へ進む理由。</li><li>商品内容、サポート、特典、価格、返金保証なしの方針。</li><li>締切、対象者、申込後の流れ、購入CTA。</li></ol></section>
 <section class="panel"><h2>セールスページヘッド指示書</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。\n\n画面指示: 対象者、変化の約束、商品名、締切、CTAをファーストビュー内に配置。スマホではCTAを1画面目下部に見せる。</div></section>
-<section class="panel" id="individual-sales"><h2>個別販売ページ原稿</h2><p class="note">今回のサンプルでは必須ではありません。個別販売型、またはセミナーから個別販売へつなぐ形に切り替える場合だけ、対象者、相談で扱うテーマ、申込フォーム、参加前の期待値形成を追加します。</p></section>
 <section class="panel" id="purchase-complete"><h2>購入完了ページ原稿</h2><p>決済後は、購入者が迷わず開始できることを優先します。参加方法、連絡先、開始までの流れ、初回アクションを購入完了ページにまとめます。</p><p class="quote">次の行動: 案内メールを確認し、参加用チャットに入り、開始日までに事前課題とスケジュールを確認する。</p></section>`}));
 
 const allPages = [
