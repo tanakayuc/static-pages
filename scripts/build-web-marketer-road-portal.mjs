@@ -86,12 +86,22 @@ const activeFunnelFormat = {
   challengePattern: "5チャレ",
   nextLiveDay: "Day2",
   salesPattern: "セールスレターでの販売パターン",
-  acquisitionMedia: "メルマガ紹介文章",
+  acquisitionMedia: "カツオリーチ",
 };
 
 const funnelPatternAssetDir = "funnel-patterns";
 
 const funnelPatternRows = [
+  {
+    id: "CURRENT",
+    label: "今回採用: オプト前VSL × カツオリーチ × 販売ページ直販",
+    position: "今回採用 / 画像未入手",
+    image: "",
+    source: "",
+    acquisition: "カツオリーチ → 集客ページ上のオプト前VSL → サンクスページ → リスト化",
+    value: "教育グループ Day1〜Day5",
+    sales: "販売ページ → 成約 → 商品提供",
+  },
   {
     id: "06",
     label: "オプト後VSL × 個別説明会",
@@ -205,8 +215,14 @@ const salesPatternRows = [
 
 const acquisitionMediaRows = [
   {
-    label: "メルマガ紹介文章",
+    label: "カツオリーチ",
     position: "今回採用",
+    detail: "KATSUO側の既存接点やリーチから、チャレンジ登録へ送る紹介・告知導線を作る。",
+    output: "カツオリーチ用紹介文、配信文、CTA",
+  },
+  {
+    label: "メルマガ紹介文章",
+    position: "素材種別",
     detail: "自分のリストや紹介元のメルマガで、チャレンジ登録へ送る紹介文を作る。",
     output: "紹介メルマガ原稿、件名、配信タイミング、CTA",
   },
@@ -1554,6 +1570,7 @@ function roadmapFunnelAxis() {
 <p class="note">工程表の各ステップは、この流れのどこを作っているかを確認しながら進めます。</p>
 <div class="roadmap-axis" aria-label="今回のファネル工程軸">
   <div class="traffic-source" aria-label="集客元">
+    <span>カツオリーチ</span>
     <span>ハウス</span>
     <span>広告</span>
     <span>紹介</span>
@@ -1579,8 +1596,12 @@ function funnelPatternGallery() {
   return `<section class="panel funnel-pattern-panel">
 <h2>格納済みファネルパターン</h2>
 <p class="note">全体図はパターン選択用の参照として置きます。実際の工程表は、選んだ集客・価値提供・販売の組み合わせに合わせて切り替える前提です。</p>
-<div class="pattern-grid">${funnelPatternRows.map((row) => `<article class="pattern-card">
-<a href="${esc(row.image)}"><img src="${esc(row.image)}" alt="${esc(row.label)}"></a>
+<div class="pattern-grid">${funnelPatternRows.map((row) => {
+    const imageBlock = row.image
+      ? `<a href="${esc(row.image)}"><img src="${esc(row.image)}" alt="${esc(row.label)}"></a>`
+      : `<div class="pattern-placeholder"><strong>今回採用</strong><span>画像未入手</span></div>`;
+    return `<article class="pattern-card ${row.id === "CURRENT" ? "current-pattern" : ""}">
+${imageBlock}
 <div class="pattern-card-body">
 <span class="meta">Pattern ${esc(row.id)} / ${esc(row.position)}</span>
 <h3>${esc(row.label)}</h3>
@@ -1590,12 +1611,13 @@ function funnelPatternGallery() {
 <tr><th>販売</th><td>${esc(row.sales)}</td></tr>
 </tbody></table>
 </div>
-</article>`).join("")}</div>
+</article>`;
+  }).join("")}</div>
 <details class="pattern-request">
 <summary>追加で欲しい単独画像</summary>
 <div class="details-body">
 <ul>
-<li>集客単独: オプト後VSL、オプト前VSL、フォーム登録のみ、広告/ハウス/紹介の入口違い。</li>
+<li>集客単独: オプト後VSL、オプト前VSL、フォーム登録のみ、カツオリーチ/広告/ハウス/紹介の入口違い。</li>
 <li>価値提供単独: 2チャレ、3チャレ、5チャレ、次ライブがDay2/Day3/Day5の違い。</li>
 <li>販売単独: 個別説明会、セミナー→個別説明会、セミナー販売、販売ページ直販。</li>
 <li>任意で欲しいもの: 公式LINE販売、メール販売、LINEオープンチャット販売接続、購入完了後の提供導線。</li>
@@ -2217,8 +2239,12 @@ li { margin: 4px 0; }
 .axis-day strong { display: grid; place-items: center; min-height: 42px; border-radius: 8px; background: #2f80c9; color: #fff; font-size: .92rem; }
 .pattern-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 1.1rem; }
 .pattern-card { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.pattern-card.current-pattern { border-color: var(--main); box-shadow: 0 14px 36px rgba(24, 155, 125, .12); }
 .pattern-card > a { display: block; background: #fff; }
 .pattern-card img { display: block; width: 100%; aspect-ratio: 14 / 10.8; object-fit: contain; background: #fff; border-bottom: 1px solid var(--line); }
+.pattern-placeholder { display: grid; place-items: center; align-content: center; gap: 8px; width: 100%; aspect-ratio: 14 / 10.8; background: linear-gradient(180deg, #F7FFFD, #EAF7F4); border-bottom: 1px solid var(--line); text-align: center; }
+.pattern-placeholder strong { padding: 7px 14px; border-radius: 999px; background: var(--main); color: #fff; font-size: .92rem; }
+.pattern-placeholder span { color: var(--sub); font-size: .9rem; font-weight: 900; }
 .pattern-card-body { padding: 14px; }
 .pattern-card-body h3 { margin: 4px 0 10px; font-size: 1rem; line-height: 1.45; }
 .pattern-card-body .compact-table { margin-top: 0; font-size: .78rem; }
@@ -2477,7 +2503,7 @@ pages.set("visual-report.html", page({
   body: `
 <section class="panel"><h2>第1章の決定事項</h2><table class="asset-table"><thead><tr><th>項目</th><th>今回の内容</th></tr></thead><tbody>
 <tr><td>ファネル</td><td>チャレンジローンチ / ワンステップ販売</td></tr>
-<tr><td>集客</td><td>オプト前VSL / メルマガ紹介文章</td></tr>
+<tr><td>集客</td><td>オプト前VSL / カツオリーチ</td></tr>
 <tr><td>価値提供</td><td>5チャレ（Day1〜Day5）</td></tr>
 <tr><td>販売</td><td>公式LINE → 期間限定セールスレター</td></tr>
 <tr><td>決済後</td><td>購入完了ページ</td></tr>
