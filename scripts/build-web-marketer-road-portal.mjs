@@ -55,7 +55,7 @@ const urls = {
 
 const funnelSteps = [
   ["オプトインLP", "フォーム中心、またはLP上部にオプトインVSLを置く形を選び、登録動機を作る。"],
-  ["サンキューページ", "登録直後にオプト後VSLを置き、LINEオープンチャット参加とDay1着席への期待値を高める。"],
+  ["サンキューページ", "登録直後に5分前後のオプトイン後VSLを置き、LINEオープンチャット参加とDay1着席への期待値を高める。"],
   ["LINEオープンチャット", "固定ノート、事務連絡、Day1〜Day5の案内を集約する。"],
   ["Day1〜Day5配信", "ライブ、課題、Q&Aで価値提供と参加熱量を作る。"],
   ["公式LINE登録", "Day5で、レターを受け取りたい方だけを公式LINEへ移動させる。"],
@@ -64,7 +64,7 @@ const funnelSteps = [
 
 const coreFunnelRows = [
   ["LP", "見込み客を登録へ動かす入口。フォーム中心か、オプトインVSLを置くかを全体設計で選ぶ。", "lp.html"],
-  ["サンキューページ", "登録直後に次アクションを示す。必要に応じてオプト後VSLでオープンチャット参加と着席期待値を作る。", "lp.html"],
+  ["サンキューページ", "登録直後に次アクションを示す。必要に応じてオプトイン後VSLでオープンチャット参加と着席期待値を作る。5分前後、長くても5〜10分を目安にする。", "lp.html"],
   ["オープンチャット", "参加者を受け止め、事務連絡、固定ノート、ライブ案内、課題、Q&Aを運用する。", "line.html"],
   ["Day1〜Day5コンテンツ", "5日間のライブ、課題、特典で価値提供と販売前の納得感を作る。", "live-scripts.html"],
   ["セールスレター販売", "個別説明会を挟まず、レターで本命商品を販売する。", "sales-page.html"],
@@ -72,7 +72,7 @@ const coreFunnelRows = [
 
 const detailedAssetRows = [
   ["ヘッドデザイン指示", "LPとセールスページのファーストビュー制作指示。", "head.html"],
-  ["VSL台本", "オプトインVSLまたはオプト後VSLとして、次CTAを担う説得動画。", "script-opening.html"],
+  ["VSL台本", "オプトインVSLまたはオプトイン後VSLとして、次CTAを担う5〜10分の説得動画。", "script-opening.html"],
   ["オプトイン自動返信", "メール登録で止まった人をオープンチャットへ戻す。", "stepmail.html"],
   ["公式LINE登録誘導", "Day5後に、レター希望者を公式LINEへ移動させる。", "line.html"],
   ["販売期配信", "レター閲覧、締切、購入を促すメール/LINE。", "stepmail.html"],
@@ -81,13 +81,13 @@ const detailedAssetRows = [
 
 const vslPlacementRows = [
   ["オプトインVSL", "オプトインLP上部（登録前）", "コールド広告 × 無料チャレンジ × OC/ライブ必須。登録率だけでなく後工程の質を守りたいとき。", "LP原稿、VSL台本、視聴連動の遅延CTA指示"],
-  ["オプト後VSL", "サンキューページ（登録直後）", "オプトイン後のOC参加、Day1着席、チャレンジ参加期待値を高めたい案件の基本候補。", "サンキューページ原稿、VSL台本、OC参加CTA"],
+  ["オプトイン後VSL", "サンキューページ（登録直後）", "登録後の軽い案内ではなく、OC参加、Day1着席、チャレンジ参加期待値を高める本気のVSL。5分前後、長くても5〜10分を目安にする。", "サンキューページ原稿、5〜10分VSL台本、OC参加CTA"],
   ["併用", "LP上 + サンキューページ", "コールド広告から重いチャレンジへ送る場合。入口で教育と選別をし、登録後に正式参加へ押し上げる。", "2本のVSL配置方針、LP/サンキュー原稿、CTA表示ルール"],
 ];
 
 const visibleFunnelNodes = [
   ["オプトインLP", "登録前", "参加理由を作り、メール登録へ進ませる。オプトインVSLを置く場合はここで教育と選別を行う。", "lp.html", "工程5"],
-  ["登録後サンキュー", "登録直後", "オープンチャット参加を正式登録として促す。オプト後VSLを置く場合はここで期待値を上げる。", "lp.html", "工程5"],
+  ["登録後サンキュー", "登録直後", "オープンチャット参加を正式登録として促す。オプトイン後VSLを置く場合は5分前後の動画で期待値を上げる。", "lp.html", "工程5"],
   ["LINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題、Q&Aを受け止める。", "line.html", "工程6"],
   ["Day1〜Day5ライブ", "価値提供", "ライブ、課題、特典で実践経験と納得感を作る。", "live-scripts.html", "工程7"],
   ["公式LINE", "販売前接続", "レターを受け取りたい人だけを移動させ、販売導線へ分岐する。", "line.html", "工程8"],
@@ -134,7 +134,7 @@ const productionFlowRows = [
     phase: "1. 全体設計",
     purpose: "何を売るか、誰に届けるか、どの導線で販売するか、VSLをどこに置くかを仮決めする。",
     assets: ["全体構成レポート", "ファネル方針", "VSL配置方針", "KPI仮シミュレーション", "既存素材リスト"],
-    done: "販売導線の全体像、オプトインVSL/オプト後VSLの選択、使える素材/足りない素材が見えている。",
+    done: "販売導線の全体像、オプトインVSL/オプトイン後VSLの選択、使える素材/足りない素材が見えている。",
     boundary: "田中祐一AI側の一区切りは、方針と素材台帳が揃うところ。",
     next: "数値運用や公開後の改善は、公開後の添削/改善工程で扱う。",
     href: "visual-report.html",
@@ -477,9 +477,9 @@ const roadmapPhases = [
       },
       {
         name: "VSL配置を選択する",
-        make: "チャレンジローンチの入口を、LP上のオプトインVSL、登録後サンキュー上のオプト後VSL、または併用のどれで組むか決める。",
+        make: "チャレンジローンチの入口を、LP上のオプトインVSL、登録後サンキュー上のオプトイン後VSL、または併用のどれで組むか決める。オプトイン後VSLは5分前後、長くても5〜10分を目安にする。",
         input: "流入経路、認知状況、OC/ライブ必須度、CTA表示方針",
-        output: "VSL配置方針（オプトインVSL / オプト後VSL / 併用）",
+        output: "VSL配置方針（オプトインVSL / オプトイン後VSL / 併用）",
         href: "visual-report.html",
       },
       {
@@ -655,7 +655,7 @@ const roadmapPhases = [
       },
       {
         name: "VSL台本/CTA設計",
-        make: "全体設計で選んだ配置に合わせ、オプトインVSLまたはオプト後VSLの台本とCTA表示ルールを作る。",
+        make: "全体設計で選んだ配置に合わせ、オプトインVSLまたはオプトイン後VSLの台本とCTA表示ルールを作る。オプトイン後VSLは5分前後の説得動画として設計する。",
         input: "VSL配置方針、LP、サンキューページ、参加導線",
         output: "VSL台本 + CTA表示指示",
         href: "script-opening.html",
@@ -669,7 +669,7 @@ const roadmapPhases = [
       },
       {
         name: "サンキューページ原稿",
-        make: "登録後にオープンチャット参加へ進めるための案内文を作る。オプト後VSLを採用する場合は動画視聴とOC参加CTAを中心に構成する。",
+        make: "登録後にオープンチャット参加へ進めるための案内文を作る。オプトイン後VSLを採用する場合は、5〜10分以内の動画視聴とOC参加CTAを中心に構成する。",
         input: "サンキューページURL、オープンチャットURL、VSL配置方針",
         output: "サンキューページ原稿",
         href: "lp.html",
@@ -865,8 +865,10 @@ function read(relative) {
 
 function normalizeOutputTerms(text = "") {
   return String(text)
-    .replaceAll("挨拶動画", "オプト後VSL")
-    .replaceAll("ティーアップ動画", "オプト後VSL");
+    .replaceAll("挨拶動画", "オプトイン後VSL")
+    .replaceAll("サンキュー動画", "オプトイン後VSL")
+    .replaceAll("ティーアップ動画", "オプトイン後VSL")
+    .replaceAll("オプト後VSL", "オプトイン後VSL");
 }
 
 function list(relative) {
@@ -1758,7 +1760,7 @@ pages.set("visual-report.html", page({
   body: `
 <section class="panel"><h2>今回のファネルの形</h2><p class="note">この図は、見込み客が実際に見るページ、LINE、ライブ、レターだけに絞った導線です。Config、リサーチ、コンセプトなどの内部設計は工程表で扱い、ファネル図には出しません。</p>${visibleFunnelMap()}</section>
 <section class="panel"><h2>ワンステップ販売型の必須素材</h2><p class="note">全体設計では、細かな配信や制作手順よりも、この5素材がファネル内に組み込まれているかを確認します。</p>${linkedAssetTable(coreFunnelRows)}</section>
-<section class="panel"><h2>VSL配置の選択</h2><p class="note">チャレンジローンチでは、VSLをオプトイン前に置くのか、オプトイン後に置くのか、併用するのかを全体設計で先に決めます。コールド広告からOC/ライブ必須の企画へ送る場合は、登録率だけでなくOC参加率、Day1着席率、完走率、成約率まで見ます。</p>${vslPlacementTable()}</section>
+<section class="panel"><h2>VSL配置の選択</h2><p class="note">チャレンジローンチでは、VSLをオプトイン前に置くのか、オプトイン後に置くのか、併用するのかを全体設計で先に決めます。オプトイン後VSLは登録後の軽い案内ではなく、5分前後、長くても5〜10分でOC参加、Day1着席、完走率を押し上げるためのビデオセールスレターとして扱います。</p>${vslPlacementTable()}</section>
 <section class="panel"><h2>KPIの見方</h2><p class="note">KPIはファネル構成と分けずに見ます。今回の導線では、登録率だけでなく、オープンチャット参加、Day1着席、課題提出、公式LINE移動、レター購入までを一続きで確認します。</p><div class="grid-4">
 <div class="kpi"><span>仮単価</span><strong>60,000円</strong></div>
 <div class="kpi"><span>販売実績メモ</span><strong>30名</strong></div>
@@ -1772,7 +1774,7 @@ pages.set("visual-report.html", page({
 <section class="panel"><h2>教育設計</h2><div class="grid-2">${liveRows.map((row) => `<div class="card white"><span class="meta">${row.day}</span><h3>${esc(row.title)}</h3><p>${esc(row.purpose)}</p>${pills([row.core, `課題提出 ${row.count}`])}</div>`).join("")}</div></section>
 <section class="panel"><h2>制作物パッケージ</h2><table class="asset-table"><thead><tr><th>区分</th><th>成果物</th><th>確認ページ</th></tr></thead><tbody>
 <tr><td>設計</td><td>コンセプト、リサーチ、プロフィール、コンフィグ、オファー</td><td><a href="sheets.html">各種設計シート</a></td></tr>
-<tr><td>集客</td><td>オプトインLP、オプトインVSL/オプト後VSL、サンキュー、自動返信メール、オープンチャット固定ノート</td><td><a href="lp.html">LP一覧</a> / <a href="stepmail.html">ステップメール</a></td></tr>
+<tr><td>集客</td><td>オプトインLP、オプトインVSL/オプトイン後VSL、サンキュー、自動返信メール、オープンチャット固定ノート</td><td><a href="lp.html">LP一覧</a> / <a href="stepmail.html">ステップメール</a></td></tr>
 <tr><td>価値提供</td><td>Day1〜Day5ライブ台本、課題、特典、アーカイブ導線</td><td><a href="live-scripts.html">ライブ台本</a></td></tr>
 <tr><td>販売</td><td>Day5公式LINE誘導、公式LINE内で期間限定公開するセールスレター、販売期メルマガ、購入完了ページ</td><td><a href="sales-page.html">セールスページ</a></td></tr>
 </tbody></table></section>
@@ -1800,7 +1802,7 @@ pages.set("roadmap.html", page({
   lead: "各章で何を作るのかを、入力と完成アウトプットまで分解して確認します。",
   body: `<section class="panel"><h2>工程表の使い方</h2><p class="note">この工程表は、ワンステップ販売型ファネルを作るために必要な成果物を、章ごとではなく項目ごとに確認するためのものです。工程表の順番で素材を作り、前の章の成果物は後続のLP、配信、台本、販売導線で随時更新します。</p>${roadmapJump(roadmapPhases)}</section>
 <section class="panel"><h2>ワンステップ販売型の必須素材</h2><p class="note">全体設計では、まず以下の5素材がファネル内に組み込まれているかを確認します。</p>${linkedAssetTable(coreFunnelRows)}</section>
-<section class="panel"><h2>VSL配置の選択肢</h2><p class="note">一気通貫モードでは、最初の全体設計でオプトインVSL、オプト後VSL、併用のどれで組むかを確認します。ここで選んだ配置に合わせて、LP原稿、サンキューページ原稿、VSL台本、CTA表示ルールが変わります。</p>${vslPlacementTable()}</section>
+<section class="panel"><h2>VSL配置の選択肢</h2><p class="note">一気通貫モードでは、最初の全体設計でオプトインVSL、オプトイン後VSL、併用のどれで組むかを確認します。オプトイン後VSLは5分前後、長くても5〜10分を目安にし、サンキューページで正式参加とDay1着席への熱量を作ります。</p>${vslPlacementTable()}</section>
 <section class="panel flush"><h2>9章の詳細工程</h2></section>
 ${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}
 <section class="panel"><h2>全体スケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>進めること</th></tr></thead><tbody>${scheduleRows.map(([timing, detail]) => `<tr><td>${esc(timing)}</td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
@@ -1958,7 +1960,7 @@ pages.set("assets.html", page({
   lead: "工程表に沿って、調査・設計から原稿とデザイン指示書の完成までを確認します。",
   body: `<section class="panel"><h2>制作フローの見方</h2><p class="note">「宴」1期制作モニターでは、調査工程に応じて必要な制作物を順番に作ります。田中祐一AIは「何を作ればいいのか分からない」状態を突破するために、工程ごとの原稿、設計シート、デザイン指示書までを整理します。</p><div class="checklist">
 <div class="checkitem"><strong>工程順に作る</strong><p>全体設計、リサーチ、オファー、コンテンツ設計、LP、配信、台本、販売導線、公開/改善の順番で素材を積み上げます。</p></div>
-<div class="checkitem"><strong>VSL配置を先に選ぶ</strong><p>チャレンジローンチでは、全体設計でオプトインVSL、オプト後VSL、併用のどれで組むかを決めてから入口素材を作ります。</p></div>
+<div class="checkitem"><strong>VSL配置を先に選ぶ</strong><p>チャレンジローンチでは、全体設計でオプトインVSL、オプトイン後VSL、併用のどれで組むかを決めてから入口素材を作ります。オプトイン後VSLは5分前後の説得動画として扱います。</p></div>
 <div class="checkitem"><strong>原稿とデザイン指示書で一区切り</strong><p>LPやセールスページは、原稿とデザイン指示書が揃った時点で田中祐一AI側の一区切りにします。</p></div>
 <div class="checkitem"><strong>実装/組み込みは次の作業領域</strong><p>実機への組み込み、配信予約、細かなデザインブラッシュアップは、本人作業または添削モードで進めます。</p></div>
 </div></section>
@@ -1970,7 +1972,7 @@ pages.set("assets.html", page({
 <tr><td>LP/ページ</td><td>オプトインLP、サンキュー、公式LINE内で期間限定公開するセールスページ、購入完了ページ。</td><td><a href="lp.html">LP一覧</a></td></tr>
 <tr><td>ヘッドデザイン</td><td>オプトインLPとセールスページのファーストビュー指示。</td><td><a href="head.html">ヘッド指示</a></td></tr>
 <tr><td>メール/LINE</td><td>オプトイン自動返信、販売期メルマガ、LINEオープンチャット、Day5公式LINE誘導、販売期公式LINE。</td><td><a href="stepmail.html">メール</a> / <a href="line.html">LINE</a></td></tr>
-<tr><td>動画/ライブ</td><td>オプトインVSL/オプト後VSL、Day1〜Day5ライブ、課題、特典。</td><td><a href="script-opening.html">VSL台本</a> / <a href="live-scripts.html">ライブ台本</a></td></tr>
+<tr><td>動画/ライブ</td><td>オプトインVSL/オプトイン後VSL、Day1〜Day5ライブ、課題、特典。</td><td><a href="script-opening.html">VSL台本</a> / <a href="live-scripts.html">ライブ台本</a></td></tr>
 <tr><td>販売</td><td>公式LINE内で期間限定公開するセールスレター、販売期配信、購入完了ページ。</td><td><a href="sales-page.html">セールスページ</a></td></tr>
 </tbody></table></section>`}));
 
@@ -1979,24 +1981,24 @@ pages.set("lp.html", page({
   title: "LP一覧",
   eyebrow: "制作物",
   lead: "オプトイン開始に必要なLP本文、VSL配置、ヘッド指示、サンキュー、自動返信メールをまとめて確認します。",
-  body: `<section class="panel"><h2>VSL配置方針</h2><p class="note">このサンプルは、LP上に動画を置くオプトインVSL寄りの構成です。ただし制作モードでは、最初の全体設計でオプトインVSL、オプト後VSL、併用のどれにするかを確認し、選択に合わせてLPとサンキューページの原稿を切り替えます。</p>${vslPlacementTable()}</section>
+  body: `<section class="panel"><h2>VSL配置方針</h2><p class="note">このサンプルは、LP上に動画を置くオプトインVSL寄りの構成です。ただし制作モードでは、最初の全体設計でオプトインVSL、オプトイン後VSL、併用のどれにするかを確認し、選択に合わせてLPとサンキューページの原稿を切り替えます。オプトイン後VSLは5分前後、長くても5〜10分を目安にします。</p>${vslPlacementTable()}</section>
 <section class="panel"><h2>ページ台帳</h2><table class="asset-table"><thead><tr><th>ページ</th><th>役割</th><th>URL</th><th>原本</th></tr></thead><tbody>
 <tr><td>オプトインLP</td><td>地味で平凡な会社員を5日間ライブへ登録させる入口。オプトインVSLを採用する場合はページ内動画で期待値を作る。</td><td><a href="${urls.optin}">${urls.optin}</a></td><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</td></tr>
 <tr><td>動画視聴後LP</td><td>視聴後に登録意欲が高まった人向けの入口。</td><td><a href="${urls.optin}?ftid=b35oNFTBJXps">${urls.optin}?ftid=b35oNFTBJXps</a></td><td>${source("02_オプトインLP/02_オプトページ_動画視聴後LP.md")}</td></tr>
-<tr><td>登録後サンキュー</td><td>オープンチャット参加を正式登録として促すページ。オプト後VSLを採用する場合は動画でOC参加と着席期待値を高める。</td><td><a href="${urls.thanks}">${urls.thanks}</a></td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
+<tr><td>登録後サンキュー</td><td>オープンチャット参加を正式登録として促すページ。オプトイン後VSLを採用する場合は5分前後の動画でOC参加と着席期待値を高める。</td><td><a href="${urls.thanks}">${urls.thanks}</a></td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
 <tr><td>期間限定セールスページ</td><td>Day5で公式LINEへ移動した人に、公式LINE内で期間限定公開する販売ページ。</td><td><a href="${urls.sales}">${urls.sales}</a></td><td>${source("06_セールス/01_セールスページ.md")}</td></tr>
 <tr><td>購入完了ページ</td><td>決済後の案内と次アクションを伝えるページ。</td><td><a href="${urls.salesThanks}">${urls.salesThanks}</a></td><td>${source("06_セールス/02_購入完了サンキューページ.md")}</td></tr>
 </tbody></table></section>
 <section class="panel"><h2>オプトイン開始セット</h2><p class="note">自動返信まで完成すると、選択したVSL配置に合わせてオプトインLPを公開し、LINEオープンチャットへ参加させる最低限の導線が動かせます。</p><div class="grid-3">
 ${card("オプトインLP本文", "LP", "LPの文章。オプトインVSLを採用する場合は、動画と遅延CTAを前提に登録理由を作る。", "lp.html")}
-${card("VSL台本", "Video", "オプトインVSLまたはオプト後VSLとして、参加前の自己認識を変え次CTAへ進ませる。", "script-opening.html")}
+${card("VSL台本", "Video", "オプトインVSLまたはオプトイン後VSLとして、参加前の自己認識を変え次CTAへ進ませる。オプトイン後VSLは5〜10分以内で設計する。", "script-opening.html")}
 ${card("ヘッダーデザイン指示書", "Design", "スマホで読めるファーストビューと画像生成・HTML制作の指示。", "head.html")}
 ${card("サンキューページ文章", "Thanks", "登録直後にオープンチャット参加へ移動させるページ本文。", "lp.html")}
 ${card("オプトイン自動返信メール", "Mail", "メール登録で止まった人を正式参加へ進める自動返信。", "stepmail.html")}
 </div></section>
 <section class="panel"><h2>オプトイン開始4点確認</h2><p class="note">LP公開時に最低限そろっているべき入口素材を、URL、原本、次アクションで確認します。</p><table class="asset-table"><thead><tr><th>素材</th><th>確認すること</th><th>原本/確認先</th></tr></thead><tbody>
 <tr><td>オプトインLP</td><td>LP本文、ヘッド、登録CTAがつながっているか。オプトインVSL採用時は遅延CTAの出し方も確認する。</td><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</td></tr>
-<tr><td>サンキューページ</td><td>登録直後にオープンチャット参加へ移動できるか。オプト後VSL採用時は動画とOC参加CTAを確認する。</td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
+<tr><td>サンキューページ</td><td>登録直後にオープンチャット参加へ移動できるか。オプトイン後VSL採用時は5分前後の動画とOC参加CTAを確認する。</td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
 <tr><td>VSL台本</td><td>選択した配置で、参加前の自己認識を変え、次CTAへ進ませるか。</td><td><a href="script-opening.html">VSL台本</a></td></tr>
 <tr><td>オプトイン自動返信</td><td>メール登録で止まった人を、正式参加のオープンチャットへ戻せるか。</td><td>${registrationMails.map((mail) => source(mail.relative)).join("<br>")}</td></tr>
 </tbody></table></section>
@@ -2040,8 +2042,8 @@ pages.set("script-opening.html", page({
   file: "script-opening.html",
   title: "VSL台本",
   eyebrow: "制作物",
-  lead: "オプトインVSLまたはオプト後VSLとして使う、5日間チャレンジ参加前の説得動画台本です。",
-  body: `<section class="panel"><h2>VSL配置の前提</h2><p class="note">VSL台本は、ファネル上の位置が確定してから評価します。LP上に置く場合はオプトインVSLとして登録前の教育と選別を担い、サンキューページに置く場合はオプト後VSLとしてOC参加とDay1着席の期待値を高めます。</p>${vslPlacementTable()}</section>
+  lead: "オプトインVSLまたはオプトイン後VSLとして使う、5日間チャレンジ参加前の説得動画台本です。",
+  body: `<section class="panel"><h2>VSL配置の前提</h2><p class="note">VSL台本は、ファネル上の位置が確定してから評価します。LP上に置く場合はオプトインVSLとして登録前の教育と選別を担い、サンキューページに置く場合はオプトイン後VSLとしてOC参加とDay1着席の期待値を高めます。オプトイン後VSLは5分前後、長くても5〜10分のビデオセールスレターとして作ります。</p>${vslPlacementTable()}</section>
 <section class="panel"><h2>台本ドラフト</h2>
 <div class="script-block"><span class="time">0:00-0:20</span><h3>冒頭フック</h3><p>「才能も、顔出しも、自分の商品もない。そんな地味で平凡な会社員こそ、WEBマーケターを目指してほしい。」</p></div>
 <div class="script-block"><span class="time">0:20-1:10</span><h3>共感</h3><p>副業や起業に挑戦したい。でも、自分が前に出るのは苦手。SNSでキラキラ発信する自分も想像できない。そう感じているなら、この5日間はあなたのための内容です。</p></div>
@@ -2049,7 +2051,7 @@ pages.set("script-opening.html", page({
 <div class="script-block"><span class="time">2:10-3:10</span><h3>5日間の約束</h3><p>この5日間で、売れる仕組みをD.E.C.O.D.E.として分解し、あなたが裏方Webマーケターとしてどこから始めればいいかを具体的に見せていきます。</p></div>
 <div class="script-block"><span class="time">3:10-3:40</span><h3>CTA</h3><p>ライブリンク、課題、特典、質問回答はLINEオープンチャットで案内します。まだ参加していない方は、必ずこのページから参加してください。</p></div>
 </section>
-<section class="panel"><h2>本編VSL 書き起こし</h2><p class="note">LP原本内に取得済みの本編VSLを書き起こしとして展開します。オプトインVSLやオプト後VSLを作るときの素材として参照します。</p>
+<section class="panel"><h2>本編VSL 書き起こし</h2><p class="note">LP原本内に取得済みの本編VSLを書き起こしとして展開します。オプトインVSLやオプトイン後VSLを作るときの素材として参照します。登録後に置く場合も、単なる案内ではなく期待値を作るVSLとして再構成します。</p>
 ${sourceDetails("オプトインLP内 VSL/動画本文", "02_オプトインLP/01_オプトページ_登録経路なし.md", 52000, true)}
 </section>
 <section class="panel"><h2>制作意図</h2><div class="grid-3">${card("自己認識の変換", "Concept", "地味で平凡を弱みではなく、裏方の適性として再定義する。")}${card("正式参加への誘導", "CTA", "メール登録だけで終わらせず、オープンチャット参加へ進ませる。")}${card("Day1への橋渡し", "Flow", "Day1の世界観とD.E.C.O.D.E.全体像へ自然につなぐ。")}</div></section>`}));
