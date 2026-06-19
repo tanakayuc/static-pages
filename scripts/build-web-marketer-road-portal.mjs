@@ -115,11 +115,11 @@ const funnelPartRows = [
 const funnelPatternRows = [
   {
     id: "CURRENT",
-    label: "今回採用: オプト前VSL × カツオリーチ × 販売ページ直販",
+    label: "今回採用: オプト前VSL × 5チャレ × 販売ページ直販",
     position: "今回採用",
     image: `${funnelPatternAssetDir}/pattern-current-opt-before-vsl-sales-page.png`,
     source: "/Users/tanakayuichi/Downloads/オプト前VSL_販売ページ.png",
-    acquisition: "カツオリーチ → 集客ページ上のオプト前VSL → サンクスページ → リスト化",
+    acquisition: "流入元: カツオリーチ / 集客ページ上のオプト前VSL → サンクスページ → リスト化",
     value: "教育グループ Day1〜Day5",
     sales: "販売ページ → 成約 → 商品提供",
   },
@@ -1493,7 +1493,7 @@ function currentPatternImageCard() {
   const current = funnelPatternRows.find((row) => row.id === "CURRENT");
   return `<section class="panel current-pattern-panel">
 <h2>今回のファネル確認カード</h2>
-<p class="note">第1章で確定したファネルです。工程表はこの導線に合わせて並べています。</p>
+<p class="note">第1章で確定したファネル図です。以降の制作物はこの導線に紐づきます。</p>
 <figure class="current-pattern-figure">
 <img src="${esc(current.image)}" alt="${esc(current.label)}">
 <figcaption><strong>${esc(current.label)}</strong><span>${esc(current.acquisition)} / ${esc(current.value)} / ${esc(current.sales)}</span></figcaption>
@@ -2708,13 +2708,16 @@ pages.set("visual-report.html", page({
   file: "visual-report.html",
   title: "全体構成レポート",
   eyebrow: "レポート",
-  lead: "第1章で決めたファネル、KPI、制作対象を確認します。",
+  lead: "第1章で決めた目的、ファネル、KPI、制作対象を確認します。",
   body: `
-<section class="panel"><h2>第1章の決定事項</h2><table class="asset-table"><thead><tr><th>項目</th><th>今回の内容</th></tr></thead><tbody>
-<tr><td>ファネル</td><td>チャレンジローンチ / ワンステップ販売</td></tr>
-<tr><td>集客</td><td>オプト前VSL / カツオリーチ</td></tr>
-<tr><td>価値提供</td><td>5チャレ（Day1〜Day5）</td></tr>
-<tr><td>販売</td><td>公式LINE → 期間限定セールスレター</td></tr>
+<section class="panel"><h2>第1章の設計値</h2><table class="asset-table"><thead><tr><th>項目</th><th>今回の内容</th></tr></thead><tbody>
+<tr><td>制作目的</td><td>WEBマーケターへの道の登録、価値提供、販売までの制作物を揃える。</td></tr>
+<tr><td>商品</td><td>45日間WEBマーケター超実践ブートキャンプ</td></tr>
+<tr><td>ファネル</td><td>チャレンジローンチ / 販売ページ直販</td></tr>
+<tr><td>流入元</td><td>カツオリーチ。今回の流入元として記録する。</td></tr>
+<tr><td>集客方式</td><td>オプト前VSL。集客ページ上で登録前にVSLを見せる。</td></tr>
+<tr><td>価値提供</td><td>LINEオープンチャット + 5チャレ（Day1〜Day5）</td></tr>
+<tr><td>販売方式</td><td>セールスレターでの販売ページ直販</td></tr>
 <tr><td>決済後</td><td>購入完了ページ</td></tr>
 </tbody></table></section>
 ${currentPatternImageCard()}
@@ -2727,17 +2730,38 @@ ${currentPatternImageCard()}
   ["期間限定レター", "販売", "セールスレター原稿 / 販売期配信", "sales-page.html", "販売"],
   ["購入完了ページ", "決済後", "購入完了ページ原稿", "sales-page.html", "販売"],
 ])}</section>
-<section class="panel"><h2>KPI管理</h2><div class="grid-4">
-<div class="kpi"><span>仮単価</span><strong>60,000円</strong></div>
-<div class="kpi"><span>販売実績メモ</span><strong>30名</strong></div>
-<div class="kpi"><span>仮売上</span><strong>180万円</strong></div>
-<div class="kpi"><span>販売方式</span><strong>直販</strong></div>
-</div><table class="asset-table"><thead><tr><th>位置</th><th>管理する数字</th><th>記録</th></tr></thead><tbody>
-<tr><td>入口</td><td>登録数 / 登録率</td><td>LP別、流入元別</td></tr>
-<tr><td>登録後</td><td>オープンチャット参加 / Day1着席</td><td>登録後導線</td></tr>
+<section class="panel"><h2>KPI逆算</h2><div class="grid-4">
+<div class="kpi"><span>商品単価</span><strong>60,000円</strong></div>
+<div class="kpi"><span>目標売上</span><strong>1,800,000円</strong></div>
+<div class="kpi"><span>目標販売数</span><strong>30名</strong></div>
+<div class="kpi"><span>必要リスト数</span><strong>300件</strong></div>
+</div><table class="asset-table"><thead><tr><th>計算項目</th><th>設計値</th><th>計算式</th></tr></thead><tbody>
+<tr><td>目標販売数</td><td>30名</td><td>1,800,000円 ÷ 60,000円</td></tr>
+<tr><td>販売ページ成約率</td><td>10%</td><td>仮置き</td></tr>
+<tr><td>必要リスト数</td><td>300件</td><td>30名 ÷ 10%</td></tr>
+<tr><td>1リスト獲得単価</td><td>3,000円</td><td>仮置き</td></tr>
+<tr><td>広告費目安</td><td>900,000円</td><td>300件 × 3,000円</td></tr>
+</tbody></table></section>
+<section class="panel"><h2>KPI管理位置</h2><table class="asset-table"><thead><tr><th>位置</th><th>管理する数字</th><th>記録</th></tr></thead><tbody>
+<tr><td>入口</td><td>登録数 / 登録率 / 流入元</td><td>カツオリーチ、ハウス、広告、紹介など</td></tr>
+<tr><td>登録後</td><td>オープンチャット参加 / Day1着席</td><td>サンキューページ、自動返信メール</td></tr>
 <tr><td>価値提供</td><td>ライブ参加 / 課題提出</td><td>Day別</td></tr>
 <tr><td>販売前</td><td>公式LINE移動</td><td>Day5後</td></tr>
-<tr><td>販売</td><td>レター購入 / 売上</td><td>販売期間</td></tr>
+<tr><td>販売</td><td>レター閲覧 / 購入 / 売上</td><td>販売期間</td></tr>
+</tbody></table></section>
+<section class="panel"><h2>第1章で確認する項目</h2><table class="asset-table"><thead><tr><th>確認項目</th><th>決めること</th><th>反映先</th></tr></thead><tbody>
+<tr><td>目的</td><td>何を作るのか、どの売上を目指すのか。</td><td>全体構成 / KPI逆算</td></tr>
+<tr><td>商品</td><td>商品名、単価、販売数、販売条件。</td><td>全体構成 / オファー</td></tr>
+<tr><td>ファネル</td><td>オプト前VSLか、オプト後VSLか。何日チャレンジか。どの販売方式か。</td><td>全体構成 / 工程表</td></tr>
+<tr><td>流入元</td><td>カツオリーチ、自社リスト、広告、紹介など、どこから集客するか。</td><td>全体構成 / 集客素材</td></tr>
+<tr><td>価値提供</td><td>LINEオープンチャット、Day数、次ライブ位置、課題、特典。</td><td>第4章詳細設計 / 価値提供素材</td></tr>
+<tr><td>販売</td><td>販売ページ直販、個別販売、セミナー販売などの販売方式。</td><td>全体構成 / 販売素材</td></tr>
+<tr><td>KPI</td><td>単価、目標売上、成約率、必要リスト数、広告費目安。</td><td>KPI逆算 / 運用ログ</td></tr>
+</tbody></table></section>
+<section class="panel"><h2>第4章の詳細設計を入れる場所</h2><table class="asset-table"><thead><tr><th>章</th><th>決めること</th><th>反映先</th></tr></thead><tbody>
+<tr><td>第1章 全体設計</td><td>目的、商品、ファネル、KPI、チャレンジ日数を仮決めする。</td><td>全体構成</td></tr>
+<tr><td>第4章 コンテンツ設計</td><td>Day別テーマ、ライブ台本、課題、特典、配信スケジュールを確定する。</td><td>価値提供素材 / 工程表</td></tr>
+<tr><td>全体構成へ戻す値</td><td>確定したDay数、次ライブ位置、販売開始日、販売導線、KPI修正値だけ戻す。</td><td>全体構成 / KPI逆算</td></tr>
 </tbody></table></section>
 <section class="panel"><h2>制作対象</h2><table class="asset-table"><thead><tr><th>区分</th><th>作る素材</th><th>確認ページ</th></tr></thead><tbody>
 <tr><td>集客</td><td>オプトインLP原稿、LPヘッド指示書、オプト前VSL台本、サンキューページ原稿、自動返信メール、紹介文章</td><td><a href="lp.html">集客素材</a></td></tr>
