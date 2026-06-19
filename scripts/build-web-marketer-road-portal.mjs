@@ -1262,28 +1262,26 @@ function funnelFormatBoard() {
   const acquisition = selectedAcquisitionPattern();
   const sales = selectedSalesPattern();
   const media = selectedAcquisitionMedia();
-  return `<div class="funnel-format-board" aria-label="ファネルフォーマット選択">
+  return `<div class="funnel-format-board" aria-label="今回のファネル設定">
 <div class="format-summary">
-  <span>今回の完成素材サンプル</span>
+  <span>今回の案件設定</span>
   <strong>${esc(activeFunnelFormat.acquisitionPattern)} / ${esc(activeFunnelFormat.challengePattern)} / 次ライブ ${esc(activeFunnelFormat.nextLiveDay)} / ${esc(activeFunnelFormat.salesPattern)} / ${esc(activeFunnelFormat.acquisitionMedia)}</strong>
-  <small>標準候補: ${esc(defaultFunnelFormat.acquisitionPattern)} / ${esc(defaultFunnelFormat.challengePattern)} / ${esc(defaultFunnelFormat.salesPattern)}</small>
 </div>
 <div class="format-stages">
   <section class="format-stage">
     <div class="stage-head"><span>01 集客</span><strong>${esc(acquisition.label)}</strong></div>
-    <div class="traffic-row"><span>ハウス</span><span>広告</span><span>紹介</span></div>
     ${formatChain(acquisition.flow, "lp.html")}
-    <p>${esc(acquisition.placement)} 今回は${esc(media.label)}を作る前提です。</p>
+    <p>今回の集客素材は${esc(media.label)}、オプトインLP原稿、LPヘッド指示書、VSL台本、サンキューページ原稿です。</p>
   </section>
   <section class="format-stage">
     <div class="stage-head"><span>02 価値提供</span><strong>${esc(activeFunnelFormat.challengePattern)}</strong></div>
     ${challengeDayStrip()}
-    <p>何チャレ（2チャレ〜5チャレ）と次ライブの位置で、必要な台本、配信、課題、特典の数が変わります。</p>
+    <p>Day1〜Day5のライブ台本、配信、課題、特典を素材として管理します。</p>
   </section>
   <section class="format-stage">
     <div class="stage-head"><span>03 販売</span><strong>${esc(sales.label)}</strong></div>
     ${formatChain(sales.nodes, "sales-page.html")}
-    <p>${esc(sales.output)}</p>
+    <p>セールスレター原稿、販売期配信、セールスページ指示書、購入完了ページ原稿を管理します。</p>
   </section>
 </div>
 </div>`;
@@ -1386,6 +1384,7 @@ function roadmapPhaseSection(phase, index) {
   const phaseNumber = index + 1;
   return `<section class="panel roadmap-phase" id="phase-${phaseNumber}">
 <h2>${esc(phase.name)}</h2>
+<p class="note">${esc(phase.summary)}</p>
 <div class="roadmap-steps">${phase.items.map((item, itemIndex) => {
     const stepNumber = `${phaseNumber}-${itemIndex + 1}`;
     const link = item.href ? `<a class="report-link" href="${esc(item.href)}">開く</a>` : "";
@@ -1395,8 +1394,7 @@ function roadmapPhaseSection(phase, index) {
 <h3>${esc(item.name)}</h3>
 <p>${esc(item.make)}</p>
 <div class="roadmap-step-meta">
-<div><span>入力</span><strong>${esc(item.input)}</strong></div>
-<div><span>完成</span><strong>${esc(item.output)}</strong></div>
+<div><span>完成物</span><strong>${esc(item.output)}</strong></div>
 </div>
 ${link}
 </div>
@@ -1655,11 +1653,11 @@ ${lineSidebar()}
 <section id="line-funnel" class="stepmail-block">
 <p class="block-label">参加導線</p>
 <h2>サンクスページから教育グループへ</h2>
-<p>LINE/オープンチャットは価値提供フェーズの受け皿です。オプト後VSLパターンではサンクスページ上の動画から、オプト前VSLパターンではLP登録後の案内から、教育グループ参加へ進ませます。</p>
+<p>今回の登録後導線は、サンキューページと自動返信からLINEオープンチャットへ参加してもらう構成です。</p>
 <table class="asset-table compact-table"><tbody>
 <tr><th>入口</th><td>オプトインLP、サンキューページ、自動返信メールから教育グループへ接続する。</td></tr>
 <tr><th>価値提供</th><td>Day1〜Day5のライブ、課題、特典、アーカイブを通常配信で案内する。</td></tr>
-<tr><th>販売分岐</th><td>Day5後に、販売ページ、個別販売、セミナー導線のいずれかへ分岐する。</td></tr>
+<tr><th>販売分岐</th><td>Day5後に、期間限定セールスレターへ案内する公式LINEへ移動する。</td></tr>
 </tbody></table>
 </section>
 <section id="line-fixed" class="stepmail-block">
@@ -1893,7 +1891,7 @@ li { margin: 4px 0; }
 .roadmap-step h3 { margin-bottom: .3rem; }
 .roadmap-step p { color: #324b44; line-height: 1.8; }
 .roadmap-step .report-link { margin-top: .75rem; }
-.roadmap-step-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: .75rem; }
+.roadmap-step-meta { display: grid; grid-template-columns: 1fr; gap: .55rem; margin-top: .75rem; }
 .roadmap-step-meta div { padding: .65rem .8rem; border: 1px solid var(--line); border-radius: 8px; background: var(--pale); }
 .roadmap-step-meta span { display: block; color: var(--sub); font-size: .72rem; font-weight: 900; }
 .roadmap-step-meta strong { display: block; color: var(--ink); font-size: .92rem; line-height: 1.6; }
@@ -2035,12 +2033,12 @@ pages.set("index.html", page({
   file: "index.html",
   title: "制作ポータル",
   eyebrow: "田中祐一AI / 制作ポータル",
-  lead: "全体の入口です。何があるか、どこから進めるかを確認し、新規制作モードは工程表を基準に進行します。",
+  lead: "案件別に生成された設計書と素材集の入口です。全体構成、工程表、制作物へ移動します。",
   body: `
 <section class="panel"><h2>案件の全体像</h2><div class="grid-3">
 ${card("会社員はWEBマーケターを目指しなさい", "企画", "地味で平凡な会社員に、裏方Webマーケターという別ルートを提示する5日間チャレンジ。", "concept.html")}
 ${card("45日間WEBマーケター超実践ブートキャンプ", "本命商品", "知識を増やすだけではなく、売上に関わる最初の実践経験を作る直販型オファー。", "offer.html")}
-${card("素材所在を残す", "管理方針", "見せるページはHTML、再編集に必要な原稿・URL・動画・指示書の所在は各ページ内に残します。", "assets.html")}
+${card("素材集", "Assets", "集客、価値提供、販売に分けて、原稿、台本、指示書を確認します。", "assets.html")}
 </div></section>
 <section class="panel"><h2>完成パッケージの現在地</h2><div class="grid-4">
 <div class="kpi"><span>制作工程</span><strong>9章</strong></div>
@@ -2050,11 +2048,10 @@ ${card("素材所在を残す", "管理方針", "見せるページはHTML、再
 </div></section>
 <section class="panel"><h2>主導線</h2><div class="grid-3">
 ${card("制作ポータル", "入口", "このページです。全体の入口として、何があり、どこから進めるかを確認します。", "index.html")}
-${card("工程表", "本体", "新規制作モードの本体です。1-2、2-5のように工程番号を基準に制作を進めます。", "roadmap.html")}
+${card("工程表", "進行", "各工程で完成させる設計書・原稿・台本・指示書を確認します。", "roadmap.html")}
 ${card("全体構成", "俯瞰", "ファネル全体、必要素材、VSL配置、KPI、導線の全体像を確認します。", "visual-report.html")}
 </div></section>
-<section class="panel"><h2>ファネルフォーマット選択</h2><p class="note">制作を始める前に、集客のVSL配置、集客メディア、何チャレか、次ライブの位置、販売形態を決めます。標準候補と今回採用を分けて確認し、選んだ型に合わせて工程表と制作物一覧が変わります。</p>${funnelFormatBoard()}</section>
-<section class="panel"><h2>工程表から始める</h2><p class="quote">制作物はバラバラに並べるのではなく、工程表の番号に沿って作ります。必要なページ、台本、配信、指示書は、集客フェーズの素材、価値提供フェーズの素材、販売ページの素材へ自動的に整理していく前提です。今回のサンプルでは、公式LINE内で期間限定セールスレターへ進む直販導線を採用します。</p></section>
+<section class="panel"><h2>今回のファネル設定</h2>${funnelFormatBoard()}</section>
 `}));
 
 pages.set("visual-report.html", page({
@@ -2140,9 +2137,9 @@ pages.set("concept.html", page({
   file: "concept.html",
   title: "コンセプトシート",
   eyebrow: "設計シート",
-  lead: "田中祐一AIのコンセプト設計フローに沿って、LPや台本へ展開できる素材集としてまとめます。",
+  lead: "LPや台本へ展開するためのコンセプト素材をまとめます。",
   body: `
-<section class="panel"><h2>田中祐一AIのコンセプト設計フロー</h2><p class="note">質問は一度で詰め切るのではなく、ざっくり掴んでから必要に応じて深掘りする。ここではLPや台本へ展開できる素材として整理します。</p><div class="concept-sequence">
+<section class="panel"><h2>コンセプト設計結果</h2><div class="concept-sequence">
 ${conceptItem(1, "プロダクト理解", "Product", "45日間WEBマーケター超実践ブートキャンプ。知識の受講ではなく、売上導線を理解し、最初の実践経験を作るための環境。", ["Day1〜Day5でD.E.C.O.D.E.の全体像を学び、販売後に45日間の実践へ接続する。"])}
 ${conceptItem(2, "ターゲット仮止め", "Customer", "顔出しや派手な発信が苦手で、自分の商品や強い実績をまだ持っていない地味で平凡な会社員。", ["副業や起業には関心があるが、自分がスターになる未来はしっくり来ていない。", "真面目さ、継続力、支援力、数字を見る力を持っている。"])}
 ${conceptItem(3, "ライバル理解", "Competitor", "比較対象はSNS起業、副業スクール、Web制作スクール、広告運用講座、AI副業系。多くは個人が目立つこと、単体スキルを身につけること、自分の商品を売ることに寄りやすい。")}
@@ -2201,13 +2198,8 @@ pages.set("research.html", page({
   file: "research.html",
   title: "リサーチシート",
   eyebrow: "設計シート",
-  lead: "コンセプトを導き出す前半戦として、同業ライバル、媒体別発信、取りこぼし、空きポジションを整理します。",
-  body: `<section class="panel"><h2>リサーチ目的</h2><p class="note">リサーチはコンセプトの前半戦です。市場を広く眺めるだけではなく、ターゲットが見ているライバル、見込み客が何と比較し、どこで諦め、どの空きポジションなら動けるかを確認し、コンセプトシートへ渡す材料を作ります。</p></section>
-<section class="panel"><h2>書籍から取り込むリサーチ原則</h2><p class="note">『戦わずして売る技術』からは、競合をプロダクト競合だけで見ず、インサイト競合とメソッド競合まで含めて棲み分けを作る考え方を取り込みます。さらに、コンテンツホルダーの価値がアドバンテージ型なのか、ユニークベネフィット型なのかを判定してから訴求へ変換します。</p><table class="asset-table"><thead><tr><th>原則</th><th>AIに考えさせること</th></tr></thead><tbody>${researchPrincipleRows.map(([label, detail]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel"><h2>リサーチの順番</h2><table class="asset-table"><thead><tr><th>順番</th><th>見ること</th><th>完成アウトプット</th></tr></thead><tbody>${researchFlowRows.map(([step, detail, output]) => `<tr><td><strong>${esc(step)}</strong></td><td>${esc(detail)}</td><td>${esc(output)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel"><h2>同業ライバルリサーチ</h2><p class="note">まずは同業ライバルを5件挙げる前提で進めます。個人講座系4名に加え、BtoB支援会社・書籍/メディア導線の比較対象として才流を入れます。</p>${competitorResearchTable()}</section>
-<section class="panel"><h2>リサーチの切り口</h2><table class="asset-table"><thead><tr><th>切り口</th><th>見ること</th></tr></thead><tbody>${researchCutRows.map(([label, detail]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel"><h2>空きポジション分析ロジック</h2><p class="note">空きポジションは、競合の強みを否定して探すのではなく、強訴求についていけない人を見つけ、その人が探す別手段とコンテンツホルダーが提供できる価値を接続して作ります。</p><table class="asset-table"><thead><tr><th>観点</th><th>見ること</th></tr></thead><tbody>${positioningLogicRows.map(([label, detail]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
+  lead: "同業ライバル、媒体別発信、取りこぼし、空きポジションを整理します。",
+  body: `<section class="panel"><h2>同業ライバルリサーチ</h2>${competitorResearchTable()}</section>
 <section class="panel"><h2>空きポジション分析結果</h2>${competitorPositionCards()}</section>
 <section class="panel"><h2>3C分析</h2><div class="concept-sequence">
 ${conceptItem(1, "Customer", "顧客", "顔出しや商品作りに抵抗があり、発信者として目立つことに違和感がある会社員。真面目さや支援力はあるが、売上に関わる経験がない。")}
@@ -2258,20 +2250,15 @@ pages.set("assets.html", page({
   file: "assets.html",
   title: "制作物一覧",
   eyebrow: "制作物",
-  lead: "制作物は、集客、価値提供、販売の3カテゴリから確認します。作る順番は工程表、素材の置き場所はここで見ます。",
-  body: `<section class="panel"><h2>制作物ポータル</h2><p class="note">ここは素材の入口です。細かい説明は工程表と全体構成に寄せ、まずは必要なカテゴリへすぐ移動できるようにします。</p>${categoryShelf(productionCategoryRows)}</section>
-<section class="panel"><h2>工程表との関係</h2><div class="grid-3">
-${card("作る順番", "Roadmap", "新規制作モードは工程表を基準に、1つずつ質問しながら素材を作る。", "roadmap.html")}
-${card("全体像", "Funnel", "今回のファネル、VSL配置、KPI、必要素材の全体を見る。", "visual-report.html")}
-${card("素材棚", "Assets", "完成した原稿、台本、指示書を集客・価値提供・販売で確認する。", "assets.html")}
-</div></section>`}));
+  lead: "集客、価値提供、販売の3カテゴリで、生成された原稿、台本、指示書を確認します。",
+  body: `<section class="panel"><h2>制作物ポータル</h2>${categoryShelf(productionCategoryRows)}</section>`}));
 
 pages.set("lp.html", page({
   file: "lp.html",
   title: "集客の素材一覧",
   eyebrow: "制作物",
   lead: "登録前から登録直後までに作る素材を、一覧からすぐ確認できるようにまとめます。",
-  body: `<section class="panel"><h2>集客で作る素材</h2><p class="note">今回の採用は、メルマガ紹介文章、オプト前VSL、5チャレ、セールスレター販売です。集客ページの細かな判断は工程表で行い、ここでは成果物だけを見ます。</p>${materialShelf(acquisitionMaterialRows)}</section>
+  body: `<section class="panel"><h2>集客で作る素材</h2>${materialShelf(acquisitionMaterialRows)}</section>
 <section class="panel" id="optin-lp-copy"><h2>オプトインLP原稿</h2><p class="quote">地味で平凡な会社員向け。才能・経験・顔出し不要の裏方起業のロードマップを公開。</p><p>登録導線はLINEオープンチャット参加までがセットです。メール登録だけで終わらせず、サンキューページと自動返信で正式参加へ進めます。</p></section>
 <section class="panel" id="thank-you-copy"><h2>サンキューページ原稿</h2><p>登録ありがとうございます。5日間チャレンジのライブ案内、課題、特典、質問受付はLINEオープンチャットで行います。メール登録だけでは正式参加が完了しないため、このページからオープンチャットへ参加してください。</p><p class="quote">次の行動: LINEオープンチャットへ参加し、固定投稿でDay1の開始時間と課題提出先を確認する。</p></section>`}));
 
@@ -2280,8 +2267,8 @@ pages.set("value.html", page({
   title: "価値提供の素材一覧",
   eyebrow: "制作物",
   lead: "LINEオープンチャット、ステップメール、Day1〜Day5ライブ、課題、特典をまとめて確認します。",
-  body: `<section class="panel"><h2>価値提供で作る素材</h2><p class="note">このカテゴリは、登録後に参加者を迷わせず、ライブ、課題、特典へ進めるための素材棚です。時系列の本文はLINE配信、ステップメール、ライブ台本の各ページで確認します。</p>${materialShelf(valueMaterialRows)}</section>
-<section class="panel"><h2>今回の価値提供フォーマット</h2><div class="grid-3">
+  body: `<section class="panel"><h2>価値提供で作る素材</h2>${materialShelf(valueMaterialRows)}</section>
+<section class="panel"><h2>今回の価値提供構成</h2><div class="grid-3">
 ${card("5チャレ", "Challenge", "今回のサンプルはDay1〜Day5の5日間で、次ライブ Day2 を起点に設計する。", "live-scripts.html")}
 ${card("LINEオープンチャット", "Community", "全体ポータル、固定投稿、通常配信で、参加者の動きを止めない。", "line.html")}
 ${card("課題と特典", "Action", "各日の課題提出と特典案内で、学習ではなく実践へ進める。", "live-scripts.html")}
@@ -2320,7 +2307,10 @@ pages.set("script-opening.html", page({
   title: "VSL台本",
   eyebrow: "制作物",
   lead: "オプト前VSLまたはオプト後VSLとして使う、5日間チャレンジ参加前の説得動画台本です。",
-  body: `<section class="panel"><h2>VSL配置の前提</h2><p class="note">VSL台本は、ファネル上の位置が確定してから作ります。LP上に置く場合はオプト前VSLとして登録前の教育と選別を担い、サンキューページに置く場合はオプト後VSLとしてOC参加とDay1着席の期待値を高めます。オプト後VSLは5分前後、長くても5〜10分のビデオセールスレターとして作ります。</p>${vslPlacementTable()}</section>
+  body: `<section class="panel"><h2>今回のVSL台本</h2><div class="grid-2">
+${card("オプト前VSL台本", "登録前", "LP上で見せる台本。登録前に世界観を提示し、登録CTAへ進ませる。")}
+${card("オプト後VSL台本", "登録直後", "サンキューページで見せる場合の5〜10分のビデオセールスレター台本。")}
+</div></section>
 <section class="panel"><h2>台本ドラフト</h2>
 <div class="script-block"><span class="time">0:00-0:20</span><h3>冒頭フック</h3><p>「才能も、顔出しも、自分の商品もない。そんな地味で平凡な会社員こそ、WEBマーケターを目指してほしい。」</p></div>
 <div class="script-block"><span class="time">0:20-1:10</span><h3>共感</h3><p>副業や起業に挑戦したい。でも、自分が前に出るのは苦手。SNSでキラキラ発信する自分も想像できない。そう感じているなら、この5日間はあなたのための内容です。</p></div>
@@ -2329,25 +2319,24 @@ pages.set("script-opening.html", page({
 <div class="script-block"><span class="time">3:10-3:40</span><h3>CTA</h3><p>ライブリンク、課題、特典、質問回答はLINEオープンチャットで案内します。まだ参加していない方は、必ずこのページから参加してください。</p></div>
 </section>
 <section class="panel"><h2>VSLスライド指示書</h2><p class="note">スライドが必要な場合は、動画をそのまま文字起こしするのではなく、CodeX等へ渡せるスライド構成案として作ります。テキスト量は抑え、旧世界/新世界とCTAが視覚で伝わることを優先します。</p>${slideInstructionTable(vslSlideRows)}</section>
-<section class="panel"><h2>制作意図</h2><div class="grid-3">${card("自己認識の変換", "Concept", "地味で平凡を弱みではなく、裏方の適性として再定義する。")}${card("正式参加への誘導", "CTA", "メール登録だけで終わらせず、オープンチャット参加へ進ませる。")}${card("Day1への橋渡し", "Flow", "Day1の世界観とD.E.C.O.D.E.全体像へ自然につなぐ。")}</div></section>`}));
+`}));
 
 pages.set("live-scripts.html", page({
   file: "live-scripts.html",
   title: "Day1〜Day5 ライブ台本",
   eyebrow: "制作物",
   lead: "5日間チャレンジの各ライブ台本を、目的、コア論点、課題、スライド指示書に分けて確認します。",
-  body: `<section class="panel"><h2>チャレンジ日数と次ライブ</h2><p class="note">何チャレにするかで、作るライブ台本、課題、配信、特典の数が変わります。今回のサンプルは5チャレで、表示上は次ライブ Day2 を起点に進行します。</p>${challengePatternTable()}</section>
-<section class="panel"><h2>5日間の教育設計</h2><div class="flow">${liveRows.map((row) => `<div class="flow-row"><strong>${esc(row.day)}</strong><p>${esc(row.title)}</p>${pills([row.core, row.task, `課題提出 ${row.count}`])}${status("原本あり")}</div>`).join("")}</div></section>
+  body: `<section class="panel"><h2>5日間のライブ一覧</h2><div class="flow">${liveRows.map((row) => `<div class="flow-row"><strong>${esc(row.day)}</strong><p>${esc(row.title)}</p>${pills([row.core, row.task, `課題提出 ${row.count}`])}${status("原本あり")}</div>`).join("")}</div></section>
 <section class="panel"><h2>Day別ライブ台本一覧</h2><p class="note">ここで作るのは動画の記録ではなく、ライブ当日に話すための台本です。各Dayごとに導入、本編、課題、次回予告、販売への接続を分けて管理します。</p><div class="timeline">${liveRows.map((row) => `<article class="timeline-item"><div class="timeline-index">${row.day.replace("Day", "D")}</div><div><div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.count)}</div><p>${esc(row.purpose)}</p><p class="muted">課題: ${esc(row.task)}</p><table class="asset-table compact-table"><tbody><tr><th>台本で作るもの</th><td>オープニング、本編教育、課題説明、次回予告、Q&A導線</td></tr><tr><th>管理先</th><td>${source(row.script)}</td></tr></tbody></table></div></article>`).join("")}</div></section>
 <section class="panel"><h2>Day別スライド指示書</h2><p class="note">ライブにスライドが必要な場合は、Dayごとにスライド構成案を作ります。完成スライドではなく、CodeX等へ渡す「何を画面化するか」の指示書です。</p>${slideInstructionTable(liveSlideRows)}</section>
-<section class="panel"><h2>共通のライブ構成</h2><ol><li>オープニング、前日課題へのフィードバック、安心安全な場づくり。</li><li>本編教育。ストーリー、図解、事例を使ってコア概念を伝える。</li><li>まとめ。当日の学びの核心を言語化する。</li><li>当日課題の提示。アウトプットと特典導線をつなぐ。</li><li>次回予告。Day5はブートキャンプ案内へ接続する。</li><li>Q&A。参加者の不安や具体質問を拾い、次の配信にも反映する。</li></ol></section>`}));
+`}));
 
 pages.set("sales-page.html", page({
   file: "sales-page.html",
   title: "販売の素材一覧",
   eyebrow: "制作物",
   lead: "販売前メッセージ、セールスレター、販売期配信、購入完了ページを一覧で確認します。",
-  body: `<section class="panel"><h2>販売で作る素材</h2><p class="note">今回の採用はセールスレターでの販売です。ここでは販売工程で作る原稿、台本、指示書だけを並べ、配信の時系列本文はメール/LINE側に分けます。</p>${materialShelf(salesMaterialRows)}</section>
+  body: `<section class="panel"><h2>販売で作る素材</h2>${materialShelf(salesMaterialRows)}</section>
 <section class="panel" id="sales-letter"><h2>セールスレター原稿</h2><ol><li>地味で平凡な会社員が売上に関われないと思っている問題提起。</li><li>スター型起業ではなく、社長の右腕として裏方で売上を支える新世界。</li><li>5日間チャレンジで得た学びと、45日間実践環境へ進む理由。</li><li>商品内容、サポート、特典、価格、返金保証なしの方針。</li><li>締切、対象者、申込後の流れ、購入CTA。</li></ol></section>
 <section class="panel"><h2>セールスページヘッド指示書</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。\n\n画面指示: 対象者、変化の約束、商品名、締切、CTAをファーストビュー内に配置。スマホではCTAを1画面目下部に見せる。</div></section>
 <section class="panel" id="individual-sales"><h2>個別販売ページ原稿</h2><p class="note">今回のサンプルでは必須ではありません。個別販売型、またはセミナーから個別販売へつなぐ形に切り替える場合だけ、対象者、相談で扱うテーマ、申込フォーム、参加前の期待値形成を追加します。</p></section>

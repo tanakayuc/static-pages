@@ -62,14 +62,12 @@ const forbidden = [
 const contentChecks = [
   ["index.html", "制作ポータル"],
   ["index.html", "主導線"],
-  ["index.html", "新規制作モードは工程表を基準"],
-  ["index.html", "期間限定セールスレター"],
-  ["index.html", "ファネルフォーマット選択"],
+  ["index.html", "案件別に生成された設計書と素材集"],
+  ["index.html", "今回のファネル設定"],
   ["index.html", "オプト前VSLパターン"],
-  ["index.html", "標準候補"],
   ["index.html", "メルマガ紹介文章"],
   ["index.html", "次ライブ Day2"],
-  ["index.html", "販売ページの素材"],
+  ["index.html", "販売ページ"],
   ["roadmap.html", "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。"],
   ["roadmap.html", "1-1"],
   ["roadmap.html", "全体導線を確認する"],
@@ -114,7 +112,7 @@ const contentChecks = [
   ["target.html", "悩みと勘違い"],
   ["target.html", "動く条件"],
   ["target.html", "LP/動画に使う感情"],
-  ["concept.html", "田中祐一AIのコンセプト設計フロー"],
+  ["concept.html", "コンセプト設計結果"],
   ["concept.html", "プロダクト理解"],
   ["concept.html", "ターゲット仮止め"],
   ["concept.html", "ライバル理解"],
@@ -141,9 +139,6 @@ const contentChecks = [
   ["config.html", "避ける表現"],
   ["config.html", "誰でも簡単"],
   ["research.html", "空きポジション"],
-  ["research.html", "ターゲットが見ているライバル"],
-  ["research.html", "リサーチはコンセプトの前半戦"],
-  ["research.html", "リサーチの順番"],
   ["research.html", "同業ライバルリサーチ"],
   ["research.html", "YCS 横山直宏さん"],
   ["research.html", "YouTubeマーケターおさるさん"],
@@ -155,16 +150,9 @@ const contentChecks = [
   ["research.html", "Instagram"],
   ["research.html", "YouTube"],
   ["research.html", "ホームページ"],
-  ["research.html", "リサーチの切り口"],
   ["research.html", "コンセプトへの示唆"],
-  ["research.html", "書籍から取り込むリサーチ原則"],
-  ["research.html", "プロダクト競合"],
-  ["research.html", "インサイト競合"],
-  ["research.html", "メソッド競合"],
-  ["research.html", "戦うより棲み分ける"],
   ["research.html", "ユニークベネフィット"],
   ["research.html", "アドバンテージ"],
-  ["research.html", "空きポジション分析ロジック"],
   ["research.html", "ライバルの強訴求"],
   ["research.html", "ついていけない人"],
   ["research.html", "探している別手段"],
@@ -198,8 +186,6 @@ const contentChecks = [
   ["assets.html", "集客の素材一覧"],
   ["assets.html", "価値提供の素材一覧"],
   ["assets.html", "販売の素材一覧"],
-  ["assets.html", "作る順番"],
-  ["assets.html", "素材棚"],
   ["visual-report.html", "第1章の決定事項"],
   ["visual-report.html", "第1章で決めたファネル、KPI、制作対象を確認します。"],
   ["visual-report.html", "見込み客が見る導線"],
@@ -259,7 +245,7 @@ const contentChecks = [
   ["value.html", "通常配信"],
   ["value.html", "Day1〜Day5ライブ台本"],
   ["value.html", "課題/特典案内文"],
-  ["script-opening.html", "VSL配置の前提"],
+  ["script-opening.html", "今回のVSL台本"],
   ["script-opening.html", "VSL台本"],
   ["script-opening.html", "VSLスライド指示書"],
   ["script-opening.html", "オプト前VSL"],
@@ -370,6 +356,24 @@ for (const snippet of [
   "KPIの見方",
 ]) {
   if (read("visual-report.html").includes(snippet)) fail(`visual-report.html should not include know-how snippet: ${snippet}`);
+}
+
+const outputOnlyChecks = [
+  ["index.html", ["標準候補", "ファネルフォーマット選択", "新規制作モードは工程表を基準"]],
+  ["roadmap.html", ["<span>入力</span>", "入力</span><strong>"]],
+  ["concept.html", ["田中祐一AIのコンセプト設計フロー", "質問は一度で詰め切る"]],
+  ["research.html", ["リサーチはコンセプトの前半戦", "リサーチの順番", "リサーチの切り口", "書籍から取り込むリサーチ原則", "空きポジション分析ロジック", "AIに考えさせること"]],
+  ["assets.html", ["工程表との関係", "作る順番", "新規制作モードは工程表"]],
+  ["script-opening.html", ["VSL配置の前提", "選択肢", "選ぶ条件"]],
+  ["live-scripts.html", ["チャレンジ日数と次ライブ", "何チャレにするか"]],
+  ["line.html", ["オプト後VSLパターンでは", "オプト前VSLパターンでは", "いずれかへ分岐"]],
+];
+
+for (const [file, snippets] of outputOnlyChecks) {
+  const html = read(file);
+  for (const snippet of snippets) {
+    if (html.includes(snippet)) fail(`${file} should not include procedural/knowledge snippet: ${snippet}`);
+  }
 }
 
 for (const file of ["lp.html", "value.html", "sales-page.html"]) {
