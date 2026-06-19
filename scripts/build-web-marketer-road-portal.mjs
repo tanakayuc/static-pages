@@ -107,6 +107,90 @@ const chapterAssetRows = [
   ["9. 公開/改善", "公開URL台帳、MD原本一覧、添削レポート、更新履歴", "files.html"],
 ];
 
+const productionFlowRows = [
+  {
+    phase: "1. 全体設計",
+    purpose: "何を売るか、誰に届けるか、どの導線で販売するかを仮決めする。",
+    assets: ["全体構成レポート", "ファネル方針", "KPI仮シミュレーション", "既存素材リスト"],
+    done: "販売導線の全体像と、使える素材/足りない素材が見えている。",
+    boundary: "田中祐一AI側の一区切りは、方針と素材台帳が揃うところ。",
+    next: "数値運用や公開後の改善は、公開後の添削/改善工程で扱う。",
+    href: "visual-report.html",
+  },
+  {
+    phase: "2. リサーチ/コンセプト",
+    purpose: "ターゲット、競合、自社の強みをつなぎ、空きポジションと採用コンセプトを決める。",
+    assets: ["リサーチシート", "ターゲットシート", "3C分析", "空きポジション", "コンセプトシート", "プロフィール", "コンフィグ"],
+    done: "リサーチ結果から、LPや台本へ展開できる訴求軸が整理されている。",
+    boundary: "田中祐一AI側の一区切りは、コンセプト素材が文章化されるところ。",
+    next: "表現の細かな違和感や追加調査は、添削モードで精度を上げる。",
+    href: "research.html",
+  },
+  {
+    phase: "3. オファー設計",
+    purpose: "何を提供するのか、それがいくらなのかを、セールスレターへ渡せる形で固定する。",
+    assets: ["商品オファーシート", "提供内容", "サポート", "特典/保証", "価格と支払い方法"],
+    done: "商品の中身、価格、特典、保証がひと目で確認できる。",
+    boundary: "田中祐一AI側の一区切りは、オファーシートの完成。",
+    next: "決済後の細かな案内や申込導線は、販売導線側で整える。",
+    href: "offer.html",
+  },
+  {
+    phase: "4. コンテンツ設計",
+    purpose: "チャレンジ全体の教育テーマと、各日のゴール、ワーク、特典を決める。",
+    assets: ["全体カリキュラム", "Day別テーマ", "コアシナリオ", "ワーク/特典案"],
+    done: "参加者が何を学び、どこで納得し、どこで販売へ進むかが見えている。",
+    boundary: "田中祐一AI側の一区切りは、Day別の設計と必要素材の棚卸し。",
+    next: "ライブごとの細かな言い回しは、台本制作と添削モードで詰める。",
+    href: "live-scripts.html",
+  },
+  {
+    phase: "5. オプトイン開始セット",
+    purpose: "登録ページから登録後の導線まで、入口に必要な素材を揃える。",
+    assets: ["オプトインLP原稿", "ヘッドデザイン指示書", "挨拶動画台本", "サンキューページ原稿", "自動返信メール"],
+    done: "LP原稿とデザイン指示書、登録後ページ/メール原稿が揃っている。",
+    boundary: "原稿とデザイン指示書の完成を、田中祐一AI側の一区切りにする。",
+    next: "LP実装や細部デザイン、実機への組み込みは本人作業または添削モードで扱う。",
+    href: "lp.html",
+  },
+  {
+    phase: "6. 配信導線",
+    purpose: "オープンチャット、メルマガ、LINEで、参加者を迷わせず次の行動へ進める。",
+    assets: ["LINE全体ポータル", "固定投稿", "通常配信", "メルマガ件名", "配信タイミング"],
+    done: "どのタイミングで何を送るか、件名/投稿/配信文が確認できる。",
+    boundary: "田中祐一AI側の一区切りは、配信原稿と配信順の完成。",
+    next: "配信予約、実機反映、反応を見た微修正は本人作業または添削モードで扱う。",
+    href: "line.html",
+  },
+  {
+    phase: "7. 台本制作",
+    purpose: "Day1〜Day5のライブで伝える順番、課題、特典、販売前の納得感を作る。",
+    assets: ["Day1〜Day5ライブ台本", "課題フォーム", "提出特典", "アーカイブ導線"],
+    done: "各日の台本と課題、提出後の導線が揃っている。",
+    boundary: "田中祐一AI側の一区切りは、台本原稿と運用素材の完成。",
+    next: "当日の話し方、スライド演出、ライブ後の改善は添削モードで扱う。",
+    href: "live-scripts.html",
+  },
+  {
+    phase: "8. 販売導線",
+    purpose: "販売前メッセージ、セールスレター、締切配信、購入完了までを一続きにする。",
+    assets: ["販売前メッセージ", "セールスレター原稿", "セールスページヘッド指示", "販売期メール/LINE", "購入完了ページ原稿"],
+    done: "販売ページの原稿とデザイン指示書、販売期配信、購入後案内が揃っている。",
+    boundary: "原稿とデザイン指示書の完成を、田中祐一AI側の一区切りにする。",
+    next: "決済システム設定、ページ実装、細かなデザインブラッシュアップは本人作業または添削モードで扱う。",
+    href: "sales-page.html",
+  },
+  {
+    phase: "9. 公開/改善",
+    purpose: "公開URL、原本MD、更新履歴、添削観点をまとめ、改善できる状態にする。",
+    assets: ["公開URL台帳", "MD原本一覧", "添削レポート", "更新履歴"],
+    done: "どこに何があり、次に何を直すべきかが追える。",
+    boundary: "田中祐一AI側の一区切りは、成果物の所在と改善観点の整理。",
+    next: "公開後の反応を見ながら、添削モードでブラッシュアップする。",
+    href: "files.html",
+  },
+];
+
 const researchFlowRows = [
   ["1. ターゲット仮説", "誰が、何と比較して、どこで止まっているのかを仮置きする。", "ターゲット仮説"],
   ["2. 同業ライバル抽出", "見込み客が比較しそうな同業ライバルを5件挙げる。個人講座系だけでなく、BtoB支援会社や書籍導線も含める。", "ライバル候補リスト"],
@@ -954,6 +1038,24 @@ function chapterAssetTable() {
   return `<table class="asset-table chapter-asset-table"><thead><tr><th>章</th><th>素材集</th><th>主な確認ページ</th></tr></thead><tbody>${chapterAssetRows.map(([chapter, assets, href]) => `<tr><td><strong>${esc(chapter)}</strong></td><td>${esc(assets)}</td><td><a href="${esc(href)}">開く</a></td></tr>`).join("")}</tbody></table>`;
 }
 
+function productionFlowList() {
+  return `<div class="concept-sequence production-flow">${productionFlowRows.map((row, index) => `<article class="concept-item production-flow-item">
+<span class="concept-number">${String(index + 1).padStart(2, "0")}</span>
+<div>
+<span class="meta">Production Flow</span>
+<h3>${esc(row.phase)}</h3>
+<p>${esc(row.purpose)}</p>
+${pills(row.assets)}
+<table class="asset-table compact-table production-flow-table"><tbody>
+<tr><th>完了条件</th><td>${esc(row.done)}</td></tr>
+<tr><th>AI側の区切り</th><td>${esc(row.boundary)}</td></tr>
+<tr><th>次の作業領域</th><td>${esc(row.next)}</td></tr>
+<tr><th>確認ページ</th><td><a href="${esc(row.href)}">開く</a></td></tr>
+</tbody></table>
+</div>
+</article>`).join("")}</div>`;
+}
+
 function sourceLinks(items) {
   return items.map(([label, href]) => `<a href="${esc(href)}">${esc(label)}</a>`).join(" / ");
 }
@@ -1411,6 +1513,9 @@ li { margin: 4px 0; }
 .asset-table th, .asset-table td { padding: 13px 12px; border-top: 1px solid var(--line); text-align: left; vertical-align: top; }
 .asset-table th { background: linear-gradient(180deg, var(--main), var(--sub)); color: #fff; font-size: .86rem; font-weight: 800; border-top: 0; }
 .asset-table td p { color: var(--muted); font-size: 13px; }
+.production-flow .pills { margin-top: .75rem; }
+.production-flow-table { margin-top: .9rem; }
+.production-flow-table th { width: 140px; }
 .note + .asset-table,
 .note + .concept-sequence,
 .note + .jump-nav,
@@ -1764,12 +1869,15 @@ pages.set("assets.html", page({
   file: "assets.html",
   title: "制作物一覧",
   eyebrow: "制作物",
-  lead: "LP、配信、動画、課題、特典、販売素材を、制作物として確認します。",
-  body: `<section class="panel"><h2>制作物カテゴリ</h2><div class="grid-3">
-${sourceInventory().map(([label, count]) => card(label, `${count}件`, "原本MDとHTML確認ページをセットで管理します。")).join("")}
+  lead: "工程表に沿って、調査・設計から原稿とデザイン指示書の完成までを確認します。",
+  body: `<section class="panel"><h2>制作フローの見方</h2><p class="note">「宴」1期制作モニターでは、調査工程に応じて必要な制作物を順番に作ります。田中祐一AIは「何を作ればいいのか分からない」状態を突破するために、工程ごとの原稿、設計シート、デザイン指示書までを整理します。</p><div class="checklist">
+<div class="checkitem"><strong>工程順に作る</strong><p>全体設計、リサーチ、オファー、コンテンツ設計、LP、配信、台本、販売導線、公開/改善の順番で素材を積み上げます。</p></div>
+<div class="checkitem"><strong>原稿とデザイン指示書で一区切り</strong><p>LPやセールスページは、原稿とデザイン指示書が揃った時点で田中祐一AI側の一区切りにします。</p></div>
+<div class="checkitem"><strong>実装/組み込みは次の作業領域</strong><p>実機への組み込み、配信予約、細かなデザインブラッシュアップは、本人作業または添削モードで進めます。</p></div>
 </div></section>
+<section class="panel"><h2>工程別制作フロー</h2>${productionFlowList()}</section>
 <section class="panel"><h2>章別制作素材集</h2><p class="note">制作構築で扱う素材は、工程表と同じ章立てで管理します。個別に作ったLP、ステップメール、LINE、台本も、最終的には該当する章の素材としてここへ合流させます。</p>${chapterAssetTable()}</section>
-<section class="panel"><h2>制作物の入口</h2><table class="asset-table"><thead><tr><th>制作物</th><th>中身</th><th>確認</th></tr></thead><tbody>
+<section class="panel"><h2>各ページへの入口</h2><table class="asset-table"><thead><tr><th>制作物</th><th>中身</th><th>確認</th></tr></thead><tbody>
 <tr><td>オプトイン開始セット</td><td>動画埋め込みオプトインLP、挨拶動画台本、ヘッド指示、サンキューページ、オプトイン自動返信メール。</td><td><a href="lp.html">LP一覧</a></td></tr>
 <tr><td>サンキューページ</td><td>登録直後にオープンチャット参加を正式登録として促すページ。公開URL: <a href="${urls.thanks}">${urls.thanks}</a></td><td><a href="lp.html">原稿を見る</a></td></tr>
 <tr><td>LP/ページ</td><td>オプトインLP、サンキュー、公式LINE内で期間限定公開するセールスページ、購入完了ページ。</td><td><a href="lp.html">LP一覧</a></td></tr>
