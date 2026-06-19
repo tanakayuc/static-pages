@@ -1157,8 +1157,13 @@ function productionSideNav(active, config) {
     ["sales-page.html", "S", "販売素材", "販売"],
   ];
   const categoryActive = config.categoryHref || active;
+  const category = categoryLinks.find(([href]) => href === categoryActive);
+  const isCategoryPage = active === categoryActive;
+  const backHref = isCategoryPage ? "assets.html" : categoryActive;
+  const backLabel = isCategoryPage ? "制作物一覧" : `${category?.[2] || config.title}一覧`;
   return `<aside class="side production-side">
     <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
+    <a class="back-link" href="${esc(backHref)}"><span>←</span><strong>1つ上に戻る</strong><small>${esc(backLabel)}</small></a>
     <div class="nav-section">制作物</div>
     ${categoryLinks.map(([href, code, label, sub]) => `<a class="nav-link ${href === categoryActive ? "active" : ""}" href="${href}"><span class="nav-num">${code}</span><span>${label}<small>${sub}</small></span></a>`).join("")}
     <div class="nav-section">${esc(config.title)}</div>
@@ -1766,6 +1771,34 @@ a:hover { text-decoration: underline; }
 .nav-link small { display: block; color: var(--muted); font-size: 10px; font-weight: 650; line-height: 1.35; }
 .nav-link:hover, .nav-link.active { background: var(--soft); color: var(--sub); text-decoration: none; }
 .nav-num { display: grid; place-items: center; width: 21px; height: 21px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 11px; font-weight: 850; }
+.back-link {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  align-items: center;
+  min-height: 42px;
+  margin: 0 0 14px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--pale);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 850;
+}
+.back-link span {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--sub);
+  font-weight: 900;
+}
+.back-link strong { display: block; color: var(--ink); line-height: 1.25; }
+.back-link small { display: block; color: var(--muted); font-size: 10px; font-weight: 650; line-height: 1.35; }
+.back-link:hover { background: var(--soft); color: var(--sub); text-decoration: none; }
 .production-side .material-nav-link { grid-template-columns: 22px 1fr; padding-left: 14px; }
 .production-side .material-nav-link .nav-num { width: 19px; height: 19px; font-size: 10px; }
 .main { min-width: 0; padding: 44px min(5vw, 64px) 88px; }
