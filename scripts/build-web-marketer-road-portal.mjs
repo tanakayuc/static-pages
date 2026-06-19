@@ -14,9 +14,7 @@ const navGroups = [
     items: [
       ["index.html", "P", "制作ポータル", "入口"],
       ["visual-report.html", "R", "全体構成", "ファネル全体"],
-      ["text-report.html", "T", "制作テキスト", "読み物版"],
       ["roadmap.html", "M", "工程表", "素材確認"],
-      ["kpi.html", "K", "KPI設計", "規模感"],
     ],
   },
   {
@@ -85,6 +83,24 @@ const vslPlacementRows = [
   ["オプトインVSL", "オプトインLP上部（登録前）", "コールド広告 × 無料チャレンジ × OC/ライブ必須。登録率だけでなく後工程の質を守りたいとき。", "LP原稿、VSL台本、視聴連動の遅延CTA指示"],
   ["オプト後VSL", "サンキューページ（登録直後）", "オプトイン後のOC参加、Day1着席、チャレンジ参加期待値を高めたい案件の基本候補。", "サンキューページ原稿、VSL台本、OC参加CTA"],
   ["併用", "LP上 + サンキューページ", "コールド広告から重いチャレンジへ送る場合。入口で教育と選別をし、登録後に正式参加へ押し上げる。", "2本のVSL配置方針、LP/サンキュー原稿、CTA表示ルール"],
+];
+
+const visibleFunnelNodes = [
+  ["オプトインLP", "登録前", "参加理由を作り、メール登録へ進ませる。オプトインVSLを置く場合はここで教育と選別を行う。", "lp.html", "工程5"],
+  ["登録後サンキュー", "登録直後", "オープンチャット参加を正式登録として促す。オプト後VSLを置く場合はここで期待値を上げる。", "lp.html", "工程5"],
+  ["LINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題、Q&Aを受け止める。", "line.html", "工程6"],
+  ["Day1〜Day5ライブ", "価値提供", "ライブ、課題、特典で実践経験と納得感を作る。", "live-scripts.html", "工程7"],
+  ["公式LINE", "販売前接続", "レターを受け取りたい人だけを移動させ、販売導線へ分岐する。", "line.html", "工程8"],
+  ["期間限定レター", "販売", "公式LINE内で期限付きのセールスページを公開し、購入判断へ進ませる。", "sales-page.html", "工程8"],
+  ["購入完了ページ", "決済後", "参加方法、連絡先、次アクションを案内する。", "sales-page.html", "工程8"],
+];
+
+const kpiFunnelRows = [
+  ["入口", "登録率", "オプトインLPごとの登録率と登録経路別の反応を見る。"],
+  ["登録後", "OC参加率 / Day1着席率", "サンキューからオープンチャットへ移動し、初日に着席する率を見る。"],
+  ["価値提供", "ライブ参加 / 課題提出", "Day1〜Day5の離脱と提出数を見る。Day1 91件を起点に落ち方を確認する。"],
+  ["販売前", "公式LINE移動率", "レターを受け取りたい人だけが公式LINEへ移動できているかを見る。"],
+  ["販売", "レター購入率 / 売上", "期間限定レターから購入する率と、仮単価60,000円での売上規模を見る。"],
 ];
 
 const productionModeRows = [
@@ -1050,6 +1066,16 @@ function vslPlacementTable() {
   return `<table class="asset-table"><thead><tr><th>選択肢</th><th>配置</th><th>選ぶ条件</th><th>完成させるもの</th></tr></thead><tbody>${vslPlacementRows.map(([label, placement, condition, output]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(placement)}</td><td>${esc(condition)}</td><td>${esc(output)}</td></tr>`).join("")}</tbody></table>`;
 }
 
+function visibleFunnelMap(nodes = visibleFunnelNodes) {
+  return `<div class="funnel-map" aria-label="今回のファネルの形">
+<div class="funnel-map-head"><span>今回のファネル</span><strong>チャレンジローンチ / ワンステップ販売</strong></div>
+<div class="funnel-track">${nodes.map(([label, timing, detail, href, phase], index) => `<a class="funnel-node" href="${esc(href)}">
+<span class="node-index">${String(index + 1).padStart(2, "0")}</span>
+<span class="node-body"><span class="node-meta">${esc(timing)} / ${esc(phase)}</span><strong>${esc(label)}</strong><span>${esc(detail)}</span></span>
+</a>`).join("")}</div>
+</div>`;
+}
+
 function productionModeTable() {
   return `<table class="asset-table"><thead><tr><th>モード</th><th>使う場面</th><th>出し方</th><th>入口</th></tr></thead><tbody>${productionModeRows.map(([mode, timing, output, href]) => `<tr><td><strong>${esc(mode)}</strong></td><td>${esc(timing)}</td><td>${esc(output)}</td><td><a href="${esc(href)}">開く</a></td></tr>`).join("")}</tbody></table>`;
 }
@@ -1528,6 +1554,21 @@ li { margin: 4px 0; }
 .status { justify-self: start; padding: 4px 9px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 12px; font-weight: 850; white-space: nowrap; }
 .status.todo { background: var(--warn-bg); color: var(--warn); }
 .status.need { background: var(--danger-bg); color: var(--danger); }
+.funnel-map { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #fff; }
+.funnel-map-head { display: grid; gap: 3px; padding: 16px 18px; background: var(--soft); border-bottom: 1px solid var(--line); }
+.funnel-map-head span { color: var(--sub); font-size: .78rem; font-weight: 900; }
+.funnel-map-head strong { color: var(--ink); font-size: 1.08rem; line-height: 1.5; }
+.funnel-track { display: grid; gap: 0; }
+.funnel-node { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 13px; padding: 17px 18px; color: var(--ink); border-bottom: 1px solid var(--line); text-decoration: none; }
+.funnel-node:last-child { border-bottom: 0; }
+.funnel-node::after { content: ""; position: absolute; left: 39px; bottom: -8px; width: 15px; height: 15px; border-right: 2px solid var(--main); border-bottom: 2px solid var(--main); transform: rotate(45deg); background: #fff; z-index: 1; }
+.funnel-node:last-child::after { display: none; }
+.funnel-node:hover { background: var(--pale); text-decoration: none; }
+.node-index { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 8px; background: var(--main); color: #fff; font-size: .78rem; font-weight: 900; }
+.node-body { display: grid; gap: 3px; min-width: 0; }
+.node-body strong { color: var(--ink); font-size: 1.03rem; line-height: 1.45; }
+.node-body span:last-child { color: #405a53; font-size: .9rem; line-height: 1.7; font-weight: 520; }
+.node-meta { color: var(--sub); font-size: .76rem; font-weight: 900; }
 .pills { display: flex; flex-wrap: wrap; gap: 7px; }
 .pill { display: inline-flex; align-items: center; min-height: 24px; padding: 3px 9px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 12px; font-weight: 800; }
 .jump-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.3rem; }
@@ -1702,10 +1743,17 @@ pages.set("visual-report.html", page({
   file: "visual-report.html",
   title: "全体構成レポート",
   eyebrow: "レポート",
-  lead: "WEBマーケターへの道のファネル、教育設計、制作物パッケージを一枚で把握します。",
+  lead: "WEBマーケターへの道のファネル、VSL配置、KPI、教育設計、制作物パッケージを一枚で把握します。",
   body: `
+<section class="panel"><h2>今回のファネルの形</h2><p class="note">この図は、見込み客が実際に見るページ、LINE、ライブ、レターだけに絞った導線です。Config、リサーチ、コンセプトなどの内部設計は工程表で扱い、ファネル図には出しません。</p>${visibleFunnelMap()}</section>
 <section class="panel"><h2>ワンステップ販売型の必須素材</h2><p class="note">全体設計では、細かな配信や制作手順よりも、この5素材がファネル内に組み込まれているかを確認します。</p>${linkedAssetTable(coreFunnelRows)}</section>
 <section class="panel"><h2>VSL配置の選択</h2><p class="note">チャレンジローンチでは、VSLをオプトイン前に置くのか、オプトイン後に置くのか、併用するのかを全体設計で先に決めます。コールド広告からOC/ライブ必須の企画へ送る場合は、登録率だけでなくOC参加率、Day1着席率、完走率、成約率まで見ます。</p>${vslPlacementTable()}</section>
+<section class="panel"><h2>KPIの見方</h2><p class="note">KPIはファネル構成と分けずに見ます。今回の導線では、登録率だけでなく、オープンチャット参加、Day1着席、課題提出、公式LINE移動、レター購入までを一続きで確認します。</p><div class="grid-4">
+<div class="kpi"><span>仮単価</span><strong>60,000円</strong></div>
+<div class="kpi"><span>販売実績メモ</span><strong>30名</strong></div>
+<div class="kpi"><span>仮売上</span><strong>180万円</strong></div>
+<div class="kpi"><span>販売方式</span><strong>直販</strong></div>
+</div><table class="asset-table"><thead><tr><th>位置</th><th>見る数字</th><th>意味</th></tr></thead><tbody>${kpiFunnelRows.map(([stage, metric, meaning]) => `<tr><td>${esc(stage)}</td><td><strong>${esc(metric)}</strong></td><td>${esc(meaning)}</td></tr>`).join("")}</tbody></table></section>
 <section class="panel"><h2>制作ボリューム</h2><p class="note">第1章のKPIと第4章のコンテンツ設計をつなぐため、何本作るのか、チャレンジ項目があるのか、どこまで準備すれば公開できるのかをここで固定します。</p><table class="asset-table"><thead><tr><th>領域</th><th>本数/点数</th><th>内容</th></tr></thead><tbody>${contentVolumeRows.map(([area, count, detail]) => `<tr><td>${esc(area)}</td><td><strong>${esc(count)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
 <section class="panel"><h2>全体スケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>進めること</th></tr></thead><tbody>${scheduleRows.map(([timing, detail]) => `<tr><td>${esc(timing)}</td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
 <section class="panel"><h2>詳細設計で追加された素材</h2><p class="note">全体設計の5素材をベースに、公開直前の運用で必要になる周辺素材を追加します。</p>${linkedAssetTable(detailedAssetRows)}</section>
