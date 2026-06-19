@@ -1535,11 +1535,25 @@ function compositeArrow() {
 function currentPatternImageCard() {
   const current = funnelPatternRows.find((row) => row.id === "CURRENT");
   return `<section class="panel current-pattern-panel">
-<h2>今回のファネル確認カード</h2>
-<p class="note">第1章で確定したファネル図です。以降の制作物はこの導線に紐づきます。</p>
+<h2>今回のファネル正本ビジュアル</h2>
+<p class="note">第1章で確定したファネル図です。図解はこの画像を正本として扱い、各章では対象箇所だけをハイライトします。</p>
 <figure class="current-pattern-figure">
 <img src="${esc(current.image)}" alt="${esc(current.label)}">
 <figcaption><strong>${esc(current.label)}</strong><span>${esc(current.acquisition)} / ${esc(current.value)} / ${esc(current.sales)}</span></figcaption>
+</figure>
+</section>`;
+}
+
+function funnelSpotlightCard({ title, note, focus, label }) {
+  const current = funnelPatternRows.find((row) => row.id === "CURRENT");
+  return `<section class="panel funnel-spotlight-panel">
+<h2>${esc(title)}</h2>
+<p class="note">${esc(note)}</p>
+<figure class="spotlight-figure">
+<div class="spotlight-image-wrap">
+<img src="${esc(current.image)}" alt="${esc(current.label)}">
+<span class="spotlight-box ${esc(focus)}"><span>${esc(label)}</span></span>
+</div>
 </figure>
 </section>`;
 }
@@ -2387,6 +2401,51 @@ li { margin: 4px 0; }
   font-weight: 760;
   line-height: 1.65;
 }
+.funnel-spotlight-panel { overflow: hidden; }
+.spotlight-figure { margin: 1.1rem 0 0; }
+.spotlight-image-wrap {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 42px rgba(19, 32, 51, .08);
+}
+.spotlight-image-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.spotlight-box {
+  position: absolute;
+  z-index: 2;
+  border: 4px solid #FFD24D;
+  border-radius: 20px;
+  background: rgba(255, 210, 77, .13);
+  box-shadow: 0 0 0 9999px rgba(255, 255, 255, .68), 0 18px 38px rgba(111, 74, 0, .16);
+}
+.spotlight-box span {
+  position: absolute;
+  left: 50%;
+  top: -20px;
+  transform: translateX(-50%);
+  min-width: 130px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: #FFD24D;
+  color: #3F2A00;
+  font-size: .78rem;
+  font-weight: 900;
+  line-height: 1.35;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 10px 22px rgba(111, 74, 0, .18);
+}
+.spotlight-box.concept { left: 7%; top: 18%; width: 22%; height: 43%; }
+.spotlight-box.offer { left: 70%; top: 21%; width: 25%; height: 49%; }
+.spotlight-box.content { left: 39%; top: 24%; width: 31%; height: 50%; }
+.spotlight-box.lp { left: 5%; top: 18%; width: 29%; height: 45%; }
+.spotlight-box.sales { left: 70%; top: 20%; width: 26%; height: 51%; }
 .funnel-composite-panel { overflow: visible; }
 .funnel-composite-wrap { overflow-x: auto; margin-top: 1.1rem; padding: 0 0 .65rem; }
 .funnel-composite {
@@ -2842,7 +2901,7 @@ pages.set("roadmap.html", page({
   title: "制作工程表",
   eyebrow: "工程表",
   lead: "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。",
-  body: `${roadmapFunnelAxis()}${currentFunnelComposite()}${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
+  body: `${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
 
 pages.set("sheets.html", page({
   file: "sheets.html",
@@ -2881,6 +2940,12 @@ pages.set("concept.html", page({
   eyebrow: "設計シート",
   lead: "LPや台本へ展開するためのコンセプト素材をまとめます。",
   body: `
+${funnelSpotlightCard({
+  title: "第2章の対象箇所",
+  note: "コンセプト設計は、集客ページ、オプト前VSL、サンキューページ、販売ページへ展開する前提素材です。",
+  focus: "concept",
+  label: "第2章 コンセプト設計",
+})}
 <section class="panel"><h2>コンセプト設計結果</h2><div class="concept-sequence">
 ${conceptItem(1, "プロダクト理解", "Product", "45日間WEBマーケター超実践ブートキャンプ。知識の受講ではなく、売上導線を理解し、最初の実践経験を作るための環境。", ["Day1〜Day5でD.E.C.O.D.E.の全体像を学び、販売後に45日間の実践へ接続する。"])}
 ${conceptItem(2, "ターゲット仮止め", "Customer", "顔出しや派手な発信が苦手で、自分の商品や強い実績をまだ持っていない地味で平凡な会社員。", ["副業や起業には関心があるが、自分がスターになる未来はしっくり来ていない。", "真面目さ、継続力、支援力、数字を見る力を持っている。"])}
@@ -2969,7 +3034,13 @@ pages.set("offer.html", page({
   title: "オファーシート",
   eyebrow: "設計シート",
   lead: "本命商品のオファーとして、何を提供するのか、それがいくらなのかをシンプルに整理します。",
-  body: `<section class="panel"><h2>1. 何を提供するのか</h2><table class="asset-table"><thead><tr><th>項目</th><th>内容</th><th>詳細</th></tr></thead><tbody>
+  body: `${funnelSpotlightCard({
+  title: "第3章の対象箇所",
+  note: "オファーは、販売ページ、成約、商品提供へつなぐための商品条件として整理します。",
+  focus: "offer",
+  label: "第3章 オファー",
+})}
+<section class="panel"><h2>1. 何を提供するのか</h2><table class="asset-table"><thead><tr><th>項目</th><th>内容</th><th>詳細</th></tr></thead><tbody>
 <tr><td><strong>商品名</strong></td><td>45日間Webマーケター“超”実践ブートキャンプ</td><td>45日で売る流れを体感し、Webマーケターとして最初の成功体験を掴む実践プログラム。</td></tr>
 <tr><td><strong>メインプログラム</strong></td><td>前半15日間 + 後半30日間のチーム戦</td><td>前半15日間でプロの思考基準を身につけ、後半30日間でチーム運用、顔出し不要のInstagramアカウント運用、note販売まで実践する。</td></tr>
 <tr><td><strong>実践環境</strong></td><td>最初の売上を安全に作る場</td><td>クライアント案件の前に、自分たちで集客から販売までをやり切り、最初の小さな売上体験を作る。</td></tr>
@@ -3005,7 +3076,13 @@ pages.set("lp.html", page({
   title: "集客の素材一覧",
   eyebrow: "制作物",
   lead: "登録前から登録直後、集客開始前までに作る素材を、一覧からすぐ確認できるようにまとめます。",
-  body: `<section class="panel"><h2>集客で作る素材</h2>${materialShelf(acquisitionMaterialRows)}</section>
+  body: `${funnelSpotlightCard({
+  title: "集客素材の対象箇所",
+  note: "集客素材は、集客ページ、オプト前VSL、サンキューページ、リスト化までの導線に使います。",
+  focus: "lp",
+  label: "集客素材",
+})}
+<section class="panel"><h2>集客で作る素材</h2>${materialShelf(acquisitionMaterialRows)}</section>
 <section class="panel"><h2>MDフォルダ構成</h2><p class="note">集客素材は、登録前から正式参加・Day1着席までを担う素材としてまとめています。</p>${materialFolderTable(acquisitionMaterialRows)}</section>`}));
 
 pages.set("optin-after-mails.html", readerPage({
@@ -3099,7 +3176,13 @@ pages.set("value.html", page({
   title: "価値提供の素材一覧",
   eyebrow: "制作物",
   lead: "LINEオープンチャット、ステップメール、Day1〜Day5ライブ、課題、特典をまとめて確認します。",
-  body: `<section class="panel"><h2>価値提供で作る素材</h2>${materialShelf(valueMaterialRows)}</section>
+  body: `${funnelSpotlightCard({
+  title: "価値提供素材の対象箇所",
+  note: "価値提供素材は、教育グループ内のDay1〜Day5、ライブ、課題、配信に使います。",
+  focus: "content",
+  label: "価値提供素材",
+})}
+<section class="panel"><h2>価値提供で作る素材</h2>${materialShelf(valueMaterialRows)}</section>
 <section class="panel"><h2>MDフォルダ構成</h2><p class="note">Day1着席後からDay5本編までを価値提供素材として扱います。Day5後の販売導線は販売素材へ分けます。</p>${materialFolderTable(valueMaterialRows)}</section>
 <section class="panel"><h2>今回の価値提供構成</h2><div class="grid-3">
 ${card("5チャレ", "Challenge", "今回のサンプルはDay1〜Day5の5日間で、次ライブ Day2 を起点に設計する。", "live-scripts.html")}
@@ -3203,7 +3286,13 @@ pages.set("live-scripts.html", page({
   title: "Day1〜Day5 ライブ台本",
   eyebrow: "制作物",
   lead: "5日間チャレンジの各ライブ台本を、目的、コア論点、課題、スライド指示書に分けて確認します。",
-  body: `<section class="panel"><h2>5日間のライブ一覧</h2><div class="flow">${liveRows.map((row) => `<div class="flow-row"><strong>${esc(row.day)}</strong><p>${esc(row.title)}</p>${pills([row.core, row.task, `課題提出 ${row.count}`])}${status("原本あり")}</div>`).join("")}</div></section>
+  body: `${funnelSpotlightCard({
+  title: "ライブ台本の対象箇所",
+  note: "ライブ台本は、教育グループ内のDay1〜Day5を進めるための素材です。",
+  focus: "content",
+  label: "Day1〜Day5",
+})}
+<section class="panel"><h2>5日間のライブ一覧</h2><div class="flow">${liveRows.map((row) => `<div class="flow-row"><strong>${esc(row.day)}</strong><p>${esc(row.title)}</p>${pills([row.core, row.task, `課題提出 ${row.count}`])}${status("原本あり")}</div>`).join("")}</div></section>
 <section class="panel"><h2>Day別ライブ台本一覧</h2><p class="note">ここで作るのは動画の記録ではなく、ライブ当日に話すための台本です。各Dayごとに導入、本編、課題、次回予告、販売への接続を分けて管理します。</p><div class="timeline">${liveRows.map((row) => `<article class="timeline-item"><div class="timeline-index">${row.day.replace("Day", "D")}</div><div><div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.count)}</div><p>${esc(row.purpose)}</p><p class="muted">課題: ${esc(row.task)}</p><table class="asset-table compact-table"><tbody><tr><th>台本で作るもの</th><td>オープニング、本編教育、課題説明、次回予告、Q&A導線</td></tr><tr><th>管理先</th><td>${source(row.script)}</td></tr></tbody></table></div></article>`).join("")}</div></section>
 <section class="panel"><h2>Day別スライド指示書</h2><p class="note">ライブにスライドが必要な場合は、Dayごとにスライド構成案を作ります。完成スライドではなく、CodeX等へ渡す「何を画面化するか」の指示書です。</p>${slideInstructionTable(liveSlideRows)}</section>
 `}));
@@ -3213,7 +3302,13 @@ pages.set("sales-page.html", page({
   title: "販売の素材一覧",
   eyebrow: "制作物",
   lead: "販売前メッセージ、セールスレター、販売期配信、購入完了ページを一覧で確認します。",
-  body: `<section class="panel"><h2>販売で作る素材</h2>${materialShelf(salesMaterialRows)}</section>
+  body: `${funnelSpotlightCard({
+  title: "販売素材の対象箇所",
+  note: "販売素材は、販売ページ、成約、商品提供へつなぐ導線に使います。",
+  focus: "sales",
+  label: "販売素材",
+})}
+<section class="panel"><h2>販売で作る素材</h2>${materialShelf(salesMaterialRows)}</section>
 <section class="panel"><h2>MDフォルダ構成</h2><p class="note">Day5後に販売へ接続するメッセージ、セールスレター、販売期配信、購入完了ページを販売素材としてまとめています。</p>${materialFolderTable(salesMaterialRows)}</section>
 <section class="panel" id="sales-letter"><h2>セールスレター原稿</h2><ol><li>地味で平凡な会社員が売上に関われないと思っている問題提起。</li><li>スター型起業ではなく、社長の右腕として裏方で売上を支える新世界。</li><li>5日間チャレンジで得た学びと、45日間実践環境へ進む理由。</li><li>商品内容、サポート、特典、価格、返金保証なしの方針。</li><li>締切、対象者、申込後の流れ、購入CTA。</li></ol></section>
 <section class="panel"><h2>セールスページヘッド指示書</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。\n\n画面指示: 対象者、変化の約束、商品名、締切、CTAをファーストビュー内に配置。スマホではCTAを1画面目下部に見せる。</div></section>

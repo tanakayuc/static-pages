@@ -96,19 +96,6 @@ const forbidden = [
 
 const contentChecks = [
   ["roadmap.html", "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。"],
-  ["roadmap.html", "ファネル工程軸"],
-  ["roadmap.html", "集客ページ"],
-  ["roadmap.html", "サンクスページ"],
-  ["roadmap.html", "教育グループ"],
-  ["roadmap.html", "販売ページ"],
-  ["roadmap.html", "対応位置"],
-  ["roadmap.html", "カツオリーチ"],
-  ["roadmap.html", "作業位置マップ"],
-  ["roadmap.html", "サンクスページ"],
-  ["roadmap.html", "funnel-parts/opt-before-vsl-page.png"],
-  ["roadmap.html", "funnel-parts/thanks-no-video.png"],
-  ["roadmap.html", "funnel-parts/challenge-5days.png"],
-  ["roadmap.html", "funnel-parts/sales-page.png"],
   ["roadmap.html", "1-1"],
   ["roadmap.html", "Step 1"],
   ["roadmap.html", "目的意識を明確にする"],
@@ -148,6 +135,8 @@ const contentChecks = [
   ["target.html", "動く条件"],
   ["target.html", "LP/動画に使う感情"],
   ["concept.html", "コンセプト設計結果"],
+  ["concept.html", "第2章の対象箇所"],
+  ["concept.html", "第2章 コンセプト設計"],
   ["concept.html", "プロダクト理解"],
   ["concept.html", "ターゲット仮止め"],
   ["concept.html", "ライバル理解"],
@@ -200,6 +189,8 @@ const contentChecks = [
   ["research.html", "ターゲットの感情"],
   ["research.html", "LP/動画に使う論点"],
   ["offer.html", "商品名"],
+  ["offer.html", "第3章の対象箇所"],
+  ["offer.html", "第3章 オファー"],
   ["offer.html", "1. 何を提供するのか"],
   ["offer.html", "2. それがいくらなのか"],
   ["offer.html", "メインプログラム"],
@@ -223,7 +214,7 @@ const contentChecks = [
   ["assets.html", "販売の素材一覧"],
   ["visual-report.html", "第1章の設計値"],
   ["visual-report.html", "第1章で決めた目的、ファネル、KPI、制作対象を確認します。"],
-  ["visual-report.html", "今回のファネル確認カード"],
+  ["visual-report.html", "今回のファネル正本ビジュアル"],
   ["visual-report.html", "pattern-current-opt-before-vsl-sales-page.png"],
   ["visual-report.html", "見込み客が見る導線"],
   ["visual-report.html", "チャレンジローンチ / 販売ページ直販"],
@@ -489,6 +480,15 @@ for (const snippet of [
   "KPIの見方",
 ]) {
   if (read("visual-report.html").includes(snippet)) fail(`visual-report.html should not include know-how snippet: ${snippet}`);
+}
+
+for (const snippet of [
+  "ファネル工程軸",
+  "作業位置マップ",
+  "roadmap-axis",
+  "funnel-composite",
+]) {
+  if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include funnel diagram snippet: ${snippet}`);
 }
 
 const outputOnlyChecks = [
