@@ -2749,19 +2749,16 @@ ${currentPatternImageCard()}
 <tr><td>販売前</td><td>公式LINE移動</td><td>Day5後</td></tr>
 <tr><td>販売</td><td>レター閲覧 / 購入 / 売上</td><td>販売期間</td></tr>
 </tbody></table></section>
-<section class="panel"><h2>第1章で確認する項目</h2><table class="asset-table"><thead><tr><th>確認項目</th><th>決めること</th><th>反映先</th></tr></thead><tbody>
-<tr><td>目的</td><td>何を作るのか、どの売上を目指すのか。</td><td>全体構成 / KPI逆算</td></tr>
-<tr><td>商品</td><td>商品名、単価、販売数、販売条件。</td><td>全体構成 / オファー</td></tr>
-<tr><td>ファネル</td><td>オプト前VSLか、オプト後VSLか。何日チャレンジか。どの販売方式か。</td><td>全体構成 / 工程表</td></tr>
-<tr><td>流入元</td><td>カツオリーチ、自社リスト、広告、紹介など、どこから集客するか。</td><td>全体構成 / 集客素材</td></tr>
-<tr><td>価値提供</td><td>LINEオープンチャット、Day数、次ライブ位置、課題、特典。</td><td>第4章詳細設計 / 価値提供素材</td></tr>
-<tr><td>販売</td><td>販売ページ直販、個別販売、セミナー販売などの販売方式。</td><td>全体構成 / 販売素材</td></tr>
-<tr><td>KPI</td><td>単価、目標売上、成約率、必要リスト数、広告費目安。</td><td>KPI逆算 / 運用ログ</td></tr>
-</tbody></table></section>
-<section class="panel"><h2>第4章の詳細設計を入れる場所</h2><table class="asset-table"><thead><tr><th>章</th><th>決めること</th><th>反映先</th></tr></thead><tbody>
-<tr><td>第1章 全体設計</td><td>目的、商品、ファネル、KPI、チャレンジ日数を仮決めする。</td><td>全体構成</td></tr>
-<tr><td>第4章 コンテンツ設計</td><td>Day別テーマ、ライブ台本、課題、特典、配信スケジュールを確定する。</td><td>価値提供素材 / 工程表</td></tr>
-<tr><td>全体構成へ戻す値</td><td>確定したDay数、次ライブ位置、販売開始日、販売導線、KPI修正値だけ戻す。</td><td>全体構成 / KPI逆算</td></tr>
+<section class="panel"><h2>狙うスケジュール</h2><table class="asset-table"><thead><tr><th>日程</th><th>内容</th><th>時間</th></tr></thead><tbody>
+<tr><td>8月30日</td><td>参加前配信開始</td><td>12:23</td></tr>
+<tr><td>9月4日</td><td>Day1ライブ</td><td>21:00〜22:30</td></tr>
+<tr><td>9月7日</td><td>Day2ライブ</td><td>21:00〜22:00</td></tr>
+<tr><td>9月9日</td><td>Day3ライブ</td><td>21:00〜22:00</td></tr>
+<tr><td>9月12日</td><td>Day4ライブ</td><td>21:00〜22:00</td></tr>
+<tr><td>9月14日</td><td>Day5ライブ</td><td>21:00〜22:30</td></tr>
+<tr><td>9月18日</td><td>公式LINEで販売ページ案内</td><td>21:00</td></tr>
+<tr><td>9月20日</td><td>メルマガ一般募集開始</td><td>12:00</td></tr>
+<tr><td>9月21日</td><td>販売終了</td><td>23:59</td></tr>
 </tbody></table></section>
 <section class="panel"><h2>制作対象</h2><table class="asset-table"><thead><tr><th>区分</th><th>作る素材</th><th>確認ページ</th></tr></thead><tbody>
 <tr><td>集客</td><td>オプトインLP原稿、LPヘッド指示書、オプト前VSL台本、サンキューページ原稿、自動返信メール、紹介文章</td><td><a href="lp.html">集客素材</a></td></tr>
