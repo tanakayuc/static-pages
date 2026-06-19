@@ -1580,20 +1580,55 @@ function stepmailMailId(index) {
   return `mail-${String(index + 1).padStart(2, "0")}`;
 }
 
+function stepmailMailFile(index) {
+  return `stepmail-mail-${String(index + 1).padStart(2, "0")}.html`;
+}
+
+function lineFixedFile(index) {
+  return `line-fixed-${String(index + 1).padStart(2, "0")}.html`;
+}
+
+function lineNormalFile(index) {
+  return `line-normal-${String(index + 1).padStart(2, "0")}.html`;
+}
+
+function lineOfficialFile(index) {
+  return `line-official-${String(index + 1).padStart(2, "0")}.html`;
+}
+
 function mailTiming(row) {
   return [row.day, row.time].filter(Boolean).join(" / ") || row.category || row.phase;
 }
 
-const stepmailMails = stepmailHierarchy.flatMap((group) => group.rows.map((mail) => ({ ...mail, purpose: group.phase })));
+let stepmailMailIndex = 0;
+for (const group of stepmailHierarchy) {
+  for (const mail of group.rows) {
+    mail.purpose = group.phase;
+    mail.file = stepmailMailFile(stepmailMailIndex);
+    stepmailMailIndex += 1;
+  }
+}
+const stepmailMails = stepmailHierarchy.flatMap((group) => group.rows);
+fixedNotes.forEach((note, index) => {
+  note.file = lineFixedFile(index);
+});
+plannedSpots.forEach((spot, index) => {
+  spot.file = lineNormalFile(index);
+});
+officialLines.forEach((line, index) => {
+  line.file = lineOfficialFile(index);
+});
 
-function stepmailSidebar() {
-  const purposeLinks = stepmailHierarchy.map((row, index) => `<a class="stepmail-side-link" href="#${stepmailPurposeId(index)}"><span class="date">${esc(row.timing)}</span>${esc(row.phase)}</a>`).join("");
-  const mailLinks = stepmailMails.map((mail, index) => `<a class="stepmail-side-link" href="#${stepmailMailId(index)}"><span class="date">${esc(mailTiming(mail))}</span>${esc(mail.title)}</a>`).join("");
+function stepmailSidebar(activeFile = "stepmail.html") {
+  const purposeLinks = stepmailHierarchy.map((row, index) => `<a class="stepmail-side-link" href="stepmail.html#${stepmailPurposeId(index)}"><span class="date">${esc(row.timing)}</span>${esc(row.phase)}</a>`).join("");
+  const mailLinks = stepmailMails.map((mail) => `<a class="stepmail-side-link ${mail.file === activeFile ? "active" : ""}" href="${esc(mail.file)}"><span class="date">${esc(mailTiming(mail))}</span>${esc(mail.title)}</a>`).join("");
+  const parentHref = activeFile === "stepmail.html" ? "assets.html" : "stepmail.html";
+  const parentLabel = activeFile === "stepmail.html" ? "制作物一覧" : "ステップメール一覧";
   return `<aside class="reader-side stepmail-side">
 <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
 <h3>ステップメール</h3>
-<a class="stepmail-side-link top-link" href="assets.html"><span class="date">Back</span>1つ上に戻る</a>
-<a class="stepmail-side-link top-link" href="#overview"><span class="date">Overview</span>全体像</a>
+<a class="stepmail-side-link top-link" href="${parentHref}"><span class="date">Back</span>1つ上に戻る</a>
+<a class="stepmail-side-link top-link ${activeFile === "stepmail.html" ? "active" : ""}" href="stepmail.html"><span class="date">${esc(parentLabel)}</span>全体像</a>
 <div class="stepmail-side-section">目的別</div>
 ${purposeLinks}
 <div class="stepmail-side-section">メール一覧</div>
@@ -1602,7 +1637,9 @@ ${mailLinks}
 }
 
 function stepmailPurposeSection(row, index) {
-  const material = row.rows.length ? `${row.rows.length}通` : `<a href="${row.href}">LINE/オープンチャットで確認</a>`;
+  const material = row.rows.length
+    ? `<div class="folder-list compact">${row.rows.map((mail) => `<a href="${esc(mail.file)}"><span>${esc(mailTiming(mail))}</span><strong>${esc(mail.title)}</strong></a>`).join("")}</div>`
+    : `<a href="${row.href}">LINE/オープンチャットで確認</a>`;
   return `<section id="${stepmailPurposeId(index)}" class="stepmail-block">
 <p class="block-label">${esc(row.timing)}</p>
 <h2>${esc(row.phase)}</h2>
@@ -1614,18 +1651,8 @@ function stepmailPurposeSection(row, index) {
 </section>`;
 }
 
-function stepmailMailArticle(mail, index) {
-  return `<article id="${stepmailMailId(index)}" class="mail-entry">
-<div class="mail-entry-head">
-<span class="mail-number">${String(index + 1).padStart(2, "0")}</span>
-<div>
-<p class="block-label">${esc(mail.purpose)} / ${esc(mailTiming(mail))}</p>
-<h3>${esc(mail.title)}</h3>
-</div>
-</div>
-<div class="mail-full">${copyArticleFrom(mail.relative)}</div>
-${mail.cta ? `<p class="cta-line">CTA: 次アクションを設定</p>` : ""}
-</article>`;
+function folderList(rows, metaFn = mailTiming) {
+  return `<div class="folder-list">${rows.map((row) => `<a href="${esc(row.file)}"><span>${esc(metaFn(row))}</span><strong>${esc(row.title)}</strong></a>`).join("")}</div>`;
 }
 
 function stepmailPageBody() {
@@ -1645,10 +1672,23 @@ ${stepmailHierarchy.map(stepmailPurposeSection).join("")}
 <section class="stepmail-block">
 <p class="block-label">配信順</p>
 <h2>メール一覧</h2>
-<div class="mail-entry-list">${stepmailMails.map(stepmailMailArticle).join("")}</div>
+${folderList(stepmailMails)}
 </section>
 </div>
 </div>`;
+}
+
+function singleMailBody(mail) {
+  return `<section class="panel article-panel">
+<p class="block-label">${esc(mail.purpose || mail.phase)} / ${esc(mailTiming(mail))}</p>
+<h2>${esc(mail.title)}</h2>
+<table class="asset-table compact-table"><tbody>
+<tr><th>タイミング</th><td>${esc(mailTiming(mail))}</td></tr>
+<tr><th>カテゴリ</th><td>${esc(mail.category || mail.phase)}</td></tr>
+<tr><th>原本MD</th><td>${source(mail.relative)}</td></tr>
+</tbody></table>
+<div class="mail-full single-md">${copyArticleFrom(mail.relative).replace(source(mail.relative), "")}</div>
+</section>`;
 }
 
 function lineSpotId(index) {
@@ -1663,19 +1703,37 @@ function spotTiming(row) {
   return [row.timing, row.time].filter(Boolean).join(" / ") || row.phase;
 }
 
-function lineSidebar() {
-  const fixedLinks = fixedNotes.map((note, index) => `<a class="stepmail-side-link" href="#${lineFixedId(index)}"><span class="date">固定投稿</span>${esc(note.title)}</a>`).join("");
-  const normalLinks = plannedSpots.map((spot, index) => `<a class="stepmail-side-link" href="#${lineSpotId(index)}"><span class="date">${esc(spotTiming(spot))}</span>${esc(spot.title)}</a>`).join("");
+function lineSidebar(activeFile = "line.html") {
+  const fixedLinks = fixedNotes.map((note) => `<a class="stepmail-side-link ${note.file === activeFile ? "active" : ""}" href="${esc(note.file)}"><span class="date">固定投稿</span>${esc(note.title)}</a>`).join("");
+  const normalLinks = plannedSpots.map((spot) => `<a class="stepmail-side-link ${spot.file === activeFile ? "active" : ""}" href="${esc(spot.file)}"><span class="date">${esc(spotTiming(spot))}</span>${esc(spot.title)}</a>`).join("");
+  const officialLinks = officialLines.map((line) => `<a class="stepmail-side-link ${line.file === activeFile ? "active" : ""}" href="${esc(line.file)}"><span class="date">${esc(mailTiming(line))}</span>${esc(line.title)}</a>`).join("");
+  const parentHref = activeFile === "line.html" ? "assets.html" : "line.html";
+  const parentLabel = activeFile === "line.html" ? "制作物一覧" : "LINE配信一覧";
   return `<aside class="reader-side stepmail-side line-side">
 <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
 <h3>LINE配信</h3>
-<a class="stepmail-side-link top-link" href="assets.html"><span class="date">Back</span>1つ上に戻る</a>
-<a class="stepmail-side-link top-link" href="#line-overview"><span class="date">Overview</span>全体ポータル</a>
+<a class="stepmail-side-link top-link" href="${parentHref}"><span class="date">Back</span>1つ上に戻る</a>
+<a class="stepmail-side-link top-link ${activeFile === "line.html" ? "active" : ""}" href="line.html"><span class="date">${esc(parentLabel)}</span>全体ポータル</a>
 <div class="stepmail-side-section">固定投稿</div>
 ${fixedLinks}
 <div class="stepmail-side-section">通常配信</div>
 ${normalLinks}
+<div class="stepmail-side-section">公式LINE</div>
+${officialLinks}
 </aside>`;
+}
+
+function singleMaterialBody(item, label, timing = "") {
+  const timingRow = timing ? `<tr><th>タイミング</th><td>${esc(timing)}</td></tr>` : "";
+  return `<section class="panel article-panel">
+<p class="block-label">${esc(label)}</p>
+<h2>${esc(item.title)}</h2>
+<table class="asset-table compact-table"><tbody>
+${timingRow}
+<tr><th>原本MD</th><td>${source(item.relative)}</td></tr>
+</tbody></table>
+<div class="mail-full single-md">${copyArticleFrom(item.relative).replace(source(item.relative), "")}</div>
+</section>`;
 }
 
 function lineFixedArticle(note, index) {
@@ -1730,26 +1788,23 @@ function linePageBody() {
 <section id="line-fixed" class="stepmail-block">
 <p class="block-label">常設案内</p>
 <h2>固定投稿</h2>
-<p>参加者が毎回探す情報を固定投稿にまとめます。ライブ前後の案内、課題、特典、質問導線はここで迷わせないことが目的です。</p>
-<div class="mail-entry-list">${fixedNotes.map(lineFixedArticle).join("")}</div>
+${folderList(fixedNotes, () => "固定投稿")}
 </section>
 <section id="line-normal" class="stepmail-block">
 <p class="block-label">時系列</p>
 <h2>通常配信</h2>
-<p>通常配信は、ライブ前の期待値形成、価値提供中の参加維持、販売期のレター閲覧と締切案内に分けて確認します。</p>
 <table class="asset-table compact-table"><thead><tr><th>フェーズ</th><th>件数</th><th>役割</th></tr></thead><tbody>
 <tr><td>ライブ前</td><td>${phaseCounts["ライブ前"] || 0}件</td><td>参加前の期待値形成、概要説明、ライブ参加リマインド。</td></tr>
 <tr><td>価値提供中</td><td>${phaseCounts["価値提供中"] || 0}件</td><td>ライブリンク、課題、アーカイブ、質問回答、特典案内。</td></tr>
 <tr><td>販売期</td><td>${phaseCounts["販売期"] || 0}件</td><td>販売開始、質問回答、実績共有、締切、終了案内。</td></tr>
 </tbody></table>
 <h3 class="section-title">全スポット配信タイトル</h3>
-<div class="mail-entry-list">${plannedSpots.map(lineSpotArticle).join("")}</div>
+${folderList(plannedSpots, spotTiming)}
 </section>
 <section class="stepmail-block">
 <p class="block-label">公式LINE</p>
 <h2>販売期公式LINE</h2>
-<p>Day5で公式LINE登録を促した後、公式LINE内で期間限定レター案内へつなげます。販売導線、締切、質問回答、購入完了案内を扱います。</p>
-${mailTable(officialLines)}
+${folderList(officialLines, mailTiming)}
 </section>
 </div>
 </div>`;
@@ -2042,7 +2097,8 @@ li { margin: 4px 0; }
 .stepmail-side h3 { margin: 0 0 .8rem; color: var(--ink); font-size: 1rem; }
 .stepmail-side-section { margin: 1.15rem 0 .35rem; color: var(--sub); font-size: .72rem; font-weight: 900; letter-spacing: 0; }
 .stepmail-side-link { display: block; padding: .58rem .55rem; border-radius: 8px; color: var(--ink); font-size: .82rem; line-height: 1.5; font-weight: 760; }
-.stepmail-side-link:hover { background: var(--soft); color: var(--sub); text-decoration: none; }
+.stepmail-side-link:hover,
+.stepmail-side-link.active { background: var(--soft); color: var(--sub); text-decoration: none; }
 .stepmail-side-link .date { display: block; color: var(--muted); font-size: .68rem; line-height: 1.35; font-weight: 760; }
 .stepmail-side-link.top-link { color: var(--sub); }
 .stepmail-content { min-width: 0; padding: 2.6rem 2.8rem 3rem 0; }
@@ -2068,6 +2124,23 @@ li { margin: 4px 0; }
 .reader-page .article ul,
 .reader-page .article ol { max-width: 48em; }
 .reader-page .copy-article { font-size: 1.02rem; line-height: 1.95; }
+.folder-list { display: grid; gap: 8px; margin-top: 1rem; }
+.folder-list a {
+  display: grid;
+  gap: 3px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+}
+.folder-list a:hover { border-color: var(--main); background: var(--pale); text-decoration: none; }
+.folder-list span { color: var(--sub); font-size: .72rem; font-weight: 900; }
+.folder-list strong { color: var(--ink); font-size: .96rem; line-height: 1.55; }
+.folder-list.compact { gap: 6px; margin-top: 0; }
+.folder-list.compact a { padding: 9px 11px; }
+.single-md { margin-top: 1.35rem; }
 .script-block { padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
 .script-block + .script-block { margin-top: 12px; }
 .script-block .time { display: inline-flex; margin-bottom: 7px; padding: 3px 8px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 12px; font-weight: 850; }
@@ -2481,6 +2554,16 @@ pages.set("stepmail.html", readerPage({
   sidebar: stepmailSidebar(),
   body: stepmailPageBody()}));
 
+for (const mail of stepmailMails) {
+  pages.set(mail.file, readerPage({
+    file: mail.file,
+    title: mail.title,
+    eyebrow: "ステップメール",
+    lead: `${mail.purpose} / ${mailTiming(mail)}`,
+    sidebar: stepmailSidebar(mail.file),
+    body: singleMailBody(mail)}));
+}
+
 pages.set("line.html", readerPage({
   file: "line.html",
   title: "LINE/オープンチャット配信管理",
@@ -2488,6 +2571,36 @@ pages.set("line.html", readerPage({
   lead: "LINEオープンチャットを、全体ポータル、固定投稿、通常配信に分けて確認します。",
   sidebar: lineSidebar(),
   body: linePageBody()}));
+
+for (const note of fixedNotes) {
+  pages.set(note.file, readerPage({
+    file: note.file,
+    title: note.title,
+    eyebrow: "LINE固定投稿",
+    lead: "LINEオープンチャットの固定投稿素材です。",
+    sidebar: lineSidebar(note.file),
+    body: singleMaterialBody(note, "固定投稿")}));
+}
+
+for (const spot of plannedSpots) {
+  pages.set(spot.file, readerPage({
+    file: spot.file,
+    title: spot.title,
+    eyebrow: "LINE通常配信",
+    lead: `${spot.phase} / ${spotTiming(spot)}`,
+    sidebar: lineSidebar(spot.file),
+    body: singleMaterialBody(spot, spot.phase, spotTiming(spot))}));
+}
+
+for (const line of officialLines) {
+  pages.set(line.file, readerPage({
+    file: line.file,
+    title: line.title,
+    eyebrow: "公式LINE",
+    lead: `公式LINE / ${mailTiming(line)}`,
+    sidebar: lineSidebar(line.file),
+    body: singleMailBody(line)}));
+}
 
 pages.set("script-opening.html", page({
   file: "script-opening.html",

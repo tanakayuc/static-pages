@@ -205,34 +205,33 @@ const contentChecks = [
   ["visual-report.html", "Day1着席"],
   ["visual-report.html", "レター購入 / 売上"],
   ["stepmail.html", "高額投資に失敗してきたあなたへ"],
-  ["stepmail.html", "CTA:"],
   ["stepmail.html", "オプトイン自動返信メール"],
   ["stepmail.html", "reader-layout"],
   ["stepmail.html", "1つ上に戻る"],
   ["stepmail.html", "ステップメール全体像"],
   ["stepmail.html", "目的別"],
   ["stepmail.html", "メール一覧"],
-  ["stepmail.html", "href=\"#mail-"],
+  ["stepmail.html", "folder-list"],
+  ["stepmail.html", "stepmail-mail-01.html"],
   ["stepmail.html", "9月20日 / 20時"],
-  ["stepmail.html", "件名：募集開始！"],
-  ["stepmail.html", "copy-article"],
   ["stepmail.html", "入口接続"],
   ["stepmail.html", "価値提供接続"],
   ["stepmail.html", "不安解消"],
   ["line.html", "計画配信"],
   ["line.html", "reader-layout"],
   ["line.html", "1つ上に戻る"],
-  ["line.html", "copy-article"],
   ["line.html", "73件"],
   ["line.html", "実ログ"],
   ["line.html", "LINE全体ポータル"],
   ["line.html", "全体ポータル"],
   ["line.html", "固定投稿"],
   ["line.html", "通常配信"],
-  ["line.html", "href=\"#line-normal-"],
+  ["line.html", "公式LINE"],
+  ["line.html", "folder-list"],
+  ["line.html", "line-fixed-01.html"],
+  ["line.html", "line-normal-01.html"],
+  ["line.html", "line-official-01.html"],
   ["line.html", "全スポット配信タイトル"],
-  ["line.html", "Day5で公式LINE登録"],
-  ["line.html", "公式LINE内で期間限定レター案内"],
   ["live-scripts.html", "課題提出 91件"],
   ["lp.html", "集客の素材一覧"],
   ["lp.html", "集客で作る素材"],
@@ -316,7 +315,12 @@ for (const file of requiredPages) {
 }
 if (fs.existsSync(path.join(root, "hierarchy.html"))) fail("hierarchy.html should not exist");
 
-for (const file of requiredPages) {
+const generatedDetailPages = fs.existsSync(root)
+  ? fs.readdirSync(root).filter((name) => /^(stepmail-mail|line-fixed|line-normal|line-official)-\d+\.html$/.test(name)).sort()
+  : [];
+const allRequiredPages = [...requiredPages, ...generatedDetailPages];
+
+for (const file of allRequiredPages) {
   const html = read(file);
   if (!html.includes('class="side') && !html.includes('class="reader-side')) fail(`${file} missing sidebar`);
   if (!html.includes("田中祐一AI")) fail(`${file} missing brand name`);
@@ -418,6 +422,15 @@ for (const file of ["stepmail.html", "line.html"]) {
   if (html.includes('<div class="layout">')) fail(`${file} should use reader layout, not standard report layout`);
   if (html.includes('class="side">')) fail(`${file} should not include the global report sidebar`);
   if (html.includes("stepmail-shell")) fail(`${file} should not nest the mail sidebar inside a panel`);
+  if (html.includes("copy-article")) fail(`${file} should be an index page and must not render MD bodies`);
+  if (html.includes("source-path")) fail(`${file} should be an index page and must not expose MD source paths`);
+}
+
+for (const file of generatedDetailPages) {
+  const html = read(file);
+  const sourceCount = (html.match(/source-path/g) || []).length;
+  if (sourceCount !== 1) fail(`${file} should render exactly one MD source, got ${sourceCount}`);
+  if (!html.includes("copy-article")) fail(`${file} should render exactly one MD body`);
 }
 
 for (const snippet of ["オプト後VSL台本", "登録直後VSL", "OPT5のVSL台本"]) {
@@ -432,10 +445,11 @@ for (const snippet of ['href="#optin-lp-copy"', 'href="#thank-you-copy"']) {
 const roadmapPhaseSections = (read("roadmap.html").match(/id="phase-[0-9]"/g) || []).length;
 if (roadmapPhaseSections !== 6) fail(`roadmap phase sections expected 6, got ${roadmapPhaseSections}`);
 
-for (const file of requiredPages) {
+for (const file of allRequiredPages) {
   const html = read(file);
-  const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
+  const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((match) => match[1]);
   for (const href of hrefs) {
+    if (href === "") fail(`${file} has empty link target`);
     if (href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:")) continue;
     const local = href.split(/[?#]/)[0];
     if (!local || local === "portal.css") continue;
@@ -448,12 +462,12 @@ async function checkPublic() {
   const base = publicBase.replace(/\/$/, "");
   const publicText = new Map();
   const cacheBust = `portal_check=${Date.now()}`;
-  for (const file of requiredPages) {
+  for (const file of allRequiredPages) {
     const res = await fetch(`${base}/${file}?${cacheBust}`);
     if (!res.ok) fail(`public ${file} returned ${res.status}`);
     publicText.set(file, await res.text());
   }
-  for (const file of requiredPages) {
+  for (const file of allRequiredPages) {
     const html = publicText.get(file);
     for (const word of forbidden) {
       if (html.includes(word)) fail(`public ${file} contains forbidden term: ${word}`);
