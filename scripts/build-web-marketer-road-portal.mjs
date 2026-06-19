@@ -2017,31 +2017,40 @@ pages.set("visual-report.html", page({
   file: "visual-report.html",
   title: "全体構成レポート",
   eyebrow: "レポート",
-  lead: "WEBマーケターへの道のファネル、VSL配置、KPI、教育設計、制作物パッケージを一枚で把握します。",
+  lead: "第1章で決めたファネル、KPI、制作対象を確認します。",
   body: `
-<section class="panel"><h2>今回のファネルフォーマット</h2><p class="note">この図は、集客・価値提供・販売の3フェーズで、今どの素材を作っているのかを示すためのベースです。田中祐一AIの標準候補はオプト後VSL、3チャレ/5チャレ、個別販売です。一方、今回の完成素材サンプルはオプト前VSL、5チャレ、セールスレターでの販売です。</p>${funnelFormatBoard()}</section>
-<section class="panel"><h2>集客パターンの出し分け</h2><p class="note">チャレンジローンチの集客は、登録後にオプト後VSLを置く形を標準にします。オプト後VSLは単なる案内動画ではなく、OC参加とDay1着席へ進ませるビデオセールスレターとして扱います。オプト前VSLは選ぶ人が少ないため、登録前に教育と選別を入れたい案件のオプションとして扱います。</p>${acquisitionPatternTable()}</section>
-<section class="panel"><h2>集客メディアの確認</h2><p class="note">集客素材は、紹介用文章なのか、自分のリスト向けなのか、どの媒体で展開するのかを先に決めます。今回のサンプルはメルマガ紹介文章です。</p>${acquisitionMediaTable()}</section>
-<section class="panel"><h2>何チャレと次ライブ</h2><p class="note">2チャレ〜5チャレのどれを選ぶか、次のライブがDay2〜Day5のどこかによって、価値提供フェーズの素材数と表示が変わります。受講生の標準は3チャレ、成果を上げる人に多いのは5チャレです。</p>${challengePatternTable()}</section>
-<section class="panel"><h2>販売形態4パターン</h2><p class="note">販売工程は、セミナー販売、個別販売、セミナー→個別販売、セールスレターでの販売の4パターンです。代表的なのは個別販売パターンで、今回の完成素材サンプルはセールスレターでの販売です。</p>${salesPatternTable()}</section>
-<section class="panel"><h2>見込み客が見る導線</h2><p class="note">Config、リサーチ、コンセプトなどの内部設計は工程表で扱い、ファネル図には出しません。ここでは見込み客が実際に見るページ、LINE、ライブ、レターだけに絞ります。</p>${visibleFunnelMap()}</section>
-<section class="panel"><h2>今回サンプルの必須素材</h2><p class="note">全体設計では、細かな配信や制作手順よりも、この5素材がファネル内に組み込まれているかを確認します。</p>${linkedAssetTable(coreFunnelRows)}</section>
-<section class="panel"><h2>KPIの見方</h2><p class="note">KPIはファネル構成と分けずに見ます。今回の導線では、登録率だけでなく、オープンチャット参加、Day1着席、課題提出、公式LINE移動、レター購入までを一続きで確認します。</p><div class="grid-4">
+<section class="panel"><h2>第1章の決定事項</h2><table class="asset-table"><thead><tr><th>項目</th><th>今回の内容</th></tr></thead><tbody>
+<tr><td>ファネル</td><td>チャレンジローンチ / ワンステップ販売</td></tr>
+<tr><td>集客</td><td>オプト前VSL / メルマガ紹介文章</td></tr>
+<tr><td>価値提供</td><td>5チャレ（Day1〜Day5）</td></tr>
+<tr><td>販売</td><td>公式LINE → 期間限定セールスレター</td></tr>
+<tr><td>決済後</td><td>購入完了ページ</td></tr>
+</tbody></table></section>
+<section class="panel"><h2>見込み客が見る導線</h2>${visibleFunnelMap([
+  ["オプトインLP", "集客", "LP原稿 / オプト前VSL台本 / LPヘッド指示書", "lp.html", "集客"],
+  ["登録後サンキュー", "登録直後", "サンキューページ原稿 / 自動返信メール", "lp.html", "集客"],
+  ["LINEオープンチャット", "参加場所", "固定投稿 / 通常配信", "line.html", "価値提供"],
+  ["Day1〜Day5", "価値提供", "ライブ台本 / 課題 / 特典", "live-scripts.html", "価値提供"],
+  ["公式LINE", "販売前", "公式LINE登録誘導 / 販売前メッセージ", "line.html", "販売"],
+  ["期間限定レター", "販売", "セールスレター原稿 / 販売期配信", "sales-page.html", "販売"],
+  ["購入完了ページ", "決済後", "購入完了ページ原稿", "sales-page.html", "販売"],
+])}</section>
+<section class="panel"><h2>KPI管理</h2><div class="grid-4">
 <div class="kpi"><span>仮単価</span><strong>60,000円</strong></div>
 <div class="kpi"><span>販売実績メモ</span><strong>30名</strong></div>
 <div class="kpi"><span>仮売上</span><strong>180万円</strong></div>
 <div class="kpi"><span>販売方式</span><strong>直販</strong></div>
-</div><table class="asset-table"><thead><tr><th>位置</th><th>見る数字</th><th>意味</th></tr></thead><tbody>${kpiFunnelRows.map(([stage, metric, meaning]) => `<tr><td>${esc(stage)}</td><td><strong>${esc(metric)}</strong></td><td>${esc(meaning)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel"><h2>制作ボリューム</h2><p class="note">第1章のKPIと第4章のコンテンツ設計をつなぐため、何本作るのか、チャレンジ項目があるのか、どこまで準備すれば公開できるのかをここで固定します。</p><table class="asset-table"><thead><tr><th>領域</th><th>本数/点数</th><th>内容</th></tr></thead><tbody>${contentVolumeRows.map(([area, count, detail]) => `<tr><td>${esc(area)}</td><td><strong>${esc(count)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel"><h2>全体スケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>進めること</th></tr></thead><tbody>${scheduleRows.map(([timing, detail]) => `<tr><td>${esc(timing)}</td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table></section>
-<section class="panel"><h2>詳細設計で追加された素材</h2><p class="note">全体設計の5素材をベースに、公開直前の運用で必要になる周辺素材を追加します。</p>${linkedAssetTable(detailedAssetRows)}</section>
-<section class="panel"><h2>詳細設計後の導線</h2><div class="flow">${funnelSteps.map(([label, detail], index) => `<div class="flow-row"><strong>${index + 1}. ${esc(label)}</strong><p>${esc(detail)}</p>${status(index < 4 ? "原本あり" : "要確認")}</div>`).join("")}</div></section>
-<section class="panel"><h2>教育設計</h2><div class="grid-2">${liveRows.map((row) => `<div class="card white"><span class="meta">${row.day}</span><h3>${esc(row.title)}</h3><p>${esc(row.purpose)}</p>${pills([row.core, `課題提出 ${row.count}`])}</div>`).join("")}</div></section>
-<section class="panel"><h2>制作物パッケージ</h2><table class="asset-table"><thead><tr><th>区分</th><th>成果物</th><th>確認ページ</th></tr></thead><tbody>
-<tr><td>設計</td><td>ターゲット、リサーチ、コンセプト、コンフィグ＋プロフィール、オファー</td><td><a href="target.html">ターゲット</a> / <a href="research.html">リサーチ</a> / <a href="concept.html">コンセプト</a></td></tr>
-<tr><td>集客フェーズの素材</td><td>SNSセットアップ、広告クリエイティブ、オプトインLP、オプト前VSL/オプト後VSL、サンキュー、自動返信メール</td><td><a href="lp.html">集客素材</a> / <a href="stepmail.html">ステップメール</a></td></tr>
-<tr><td>価値提供フェーズの素材</td><td>Day1〜Day5ライブ台本、課題、特典、アーカイブ導線</td><td><a href="live-scripts.html">ライブ台本</a></td></tr>
-<tr><td>販売ページの素材</td><td>Day5公式LINE誘導、公式LINE内で期間限定公開するセールスレター、販売期メルマガ、購入完了ページ</td><td><a href="sales-page.html">セールスページ</a></td></tr>
+</div><table class="asset-table"><thead><tr><th>位置</th><th>管理する数字</th><th>記録</th></tr></thead><tbody>
+<tr><td>入口</td><td>登録数 / 登録率</td><td>LP別、流入元別</td></tr>
+<tr><td>登録後</td><td>オープンチャット参加 / Day1着席</td><td>登録後導線</td></tr>
+<tr><td>価値提供</td><td>ライブ参加 / 課題提出</td><td>Day別</td></tr>
+<tr><td>販売前</td><td>公式LINE移動</td><td>Day5後</td></tr>
+<tr><td>販売</td><td>レター購入 / 売上</td><td>販売期間</td></tr>
+</tbody></table></section>
+<section class="panel"><h2>制作対象</h2><table class="asset-table"><thead><tr><th>区分</th><th>作る素材</th><th>確認ページ</th></tr></thead><tbody>
+<tr><td>集客</td><td>オプトインLP原稿、LPヘッド指示書、オプト前VSL台本、サンキューページ原稿、自動返信メール、紹介文章</td><td><a href="lp.html">集客素材</a></td></tr>
+<tr><td>価値提供</td><td>Day1〜Day5台本、課題、特典、固定投稿、通常配信</td><td><a href="value.html">価値提供素材</a></td></tr>
+<tr><td>販売</td><td>販売前メッセージ、セールスレター原稿、セールスページヘッド指示書、販売期配信、購入完了ページ原稿</td><td><a href="sales-page.html">販売素材</a></td></tr>
 </tbody></table></section>
 `}));
 
