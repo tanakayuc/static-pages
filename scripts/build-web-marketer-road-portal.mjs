@@ -44,15 +44,6 @@ const navGroups = [
   },
 ];
 
-const urls = {
-  optin: "https://sub.the-lead10.com/p/house_lp01",
-  thanks: "https://sub.the-lead10.com/p/webmarketer_thanks",
-  openchat: "https://line.me/ti/g2/PZPs8BovqdqcMVu3OB14ewhtHHKgp2VJ2GU30Q?utm_source=invitation&utm_medium=link_copy&utm_campaign=default",
-  sales: "https://sub.the-lead10.com/p/webmarke",
-  salesThanks: "https://sub.the-lead10.com/p/webmarke_thanks",
-  taskLine: "https://sub.the-lead10.com/line/open/iUvRbLnUJh6y",
-};
-
 const funnelSteps = [
   ["オプトインLP", "フォーム中心、またはLP上部にオプトインVSLを置く形を選び、登録動機を作る。"],
   ["サンキューページ", "登録直後に5分前後のオプト後VSLを置き、LINEオープンチャット参加とDay1着席への期待値を高める。"],
@@ -126,7 +117,7 @@ const chapterAssetRows = [
   ["6. 配信導線", "オープンチャット全体ポータル、固定投稿、通常配信、メルマガ件名と配信タイミング", "line.html"],
   ["7. 台本制作", "Day1〜Day5ライブ台本、課題フォーム、提出特典、アーカイブ導線", "live-scripts.html"],
   ["8. 販売導線", "販売前メッセージ、セールスレター、販売期メール/LINE、購入完了ページ", "sales-page.html"],
-  ["9. 公開/改善", "公開URL台帳、素材所在一覧、添削レポート、更新履歴", "assets.html"],
+  ["9. 納品/添削準備", "成果物一覧、原稿/指示書所在、添削観点、更新履歴", "assets.html"],
 ];
 
 const productionLayerRows = [
@@ -134,34 +125,71 @@ const productionLayerRows = [
     layer: "集客",
     purpose: "見込み客に出会い、登録し、正式参加まで進んでもらうための素材群。",
     items: [
-      ["SNSセットアップ", "プロフィール、固定投稿、導線、投稿テーマ。SNS起点の案件ではここに入れる。", "assets.html"],
-      ["広告クリエイティブ", "広告画像、広告文、遷移先、テストパターン。広告運用ありの案件で追加する。", "head.html"],
-      ["オプトインLP", "LP本文、ファーストビュー、登録CTA、オプトインVSLの配置。", "lp.html"],
-      ["オプト後VSL", "登録後サンキュー上で、OC参加とDay1着席への期待値を高める5〜10分のVSL。", "script-opening.html"],
-      ["サンキューページ/自動返信", "登録直後ページと、メール登録で止まった人を正式参加へ戻す自動返信。", "lp.html"],
+      ["SNSセットアップ指示書", "プロフィール、固定投稿、導線、投稿テーマ。SNS起点の案件で作る。", "assets.html"],
+      ["広告クリエイティブ指示書", "広告画像、広告文、遷移先、テストパターン。広告運用ありの案件で作る。", "head.html"],
+      ["オプトインLP原稿", "LP本文、ファーストビュー、登録CTA、オプトインVSLの配置方針を作る。", "lp.html"],
+      ["オプトインVSL/オプト後VSL台本", "選択した配置に合わせ、登録前または登録後に見せる5〜10分のVSL台本を作る。", "script-opening.html"],
+      ["VSLスライド指示書", "VSLにスライドが必要な場合、CodeX等へ渡せる構成案と画面指示を作る。", "script-opening.html"],
+      ["サンキューページ/自動返信原稿", "登録直後ページと、メール登録で止まった人を正式参加へ戻す自動返信を作る。", "lp.html"],
     ],
   },
   {
     layer: "価値提供",
     purpose: "登録後に参加者を迷わせず、ライブ、課題、特典で納得感を作る素材群。",
     items: [
-      ["オープンチャット", "全体ポータル、固定投稿、通常配信、ライブ前リマインド。", "line.html"],
-      ["ステップメール/LINE", "ライブ前、価値提供中、アーカイブ、課題、特典の案内。", "stepmail.html"],
-      ["Day1〜Day5ライブ", "各日の教育テーマ、台本、動画URL、アーカイブ導線。", "live-scripts.html"],
-      ["課題/特典", "課題フォーム、提出特典、コンプリート特典、提出後案内。", "live-scripts.html"],
+      ["LINEオープンチャット文面", "全体ポータル、固定投稿、通常配信、ライブ前リマインドを作る。", "line.html"],
+      ["ステップメール/LINE原稿", "ライブ前、価値提供中、アーカイブ、課題、特典の案内原稿を作る。", "stepmail.html"],
+      ["Day1〜Day5ライブ台本", "各日の教育テーマ、導入、本編、課題、次回予告を台本として分けて作る。", "live-scripts.html"],
+      ["Day別スライド指示書", "各ライブにスライドが必要な場合、1日ごとのスライド構成案を作る。", "live-scripts.html"],
+      ["課題/特典案内文", "課題フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html"],
     ],
   },
   {
     layer: "販売",
     purpose: "価値提供後に購入判断へ進ませ、申込後の次アクションまでつなげる素材群。",
     items: [
-      ["販売前メッセージ", "Day5から販売ページ公開までの期待値形成とレター案内。", "sales-page.html"],
-      ["セールスページ/レター", "公式LINE内で期間限定公開する販売ページとヘッド指示。", "sales-page.html"],
-      ["販売期メール/LINE", "販売開始、質問回答、実績共有、締切、終了案内。", "stepmail.html"],
-      ["個別説明会ページ", "個別相談型・説明会型ファネルの場合に追加する申込ページ。", "sales-page.html"],
-      ["購入完了ページ", "決済後の案内、参加導線、次アクション。", "sales-page.html"],
+      ["販売前メッセージ原稿", "Day5から販売ページ案内までの期待値形成とレター案内を作る。", "sales-page.html"],
+      ["セールスレター原稿", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "sales-page.html"],
+      ["セールスページデザイン指示書", "ヘッド、CTA、証拠、オファー表など、実装担当へ渡す画面指示を作る。", "sales-page.html"],
+      ["販売期メール/LINE原稿", "販売開始、質問回答、実績共有、締切、終了案内を作る。", "stepmail.html"],
+      ["個別説明会ページ原稿", "個別相談型・説明会型ファネルの場合に追加する申込ページ原稿を作る。", "sales-page.html"],
+      ["購入完了ページ原稿", "決済後の案内、参加導線、次アクションを作る。", "sales-page.html"],
     ],
   },
+];
+
+const lpAssetRows = [
+  ["オプトインLP原稿", "登録前", "誰に、何を約束し、なぜ今参加するのかを本文として作る。オプトインVSL採用時は動画前提の構成にする。"],
+  ["LPヘッド指示書", "登録前", "ファーストビューで見せる約束、画像方向、CTA、スマホ表示の指示を作る。"],
+  ["オプトインVSL台本", "登録前", "LP上の動画として、登録前の教育と選別を行う台本を作る。"],
+  ["サンキューページ原稿", "登録直後", "メール登録で終わらせず、LINEオープンチャット参加へ進めるページ本文を作る。"],
+  ["オプト後VSL台本", "登録直後", "登録後にOC参加、Day1着席、完走意欲を高める5〜10分のVSL台本を作る。"],
+  ["オプトイン自動返信メール", "登録直後〜1時間後", "メールだけで止まった人を正式参加へ戻す配信原稿を作る。"],
+];
+
+const vslSlideRows = [
+  ["1. 問題提起", "顔出し・自分の商品・実績がない人の停滞感を1枚で見せる。"],
+  ["2. 旧世界/新世界", "スター型起業ではなく、裏方Webマーケターという別ルートを対比する。"],
+  ["3. 5日間で得るもの", "D.E.C.O.D.E.、ライブ、課題、オープンチャットの全体像を見せる。"],
+  ["4. 参加後の動き", "登録後に何をすれば正式参加になるかを、手順ではなく安心材料として見せる。"],
+  ["5. CTA", "オープンチャット参加、Day1着席、課題提出への次アクションを明確にする。"],
+];
+
+const liveSlideRows = [
+  ["Day1", "全体地図、旧世界/新世界、D.E.C.O.D.E.全体像、課題説明。"],
+  ["Day2", "ファネル図、集客導線、数字の見方、分解ワーク。"],
+  ["Day3", "3C、空きポジション、コンセプト、オファーの接続。"],
+  ["Day4", "実践導線、チーム化、初実績作り、クライアントワークの見方。"],
+  ["Day5", "5日間の統合、45日間実践環境、販売導線、次アクション。"],
+];
+
+const salesAssetRows = [
+  ["セールスレター原稿", "ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を1本にする。"],
+  ["セールスページヘッド指示書", "デザイン指示", "ファーストビュー、CTA、対象者、変化の約束、締切表示の画面指示を作る。"],
+  ["販売期メール原稿", "メール", "販売開始、理由、事例、不安解消、締切の配信原稿を作る。"],
+  ["販売期LINE原稿", "公式LINE", "販売開始、質問回答、実績共有、締切、終了案内の配信原稿を作る。"],
+  ["個別説明会ページ原稿", "分岐素材", "説明会型・個別相談型ファネルの場合だけ追加する申込ページ原稿を作る。"],
+  ["購入完了ページ原稿", "申込後", "決済後に必要な参加案内、連絡先、次アクションを作る。"],
 ];
 
 const productionFlowRows = [
@@ -238,12 +266,12 @@ const productionFlowRows = [
     href: "sales-page.html",
   },
   {
-    phase: "9. 公開/改善",
-    purpose: "公開URL、素材所在、更新履歴、添削観点をまとめ、改善できる状態にする。",
-    assets: ["公開URL台帳", "素材所在一覧", "添削レポート", "更新履歴"],
-    done: "どこに何があり、次に何を直すべきかが追える。",
-    boundary: "田中祐一AI側の一区切りは、成果物の所在と改善観点の整理。",
-    next: "公開後の反応を見ながら、添削モードでブラッシュアップする。",
+    phase: "9. 納品/添削準備",
+    purpose: "作成した原稿、台本、構成案、指示書の所在と、次の添削観点をまとめる。",
+    assets: ["成果物一覧", "原稿/指示書所在", "添削観点", "更新履歴"],
+    done: "どの工程で何が作られ、次に何を添削すべきかが追える。",
+    boundary: "田中祐一AI側の一区切りは、原稿・台本・指示書の納品整理。",
+    next: "ページ実装、実機への組み込み、細かなデザイン修正は本人作業または添削モードで扱う。",
     href: "assets.html",
   },
 ];
@@ -527,8 +555,8 @@ const roadmapPhases = [
       {
         name: "既存素材確認",
         make: "LP、メール、LINE、ライブ台本、動画、販売ページの素材所在を棚卸しする。",
-        input: "既存URL、原稿ファイル、動画URL",
-        output: "既存素材リスト",
+        input: "参照ページ、既存原稿、ライブ素材所在",
+        output: "参照素材リスト",
         href: "assets.html",
       },
     ],
@@ -650,7 +678,7 @@ const roadmapPhases = [
       {
         name: "Day別テーマ",
         make: "Day1は全体像、Day2は左脳設計、Day3は右脳設計、Day4は実践、Day5は継続導線として整理する。",
-        input: "既存ライブ台本、動画URL、チャレンジ設計",
+        input: "既存ライブ台本、チャレンジ設計、ライブ素材所在",
         output: "Day別テーマ一覧",
         href: "live-scripts.html",
       },
@@ -692,7 +720,7 @@ const roadmapPhases = [
         name: "VSL台本/CTA設計",
         make: "全体設計で選んだ配置に合わせ、オプトインVSLまたはオプト後VSLの台本とCTA表示ルールを作る。オプト後VSLは5分前後の説得動画として設計する。",
         input: "VSL配置方針、LP、サンキューページ、参加導線",
-        output: "VSL台本 + CTA表示指示",
+        output: "VSL台本 + CTA表示指示 + スライド指示書",
         href: "script-opening.html",
       },
       {
@@ -705,7 +733,7 @@ const roadmapPhases = [
       {
         name: "サンキューページ原稿",
         make: "登録後にオープンチャット参加へ進めるための案内文を作る。オプト後VSLを採用する場合は、5〜10分以内の動画視聴とOC参加CTAを中心に構成する。",
-        input: "サンキューページURL、オープンチャットURL、VSL配置方針",
+        input: "サンキューページ原稿、オープンチャット導線、VSL配置方針",
         output: "サンキューページ原稿",
         href: "lp.html",
       },
@@ -725,7 +753,7 @@ const roadmapPhases = [
       {
         name: "オープンチャット全体ポータル",
         make: "参加者が最初に見る全体案内、ライブURL、課題、注意事項をまとめる。",
-        input: "オープンチャットURL、Day別テーマ、課題",
+        input: "オープンチャット運用方針、Day別テーマ、課題",
         output: "全体ポータル文",
         href: "line.html",
       },
@@ -753,7 +781,7 @@ const roadmapPhases = [
       {
         name: "公式LINE登録誘導",
         make: "Day5後、レター希望者だけを公式LINEへ移動させる導線を作る。",
-        input: "Day5台本、販売ページ、公式LINE URL",
+        input: "Day5台本、販売導線、公式LINE導線",
         output: "公式LINE誘導文",
         href: "line.html",
       },
@@ -787,7 +815,7 @@ const roadmapPhases = [
       {
         name: "アーカイブ導線",
         make: "ライブ未参加者や復習者が動画へ戻れる導線を作る。",
-        input: "動画URL、LINE配信、メール",
+        input: "ライブ素材所在、LINE配信、メール",
         output: "アーカイブ案内",
         href: "line.html",
       },
@@ -828,34 +856,34 @@ const roadmapPhases = [
     ],
   },
   {
-    name: "9. 公開/改善",
-    summary: "公開URL、素材所在、添削結果、差し替え履歴をまとめ、改善できる状態にする。",
+    name: "9. 納品/添削準備",
+    summary: "作成した原稿、台本、構成案、指示書の所在と、次の添削観点をまとめる。",
     items: [
       {
-        name: "公開URL台帳",
-        make: "LP、サンキュー、オープンチャット、公式LINE、販売ページ、購入完了ページのURLをまとめる。",
-        input: "公開済みURL",
-        output: "公開URL台帳",
+        name: "成果物一覧",
+        make: "工程ごとに作った原稿、台本、構成案、指示書を一覧化する。",
+        input: "工程表、集客/価値提供/販売の制作物",
+        output: "成果物一覧",
         href: "assets.html",
       },
       {
-        name: "素材所在確認",
-        make: "AIが再編集できるよう、各制作物の原稿、URL、動画、デザイン指示の所在を一覧化する。",
-        input: "原稿ファイル、HTML、元素材",
-        output: "素材所在一覧",
+        name: "原稿/指示書所在確認",
+        make: "AIが再編集できるよう、各制作物の原稿、台本、スライド構成案、デザイン指示書の所在を一覧化する。",
+        input: "原稿ファイル、台本、構成案、指示書",
+        output: "原稿/指示書所在一覧",
         href: "assets.html",
       },
       {
         name: "添削確認",
-        make: "公開物と設計シートを見比べ、田中祐一AIの構成に合わない箇所を直す。",
-        input: "公開ページ、フィードバック、設計シート",
+        make: "原稿、台本、指示書と設計シートを見比べ、田中祐一AIの構成に合わない箇所を直す。",
+        input: "成果物、フィードバック、設計シート",
         output: "添削レポート",
         href: "assets.html",
       },
       {
         name: "差し替え履歴",
-        make: "何を変更したか、どの公開URLへ反映したかを残す。",
-        input: "Git差分、公開確認、修正メモ",
+        make: "何を変更したか、どの原稿/指示書へ反映したかを残す。",
+        input: "Git差分、確認メモ、修正メモ",
         output: "更新履歴",
         href: "assets.html",
       },
@@ -906,6 +934,10 @@ function normalizeOutputTerms(text = "") {
     .replaceAll(deprecatedOptAfterVsl, "オプト後VSL");
 }
 
+function hideFinishedUrls(text = "") {
+  return String(text).replace(/https?:\/\/[^\s)）<>"']+/g, "（導線URLを設定）");
+}
+
 function list(relative) {
   const dir = sourcePath(relative);
   if (!fs.existsSync(dir)) return [];
@@ -938,7 +970,7 @@ function bodyExcerpt(relative, limit = 360) {
     .replace(/```[\s\S]*?```/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
-  const compact = normalizeOutputTerms(text.replace(/\s+\n/g, "\n").trim());
+  const compact = hideFinishedUrls(normalizeOutputTerms(text.replace(/\s+\n/g, "\n").trim()));
   return compact.length > limit ? `${compact.slice(0, limit)}...` : compact;
 }
 
@@ -1113,6 +1145,14 @@ function vslPlacementTable() {
   return `<table class="asset-table"><thead><tr><th>選択肢</th><th>配置</th><th>選ぶ条件</th><th>完成させるもの</th></tr></thead><tbody>${vslPlacementRows.map(([label, placement, condition, output]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(placement)}</td><td>${esc(condition)}</td><td>${esc(output)}</td></tr>`).join("")}</tbody></table>`;
 }
 
+function productionAssetTable(rows) {
+  return `<table class="asset-table"><thead><tr><th>制作物</th><th>区分</th><th>作るもの</th></tr></thead><tbody>${rows.map(([label, type, detail]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(type)}</td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table>`;
+}
+
+function slideInstructionTable(rows) {
+  return `<table class="asset-table compact-table"><thead><tr><th>スライド</th><th>指示内容</th></tr></thead><tbody>${rows.map(([label, detail]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td></tr>`).join("")}</tbody></table>`;
+}
+
 function visibleFunnelMap(nodes = visibleFunnelNodes) {
   return `<div class="funnel-map" aria-label="今回のファネルの形">
 <div class="funnel-map-head"><span>今回のファネル</span><strong>チャレンジローンチ / ワンステップ販売</strong></div>
@@ -1136,17 +1176,15 @@ function chapterAssetTable() {
 }
 
 function productionLayerList() {
-  return `<div class="concept-sequence production-layers">${productionLayerRows.map((row, index) => `<article class="concept-item production-layer-item">
-<span class="concept-number">${String(index + 1).padStart(2, "0")}</span>
-<div>
-<span class="meta">Asset Layer</span>
-<h3>${esc(row.layer)}</h3>
+  return `<div class="production-layers">${productionLayerRows.map((row, index) => `<details class="layer-details" ${index === 0 ? "open" : ""}>
+<summary><span class="concept-number">${String(index + 1).padStart(2, "0")}</span><span><span class="meta">Asset Layer</span><strong>${esc(row.layer)}</strong></span></summary>
+<div class="details-body">
 <p>${esc(row.purpose)}</p>
 <table class="asset-table compact-table"><thead><tr><th>素材</th><th>役割</th><th>確認</th></tr></thead><tbody>
 ${row.items.map(([label, detail, href]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td><td><a href="${esc(href)}">開く</a></td></tr>`).join("")}
 </tbody></table>
 </div>
-</article>`).join("")}</div>`;
+</details>`).join("")}</div>`;
 }
 
 function productionFlowList() {
@@ -1302,7 +1340,7 @@ function mailTable(rows) {
       <div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.phase)}</div>
       <p class="muted">${esc([row.day, row.time, row.category].filter(Boolean).join(" / "))}</p>
       <p>${esc(row.excerpt)}</p>
-      ${row.cta ? `<p class="cta-line">CTA: <a href="${esc(row.cta)}">${esc(row.cta)}</a></p>` : ""}${source(row.relative)}
+      ${row.cta ? `<p class="cta-line">CTA: 次アクションを設定</p>` : ""}${source(row.relative)}
     </div>
   </article>`).join("")}</div>`;
 }
@@ -1366,7 +1404,7 @@ function stepmailMailArticle(mail, index) {
 </div>
 </div>
 <p>${esc(mail.excerpt)}</p>
-${mail.cta ? `<p class="cta-line">CTA: <a href="${esc(mail.cta)}">${esc(mail.cta)}</a></p>` : ""}
+${mail.cta ? `<p class="cta-line">CTA: 次アクションを設定</p>` : ""}
 ${source(mail.relative)}
 </article>`;
 }
@@ -1378,7 +1416,7 @@ ${stepmailSidebar()}
 <section id="overview" class="stepmail-block">
 <p class="block-label">全体像</p>
 <h2>ステップメール全体像</h2>
-<p>このページは、増田さん案件のステップメールページと同じく、左側で目的別とメール一覧を追い、本文側で配信の役割と実素材を確認する構成です。</p>
+<p>このページは、増田さん案件のステップメールページと同じく、左側で目的別とメール一覧を追い、本文側で配信の役割と配信原稿を確認する構成です。</p>
 <p>今回のWEBマーケターへの道では、メールは5日間の教育を全部担うのではなく、オプトイン直後の正式参加、販売前の再接続、販売開始、価格不安、締切クロージングを担当します。</p>
 </section>
 <section class="stepmail-block">
@@ -1462,7 +1500,7 @@ ${lineSidebar()}
 <tr><th>固定投稿</th><td>${fixedNotes.length}件。ライブ参加、課題、特典、基本案内を常設する。</td></tr>
 <tr><th>通常配信</th><td>${plannedSpots.length}件。ライブ前、価値提供中、販売期の計画配信。</td></tr>
 <tr><th>実ログ</th><td>${logOnlySpots.length}件。実際の補足投稿やリアルタイム運用の記録。</td></tr>
-<tr><th>公式LINE</th><td>${officialLines.length}通。販売ページURL、締切、質問回答、購入完了案内。</td></tr>
+<tr><th>公式LINE</th><td>${officialLines.length}通。販売導線、締切、質問回答、購入完了案内。</td></tr>
 </tbody></table>
 </section>
 <section id="line-fixed" class="stepmail-block">
@@ -1486,7 +1524,7 @@ ${lineSidebar()}
 <section class="stepmail-block">
 <p class="block-label">公式LINE</p>
 <h2>販売期公式LINE</h2>
-<p>Day5で公式LINE登録を促した後、公式LINE内で期間限定レター公開へつなげます。販売ページURL、締切、質問回答、購入完了案内を扱います。</p>
+<p>Day5で公式LINE登録を促した後、公式LINE内で期間限定レター案内へつなげます。販売導線、締切、質問回答、購入完了案内を扱います。</p>
 ${mailTable(officialLines)}
 </section>
 </div>
@@ -1701,6 +1739,11 @@ details { border: 1px solid var(--line); border-radius: 8px; background: #fff; o
 details + details { margin-top: 10px; }
 summary { cursor: pointer; padding: 14px 16px; color: var(--ink); font-weight: 850; }
 details .details-body { padding: 0 16px 16px; }
+.layer-details { border-radius: 12px; box-shadow: 0 8px 24px rgba(24, 155, 125, .06); }
+.layer-details summary { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 1rem; align-items: center; padding: 1.05rem 1.1rem; }
+.layer-details summary strong { display: block; color: var(--ink); font-size: 1.12rem; line-height: 1.45; }
+.layer-details .details-body { padding: 0 1.1rem 1.2rem; }
+.layer-details .details-body > p { margin: .2rem 0 1rem; color: #324b44; }
 .article-panel { padding: 3rem 3.2rem 3.4rem; }
 .article { max-width: 42em; color: #243B36; font-size: 1.05rem; line-height: 1.95; }
 .article h2 { margin: 2.8rem 0 1.1rem; padding: .55rem 0 .55rem 1rem; color: var(--sub); font-size: 1.32rem; line-height: 1.45; border-left: 6px solid var(--main); background: linear-gradient(90deg, rgba(44, 181, 150, .10), rgba(44, 181, 150, 0)); border-radius: 0 8px 8px 0; }
@@ -1990,34 +2033,26 @@ pages.set("lp.html", page({
   title: "集客素材",
   eyebrow: "制作物",
   lead: "集客レイヤーに必要なオプトインLP、VSL、ヘッド指示、サンキュー、自動返信メールを確認します。",
-  body: `<section class="panel"><h2>このページで扱う範囲</h2><p class="note">ここは販売ページまで含めたページ台帳ではなく、集客レイヤーの制作物を確認するページです。オプトインLP、ヘッド指示、オプトインVSL/オプト後VSL、サンキューページ、自動返信メールをまとめて確認します。セールスレターや購入完了ページは販売レイヤーとして別ページで扱います。</p></section>
+  body: `<section class="panel"><h2>このページで扱う範囲</h2><p class="note">ここでは、集客レイヤーで田中祐一AIが作る素材を確認します。オプトインLP原稿、LPヘッド指示書、オプトインVSL/オプト後VSL台本、サンキューページ原稿、自動返信メール原稿をまとめます。セールスレターや購入完了ページは販売レイヤーとして別ページで扱います。</p></section>
 <section class="panel"><h2>VSL配置方針</h2><p class="note">このサンプルは、LP上に動画を置くオプトインVSL寄りの構成です。ただし制作モードでは、最初の全体設計でオプトインVSL、オプト後VSL、併用のどれにするかを確認し、選択に合わせてLPとサンキューページの原稿を切り替えます。オプト後VSLは5分前後、長くても5〜10分を目安にします。</p>${vslPlacementTable()}</section>
-<section class="panel"><h2>集客ページ台帳</h2><table class="asset-table"><thead><tr><th>ページ</th><th>役割</th><th>URL</th><th>原本</th></tr></thead><tbody>
-<tr><td>オプトインLP</td><td>地味で平凡な会社員を5日間ライブへ登録させる入口。オプトインVSLを採用する場合はページ内動画で期待値を作る。</td><td><a href="${urls.optin}">${urls.optin}</a></td><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</td></tr>
-<tr><td>動画視聴後LP</td><td>視聴後に登録意欲が高まった人向けの入口。</td><td><a href="${urls.optin}?ftid=b35oNFTBJXps">${urls.optin}?ftid=b35oNFTBJXps</a></td><td>${source("02_オプトインLP/02_オプトページ_動画視聴後LP.md")}</td></tr>
-<tr><td>登録後サンキュー</td><td>オープンチャット参加を正式登録として促すページ。オプト後VSLを採用する場合は5分前後の動画でOC参加と着席期待値を高める。</td><td><a href="${urls.thanks}">${urls.thanks}</a></td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
-</tbody></table></section>
-<section class="panel"><h2>集客レイヤーの制作物</h2><p class="note">自動返信まで完成すると、選択したVSL配置に合わせてオプトインLPを公開し、LINEオープンチャットへ参加させる最低限の導線が動かせます。</p><div class="grid-3">
+<section class="panel"><h2>集客レイヤー制作物</h2><p class="note">次の素材を作ってから、実装担当やUTAGE設定へ渡します。実装先は後工程で設定し、ここでは原稿・台本・指示書を成果物として扱います。</p>${productionAssetTable(lpAssetRows)}</section>
+<section class="panel"><h2>集客レイヤーの制作カード</h2><p class="note">自動返信まで完成すると、選択したVSL配置に合わせてオプトインLPを実装し、LINEオープンチャットへ参加させる最低限の導線が動かせます。</p><div class="grid-3">
 ${card("オプトインLP本文", "LP", "LPの文章。オプトインVSLを採用する場合は、動画と遅延CTAを前提に登録理由を作る。", "lp.html")}
 ${card("VSL台本", "Video", "オプトインVSLまたはオプト後VSLとして、参加前の自己認識を変え次CTAへ進ませる。オプト後VSLは5〜10分以内で設計する。", "script-opening.html")}
 ${card("ヘッダーデザイン指示書", "Design", "スマホで読めるファーストビューと画像生成・HTML制作の指示。", "head.html")}
 ${card("サンキューページ文章", "Thanks", "登録直後にオープンチャット参加へ移動させるページ本文。", "lp.html")}
 ${card("オプトイン自動返信メール", "Mail", "メール登録で止まった人を正式参加へ進める自動返信。", "stepmail.html")}
 </div></section>
-<section class="panel"><h2>集客素材チェック</h2><p class="note">LP公開時に最低限そろっているべき入口素材を、URL、原本、次アクションで確認します。</p><table class="asset-table"><thead><tr><th>素材</th><th>確認すること</th><th>原本/確認先</th></tr></thead><tbody>
-<tr><td>オプトインLP</td><td>LP本文、ヘッド、登録CTAがつながっているか。オプトインVSL採用時は遅延CTAの出し方も確認する。</td><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</td></tr>
-<tr><td>ヘッドデザイン指示</td><td>ファーストビューで誰向けの何を約束するかが、スマホでも一目で伝わるか。</td><td><a href="head.html">ヘッド指示</a></td></tr>
-<tr><td>サンキューページ</td><td>登録直後にオープンチャット参加へ移動できるか。オプト後VSL採用時は5分前後の動画とOC参加CTAを確認する。</td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
+<section class="panel"><h2>集客素材チェック</h2><p class="note">チェック対象は、制作して渡す素材です。原稿、台本、スライド構成案、デザイン指示書が揃っているかを確認します。</p><table class="asset-table"><thead><tr><th>素材</th><th>確認すること</th><th>詳細ページ</th></tr></thead><tbody>
+<tr><td>オプトインLP原稿</td><td>本文、ヘッド、登録CTAがつながっているか。オプトインVSL採用時は遅延CTAの出し方も確認する。</td><td><a href="lp.html">集客素材</a></td></tr>
+<tr><td>ヘッドデザイン指示書</td><td>ファーストビューで誰向けの何を約束するかが、スマホでも一目で伝わるか。</td><td><a href="head.html">ヘッド指示</a></td></tr>
 <tr><td>VSL台本</td><td>選択した配置で、参加前の自己認識を変え、次CTAへ進ませるか。</td><td><a href="script-opening.html">VSL台本</a></td></tr>
-<tr><td>オプトイン自動返信</td><td>メール登録で止まった人を、正式参加のオープンチャットへ戻せるか。</td><td>${registrationMails.map((mail) => source(mail.relative)).join("<br>")}</td></tr>
+<tr><td>VSLスライド指示書</td><td>スライドが必要な場合、問題提起、旧世界/新世界、参加後の動き、CTAを画面化できるか。</td><td><a href="script-opening.html">VSL台本</a></td></tr>
+<tr><td>サンキューページ原稿</td><td>登録直後にオープンチャット参加へ移動できるか。オプト後VSL採用時は5分前後の動画とOC参加CTAを確認する。</td><td><a href="lp.html">集客素材</a></td></tr>
+<tr><td>オプトイン自動返信メール</td><td>メール登録で止まった人を、正式参加のオープンチャットへ戻せるか。</td><td><a href="stepmail.html">ステップメール</a></td></tr>
 </tbody></table></section>
 <section class="panel"><h2>オプトインLPのヘッド</h2><p class="quote">地味で平凡な会社員向け。才能・経験・顔出し不要の裏方起業のロードマップを公開。</p><p>登録導線はLINEオープンチャット参加までがセットです。メール登録だけで終わらせず、サンキューページと登録後メールで正式参加へ進めます。</p></section>
-<section class="panel"><h2>登録直後メール実素材</h2><p class="note">LPとサンキューページだけで止まらないよう、登録直後と1時間後の自動返信まで同じ画面で確認します。</p>${mailTable(registrationMails)}</section>
-<section class="panel"><h2>オプトインLP書き起こし</h2><div class="full-source-list">
-${sourceDetails("登録経路なしLP 本文", "02_オプトインLP/01_オプトページ_登録経路なし.md", 52000, true)}
-${sourceDetails("動画視聴後LP 本文", "02_オプトインLP/02_オプトページ_動画視聴後LP.md", 36000)}
-${sourceDetails("登録後サンキューページ 本文", "03_サンキューページ/01_オプトイン後サンキューページ.md", 26000)}
-</div></section>`}));
+<section class="panel"><h2>登録直後メール原稿</h2><p class="note">LPとサンキューページだけで止まらないよう、登録直後と1時間後の自動返信原稿を確認します。</p>${mailTable(registrationMails)}</section>`}));
 
 pages.set("head.html", page({
   file: "head.html",
@@ -2052,7 +2087,7 @@ pages.set("script-opening.html", page({
   title: "VSL台本",
   eyebrow: "制作物",
   lead: "オプトインVSLまたはオプト後VSLとして使う、5日間チャレンジ参加前の説得動画台本です。",
-  body: `<section class="panel"><h2>VSL配置の前提</h2><p class="note">VSL台本は、ファネル上の位置が確定してから評価します。LP上に置く場合はオプトインVSLとして登録前の教育と選別を担い、サンキューページに置く場合はオプト後VSLとしてOC参加とDay1着席の期待値を高めます。オプト後VSLは5分前後、長くても5〜10分のビデオセールスレターとして作ります。</p>${vslPlacementTable()}</section>
+  body: `<section class="panel"><h2>VSL配置の前提</h2><p class="note">VSL台本は、ファネル上の位置が確定してから作ります。LP上に置く場合はオプトインVSLとして登録前の教育と選別を担い、サンキューページに置く場合はオプト後VSLとしてOC参加とDay1着席の期待値を高めます。オプト後VSLは5分前後、長くても5〜10分のビデオセールスレターとして作ります。</p>${vslPlacementTable()}</section>
 <section class="panel"><h2>台本ドラフト</h2>
 <div class="script-block"><span class="time">0:00-0:20</span><h3>冒頭フック</h3><p>「才能も、顔出しも、自分の商品もない。そんな地味で平凡な会社員こそ、WEBマーケターを目指してほしい。」</p></div>
 <div class="script-block"><span class="time">0:20-1:10</span><h3>共感</h3><p>副業や起業に挑戦したい。でも、自分が前に出るのは苦手。SNSでキラキラ発信する自分も想像できない。そう感じているなら、この5日間はあなたのための内容です。</p></div>
@@ -2060,47 +2095,37 @@ pages.set("script-opening.html", page({
 <div class="script-block"><span class="time">2:10-3:10</span><h3>5日間の約束</h3><p>この5日間で、売れる仕組みをD.E.C.O.D.E.として分解し、あなたが裏方Webマーケターとしてどこから始めればいいかを具体的に見せていきます。</p></div>
 <div class="script-block"><span class="time">3:10-3:40</span><h3>CTA</h3><p>ライブリンク、課題、特典、質問回答はLINEオープンチャットで案内します。まだ参加していない方は、必ずこのページから参加してください。</p></div>
 </section>
-<section class="panel"><h2>本編VSL 書き起こし</h2><p class="note">LP原本内に取得済みの本編VSLを書き起こしとして展開します。オプトインVSLやオプト後VSLを作るときの素材として参照します。登録後に置く場合も、単なる案内ではなく期待値を作るVSLとして再構成します。</p>
-${sourceDetails("オプトインLP内 VSL/動画本文", "02_オプトインLP/01_オプトページ_登録経路なし.md", 52000, true)}
-</section>
+<section class="panel"><h2>VSLスライド指示書</h2><p class="note">スライドが必要な場合は、動画をそのまま文字起こしするのではなく、CodeX等へ渡せるスライド構成案として作ります。テキスト量は抑え、旧世界/新世界とCTAが視覚で伝わることを優先します。</p>${slideInstructionTable(vslSlideRows)}</section>
 <section class="panel"><h2>制作意図</h2><div class="grid-3">${card("自己認識の変換", "Concept", "地味で平凡を弱みではなく、裏方の適性として再定義する。")}${card("正式参加への誘導", "CTA", "メール登録だけで終わらせず、オープンチャット参加へ進ませる。")}${card("Day1への橋渡し", "Flow", "Day1の世界観とD.E.C.O.D.E.全体像へ自然につなぐ。")}</div></section>`}));
 
 pages.set("live-scripts.html", page({
   file: "live-scripts.html",
   title: "Day1〜Day5 ライブ台本",
   eyebrow: "制作物",
-  lead: "5日間チャレンジの各ライブ台本を、目的、コア論点、課題、動画URL、原本パスで確認します。",
+  lead: "5日間チャレンジの各ライブ台本を、目的、コア論点、課題、スライド指示書に分けて確認します。",
   body: `<section class="panel"><h2>5日間の教育設計</h2><div class="flow">${liveRows.map((row) => `<div class="flow-row"><strong>${esc(row.day)}</strong><p>${esc(row.title)}</p>${pills([row.core, row.task, `課題提出 ${row.count}`])}${status("原本あり")}</div>`).join("")}</div></section>
-<section class="panel"><h2>各Dayの台本</h2><div class="timeline">${liveRows.map((row) => `<article class="timeline-item"><div class="timeline-index">${row.day.replace("Day", "D")}</div><div><div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.count)}</div><p>${esc(row.purpose)}</p><p class="muted">課題: ${esc(row.task)}</p><p class="cta-line">動画: <a href="${row.video}">${row.video}</a></p>${sourceDetails(`${row.day} ライブ台本全文`, row.script, 52000, row.day === "Day1")}${sourceDetails(`${row.day} 実録/動画書き起こし`, row.videoDoc, 36000)}</div></article>`).join("")}</div></section>
+<section class="panel"><h2>Day別ライブ台本一覧</h2><p class="note">ここで作るのは動画の記録ではなく、ライブ当日に話すための台本です。各Dayごとに導入、本編、課題、次回予告、販売への接続を分けて管理します。</p><div class="timeline">${liveRows.map((row) => `<article class="timeline-item"><div class="timeline-index">${row.day.replace("Day", "D")}</div><div><div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.count)}</div><p>${esc(row.purpose)}</p><p class="muted">課題: ${esc(row.task)}</p><table class="asset-table compact-table"><tbody><tr><th>台本で作るもの</th><td>オープニング、本編教育、課題説明、次回予告、Q&A導線</td></tr><tr><th>管理先</th><td>${source(row.script)}</td></tr></tbody></table></div></article>`).join("")}</div></section>
+<section class="panel"><h2>Day別スライド指示書</h2><p class="note">ライブにスライドが必要な場合は、Dayごとにスライド構成案を作ります。完成スライドではなく、CodeX等へ渡す「何を画面化するか」の指示書です。</p>${slideInstructionTable(liveSlideRows)}</section>
 <section class="panel"><h2>共通のライブ構成</h2><ol><li>オープニング、前日課題へのフィードバック、安心安全な場づくり。</li><li>本編教育。ストーリー、図解、事例を使ってコア概念を伝える。</li><li>まとめ。当日の学びの核心を言語化する。</li><li>当日課題の提示。アウトプットと特典導線をつなぐ。</li><li>次回予告。Day5はブートキャンプ案内へ接続する。</li><li>Q&A。参加者の不安や具体質問を拾い、次の配信にも反映する。</li></ol></section>`}));
 
 pages.set("sales-page.html", page({
   file: "sales-page.html",
   title: "セールスページ原稿",
   eyebrow: "制作物",
-  lead: "公式LINE内で期間限定公開する販売ページを、公開URL、本文原稿、ヘッド指示、購入後導線に分けて確認します。",
-  body: `<section class="panel"><h2>セールスページ情報</h2><p class="note">Day5でレター希望者を公式LINEへ誘導した後、公式LINE内で期間限定公開する販売ページです。制作物は混ぜずに、用途ごとに原稿と確認先を分けて管理します。</p><table class="asset-table"><thead><tr><th>制作物</th><th>役割</th><th>確認先</th></tr></thead><tbody>
-<tr><td>公開ページ</td><td>公式LINE内で案内する期間限定セールスページ。</td><td><a href="${urls.sales}">${urls.sales}</a></td></tr>
-<tr><td>セールスレター本文</td><td>ページ全体の文章原稿。見出し、本文、CTAをここで管理する。</td><td>${source("06_セールス/01_セールスページ.md")}</td></tr>
-<tr><td>ヘッド作成用プロンプト</td><td>ChatGPTや制作担当へ渡すファーストビュー制作指示。</td><td>${source("90_制作パッケージサンプル/06_ヘッドデザイン指示書.md")}</td></tr>
-<tr><td>購入完了ページ</td><td>決済後の案内、次アクション、参加導線を伝えるページ。</td><td><a href="${urls.salesThanks}">${urls.salesThanks}</a></td></tr>
-<tr><td>販売期配信</td><td>公開後に公式LINEとメールでレター閲覧、締切、購入を促す。</td><td><a href="line.html">LINE配信</a> / <a href="stepmail.html">ステップメール</a></td></tr>
-</tbody></table></section>
+  lead: "販売レイヤーに必要なセールスレター原稿、ヘッド指示書、販売期配信、個別説明会ページ、購入完了ページ原稿を確認します。",
+  body: `<section class="panel"><h2>販売レイヤー制作物</h2><p class="note">ここでは、田中祐一AIが販売工程で作る素材を管理します。セールスレター原稿、デザイン指示書、販売期メール/LINE、個別説明会ページ原稿、購入完了ページ原稿を分けて作ります。</p>${productionAssetTable(salesAssetRows)}</section>
 <section class="panel"><h2>販売導線の素材対応</h2><div class="grid-4">
 <div class="kpi"><span>セールスレター</span><strong>1本</strong></div>
 <div class="kpi"><span>購入完了</span><strong>1ページ</strong></div>
 <div class="kpi"><span>販売期メルマガ</span><strong>${salesMails.length}通</strong></div>
 <div class="kpi"><span>公式LINE</span><strong>${officialLines.length}通</strong></div>
-</div><p class="quote">販売ページ単体ではなく、Day5後の公式LINE登録、レター公開、販売期配信、購入完了案内までを一つの販売セットとして確認します。</p></section>
-<section class="panel"><h2>ヘッド作成用プロンプト</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。</div></section>
-<section class="panel"><h2>セールスレター全文</h2><p class="note">取得済みのセールスページ原本を、抜粋ではなくHTML上で読める本文として展開します。</p>
-${sourceDetails("セールスページ原稿 本文", "06_セールス/01_セールスページ.md", 62000, true)}
-</section>
-<section class="panel"><h2>販売期メルマガ実素材</h2><p class="note">販売開始前日から締切直前まで、メールでレター閲覧と購入判断を促す配信です。</p>${mailTable(salesMails)}</section>
-<section class="panel"><h2>販売期公式LINE実素材</h2><p class="note">公式LINE登録直後、販売開始、締切、終了案内までのメッセージを同じ販売ページ上でも確認できるようにします。</p>${mailTable(officialLines)}</section>
-<section class="panel"><h2>購入完了ページ</h2>
-${sourceDetails("購入完了サンキューページ 本文", "06_セールス/02_購入完了サンキューページ.md", 30000, true)}
-</section>`}));
+</div><p class="quote">販売ページ単体ではなく、Day5後の公式LINE登録、レター案内、販売期配信、購入完了案内までを一つの販売セットとして作ります。</p></section>
+<section class="panel"><h2>セールスページヘッド指示書</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。\n\n画面指示: 対象者、変化の約束、商品名、締切、CTAをファーストビュー内に配置。スマホではCTAを1画面目下部に見せる。</div></section>
+<section class="panel"><h2>セールスレター原稿構成</h2><ol><li>地味で平凡な会社員が売上に関われないと思っている問題提起。</li><li>スター型起業ではなく、社長の右腕として裏方で売上を支える新世界。</li><li>5日間チャレンジで得た学びと、45日間実践環境へ進む理由。</li><li>商品内容、サポート、特典、価格、返金保証なしの方針。</li><li>締切、対象者、申し込み後の流れ、購入CTA。</li></ol><p class="source-path">06_セールス/01_セールスページ.md</p></section>
+<section class="panel"><h2>販売期メルマガ原稿</h2><p class="note">販売開始前日から締切直前まで、メールでレター閲覧と購入判断を促す配信原稿です。</p>${mailTable(salesMails)}</section>
+<section class="panel"><h2>販売期公式LINE原稿</h2><p class="note">公式LINE登録直後、販売開始、締切、終了案内までのメッセージ原稿を確認します。</p>${mailTable(officialLines)}</section>
+<section class="panel"><h2>個別説明会ページ原稿</h2><p class="note">今回のサンプルは直販型なので個別説明会は必須ではありません。説明会型・個別相談型ファネルに切り替える場合だけ、対象者、相談で扱うテーマ、申込フォーム、参加前の期待値形成を追加します。</p></section>
+<section class="panel"><h2>購入完了ページ原稿</h2><p class="note">決済後は手段の細部をオファーシートに混ぜず、購入後ページ原稿として分けます。参加方法、連絡先、開始までの流れ、次アクションをここで作ります。</p><p class="source-path">06_セールス/02_購入完了サンキューページ.md</p></section>`}));
 
 const allPages = [
   ...pages,
