@@ -89,6 +89,61 @@ const activeFunnelFormat = {
   acquisitionMedia: "メルマガ紹介文章",
 };
 
+const funnelPatternAssetDir = "funnel-patterns";
+
+const funnelPatternRows = [
+  {
+    id: "06",
+    label: "オプト後VSL × 個別説明会",
+    position: "標準候補",
+    image: `${funnelPatternAssetDir}/pattern-06-opt-after-vsl-individual.png`,
+    source: "/Users/tanakayuichi/Downloads/ファネル工程一覧５パターン/6.png",
+    acquisition: "集客ページ → サンクスページ上のオプト後VSL → リスト化",
+    value: "教育グループ Day1〜Day5",
+    sales: "個別説明会ページ → 個別説明会 → 成約 → 商品提供",
+  },
+  {
+    id: "07",
+    label: "オプト前VSL × 個別説明会",
+    position: "オプション",
+    image: `${funnelPatternAssetDir}/pattern-07-opt-before-vsl-individual.png`,
+    source: "/Users/tanakayuichi/Downloads/ファネル工程一覧５パターン/7.png",
+    acquisition: "集客ページ上のオプト前VSL → サンクスページ → リスト化",
+    value: "教育グループ Day1〜Day5",
+    sales: "個別説明会ページ → 個別説明会 → 成約 → 商品提供",
+  },
+  {
+    id: "08",
+    label: "オプト後VSL × セミナー→個別説明会",
+    position: "選択候補",
+    image: `${funnelPatternAssetDir}/pattern-08-opt-after-vsl-seminar-to-individual.png`,
+    source: "/Users/tanakayuichi/Downloads/ファネル工程一覧５パターン/8.png",
+    acquisition: "集客ページ → サンクスページ上のオプト後VSL → リスト化",
+    value: "教育グループ Day1〜Day5",
+    sales: "セミナーページ → セミナー → 個別説明会 → 成約 → 商品提供",
+  },
+  {
+    id: "09",
+    label: "オプト後VSL × セミナー販売",
+    position: "選択候補",
+    image: `${funnelPatternAssetDir}/pattern-09-opt-after-vsl-seminar-direct.png`,
+    source: "/Users/tanakayuichi/Downloads/ファネル工程一覧５パターン/9.png",
+    acquisition: "集客ページ → サンクスページ上のオプト後VSL → リスト化",
+    value: "教育グループ Day1〜Day5",
+    sales: "セミナーページ → セミナー → 成約 → 商品提供",
+  },
+  {
+    id: "10",
+    label: "オプト後VSL × 販売ページ直販",
+    position: "選択候補",
+    image: `${funnelPatternAssetDir}/pattern-10-opt-after-vsl-sales-page.png`,
+    source: "/Users/tanakayuichi/Downloads/ファネル工程一覧５パターン/10.png",
+    acquisition: "集客ページ → サンクスページ上のオプト後VSL → リスト化",
+    value: "教育グループ Day1〜Day5",
+    sales: "販売ページ → 成約 → 商品提供",
+  },
+];
+
 const materialMdRoot = "90_制作パッケージサンプル/05_制作物一覧";
 
 const acquisitionPatternRows = [
@@ -1520,6 +1575,36 @@ function roadmapFunnelAxis() {
 </section>`;
 }
 
+function funnelPatternGallery() {
+  return `<section class="panel funnel-pattern-panel">
+<h2>格納済みファネルパターン</h2>
+<p class="note">全体図はパターン選択用の参照として置きます。実際の工程表は、選んだ集客・価値提供・販売の組み合わせに合わせて切り替える前提です。</p>
+<div class="pattern-grid">${funnelPatternRows.map((row) => `<article class="pattern-card">
+<a href="${esc(row.image)}"><img src="${esc(row.image)}" alt="${esc(row.label)}"></a>
+<div class="pattern-card-body">
+<span class="meta">Pattern ${esc(row.id)} / ${esc(row.position)}</span>
+<h3>${esc(row.label)}</h3>
+<table class="asset-table compact-table"><tbody>
+<tr><th>集客</th><td>${esc(row.acquisition)}</td></tr>
+<tr><th>価値提供</th><td>${esc(row.value)}</td></tr>
+<tr><th>販売</th><td>${esc(row.sales)}</td></tr>
+</tbody></table>
+</div>
+</article>`).join("")}</div>
+<details class="pattern-request">
+<summary>追加で欲しい単独画像</summary>
+<div class="details-body">
+<ul>
+<li>集客単独: オプト後VSL、オプト前VSL、フォーム登録のみ、広告/ハウス/紹介の入口違い。</li>
+<li>価値提供単独: 2チャレ、3チャレ、5チャレ、次ライブがDay2/Day3/Day5の違い。</li>
+<li>販売単独: 個別説明会、セミナー→個別説明会、セミナー販売、販売ページ直販。</li>
+<li>任意で欲しいもの: 公式LINE販売、メール販売、LINEオープンチャット販売接続、購入完了後の提供導線。</li>
+</ul>
+</div>
+</details>
+</section>`;
+}
+
 function roadmapPhaseSection(phase, index) {
   const phaseNumber = index + 1;
   return `<section class="panel roadmap-phase" id="phase-${phaseNumber}">
@@ -2130,6 +2215,16 @@ li { margin: 4px 0; }
 .axis-days { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; }
 .axis-day { min-height: 116px; }
 .axis-day strong { display: grid; place-items: center; min-height: 42px; border-radius: 8px; background: #2f80c9; color: #fff; font-size: .92rem; }
+.pattern-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 1.1rem; }
+.pattern-card { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.pattern-card > a { display: block; background: #fff; }
+.pattern-card img { display: block; width: 100%; aspect-ratio: 14 / 10.8; object-fit: contain; background: #fff; border-bottom: 1px solid var(--line); }
+.pattern-card-body { padding: 14px; }
+.pattern-card-body h3 { margin: 4px 0 10px; font-size: 1rem; line-height: 1.45; }
+.pattern-card-body .compact-table { margin-top: 0; font-size: .78rem; }
+.pattern-card-body .compact-table th,
+.pattern-card-body .compact-table td { padding: 8px 9px; }
+.pattern-request { margin-top: 16px; }
 .asset-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; font-size: .95rem; }
 .asset-table th, .asset-table td { padding: 13px 12px; border-top: 1px solid var(--line); text-align: left; vertical-align: top; }
 .asset-table th { background: linear-gradient(180deg, var(--main), var(--sub)); color: #fff; font-size: .86rem; font-weight: 800; border-top: 0; }
@@ -2333,6 +2428,7 @@ details .details-body { padding: 0 16px 16px; }
   .axis-phase + .axis-phase::before { display: none; }
   .axis-nodes { grid-template-columns: 1fr; }
   .axis-days { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pattern-grid { grid-template-columns: 1fr; }
   .stepmail-shell { display: block; padding: 0; }
   .stepmail-side { position: relative; top: auto; max-height: none; padding: 1.2rem; border-right: 0; border-bottom: 1px solid var(--line); }
   .stepmail-content { padding: 1.5rem 1.25rem 2rem; }
@@ -2419,7 +2515,7 @@ pages.set("roadmap.html", page({
   title: "制作工程表",
   eyebrow: "工程表",
   lead: "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。",
-  body: `${roadmapFunnelAxis()}${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
+  body: `${roadmapFunnelAxis()}${funnelPatternGallery()}${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
 
 pages.set("sheets.html", page({
   file: "sheets.html",
@@ -2746,6 +2842,12 @@ for (const dir of dirs) {
     const normalized = file.endsWith(".html") ? normalizeOutputTerms(content) : content;
     const output = normalized.endsWith("\n") ? normalized : `${normalized}\n`;
     fs.writeFileSync(path.join(dir, file), output);
+  }
+  fs.mkdirSync(path.join(dir, funnelPatternAssetDir), { recursive: true });
+  for (const row of funnelPatternRows) {
+    if (fs.existsSync(row.source)) {
+      fs.copyFileSync(row.source, path.join(dir, row.image));
+    }
   }
 }
 

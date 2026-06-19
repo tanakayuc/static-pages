@@ -31,6 +31,14 @@ const requiredPages = [
   "sales-page.html",
 ];
 
+const requiredAssets = [
+  "funnel-patterns/pattern-06-opt-after-vsl-individual.png",
+  "funnel-patterns/pattern-07-opt-before-vsl-individual.png",
+  "funnel-patterns/pattern-08-opt-after-vsl-seminar-to-individual.png",
+  "funnel-patterns/pattern-09-opt-after-vsl-seminar-direct.png",
+  "funnel-patterns/pattern-10-opt-after-vsl-sales-page.png",
+];
+
 const forbidden = [
   "田中祐一OS",
   "TanakaKnowledgeOS",
@@ -57,7 +65,6 @@ const forbidden = [
   "OPT5のVSL台本",
   "集客レイヤー",
   "販売レイヤー",
-  "個別説明会",
   "一気通貫モード",
   "個別制作モード",
   deprecatedOptAfterVsl,
@@ -79,6 +86,13 @@ const contentChecks = [
   ["roadmap.html", "教育グループ"],
   ["roadmap.html", "販売ページ"],
   ["roadmap.html", "対応位置"],
+  ["roadmap.html", "格納済みファネルパターン"],
+  ["roadmap.html", "オプト後VSL × 個別説明会"],
+  ["roadmap.html", "オプト前VSL × 個別説明会"],
+  ["roadmap.html", "オプト後VSL × セミナー→個別説明会"],
+  ["roadmap.html", "オプト後VSL × セミナー販売"],
+  ["roadmap.html", "オプト後VSL × 販売ページ直販"],
+  ["roadmap.html", "追加で欲しい単独画像"],
   ["roadmap.html", "1-1"],
   ["roadmap.html", "全体導線を確認する"],
   ["roadmap.html", "オプトインLP、登録CTA、サンキューページ、オープンチャット"],
@@ -319,6 +333,10 @@ function read(file) {
 }
 
 for (const file of requiredPages) {
+  const full = path.join(root, file);
+  if (!fs.existsSync(full)) fail(`${file} missing`);
+}
+for (const file of requiredAssets) {
   const full = path.join(root, file);
   if (!fs.existsSync(full)) fail(`${file} missing`);
 }
