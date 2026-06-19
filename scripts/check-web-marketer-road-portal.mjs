@@ -8,7 +8,6 @@ const publicBase = publicBaseArg?.split("=").slice(1).join("=");
 const deprecatedOptAfterVsl = "オプトイン後" + "VSL";
 
 const requiredPages = [
-  "index.html",
   "visual-report.html",
   "roadmap.html",
   "sheets.html",
@@ -81,6 +80,8 @@ const forbidden = [
   "ページ骨子",
   "オプトインLPに掲載されている講師プロフィール",
   "そのまま制作ポータルへ反映",
+  "制作ポータル",
+  "制作物ポータル",
   "挨拶動画",
   "サンキュー動画",
   "オプトインVSL",
@@ -94,14 +95,6 @@ const forbidden = [
 ];
 
 const contentChecks = [
-  ["index.html", "制作ポータル"],
-  ["index.html", "主導線"],
-  ["index.html", "案件別に生成された設計書と素材集"],
-  ["index.html", "今回のファネル設定"],
-  ["index.html", "オプト前VSLパターン"],
-  ["index.html", "カツオリーチ"],
-  ["index.html", "次ライブ Day2"],
-  ["index.html", "販売ページ"],
   ["roadmap.html", "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。"],
   ["roadmap.html", "ファネル工程軸"],
   ["roadmap.html", "集客ページ"],
@@ -224,7 +217,7 @@ const contentChecks = [
   ["offer.html", "PLC差額参加の権利"],
   ["offer.html", "返金保証なし"],
   ["head.html", "セールスページヘッド"],
-  ["assets.html", "制作物ポータル"],
+  ["assets.html", "制作物一覧"],
   ["assets.html", "集客の素材一覧"],
   ["assets.html", "価値提供の素材一覧"],
   ["assets.html", "販売の素材一覧"],
@@ -398,6 +391,7 @@ for (const file of requiredAssets) {
   if (!fs.existsSync(full)) fail(`${file} missing`);
 }
 if (fs.existsSync(path.join(root, "hierarchy.html"))) fail("hierarchy.html should not exist");
+if (fs.existsSync(path.join(root, "index.html"))) fail("index.html should not exist");
 
 const generatedDetailPages = fs.existsSync(root)
   ? fs.readdirSync(root).filter((name) => /^(stepmail-mail|optin-after-mail|traffic-mail|line-fixed|line-normal|line-official)-\d+\.html$/.test(name)).sort()
@@ -498,7 +492,6 @@ for (const snippet of [
 }
 
 const outputOnlyChecks = [
-  ["index.html", ["標準候補", "ファネルフォーマット選択", "新規制作モードは工程表を基準"]],
   ["concept.html", ["田中祐一AIのコンセプト設計フロー", "質問は一度で詰め切る"]],
   ["research.html", ["リサーチはコンセプトの前半戦", "リサーチの順番", "リサーチの切り口", "書籍から取り込むリサーチ原則", "空きポジション分析ロジック", "AIに考えさせること"]],
   ["assets.html", ["工程表との関係", "作る順番", "新規制作モードは工程表"]],

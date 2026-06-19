@@ -17,7 +17,6 @@ const navGroups = [
   {
     label: "レポート",
     items: [
-      ["index.html", "P", "制作ポータル", "入口"],
       ["visual-report.html", "R", "全体構成", "ファネル全体"],
       ["roadmap.html", "M", "工程表", "素材確認"],
     ],
@@ -1218,10 +1217,10 @@ function page({ file, title, eyebrow, lead, body }) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="googlebot" content="noindex, nofollow, noarchive">
-  <title>${esc(title)} | WEBマーケターへの道 制作ポータル</title>
+  <title>${esc(title)} | WEBマーケターへの道</title>
   <link rel="stylesheet" href="portal.css?v=20260618-full-package">
 </head>
-<body class="${file === "index.html" ? "portal-home" : "report-page"}">
+<body class="report-page">
 <div class="layout">
 ${nav(file)}
 <main class="main"><div class="wrap">
@@ -1241,7 +1240,7 @@ function readerPage({ file, title, eyebrow, lead, sidebar, body }) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="googlebot" content="noindex, nofollow, noarchive">
-  <title>${esc(title)} | WEBマーケターへの道 制作ポータル</title>
+  <title>${esc(title)} | WEBマーケターへの道</title>
   <link rel="stylesheet" href="portal.css?v=20260618-full-package">
 </head>
 <body class="reader-page">
@@ -2769,37 +2768,11 @@ details .details-body { padding: 0 16px 16px; }
   .roadmap-step { grid-template-columns: 48px minmax(0, 1fr); gap: .8rem; }
   .roadmap-step-num { width: 40px; height: 40px; font-size: .84rem; }
   .roadmap-step-meta { grid-template-columns: 1fr; }
-  .grid-2, .grid-3, .grid-4,
-  .portal-home .grid-2, .portal-home .grid-3, .portal-home .grid-4 { grid-template-columns: 1fr; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   .two-col-list { columns: 1; }
 }`;
 
 const pages = new Map();
-
-pages.set("index.html", page({
-  file: "index.html",
-  title: "制作ポータル",
-  eyebrow: "田中祐一AI / 制作ポータル",
-  lead: "案件別に生成された設計書と素材集の入口です。全体構成、工程表、制作物へ移動します。",
-  body: `
-<section class="panel"><h2>案件の全体像</h2><div class="grid-3">
-${card("会社員はWEBマーケターを目指しなさい", "企画", "地味で平凡な会社員に、裏方Webマーケターという別ルートを提示する5日間チャレンジ。", "concept.html")}
-${card("45日間WEBマーケター超実践ブートキャンプ", "本命商品", "知識を増やすだけではなく、売上に関わる最初の実践経験を作る直販型オファー。", "offer.html")}
-${card("素材集", "Assets", "集客、価値提供、販売に分けて、原稿、台本、指示書を確認します。", "assets.html")}
-</div></section>
-<section class="panel"><h2>完成パッケージの現在地</h2><div class="grid-4">
-<div class="kpi"><span>制作工程</span><strong>9章</strong></div>
-<div class="kpi"><span>設計シート</span><strong>5種</strong></div>
-<div class="kpi"><span>配信原稿</span><strong>${registrationMails.length + salesMails.length + officialLines.length + spots.length + fixedNotes.length}件</strong></div>
-<div class="kpi"><span>課題提出</span><strong>Day1 91件</strong></div>
-</div></section>
-<section class="panel"><h2>主導線</h2><div class="grid-3">
-${card("制作ポータル", "入口", "このページです。全体の入口として、何があり、どこから進めるかを確認します。", "index.html")}
-${card("工程表", "進行", "各工程で完成させる設計書・原稿・台本・指示書を確認します。", "roadmap.html")}
-${card("全体構成", "俯瞰", "ファネル全体、必要素材、VSL配置、KPI、導線の全体像を確認します。", "visual-report.html")}
-</div></section>
-<section class="panel"><h2>今回のファネル設定</h2>${funnelFormatBoard()}</section>
-`}));
 
 pages.set("visual-report.html", page({
   file: "visual-report.html",
@@ -3020,7 +2993,7 @@ pages.set("assets.html", page({
   title: "制作物一覧",
   eyebrow: "制作物",
   lead: "集客、価値提供、販売の3カテゴリで、生成された原稿、台本、指示書を確認します。",
-  body: `<section class="panel"><h2>制作物ポータル</h2>${categoryShelf(productionCategoryRows)}</section>
+  body: `<section class="panel"><h2>制作物一覧</h2>${categoryShelf(productionCategoryRows)}</section>
 <section class="panel"><h2>MDフォルダ構成</h2><p class="note">制作物MDは、<code>${materialMdRoot}</code> 配下で集客、価値提供、販売に分けて管理します。</p><table class="asset-table compact-table"><tbody>
 <tr><th>集客素材</th><td><code>${materialMdRoot}/01_集客素材/</code></td></tr>
 <tr><th>価値提供素材</th><td><code>${materialMdRoot}/02_価値提供素材/</code></td></tr>
@@ -3257,6 +3230,10 @@ for (const dir of dirs) {
     const normalized = file.endsWith(".html") ? normalizeOutputTerms(content) : content;
     const output = normalized.endsWith("\n") ? normalized : `${normalized}\n`;
     fs.writeFileSync(path.join(dir, file), output);
+  }
+  for (const staleFile of ["index.html"]) {
+    const stalePath = path.join(dir, staleFile);
+    if (fs.existsSync(stalePath)) fs.unlinkSync(stalePath);
   }
   fs.mkdirSync(path.join(dir, funnelPatternAssetDir), { recursive: true });
   for (const row of funnelPatternRows) {
