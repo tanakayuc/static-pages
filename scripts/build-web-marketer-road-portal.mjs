@@ -115,9 +115,9 @@ const funnelPatternRows = [
   {
     id: "CURRENT",
     label: "今回採用: オプト前VSL × カツオリーチ × 販売ページ直販",
-    position: "今回採用 / 画像未入手",
-    image: "",
-    source: "",
+    position: "今回採用",
+    image: `${funnelPatternAssetDir}/pattern-current-opt-before-vsl-sales-page.png`,
+    source: "/Users/tanakayuichi/Downloads/オプト前VSL_販売ページ.png",
     acquisition: "カツオリーチ → 集客ページ上のオプト前VSL → サンクスページ → リスト化",
     value: "教育グループ Day1〜Day5",
     sales: "販売ページ → 成約 → 商品提供",
@@ -1603,6 +1603,18 @@ function compositeArrow() {
   return `<div class="composite-arrow" aria-hidden="true">→</div>`;
 }
 
+function currentPatternImageCard() {
+  const current = funnelPatternRows.find((row) => row.id === "CURRENT");
+  return `<section class="panel current-pattern-panel">
+<h2>今回のファネル確認カード</h2>
+<p class="note">第1章で確定したファネルです。工程表はこの導線に合わせて並べています。</p>
+<figure class="current-pattern-figure">
+<img src="${esc(current.image)}" alt="${esc(current.label)}">
+<figcaption><strong>${esc(current.label)}</strong><span>${esc(current.acquisition)} / ${esc(current.value)} / ${esc(current.sales)}</span></figcaption>
+</figure>
+</section>`;
+}
+
 function funnelPartLibrary() {
   const groups = ["集客", "価値提供", "販売"];
   return `<details class="part-library">
@@ -1619,8 +1631,8 @@ function funnelPartLibrary() {
 
 function currentFunnelComposite() {
   return `<section class="panel funnel-composite-panel">
-<h2>今回のパーツ合成プレビュー</h2>
-<p class="note">工程表の「対応位置」から、今回作っている場所を確認できます。未入手のパーツは仮枠で置いています。</p>
+<h2>作業位置マップ</h2>
+<p class="note">各ステップの対応位置を押すと、どこを作るかを確認できます。</p>
 <div class="funnel-composite-wrap">
 <div class="funnel-composite" aria-label="今回のファネルパーツ合成">
   <div class="composite-phase acquisition">
@@ -1630,7 +1642,7 @@ function currentFunnelComposite() {
       ${compositeArrow()}
       ${compositeImagePart("part-optin", "opt-before-vsl-page", "登録前", "集客ページ / オプト前VSL", "メールアドレス登録")}
       ${compositeArrow()}
-      ${compositeTextPart("part-thanks", "登録直後", "サンクスページ（画像未入手）", "教育グループへ案内")}
+      ${compositeTextPart("part-thanks", "登録直後", "サンクスページ", "教育グループへ案内")}
       ${compositeArrow()}
       ${compositeImagePart("part-list", "list-building", "リスト", "リスト化", "LINE / メール")}
     </div>
@@ -1649,7 +1661,6 @@ function currentFunnelComposite() {
   </div>
 </div>
 </div>
-${funnelPartLibrary()}
 </section>`;
 }
 
@@ -1705,7 +1716,7 @@ function funnelPatternGallery() {
 <div class="pattern-grid">${funnelPatternRows.map((row) => {
     const imageBlock = row.image
       ? `<a href="${esc(row.image)}"><img src="${esc(row.image)}" alt="${esc(row.label)}"></a>`
-      : `<div class="pattern-placeholder"><strong>今回採用</strong><span>画像未入手</span></div>`;
+      : `<div class="pattern-placeholder"><strong>今回採用</strong><span>作成待ち</span></div>`;
     return `<article class="pattern-card ${row.id === "CURRENT" ? "current-pattern" : ""}">
 ${imageBlock}
 <div class="pattern-card-body">
@@ -2357,6 +2368,41 @@ li { margin: 4px 0; }
 .pattern-card-body .compact-table th,
 .pattern-card-body .compact-table td { padding: 8px 9px; }
 .pattern-request { margin-top: 16px; }
+.current-pattern-figure {
+  display: grid;
+  gap: 12px;
+  margin: 1.1rem 0 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+.current-pattern-figure img {
+  display: block;
+  width: 100%;
+  max-height: 620px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+}
+.current-pattern-figure figcaption {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--pale);
+}
+.current-pattern-figure figcaption strong {
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.current-pattern-figure figcaption span {
+  color: #405a53;
+  font-size: .84rem;
+  font-weight: 760;
+  line-height: 1.65;
+}
 .funnel-composite-panel { overflow: visible; }
 .funnel-composite-wrap { overflow-x: auto; margin-top: 1.1rem; padding: 0 0 .65rem; }
 .funnel-composite {
@@ -2782,6 +2828,7 @@ pages.set("visual-report.html", page({
 <tr><td>販売</td><td>公式LINE → 期間限定セールスレター</td></tr>
 <tr><td>決済後</td><td>購入完了ページ</td></tr>
 </tbody></table></section>
+${currentPatternImageCard()}
 <section class="panel"><h2>見込み客が見る導線</h2>${visibleFunnelMap([
   ["オプトインLP", "集客", "LP原稿 / オプト前VSL台本 / LPヘッド指示書", "lp.html", "集客"],
   ["登録後サンキュー", "登録直後", "サンキューページ原稿 / 自動返信メール", "lp.html", "集客"],
@@ -2815,7 +2862,7 @@ pages.set("roadmap.html", page({
   title: "制作工程表",
   eyebrow: "工程表",
   lead: "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。",
-  body: `${roadmapFunnelAxis()}${currentFunnelComposite()}${funnelPatternGallery()}${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
+  body: `${roadmapFunnelAxis()}${currentFunnelComposite()}${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
 
 pages.set("sheets.html", page({
   file: "sheets.html",
