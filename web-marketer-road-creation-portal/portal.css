@@ -30,6 +30,25 @@ a { color: var(--sub); text-decoration: none; font-weight: 760; }
 a:hover { text-decoration: underline; }
 .layout { display: block; min-height: 100vh; max-width: 100vw; padding-left: 292px; }
 .side { position: fixed; left: 0; top: 0; bottom: 0; width: 292px; height: 100dvh; overflow-y: auto; overflow-x: hidden; padding: 18px 14px 72px; background: var(--paper); border-right: 1px solid var(--line); scrollbar-gutter: stable; overscroll-behavior: contain; }
+.reader-layout { display: block; min-height: 100vh; max-width: 100vw; padding-left: 320px; }
+.reader-side {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 320px;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px 16px 72px;
+  background: var(--paper);
+  border-right: 1px solid var(--line);
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+.reader-main { min-width: 0; padding: 44px min(6vw, 72px) 88px; }
+.reader-wrap { max-width: 1040px; margin: 0 auto; }
+.reader-page .hero { margin-bottom: 28px; }
 .brand { display: grid; grid-template-columns: 46px 1fr; gap: 12px; align-items: center; margin-bottom: 24px; }
 .brand-mark { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 8px; background: var(--main); color: #fff; font-weight: 850; }
 .brand-title { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 850; }
@@ -243,6 +262,15 @@ li { margin: 4px 0; }
 .cta-line { margin-top: 8px; color: var(--muted); font-size: 13px; word-break: break-all; }
 .stepmail-shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 30px; align-items: start; padding: 0; overflow: visible; }
 .stepmail-side { position: sticky; top: 24px; max-height: calc(100vh - 48px); overflow: auto; padding: 1.5rem 1.25rem 1.6rem; border-right: 1px solid var(--line); background: var(--pale); }
+.reader-side.stepmail-side {
+  position: fixed;
+  top: 0;
+  max-height: none;
+  padding: 18px 16px 72px;
+  border-right: 1px solid var(--line);
+  border-bottom: 0;
+  background: var(--paper);
+}
 .stepmail-side h3 { margin: 0 0 .8rem; color: var(--ink); font-size: 1rem; }
 .stepmail-side-section { margin: 1.15rem 0 .35rem; color: var(--sub); font-size: .72rem; font-weight: 900; letter-spacing: 0; }
 .stepmail-side-link { display: block; padding: .58rem .55rem; border-radius: 8px; color: var(--ink); font-size: .82rem; line-height: 1.5; font-weight: 760; }
@@ -250,18 +278,28 @@ li { margin: 4px 0; }
 .stepmail-side-link .date { display: block; color: var(--muted); font-size: .68rem; line-height: 1.35; font-weight: 760; }
 .stepmail-side-link.top-link { color: var(--sub); }
 .stepmail-content { min-width: 0; padding: 2.6rem 2.8rem 3rem 0; }
+.reader-page .stepmail-content { padding: 0; }
 .stepmail-block { padding: 0 0 2.1rem; border-bottom: 1px solid var(--line); }
 .stepmail-block + .stepmail-block { padding-top: 2rem; }
 .stepmail-block p { max-width: 42em; color: #324b44; }
+.reader-page .stepmail-block p { max-width: 48em; }
 .block-label { margin: 0 0 .45rem; color: var(--sub); font-size: .78rem; font-weight: 900; }
 .compact-table { margin-top: 1rem; font-size: .9rem; }
 .compact-table th { width: 150px; background: var(--soft); color: var(--sub); }
 .mail-entry-list { display: grid; gap: 0; }
 .mail-entry { padding: 1.45rem 0; border-bottom: 1px dashed var(--line); }
+.reader-page .mail-entry { padding: 2rem 0; }
 .mail-entry:first-child { padding-top: .3rem; }
 .mail-entry-head { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: .85rem; align-items: start; margin-bottom: .6rem; }
 .mail-number { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; background: var(--soft); color: var(--sub); font-size: .82rem; font-weight: 900; }
 .mail-entry h3 { margin: 0; color: var(--ink); font-size: 1.08rem; line-height: 1.55; }
+.mail-full { margin-top: 1rem; }
+.mail-full .source-path { margin-top: 1rem; }
+.reader-page .article,
+.reader-page .article p,
+.reader-page .article ul,
+.reader-page .article ol { max-width: 48em; }
+.reader-page .copy-article { font-size: 1.02rem; line-height: 1.95; }
 .script-block { padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
 .script-block + .script-block { margin-top: 12px; }
 .script-block .time { display: inline-flex; margin-bottom: 7px; padding: 3px 8px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 12px; font-weight: 850; }
@@ -301,6 +339,7 @@ details .details-body { padding: 0 16px 16px; }
 @media (max-width: 900px) {
   html { font-size: 16.5px; }
   .layout { display: block; padding-left: 0; }
+  .reader-layout { display: block; padding-left: 0; }
   .side {
     position: sticky;
     top: 0;
@@ -311,6 +350,21 @@ details .details-body { padding: 0 16px 16px; }
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 8px 22px rgba(24, 155, 125, .08);
+  }
+  .reader-side,
+  .reader-side.stepmail-side {
+    position: sticky;
+    top: 0;
+    width: auto;
+    z-index: 20;
+    height: auto;
+    max-height: 42vh;
+    padding: 12px 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
     border-right: 0;
     border-bottom: 1px solid var(--line);
     box-shadow: 0 8px 22px rgba(24, 155, 125, .08);
@@ -339,6 +393,8 @@ details .details-body { padding: 0 16px 16px; }
   }
   .nav-link small { display: none; }
   .main { padding: 28px 18px 60px; }
+  .reader-main { padding: 28px 18px 60px; }
+  .reader-wrap { max-width: none; }
   .panel { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
   .article-panel { padding: 1.6rem 1.3rem 2rem; }
   .stepmail-shell { display: block; padding: 0; }

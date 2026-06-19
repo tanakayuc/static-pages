@@ -1035,6 +1035,7 @@ function bodyExcerpt(relative, limit = 360) {
 
 function bodyFull(relative, limit = 36000) {
   const text = read(relative)
+    .replace(/^> 原稿URL:.+$/gm, "")
     .replace(/^Produced by[\s\S]*$/m, "")
     .replace(/\n{4,}/g, "\n\n\n")
     .trim();
@@ -1106,6 +1107,21 @@ function articleFrom(relative, limit = 36000) {
   const markdown = bodyFull(relative, limit);
   if (!markdown) return `<p class="muted">原本が見つかりません。</p>${source(relative)}`;
   return `<div class="article">${markdownToHtml(markdown)}</div>${source(relative)}`;
+}
+
+function copyArticleFrom(relative, limit = 36000) {
+  const text = read(relative);
+  const body = text.includes("\n---")
+    ? text.split(/^---$/m).slice(1).join("---")
+    : text.replace(/^#\s+.+$/m, "");
+  const markdown = normalizeOutputTerms(body)
+    .replace(/^> 原稿URL:.+$/gm, "")
+    .replace(/^Produced by[\s\S]*$/m, "")
+    .replace(/\n{4,}/g, "\n\n\n")
+    .trim();
+  if (!markdown) return `<p class="muted">本文が見つかりません。</p>${source(relative)}`;
+  const clipped = markdown.length > limit ? `${markdown.slice(0, limit).trim()}\n\n（以下、原本に続きます）` : markdown;
+  return `<div class="article copy-article">${markdownToHtml(clipped)}</div>${source(relative)}`;
 }
 
 function sourceDetails(label, relative, limit = 36000, open = false) {
@@ -1195,6 +1211,29 @@ function page({ file, title, eyebrow, lead, body }) {
 <div class="layout">
 ${nav(file)}
 <main class="main"><div class="wrap">
+  <header class="hero"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(title)}</h1><p class="lead">${esc(lead)}</p></header>
+  ${body}
+</div></main>
+</div>
+</body>
+</html>`;
+}
+
+function readerPage({ file, title, eyebrow, lead, sidebar, body }) {
+  return `<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="googlebot" content="noindex, nofollow, noarchive">
+  <title>${esc(title)} | WEBマーケターへの道 制作ポータル</title>
+  <link rel="stylesheet" href="portal.css?v=20260618-full-package">
+</head>
+<body class="reader-page">
+<div class="reader-layout">
+${sidebar}
+<main class="reader-main"><div class="reader-wrap">
   <header class="hero"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(title)}</h1><p class="lead">${esc(lead)}</p></header>
   ${body}
 </div></main>
@@ -1454,7 +1493,9 @@ ${list}
 
 const registrationMails = list("12_メルマガ/フェーズ1_ライブ前/メルマガ").map(parseMail);
 const salesMails = list("12_メルマガ/フェーズ3_セールスプッシュ/メルマガ").map(parseMail);
-const officialLines = list("12_メルマガ/フェーズ3_セールスプッシュ/公式LINE").filter((file) => !file.includes("00_")).map(parseMail);
+const officialLines = list("12_メルマガ/フェーズ3_セールスプッシュ/公式LINE")
+  .filter((file) => !file.includes("00_") && !file.includes("/生データ/"))
+  .map(parseMail);
 const fixedNotes = list("11_オープンチャットメッセージ/固定ノート").map((relative) => ({ relative, title: titleOf(relative), excerpt: bodyExcerpt(relative, 280) }));
 const spots = list("11_オープンチャットメッセージ/スポット配信").map(parseSpot);
 const plannedSpots = spots.filter((item) => item.phase !== "実ログ");
@@ -1517,8 +1558,8 @@ function mailTable(rows) {
     <div>
       <div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.phase)}</div>
       <p class="muted">${esc([row.day, row.time, row.category].filter(Boolean).join(" / "))}</p>
-      <p>${esc(row.excerpt)}</p>
-      ${row.cta ? `<p class="cta-line">CTA: 次アクションを設定</p>` : ""}${source(row.relative)}
+      <div class="mail-full">${copyArticleFrom(row.relative)}</div>${row.cta ? `
+      <p class="cta-line">CTA: 次アクションを設定</p>` : ""}
     </div>
   </article>`).join("")}</div>`;
 }
@@ -1548,9 +1589,10 @@ const stepmailMails = stepmailHierarchy.flatMap((group) => group.rows.map((mail)
 function stepmailSidebar() {
   const purposeLinks = stepmailHierarchy.map((row, index) => `<a class="stepmail-side-link" href="#${stepmailPurposeId(index)}"><span class="date">${esc(row.timing)}</span>${esc(row.phase)}</a>`).join("");
   const mailLinks = stepmailMails.map((mail, index) => `<a class="stepmail-side-link" href="#${stepmailMailId(index)}"><span class="date">${esc(mailTiming(mail))}</span>${esc(mail.title)}</a>`).join("");
-  return `<aside class="stepmail-side">
+  return `<aside class="reader-side stepmail-side">
+<div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
 <h3>ステップメール</h3>
-<a class="stepmail-side-link top-link" href="index.html"><span class="date">Portal</span>トップに戻る</a>
+<a class="stepmail-side-link top-link" href="assets.html"><span class="date">Back</span>1つ上に戻る</a>
 <a class="stepmail-side-link top-link" href="#overview"><span class="date">Overview</span>全体像</a>
 <div class="stepmail-side-section">目的別</div>
 ${purposeLinks}
@@ -1581,16 +1623,13 @@ function stepmailMailArticle(mail, index) {
 <h3>${esc(mail.title)}</h3>
 </div>
 </div>
-<p>${esc(mail.excerpt)}</p>
+<div class="mail-full">${copyArticleFrom(mail.relative)}</div>
 ${mail.cta ? `<p class="cta-line">CTA: 次アクションを設定</p>` : ""}
-${source(mail.relative)}
 </article>`;
 }
 
 function stepmailPageBody() {
-  return `<section class="panel stepmail-shell">
-${stepmailSidebar()}
-<div class="stepmail-content">
+  return `<div class="stepmail-content reader-content">
 <section id="overview" class="stepmail-block">
 <p class="block-label">全体像</p>
 <h2>ステップメール全体像</h2>
@@ -1609,7 +1648,7 @@ ${stepmailHierarchy.map(stepmailPurposeSection).join("")}
 <div class="mail-entry-list">${stepmailMails.map(stepmailMailArticle).join("")}</div>
 </section>
 </div>
-</section>`;
+</div>`;
 }
 
 function lineSpotId(index) {
@@ -1627,9 +1666,10 @@ function spotTiming(row) {
 function lineSidebar() {
   const fixedLinks = fixedNotes.map((note, index) => `<a class="stepmail-side-link" href="#${lineFixedId(index)}"><span class="date">固定投稿</span>${esc(note.title)}</a>`).join("");
   const normalLinks = plannedSpots.map((spot, index) => `<a class="stepmail-side-link" href="#${lineSpotId(index)}"><span class="date">${esc(spotTiming(spot))}</span>${esc(spot.title)}</a>`).join("");
-  return `<aside class="stepmail-side line-side">
+  return `<aside class="reader-side stepmail-side line-side">
+<div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
 <h3>LINE配信</h3>
-<a class="stepmail-side-link top-link" href="index.html"><span class="date">Portal</span>トップに戻る</a>
+<a class="stepmail-side-link top-link" href="assets.html"><span class="date">Back</span>1つ上に戻る</a>
 <a class="stepmail-side-link top-link" href="#line-overview"><span class="date">Overview</span>全体ポータル</a>
 <div class="stepmail-side-section">固定投稿</div>
 ${fixedLinks}
@@ -1647,8 +1687,7 @@ function lineFixedArticle(note, index) {
 <h3>${esc(note.title)}</h3>
 </div>
 </div>
-<p>${esc(note.excerpt)}</p>
-${source(note.relative)}
+<div class="mail-full">${copyArticleFrom(note.relative)}</div>
 </article>`;
 }
 
@@ -1661,15 +1700,12 @@ function lineSpotArticle(spot, index) {
 <h3>${esc(spot.title)}</h3>
 </div>
 </div>
-<p>${esc(spot.excerpt)}</p>
-${source(spot.relative)}
+<div class="mail-full">${copyArticleFrom(spot.relative)}</div>
 </article>`;
 }
 
 function linePageBody() {
-  return `<section class="panel stepmail-shell line-shell">
-${lineSidebar()}
-<div class="stepmail-content">
+  return `<div class="stepmail-content reader-content">
 <section id="line-overview" class="stepmail-block">
 <p class="block-label">全体ポータル</p>
 <h2>LINE全体ポータル</h2>
@@ -1716,7 +1752,7 @@ ${lineSidebar()}
 ${mailTable(officialLines)}
 </section>
 </div>
-</section>`;
+</div>`;
 }
 
 function sourceInventory() {
@@ -1762,6 +1798,25 @@ a { color: var(--sub); text-decoration: none; font-weight: 760; }
 a:hover { text-decoration: underline; }
 .layout { display: block; min-height: 100vh; max-width: 100vw; padding-left: 292px; }
 .side { position: fixed; left: 0; top: 0; bottom: 0; width: 292px; height: 100dvh; overflow-y: auto; overflow-x: hidden; padding: 18px 14px 72px; background: var(--paper); border-right: 1px solid var(--line); scrollbar-gutter: stable; overscroll-behavior: contain; }
+.reader-layout { display: block; min-height: 100vh; max-width: 100vw; padding-left: 320px; }
+.reader-side {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 320px;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px 16px 72px;
+  background: var(--paper);
+  border-right: 1px solid var(--line);
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+.reader-main { min-width: 0; padding: 44px min(6vw, 72px) 88px; }
+.reader-wrap { max-width: 1040px; margin: 0 auto; }
+.reader-page .hero { margin-bottom: 28px; }
 .brand { display: grid; grid-template-columns: 46px 1fr; gap: 12px; align-items: center; margin-bottom: 24px; }
 .brand-mark { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 8px; background: var(--main); color: #fff; font-weight: 850; }
 .brand-title { margin: 0; font-size: 18px; line-height: 1.35; font-weight: 850; }
@@ -1975,6 +2030,15 @@ li { margin: 4px 0; }
 .cta-line { margin-top: 8px; color: var(--muted); font-size: 13px; word-break: break-all; }
 .stepmail-shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 30px; align-items: start; padding: 0; overflow: visible; }
 .stepmail-side { position: sticky; top: 24px; max-height: calc(100vh - 48px); overflow: auto; padding: 1.5rem 1.25rem 1.6rem; border-right: 1px solid var(--line); background: var(--pale); }
+.reader-side.stepmail-side {
+  position: fixed;
+  top: 0;
+  max-height: none;
+  padding: 18px 16px 72px;
+  border-right: 1px solid var(--line);
+  border-bottom: 0;
+  background: var(--paper);
+}
 .stepmail-side h3 { margin: 0 0 .8rem; color: var(--ink); font-size: 1rem; }
 .stepmail-side-section { margin: 1.15rem 0 .35rem; color: var(--sub); font-size: .72rem; font-weight: 900; letter-spacing: 0; }
 .stepmail-side-link { display: block; padding: .58rem .55rem; border-radius: 8px; color: var(--ink); font-size: .82rem; line-height: 1.5; font-weight: 760; }
@@ -1982,18 +2046,28 @@ li { margin: 4px 0; }
 .stepmail-side-link .date { display: block; color: var(--muted); font-size: .68rem; line-height: 1.35; font-weight: 760; }
 .stepmail-side-link.top-link { color: var(--sub); }
 .stepmail-content { min-width: 0; padding: 2.6rem 2.8rem 3rem 0; }
+.reader-page .stepmail-content { padding: 0; }
 .stepmail-block { padding: 0 0 2.1rem; border-bottom: 1px solid var(--line); }
 .stepmail-block + .stepmail-block { padding-top: 2rem; }
 .stepmail-block p { max-width: 42em; color: #324b44; }
+.reader-page .stepmail-block p { max-width: 48em; }
 .block-label { margin: 0 0 .45rem; color: var(--sub); font-size: .78rem; font-weight: 900; }
 .compact-table { margin-top: 1rem; font-size: .9rem; }
 .compact-table th { width: 150px; background: var(--soft); color: var(--sub); }
 .mail-entry-list { display: grid; gap: 0; }
 .mail-entry { padding: 1.45rem 0; border-bottom: 1px dashed var(--line); }
+.reader-page .mail-entry { padding: 2rem 0; }
 .mail-entry:first-child { padding-top: .3rem; }
 .mail-entry-head { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: .85rem; align-items: start; margin-bottom: .6rem; }
 .mail-number { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; background: var(--soft); color: var(--sub); font-size: .82rem; font-weight: 900; }
 .mail-entry h3 { margin: 0; color: var(--ink); font-size: 1.08rem; line-height: 1.55; }
+.mail-full { margin-top: 1rem; }
+.mail-full .source-path { margin-top: 1rem; }
+.reader-page .article,
+.reader-page .article p,
+.reader-page .article ul,
+.reader-page .article ol { max-width: 48em; }
+.reader-page .copy-article { font-size: 1.02rem; line-height: 1.95; }
 .script-block { padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
 .script-block + .script-block { margin-top: 12px; }
 .script-block .time { display: inline-flex; margin-bottom: 7px; padding: 3px 8px; border-radius: 999px; background: var(--soft); color: var(--sub); font-size: 12px; font-weight: 850; }
@@ -2033,6 +2107,7 @@ details .details-body { padding: 0 16px 16px; }
 @media (max-width: 900px) {
   html { font-size: 16.5px; }
   .layout { display: block; padding-left: 0; }
+  .reader-layout { display: block; padding-left: 0; }
   .side {
     position: sticky;
     top: 0;
@@ -2043,6 +2118,21 @@ details .details-body { padding: 0 16px 16px; }
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 8px 22px rgba(24, 155, 125, .08);
+  }
+  .reader-side,
+  .reader-side.stepmail-side {
+    position: sticky;
+    top: 0;
+    width: auto;
+    z-index: 20;
+    height: auto;
+    max-height: 42vh;
+    padding: 12px 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
     border-right: 0;
     border-bottom: 1px solid var(--line);
     box-shadow: 0 8px 22px rgba(24, 155, 125, .08);
@@ -2071,6 +2161,8 @@ details .details-body { padding: 0 16px 16px; }
   }
   .nav-link small { display: none; }
   .main { padding: 28px 18px 60px; }
+  .reader-main { padding: 28px 18px 60px; }
+  .reader-wrap { max-width: none; }
   .panel { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
   .article-panel { padding: 1.6rem 1.3rem 2rem; }
   .stepmail-shell { display: block; padding: 0; }
@@ -2381,18 +2473,20 @@ ${card("採用メッセージ", "Copy", "「実績がない」「顔出しは苦
 ${card("HTML制作方針", "Layout", "商品名、対象者、変化の約束、CTA、締切をファーストビュー内に置く。スマホではCTAを1画面目下部に見せる。")}
 </div>${source("90_制作パッケージサンプル/06_ヘッドデザイン指示書.md")}</section>`}));
 
-pages.set("stepmail.html", page({
+pages.set("stepmail.html", readerPage({
   file: "stepmail.html",
   title: "ステップメール",
   eyebrow: "制作物",
   lead: "オプトイン自動返信と販売期メルマガを、目的別サイドバーと配信順で確認します。",
+  sidebar: stepmailSidebar(),
   body: stepmailPageBody()}));
 
-pages.set("line.html", page({
+pages.set("line.html", readerPage({
   file: "line.html",
   title: "LINE/オープンチャット配信管理",
   eyebrow: "制作物",
   lead: "LINEオープンチャットを、全体ポータル、固定投稿、通常配信に分けて確認します。",
+  sidebar: lineSidebar(),
   body: linePageBody()}));
 
 pages.set("script-opening.html", page({

@@ -207,16 +207,22 @@ const contentChecks = [
   ["stepmail.html", "高額投資に失敗してきたあなたへ"],
   ["stepmail.html", "CTA:"],
   ["stepmail.html", "オプトイン自動返信メール"],
-  ["stepmail.html", "トップに戻る"],
+  ["stepmail.html", "reader-layout"],
+  ["stepmail.html", "1つ上に戻る"],
   ["stepmail.html", "ステップメール全体像"],
   ["stepmail.html", "目的別"],
   ["stepmail.html", "メール一覧"],
   ["stepmail.html", "href=\"#mail-"],
   ["stepmail.html", "9月20日 / 20時"],
+  ["stepmail.html", "件名：募集開始！"],
+  ["stepmail.html", "copy-article"],
   ["stepmail.html", "入口接続"],
   ["stepmail.html", "価値提供接続"],
   ["stepmail.html", "不安解消"],
   ["line.html", "計画配信"],
+  ["line.html", "reader-layout"],
+  ["line.html", "1つ上に戻る"],
+  ["line.html", "copy-article"],
   ["line.html", "73件"],
   ["line.html", "実ログ"],
   ["line.html", "LINE全体ポータル"],
@@ -312,7 +318,7 @@ if (fs.existsSync(path.join(root, "hierarchy.html"))) fail("hierarchy.html shoul
 
 for (const file of requiredPages) {
   const html = read(file);
-  if (!html.includes('class="side')) fail(`${file} missing sidebar`);
+  if (!html.includes('class="side') && !html.includes('class="reader-side')) fail(`${file} missing sidebar`);
   if (!html.includes("田中祐一AI")) fail(`${file} missing brand name`);
   if (!html.includes('<meta name="robots" content="noindex, nofollow, noarchive">')) fail(`${file} missing robots noindex`);
   if (!html.includes('<meta name="googlebot" content="noindex, nofollow, noarchive">')) fail(`${file} missing googlebot noindex`);
@@ -405,6 +411,13 @@ for (const file of ["lp.html", "value.html", "sales-page.html"]) {
   for (const snippet of ['<div class="nav-section">レポート</div>', '<div class="nav-section">設計シート</div>']) {
     if (html.includes(snippet)) fail(`${file} should show production subnav, not top-level sidebar section: ${snippet}`);
   }
+}
+
+for (const file of ["stepmail.html", "line.html"]) {
+  const html = read(file);
+  if (html.includes('<div class="layout">')) fail(`${file} should use reader layout, not standard report layout`);
+  if (html.includes('class="side">')) fail(`${file} should not include the global report sidebar`);
+  if (html.includes("stepmail-shell")) fail(`${file} should not nest the mail sidebar inside a panel`);
 }
 
 for (const snippet of ["オプト後VSL台本", "登録直後VSL", "OPT5のVSL台本"]) {
