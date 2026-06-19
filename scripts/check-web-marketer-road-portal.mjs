@@ -21,7 +21,10 @@ const requiredPages = [
   "assets.html",
   "lp.html",
   "optin-lp-copy.html",
+  "optin-after-mails.html",
   "thank-you-copy.html",
+  "referral-copy.html",
+  "traffic-mails.html",
   "value.html",
   "head.html",
   "stepmail.html",
@@ -306,13 +309,23 @@ const contentChecks = [
   ["lp.html", "オプト前VSL台本"],
   ["lp.html", "オプトイン後メルマガ"],
   ["lp.html", "サンキューページ原稿"],
+  ["lp.html", "紹介用文章"],
   ["lp.html", "集客前メッセージ"],
   ["lp.html", "MDフォルダ構成"],
   ["lp.html", "90_制作パッケージサンプル/05_制作物一覧/01_集客素材/01_オプトインLP原稿/"],
   ["lp.html", "90_制作パッケージサンプル/05_制作物一覧/01_集客素材/02_LPヘッドデザイン指示書/"],
   ["lp.html", "90_制作パッケージサンプル/05_制作物一覧/01_集客素材/04_オプトイン後メルマガ/"],
   ["lp.html", "90_制作パッケージサンプル/05_制作物一覧/01_集客素材/05_サンキューページ原稿/"],
+  ["lp.html", "90_制作パッケージサンプル/05_制作物一覧/01_集客素材/06_紹介用文章/"],
   ["lp.html", "90_制作パッケージサンプル/05_制作物一覧/01_集客素材/07_集客前メッセージ/"],
+  ["optin-after-mails.html", "オプトイン後メルマガ一覧"],
+  ["optin-after-mails.html", "optin-after-mail-01.html"],
+  ["optin-after-mails.html", "optin-after-mail-02.html"],
+  ["referral-copy.html", "紹介用文章"],
+  ["referral-copy.html", "90_制作パッケージサンプル/05_制作物一覧/01_集客素材/06_紹介用文章/紹介文章.md"],
+  ["traffic-mails.html", "集客前メッセージ一覧"],
+  ["traffic-mails.html", "traffic-mail-01.html"],
+  ["traffic-mails.html", "traffic-mail-07.html"],
   ["optin-lp-copy.html", "オプトインLP原稿"],
   ["optin-lp-copy.html", "1つ上に戻る"],
   ["optin-lp-copy.html", "集客素材一覧"],
@@ -387,7 +400,7 @@ for (const file of requiredAssets) {
 if (fs.existsSync(path.join(root, "hierarchy.html"))) fail("hierarchy.html should not exist");
 
 const generatedDetailPages = fs.existsSync(root)
-  ? fs.readdirSync(root).filter((name) => /^(stepmail-mail|line-fixed|line-normal|line-official)-\d+\.html$/.test(name)).sort()
+  ? fs.readdirSync(root).filter((name) => /^(stepmail-mail|optin-after-mail|traffic-mail|line-fixed|line-normal|line-official)-\d+\.html$/.test(name)).sort()
   : [];
 const allRequiredPages = [...requiredPages, ...generatedDetailPages];
 
@@ -508,7 +521,7 @@ for (const file of ["lp.html", "value.html", "sales-page.html"]) {
   }
 }
 
-for (const file of ["stepmail.html", "line.html"]) {
+for (const file of ["stepmail.html", "optin-after-mails.html", "traffic-mails.html", "line.html"]) {
   const html = read(file);
   if (html.includes('<div class="layout">')) fail(`${file} should use reader layout, not standard report layout`);
   if (html.includes('class="side">')) fail(`${file} should not include the global report sidebar`);
