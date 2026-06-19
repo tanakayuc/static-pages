@@ -1689,8 +1689,10 @@ ${imageBlock}
 
 function roadmapPhaseSection(phase, index) {
   const phaseNumber = index + 1;
+  const spotlight = roadmapPhaseSpotlight(phaseNumber);
   return `<section class="panel roadmap-phase" id="phase-${phaseNumber}">
 <h2>${esc(phase.name)}</h2>
+${spotlight}
 <p class="note">${esc(phase.summary)}</p>
 <div class="roadmap-steps">${phase.items.map((item, itemIndex) => {
     const stepNumber = `${phaseNumber}-${itemIndex + 1}`;
@@ -1711,6 +1713,31 @@ ${link}
 </article>`;
   }).join("")}</div>
 </section>`;
+}
+
+function roadmapPhaseSpotlight(phaseNumber) {
+  const settings = {
+    2: ["第2章の対象箇所", "concept", "第2章 コンセプト設計"],
+    3: ["第3章の対象箇所", "offer-product", "オファー構築"],
+    4: ["第4章の対象箇所", "content", "第4章 コンテンツ設計"],
+    5: ["第5章の対象箇所", "lp", "第5章 LP制作"],
+    6: ["第6章の対象箇所", "lp", "第6章 集客素材"],
+    7: ["第7章の対象箇所", "content", "第7章 ライブ台本"],
+    8: ["第8章の対象箇所", "sales", "第8章 販売素材"],
+  };
+  const setting = settings[phaseNumber];
+  if (!setting) return "";
+  const [title, focus, label] = setting;
+  const current = funnelPatternRows.find((row) => row.id === "CURRENT");
+  return `<div class="roadmap-phase-spotlight">
+<h3>${esc(title)}</h3>
+<figure class="spotlight-figure">
+<div class="spotlight-image-wrap">
+<img src="${esc(current.image)}" alt="${esc(current.label)}">
+<span class="spotlight-box ${esc(focus)}"><span>${esc(label)}</span></span>
+</div>
+</figure>
+</div>`;
 }
 
 function card(title, metaLabel, text, href = "") {
@@ -2621,6 +2648,19 @@ li { margin: 4px 0; }
 .note + .jump-nav,
 .asset-table + .asset-table { margin-top: 1rem; }
 .roadmap-phase { scroll-margin-top: 18px; }
+.roadmap-phase-spotlight {
+  margin: 1rem 0 1.15rem;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+.roadmap-phase-spotlight h3 {
+  margin: 0;
+  color: var(--main);
+  font-size: 1rem;
+}
+.roadmap-phase-spotlight .spotlight-figure { margin-top: .8rem; }
 .roadmap-steps { display: grid; gap: 0; }
 .roadmap-step { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; padding: 1.1rem 0; border-top: 1px dashed var(--line); }
 .roadmap-step:first-child { padding-top: 0; border-top: 0; }
