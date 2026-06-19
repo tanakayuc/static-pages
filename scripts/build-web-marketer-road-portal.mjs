@@ -2442,7 +2442,7 @@ li { margin: 4px 0; }
   box-shadow: 0 10px 22px rgba(111, 74, 0, .18);
 }
 .spotlight-box.concept { left: 7%; top: 18%; width: 22%; height: 43%; }
-.spotlight-box.offer { left: 70%; top: 21%; width: 25%; height: 49%; }
+.spotlight-box.offer-product { left: 87%; top: 35%; width: 10%; height: 17%; }
 .spotlight-box.content { left: 39%; top: 24%; width: 31%; height: 50%; }
 .spotlight-box.lp { left: 5%; top: 18%; width: 29%; height: 45%; }
 .spotlight-box.sales { left: 70%; top: 20%; width: 26%; height: 51%; }
@@ -3037,8 +3037,8 @@ pages.set("offer.html", page({
   body: `${funnelSpotlightCard({
   title: "第3章の対象箇所",
   note: "オファーは、販売ページ、成約、商品提供へつなぐための商品条件として整理します。",
-  focus: "offer",
-  label: "第3章 オファー",
+  focus: "offer-product",
+  label: "オファー構築",
 })}
 <section class="panel"><h2>1. 何を提供するのか</h2><table class="asset-table"><thead><tr><th>項目</th><th>内容</th><th>詳細</th></tr></thead><tbody>
 <tr><td><strong>商品名</strong></td><td>45日間Webマーケター“超”実践ブートキャンプ</td><td>45日で売る流れを体感し、Webマーケターとして最初の成功体験を掴む実践プログラム。</td></tr>

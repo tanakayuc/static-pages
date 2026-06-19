@@ -190,7 +190,7 @@ const contentChecks = [
   ["research.html", "LP/動画に使う論点"],
   ["offer.html", "商品名"],
   ["offer.html", "第3章の対象箇所"],
-  ["offer.html", "第3章 オファー"],
+  ["offer.html", "オファー構築"],
   ["offer.html", "1. 何を提供するのか"],
   ["offer.html", "2. それがいくらなのか"],
   ["offer.html", "メインプログラム"],
