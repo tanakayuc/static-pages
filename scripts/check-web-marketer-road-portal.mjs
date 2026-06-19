@@ -37,6 +37,22 @@ const requiredAssets = [
   "funnel-patterns/pattern-08-opt-after-vsl-seminar-to-individual.png",
   "funnel-patterns/pattern-09-opt-after-vsl-seminar-direct.png",
   "funnel-patterns/pattern-10-opt-after-vsl-sales-page.png",
+  "funnel-parts/challenge-3days.png",
+  "funnel-parts/challenge-4days.png",
+  "funnel-parts/challenge-5days.png",
+  "funnel-parts/day1.png",
+  "funnel-parts/day2.png",
+  "funnel-parts/day3.png",
+  "funnel-parts/day4.png",
+  "funnel-parts/day5.png",
+  "funnel-parts/thanks-opt-after-vsl.png",
+  "funnel-parts/seminar-to-individual.png",
+  "funnel-parts/seminar-direct.png",
+  "funnel-parts/list-building.png",
+  "funnel-parts/individual-sales.png",
+  "funnel-parts/opt-before-vsl-page.png",
+  "funnel-parts/opt-page.png",
+  "funnel-parts/sales-page.png",
 ];
 
 const forbidden = [
@@ -87,6 +103,12 @@ const contentChecks = [
   ["roadmap.html", "販売ページ"],
   ["roadmap.html", "対応位置"],
   ["roadmap.html", "カツオリーチ"],
+  ["roadmap.html", "今回のパーツ合成プレビュー"],
+  ["roadmap.html", "サンクスページ（画像未入手）"],
+  ["roadmap.html", "パーツ素材ライブラリ"],
+  ["roadmap.html", "funnel-parts/opt-before-vsl-page.png"],
+  ["roadmap.html", "funnel-parts/challenge-5days.png"],
+  ["roadmap.html", "funnel-parts/sales-page.png"],
   ["roadmap.html", "格納済みファネルパターン"],
   ["roadmap.html", "今回採用: オプト前VSL × カツオリーチ × 販売ページ直販"],
   ["roadmap.html", "画像未入手"],
@@ -373,6 +395,9 @@ for (const color of ["#2CB596", "#189B7D", "#F0FAF8"]) {
   if (!css.includes(color)) fail(`portal.css missing color ${color}`);
 }
 if (!css.includes("overflow-x: auto")) fail("portal.css missing mobile horizontal nav");
+if (!css.includes("ここだよ")) fail("portal.css missing funnel focus label");
+if (!css.includes(".funnel-location-link")) fail("portal.css missing funnel location link");
+if (!css.includes(".funnel-composite")) fail("portal.css missing funnel composite");
 
 for (const [file, snippet] of contentChecks) {
   const ok = read(file).includes(snippet);

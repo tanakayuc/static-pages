@@ -90,6 +90,26 @@ const activeFunnelFormat = {
 };
 
 const funnelPatternAssetDir = "funnel-patterns";
+const funnelPartAssetDir = "funnel-parts";
+
+const funnelPartRows = [
+  ["challenge-3days", "3日チャレンジ", "価値提供", `${funnelPartAssetDir}/challenge-3days.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/3days_チャレンジ.png"],
+  ["challenge-4days", "4日チャレンジ", "価値提供", `${funnelPartAssetDir}/challenge-4days.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/4days_チャレンジ.png"],
+  ["challenge-5days", "5日チャレンジ", "価値提供", `${funnelPartAssetDir}/challenge-5days.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/5days_チャレンジ.png"],
+  ["day1", "Day1", "価値提供", `${funnelPartAssetDir}/day1.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/day1.png"],
+  ["day2", "Day2", "価値提供", `${funnelPartAssetDir}/day2.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/day2.png"],
+  ["day3", "Day3", "価値提供", `${funnelPartAssetDir}/day3.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/day3.png"],
+  ["day4", "Day4", "価値提供", `${funnelPartAssetDir}/day4.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/day4.png"],
+  ["day5", "Day5", "価値提供", `${funnelPartAssetDir}/day5.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/day5.png"],
+  ["thanks-opt-after-vsl", "サンクスページ / オプト後VSL", "集客", `${funnelPartAssetDir}/thanks-opt-after-vsl.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/サンクス_オプト後VSL.png"],
+  ["seminar-to-individual", "セミナー→個別説明会", "販売", `${funnelPartAssetDir}/seminar-to-individual.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/セミナーページ_セミナー_個別説明会.png"],
+  ["seminar-direct", "セミナー販売", "販売", `${funnelPartAssetDir}/seminar-direct.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/セミナーページ_セミナー.png"],
+  ["list-building", "リスト化", "集客", `${funnelPartAssetDir}/list-building.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/リスト化.png"],
+  ["individual-sales", "個別説明会", "販売", `${funnelPartAssetDir}/individual-sales.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/個別説明会ページ_個別説明会.png"],
+  ["opt-before-vsl-page", "集客ページ / オプト前VSL", "集客", `${funnelPartAssetDir}/opt-before-vsl-page.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/集客ページ_オプト前VSL.png"],
+  ["opt-page", "集客ページ", "集客", `${funnelPartAssetDir}/opt-page.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/集客ページ.png"],
+  ["sales-page-part", "販売ページ直販", "販売", `${funnelPartAssetDir}/sales-page.png`, "/Users/tanakayuichi/Downloads/ファネル一覧用パーツ素材/販売ページ.png"],
+];
 
 const funnelPatternRows = [
   {
@@ -1528,23 +1548,109 @@ function roadmapJump(phases) {
 }
 
 function roadmapFunnelTag(phaseNumber, itemName) {
-  if (phaseNumber <= 2) return "設計準備";
+  if (phaseNumber <= 2) return { label: "設計準備", target: "" };
   if (phaseNumber === 3) {
-    if (itemName.includes("サンキューページ")) return "サンクスページ";
-    if (itemName.includes("登録直後メール")) return "リスト化";
-    if (itemName.includes("紹介文章")) return "ハウス/広告/紹介";
-    return "集客ページ";
+    if (itemName.includes("サンキューページ")) return { label: "サンクスページ", target: "part-thanks" };
+    if (itemName.includes("登録直後メール")) return { label: "リスト化", target: "part-list" };
+    if (itemName.includes("紹介文章")) return { label: "ハウス/広告/紹介", target: "part-reach" };
+    return { label: "集客ページ", target: "part-optin" };
   }
   if (phaseNumber === 4) {
-    if (itemName.includes("公式LINE登録誘導")) return "販売接続";
-    return "教育グループ";
+    if (itemName.includes("公式LINE登録誘導")) return { label: "販売接続", target: "part-sales" };
+    return { label: "教育グループ", target: "part-value" };
   }
   if (phaseNumber === 5) {
-    if (itemName.includes("購入完了")) return "商品提供";
-    if (itemName.includes("販売期配信")) return "販売期配信";
-    return "販売ページ";
+    if (itemName.includes("購入完了")) return { label: "商品提供", target: "part-sales" };
+    if (itemName.includes("販売期配信")) return { label: "販売期配信", target: "part-sales" };
+    return { label: "販売ページ", target: "part-sales" };
   }
-  return "納品/添削";
+  return { label: "納品/添削", target: "" };
+}
+
+function roadmapFunnelTagHtml(phaseNumber, itemName) {
+  const tag = roadmapFunnelTag(phaseNumber, itemName);
+  if (!tag.target) return `<strong>${esc(tag.label)}</strong>`;
+  return `<a class="funnel-location-link" href="#${esc(tag.target)}">${esc(tag.label)}</a>`;
+}
+
+function findFunnelPart(id) {
+  const row = funnelPartRows.find(([partId]) => partId === id);
+  if (!row) throw new Error(`Missing funnel part: ${id}`);
+  const [, label, phase, image] = row;
+  return { id, label, phase, image };
+}
+
+function compositeImagePart(targetId, partId, badge, title, note) {
+  const part = findFunnelPart(partId);
+  return `<article class="composite-part image-part" id="${esc(targetId)}">
+<span class="part-badge">${esc(badge || part.phase)}</span>
+<img src="${esc(part.image)}" alt="${esc(title || part.label)}">
+<strong>${esc(title || part.label)}</strong>
+${note ? `<small>${esc(note)}</small>` : ""}
+</article>`;
+}
+
+function compositeTextPart(targetId, badge, title, note) {
+  return `<article class="composite-part text-part" id="${esc(targetId)}">
+<span class="part-badge">${esc(badge)}</span>
+<div class="text-part-icon">${esc(title.slice(0, 1))}</div>
+<strong>${esc(title)}</strong>
+${note ? `<small>${esc(note)}</small>` : ""}
+</article>`;
+}
+
+function compositeArrow() {
+  return `<div class="composite-arrow" aria-hidden="true">→</div>`;
+}
+
+function funnelPartLibrary() {
+  const groups = ["集客", "価値提供", "販売"];
+  return `<details class="part-library">
+<summary>パーツ素材ライブラリ</summary>
+<div class="details-body">${groups.map((group) => `<section class="part-library-group">
+<h3>${esc(group)}</h3>
+<div class="part-library-grid">${funnelPartRows.filter(([, , phase]) => phase === group).map(([, label, , image]) => `<a href="${esc(image)}" class="part-library-card">
+<img src="${esc(image)}" alt="${esc(label)}">
+<strong>${esc(label)}</strong>
+</a>`).join("")}</div>
+</section>`).join("")}</div>
+</details>`;
+}
+
+function currentFunnelComposite() {
+  return `<section class="panel funnel-composite-panel">
+<h2>今回のパーツ合成プレビュー</h2>
+<p class="note">工程表の「対応位置」から、今回作っている場所を確認できます。未入手のパーツは仮枠で置いています。</p>
+<div class="funnel-composite-wrap">
+<div class="funnel-composite" aria-label="今回のファネルパーツ合成">
+  <div class="composite-phase acquisition">
+    <div class="composite-phase-label">集客</div>
+    <div class="composite-chain">
+      ${compositeTextPart("part-reach", "流入", "カツオリーチ", "ハウス / 広告 / 紹介")}
+      ${compositeArrow()}
+      ${compositeImagePart("part-optin", "opt-before-vsl-page", "登録前", "集客ページ / オプト前VSL", "メールアドレス登録")}
+      ${compositeArrow()}
+      ${compositeTextPart("part-thanks", "登録直後", "サンクスページ（画像未入手）", "教育グループへ案内")}
+      ${compositeArrow()}
+      ${compositeImagePart("part-list", "list-building", "リスト", "リスト化", "LINE / メール")}
+    </div>
+  </div>
+  <div class="composite-phase value">
+    <div class="composite-phase-label">価値提供</div>
+    <div class="composite-chain single">
+      ${compositeImagePart("part-value", "challenge-5days", "5チャレ", "教育グループ", "Day1〜Day5")}
+    </div>
+  </div>
+  <div class="composite-phase sales">
+    <div class="composite-phase-label">販売</div>
+    <div class="composite-chain single">
+      ${compositeImagePart("part-sales", "sales-page-part", "直販", "販売ページ", "成約 / 商品提供")}
+    </div>
+  </div>
+</div>
+</div>
+${funnelPartLibrary()}
+</section>`;
 }
 
 function roadmapFunnelAxis() {
@@ -1641,7 +1747,7 @@ function roadmapPhaseSection(phase, index) {
 <h3>${esc(item.name)}</h3>
 <p>${esc(item.make)}</p>
 <div class="roadmap-step-meta">
-<div><span>対応位置</span><strong>${esc(roadmapFunnelTag(phaseNumber, item.name))}</strong></div>
+<div><span>対応位置</span>${roadmapFunnelTagHtml(phaseNumber, item.name)}</div>
 <div><span>完成物</span><strong>${esc(item.output)}</strong></div>
 </div>
 ${link}
@@ -2251,6 +2357,169 @@ li { margin: 4px 0; }
 .pattern-card-body .compact-table th,
 .pattern-card-body .compact-table td { padding: 8px 9px; }
 .pattern-request { margin-top: 16px; }
+.funnel-composite-panel { overflow: visible; }
+.funnel-composite-wrap { overflow-x: auto; margin-top: 1.1rem; padding: 0 0 .65rem; }
+.funnel-composite {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  align-items: stretch;
+  min-width: 0;
+}
+.composite-phase {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff, #F8FFFD);
+}
+.composite-phase + .composite-phase::before { display: none; }
+.composite-phase-label {
+  justify-self: center;
+  min-width: 138px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: #06395a;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.45;
+  text-align: center;
+}
+.composite-chain { display: grid; grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 1fr) 28px minmax(0, 1fr); gap: 10px; align-items: center; }
+.composite-chain.single { grid-template-columns: 1fr; justify-self: center; width: min(100%, 360px); }
+.composite-part {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 210px;
+  padding: 12px;
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ink);
+  scroll-margin-top: 26px;
+  box-shadow: 0 10px 28px rgba(19, 32, 51, .06);
+}
+.composite-part.image-part img {
+  display: block;
+  width: 100%;
+  height: 132px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+}
+.composite-part strong {
+  display: block;
+  color: var(--ink);
+  font-size: .92rem;
+  line-height: 1.45;
+  text-align: center;
+}
+.composite-part small {
+  display: block;
+  color: var(--muted);
+  font-size: .7rem;
+  font-weight: 800;
+  line-height: 1.45;
+  text-align: center;
+}
+.part-badge {
+  justify-self: start;
+  min-height: 24px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--sub);
+  font-size: .68rem;
+  font-weight: 900;
+  line-height: 1.5;
+}
+.text-part { align-content: center; justify-items: center; background: var(--pale); }
+.text-part-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: var(--main);
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 900;
+  line-height: 1;
+}
+.composite-arrow {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: #06395a;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 900;
+}
+.composite-part:target {
+  border-color: #FFD24D;
+  background: #FFFDF2;
+  box-shadow: 0 0 0 6px rgba(255, 210, 77, .26), 0 20px 48px rgba(157, 101, 23, .18);
+}
+.composite-part:target::before {
+  content: "ここだよ";
+  position: absolute;
+  left: 50%;
+  top: -17px;
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 4px 12px;
+  min-width: 72px;
+  border-radius: 999px;
+  background: #FFD24D;
+  color: #3F2A00;
+  font-size: .72rem;
+  font-weight: 900;
+  line-height: 1.35;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 8px 18px rgba(157, 101, 23, .18);
+}
+.funnel-location-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--sub);
+  font-size: .86rem;
+  font-weight: 900;
+  line-height: 1.45;
+  text-decoration: none;
+}
+.funnel-location-link::after { content: "↗"; margin-left: 6px; font-size: .72rem; }
+.funnel-location-link:hover { border-color: var(--main); background: var(--soft); text-decoration: none; }
+.part-library { margin-top: 16px; }
+.part-library-group + .part-library-group { margin-top: 18px; }
+.part-library-group h3 { margin-bottom: 8px; color: var(--ink); font-size: 1rem; }
+.part-library-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.part-library-card {
+  display: grid;
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--pale);
+  color: var(--ink);
+  text-decoration: none;
+}
+.part-library-card:hover { border-color: var(--main); background: var(--soft); text-decoration: none; }
+.part-library-card img { display: block; width: 100%; height: 88px; object-fit: contain; border-radius: 8px; background: #fff; }
+.part-library-card strong { color: var(--ink); font-size: .78rem; line-height: 1.45; }
 .asset-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; font-size: .95rem; }
 .asset-table th, .asset-table td { padding: 13px 12px; border-top: 1px solid var(--line); text-align: left; vertical-align: top; }
 .asset-table th { background: linear-gradient(180deg, var(--main), var(--sub)); color: #fff; font-size: .86rem; font-weight: 800; border-top: 0; }
@@ -2454,6 +2723,11 @@ details .details-body { padding: 0 16px 16px; }
   .axis-phase + .axis-phase::before { display: none; }
   .axis-nodes { grid-template-columns: 1fr; }
   .axis-days { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .funnel-composite { min-width: 0; grid-template-columns: 1fr; }
+  .composite-phase + .composite-phase::before { display: none; }
+  .composite-chain { grid-template-columns: 1fr; }
+  .composite-arrow { transform: rotate(90deg); }
+  .part-library-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pattern-grid { grid-template-columns: 1fr; }
   .stepmail-shell { display: block; padding: 0; }
   .stepmail-side { position: relative; top: auto; max-height: none; padding: 1.2rem; border-right: 0; border-bottom: 1px solid var(--line); }
@@ -2541,7 +2815,7 @@ pages.set("roadmap.html", page({
   title: "制作工程表",
   eyebrow: "工程表",
   lead: "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。",
-  body: `${roadmapFunnelAxis()}${funnelPatternGallery()}${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
+  body: `${roadmapFunnelAxis()}${currentFunnelComposite()}${funnelPatternGallery()}${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
 
 pages.set("sheets.html", page({
   file: "sheets.html",
@@ -2873,6 +3147,12 @@ for (const dir of dirs) {
   for (const row of funnelPatternRows) {
     if (fs.existsSync(row.source)) {
       fs.copyFileSync(row.source, path.join(dir, row.image));
+    }
+  }
+  fs.mkdirSync(path.join(dir, funnelPartAssetDir), { recursive: true });
+  for (const [, , , image, source] of funnelPartRows) {
+    if (fs.existsSync(source)) {
+      fs.copyFileSync(source, path.join(dir, image));
     }
   }
 }
