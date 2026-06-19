@@ -33,14 +33,13 @@ const navGroups = [
     label: "制作物",
     items: [
       ["assets.html", "A", "制作物一覧", "カテゴリ"],
-      ["lp.html", "L", "LP一覧", "入口/販売"],
+      ["lp.html", "L", "集客素材", "LP/VSL"],
       ["head.html", "H", "ヘッド指示", "FV"],
       ["stepmail.html", "M", "ステップメール", "時系列"],
       ["line.html", "N", "LINE配信", "運用"],
       ["script-opening.html", "V", "VSL台本", "入口動画"],
       ["live-scripts.html", "D", "ライブ台本", "Day1-5"],
       ["sales-page.html", "S", "セールスページ", "販売"],
-      ["files.html", "F", "原本・MD", "保存"],
     ],
   },
 ];
@@ -105,7 +104,7 @@ const kpiFunnelRows = [
 ];
 
 const productionModeRows = [
-  ["一気通貫モード", "工程表に基づいて、全体設計から公開/改善まで順番に制作する。", "工程表の番号順に進め、設計シート、LP、配信、台本、販売導線、原本MDを該当工程の成果物として更新する。", "roadmap.html"],
+  ["一気通貫モード", "工程表に基づいて、全体設計から公開/改善まで順番に制作する。", "工程表の番号順に進め、設計シート、LP、配信、台本、販売導線、素材台帳を該当工程の成果物として更新する。", "roadmap.html"],
   ["個別制作モード", "LP、ステップメール、LINE、台本など、指定された制作物だけを切り出して制作する。", "工程表の該当項目を起点に作り、完成後は対応ページへ追加して必要な工程へ合流させる。", "roadmap.html"],
 ];
 
@@ -127,7 +126,42 @@ const chapterAssetRows = [
   ["6. 配信導線", "オープンチャット全体ポータル、固定投稿、通常配信、メルマガ件名と配信タイミング", "line.html"],
   ["7. 台本制作", "Day1〜Day5ライブ台本、課題フォーム、提出特典、アーカイブ導線", "live-scripts.html"],
   ["8. 販売導線", "販売前メッセージ、セールスレター、販売期メール/LINE、購入完了ページ", "sales-page.html"],
-  ["9. 公開/改善", "公開URL台帳、MD原本一覧、添削レポート、更新履歴", "files.html"],
+  ["9. 公開/改善", "公開URL台帳、素材所在一覧、添削レポート、更新履歴", "assets.html"],
+];
+
+const productionLayerRows = [
+  {
+    layer: "集客",
+    purpose: "見込み客に出会い、登録し、正式参加まで進んでもらうための素材群。",
+    items: [
+      ["SNSセットアップ", "プロフィール、固定投稿、導線、投稿テーマ。SNS起点の案件ではここに入れる。", "assets.html"],
+      ["広告クリエイティブ", "広告画像、広告文、遷移先、テストパターン。広告運用ありの案件で追加する。", "head.html"],
+      ["オプトインLP", "LP本文、ファーストビュー、登録CTA、オプトインVSLの配置。", "lp.html"],
+      ["オプト後VSL", "登録後サンキュー上で、OC参加とDay1着席への期待値を高める5〜10分のVSL。", "script-opening.html"],
+      ["サンキューページ/自動返信", "登録直後ページと、メール登録で止まった人を正式参加へ戻す自動返信。", "lp.html"],
+    ],
+  },
+  {
+    layer: "価値提供",
+    purpose: "登録後に参加者を迷わせず、ライブ、課題、特典で納得感を作る素材群。",
+    items: [
+      ["オープンチャット", "全体ポータル、固定投稿、通常配信、ライブ前リマインド。", "line.html"],
+      ["ステップメール/LINE", "ライブ前、価値提供中、アーカイブ、課題、特典の案内。", "stepmail.html"],
+      ["Day1〜Day5ライブ", "各日の教育テーマ、台本、動画URL、アーカイブ導線。", "live-scripts.html"],
+      ["課題/特典", "課題フォーム、提出特典、コンプリート特典、提出後案内。", "live-scripts.html"],
+    ],
+  },
+  {
+    layer: "販売",
+    purpose: "価値提供後に購入判断へ進ませ、申込後の次アクションまでつなげる素材群。",
+    items: [
+      ["販売前メッセージ", "Day5から販売ページ公開までの期待値形成とレター案内。", "sales-page.html"],
+      ["セールスページ/レター", "公式LINE内で期間限定公開する販売ページとヘッド指示。", "sales-page.html"],
+      ["販売期メール/LINE", "販売開始、質問回答、実績共有、締切、終了案内。", "stepmail.html"],
+      ["個別説明会ページ", "個別相談型・説明会型ファネルの場合に追加する申込ページ。", "sales-page.html"],
+      ["購入完了ページ", "決済後の案内、参加導線、次アクション。", "sales-page.html"],
+    ],
+  },
 ];
 
 const productionFlowRows = [
@@ -205,12 +239,12 @@ const productionFlowRows = [
   },
   {
     phase: "9. 公開/改善",
-    purpose: "公開URL、原本MD、更新履歴、添削観点をまとめ、改善できる状態にする。",
-    assets: ["公開URL台帳", "MD原本一覧", "添削レポート", "更新履歴"],
+    purpose: "公開URL、素材所在、更新履歴、添削観点をまとめ、改善できる状態にする。",
+    assets: ["公開URL台帳", "素材所在一覧", "添削レポート", "更新履歴"],
     done: "どこに何があり、次に何を直すべきかが追える。",
     boundary: "田中祐一AI側の一区切りは、成果物の所在と改善観点の整理。",
     next: "公開後の反応を見ながら、添削モードでブラッシュアップする。",
-    href: "files.html",
+    href: "assets.html",
   },
 ];
 
@@ -492,10 +526,10 @@ const roadmapPhases = [
       },
       {
         name: "既存素材確認",
-        make: "LP、メール、LINE、ライブ台本、動画、販売ページ、MD原本の有無を棚卸しする。",
-        input: "既存URL、MDファイル、動画URL",
+        make: "LP、メール、LINE、ライブ台本、動画、販売ページの素材所在を棚卸しする。",
+        input: "既存URL、原稿ファイル、動画URL",
         output: "既存素材リスト",
-        href: "files.html",
+        href: "assets.html",
       },
     ],
   },
@@ -795,7 +829,7 @@ const roadmapPhases = [
   },
   {
     name: "9. 公開/改善",
-    summary: "公開URL、MD原本、添削結果、差し替え履歴をまとめ、改善できる状態にする。",
+    summary: "公開URL、素材所在、添削結果、差し替え履歴をまとめ、改善できる状態にする。",
     items: [
       {
         name: "公開URL台帳",
@@ -805,25 +839,25 @@ const roadmapPhases = [
         href: "assets.html",
       },
       {
-        name: "MD原本保存",
-        make: "AIが再編集できるよう、各制作物のMD原本を一覧化する。",
-        input: "MDファイル、HTML、元素材",
-        output: "原本MD一覧",
-        href: "files.html",
+        name: "素材所在確認",
+        make: "AIが再編集できるよう、各制作物の原稿、URL、動画、デザイン指示の所在を一覧化する。",
+        input: "原稿ファイル、HTML、元素材",
+        output: "素材所在一覧",
+        href: "assets.html",
       },
       {
         name: "添削確認",
         make: "公開物と設計シートを見比べ、田中祐一AIの構成に合わない箇所を直す。",
         input: "公開ページ、フィードバック、設計シート",
         output: "添削レポート",
-        href: "files.html",
+        href: "assets.html",
       },
       {
         name: "差し替え履歴",
         make: "何を変更したか、どの公開URLへ反映したかを残す。",
         input: "Git差分、公開確認、修正メモ",
         output: "更新履歴",
-        href: "files.html",
+        href: "assets.html",
       },
     ],
   },
@@ -915,7 +949,7 @@ function bodyFull(relative, limit = 36000) {
     .trim();
   if (!text) return "";
   const normalized = normalizeOutputTerms(text);
-  return normalized.length > limit ? `${normalized.slice(0, limit).trim()}\n\n（以下、原本MDに続きます）` : normalized;
+  return normalized.length > limit ? `${normalized.slice(0, limit).trim()}\n\n（以下、原本に続きます）` : normalized;
 }
 
 function inlineMarkdown(value = "") {
@@ -979,7 +1013,7 @@ function markdownToHtml(markdown) {
 
 function articleFrom(relative, limit = 36000) {
   const markdown = bodyFull(relative, limit);
-  if (!markdown) return `<p class="muted">原本MDが見つかりません。</p>${source(relative)}`;
+  if (!markdown) return `<p class="muted">原本が見つかりません。</p>${source(relative)}`;
   return `<div class="article">${markdownToHtml(markdown)}</div>${source(relative)}`;
 }
 
@@ -1099,6 +1133,20 @@ function individualProductionTable() {
 
 function chapterAssetTable() {
   return `<table class="asset-table chapter-asset-table"><thead><tr><th>章</th><th>素材集</th><th>主な確認ページ</th></tr></thead><tbody>${chapterAssetRows.map(([chapter, assets, href]) => `<tr><td><strong>${esc(chapter)}</strong></td><td>${esc(assets)}</td><td><a href="${esc(href)}">開く</a></td></tr>`).join("")}</tbody></table>`;
+}
+
+function productionLayerList() {
+  return `<div class="concept-sequence production-layers">${productionLayerRows.map((row, index) => `<article class="concept-item production-layer-item">
+<span class="concept-number">${String(index + 1).padStart(2, "0")}</span>
+<div>
+<span class="meta">Asset Layer</span>
+<h3>${esc(row.layer)}</h3>
+<p>${esc(row.purpose)}</p>
+<table class="asset-table compact-table"><thead><tr><th>素材</th><th>役割</th><th>確認</th></tr></thead><tbody>
+${row.items.map(([label, detail, href]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(detail)}</td><td><a href="${esc(href)}">開く</a></td></tr>`).join("")}
+</tbody></table>
+</div>
+</article>`).join("")}</div>`;
 }
 
 function productionFlowList() {
@@ -1736,7 +1784,7 @@ pages.set("index.html", page({
 <section class="panel"><h2>案件の全体像</h2><div class="grid-3">
 ${card("会社員はWEBマーケターを目指しなさい", "企画", "地味で平凡な会社員に、裏方Webマーケターという別ルートを提示する5日間チャレンジ。", "concept.html")}
 ${card("45日間WEBマーケター超実践ブートキャンプ", "本命商品", "知識を増やすだけではなく、売上に関わる最初の実践経験を作る直販型オファー。", "offer.html")}
-${card("HTMLとMDを同時に残す", "管理方針", "見せるページはHTML、AI参照と原本差し替え用はMDとして保存し、更新時に再生成します。", "files.html")}
+${card("素材所在を残す", "管理方針", "見せるページはHTML、再編集に必要な原稿・URL・動画・指示書の所在は各ページ内に残します。", "assets.html")}
 </div></section>
 <section class="panel"><h2>完成パッケージの現在地</h2><div class="grid-4">
 <div class="kpi"><span>制作工程</span><strong>9章</strong></div>
@@ -1775,7 +1823,7 @@ pages.set("visual-report.html", page({
 <section class="panel"><h2>教育設計</h2><div class="grid-2">${liveRows.map((row) => `<div class="card white"><span class="meta">${row.day}</span><h3>${esc(row.title)}</h3><p>${esc(row.purpose)}</p>${pills([row.core, `課題提出 ${row.count}`])}</div>`).join("")}</div></section>
 <section class="panel"><h2>制作物パッケージ</h2><table class="asset-table"><thead><tr><th>区分</th><th>成果物</th><th>確認ページ</th></tr></thead><tbody>
 <tr><td>設計</td><td>コンセプト、リサーチ、プロフィール、コンフィグ、オファー</td><td><a href="sheets.html">各種設計シート</a></td></tr>
-<tr><td>集客</td><td>オプトインLP、オプトインVSL/オプト後VSL、サンキュー、自動返信メール、オープンチャット固定ノート</td><td><a href="lp.html">LP一覧</a> / <a href="stepmail.html">ステップメール</a></td></tr>
+<tr><td>集客</td><td>SNSセットアップ、広告クリエイティブ、オプトインLP、オプトインVSL/オプト後VSL、サンキュー、自動返信メール</td><td><a href="lp.html">集客素材</a> / <a href="stepmail.html">ステップメール</a></td></tr>
 <tr><td>価値提供</td><td>Day1〜Day5ライブ台本、課題、特典、アーカイブ導線</td><td><a href="live-scripts.html">ライブ台本</a></td></tr>
 <tr><td>販売</td><td>Day5公式LINE誘導、公式LINE内で期間限定公開するセールスレター、販売期メルマガ、購入完了ページ</td><td><a href="sales-page.html">セールスページ</a></td></tr>
 </tbody></table></section>
@@ -1927,47 +1975,38 @@ pages.set("assets.html", page({
   file: "assets.html",
   title: "制作物一覧",
   eyebrow: "制作物",
-  lead: "工程表に沿って、調査・設計から原稿とデザイン指示書の完成までを確認します。",
-  body: `<section class="panel"><h2>制作フローの見方</h2><p class="note">「宴」1期制作モニターでは、調査工程に応じて必要な制作物を順番に作ります。田中祐一AIは「何を作ればいいのか分からない」状態を突破するために、工程ごとの原稿、設計シート、デザイン指示書までを整理します。</p><div class="checklist">
-<div class="checkitem"><strong>工程順に作る</strong><p>全体設計、リサーチ、オファー、コンテンツ設計、LP、配信、台本、販売導線、公開/改善の順番で素材を積み上げます。</p></div>
-<div class="checkitem"><strong>VSL配置を先に選ぶ</strong><p>チャレンジローンチでは、全体設計でオプトインVSL、オプト後VSL、併用のどれで組むかを決めてから入口素材を作ります。オプト後VSLは5分前後の説得動画として扱います。</p></div>
-<div class="checkitem"><strong>原稿とデザイン指示書で一区切り</strong><p>LPやセールスページは、原稿とデザイン指示書が揃った時点で田中祐一AI側の一区切りにします。</p></div>
-<div class="checkitem"><strong>実装/組み込みは次の作業領域</strong><p>実機への組み込み、配信予約、細かなデザインブラッシュアップは、本人作業または添削モードで進めます。</p></div>
+  lead: "制作物は、工程順とは別に、集客・価値提供・販売の3階層で確認します。",
+  body: `<section class="panel"><h2>制作物管理の考え方</h2><p class="note">工程表は「作る順番」を決める本体です。一方で、制作物一覧は「どの役割の素材か」を見る場所にします。LP、VSL、ヘッド指示、自動返信のように工程がまたがる素材は、無理に2層で並べず、集客・価値提供・販売の3階層で管理します。</p><div class="checklist">
+<div class="checkitem"><strong>集客</strong><p>SNS、広告、オプトインLP、VSL、サンキュー、自動返信など、登録と正式参加までの素材。</p></div>
+<div class="checkitem"><strong>価値提供</strong><p>オープンチャット、ステップメール、LINE、Day1〜Day5ライブ、課題、特典など、参加維持と納得感を作る素材。</p></div>
+<div class="checkitem"><strong>販売</strong><p>販売前メッセージ、セールスレター、販売期配信、個別説明会ページ、購入完了ページなど、購入判断と申込後を支える素材。</p></div>
+<div class="checkitem"><strong>工程表と分ける</strong><p>制作の進行は工程表、素材の保管分類はこの3階層で見る。原稿とデザイン指示書の完成を田中祐一AI側の一区切りにします。</p></div>
 </div></section>
-<section class="panel"><h2>工程別制作フロー</h2>${productionFlowList()}</section>
-<section class="panel"><h2>章別制作素材集</h2><p class="note">制作構築で扱う素材は、工程表と同じ章立てで管理します。個別に作ったLP、ステップメール、LINE、台本も、最終的には該当する章の素材としてここへ合流させます。</p>${chapterAssetTable()}</section>
-<section class="panel"><h2>各ページへの入口</h2><table class="asset-table"><thead><tr><th>制作物</th><th>中身</th><th>確認</th></tr></thead><tbody>
-<tr><td>オプトイン開始セット</td><td>オプトインLP、VSL配置方針、VSL台本、ヘッド指示、サンキューページ、オプトイン自動返信メール。</td><td><a href="lp.html">LP一覧</a></td></tr>
-<tr><td>サンキューページ</td><td>登録直後にオープンチャット参加を正式登録として促すページ。公開URL: <a href="${urls.thanks}">${urls.thanks}</a></td><td><a href="lp.html">原稿を見る</a></td></tr>
-<tr><td>LP/ページ</td><td>オプトインLP、サンキュー、公式LINE内で期間限定公開するセールスページ、購入完了ページ。</td><td><a href="lp.html">LP一覧</a></td></tr>
-<tr><td>ヘッドデザイン</td><td>オプトインLPとセールスページのファーストビュー指示。</td><td><a href="head.html">ヘッド指示</a></td></tr>
-<tr><td>メール/LINE</td><td>オプトイン自動返信、販売期メルマガ、LINEオープンチャット、Day5公式LINE誘導、販売期公式LINE。</td><td><a href="stepmail.html">メール</a> / <a href="line.html">LINE</a></td></tr>
-<tr><td>動画/ライブ</td><td>オプトインVSL/オプト後VSL、Day1〜Day5ライブ、課題、特典。</td><td><a href="script-opening.html">VSL台本</a> / <a href="live-scripts.html">ライブ台本</a></td></tr>
-<tr><td>販売</td><td>公式LINE内で期間限定公開するセールスレター、販売期配信、購入完了ページ。</td><td><a href="sales-page.html">セールスページ</a></td></tr>
-</tbody></table></section>`}));
+<section class="panel"><h2>3階層の制作物分類</h2>${productionLayerList()}</section>
+<section class="panel"><h2>工程表との関係</h2><p class="note">たとえばLP周辺だけでも、オプトインLP、サンキューページ、VSL台本、ヘッド指示、自動返信メールに分かれます。工程表では作る順番を追い、制作物一覧ではそれらを「集客」素材としてまとめて見ます。</p></section>`}));
 
 pages.set("lp.html", page({
   file: "lp.html",
-  title: "LP一覧",
+  title: "集客素材",
   eyebrow: "制作物",
-  lead: "オプトイン開始に必要なLP本文、VSL配置、ヘッド指示、サンキュー、自動返信メールをまとめて確認します。",
-  body: `<section class="panel"><h2>VSL配置方針</h2><p class="note">このサンプルは、LP上に動画を置くオプトインVSL寄りの構成です。ただし制作モードでは、最初の全体設計でオプトインVSL、オプト後VSL、併用のどれにするかを確認し、選択に合わせてLPとサンキューページの原稿を切り替えます。オプト後VSLは5分前後、長くても5〜10分を目安にします。</p>${vslPlacementTable()}</section>
-<section class="panel"><h2>ページ台帳</h2><table class="asset-table"><thead><tr><th>ページ</th><th>役割</th><th>URL</th><th>原本</th></tr></thead><tbody>
+  lead: "集客レイヤーに必要なオプトインLP、VSL、ヘッド指示、サンキュー、自動返信メールを確認します。",
+  body: `<section class="panel"><h2>このページで扱う範囲</h2><p class="note">ここは販売ページまで含めたページ台帳ではなく、集客レイヤーの制作物を確認するページです。オプトインLP、ヘッド指示、オプトインVSL/オプト後VSL、サンキューページ、自動返信メールをまとめて確認します。セールスレターや購入完了ページは販売レイヤーとして別ページで扱います。</p></section>
+<section class="panel"><h2>VSL配置方針</h2><p class="note">このサンプルは、LP上に動画を置くオプトインVSL寄りの構成です。ただし制作モードでは、最初の全体設計でオプトインVSL、オプト後VSL、併用のどれにするかを確認し、選択に合わせてLPとサンキューページの原稿を切り替えます。オプト後VSLは5分前後、長くても5〜10分を目安にします。</p>${vslPlacementTable()}</section>
+<section class="panel"><h2>集客ページ台帳</h2><table class="asset-table"><thead><tr><th>ページ</th><th>役割</th><th>URL</th><th>原本</th></tr></thead><tbody>
 <tr><td>オプトインLP</td><td>地味で平凡な会社員を5日間ライブへ登録させる入口。オプトインVSLを採用する場合はページ内動画で期待値を作る。</td><td><a href="${urls.optin}">${urls.optin}</a></td><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</td></tr>
 <tr><td>動画視聴後LP</td><td>視聴後に登録意欲が高まった人向けの入口。</td><td><a href="${urls.optin}?ftid=b35oNFTBJXps">${urls.optin}?ftid=b35oNFTBJXps</a></td><td>${source("02_オプトインLP/02_オプトページ_動画視聴後LP.md")}</td></tr>
 <tr><td>登録後サンキュー</td><td>オープンチャット参加を正式登録として促すページ。オプト後VSLを採用する場合は5分前後の動画でOC参加と着席期待値を高める。</td><td><a href="${urls.thanks}">${urls.thanks}</a></td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
-<tr><td>期間限定セールスページ</td><td>Day5で公式LINEへ移動した人に、公式LINE内で期間限定公開する販売ページ。</td><td><a href="${urls.sales}">${urls.sales}</a></td><td>${source("06_セールス/01_セールスページ.md")}</td></tr>
-<tr><td>購入完了ページ</td><td>決済後の案内と次アクションを伝えるページ。</td><td><a href="${urls.salesThanks}">${urls.salesThanks}</a></td><td>${source("06_セールス/02_購入完了サンキューページ.md")}</td></tr>
 </tbody></table></section>
-<section class="panel"><h2>オプトイン開始セット</h2><p class="note">自動返信まで完成すると、選択したVSL配置に合わせてオプトインLPを公開し、LINEオープンチャットへ参加させる最低限の導線が動かせます。</p><div class="grid-3">
+<section class="panel"><h2>集客レイヤーの制作物</h2><p class="note">自動返信まで完成すると、選択したVSL配置に合わせてオプトインLPを公開し、LINEオープンチャットへ参加させる最低限の導線が動かせます。</p><div class="grid-3">
 ${card("オプトインLP本文", "LP", "LPの文章。オプトインVSLを採用する場合は、動画と遅延CTAを前提に登録理由を作る。", "lp.html")}
 ${card("VSL台本", "Video", "オプトインVSLまたはオプト後VSLとして、参加前の自己認識を変え次CTAへ進ませる。オプト後VSLは5〜10分以内で設計する。", "script-opening.html")}
 ${card("ヘッダーデザイン指示書", "Design", "スマホで読めるファーストビューと画像生成・HTML制作の指示。", "head.html")}
 ${card("サンキューページ文章", "Thanks", "登録直後にオープンチャット参加へ移動させるページ本文。", "lp.html")}
 ${card("オプトイン自動返信メール", "Mail", "メール登録で止まった人を正式参加へ進める自動返信。", "stepmail.html")}
 </div></section>
-<section class="panel"><h2>オプトイン開始4点確認</h2><p class="note">LP公開時に最低限そろっているべき入口素材を、URL、原本、次アクションで確認します。</p><table class="asset-table"><thead><tr><th>素材</th><th>確認すること</th><th>原本/確認先</th></tr></thead><tbody>
+<section class="panel"><h2>集客素材チェック</h2><p class="note">LP公開時に最低限そろっているべき入口素材を、URL、原本、次アクションで確認します。</p><table class="asset-table"><thead><tr><th>素材</th><th>確認すること</th><th>原本/確認先</th></tr></thead><tbody>
 <tr><td>オプトインLP</td><td>LP本文、ヘッド、登録CTAがつながっているか。オプトインVSL採用時は遅延CTAの出し方も確認する。</td><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</td></tr>
+<tr><td>ヘッドデザイン指示</td><td>ファーストビューで誰向けの何を約束するかが、スマホでも一目で伝わるか。</td><td><a href="head.html">ヘッド指示</a></td></tr>
 <tr><td>サンキューページ</td><td>登録直後にオープンチャット参加へ移動できるか。オプト後VSL採用時は5分前後の動画とOC参加CTAを確認する。</td><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
 <tr><td>VSL台本</td><td>選択した配置で、参加前の自己認識を変え、次CTAへ進ませるか。</td><td><a href="script-opening.html">VSL台本</a></td></tr>
 <tr><td>オプトイン自動返信</td><td>メール登録で止まった人を、正式参加のオープンチャットへ戻せるか。</td><td>${registrationMails.map((mail) => source(mail.relative)).join("<br>")}</td></tr>
@@ -2040,7 +2079,7 @@ pages.set("sales-page.html", page({
   title: "セールスページ原稿",
   eyebrow: "制作物",
   lead: "公式LINE内で期間限定公開する販売ページを、公開URL、本文原稿、ヘッド指示、購入後導線に分けて確認します。",
-  body: `<section class="panel"><h2>セールスページ情報</h2><p class="note">Day5でレター希望者を公式LINEへ誘導した後、公式LINE内で期間限定公開する販売ページです。制作物は混ぜずに、用途ごとに原本MDを分けて管理します。</p><table class="asset-table"><thead><tr><th>制作物</th><th>役割</th><th>確認先</th></tr></thead><tbody>
+  body: `<section class="panel"><h2>セールスページ情報</h2><p class="note">Day5でレター希望者を公式LINEへ誘導した後、公式LINE内で期間限定公開する販売ページです。制作物は混ぜずに、用途ごとに原稿と確認先を分けて管理します。</p><table class="asset-table"><thead><tr><th>制作物</th><th>役割</th><th>確認先</th></tr></thead><tbody>
 <tr><td>公開ページ</td><td>公式LINE内で案内する期間限定セールスページ。</td><td><a href="${urls.sales}">${urls.sales}</a></td></tr>
 <tr><td>セールスレター本文</td><td>ページ全体の文章原稿。見出し、本文、CTAをここで管理する。</td><td>${source("06_セールス/01_セールスページ.md")}</td></tr>
 <tr><td>ヘッド作成用プロンプト</td><td>ChatGPTや制作担当へ渡すファーストビュー制作指示。</td><td>${source("90_制作パッケージサンプル/06_ヘッドデザイン指示書.md")}</td></tr>
@@ -2062,17 +2101,6 @@ ${sourceDetails("セールスページ原稿 本文", "06_セールス/01_セー
 <section class="panel"><h2>購入完了ページ</h2>
 ${sourceDetails("購入完了サンキューページ 本文", "06_セールス/02_購入完了サンキューページ.md", 30000, true)}
 </section>`}));
-
-pages.set("files.html", page({
-  file: "files.html",
-  title: "原本・MD管理",
-  eyebrow: "制作物",
-  lead: "HTMLで見せる制作物と、AIが参照する原本MDの保存場所を対応させます。",
-  body: `<section class="panel"><h2>保存方針</h2><div class="grid-3">${card("HTML", "閲覧用", "ユーザーと田中祐一がブラウザで確認する見やすい制作ポータル。")}${card("MD", "原本/AI参照", "差し替えや追加学習のために、本文・URL・要約をMarkdownとして保存する。")}${card("公開URL", "共有用", "必要に応じてGitHub Pagesへ出し、制作物の完成イメージを共有する。")}</div></section>
-<section class="panel"><h2>原本カテゴリ</h2><table class="asset-table"><thead><tr><th>カテゴリ</th><th>件数</th><th>主な保存場所</th></tr></thead><tbody>
-${sourceInventory().map(([label, count]) => `<tr><td>${esc(label)}</td><td>${count}件</td><td>${source(label === "主要ページ" ? "02_オプトインLP/ / 03_サンキューページ/ / 06_セールス/" : label === "ライブ台本/動画" ? "04_価値提供/01_ライブシナリオ/ / 04_価値提供/02_ライブ動画/" : label === "課題/特典" ? "04_価値提供/03_課題/ / 21_特典/" : label === "オープンチャット" ? "11_オープンチャットメッセージ/" : "12_メルマガ/")}</td></tr>`).join("")}
-</tbody></table></section>
-<section class="panel"><h2>差し替え運用</h2><ol><li>原本MDまたは公開URLを差し替える。</li><li>田中祐一AIが差分を読み、対象ページを再生成する。</li><li>HTMLで表示確認し、公開URLで反映を確認する。</li><li>古い表示が消えたこと、リンク切れがないことを確認する。</li></ol></section>`}));
 
 const allPages = [
   ...pages,
