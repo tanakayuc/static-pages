@@ -25,11 +25,10 @@ const navGroups = [
   {
     label: "設計シート",
     items: [
-      ["sheets.html", "S", "各種設計シート", "一覧"],
-      ["concept.html", "C", "コンセプト", "根幹"],
-      ["profile.html", "P", "プロフィール", "信頼"],
-      ["config.html", "G", "コンフィグ", "判断軸"],
+      ["target.html", "T", "ターゲット", "見込み客"],
       ["research.html", "R", "リサーチ", "市場/競合"],
+      ["concept.html", "C", "コンセプト", "コアシナリオ"],
+      ["config.html", "G", "コンフィグ＋プロフィール", "本人情報"],
       ["offer.html", "O", "オファー", "商品/条件"],
     ],
   },
@@ -40,11 +39,6 @@ const navGroups = [
       ["lp.html", "L", "集客素材", "一覧"],
       ["value.html", "V", "価値提供素材", "一覧"],
       ["sales-page.html", "S", "販売素材", "一覧"],
-      ["head.html", "H", "ヘッド指示", "FV"],
-      ["stepmail.html", "M", "ステップメール", "時系列"],
-      ["line.html", "N", "LINE配信", "運用"],
-      ["script-opening.html", "V", "VSL台本", "入口動画"],
-      ["live-scripts.html", "D", "ライブ台本", "Day1-5"],
     ],
   },
 ];
@@ -2177,7 +2171,7 @@ pages.set("visual-report.html", page({
 <section class="panel"><h2>詳細設計後の導線</h2><div class="flow">${funnelSteps.map(([label, detail], index) => `<div class="flow-row"><strong>${index + 1}. ${esc(label)}</strong><p>${esc(detail)}</p>${status(index < 4 ? "原本あり" : "要確認")}</div>`).join("")}</div></section>
 <section class="panel"><h2>教育設計</h2><div class="grid-2">${liveRows.map((row) => `<div class="card white"><span class="meta">${row.day}</span><h3>${esc(row.title)}</h3><p>${esc(row.purpose)}</p>${pills([row.core, `課題提出 ${row.count}`])}</div>`).join("")}</div></section>
 <section class="panel"><h2>制作物パッケージ</h2><table class="asset-table"><thead><tr><th>区分</th><th>成果物</th><th>確認ページ</th></tr></thead><tbody>
-<tr><td>設計</td><td>コンセプト、リサーチ、プロフィール、コンフィグ、オファー</td><td><a href="sheets.html">各種設計シート</a></td></tr>
+<tr><td>設計</td><td>ターゲット、リサーチ、コンセプト、コンフィグ＋プロフィール、オファー</td><td><a href="target.html">ターゲット</a> / <a href="research.html">リサーチ</a> / <a href="concept.html">コンセプト</a></td></tr>
 <tr><td>集客フェーズの素材</td><td>SNSセットアップ、広告クリエイティブ、オプトインLP、オプト前VSL/オプト後VSL、サンキュー、自動返信メール</td><td><a href="lp.html">集客素材</a> / <a href="stepmail.html">ステップメール</a></td></tr>
 <tr><td>価値提供フェーズの素材</td><td>Day1〜Day5ライブ台本、課題、特典、アーカイブ導線</td><td><a href="live-scripts.html">ライブ台本</a></td></tr>
 <tr><td>販売ページの素材</td><td>Day5公式LINE誘導、公式LINE内で期間限定公開するセールスレター、販売期メルマガ、購入完了ページ</td><td><a href="sales-page.html">セールスページ</a></td></tr>
@@ -2207,13 +2201,30 @@ pages.set("sheets.html", page({
   eyebrow: "設計シート",
   lead: "制作物の前提になるレポートとシートをまとめます。ここでの判断がLPや動画台本へ反映されます。",
   body: `<section class="panel"><h2>設計シート一覧</h2><div class="concept-sequence">
- ${conceptItem(1, "コンセプトシート", "Concept", "プロダクト理解、ターゲット仮止め、ライバル理解、3C分析、空きポジション、旧世界/新世界、真の原因、ベネフィット、ミッション、コアシナリオを整理する。", ["LPや台本へ展開できる素材集として扱う。"])}
- ${conceptItem(2, "リサーチシート", "Research", "ターゲットが見ているライバル、比較対象、取りこぼし、3C分析、空きポジション、ずらし方、ターゲット感情を整理する。", ["コンセプトの根拠になる市場・競合・顧客理解を置く。"])}
- ${conceptItem(3, "プロフィール", "Profile", "LP、ライブ冒頭、セールスページで信頼形成に使う田中祐一プロフィールを置く。")}
- ${conceptItem(4, "コンフィグ", "Config", "田中祐一AIが制作判断するときの視点、トーン、避ける表現、制作物ごとの優先順位を置く。")}
+${conceptItem(1, "ターゲットシート", "Target", "誰に向けて作るのか、悩み、勘違い、動く条件、LPや動画に使う感情を整理する。", ["見込み客理解の起点として扱う。"])}
+${conceptItem(2, "リサーチシート", "Research", "ターゲットが見ているライバル、比較対象、取りこぼし、3C分析、空きポジション、ずらし方、ターゲット感情を整理する。", ["コンセプトの根拠になる市場・競合・顧客理解を置く。"])}
+${conceptItem(3, "コンセプトシート", "Concept", "プロダクト理解、ターゲット仮止め、ライバル理解、3C分析、空きポジション、旧世界/新世界、真の原因、ベネフィット、ミッション、コアシナリオを整理する。", ["LPや台本へ展開できる素材集として扱う。"])}
+${conceptItem(4, "コンフィグ＋プロフィール", "Config", "田中祐一AIが制作判断するときの視点と、LP、ライブ冒頭、セールスページで信頼形成に使うプロフィールを同じ場所に置く。")}
 ${conceptItem(5, "オファーシート", "Offer", "何を提供するのか、それがいくらなのかを中心に、本命商品として提示する条件を整理する。")}
- ${conceptItem(6, "ヘッドデザイン指示書", "Design", "LPとセールスページのファーストビューで、誰に何を約束するかを視覚化する。")}
  </div></section>`}));
+
+pages.set("target.html", page({
+  file: "target.html",
+  title: "ターゲットシート",
+  eyebrow: "設計シート",
+  lead: "誰に向けて作るのか、どんな悩みを抱え、どの言葉なら動けるのかを整理します。",
+  body: `<section class="panel"><h2>ターゲット仮止め</h2><div class="concept-sequence">
+${conceptItem(1, "見込み客像", "Customer", "顔出しや派手な発信が苦手で、自分の商品や強い実績をまだ持っていない地味で平凡な会社員。副業や起業には関心があるが、自分がスターになる未来はしっくり来ていない。")}
+${conceptItem(2, "持っている資質", "Strength", "真面目さ、継続力、支援力、客観視、数字を見る力。自分が前に出るより、誰かの売上や導線を支える方に適性がある。")}
+${conceptItem(3, "止まっている理由", "Block", "顔出し、発信、商品作り、実績不足が壁になり、スキルを学んでも売上につながる全体像が見えない。")}
+</div></section>
+<section class="panel"><h2>悩みと勘違い</h2><div class="concept-sequence">
+${conceptItem(1, "悩み", "Pain", "副業や起業に挑戦したいが、自分が表に出るのは怖い。SNSでキラキラ発信する自分も想像できず、どこから実践すればよいか分からない。")}
+${conceptItem(2, "勘違い", "Misbelief", "稼ぐには自分が有名になる必要がある。自分の商品がないと始められない。単体スキルを積み上げれば自然に売上につながる。")}
+${conceptItem(3, "真の原因", "Cause", "努力不足やセンス不足ではなく、売上までの全体構造を見通す型と、最初の実績を安全に作れる実践環境がないこと。")}
+</div></section>
+<section class="panel"><h2>動く条件</h2><ol><li>地味で平凡は弱みではなく、裏方Webマーケターの適性になり得ると分かる。</li><li>起業はスターになる道だけではないと分かる。</li><li>自分の商品がなくても、起業家のプロモーション支援で実績を作れると分かる。</li><li>単体スキルではなく、売れる仕組み全体を理解できると分かる。</li><li>45日間の実践環境で、最初の経験作りへ進めると分かる。</li></ol></section>
+<section class="panel"><h2>LP/動画に使う感情</h2><p class="quote">地味で平凡だから向いていないのではなく、地味で平凡だからこそ、派手な自己演出ではなく売上構造を支える役割に向いている。</p></section>`}));
 
 pages.set("concept.html", page({
   file: "concept.html",
@@ -2266,11 +2277,14 @@ ${markdownToHtml(tanakaProfileMarkdown)}
 
 pages.set("config.html", page({
   file: "config.html",
-  title: "コンフィグ",
+  title: "コンフィグ＋プロフィール",
   eyebrow: "設計シート",
-  lead: "田中祐一AIが制作判断するときの視点、トーン、禁止表現をまとめます。",
+  lead: "制作判断の基本コンフィグと、信頼形成に使う本人プロフィールを同じ場所で確認します。",
   body: `<section class="panel article-panel"><div class="article">
 ${markdownToHtml(configMarkdown)}
+</div></section>
+<section class="panel article-panel"><div class="article">
+${markdownToHtml(tanakaProfileMarkdown)}
 </div></section>`}));
 
 pages.set("research.html", page({

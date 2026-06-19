@@ -12,6 +12,7 @@ const requiredPages = [
   "visual-report.html",
   "roadmap.html",
   "sheets.html",
+  "target.html",
   "concept.html",
   "profile.html",
   "config.html",
@@ -129,6 +130,13 @@ const contentChecks = [
   ["roadmap.html", "スライド指示書"],
   ["roadmap.html", "セールスレター販売"],
   ["roadmap.html", "全体スケジュール"],
+  ["target.html", "ターゲットシート"],
+  ["target.html", "ターゲット仮止め"],
+  ["target.html", "見込み客像"],
+  ["target.html", "地味で平凡な会社員"],
+  ["target.html", "悩みと勘違い"],
+  ["target.html", "動く条件"],
+  ["target.html", "LP/動画に使う感情"],
   ["concept.html", "田中祐一AIのコンセプト設計フロー"],
   ["concept.html", "プロダクト理解"],
   ["concept.html", "ターゲット仮止め"],
@@ -151,6 +159,8 @@ const contentChecks = [
   ["profile.html", "株式会社ザ・リード 創業者"],
   ["profile.html", "仲間とともに成長して「全員で勝つ!」"],
   ["config.html", "制作判断の基本コンフィグ"],
+  ["config.html", "講師プロフィール"],
+  ["config.html", "株式会社ザ・リード 創業者"],
   ["config.html", "避ける表現"],
   ["config.html", "誰でも簡単"],
   ["research.html", "空きポジション"],
@@ -353,7 +363,7 @@ for (const [file, snippet] of contentChecks) {
   if (!ok) fail(`${file} missing content: ${snippet}`);
 }
 
-for (const file of ["concept.html", "profile.html", "config.html", "research.html", "offer.html"]) {
+for (const file of ["target.html", "concept.html", "profile.html", "config.html", "research.html", "offer.html"]) {
   if (read(file).includes("source-path")) fail(`${file} should not expose source paths`);
 }
 for (const snippet of ["決済後の流れ", "決済確認", "Chatwork申請", "グループ参加", "価格戦略"]) {
