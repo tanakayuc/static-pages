@@ -1049,6 +1049,12 @@ function hideFinishedUrls(text = "") {
   return String(text).replace(/https?:\/\/[^\s)）<>"']+/g, "（導線URLを設定）");
 }
 
+function cleanVisibleFileRefs(text = "") {
+  return String(text)
+    .replace(/\[([^\]]+?)\]\(([^)]*?\.md[^)]*?)\)/g, "$1")
+    .replace(/\.md/g, "");
+}
+
 function list(relative) {
   const dir = sourcePath(relative);
   if (!fs.existsSync(dir)) return [];
@@ -1081,7 +1087,7 @@ function bodyExcerpt(relative, limit = 360) {
     .replace(/```[\s\S]*?```/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
-  const compact = hideFinishedUrls(normalizeOutputTerms(text.replace(/\s+\n/g, "\n").trim()));
+  const compact = cleanVisibleFileRefs(hideFinishedUrls(normalizeOutputTerms(text.replace(/\s+\n/g, "\n").trim())));
   return compact.length > limit ? `${compact.slice(0, limit)}...` : compact;
 }
 
@@ -1097,7 +1103,8 @@ function bodyFull(relative, limit = 36000) {
 }
 
 function inlineMarkdown(value = "") {
-  return esc(value)
+  const visibleText = cleanVisibleFileRefs(value);
+  return esc(visibleText)
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/`([^`]+)`/g, "<code>$1</code>");
 }
@@ -1157,8 +1164,8 @@ function markdownToHtml(markdown) {
 
 function articleFrom(relative, limit = 36000) {
   const markdown = bodyFull(relative, limit);
-  if (!markdown) return `<p class="muted">原本が見つかりません。</p>${source(relative)}`;
-  return `<div class="article">${markdownToHtml(markdown)}</div>${source(relative)}`;
+  if (!markdown) return `<p class="muted">素材が見つかりません。</p>`;
+  return `<div class="article">${markdownToHtml(markdown)}</div>`;
 }
 
 function copyArticleFrom(relative, limit = 36000) {
@@ -1171,9 +1178,9 @@ function copyArticleFrom(relative, limit = 36000) {
     .replace(/^Produced by[\s\S]*$/m, "")
     .replace(/\n{4,}/g, "\n\n\n")
     .trim();
-  if (!markdown) return `<p class="muted">本文が見つかりません。</p>${source(relative)}`;
+  if (!markdown) return `<p class="muted">本文が見つかりません。</p>`;
   const clipped = markdown.length > limit ? `${markdown.slice(0, limit).trim()}\n\n（以下、原本に続きます）` : markdown;
-  return `<div class="article copy-article">${markdownToHtml(clipped)}</div>${source(relative)}`;
+  return `<div class="article copy-article">${markdownToHtml(clipped)}</div>`;
 }
 
 function sourceDetails(label, relative, limit = 36000, open = false) {
@@ -1181,13 +1188,13 @@ function sourceDetails(label, relative, limit = 36000, open = false) {
 }
 
 function sourceDetailsList(items, openFirst = true) {
-  if (!items.length) return `<p class="muted">原本MDが見つかりません。</p>`;
+  if (!items.length) return `<p class="muted">素材が見つかりません。</p>`;
   return `<div class="full-source-list">${items.map((relative, index) => sourceDetails(titleOf(relative), relative, 36000, openFirst && index === 0)).join("")}</div>`;
 }
 
 function sourceSummaryList(items) {
-  if (!items.length) return `<p class="muted">原本MDが見つかりません。</p>`;
-  return `<div class="folder-list">${items.map((relative) => `<a href="#"><span>${esc(relative)}</span><strong>${esc(titleOf(relative))}</strong><small>${esc(bodyExcerpt(relative, 160))}</small></a>`).join("")}</div>`;
+  if (!items.length) return `<p class="muted">素材が見つかりません。</p>`;
+  return `<div class="folder-list">${items.map((relative) => `<a href="#"><span>素材</span><strong>${esc(titleOf(relative))}</strong><small>${esc(bodyExcerpt(relative, 160))}</small></a>`).join("")}</div>`;
 }
 
 function parseMail(relative) {
@@ -1340,7 +1347,7 @@ function status(label) {
 }
 
 function source(relative) {
-  return `<span class="source-path">${esc(relative)}</span>`;
+  return "";
 }
 
 function linkedAssetTable(rows) {
@@ -1360,12 +1367,11 @@ function materialShelf(rows) {
 <span class="meta">${esc(metaLabel)}</span>
 <strong>${esc(label)}</strong>
 <span>${esc(detail)}</span>
-${folder ? `<code>${esc(folder)}</code>` : ""}
 </a>`).join("")}</div>`;
 }
 
 function materialFolderTable(rows) {
-  return `<table class="asset-table compact-table"><thead><tr><th>素材</th><th>MDフォルダ</th></tr></thead><tbody>${rows.map(([label, , , , folder]) => `<tr><td><strong>${esc(label)}</strong></td><td><code>${esc(folder || "")}</code></td></tr>`).join("")}</tbody></table>`;
+  return `<table class="asset-table compact-table"><thead><tr><th>素材</th><th>区分</th><th>確認ページ</th></tr></thead><tbody>${rows.map(([label, metaLabel, , href]) => `<tr><td><strong>${esc(label)}</strong></td><td>${esc(metaLabel)}</td><td><a href="${esc(href)}">開く</a></td></tr>`).join("")}</tbody></table>`;
 }
 
 function categoryShelf(rows) {
@@ -2000,7 +2006,6 @@ function singleMailBody(mail) {
 <table class="asset-table compact-table"><tbody>
 <tr><th>タイミング</th><td>${esc(mailTiming(mail))}</td></tr>
 <tr><th>カテゴリ</th><td>${esc(mail.category || mail.phase)}</td></tr>
-<tr><th>原本MD</th><td>${source(mail.relative)}</td></tr>
 </tbody></table>
 <div class="mail-full single-md">${copyArticleFrom(mail.relative).replace(source(mail.relative), "")}</div>
 </section>`;
@@ -2037,13 +2042,11 @@ ${normalLinks}
 
 function singleMaterialBody(item, label, timing = "") {
   const timingRow = timing ? `<tr><th>タイミング</th><td>${esc(timing)}</td></tr>` : "";
+  const metaTable = timingRow ? `<table class="asset-table compact-table"><tbody>${timingRow}</tbody></table>` : "";
   return `<section class="panel article-panel">
 <p class="block-label">${esc(label)}</p>
 <h2>${esc(item.title)}</h2>
-<table class="asset-table compact-table"><tbody>
-${timingRow}
-<tr><th>原本MD</th><td>${source(item.relative)}</td></tr>
-</tbody></table>
+${metaTable}
 <div class="mail-full single-md">${copyArticleFrom(item.relative).replace(source(item.relative), "")}</div>
 </section>`;
 }
@@ -2756,7 +2759,6 @@ li { margin: 4px 0; }
 }
 .chapter-asset-table th:nth-child(1) { width: 24%; }
 .chapter-asset-table th:nth-child(3) { width: 16%; }
-.source-path { display: inline-block; margin-top: 6px; color: #607970; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; font-weight: 650; word-break: break-all; }
 .copy-box { margin-top: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: #26384c; white-space: pre-wrap; font-size: 14px; line-height: 1.82; }
 .note { padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); color: #426158; font-weight: 650; }
 .quote { margin-top: 1.1rem; padding: 1.05rem 1.2rem; border-left: 5px solid var(--main); background: var(--pale); color: #304840; font-weight: 650; border-radius: 0 12px 12px 0; }
@@ -2808,7 +2810,6 @@ li { margin: 4px 0; }
 .mail-number { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; background: var(--soft); color: var(--sub); font-size: .82rem; font-weight: 900; }
 .mail-entry h3 { margin: 0; color: var(--ink); font-size: 1.08rem; line-height: 1.55; }
 .mail-full { margin-top: 1rem; }
-.mail-full .source-path { margin-top: 1rem; }
 .reader-page .article,
 .reader-page .article p,
 .reader-page .article ul,
@@ -3162,12 +3163,7 @@ pages.set("assets.html", page({
   title: "制作物一覧",
   eyebrow: "制作物",
   lead: "集客、価値提供、販売の3カテゴリで、生成された原稿、台本、指示書を確認します。",
-  body: `<section class="panel"><h2>制作物一覧</h2>${categoryShelf(productionCategoryRows)}</section>
-<section class="panel"><h2>MDフォルダ構成</h2><p class="note">制作物MDは、<code>${materialMdRoot}</code> 配下で集客、価値提供、販売に分けて管理します。</p><table class="asset-table compact-table"><tbody>
-<tr><th>集客素材</th><td><code>${materialMdRoot}/01_集客素材/</code></td></tr>
-<tr><th>価値提供素材</th><td><code>${materialMdRoot}/02_価値提供素材/</code></td></tr>
-<tr><th>販売素材</th><td><code>${materialMdRoot}/03_販売素材/</code></td></tr>
-</tbody></table></section>`}));
+  body: `<section class="panel"><h2>制作物一覧</h2>${categoryShelf(productionCategoryRows)}</section>`}));
 
 pages.set("lp.html", page({
   file: "lp.html",
@@ -3181,7 +3177,7 @@ pages.set("lp.html", page({
   label: "集客素材",
 })}
 <section class="panel"><h2>集客で作る素材</h2>${materialShelf(acquisitionMaterialRows)}</section>
-<section class="panel"><h2>MDフォルダ構成</h2><p class="note">集客素材は、登録前から正式参加・Day1着席までを担う素材としてまとめています。</p>${materialFolderTable(acquisitionMaterialRows)}</section>`}));
+<section class="panel"><h2>素材の確認順</h2><p class="note">登録前から正式参加・Day1着席までの流れで確認します。</p>${materialFolderTable(acquisitionMaterialRows)}</section>`}));
 
 pages.set("optin-after-mails.html", readerPage({
   file: "optin-after-mails.html",
@@ -3265,7 +3261,7 @@ pages.set("value.html", page({
   label: "価値提供素材",
 })}
 <section class="panel"><h2>価値提供で作る素材</h2>${materialShelf(valueMaterialRows)}</section>
-<section class="panel"><h2>MDフォルダ構成</h2><p class="note">Day1着席後からDay5本編までを価値提供素材として扱います。Day5後の販売導線は販売素材へ分けます。</p>${materialFolderTable(valueMaterialRows)}</section>
+<section class="panel"><h2>素材の確認順</h2><p class="note">Day1着席後からDay5本編までを価値提供素材として確認します。Day5後の販売導線は販売素材へ分けます。</p>${materialFolderTable(valueMaterialRows)}</section>
 <section class="panel"><h2>今回の価値提供構成</h2><div class="grid-3">
 ${card("5チャレ", "Challenge", "今回のサンプルはDay1〜Day5の5日間で、次ライブ Day2 を起点に設計する。", "live-scripts.html")}
 ${card("価値提供フェーズのLINEオープンチャット", "Community", "固定投稿、通常配信で、参加者の動きを止めない。", "line.html")}
@@ -3333,7 +3329,7 @@ pages.set("live-scripts.html", page({
   label: "Day1〜Day5",
 })}
 <section class="panel article-panel"><h2>Day1〜Day5ライブ台本</h2>${sourceDetailsList(list(`${valueMaterialRoot}/02_Day1〜Day5ライブ台本`))}</section>
-<section class="panel article-panel"><h2>課題・特典</h2><p class="note">課題や回答シートはMD点数が多いため、ここでは一覧と短い抜粋だけを表示します。詳細確認は原本MD側で行います。</p>${sourceSummaryList(list(`${valueMaterialRoot}/03_課題・特典`))}</section>
+<section class="panel article-panel"><h2>課題・特典</h2><p class="note">課題や回答シートは点数が多いため、ここでは一覧と短い抜粋だけを表示します。</p>${sourceSummaryList(list(`${valueMaterialRoot}/03_課題・特典`))}</section>
 `}));
 
 pages.set("sales-page.html", page({
@@ -3348,7 +3344,7 @@ pages.set("sales-page.html", page({
   label: "販売素材",
 })}
 <section class="panel"><h2>販売で作る素材</h2>${materialShelf(salesMaterialRows)}</section>
-<section class="panel"><h2>MDフォルダ構成</h2><p class="note">Day5後に販売へ接続するメッセージ、セールスレター、販売期配信、購入完了ページを販売素材としてまとめています。</p>${materialFolderTable(salesMaterialRows)}</section>`}));
+<section class="panel"><h2>素材の確認順</h2><p class="note">Day5後に販売へ接続するメッセージ、セールスレター、販売期配信、購入完了ページの順で確認します。</p>${materialFolderTable(salesMaterialRows)}</section>`}));
 
 pages.set("sales-mails.html", readerPage({
   file: "sales-mails.html",
