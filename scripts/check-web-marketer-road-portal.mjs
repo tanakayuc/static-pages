@@ -100,7 +100,9 @@ const contentChecks = [
   ["roadmap.html", "Step 1"],
   ["roadmap.html", "roadmap-step-target"],
   ["roadmap.html", "ここ"],
+  ["roadmap.html", "制作物"],
   ["roadmap.html", "図で確認する"],
+  ["roadmap.html", "このステップで作る/決めるもの"],
   ["roadmap.html", "ランディングページ / オプト前VSL"],
   ["roadmap.html", "サンキューページ本体"],
   ["roadmap.html", "自動返信文 / リスト化"],
@@ -501,6 +503,24 @@ for (const snippet of [
   "funnel-composite",
 ]) {
   if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include funnel diagram snippet: ${snippet}`);
+}
+
+for (const snippet of [
+  "roadmap-step-meta",
+  "<span>入力</span>",
+  "<span>完成物</span>",
+  "対応位置",
+  "全体構成 / 目的",
+  "<strong>ファネル全体</strong>",
+  "全体構成 / KPI",
+  "spotlight-box all",
+]) {
+  if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include old/all-step marker snippet: ${snippet}`);
+}
+
+const roadmapTargetCount = (read("roadmap.html").match(/<div class="roadmap-step-target">/g) || []).length;
+if (roadmapTargetCount < 18 || roadmapTargetCount > 30) {
+  fail(`roadmap target marker count should stay selective, got ${roadmapTargetCount}`);
 }
 
 const outputOnlyChecks = [
