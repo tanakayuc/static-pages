@@ -62,10 +62,11 @@ const coreFunnelRows = [
 const detailedAssetRows = [
   ["ヘッドデザイン指示", "LPとセールスページのファーストビュー制作指示。", "head.html"],
   ["VSL台本", "オプト前VSLまたはオプト後VSLとして、次CTAを担う5〜10分の説得動画。", "script-opening.html"],
-  ["オプトイン自動返信", "メール登録で止まった人をオープンチャットへ戻す。", "stepmail.html"],
-  ["公式LINE登録誘導", "Day5後に、レター希望者を公式LINEへ移動させる。", "line.html"],
-  ["販売期配信", "レター閲覧、締切、購入を促すメール/LINE。", "stepmail.html"],
-  ["購入完了ページ", "決済後の案内、参加導線、次アクションを伝える。", "sales-page.html"],
+  ["オプトイン自動返信", "メール登録で止まった人をオープンチャットへ戻す。", "optin-after-mails.html"],
+  ["公式LINE登録誘導", "Day5後に、レター希望者を公式LINEへ移動させる。", "sales-oc.html"],
+  ["販売メルマガ", "レター閲覧、締切、購入を促すメール。", "sales-mails.html"],
+  ["販売期LINE", "販売開始、質問回答、締切を促すLINE。", "sales-line.html"],
+  ["購入完了ページ", "決済後の案内、参加導線、次アクションを伝える。", "purchase-complete.html"],
 ];
 
 const vslPlacementRows = [
@@ -176,6 +177,8 @@ const funnelPatternRows = [
 
 const materialMdRoot = "90_制作パッケージサンプル/05_制作物一覧";
 const acquisitionMaterialRoot = `${materialMdRoot}/01_集客素材`;
+const valueMaterialRoot = `${materialMdRoot}/02_価値提供素材`;
+const salesMaterialRoot = `${materialMdRoot}/03_販売素材`;
 
 const acquisitionPatternRows = [
   {
@@ -272,7 +275,7 @@ const visibleFunnelNodes = [
   ["登録後サンキュー", "登録直後", "オープンチャット参加を正式登録として促す。オプト後VSLを置く場合は5分前後の動画で期待値を上げる。", "lp.html", "工程5"],
   ["LINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題、Q&Aを受け止める。", "line.html", "工程6"],
   ["Day1〜Day5ライブ", "価値提供", "ライブ、課題、特典で実践経験と納得感を作る。", "live-scripts.html", "工程7"],
-  ["公式LINE", "販売前接続", "レターを受け取りたい人だけを移動させ、販売導線へ分岐する。", "line.html", "工程8"],
+  ["公式LINE", "販売接続", "レターを受け取りたい人だけを移動させ、販売導線へ分岐する。", "sales-oc.html", "工程8"],
   ["期間限定レター", "販売", "公式LINE内で期限付きのセールスページを公開し、購入判断へ進ませる。", "sales-page.html", "工程8"],
   ["購入完了ページ", "決済後", "参加方法、連絡先、次アクションを案内する。", "sales-page.html", "工程8"],
 ];
@@ -281,7 +284,7 @@ const kpiFunnelRows = [
   ["入口", "登録率", "オプトインLPごとの登録率と登録経路別の反応を見る。"],
   ["登録後", "OC参加率 / Day1着席率", "サンキューからオープンチャットへ移動し、初日に着席する率を見る。"],
   ["価値提供", "ライブ参加 / 課題提出", "Day1〜Day5の離脱と提出数を見る。Day1 91件を起点に落ち方を確認する。"],
-  ["販売前", "公式LINE移動率", "レターを受け取りたい人だけが公式LINEへ移動できているかを見る。"],
+  ["販売接続", "公式LINE移動率", "レターを受け取りたい人だけが公式LINEへ移動できているかを見る。"],
   ["販売", "レター購入率 / 売上", "期間限定レターから購入する率と、仮単価60,000円での売上規模を見る。"],
 ];
 
@@ -293,7 +296,7 @@ const chapterAssetRows = [
   ["5. オプトイン開始セット", "オプトインLP、VSL配置方針、ヘッド指示、サンキューページ、自動返信メール", "lp.html"],
   ["6. 配信導線", "オープンチャット全体ポータル、固定投稿、通常配信、メルマガ件名と配信タイミング", "line.html"],
   ["7. 台本制作", "Day1〜Day5ライブ台本、課題フォーム、提出特典、アーカイブ導線", "live-scripts.html"],
-  ["8. 販売導線", "販売前メッセージ、セールスレター、販売期メール/LINE、購入完了ページ", "sales-page.html"],
+  ["8. 販売導線", "販売OC導線、セールスレター、販売メルマガ、販売期LINE、購入完了ページ", "sales-page.html"],
   ["9. 納品/添削準備", "成果物一覧、原稿/指示書所在、添削観点、更新履歴", "assets.html"],
 ];
 
@@ -319,7 +322,7 @@ const productionLayerRows = [
     purpose: "登録後に参加者を迷わせず、ライブ、課題、特典で納得感を作る素材群。",
     items: [
       ["LINEオープンチャット文面", "全体ポータル、固定投稿、通常配信、ライブ前リマインドを作る。", "line.html"],
-      ["価値提供中メール", "今回の本編はLINEオープンチャットとライブで担うため、メールを使う場合だけ分けて作る。", "value.html"],
+      ["価値提供中メール", "今回の本編はLINEオープンチャットとライブで担うため、メールを使う場合だけ分けて作る。", "value-mails.html"],
       ["Day1〜Day5ライブ台本", "各日の教育テーマ、導入、本編、課題、次回予告を台本として分けて作る。", "live-scripts.html"],
       ["Day別スライド指示書", "各ライブにスライドが必要な場合、1日ごとのスライド構成案を作る。", "live-scripts.html"],
       ["課題/特典案内文", "課題フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html"],
@@ -329,12 +332,12 @@ const productionLayerRows = [
     layer: "販売ページの素材",
     purpose: "価値提供後に購入判断へ進ませ、申込後の次アクションまでつなげる素材群。",
     items: [
-      ["販売前メッセージ原稿", "Day5から販売ページ案内までの期待値形成とレター案内を作る。", "sales-page.html"],
+      ["LINEオープンチャット販売導線", "Day5後に販売へ接続するOC内メッセージを作る。", "sales-oc.html"],
       ["セールスレター原稿", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "sales-page.html"],
-      ["セールスページデザイン指示書", "ヘッド、CTA、証拠、オファー表など、実装担当へ渡す画面指示を作る。", "sales-page.html"],
-      ["販売期メール/LINE原稿", "販売開始、質問回答、実績共有、締切、終了案内を作る。", "stepmail.html"],
-      ["LINEオープンチャット販売導線", "Day5後に販売へ接続するOC内メッセージを作る。", "line.html"],
-      ["購入完了ページ原稿", "決済後の案内、参加導線、次アクションを作る。", "sales-page.html"],
+      ["セールスページヘッド指示書", "ヘッド、CTA、証拠、オファー表など、実装担当へ渡す画面指示を作る。", "sales-head.html"],
+      ["販売メルマガ", "販売開始、質問回答、実績共有、締切、終了案内をメールで作る。", "sales-mails.html"],
+      ["販売期公式LINE", "販売開始、質問回答、実績共有、締切、終了案内をLINEで作る。", "sales-line.html"],
+      ["購入完了ページ原稿", "決済後の案内、参加導線、次アクションを作る。", "purchase-complete.html"],
     ],
   },
 ];
@@ -359,7 +362,7 @@ const productionCategoryRows = [
     meta: "Sales",
     href: "sales-page.html",
     detail: "Day5後から購入完了まで。販売接続、セールスレター、販売期配信、購入完了ページを確認します。",
-    items: ["販売前メッセージ", "セールスレター原稿", "販売期メルマガ", "販売期LINE"],
+    items: ["販売メルマガ", "セールスレター原稿", "販売期LINE", "購入完了ページ原稿"],
   },
 ];
 
@@ -374,22 +377,21 @@ const acquisitionMaterialRows = [
 ];
 
 const valueMaterialRows = [
-  ["LINEオープンチャット", "参加場所", "固定投稿とDay1前〜Day5本編の通常配信をまとめる。", "line.html", `${materialMdRoot}/02_価値提供素材/01_LINEオープンチャット/`],
-  ["固定投稿", "OC内の常設案内", "参加直後に見るべき情報、ライブURL、提出先、注意事項を固定する。", "line.html", `${materialMdRoot}/02_価値提供素材/01_LINEオープンチャット/01_固定投稿/`],
-  ["通常配信", "Day1前〜Day5本編", "ライブ前後の案内、課題提出、リマインド、特典案内を送る。", "line.html", `${materialMdRoot}/02_価値提供素材/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編/`],
-  ["Day1〜Day5ライブ台本", "価値提供本編", "各日の導入、本編、課題、次回予告、販売接続を分けて作る。", "live-scripts.html", `${materialMdRoot}/02_価値提供素材/02_Day1〜Day5ライブ台本/`],
-  ["課題/特典案内文", "行動促進", "提出フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html", `${materialMdRoot}/02_価値提供素材/03_課題・特典/`],
-  ["価値提供中メール", "今回は未使用", "今回の価値提供本編はOCとライブで担うため、メールは独立制作物にしない。", "value.html", `${materialMdRoot}/02_価値提供素材/04_価値提供中メール/`],
+  ["LINEオープンチャット", "参加場所", "固定投稿とDay1前〜Day5本編の通常配信をまとめる。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/`],
+  ["固定投稿", "OC内の常設案内", "参加直後に見るべき情報、ライブURL、提出先、注意事項を固定する。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿/`],
+  ["通常配信", "Day1前〜Day5本編", "ライブ前後の案内、課題提出、リマインド、特典案内を送る。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編/`],
+  ["Day1〜Day5ライブ台本", "価値提供本編", "各日の導入、本編、課題、次回予告、販売接続を分けて作る。", "live-scripts.html", `${valueMaterialRoot}/02_Day1〜Day5ライブ台本/`],
+  ["課題/特典案内文", "行動促進", "提出フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html", `${valueMaterialRoot}/03_課題・特典/`],
+  ["価値提供中メール", "今回は未使用", "今回の価値提供本編はOCとライブで担うため、メールは判断MDだけ確認する。", "value-mails.html", `${valueMaterialRoot}/04_価値提供中メール/`],
 ];
 
 const salesMaterialRows = [
-  ["販売前メッセージ原稿", "販売前接続", "Day5後に、レター閲覧の理由と期待値を作る。", "stepmail.html", `${materialMdRoot}/03_販売素材/01_販売前メッセージ/`],
-  ["セールスレター原稿", "販売ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "#sales-letter", `${materialMdRoot}/03_販売素材/02_セールスレター原稿/`],
-  ["販売期メルマガ原稿", "メール配信", "販売開始、質問回答、不安解消、締切のメール原稿を作る。", "stepmail.html", `${materialMdRoot}/03_販売素材/03_販売期メルマガ/`],
-  ["LINEオープンチャット販売導線", "Day5後", "Day5後に販売へ接続するOC内メッセージをまとめる。", "line.html", `${materialMdRoot}/03_販売素材/04_LINEオープンチャット_Day5後販売導線/`],
-  ["販売期公式LINE原稿", "公式LINE", "販売開始、質問回答、実績共有、締切、終了案内を作る。", "line.html", `${materialMdRoot}/03_販売素材/05_販売期公式LINE/`],
-  ["セールスページヘッド指示書", "ファーストビュー", "販売ページ冒頭のコピー、CTA、締切、画面指示を作る。", "head.html", `${materialMdRoot}/03_販売素材/06_セールスページヘッド指示書/`],
-  ["購入完了ページ原稿", "申込後", "決済後の案内、参加導線、連絡先、次アクションを作る。", "#purchase-complete", `${materialMdRoot}/03_販売素材/07_購入完了ページ原稿/`],
+  ["販売メルマガ", "メール配信", "Day5後から販売終了までのメルマガ原稿を配信順に確認する。", "sales-mails.html", `${salesMaterialRoot}/01_オプトイン後メルマガ/`],
+  ["セールスレター原稿", "販売ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "sales-letter.html", `${salesMaterialRoot}/02_セールスレター原稿/`],
+  ["LINEオープンチャット販売導線", "Day5後", "Day5後に販売へ接続するOC内メッセージをまとめる。", "sales-oc.html", `${salesMaterialRoot}/03_LINEオープンチャット_Day5後販売導線/`],
+  ["販売期公式LINE原稿", "公式LINE", "販売開始、質問回答、実績共有、締切、終了案内を作る。", "sales-line.html", `${salesMaterialRoot}/04_販売期公式LINE/`],
+  ["セールスページヘッド指示書", "ファーストビュー", "販売ページ冒頭のコピー、CTA、締切、画面指示を作る。", "sales-head.html", `${salesMaterialRoot}/05_セールスページヘッド指示書/`],
+  ["購入完了ページ原稿", "申込後", "決済後の案内、参加導線、連絡先、次アクションを作る。", "purchase-complete.html", `${salesMaterialRoot}/06_購入完了ページ原稿/`],
 ];
 
 const productionSubnav = {
@@ -450,6 +452,30 @@ const productionSubnav = {
     rows: valueMaterialRows,
   },
   "sales-page.html": {
+    title: "販売素材",
+    categoryHref: "sales-page.html",
+    currentCode: "S",
+    currentLabel: "販売素材",
+    currentSub: "レター/購入後",
+    rows: salesMaterialRows,
+  },
+  "sales-letter.html": {
+    title: "販売素材",
+    categoryHref: "sales-page.html",
+    currentCode: "S",
+    currentLabel: "販売素材",
+    currentSub: "レター/購入後",
+    rows: salesMaterialRows,
+  },
+  "sales-head.html": {
+    title: "販売素材",
+    categoryHref: "sales-page.html",
+    currentCode: "S",
+    currentLabel: "販売素材",
+    currentSub: "レター/購入後",
+    rows: salesMaterialRows,
+  },
+  "purchase-complete.html": {
     title: "販売素材",
     categoryHref: "sales-page.html",
     currentCode: "S",
@@ -560,8 +586,8 @@ const productionFlowRows = [
   },
   {
     phase: "8. 販売導線",
-    purpose: "販売前メッセージ、セールスレター、締切配信、購入完了までを一続きにする。",
-    assets: ["販売前メッセージ", "セールスレター原稿", "セールスページヘッド指示", "販売期メール/LINE", "購入完了ページ原稿"],
+    purpose: "販売OC導線、セールスレター、販売メルマガ、販売期LINE、購入完了までを一続きにする。",
+    assets: ["LINEオープンチャット販売導線", "セールスレター原稿", "セールスページヘッド指示", "販売メルマガ", "販売期LINE", "購入完了ページ原稿"],
     done: "販売ページの原稿とデザイン指示書、販売期配信、購入後案内が揃っている。",
     boundary: "原稿とデザイン指示書の完成を、田中祐一AI側の一区切りにする。",
     next: "決済システム設定、ページ実装、細かなデザインブラッシュアップは本人作業または添削モードで扱う。",
@@ -923,8 +949,8 @@ const roadmapPhases = [
       roadmapStep("33", "教育グループ（オープンチャット）作成", "参加場所を作り、登録後に案内できる状態にする。", "コンセプト・グループ名案", "教育グループURL", "line.html"),
       roadmapStep("34", "オープンチャットの固定メッセージを整える", "参加者が最初に見る固定投稿を作る。", "ノート用文章・掲示板用文章", "固定投稿", "line.html"),
       roadmapStep("35", "オープンチャット事前案内の整備", "ライブ開始前までに送る事前案内文を作る。", "コンセプト・VSLシナリオ・特典・スケジュール", "事前案内文", "line.html"),
-      roadmapStep("36", "オプト後自動返信メール", "登録直後に教育グループへ戻すメール文面を作る。", "コンセプト・登録直後案内素材", "自動返信メール文面", "stepmail.html"),
-      roadmapStep("37", "セットアップライティング", "メルマガやSNSで登録ページへ送る紹介文を作る。", "ターゲット情報・LP原稿", "紹介文章", "stepmail.html"),
+      roadmapStep("36", "オプト後自動返信メール", "登録直後に教育グループへ戻すメール文面を作る。", "コンセプト・登録直後案内素材", "自動返信メール文面", "optin-after-mails.html"),
+      roadmapStep("37", "セットアップライティング", "メルマガやSNSで登録ページへ送る紹介文を作る。", "ターゲット情報・LP原稿", "紹介文章", "traffic-mails.html"),
       roadmapStep("38", "セットアップ用画像生成", "必要な場合のみ、投稿や紹介に使う画像方向を作る。", "紹介文章", "投稿用画像指示書", "head.html"),
       roadmapStep("39", "広告用文章", "広告を使う場合に必要なコピー案を作る。", "コンセプト・ターゲット・Day1シナリオ", "広告コピー案", "assets.html"),
       roadmapStep("40", "広告用クリエイティブ", "広告を使う場合に必要な画像・動画方向を作る。", "広告コピー案", "広告クリエイティブ指示書", "assets.html"),
@@ -947,14 +973,14 @@ const roadmapPhases = [
     name: "8. プロモ素材の作成",
     summary: "Step 48〜55。配信、LINE投稿、販売ページ、購入後案内を作る。",
     items: [
-      roadmapStep("48", "リマインドメール", "教育グループ登録誘導とライブ前リマインドを作る。", "スケジュール・コンセプト", "リマインドメール", "stepmail.html"),
+      roadmapStep("48", "リマインドメール", "教育グループ登録誘導とライブ前リマインドを作る。", "スケジュール・コンセプト", "リマインド文面", "line.html"),
       roadmapStep("49", "LINEオープンチャット投稿文章", "期間中に送る固定投稿と通常配信を時系列で作る。", "スケジュール・課題・ライブ内容", "LINE投稿文", "line.html"),
       roadmapStep("50", "説明会ページ（2ステップ販売用）", "説明会や個別相談を挟む場合の申込みページ原稿を作る。", "中間オファー・本命オファー", "説明会ページ原稿", "sales-page.html"),
-      roadmapStep("51", "説明会ページ自動返信", "説明会申込み後の日時確認、準備事項、リマインドを作る。", "申込み完了情報", "説明会自動返信メール", "stepmail.html"),
+      roadmapStep("51", "説明会ページ自動返信", "説明会申込み後の日時確認、準備事項、リマインドを作る。", "申込み完了情報", "説明会自動返信メール", "sales-page.html"),
       roadmapStep("52", "説明会ページサンキューページ", "説明会申込み後のサンキューページ原稿を作る。", "申込み完了情報", "説明会サンキューページ原稿", "sales-page.html"),
       roadmapStep("53", "1ステップ販売ページ", "販売ページ直販用のセールスレター原稿を作る。", "本命オファー・コンセプト・証拠素材", "セールスレター原稿", "sales-page.html"),
       roadmapStep("54", "1ステップ販売ページ サンキュー", "購入後に必要な案内をページ原稿にする。", "購入完了情報", "購入完了ページ原稿", "sales-page.html"),
-      roadmapStep("55", "1ステップ販売ページ 自動返信", "購入後に送る自動返信メールを作る。", "購入完了情報", "購入後自動返信メール", "stepmail.html"),
+      roadmapStep("55", "1ステップ販売ページ 自動返信", "購入後に送る自動返信メールを作る。", "購入完了情報", "購入後自動返信メール", "purchase-complete.html"),
     ],
   },
   {
@@ -963,9 +989,9 @@ const roadmapPhases = [
     items: [
       roadmapStep("56", "集客の実施", "用意した紹介文、投稿、広告素材から登録ページへ送る。", "紹介文・広告素材・サンキューページ・教育グループ", "目標オプト数", "visual-report.html"),
       roadmapStep("57", "ライブの実施", "Day1〜Day5の台本に沿ってライブ、課題、質問対応を行う。", "Day1〜Day5台本", "ライブ実施ログ", "live-scripts.html"),
-      roadmapStep("58", "限定性のプッシュ（1ステップ販売）", "販売ページ直販の場合の販売開始、締切、終了案内を作る。", "販売ページ・限定特典", "販売期配信", "stepmail.html"),
-      roadmapStep("59", "限定性のプッシュ（2ステップ販売）", "説明会や個別相談へ進む場合の締切案内を作る。", "説明会ページ・視聴期限", "説明会誘導配信", "stepmail.html"),
-      roadmapStep("60", "説明会申込み後のステップ＆リマインド", "説明会申込み後のリマインド配信を作る。", "申込者情報・説明会日時", "説明会リマインド", "stepmail.html"),
+      roadmapStep("58", "限定性のプッシュ（1ステップ販売）", "販売ページ直販の場合の販売開始、締切、終了案内を作る。", "販売ページ・限定特典", "販売期配信", "sales-mails.html"),
+      roadmapStep("59", "限定性のプッシュ（2ステップ販売）", "説明会や個別相談へ進む場合の締切案内を作る。", "説明会ページ・視聴期限", "説明会誘導配信", "sales-mails.html"),
+      roadmapStep("60", "説明会申込み後のステップ＆リマインド", "説明会申込み後のリマインド配信を作る。", "申込者情報・説明会日時", "説明会リマインド", "sales-mails.html"),
       roadmapStep("61", "販売スライド（2ステップ用）", "説明会で使うスライド構成案を作る。", "本命オファー・お客様の声", "販売スライド指示書", "sales-page.html"),
       roadmapStep("62", "セールストーク（クロージング）", "個別販売がある場合の相談前後の会話台本を整える。", "販売スライド・想定問答", "セールストーク台本", "sales-page.html"),
       roadmapStep("63", "特商法・プライバシーポリシー", "販売条件に合わせて必要ページを確認する。", "事業者情報・販売条件", "特商法/プライバシーポリシー", "sales-page.html"),
@@ -1152,6 +1178,16 @@ function copyArticleFrom(relative, limit = 36000) {
 
 function sourceDetails(label, relative, limit = 36000, open = false) {
   return `<details ${open ? "open" : ""}><summary>${esc(label)}</summary><div class="details-body">${articleFrom(relative, limit)}</div></details>`;
+}
+
+function sourceDetailsList(items, openFirst = true) {
+  if (!items.length) return `<p class="muted">原本MDが見つかりません。</p>`;
+  return `<div class="full-source-list">${items.map((relative, index) => sourceDetails(titleOf(relative), relative, 36000, openFirst && index === 0)).join("")}</div>`;
+}
+
+function sourceSummaryList(items) {
+  if (!items.length) return `<p class="muted">原本MDが見つかりません。</p>`;
+  return `<div class="folder-list">${items.map((relative) => `<a href="#"><span>${esc(relative)}</span><strong>${esc(titleOf(relative))}</strong><small>${esc(bodyExcerpt(relative, 160))}</small></a>`).join("")}</div>`;
 }
 
 function parseMail(relative) {
@@ -1701,7 +1737,7 @@ function roadmapFunnelAxis() {
   const acquisitionNodes = [
     ["集客ページ", "コンセプト / オプト前VSL / メールアドレス", "lp.html"],
     ["サンクスページ", "教育グループへ正式参加", "thank-you-copy.html"],
-    ["リスト化", "LINE / メール", "stepmail.html"],
+    ["リスト化", "LINE / メール", "optin-after-mails.html"],
   ];
   const valueNodes = [
     ["Day1", "チャレンジ", "live-scripts.html"],
@@ -1842,104 +1878,28 @@ ${list}
 const registrationMails = materialMailList(`${acquisitionMaterialRoot}/04_オプトイン後メルマガ`);
 const setupMails = materialMailList(`${acquisitionMaterialRoot}/07_集客前メッセージ`);
 const referralCopies = list(`${acquisitionMaterialRoot}/06_紹介用文章`);
-const salesMails = list("12_メルマガ/フェーズ3_セールスプッシュ/メルマガ").map(parseMail);
-const officialLines = list("12_メルマガ/フェーズ3_セールスプッシュ/公式LINE")
-  .filter((file) => !file.includes("00_") && !file.includes("/生データ/"))
-  .map(parseMail);
-const fixedNotes = list("11_オープンチャットメッセージ/固定ノート").map((relative) => ({ relative, title: titleOf(relative), excerpt: bodyExcerpt(relative, 280) }));
-const spots = list("11_オープンチャットメッセージ/スポット配信").map(parseSpot);
-const plannedSpots = spots.filter((item) => item.phase !== "実ログ");
-const logOnlySpots = spots.filter((item) => item.phase === "実ログ");
+const salesMails = materialMailList(`${salesMaterialRoot}/01_オプトイン後メルマガ`)
+  .filter((mail) => !path.basename(mail.relative).startsWith("00_"));
+const salesMailOverview = `${salesMaterialRoot}/01_オプトイン後メルマガ/00_販売メッセージ.md`;
+const salesLetters = list(`${salesMaterialRoot}/02_セールスレター原稿`);
+const salesHeadDocs = list(`${salesMaterialRoot}/05_セールスページヘッド指示書`);
+const purchaseCompleteDocs = list(`${salesMaterialRoot}/06_購入完了ページ原稿`);
+const salesOcMessages = materialMailList(`${salesMaterialRoot}/03_LINEオープンチャット_Day5後販売導線`)
+  .filter((mail) => !path.basename(mail.relative).startsWith("00_"));
+const salesOcOverview = `${salesMaterialRoot}/03_LINEオープンチャット_Day5後販売導線/00_Day5後販売導線.md`;
+const salesOfficialLines = materialMailList(`${salesMaterialRoot}/04_販売期公式LINE`)
+  .filter((mail) => !path.basename(mail.relative).startsWith("00_"));
+const salesOfficialOverview = `${salesMaterialRoot}/04_販売期公式LINE/00_配信対応表.md`;
+const fixedNotes = list(`${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿`).map((relative) => ({ relative, title: titleOf(relative), excerpt: bodyExcerpt(relative, 280) }));
+const plannedSpots = list(`${valueMaterialRoot}/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編`)
+  .filter((file) => !path.basename(file).startsWith("00_"))
+  .map(parseSpot)
+  .filter((spot) => spot.phase !== "販売期");
 
-const stepmailHierarchy = [
-  {
-    phase: "入口接続",
-    timing: "登録直後〜1時間後",
-    role: "LP登録だけで終わらせず、サンキューページとオープンチャット参加へ戻す。",
-    check: "正式参加、ライブ日程、オープンチャット参加が明確か。",
-    rows: registrationMails,
-  },
-  {
-    phase: "集客前メッセージ",
-    timing: "集客開始前",
-    role: "LP、VSL、サンキューページ、ライブ台本まで揃った後、ハウスリストや紹介元へ登録ページを案内する。",
-    check: "登録先、参加理由、配信タイミング、CTAが明確か。",
-    rows: setupMails,
-  },
-  {
-    phase: "価値提供接続",
-    timing: "Day1〜Day5中",
-    role: "ライブ、課題、アーカイブ、Q&Aはオープンチャット側で動かす。",
-    check: "メールではなくLINE/オープンチャットで追走する前提を崩さない。",
-    href: "line.html",
-    rows: [],
-  },
-  {
-    phase: "販売前リマインド",
-    timing: "販売開始前日",
-    role: "5日間の視聴期限を知らせ、Day5後の販売導線へ意識を戻す。",
-    check: "セールスの前に、視聴すべき理由と残り時間が伝わるか。",
-    rows: salesMails.slice(0, 1),
-  },
-  {
-    phase: "販売開始",
-    timing: "販売開始初日",
-    role: "ブートキャンプ募集開始を伝え、公式LINE内のレターへ移動させる。",
-    check: "募集開始、対象者、コース、CTAが一通で分かるか。",
-    rows: salesMails.slice(1, 2),
-  },
-  {
-    phase: "不安解消",
-    timing: "販売開始初日夜",
-    role: "高額投資の失敗経験に触れ、ノウハウではなく実践環境の価値へ戻す。",
-    check: "価格不安、過去の失敗、行動できない不安を受け止めているか。",
-    rows: salesMails.slice(2, 3),
-  },
-  {
-    phase: "締切クロージング",
-    timing: "販売終了当日",
-    role: "残り16時間、残り3時間で、判断を先延ばしにしない理由を作る。",
-    check: "締切、最後の案内、購入後の流れが混ざらず見えるか。",
-    rows: salesMails.slice(3),
-  },
-];
-
-const phaseCounts = spots.reduce((acc, item) => {
+const phaseCounts = plannedSpots.reduce((acc, item) => {
   acc[item.phase] = (acc[item.phase] || 0) + 1;
   return acc;
 }, {});
-
-function mailTable(rows) {
-  return `<div class="timeline">${rows.map((row, index) => `<article class="timeline-item">
-    <div class="timeline-index">${String(index + 1).padStart(2, "0")}</div>
-    <div>
-      <div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.phase)}</div>
-      <p class="muted">${esc([row.day, row.time, row.category].filter(Boolean).join(" / "))}</p>
-      <div class="mail-full">${copyArticleFrom(row.relative)}</div>${row.cta ? `
-      <p class="cta-line">CTA: 次アクションを設定</p>` : ""}
-    </div>
-  </article>`).join("")}</div>`;
-}
-
-function stepmailHierarchyTable(rows) {
-  return `<table class="asset-table"><thead><tr><th>階層</th><th>タイミング</th><th>役割</th><th>確認すること</th><th>素材</th></tr></thead><tbody>${rows.map((row) => `<tr><td><strong>${esc(row.phase)}</strong></td><td>${esc(row.timing)}</td><td>${esc(row.role)}</td><td>${esc(row.check)}</td><td>${row.rows.length ? `${row.rows.length}通` : row.href ? `<a href="${row.href}">LINE側で確認</a>` : "要確認"}</td></tr>`).join("")}</tbody></table>`;
-}
-
-function stepmailHierarchyDetails(rows) {
-  return `<div class="full-source-list">${rows.map((row, index) => `<details ${index === 0 ? "open" : ""}><summary>${esc(row.phase)}｜${esc(row.timing)}</summary><div class="details-body"><p class="note">${esc(row.role)}</p>${row.rows.length ? mailTable(row.rows) : `<p>この階層はメール本文ではなく、<a href="${row.href}">LINE/オープンチャット配信管理</a>で追走します。メールページでは、役割だけを明示して導線を分けます。</p>`}</div></details>`).join("")}</div>`;
-}
-
-function stepmailPurposeId(index) {
-  return `purpose-${String(index + 1).padStart(2, "0")}`;
-}
-
-function stepmailMailId(index) {
-  return `mail-${String(index + 1).padStart(2, "0")}`;
-}
-
-function stepmailMailFile(index) {
-  return `stepmail-mail-${String(index + 1).padStart(2, "0")}.html`;
-}
 
 function lineFixedFile(index) {
   return `line-fixed-${String(index + 1).padStart(2, "0")}.html`;
@@ -1949,64 +1909,16 @@ function lineNormalFile(index) {
   return `line-normal-${String(index + 1).padStart(2, "0")}.html`;
 }
 
-function lineOfficialFile(index) {
-  return `line-official-${String(index + 1).padStart(2, "0")}.html`;
-}
-
 function mailTiming(row) {
   return [row.day, row.time].filter(Boolean).join(" / ") || row.category || row.phase;
 }
 
-let stepmailMailIndex = 0;
-for (const group of stepmailHierarchy) {
-  for (const mail of group.rows) {
-    mail.purpose = group.phase;
-    mail.file = stepmailMailFile(stepmailMailIndex);
-    stepmailMailIndex += 1;
-  }
-}
-const stepmailMails = stepmailHierarchy.flatMap((group) => group.rows);
 fixedNotes.forEach((note, index) => {
   note.file = lineFixedFile(index);
 });
 plannedSpots.forEach((spot, index) => {
   spot.file = lineNormalFile(index);
 });
-officialLines.forEach((line, index) => {
-  line.file = lineOfficialFile(index);
-});
-
-function stepmailSidebar(activeFile = "stepmail.html") {
-  const purposeLinks = stepmailHierarchy.map((row, index) => `<a class="stepmail-side-link" href="stepmail.html#${stepmailPurposeId(index)}"><span class="date">${esc(row.timing)}</span>${esc(row.phase)}</a>`).join("");
-  const mailLinks = stepmailMails.map((mail) => `<a class="stepmail-side-link ${mail.file === activeFile ? "active" : ""}" href="${esc(mail.file)}"><span class="date">${esc(mailTiming(mail))}</span>${esc(mail.title)}</a>`).join("");
-  const parentHref = activeFile === "stepmail.html" ? "assets.html" : "stepmail.html";
-  const parentLabel = activeFile === "stepmail.html" ? "制作物一覧" : "ステップメール一覧";
-  return `<aside class="reader-side stepmail-side">
-<div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
-<h3>ステップメール</h3>
-<a class="stepmail-side-link top-link" href="${parentHref}"><span class="date">Back</span>1つ上に戻る</a>
-<a class="stepmail-side-link top-link ${activeFile === "stepmail.html" ? "active" : ""}" href="stepmail.html"><span class="date">${esc(parentLabel)}</span>全体像</a>
-<div class="stepmail-side-section">目的別</div>
-${purposeLinks}
-<div class="stepmail-side-section">メール一覧</div>
-${mailLinks}
-</aside>`;
-}
-
-function stepmailPurposeSection(row, index) {
-  const material = row.rows.length
-    ? `<div class="folder-list compact">${row.rows.map((mail) => `<a href="${esc(mail.file)}"><span>${esc(mailTiming(mail))}</span><strong>${esc(mail.title)}</strong></a>`).join("")}</div>`
-    : `<a href="${row.href}">LINE/オープンチャットで確認</a>`;
-  return `<section id="${stepmailPurposeId(index)}" class="stepmail-block">
-<p class="block-label">${esc(row.timing)}</p>
-<h2>${esc(row.phase)}</h2>
-<p>${esc(row.role)}</p>
-<table class="asset-table compact-table"><tbody>
-<tr><th>確認すること</th><td>${esc(row.check)}</td></tr>
-<tr><th>素材</th><td>${material}</td></tr>
-</tbody></table>
-</section>`;
-}
 
 function folderList(rows, metaFn = mailTiming) {
   return `<div class="folder-list">${rows.map((row) => `<a href="${esc(row.file)}"><span>${esc(metaFn(row))}</span><strong>${esc(row.title)}</strong></a>`).join("")}</div>`;
@@ -2024,58 +1936,60 @@ function trafficMailFile(index) {
   return `traffic-mail-${String(index + 1).padStart(2, "0")}.html`;
 }
 
+function salesMailFile(index) {
+  return `sales-mail-${String(index + 1).padStart(2, "0")}.html`;
+}
+
+function salesOcFile(index) {
+  return `sales-oc-${String(index + 1).padStart(2, "0")}.html`;
+}
+
+function salesLineFile(index) {
+  return `sales-line-${String(index + 1).padStart(2, "0")}.html`;
+}
+
 registrationMails.forEach((mail, index) => {
   mail.assetFile = optinAfterMailFile(index);
 });
 setupMails.forEach((mail, index) => {
   mail.assetFile = trafficMailFile(index);
 });
+salesMails.forEach((mail, index) => {
+  mail.assetFile = salesMailFile(index);
+});
+salesOcMessages.forEach((mail, index) => {
+  mail.assetFile = salesOcFile(index);
+});
+salesOfficialLines.forEach((mail, index) => {
+  mail.assetFile = salesLineFile(index);
+});
 
-function mailAssetSidebar({ title, indexFile, activeFile, rows }) {
-  const parentHref = activeFile === indexFile ? "lp.html" : indexFile;
-  const parentLabel = activeFile === indexFile ? "集客素材一覧" : title;
-  const links = rows.map((mail) => `<a class="stepmail-side-link ${mail.assetFile === activeFile ? "active" : ""}" href="${esc(mail.assetFile)}"><span class="date">${esc(mailTiming(mail))}</span>${esc(mail.title)}</a>`).join("");
+function mailAssetSidebar({ title, indexFile, activeFile, rows, parentHref = "lp.html", parentLabel = "集客素材一覧", sectionLabel = "メール一覧" }) {
+  const upHref = activeFile === indexFile ? parentHref : indexFile;
+  const upLabel = activeFile === indexFile ? parentLabel : title;
+  const links = rows.map((mail) => {
+    const href = mail.assetFile || mail.file;
+    return `<a class="stepmail-side-link ${href === activeFile ? "active" : ""}" href="${esc(href)}"><span class="date">${esc(mailTiming(mail))}</span>${esc(mail.title)}</a>`;
+  }).join("");
   return `<aside class="reader-side stepmail-side">
 <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
 <h3>${esc(title)}</h3>
-<a class="stepmail-side-link top-link" href="${esc(parentHref)}"><span class="date">Back</span>1つ上に戻る</a>
-<a class="stepmail-side-link top-link ${activeFile === indexFile ? "active" : ""}" href="${esc(indexFile)}"><span class="date">${esc(parentLabel)}</span>一覧</a>
-<div class="stepmail-side-section">メール一覧</div>
+<a class="stepmail-side-link top-link" href="${esc(upHref)}"><span class="date">Back</span>1つ上に戻る</a>
+<a class="stepmail-side-link top-link ${activeFile === indexFile ? "active" : ""}" href="${esc(indexFile)}"><span class="date">${esc(upLabel)}</span>一覧</a>
+<div class="stepmail-side-section">${esc(sectionLabel)}</div>
 ${links}
 </aside>`;
 }
 
-function mailAssetIndexBody({ title, lead, rows }) {
+function mailAssetIndexBody({ title, lead, rows, label = "集客素材", overview = "" }) {
   return `<div class="stepmail-content reader-content">
 <section class="stepmail-block">
-<p class="block-label">集客素材</p>
+<p class="block-label">${esc(label)}</p>
 <h2>${esc(title)}</h2>
 <p>${esc(lead)}</p>
+${overview ? `<div class="details-body">${articleFrom(overview).replace(source(overview), "")}</div>` : ""}
 ${assetFolderList(rows)}
 </section>
-</div>`;
-}
-
-function stepmailPageBody() {
-  return `<div class="stepmail-content reader-content">
-<section id="overview" class="stepmail-block">
-<p class="block-label">全体像</p>
-<h2>ステップメール全体像</h2>
-<p>このページは、増田さん案件のステップメールページと同じく、左側で目的別とメール一覧を追い、本文側で配信の役割と配信原稿を確認する構成です。</p>
-<p>今回のWEBマーケターへの道では、メールは5日間の教育を全部担うのではなく、オプトイン後の正式参加、集客開始前の案内、販売前の再接続、販売開始、価格不安、締切クロージングを担当します。</p>
-</section>
-<section class="stepmail-block">
-<p class="block-label">オプトイン後メルマガ / 集客前メッセージ / 販売期メルマガ</p>
-<h2>目的別の全体像</h2>
-${stepmailHierarchyTable(stepmailHierarchy).replace("<th>階層</th>", "<th>目的</th>")}
-</section>
-${stepmailHierarchy.map(stepmailPurposeSection).join("")}
-<section class="stepmail-block">
-<p class="block-label">配信順</p>
-<h2>メール一覧</h2>
-${folderList(stepmailMails)}
-</section>
-</div>
 </div>`;
 }
 
@@ -2107,9 +2021,8 @@ function spotTiming(row) {
 function lineSidebar(activeFile = "line.html") {
   const fixedLinks = fixedNotes.map((note) => `<a class="stepmail-side-link ${note.file === activeFile ? "active" : ""}" href="${esc(note.file)}"><span class="date">固定投稿</span>${esc(note.title)}</a>`).join("");
   const normalLinks = plannedSpots.map((spot) => `<a class="stepmail-side-link ${spot.file === activeFile ? "active" : ""}" href="${esc(spot.file)}"><span class="date">${esc(spotTiming(spot))}</span>${esc(spot.title)}</a>`).join("");
-  const officialLinks = officialLines.map((line) => `<a class="stepmail-side-link ${line.file === activeFile ? "active" : ""}" href="${esc(line.file)}"><span class="date">${esc(mailTiming(line))}</span>${esc(line.title)}</a>`).join("");
-  const parentHref = activeFile === "line.html" ? "assets.html" : "line.html";
-  const parentLabel = activeFile === "line.html" ? "制作物一覧" : "LINE配信一覧";
+  const parentHref = activeFile === "line.html" ? "value.html" : "line.html";
+  const parentLabel = activeFile === "line.html" ? "価値提供素材一覧" : "LINE配信一覧";
   return `<aside class="reader-side stepmail-side line-side">
 <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
 <h3>LINE配信</h3>
@@ -2119,8 +2032,6 @@ function lineSidebar(activeFile = "line.html") {
 ${fixedLinks}
 <div class="stepmail-side-section">通常配信</div>
 ${normalLinks}
-<div class="stepmail-side-section">公式LINE</div>
-${officialLinks}
 </aside>`;
 }
 
@@ -2168,12 +2079,11 @@ function linePageBody() {
 <section id="line-overview" class="stepmail-block">
 <p class="block-label">全体ポータル</p>
 <h2>LINE全体ポータル</h2>
-<p>LINEは、固定投稿で参加者の迷子を防ぎ、通常配信でライブ、課題、アーカイブ、販売期の案内を流します。Day5以降は、レター希望者を公式LINEへ移して販売導線を切り分けます。</p>
+<p>価値提供側のLINEオープンチャットです。固定投稿で参加者の迷子を防ぎ、通常配信でDay1前からDay5本編までのライブ、課題、アーカイブ案内を流します。</p>
 <table class="asset-table compact-table"><tbody>
 <tr><th>固定投稿</th><td>${fixedNotes.length}件。ライブ参加、課題、特典、基本案内を常設する。</td></tr>
-<tr><th>通常配信</th><td>${plannedSpots.length}件。ライブ前、価値提供中、販売期の計画配信。</td></tr>
-<tr><th>実ログ</th><td>${logOnlySpots.length}件。実際の補足投稿やリアルタイム運用の記録。</td></tr>
-<tr><th>公式LINE</th><td>${officialLines.length}通。販売導線、締切、質問回答、購入完了案内。</td></tr>
+<tr><th>通常配信</th><td>${plannedSpots.length}件。ライブ前、価値提供中の計画配信。</td></tr>
+<tr><th>販売導線</th><td>Day5後の販売接続は<a href="sales-oc.html">販売素材</a>で確認する。</td></tr>
 </tbody></table>
 </section>
 <section id="line-funnel" class="stepmail-block">
@@ -2183,7 +2093,7 @@ function linePageBody() {
 <table class="asset-table compact-table"><tbody>
 <tr><th>入口</th><td>オプトインLP、サンキューページ、自動返信メールから教育グループへ接続する。</td></tr>
 <tr><th>価値提供</th><td>Day1〜Day5のライブ、課題、特典、アーカイブを通常配信で案内する。</td></tr>
-<tr><th>販売分岐</th><td>Day5後に、期間限定セールスレターへ案内する公式LINEへ移動する。</td></tr>
+<tr><th>販売分岐</th><td>Day5後の販売接続メッセージは販売素材側へ分ける。</td></tr>
 </tbody></table>
 </section>
 <section id="line-fixed" class="stepmail-block">
@@ -2197,15 +2107,9 @@ ${folderList(fixedNotes, () => "固定投稿")}
 <table class="asset-table compact-table"><thead><tr><th>フェーズ</th><th>件数</th><th>役割</th></tr></thead><tbody>
 <tr><td>ライブ前</td><td>${phaseCounts["ライブ前"] || 0}件</td><td>参加前の期待値形成、概要説明、ライブ参加リマインド。</td></tr>
 <tr><td>価値提供中</td><td>${phaseCounts["価値提供中"] || 0}件</td><td>ライブリンク、課題、アーカイブ、質問回答、特典案内。</td></tr>
-<tr><td>販売期</td><td>${phaseCounts["販売期"] || 0}件</td><td>販売開始、質問回答、実績共有、締切、終了案内。</td></tr>
 </tbody></table>
 <h3 class="section-title">全スポット配信タイトル</h3>
 ${folderList(plannedSpots, spotTiming)}
-</section>
-<section class="stepmail-block">
-<p class="block-label">公式LINE</p>
-<h2>販売期公式LINE</h2>
-${folderList(officialLines, mailTiming)}
 </section>
 </div>
 </div>`;
@@ -2216,8 +2120,8 @@ function sourceInventory() {
     ["主要ページ", list("02_オプトインLP").length + list("03_サンキューページ").length + list("06_セールス").length],
     ["ライブ台本/動画", list("04_価値提供/01_ライブシナリオ").length + list("04_価値提供/02_ライブ動画").length],
     ["課題/特典", list("04_価値提供/03_課題").length + list("21_特典").length],
-    ["オープンチャット", fixedNotes.length + spots.length],
-    ["メール/公式LINE", registrationMails.length + salesMails.length + officialLines.length],
+    ["オープンチャット", fixedNotes.length + plannedSpots.length],
+    ["メール/公式LINE", registrationMails.length + salesMails.length + salesOfficialLines.length],
   ];
   return categories;
 }
@@ -3071,7 +2975,7 @@ ${currentPatternImageCard()}
   ["登録後サンキュー", "登録直後", "サンキューページ原稿 / 自動返信メール", "lp.html", "集客"],
   ["LINEオープンチャット", "参加場所", "固定投稿 / 通常配信", "line.html", "価値提供"],
   ["Day1〜Day5", "価値提供", "ライブ台本 / 課題 / 特典", "live-scripts.html", "価値提供"],
-  ["公式LINE", "販売前", "公式LINE登録誘導 / 販売前メッセージ", "line.html", "販売"],
+  ["公式LINE", "販売接続", "公式LINE登録誘導 / 販売導線LINE", "sales-oc.html", "販売"],
   ["期間限定レター", "販売", "セールスレター原稿 / 販売期配信", "sales-page.html", "販売"],
   ["購入完了ページ", "決済後", "購入完了ページ原稿", "sales-page.html", "販売"],
 ])}</section>
@@ -3108,7 +3012,7 @@ ${currentPatternImageCard()}
 <section class="panel"><h2>制作対象</h2><table class="asset-table"><thead><tr><th>区分</th><th>作る素材</th><th>確認ページ</th></tr></thead><tbody>
 <tr><td>集客</td><td>オプトインLP原稿、LPヘッドデザイン指示書、オプト前VSL台本、オプトイン後メルマガ、サンキューページ原稿、紹介用文章、集客前メッセージ</td><td><a href="lp.html">集客素材</a></td></tr>
 <tr><td>価値提供</td><td>Day1〜Day5台本、課題、特典、固定投稿、通常配信</td><td><a href="value.html">価値提供素材</a></td></tr>
-<tr><td>販売</td><td>販売前メッセージ、セールスレター原稿、セールスページヘッド指示書、販売期配信、購入完了ページ原稿</td><td><a href="sales-page.html">販売素材</a></td></tr>
+<tr><td>販売</td><td>販売OC導線、セールスレター原稿、セールスページヘッド指示書、販売メルマガ、販売期LINE、購入完了ページ原稿</td><td><a href="sales-page.html">販売素材</a></td></tr>
 </tbody></table></section>
 `}));
 
@@ -3118,19 +3022,6 @@ pages.set("roadmap.html", page({
   eyebrow: "工程表",
   lead: "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。",
   body: `${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
-
-pages.set("sheets.html", page({
-  file: "sheets.html",
-  title: "各種設計シート",
-  eyebrow: "設計シート",
-  lead: "制作物の前提になるレポートとシートをまとめます。ここでの判断がLPや動画台本へ反映されます。",
-  body: `<section class="panel"><h2>設計シート一覧</h2><div class="concept-sequence">
-${conceptItem(1, "ターゲットシート", "Target", "誰に向けて作るのか、悩み、勘違い、動く条件、LPや動画に使う感情を整理する。", ["見込み客理解の起点として扱う。"])}
-${conceptItem(2, "リサーチシート", "Research", "ターゲットが見ているライバル、比較対象、取りこぼし、3C分析、空きポジション、ずらし方、ターゲット感情を整理する。", ["コンセプトの根拠になる市場・競合・顧客理解を置く。"])}
-${conceptItem(3, "コンセプトシート", "Concept", "プロダクト理解、ターゲット仮止め、ライバル理解、3C分析、空きポジション、旧世界/新世界、真の原因、ベネフィット、ミッション、コアシナリオを整理する。", ["LPや台本へ展開できる素材集として扱う。"])}
-${conceptItem(4, "コンフィグ＋プロフィール", "Config", "田中祐一AIが制作判断するときの視点と、LP、ライブ冒頭、セールスページで信頼形成に使うプロフィールを同じ場所に置く。")}
-${conceptItem(5, "オファーシート", "Offer", "何を提供するのか、それがいくらなのかを中心に、本命商品として提示する条件を整理する。")}
- </div></section>`}));
 
 pages.set("target.html", page({
   file: "target.html",
@@ -3195,15 +3086,6 @@ ${conceptItem(1, "旧世界", "Before", "自分がスターになり、SNSで目
 ${conceptItem(2, "新世界", "After", "社長の右腕として、裏方でプロモーションを支えながら売上に関われる。顔出しや自分の商品を前提にせず、ファネル全体を理解して実績を作れる。")}
 </div></section>
 `}));
-
-pages.set("profile.html", page({
-  file: "profile.html",
-  title: "プロフィール",
-  eyebrow: "設計シート",
-  lead: "LP、ライブ冒頭、セールスページで信頼形成に使う田中祐一プロフィールです。",
-  body: `<section class="panel article-panel"><div class="article">
-${markdownToHtml(tanakaProfileMarkdown)}
-</div></section>`}));
 
 pages.set("config.html", page({
   file: "config.html",
@@ -3354,19 +3236,7 @@ pages.set("optin-lp-copy.html", page({
   title: "オプトインLP原稿",
   eyebrow: "集客素材",
   lead: "登録前に見込み客へ提示するLP本文です。今回の構成ではLP上にオプト前VSLを置きます。",
-  body: `<section class="panel"><h2>ヘッドコピー</h2><p class="quote">地味で平凡な会社員向け<br>才能・経験・顔出し不要の<br>裏方起業のロードマップを公開</p></section>
-<section class="panel"><h2>サブヘッド</h2><p>社長の右腕として活躍する、プロモーション戦略を担う希少価値の高い「裏方Webマーケターの道」はすぐに視聴できます。</p></section>
-<section class="panel"><h2>動画視聴前の案内</h2><p>この動画は検索しても出てきませんので、見逃さないようにご注意ください。</p><p>6分ほど動画を視聴すると、ページ下部に特別なご案内が表示されます。</p></section>
-<section class="panel"><h2>動画視聴後LP</h2><div class="concept-sequence">
-${conceptItem(1, "特徴1", "再現性", "カリスマ性やセンスは一切不要。売れる仕組みの暗号を解き明かすテンプレートに沿って進めるだけで、社長の右腕になれる再現性の高い仕組み。")}
-${conceptItem(2, "特徴2", "働き方", "作業者から脱却し、クライアントの事業の根幹を支える戦略的パートナーという働き方へ進む。")}
-${conceptItem(3, "特徴3", "適性", "顔出し、実績、商品がなくても、真面目さや分析力を活かして裏方Webマーケターとして価値を出せる。")}
-</div></section>
-<section class="panel"><h2>CTA</h2><p class="quote">社長の右腕として活躍する裏方Webマーケターの道を手に入れて、希少価値の高いキャリアを歩みませんか？</p><p>登録後にLINEオープンチャットの参加をもって正式な登録完了となります。</p></section>
-<section class="panel"><h2>原本MD</h2><table class="asset-table compact-table"><tbody>
-<tr><th>動画視聴前</th><td>${source("02_オプトインLP/01_オプトページ_登録経路なし.md")}</td></tr>
-<tr><th>動画視聴後</th><td>${source("02_オプトインLP/02_オプトページ_動画視聴後LP.md")}</td></tr>
-</tbody></table></section>`}));
+  body: `<section class="panel article-panel"><h2>オプトインLP原稿</h2>${sourceDetailsList(list(`${acquisitionMaterialRoot}/01_オプトインLP原稿`))}</section>`}));
 
 pages.set("referral-copy.html", page({
   file: "referral-copy.html",
@@ -3381,17 +3251,13 @@ pages.set("thank-you-copy.html", page({
   title: "サンキューページ原稿",
   eyebrow: "集客素材",
   lead: "メール登録直後に表示し、LINEオープンチャット参加へ進めるページ本文です。",
-  body: `<section class="panel"><h2>ページ本文</h2><p class="quote">まだ完全に登録は完了していません！</p><p>Webマーケターへの道「5日間チャレンジ・LINEオープンチャット」に今すぐ登録してください。</p><p>以下のボタンをクリックして、LINEオープンチャットにアクセスし、ライブ参加と質問権利を受け取ってください。</p></section>
-<section class="panel"><h2>CTA</h2><p class="quote">LINEオープンチャットに参加する</p></section>
-<section class="panel"><h2>原本MD</h2><table class="asset-table compact-table"><tbody>
-<tr><th>サンキューページ</th><td>${source("03_サンキューページ/01_オプトイン後サンキューページ.md")}</td></tr>
-</tbody></table></section>`}));
+  body: `<section class="panel article-panel"><h2>サンキューページ原稿</h2>${sourceDetailsList(list(`${acquisitionMaterialRoot}/05_サンキューページ原稿`))}</section>`}));
 
 pages.set("value.html", page({
   file: "value.html",
   title: "価値提供の素材一覧",
   eyebrow: "制作物",
-  lead: "LINEオープンチャット、ステップメール、Day1〜Day5ライブ、課題、特典をまとめて確認します。",
+  lead: "LINEオープンチャット、Day1〜Day5ライブ、課題、特典をまとめて確認します。",
   body: `${funnelSpotlightCard({
   title: "価値提供素材の対象箇所",
   note: "価値提供素材は、教育グループ内のDay1〜Day5、ライブ、課題、配信に使います。",
@@ -3404,44 +3270,21 @@ pages.set("value.html", page({
 ${card("5チャレ", "Challenge", "今回のサンプルはDay1〜Day5の5日間で、次ライブ Day2 を起点に設計する。", "live-scripts.html")}
 ${card("LINEオープンチャット", "Community", "全体ポータル、固定投稿、通常配信で、参加者の動きを止めない。", "line.html")}
 ${card("課題と特典", "Action", "各日の課題提出と特典案内で、学習ではなく実践へ進める。", "live-scripts.html")}
-</div></section>`}));
+	</div></section>`}));
+
+pages.set("value-mails.html", page({
+  file: "value-mails.html",
+  title: "価値提供中メール",
+  eyebrow: "価値提供素材",
+  lead: "今回の価値提供本編はLINEオープンチャットとライブで担うため、メールは判断MDだけ確認します。",
+  body: `<section class="panel article-panel"><h2>価値提供中メール</h2>${sourceDetailsList(list(`${valueMaterialRoot}/04_価値提供中メール`))}</section>`}));
 
 pages.set("head.html", page({
   file: "head.html",
   title: "LPヘッドデザイン指示書",
   eyebrow: "制作物",
   lead: "LPのファーストビューで何を見せるか、指示書と参考サンプルをセットで渡せる形にします。",
-  body: `<section class="panel"><h2>オプトインLPヘッド</h2><div class="grid-2">
-${card("採用メッセージ", "Copy", "地味で平凡な会社員向け。才能・経験・顔出し不要の裏方起業のロードマップを公開。")}
-${card("視覚方向", "Visual", "静かな作戦室、ノートPC、ファネル図、売上グラフ、チャット、設計資料。派手な自由人表現は避ける。")}
-</div><div class="copy-box">地味で平凡な会社員が、表に立つ起業家ではなく、社長の右腕としてプロモーション戦略を支える世界観。ノートPC、ファネル図、売上グラフ、チャット画面、設計資料が並ぶ静かな作戦室。落ち着いた白とチャコール、信頼感のあるグリーン、アクセントに淡いゴールド。人物は背中や横顔程度で、顔出し不要の裏方感を出す。スマホでも文字が読みやすい余白を確保。</div></section>
-<section class="panel"><h2>ChatGPTへ渡すセット</h2><table class="asset-table compact-table"><tbody>
-<tr><th>渡すもの</th><td>LPヘッドデザイン指示書、LP原稿、参考サンプル</td></tr>
-<tr><th>目的</th><td>ファーストビューのコピー、画像方向、CTA、スマホ表示を同じ前提で制作できるようにする。</td></tr>
-<tr><th>MDフォルダ</th><td><code>${materialMdRoot}/01_集客素材/02_LPヘッドデザイン指示書/</code></td></tr>
-</tbody></table></section>
-<section class="panel"><h2>セールスページヘッド</h2><div class="grid-2">
-${card("採用メッセージ", "Copy", "「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？")}
-${card("HTML制作方針", "Layout", "商品名、対象者、変化の約束、CTA、締切をファーストビュー内に置く。スマホではCTAを1画面目下部に見せる。")}
-</div>${source("90_制作パッケージサンプル/06_ヘッドデザイン指示書.md")}</section>`}));
-
-pages.set("stepmail.html", readerPage({
-  file: "stepmail.html",
-  title: "ステップメール",
-  eyebrow: "制作物",
-  lead: "オプトイン後メルマガ、集客前メッセージ、販売期メルマガを、目的別サイドバーと配信順で確認します。",
-  sidebar: stepmailSidebar(),
-  body: stepmailPageBody()}));
-
-for (const mail of stepmailMails) {
-  pages.set(mail.file, readerPage({
-    file: mail.file,
-    title: mail.title,
-    eyebrow: "ステップメール",
-    lead: `${mail.purpose} / ${mailTiming(mail)}`,
-    sidebar: stepmailSidebar(mail.file),
-    body: singleMailBody(mail)}));
-}
+  body: `<section class="panel article-panel"><h2>LPヘッドデザイン指示書</h2>${sourceDetailsList(list(`${acquisitionMaterialRoot}/02_LPヘッドデザイン指示書`))}</section>`}));
 
 pages.set("line.html", readerPage({
   file: "line.html",
@@ -3471,31 +3314,12 @@ for (const spot of plannedSpots) {
     body: singleMaterialBody(spot, spot.phase, spotTiming(spot))}));
 }
 
-for (const line of officialLines) {
-  pages.set(line.file, readerPage({
-    file: line.file,
-    title: line.title,
-    eyebrow: "公式LINE",
-    lead: `公式LINE / ${mailTiming(line)}`,
-    sidebar: lineSidebar(line.file),
-    body: singleMailBody(line)}));
-}
-
 pages.set("script-opening.html", page({
   file: "script-opening.html",
   title: "オプト前VSL台本",
   eyebrow: "制作物",
   lead: "LP上で登録前に見せる動画台本です。今回の案件ではオプト前VSLのみを制作対象にします。",
-  body: `<section class="panel"><h2>今回のVSL台本</h2><p class="quote">登録前に世界観を提示し、5日間チャレンジの登録CTAへ進ませるための台本です。</p></section>
-<section class="panel"><h2>台本ドラフト</h2>
-<div class="script-block"><span class="time">0:00-0:20</span><h3>冒頭フック</h3><p>「才能も、顔出しも、自分の商品もない。そんな地味で平凡な会社員こそ、WEBマーケターを目指してほしい。」</p></div>
-<div class="script-block"><span class="time">0:20-1:10</span><h3>共感</h3><p>副業や起業に挑戦したい。でも、自分が前に出るのは苦手。SNSでキラキラ発信する自分も想像できない。そう感じているなら、この5日間はあなたのための内容です。</p></div>
-<div class="script-block"><span class="time">1:10-2:10</span><h3>パラダイムシフト</h3><p>起業は、自分がスターになる道だけではありません。売上を支える人、導線を設計する人、社長の右腕としてプロモーションを動かす人にも、大きな価値があります。</p></div>
-<div class="script-block"><span class="time">2:10-3:10</span><h3>5日間の約束</h3><p>この5日間で、売れる仕組みをD.E.C.O.D.E.として分解し、あなたが裏方Webマーケターとしてどこから始めればいいかを具体的に見せていきます。</p></div>
-<div class="script-block"><span class="time">3:10-3:40</span><h3>CTA</h3><p>ライブリンク、課題、特典、質問回答はLINEオープンチャットで案内します。まだ参加していない方は、必ずこのページから参加してください。</p></div>
-</section>
-<section class="panel"><h2>VSLスライド指示書</h2><p class="note">スライドが必要な場合は、動画をそのまま文字起こしするのではなく、CodeX等へ渡せるスライド構成案として作ります。テキスト量は抑え、旧世界/新世界とCTAが視覚で伝わることを優先します。</p>${slideInstructionTable(vslSlideRows)}</section>
-`}));
+  body: `<section class="panel article-panel"><h2>オプト前VSL台本</h2>${sourceDetailsList(list(`${acquisitionMaterialRoot}/03_オプト前VSL台本`))}</section>`}));
 
 pages.set("live-scripts.html", page({
   file: "live-scripts.html",
@@ -3508,16 +3332,15 @@ pages.set("live-scripts.html", page({
   focus: "content",
   label: "Day1〜Day5",
 })}
-<section class="panel"><h2>5日間のライブ一覧</h2><div class="flow">${liveRows.map((row) => `<div class="flow-row"><strong>${esc(row.day)}</strong><p>${esc(row.title)}</p>${pills([row.core, row.task, `課題提出 ${row.count}`])}${status("原本あり")}</div>`).join("")}</div></section>
-<section class="panel"><h2>Day別ライブ台本一覧</h2><p class="note">ここで作るのは動画の記録ではなく、ライブ当日に話すための台本です。各Dayごとに導入、本編、課題、次回予告、販売への接続を分けて管理します。</p><div class="timeline">${liveRows.map((row) => `<article class="timeline-item"><div class="timeline-index">${row.day.replace("Day", "D")}</div><div><div class="timeline-head"><strong>${esc(row.title)}</strong>${status(row.count)}</div><p>${esc(row.purpose)}</p><p class="muted">課題: ${esc(row.task)}</p><table class="asset-table compact-table"><tbody><tr><th>台本で作るもの</th><td>オープニング、本編教育、課題説明、次回予告、Q&A導線</td></tr><tr><th>管理先</th><td>${source(row.script)}</td></tr></tbody></table></div></article>`).join("")}</div></section>
-<section class="panel"><h2>Day別スライド指示書</h2><p class="note">ライブにスライドが必要な場合は、Dayごとにスライド構成案を作ります。完成スライドではなく、CodeX等へ渡す「何を画面化するか」の指示書です。</p>${slideInstructionTable(liveSlideRows)}</section>
+<section class="panel article-panel"><h2>Day1〜Day5ライブ台本</h2>${sourceDetailsList(list(`${valueMaterialRoot}/02_Day1〜Day5ライブ台本`))}</section>
+<section class="panel article-panel"><h2>課題・特典</h2><p class="note">課題や回答シートはMD点数が多いため、ここでは一覧と短い抜粋だけを表示します。詳細確認は原本MD側で行います。</p>${sourceSummaryList(list(`${valueMaterialRoot}/03_課題・特典`))}</section>
 `}));
 
 pages.set("sales-page.html", page({
   file: "sales-page.html",
   title: "販売の素材一覧",
   eyebrow: "制作物",
-  lead: "販売前メッセージ、セールスレター、販売期配信、購入完了ページを一覧で確認します。",
+  lead: "販売メルマガ、販売導線LINE、セールスレター、購入完了ページを一覧で確認します。",
   body: `${funnelSpotlightCard({
   title: "販売素材の対象箇所",
   note: "販売素材は、販売ページ、成約、商品提供へつなぐ導線に使います。",
@@ -3525,26 +3348,180 @@ pages.set("sales-page.html", page({
   label: "販売素材",
 })}
 <section class="panel"><h2>販売で作る素材</h2>${materialShelf(salesMaterialRows)}</section>
-<section class="panel"><h2>MDフォルダ構成</h2><p class="note">Day5後に販売へ接続するメッセージ、セールスレター、販売期配信、購入完了ページを販売素材としてまとめています。</p>${materialFolderTable(salesMaterialRows)}</section>
-<section class="panel" id="sales-letter"><h2>セールスレター原稿</h2><ol><li>地味で平凡な会社員が売上に関われないと思っている問題提起。</li><li>スター型起業ではなく、社長の右腕として裏方で売上を支える新世界。</li><li>5日間チャレンジで得た学びと、45日間実践環境へ進む理由。</li><li>商品内容、サポート、特典、価格、返金保証なしの方針。</li><li>締切、対象者、申込後の流れ、購入CTA。</li></ol></section>
-<section class="panel"><h2>セールスページヘッド指示書</h2><div class="copy-box">「実績がない」「顔出しは苦手」その真面目さが、あなたの可能性を止めているとしたら？\n\n45日間WEBマーケター超実践ブートキャンプ\n知識を増やすだけではなく、社長の右腕として売上に関わる最初の実践経験を作る45日間。\n\n画面指示: 対象者、変化の約束、商品名、締切、CTAをファーストビュー内に配置。スマホではCTAを1画面目下部に見せる。</div></section>
-<section class="panel" id="purchase-complete"><h2>購入完了ページ原稿</h2><p>決済後は、購入者が迷わず開始できることを優先します。参加方法、連絡先、開始までの流れ、初回アクションを購入完了ページにまとめます。</p><p class="quote">次の行動: 案内メールを確認し、参加用チャットに入り、開始日までに事前課題とスケジュールを確認する。</p></section>`}));
+<section class="panel"><h2>MDフォルダ構成</h2><p class="note">Day5後に販売へ接続するメッセージ、セールスレター、販売期配信、購入完了ページを販売素材としてまとめています。</p>${materialFolderTable(salesMaterialRows)}</section>`}));
+
+pages.set("sales-mails.html", readerPage({
+  file: "sales-mails.html",
+  title: "販売メルマガ",
+  eyebrow: "販売素材",
+  lead: "Day5後から販売終了までに送る販売期メルマガを、配信順に確認します。",
+  sidebar: mailAssetSidebar({
+    title: "販売メルマガ",
+    indexFile: "sales-mails.html",
+    activeFile: "sales-mails.html",
+    rows: salesMails,
+    parentHref: "sales-page.html",
+    parentLabel: "販売素材一覧",
+    sectionLabel: "販売メルマガ",
+  }),
+  body: mailAssetIndexBody({
+    title: "販売メルマガ一覧",
+    lead: "販売開始、価格不安、締切、終了案内など、販売期に送るメール群です。",
+    rows: salesMails,
+    label: "販売素材",
+    overview: salesMailOverview,
+  }),
+}));
+
+for (const mail of salesMails) {
+  pages.set(mail.assetFile, readerPage({
+    file: mail.assetFile,
+    title: mail.title,
+    eyebrow: "販売メルマガ",
+    lead: mailTiming(mail),
+    sidebar: mailAssetSidebar({
+      title: "販売メルマガ",
+      indexFile: "sales-mails.html",
+      activeFile: mail.assetFile,
+      rows: salesMails,
+      parentHref: "sales-page.html",
+      parentLabel: "販売素材一覧",
+      sectionLabel: "販売メルマガ",
+    }),
+    body: singleMailBody(mail),
+  }));
+}
+
+pages.set("sales-letter.html", page({
+  file: "sales-letter.html",
+  title: "セールスレター原稿",
+  eyebrow: "販売素材",
+  lead: "販売ページに掲載するセールスレター原稿です。",
+  body: `<section class="panel article-panel"><h2>セールスレター原稿</h2>${sourceDetailsList(salesLetters)}</section>`}));
+
+pages.set("sales-oc.html", readerPage({
+  file: "sales-oc.html",
+  title: "LINEオープンチャット販売導線",
+  eyebrow: "販売素材",
+  lead: "Day5後に販売へ接続するLINEオープンチャット内メッセージを確認します。",
+  sidebar: mailAssetSidebar({
+    title: "販売OC導線",
+    indexFile: "sales-oc.html",
+    activeFile: "sales-oc.html",
+    rows: salesOcMessages,
+    parentHref: "sales-page.html",
+    parentLabel: "販売素材一覧",
+    sectionLabel: "販売OC",
+  }),
+  body: mailAssetIndexBody({
+    title: "LINEオープンチャット販売導線一覧",
+    lead: "Day5後に公式LINEや販売ページへ接続するためのOC内メッセージです。",
+    rows: salesOcMessages,
+    label: "販売素材",
+    overview: salesOcOverview,
+  }),
+}));
+
+for (const mail of salesOcMessages) {
+  pages.set(mail.assetFile, readerPage({
+    file: mail.assetFile,
+    title: mail.title,
+    eyebrow: "LINEオープンチャット販売導線",
+    lead: mailTiming(mail),
+    sidebar: mailAssetSidebar({
+      title: "販売OC導線",
+      indexFile: "sales-oc.html",
+      activeFile: mail.assetFile,
+      rows: salesOcMessages,
+      parentHref: "sales-page.html",
+      parentLabel: "販売素材一覧",
+      sectionLabel: "販売OC",
+    }),
+    body: singleMailBody(mail),
+  }));
+}
+
+pages.set("sales-line.html", readerPage({
+  file: "sales-line.html",
+  title: "販売期公式LINE",
+  eyebrow: "販売素材",
+  lead: "販売開始から締切までに送る公式LINE文面を確認します。",
+  sidebar: mailAssetSidebar({
+    title: "販売期公式LINE",
+    indexFile: "sales-line.html",
+    activeFile: "sales-line.html",
+    rows: salesOfficialLines,
+    parentHref: "sales-page.html",
+    parentLabel: "販売素材一覧",
+    sectionLabel: "販売期LINE",
+  }),
+  body: mailAssetIndexBody({
+    title: "販売期公式LINE一覧",
+    lead: "販売開始、質問回答、実績共有、締切案内など、販売期に送る公式LINE文面です。",
+    rows: salesOfficialLines,
+    label: "販売素材",
+    overview: salesOfficialOverview,
+  }),
+}));
+
+for (const mail of salesOfficialLines) {
+  pages.set(mail.assetFile, readerPage({
+    file: mail.assetFile,
+    title: mail.title,
+    eyebrow: "販売期公式LINE",
+    lead: mailTiming(mail),
+    sidebar: mailAssetSidebar({
+      title: "販売期公式LINE",
+      indexFile: "sales-line.html",
+      activeFile: mail.assetFile,
+      rows: salesOfficialLines,
+      parentHref: "sales-page.html",
+      parentLabel: "販売素材一覧",
+      sectionLabel: "販売期LINE",
+    }),
+    body: singleMailBody(mail),
+  }));
+}
+
+pages.set("sales-head.html", page({
+  file: "sales-head.html",
+  title: "セールスページヘッド指示書",
+  eyebrow: "販売素材",
+  lead: "販売ページのファーストビューに必要なコピー、画像方向、CTAの指示書です。",
+  body: `<section class="panel article-panel"><h2>セールスページヘッド指示書</h2>${sourceDetailsList(salesHeadDocs)}</section>`}));
+
+pages.set("purchase-complete.html", page({
+  file: "purchase-complete.html",
+  title: "購入完了ページ原稿",
+  eyebrow: "販売素材",
+  lead: "決済後に表示する購入完了ページの原稿です。",
+  body: `<section class="panel article-panel"><h2>購入完了ページ原稿</h2>${sourceDetailsList(purchaseCompleteDocs)}</section>`}));
 
 const allPages = [
   ...pages,
   ["portal.css", css],
 ];
 
+const dynamicPagePatterns = [
+  /^optin-after-mail-\d+\.html$/,
+  /^traffic-mail-\d+\.html$/,
+  /^line-fixed-\d+\.html$/,
+  /^line-normal-\d+\.html$/,
+  /^sales-mail-\d+\.html$/,
+  /^sales-oc-\d+\.html$/,
+  /^sales-line-\d+\.html$/,
+];
+
 for (const dir of dirs) {
   fs.mkdirSync(dir, { recursive: true });
+  for (const entry of fs.readdirSync(dir)) {
+    if (!dynamicPagePatterns.some((pattern) => pattern.test(entry))) continue;
+    fs.unlinkSync(path.join(dir, entry));
+  }
   for (const [file, content] of allPages) {
     const normalized = file.endsWith(".html") ? normalizeOutputTerms(content) : content;
     const output = normalized.endsWith("\n") ? normalized : `${normalized}\n`;
     fs.writeFileSync(path.join(dir, file), output);
-  }
-  for (const staleFile of ["index.html"]) {
-    const stalePath = path.join(dir, staleFile);
-    if (fs.existsSync(stalePath)) fs.unlinkSync(stalePath);
   }
   fs.mkdirSync(path.join(dir, funnelPatternAssetDir), { recursive: true });
   for (const row of funnelPatternRows) {
