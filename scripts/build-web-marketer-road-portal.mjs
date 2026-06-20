@@ -76,7 +76,7 @@ const vslPlacementRows = [
 
 const defaultFunnelFormat = {
   acquisitionPattern: "オプト後VSLパターン",
-  challengePattern: "3チャレ / 5チャレ",
+  challengePattern: "2チャレ / 3チャレ / 4チャレ / 5チャレ",
   salesPattern: "個別販売パターン",
 };
 
@@ -828,7 +828,7 @@ const roadmapPhases = [
       roadmapStep("3", "販売ファネルを決める", "今回採用するファネル種別を確定する。", "プロモーションのゴール・販売商品", "ファネル種別", "visual-report.html"),
       roadmapStep("4", "目標KPIの設定", "目標売上から必要な登録数、参加率、購入率を逆算する。", "目標売上・商品単価・販売本数", "KPI逆算メモ", "visual-report.html"),
       roadmapStep("5", "教育グループを決める", "参加者をどこに集めるかを決める。", "ターゲットが普段使う媒体", "教育グループ種別", "line.html"),
-      roadmapStep("6", "ライブ回数を決める", "2チャレ、3チャレ、5チャレなど、何日間で進めるかを決める。", "期間・本人の稼働条件", "ライブ本数", "live-scripts.html"),
+      roadmapStep("6", "ライブ回数を決める", "2チャレ / 3チャレ / 4チャレ / 5チャレのどれで進めるかを決める。", "期間・本人の稼働条件", "チャレンジ日数・ライブ本数", "live-scripts.html"),
     ],
   },
   {
@@ -1629,7 +1629,7 @@ function funnelPartLibrary() {
 function currentFunnelComposite() {
   return `<section class="panel funnel-composite-panel">
 <h2>作業位置マップ</h2>
-<p class="note">各ステップの対応位置を押すと、どこを作るかを確認できます。</p>
+<p class="note">各ステップの「ここ」から、どこを作るかを確認できます。</p>
 <div class="funnel-composite-wrap">
 <div class="funnel-composite" aria-label="今回のファネルパーツ合成">
   <div class="composite-phase acquisition">
@@ -1732,7 +1732,7 @@ ${imageBlock}
 <div class="details-body">
 <ul>
 <li>集客単独: オプト後VSL、オプト前VSL、フォーム登録のみ、カツオリーチ/広告/ハウス/紹介の入口違い。</li>
-<li>価値提供単独: 2チャレ、3チャレ、5チャレ、次ライブがDay2/Day3/Day5の違い。</li>
+<li>価値提供単独: 2チャレ、3チャレ、4チャレ、5チャレ、次ライブがDay2/Day3/Day4/Day5の違い。</li>
 <li>販売単独: 個別説明会、セミナー→個別説明会、セミナー販売、販売ページ直販。</li>
 <li>任意で欲しいもの: 公式LINE販売、メール販売、LINEオープンチャット販売接続、購入完了後の提供導線。</li>
 </ul>

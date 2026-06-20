@@ -108,6 +108,8 @@ const contentChecks = [
   ["roadmap.html", "自動返信文 / リスト化"],
   ["roadmap.html", "Day1ライブ"],
   ["roadmap.html", "目的意識を明確にする"],
+  ["roadmap.html", "2チャレ / 3チャレ / 4チャレ / 5チャレのどれで進めるかを決める。"],
+  ["roadmap.html", "チャレンジ日数・ライブ本数"],
   ["roadmap.html", "1. 事前設計"],
   ["roadmap.html", "1-2"],
   ["roadmap.html", "販売したい商品を決める"],
@@ -514,6 +516,7 @@ for (const snippet of [
   "<strong>ファネル全体</strong>",
   "全体構成 / KPI",
   "spotlight-box all",
+  "2チャレ、3チャレ、5チャレなど",
 ]) {
   if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include old/all-step marker snippet: ${snippet}`);
 }
