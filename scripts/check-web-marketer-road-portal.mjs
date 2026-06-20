@@ -129,6 +129,8 @@ const contentChecks = [
   ["roadmap.html", "第4章の対象箇所"],
   ["roadmap.html", "5日間コンテンツ設計"],
   ["roadmap.html", "ライブ1コアストーリー"],
+  ["roadmap.html", "オプト前VSLシナリオ作成"],
+  ["roadmap.html", "オプト前VSLシナリオ"],
   ["roadmap.html", "5. オプトインLPの作成"],
   ["roadmap.html", "オプトインLP原稿"],
   ["roadmap.html", "LPヘッドデザイン指示書"],
@@ -517,6 +519,9 @@ for (const snippet of [
   "全体構成 / KPI",
   "spotlight-box all",
   "2チャレ、3チャレ、5チャレなど",
+  "オプト後VSLシナリオ作成",
+  "サンキューページ上のVSL枠",
+  "オプト後VSLシナリオ</span>",
 ]) {
   if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include old/all-step marker snippet: ${snippet}`);
 }

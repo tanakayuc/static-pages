@@ -818,6 +818,41 @@ function roadmapStep(sourceStep, name, make, input, output, href = "") {
   return { sourceStep, name, make, input, output, href };
 }
 
+const currentFunnelConfig = {
+  vslPlacement: "opt-before",
+  challengeDays: 5,
+  salesPattern: "sales-page-direct",
+};
+
+const vslRoadmapByPlacement = {
+  "opt-before": {
+    step: roadmapStep("23", "オプト前VSLシナリオ作成", "LP上で登録前に見せるVSLの流れ、CTA、視聴後の登録導線を整理する。", "コンセプト・プロフィール・LP訴求・登録CTA", "オプト前VSLシナリオ", "script-opening.html"),
+    funnelTag: { label: "集客ページ", target: "part-optin" },
+    spot: ["制作物", "オプト前VSL", "opt-before-video"],
+  },
+  "opt-after": {
+    step: roadmapStep("23", "オプト後VSLシナリオ作成", "サンキューページ上で見せるVSLの流れ、CTA、教育グループ参加導線を整理する。", "コンセプト・プロフィール・登録直後案内素材", "オプト後VSLシナリオ", "script-opening.html"),
+    funnelTag: { label: "サンクスページ", target: "part-thanks" },
+    spot: ["制作物", "サンキューページ上のVSL枠", "thanks"],
+  },
+};
+
+function currentVslRoadmap() {
+  return vslRoadmapByPlacement[currentFunnelConfig.vslPlacement] || null;
+}
+
+function currentVslRoadmapItem() {
+  return currentVslRoadmap()?.step || null;
+}
+
+function currentVslFunnelTag() {
+  return currentVslRoadmap()?.funnelTag || { label: "設計シート", target: "" };
+}
+
+function currentVslRoadmapSpot() {
+  return currentVslRoadmap()?.spot || null;
+}
+
 const roadmapPhases = [
   {
     name: "1. 事前設計",
@@ -863,11 +898,11 @@ const roadmapPhases = [
       roadmapStep("20", "スケジュール決め", "募集開始日、ライブ日、販売開始日、販売終了日を決める。", "開始日・販売終了日", "プロモ全体カレンダー", "visual-report.html"),
       roadmapStep("21", "ライブ1コアストーリー", "Day1の核になるストーリー骨格を作る。", "コンセプト・ターゲット", "コアストーリーシート", "live-scripts.html"),
       roadmapStep("22", "中間オファー構築", "説明会や個別相談を挟む場合の中間オファーを整理する。", "本命オファー", "中間オファーシート", "offer.html"),
-      roadmapStep("23", "オプト後VSLシナリオ作成", "登録直後に動画を置く場合の自己紹介、世界観共有、次アクションを整理する。", "コンセプト・プロフィール・特典", "オプト後VSLシナリオ", "script-opening.html"),
+      currentVslRoadmapItem(),
       roadmapStep("24", "特典の作成（実体）", "特典タイトル案をもとに、配布できる内容へ落とす。", "特典タイトル案", "特典コンテンツ", "live-scripts.html"),
       roadmapStep("25", "特典サムネイル生成", "特典を見せるためのサムネイル方向を決める。", "特典タイトル・参考サムネ", "特典サムネイル指示書", "head.html"),
       roadmapStep("26", "登録直後案内素材を用意する", "登録直後に次の一歩へ進ませる案内素材を用意する。", "登録直後案内シナリオ", "登録直後案内素材", "thank-you-copy.html"),
-    ],
+    ].filter(Boolean),
   },
   {
     name: "5. オプトインLPの作成",
@@ -1472,7 +1507,8 @@ function roadmapFunnelTag(item) {
   const step = Number(item.sourceStep);
   if (step <= 22) return { label: "設計シート", target: "" };
   if (step >= 23 && step <= 26) {
-    if (step === 23 || step === 26) return { label: "サンクスページ", target: "part-thanks" };
+    if (step === 23) return currentVslFunnelTag();
+    if (step === 26) return { label: "サンクスページ", target: "part-thanks" };
     return { label: "教育グループ", target: "part-value" };
   }
   if (step >= 27 && step <= 30) return { label: "集客ページ", target: "part-optin" };
@@ -1505,12 +1541,12 @@ function roadmapFunnelTagHtml(item) {
 function roadmapStepSpot(item) {
   const step = Number(item.sourceStep);
   const itemSpots = {
-    13: ["制作物", "集客ページ / ヘッド", "opt-before-vsl"],
+    13: ["制作物", "集客ページ / ヘッド", "opt-before-head"],
     21: ["制作物", "Day1ライブ", "day1"],
-    23: ["制作物", "サンキューページ上のVSL枠", "thanks"],
+    23: currentVslRoadmapSpot(),
     26: ["制作物", "サンキューページ / 登録直後案内", "thanks"],
     27: ["制作物", "ランディングページ / オプト前VSL", "opt-before-vsl"],
-    28: ["制作物", "LPヘッド指示", "opt-before-vsl"],
+    28: ["制作物", "LPヘッド指示", "opt-before-head"],
     31: ["制作物", "サンキューページ本体", "thanks"],
     32: ["制作物", "サンキューページ本体", "thanks"],
     33: ["制作物", "教育グループ", "content"],
@@ -2520,6 +2556,8 @@ li { margin: 4px 0; }
 .spotlight-box.sales { left: 70%; top: 20%; width: 26%; height: 51%; }
 .spotlight-box.traffic { left: 1.5%; top: 29%; width: 8%; height: 25%; }
 .spotlight-box.opt-before-vsl { left: 8%; top: 24%; width: 17%; height: 31%; }
+.spotlight-box.opt-before-head { left: 8%; top: 24%; width: 17%; height: 16%; }
+.spotlight-box.opt-before-video { left: 10%; top: 29%; width: 13%; height: 9%; }
 .spotlight-box.thanks { left: 25%; top: 24%; width: 14%; height: 31%; }
 .spotlight-box.list { left: 15%; top: 56%; width: 18%; height: 13%; }
 .spotlight-box.day1 { left: 41.5%; top: 34%; width: 5.5%; height: 20%; }
