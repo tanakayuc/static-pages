@@ -436,7 +436,7 @@ for (const file of fs.readdirSync(root).filter((name) => /\.(md|txt)$/i.test(nam
 }
 
 const css = fs.readFileSync(path.join(root, "portal.css"), "utf8");
-for (const color of ["#2CB596", "#189B7D", "#F0FAF8"]) {
+for (const color of ["#2CB596", "#189B7D", "#F5FBFA"]) {
   if (!css.includes(color)) fail(`portal.css missing color ${color}`);
 }
 if (!css.includes("overflow-x: auto")) fail("portal.css missing mobile horizontal nav");
