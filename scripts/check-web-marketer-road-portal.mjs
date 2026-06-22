@@ -96,6 +96,19 @@ const forbidden = [
   deprecatedOptAfterVsl,
 ];
 
+const individualLineMessageForbidden = [
+  "アウトプットを読んで気になったことにアンサーしました",
+  "年齢的に大丈夫でしょうか？という問いについて回答",
+  "ありがとうございます。昨日1日寝て",
+  "情報がわからないですが、追加のコメント",
+  "課題４でいただいていた質問について回答しました",
+  "続いてday4の質問回答していきます",
+  "Day4の質問回答してみたよ",
+  "気になることあればお気軽に聞いてくださいませ",
+  "「チームの組み方」について質問いただいています",
+  "伝えることにしました",
+];
+
 const contentChecks = [
   ["roadmap.html", "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。"],
   ["roadmap.html", "1-1"],
@@ -400,6 +413,18 @@ for (const file of allRequiredPages) {
   if (!html.includes('<meta name="googlebot" content="noindex, nofollow, noarchive">')) fail(`${file} missing googlebot noindex`);
   for (const word of forbidden) {
     if (html.includes(word)) fail(`${file} contains forbidden term: ${word}`);
+  }
+}
+
+const lineMessagePages = allRequiredPages.filter((file) => (
+  file === "line.html" ||
+  file === "sales-oc.html" ||
+  /^(line-normal|sales-oc)-\d+\.html$/.test(file)
+));
+for (const file of lineMessagePages) {
+  const html = read(file);
+  for (const word of individualLineMessageForbidden) {
+    if (html.includes(word)) fail(`${file} contains individual LINE/OC message: ${word}`);
   }
 }
 
