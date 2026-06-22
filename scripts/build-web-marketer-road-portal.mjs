@@ -2108,6 +2108,10 @@ function mailTiming(row) {
   return [row.day, row.time].filter(Boolean).join(" / ") || cleanMetaValue(row.category) || row.phase || "配信";
 }
 
+function mailDisplayTiming(row) {
+  return row.displayTiming || mailTiming(row);
+}
+
 fixedNotes.forEach((note, index) => {
   note.file = lineFixedFile(index);
 });
@@ -2148,6 +2152,8 @@ registrationMails.forEach((mail, index) => {
 });
 setupMails.forEach((mail, index) => {
   mail.assetFile = trafficMailFile(index);
+  mail.displayTiming = `第${index + 1}通`;
+  mail.timingLabel = "配信順";
 });
 salesMails.forEach((mail, index) => {
   mail.assetFile = salesMailFile(index);
@@ -2165,7 +2171,7 @@ function mailAssetSidebar({ title, indexFile, activeFile, rows, parentHref = "lp
   const overviewLabel = activeFile === indexFile ? parentLabel : title;
   const links = rows.map((mail) => {
     const href = mail.assetFile || mail.file;
-    return `<a class="stepmail-side-link ${href === activeFile ? "active" : ""}" href="${esc(href)}"><span class="date">${esc(mailTiming(mail))}</span>${esc(mail.title)}</a>`;
+    return `<a class="stepmail-side-link ${href === activeFile ? "active" : ""}" href="${esc(href)}"><span class="date">${esc(mailDisplayTiming(mail))}</span>${esc(mail.title)}</a>`;
   }).join("");
   return `<aside class="reader-side stepmail-side">
 <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
@@ -2198,17 +2204,17 @@ function mailAssetIndexBody({ title, lead, rows, label = "集客素材", overvie
 <h2>${esc(title)}</h2>
 <p>${esc(lead)}</p>
 ${overview ? `<div class="details-body">${articleFrom(overview).replace(source(overview), "")}</div>` : ""}
-${assetFolderList(rows)}
+${assetFolderList(rows, mailDisplayTiming)}
 </section>
 </div>`;
 }
 
 function singleMailBody(mail) {
   return `<section class="panel article-panel">
-<p class="block-label">${esc(mail.purpose || mail.phase)} / ${esc(mailTiming(mail))}</p>
+<p class="block-label">${esc(mail.purpose || mail.phase)} / ${esc(mailDisplayTiming(mail))}</p>
 <h2>${esc(mail.title)}</h2>
 <table class="asset-table compact-table"><tbody>
-<tr><th>配信タイミング</th><td>${esc(mailTiming(mail))}</td></tr>
+<tr><th>${esc(mail.timingLabel || "配信タイミング")}</th><td>${esc(mailDisplayTiming(mail))}</td></tr>
 </tbody></table>
 <div class="mail-full single-md">${copyArticleFrom(mail.relative).replace(source(mail.relative), "")}</div>
 </section>`;
@@ -3467,7 +3473,7 @@ for (const mail of setupMails) {
     file: mail.assetFile,
     title: mail.title,
     eyebrow: "集客前メッセージ",
-    lead: mailTiming(mail),
+    lead: mailDisplayTiming(mail),
     sidebar: mailAssetSidebar({ title: "集客前メッセージ", indexFile: "traffic-mails.html", activeFile: mail.assetFile, rows: setupMails }),
     body: singleMailBody(mail),
   }));

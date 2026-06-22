@@ -692,6 +692,12 @@ for (const file of generatedDetailPages) {
   if (!html.includes("copy-article")) fail(`${file} should render exactly one MD body`);
 }
 
+for (const file of generatedDetailPages.filter((name) => /^traffic-mail-\d+\.html$/.test(name))) {
+  const html = read(file);
+  if (/2025-\d{2}-\d{2}/.test(html)) fail(`${file} should show generated sequence labels, not actual delivery dates`);
+  if (!/第\d+通/.test(html)) fail(`${file} should show a generated mail sequence label`);
+}
+
 for (const file of ["live-script-day1.html", "live-script-day2.html", "live-script-day3.html", "live-script-day4.html", "live-script-day5.html"]) {
   const html = read(file);
   if (html.includes("source-path")) fail(`${file} should not expose MD source paths`);
