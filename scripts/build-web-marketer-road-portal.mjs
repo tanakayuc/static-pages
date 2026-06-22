@@ -7,6 +7,7 @@ const mirrorDir = "/Users/tanakayuichi/Projects/theleadpromotion/21_プロジェ
 const sourceRoot = "/Users/tanakayuichi/Projects/theleadpromotion/21_プロジェクト一覧/田中祐一/PLCプロモ素材/WEBマーケターへの道";
 const funnelWorklistMasterPath = "/Users/tanakayuichi/Projects/static-pages/scripts/data/funnel-worklist-master.v1.json";
 const funnelWorklistMaster = JSON.parse(fs.readFileSync(funnelWorklistMasterPath, "utf8"));
+const cssVersion = "20260623-roadmap-bonus-flow";
 
 const dirs = [publicDir, mirrorDir];
 const deprecatedOptInVsl = "オプトイン" + "VSL";
@@ -960,7 +961,7 @@ const roadmapPhases = [
   },
   {
     name: "4. コンテンツ設計",
-    summary: "5日間の内容、課題、特典、コアストーリー、登録直後の案内素材を作る。",
+    summary: "5日間の内容、課題、特典案、コアストーリー、登録直後の案内素材を決める。",
     items: [
       roadmapStep("17", "お客様の声ファイル生成", "既存の感想、実績、体験談を素材として使える形にする。", "既存の感想・実績・体験談", "お客様の声リスト", "assets.html"),
       roadmapStep("18", "5日間コンテンツ設計", "Day1〜Day5のテーマと小タイトルを決める。", "コンセプトシート・ターゲットシート", "5日間テーマ一覧", "live-scripts.html"),
@@ -969,8 +970,6 @@ const roadmapPhases = [
       roadmapStep("21", "ライブ1コアストーリー", "Day1の核になるストーリー骨格を作る。", "コンセプト・ターゲット", "コアストーリーシート", "live-scripts.html"),
       roadmapStep("22", "中間オファー構築", "説明会や個別相談を挟む場合の中間オファーを整理する。", "本命オファー", "中間オファーシート", "offer.html"),
       currentVslRoadmapItem(),
-      roadmapStep("24", "特典の作成（実体）", "特典タイトル案をもとに、配布できる内容へ落とす。", "特典タイトル案", "特典コンテンツ", "tasks-bonus.html"),
-      roadmapStep("25", "特典サムネイル生成", "特典を見せるためのサムネイル方向を決める。", "特典タイトル・参考サムネ", "特典サムネイル指示書", "head.html"),
       roadmapStep("26", "登録直後案内素材を用意する", "登録直後に次の一歩へ進ませる案内素材を用意する。", "登録直後案内シナリオ", "登録直後案内素材", "thank-you-copy.html"),
     ].filter(Boolean),
   },
@@ -1029,8 +1028,10 @@ const roadmapPhases = [
   },
   {
     name: "9. 本番運用",
-    summary: "素材完成後に、運用・販売・法務・改善で確認する項目。",
+    summary: "公開前の最終準備、集客実施、ライブ運用、販売、法務、改善で確認する項目。",
     items: [
+      roadmapStep("24", "特典コンテンツの制作", "本番で配布する特典を、渡せる状態まで仕上げる。", "特典設計", "特典コンテンツ", "tasks-bonus.html"),
+      roadmapStep("25", "特典サムネイルの用意", "配布時に見せる特典サムネイル方向を整える。", "特典コンテンツ", "特典サムネイル指示書", "head.html"),
       roadmapStep("56", "集客の実施", "用意した紹介文、投稿、広告素材から登録ページへ送る。", "紹介文・広告素材・サンキューページ・教育グループ", "目標オプト数", "visual-report.html"),
       roadmapStep("57", "ライブの実施", "Day1〜Day5の台本に沿ってライブ、課題、質問対応を行う。", "Day1〜Day5台本", "ライブ実施ログ", "live-scripts.html"),
       roadmapStep("58", "限定性のプッシュ（1ステップ販売）", "販売ページ直販の場合の販売開始、締切、終了案内を作る。", "販売ページ・限定特典", "販売期配信", "sales-mails.html"),
@@ -1427,7 +1428,7 @@ function page({ file, title, eyebrow, lead, body }) {
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="googlebot" content="noindex, nofollow, noarchive">
   <title>${esc(title)} | WEBマーケターへの道</title>
-  <link rel="stylesheet" href="portal.css?v=20260618-full-package">
+  <link rel="stylesheet" href="portal.css?v=${cssVersion}">
 </head>
 <body class="report-page">
 <div class="layout">
@@ -1450,7 +1451,7 @@ function readerPage({ file, title, eyebrow, lead, sidebar, body }) {
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="googlebot" content="noindex, nofollow, noarchive">
   <title>${esc(title)} | WEBマーケターへの道</title>
-  <link rel="stylesheet" href="portal.css?v=20260618-full-package">
+  <link rel="stylesheet" href="portal.css?v=${cssVersion}">
 </head>
 <body class="reader-page">
 <div class="reader-layout">
@@ -2922,8 +2923,9 @@ li { margin: 4px 0; }
 }
 .roadmap-phase-spotlight .spotlight-figure { margin-top: .8rem; }
 .roadmap-steps { display: grid; gap: 0; }
-.roadmap-step { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; padding: 1.1rem 0; border-top: 1px dashed var(--line); }
-.roadmap-step:first-child { padding-top: 0; border-top: 0; }
+.roadmap-phase > .note + .roadmap-steps { margin-top: 1.45rem; }
+.roadmap-step { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; padding: 1.35rem 0; border-top: 1px dashed var(--line); }
+.roadmap-step:first-child { padding-top: .25rem; border-top: 0; }
 .roadmap-step-num { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: var(--soft); color: var(--sub); font-weight: 760; }
 .roadmap-step h3 { margin-bottom: .3rem; }
 .roadmap-step p { color: #324b44; line-height: 1.8; }
