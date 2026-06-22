@@ -121,7 +121,6 @@ const individualLineMessageForbidden = [
 const contentChecks = [
   ["roadmap.html", "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。"],
   ["roadmap.html", "1-1"],
-  ["roadmap.html", "Step 1"],
   ["roadmap.html", "roadmap-step-target"],
   ["roadmap.html", "ここ"],
   ["roadmap.html", "制作物"],
@@ -168,7 +167,6 @@ const contentChecks = [
   ["roadmap.html", "1ステップ販売ページ"],
   ["roadmap.html", "9. 本番運用"],
   ["roadmap.html", "特商法・プライバシーポリシー"],
-  ["roadmap.html", "Step 65"],
   ["target.html", "ターゲットシート"],
   ["target.html", "ターゲット仮止め"],
   ["target.html", "見込み客像"],
@@ -585,6 +583,11 @@ for (const snippet of [
 ]) {
   if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include ${snippet}`);
 }
+
+const roadmapHtmlForNumbering = read("roadmap.html");
+if (roadmapHtmlForNumbering.includes("roadmap-source-step")) fail("roadmap.html should not show duplicate source step labels");
+if (/>\s*Step\s*\d+\s*</.test(roadmapHtmlForNumbering)) fail("roadmap.html should use 1-1 style numbers, not Step labels");
+if (/Step\s*\d+〜\d+/.test(roadmapHtmlForNumbering)) fail("roadmap.html phase notes should not use Step ranges");
 
 for (const snippet of [
   "標準候補",

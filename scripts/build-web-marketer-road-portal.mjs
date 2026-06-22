@@ -926,7 +926,7 @@ if (!activeFunnelWorklist.length) throw new Error("Active funnel worklist is emp
 const roadmapPhases = [
   {
     name: "1. 事前設計",
-    summary: "Step 1〜6。プロモーションを始める前に、目的・商品・ファネル・KPI・教育グループ・ライブ本数を決める。",
+    summary: "プロモーションを始める前に、目的・商品・ファネル・KPI・教育グループ・ライブ本数を決める。",
     items: [
       roadmapStep("1", "目的意識を明確にする", "なぜこのプロモーションを行うのかを3〜5項目で書き出す。", "プロフィール・背景情報", "目的リスト", "visual-report.html"),
       roadmapStep("2", "販売したい商品を決める", "販売する商品、価格、期間、販売本数を決める。", "既存の商品・サービス一覧", "商品リスト", "offer.html"),
@@ -938,7 +938,7 @@ const roadmapPhases = [
   },
   {
     name: "2. コンセプト設計",
-    summary: "Step 7〜14。背景情報、ターゲット、リサーチ、ポジショニング、コンセプト、プロフィールを作る。",
+    summary: "背景情報、ターゲット、リサーチ、ポジショニング、コンセプト、プロフィールを作る。",
     items: [
       roadmapStep("7", "事前情報収集（背景情報）", "本人情報、実績、背景、判断材料を集める。", "プロフィール・音声入力・テキスト", "プロフィールシート", "config.html"),
       roadmapStep("8", "ターゲットシート作成", "見込み客の悩み、願望、動く条件を整理する。", "背景情報", "ターゲットシート", "target.html"),
@@ -952,7 +952,7 @@ const roadmapPhases = [
   },
   {
     name: "3. オファー構築",
-    summary: "Step 15〜16。提供内容、期間、価格、特典、保証をオファーシートへまとめる。",
+    summary: "提供内容、期間、価格、特典、保証をオファーシートへまとめる。",
     items: [
       roadmapStep("15", "本命商品オファー", "商品名、特徴、サポート期間、価格、特典、保証を整理する。", "コンセプト・ターゲット・BEFORE/AFTER・期間・価格", "オファーシート", "offer.html"),
       roadmapStep("16", "フロント商品オファー", "必要な場合のみ、入口側の商品や中間商品の提供内容を整理する。", "コンセプト・ターゲット", "フロント商品オファー", "offer.html"),
@@ -960,7 +960,7 @@ const roadmapPhases = [
   },
   {
     name: "4. コンテンツ設計",
-    summary: "Step 17〜26。5日間の内容、課題、特典、コアストーリー、登録直後の案内素材を作る。",
+    summary: "5日間の内容、課題、特典、コアストーリー、登録直後の案内素材を作る。",
     items: [
       roadmapStep("17", "お客様の声ファイル生成", "既存の感想、実績、体験談を素材として使える形にする。", "既存の感想・実績・体験談", "お客様の声リスト", "assets.html"),
       roadmapStep("18", "5日間コンテンツ設計", "Day1〜Day5のテーマと小タイトルを決める。", "コンセプトシート・ターゲットシート", "5日間テーマ一覧", "live-scripts.html"),
@@ -976,7 +976,7 @@ const roadmapPhases = [
   },
   {
     name: "5. オプトインLPの作成",
-    summary: "Step 27〜32。LP原稿、画像指示、実装指示、サンキューページ原稿を作る。",
+    summary: "LP原稿、画像指示、実装指示、サンキューページ原稿を作る。",
     items: [
       roadmapStep("27", "オプトインLP ライティング", "ファーストビュー、共感、ベネフィット、参加理由、CTAを原稿化する。", "コンフィグ・VSLシナリオ・参考LP・プロモコンセプト", "オプトインLP原稿", "lp.html"),
       roadmapStep("28", "画像指示書の作成", "LPに必要な画像、ヘッド、CTA、スマホ表示、参考サンプルをまとめる。", "オプトインLP原稿", "LPヘッドデザイン指示書", "head.html"),
@@ -988,7 +988,7 @@ const roadmapPhases = [
   },
   {
     name: "6. 集客素材の作成",
-    summary: "Step 33〜40。教育グループ、固定投稿、自動返信、紹介文、広告素材を用意する。",
+    summary: "教育グループ、固定投稿、自動返信、紹介文、広告素材を用意する。",
     items: [
       roadmapStep("33", "教育グループ（オープンチャット）作成", "参加場所を作り、登録後に案内できる状態にする。", "コンセプト・グループ名案", "教育グループURL", "line.html"),
       roadmapStep("34", "オープンチャットの固定メッセージを整える", "参加者が最初に見る固定投稿を作る。", "ノート用文章・掲示板用文章", "固定投稿", "line.html"),
@@ -1002,7 +1002,7 @@ const roadmapPhases = [
   },
   {
     name: "7. ライブ台本の作成",
-    summary: "Step 41〜47。Day1〜Day5の台本と課題フォームを作る。",
+    summary: "Day1〜Day5の台本と課題フォームを作る。",
     items: [
       roadmapStep("41", "ライブ1シナリオ作成", "Day1の導入、本編、課題、次回予告を台本化する。", "コンセプト・ターゲット・コアストーリー・プロフィール・お客様の声", "Day1ライブ台本", "live-scripts.html"),
       roadmapStep("42", "ライブ2シナリオ作成", "Day2の導入、本編、課題、次回予告を台本化する。", "Day1台本・コンセプト類・オファー", "Day2ライブ台本", "live-scripts.html"),
@@ -1015,7 +1015,7 @@ const roadmapPhases = [
   },
   {
     name: "8. プロモ素材の作成",
-    summary: "Step 48〜55。配信、LINE投稿、販売ページ、購入後案内を作る。",
+    summary: "配信、LINE投稿、販売ページ、購入後案内を作る。",
     items: [
       roadmapStep("48", "リマインドメール", "教育グループ登録誘導とライブ前リマインドを作る。", "スケジュール・コンセプト", "リマインド文面", "line.html"),
       roadmapStep("49", "LINEオープンチャット投稿文章", "期間中に送る固定投稿と通常配信を時系列で作る。", "スケジュール・課題・ライブ内容", "LINE投稿文", "line.html"),
@@ -1029,7 +1029,7 @@ const roadmapPhases = [
   },
   {
     name: "9. 本番運用",
-    summary: "Step 56〜65。素材完成後に、運用・販売・法務・改善で確認する項目。",
+    summary: "素材完成後に、運用・販売・法務・改善で確認する項目。",
     items: [
       roadmapStep("56", "集客の実施", "用意した紹介文、投稿、広告素材から登録ページへ送る。", "紹介文・広告素材・サンキューページ・教育グループ", "目標オプト数", "visual-report.html"),
       roadmapStep("57", "ライブの実施", "Day1〜Day5の台本に沿ってライブ、課題、質問対応を行う。", "Day1〜Day5台本", "ライブ実施ログ", "live-scripts.html"),
@@ -1964,7 +1964,6 @@ ${spotlight}
 <span class="roadmap-step-num">${esc(stepNumber)}</span>
 <div>
 ${roadmapStepTargetHtml(item)}
-<span class="roadmap-source-step">Step ${esc(item.sourceStep)}</span>
 <h3>${esc(item.name)}</h3>
 <p>${esc(item.make)}</p>
 <p class="roadmap-step-output"><span>このステップで作る/決めるもの</span>${esc(item.output)}</p>
@@ -2926,7 +2925,6 @@ li { margin: 4px 0; }
 .roadmap-step { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; padding: 1.1rem 0; border-top: 1px dashed var(--line); }
 .roadmap-step:first-child { padding-top: 0; border-top: 0; }
 .roadmap-step-num { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: var(--soft); color: var(--sub); font-weight: 760; }
-.roadmap-source-step { display: inline-flex; align-items: center; margin-bottom: .25rem; padding: .16rem .45rem; border: 1px solid var(--line); border-radius: 999px; color: var(--brand); font-size: .72rem; font-weight: 760; }
 .roadmap-step h3 { margin-bottom: .3rem; }
 .roadmap-step p { color: #324b44; line-height: 1.8; }
 .roadmap-step .report-link { margin-top: .75rem; }
