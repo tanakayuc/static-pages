@@ -7,7 +7,7 @@ const mirrorDir = "/Users/tanakayuichi/Projects/theleadpromotion/21_プロジェ
 const sourceRoot = "/Users/tanakayuichi/Projects/theleadpromotion/21_プロジェクト一覧/田中祐一/PLCプロモ素材/WEBマーケターへの道";
 const funnelWorklistMasterPath = "/Users/tanakayuichi/Projects/static-pages/scripts/data/funnel-worklist-master.v1.json";
 const funnelWorklistMaster = JSON.parse(fs.readFileSync(funnelWorklistMasterPath, "utf8"));
-const cssVersion = "20260623-roadmap-bonus-flow";
+const cssVersion = "20260623-roadmap-chapter-focus";
 
 const dirs = [publicDir, mirrorDir];
 const deprecatedOptInVsl = "オプトイン" + "VSL";
@@ -276,7 +276,7 @@ const acquisitionMediaRows = [
 ];
 
 const visibleFunnelNodes = [
-  ["オプトインLP", "登録前", "参加理由を作り、メール登録へ進ませる。オプト前VSLを置く場合はここで教育と選別を行う。", "lp.html", "工程5"],
+  ["オプトインLP", "登録前", "参加理由を作り、メール登録へ進ませる。オプト前VSLを置く場合は登録前に教育と選別を行う。", "lp.html", "工程5"],
   ["登録後サンキュー", "登録直後", "オープンチャット参加を正式登録として促す。オプト後VSLを置く場合は5分前後の動画で期待値を上げる。", "lp.html", "工程5"],
   ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題、Q&Aを受け止める。", "line.html", "工程6"],
   ["Day1〜Day5ライブ", "価値提供", "ライブ、課題、特典で実践経験と納得感を作る。", "live-scripts.html", "工程7"],
@@ -886,10 +886,6 @@ function currentVslRoadmapItem() {
 
 function currentVslFunnelTag() {
   return currentVslRoadmap()?.funnelTag || { label: "設計シート", target: "" };
-}
-
-function currentVslRoadmapSpot() {
-  return currentVslRoadmap()?.spot || null;
 }
 
 function expandFunnelWorklist(funnelKey) {
@@ -1712,54 +1708,6 @@ function roadmapFunnelTagHtml(item) {
   return `<a class="funnel-location-link" href="#${esc(tag.target)}">${esc(tag.label)}</a>`;
 }
 
-function roadmapStepSpot(item) {
-  const step = Number(item.sourceStep);
-  const itemSpots = {
-    13: ["制作物", "集客ページ / ヘッド", "opt-before-head"],
-    21: ["制作物", "Day1ライブ", "day1"],
-    23: currentVslRoadmapSpot(),
-    26: ["制作物", "サンキューページ / 登録直後案内", "thanks"],
-    27: ["制作物", "ランディングページ / オプト前VSL", "opt-before-vsl"],
-    28: ["制作物", "LPヘッド指示", "opt-before-head"],
-    31: ["制作物", "サンキューページ本体", "thanks"],
-    32: ["制作物", "サンキューページ本体", "thanks"],
-    33: ["制作物", "教育グループ", "content"],
-    34: ["制作物", "教育グループ / 固定投稿", "content"],
-    35: ["制作物", "教育グループ / 事前案内", "content"],
-    36: ["制作物", "自動返信文 / リスト化", "list"],
-    37: ["制作物", "流入元からランディングページへ送る素材", "traffic"],
-    41: ["制作物", "Day1ライブ", "day1"],
-    42: ["制作物", "Day2ライブ", "day2"],
-    43: ["制作物", "Day3ライブ", "day3"],
-    44: ["制作物", "Day4ライブ", "day4"],
-    45: ["制作物", "Day5ライブ", "day5"],
-    46: ["制作物", "Day5ライブ", "day5"],
-    48: ["制作物", "リスト化 / ライブ前メール", "list"],
-    49: ["制作物", "教育グループの投稿", "content"],
-    53: ["制作物", "販売ページ", "sales-page"],
-    54: ["制作物", "成約後 / 商品提供", "product"],
-    55: ["制作物", "成約後 / 商品提供", "product"],
-    58: ["制作物", "販売ページ / 販売期配信", "sales"],
-  };
-  const spot = itemSpots[step];
-  if (!spot) return null;
-  const [type, label, focus] = spot;
-  return { type, label, focus };
-}
-
-function roadmapStepTargetHtml(item) {
-  const target = roadmapStepSpot(item);
-  if (!target) return "";
-  const figure = `<details class="roadmap-step-figure">
-<summary>図で確認する</summary>
-${spotlightFigure(target.focus, target.label, "mini-spotlight")}
-</details>`;
-  return `<div class="roadmap-step-target">
-<div class="roadmap-step-target-main"><span class="target-type">${esc(target.type)}</span><span class="target-koko">ここ</span><strong>${esc(target.label)}</strong></div>
-${figure}
-</div>`;
-}
-
 function findFunnelPart(id) {
   const row = funnelPartRows.find(([partId]) => partId === id);
   if (!row) throw new Error(`Missing funnel part: ${id}`);
@@ -1839,7 +1787,7 @@ function funnelPartLibrary() {
 function currentFunnelComposite() {
   return `<section class="panel funnel-composite-panel">
 <h2>作業位置マップ</h2>
-<p class="note">各ステップの「ここ」から、どこを作るかを確認できます。</p>
+<p class="note">章ごとの図解で、どの範囲を作るかを確認できます。</p>
 <div class="funnel-composite-wrap">
 <div class="funnel-composite" aria-label="今回のファネルパーツ合成">
   <div class="composite-phase acquisition">
@@ -1964,7 +1912,6 @@ ${spotlight}
     return `<article class="roadmap-step">
 <span class="roadmap-step-num">${esc(stepNumber)}</span>
 <div>
-${roadmapStepTargetHtml(item)}
 <h3>${esc(item.name)}</h3>
 <p>${esc(item.make)}</p>
 <p class="roadmap-step-output"><span>このステップで作る/決めるもの</span>${esc(item.output)}</p>
@@ -1981,7 +1928,7 @@ function roadmapPhaseSpotlight(phaseNumber) {
     3: ["第3章の対象箇所", "offer-product", "オファー構築"],
     4: ["第4章の対象箇所", "content", "第4章 コンテンツ設計"],
     5: ["第5章の対象箇所", "lp", "第5章 LP制作"],
-    6: ["第6章の対象箇所", "lp", "第6章 集客素材"],
+    6: ["第6章の対象箇所", "acquisition-and-value", "第6章 集客素材"],
     7: ["第7章の対象箇所", "content", "第7章 ライブ台本"],
     8: ["第8章の対象箇所", "sales", "第8章 販売素材"],
   };
@@ -2702,6 +2649,7 @@ li { margin: 4px 0; }
 .spotlight-box.offer-product { left: 87%; top: 35%; width: 10%; height: 17%; }
 .spotlight-box.content { left: 39%; top: 24%; width: 31%; height: 50%; }
 .spotlight-box.lp { left: 5%; top: 18%; width: 29%; height: 45%; }
+.spotlight-box.acquisition-and-value { left: 5%; top: 18%; width: 65%; height: 56%; }
 .spotlight-box.sales { left: 70%; top: 20%; width: 26%; height: 51%; }
 .spotlight-box.traffic { left: 1.5%; top: 29%; width: 8%; height: 25%; }
 .spotlight-box.opt-before-vsl { left: 8%; top: 24%; width: 17%; height: 31%; }
@@ -2846,7 +2794,7 @@ li { margin: 4px 0; }
   box-shadow: 0 0 0 6px rgba(255, 210, 77, .26), 0 20px 48px rgba(157, 101, 23, .18);
 }
 .composite-part:target::before {
-  content: "ここだよ";
+  content: "対象箇所";
   position: absolute;
   left: 50%;
   top: -17px;
@@ -2930,63 +2878,6 @@ li { margin: 4px 0; }
 .roadmap-step h3 { margin-bottom: .3rem; }
 .roadmap-step p { color: #324b44; line-height: 1.8; }
 .roadmap-step .report-link { margin-top: .75rem; }
-.roadmap-step-target {
-  display: grid;
-  gap: .55rem;
-  margin: 0 0 .85rem;
-  padding: .72rem .85rem;
-  border: 1px solid #F3D67B;
-  border-radius: 10px;
-  background: #FFFDF2;
-}
-.roadmap-step-target-main {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-  align-items: center;
-}
-.target-type {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 28px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  background: var(--soft);
-  color: var(--sub);
-  font-size: .72rem;
-  font-weight: 760;
-  line-height: 1.35;
-}
-.target-koko {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 28px;
-  padding: 3px 11px;
-  border-radius: 999px;
-  background: #FFD24D;
-  color: #3F2A00;
-  font-size: .72rem;
-  font-weight: 760;
-  line-height: 1.35;
-}
-.roadmap-step-target strong {
-  color: var(--ink);
-  font-size: .95rem;
-  line-height: 1.55;
-}
-.roadmap-step-figure {
-  margin: 0;
-}
-.roadmap-step-figure summary {
-  cursor: pointer;
-  color: var(--sub);
-  font-size: .78rem;
-  font-weight: 900;
-  line-height: 1.5;
-}
-.roadmap-step-figure summary:hover { color: var(--main); }
 .roadmap-step-output {
   margin-top: .45rem;
   color: #324b44;
