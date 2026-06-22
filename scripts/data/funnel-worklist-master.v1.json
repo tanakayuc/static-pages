@@ -1,0 +1,134 @@
+{
+  "version": "1.0.0",
+  "title": "工程マスター 出し分け仕様",
+  "purpose": "ユーザーが販売モデルを選んだときに、必要な作業工程だけを漏れなく、重複なく生成する。",
+  "principles": [
+    "ステージは1つの集客面で、ページ、サンキューページ、前後メッセージ、会ありの場合のスライドと台本を持つ。",
+    "ファネルはステージを何段積むかと、共通の前後工程で表現する。",
+    "販売ページ、セミナー、個別説明会のページ制作は同じ工程として扱い、違いはCTAの飛び先で表現する。",
+    "工程表には販売モデルの説明を出さず、全体設計で選ばれた条件に一致する工程だけを表示する。"
+  ],
+  "stage_kit": [
+    {
+      "key": "page",
+      "label": "ページ原稿",
+      "when": "always"
+    },
+    {
+      "key": "thanks",
+      "label": "サンキューページ",
+      "when": "has_meeting"
+    },
+    {
+      "key": "msg_before",
+      "label": "申込前メッセージ（告知・集客）",
+      "when": "always"
+    },
+    {
+      "key": "msg_after",
+      "label": "申込後メッセージ（リマインド）",
+      "when": "has_meeting"
+    },
+    {
+      "key": "slide",
+      "label": "スライド＋台本",
+      "when": "has_meeting"
+    },
+    {
+      "key": "msg_sales",
+      "label": "販売期メッセージ（締切配信）",
+      "when": "is_closing"
+    }
+  ],
+  "common_pre": [
+    {
+      "key": "funnel_design",
+      "id": "C0",
+      "label": "販売設計（段数・会の有無を決める）"
+    }
+  ],
+  "common_post": [
+    {
+      "key": "buy_complete",
+      "id": "C9",
+      "label": "購入完了ページ原稿"
+    },
+    {
+      "key": "buy_followup",
+      "id": "C10",
+      "label": "購入後案内メール"
+    }
+  ],
+  "stage_types": {
+    "sales_page": {
+      "label": "販売ページ",
+      "has_meeting": false,
+      "cta": "決済（その場で購入）"
+    },
+    "seminar": {
+      "label": "セミナー（体験含む）",
+      "has_meeting": true,
+      "cta": "セミナー参加登録"
+    },
+    "consult": {
+      "label": "個別説明会／個別相談",
+      "has_meeting": true,
+      "cta": "個別相談の予約"
+    }
+  },
+  "funnels": {
+    "one_step": {
+      "label": "ワンステップ販売",
+      "stages": [
+        "sales_page"
+      ],
+      "expected_count": 6
+    },
+    "seminar_sales": {
+      "label": "セミナーセールス",
+      "stages": [
+        "seminar"
+      ],
+      "expected_count": 9
+    },
+    "consult_sales": {
+      "label": "個別セールス",
+      "stages": [
+        "consult"
+      ],
+      "expected_count": 9
+    },
+    "trial_direct": {
+      "label": "体験セミナー→そのまま",
+      "stages": [
+        "seminar"
+      ],
+      "expected_count": 9
+    },
+    "trial_to_consult": {
+      "label": "体験セミナー→個別",
+      "stages": [
+        "seminar",
+        "consult"
+      ],
+      "expected_count": 14
+    }
+  },
+  "generation_rules": [
+    "common_preを先頭に1回だけ出す。",
+    "funnels[funnel_key].stagesを順番に展開する。",
+    "stage_kitのwhenがalwaysなら常に出す。",
+    "stage_kitのwhenがhas_meetingなら、stage_type.has_meetingがtrueのステージだけ出す。",
+    "stage_kitのwhenがis_closingなら、最後のステージだけ出す。",
+    "common_postを末尾に1回だけ出す。",
+    "ページ工程にはstage_type.ctaを添えて、ボタンの飛び先を明示する。"
+  ],
+  "checklist": [
+    "会ありステージの数とスライド数が一致している。",
+    "サンキューページは会ありステージだけに出ている。",
+    "販売期メッセージは最後のステージに1つだけ出ている。",
+    "申込前メッセージは全ステージに出ている。",
+    "販売設計、購入完了ページ、購入後案内メールが各1つだけ出ている。",
+    "各ページ工程にCTAの飛び先が付いている。"
+  ]
+}
