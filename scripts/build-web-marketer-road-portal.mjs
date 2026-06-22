@@ -1049,6 +1049,22 @@ function hideFinishedUrls(text = "") {
   return String(text).replace(/https?:\/\/[^\s)）<>"']+/g, "（導線URLを設定）");
 }
 
+function stripSourceMeta(text = "") {
+  return String(text)
+    .replace(/^>?\s*(原稿URL|該当URL|該当動画|取得元|生データ|配信一覧対応):.*$/gm, "")
+    .replace(/^種別:.*$/gm, "")
+    .replace(/^元スプレッドシート.*$/gm, "")
+    .replace(/^Kind: captions$/gm, "")
+    .replace(/^Language: ja$/gm, "")
+    .replace(/^カテゴリ:\s*(.+?)（実ログ反映）$/gm, "カテゴリ: $1")
+    .replace(/^このスライドはGenspark上.*確認済みです（\d{4}-\d{2}-\d{2}）。$/gm, "")
+    .replace(/実録書き起こし/g, "台本")
+    .replace(/書き起こし/g, "本文")
+    .replace(/文字起こし/g, "本文")
+    .replace(/実ログ/g, "")
+    .replace(/\n{3,}/g, "\n\n");
+}
+
 function cleanVisibleFileRefs(text = "") {
   return String(text)
     .replace(/\[([^\]]+?)\]\(([^)]*?\.md[^)]*?)\)/g, "$1")
@@ -1078,27 +1094,34 @@ function meta(text, key) {
   return text.match(new RegExp(`^${key}:\\s*(.+)$`, "m"))?.[1]?.trim() || "";
 }
 
+function cleanMetaValue(value = "", fallback = "") {
+  const cleaned = stripSourceMeta(normalizeOutputTerms(value))
+    .replace(/（実ログ反映）/g, "")
+    .replace(/\s*\/\s*実ログ\s*/g, "")
+    .replace(/^実ログ$/g, "")
+    .trim();
+  return cleaned || fallback;
+}
+
 function bodyExcerpt(relative, limit = 360) {
   const text = read(relative)
     .replace(/^#\s+.+$/m, "")
-    .replace(/^> 原稿URL:.+$/gm, "")
     .replace(/^Produced by[\s\S]*$/m, "")
     .replace(/^---$/gm, "")
     .replace(/```[\s\S]*?```/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
-  const compact = cleanVisibleFileRefs(hideFinishedUrls(normalizeOutputTerms(text.replace(/\s+\n/g, "\n").trim())));
+  const compact = cleanVisibleFileRefs(hideFinishedUrls(stripSourceMeta(normalizeOutputTerms(text.replace(/\s+\n/g, "\n").trim()))));
   return compact.length > limit ? `${compact.slice(0, limit)}...` : compact;
 }
 
 function bodyFull(relative, limit = 36000) {
   const text = read(relative)
-    .replace(/^> 原稿URL:.+$/gm, "")
     .replace(/^Produced by[\s\S]*$/m, "")
     .replace(/\n{4,}/g, "\n\n\n")
     .trim();
   if (!text) return "";
-  const normalized = normalizeOutputTerms(text);
+  const normalized = stripSourceMeta(normalizeOutputTerms(text));
   return normalized.length > limit ? `${normalized.slice(0, limit).trim()}\n\n（以下、原本に続きます）` : normalized;
 }
 
@@ -1173,8 +1196,7 @@ function copyArticleFrom(relative, limit = 36000) {
   const body = text.includes("\n---")
     ? text.split(/^---$/m).slice(1).join("---")
     : text.replace(/^#\s+.+$/m, "");
-  const markdown = normalizeOutputTerms(body)
-    .replace(/^> 原稿URL:.+$/gm, "")
+  const markdown = stripSourceMeta(normalizeOutputTerms(body))
     .replace(/^Produced by[\s\S]*$/m, "")
     .replace(/\n{4,}/g, "\n\n\n")
     .trim();
@@ -1208,9 +1230,9 @@ function parseMail(relative) {
       : isLine
         ? "公式LINE"
         : "販売期";
-  const day = meta(text, "配信日") || meta(text, "配信実績日") || meta(text, "配信タイミング") || "";
-  const time = meta(text, "配信時間") || meta(text, "配信実績時刻") || "";
-  const category = meta(text, "カテゴリ") || phase;
+  const day = cleanMetaValue(meta(text, "配信日") || meta(text, "配信実績日") || meta(text, "配信タイミング"));
+  const time = cleanMetaValue(meta(text, "配信時間") || meta(text, "配信実績時刻"));
+  const category = cleanMetaValue(meta(text, "カテゴリ"), phase);
   const body = text.split("---").slice(1).join("---") || text;
   const urls = [...body.matchAll(/https?:\/\/[^\s)]+/g)].map((match) => match[0]).filter((url) => !url.includes("docs.google.com"));
   return {
@@ -1244,7 +1266,7 @@ function materialMailList(relative) {
 function parseSpot(relative) {
   const name = path.basename(relative, ".md");
   const title = titleOf(relative);
-  const phase = relative.includes("フェーズ1") ? "ライブ前" : relative.includes("フェーズ2") ? "価値提供中" : relative.includes("フェーズ3") ? "販売期" : "実ログ";
+  const phase = relative.includes("フェーズ1") ? "ライブ前" : relative.includes("フェーズ2") ? "価値提供中" : relative.includes("フェーズ3") ? "販売期" : "通常配信";
   const match = name.match(/_(Day[^_]+|販売[^_]+|9月[^_]+)_([0-9]+時(?:[0-9]+分)?|[0-9]+分)?_/);
   return {
     relative,
@@ -1916,7 +1938,7 @@ function lineNormalFile(index) {
 }
 
 function mailTiming(row) {
-  return [row.day, row.time].filter(Boolean).join(" / ") || row.category || row.phase;
+  return [row.day, row.time].filter(Boolean).join(" / ") || cleanMetaValue(row.category) || row.phase || "配信";
 }
 
 fixedNotes.forEach((note, index) => {
@@ -3497,7 +3519,6 @@ pages.set("sales-line.html", readerPage({
     lead: "販売開始、質問回答、実績共有、締切案内など、販売期に送るLINE文面です。",
     rows: salesOfficialLines,
     label: "販売素材",
-    overview: salesOfficialOverview,
   }),
 }));
 
@@ -3552,7 +3573,9 @@ const dynamicPagePatterns = [
 for (const dir of dirs) {
   fs.mkdirSync(dir, { recursive: true });
   for (const entry of fs.readdirSync(dir)) {
-    if (!dynamicPagePatterns.some((pattern) => pattern.test(entry))) continue;
+    const shouldDeleteGeneratedPage = dynamicPagePatterns.some((pattern) => pattern.test(entry));
+    const shouldDeletePublicSourceMd = dir === publicDir && entry.endsWith(".md");
+    if (!shouldDeleteGeneratedPage && !shouldDeletePublicSourceMd) continue;
     fs.unlinkSync(path.join(dir, entry));
   }
   for (const [file, content] of allPages) {
