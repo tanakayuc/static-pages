@@ -1995,7 +1995,8 @@ salesOfficialLines.forEach((mail, index) => {
 
 function mailAssetSidebar({ title, indexFile, activeFile, rows, parentHref = "lp.html", parentLabel = "集客素材一覧", sectionLabel = "メール一覧" }) {
   const upHref = activeFile === indexFile ? parentHref : indexFile;
-  const upLabel = activeFile === indexFile ? parentLabel : title;
+  const overviewHref = activeFile === indexFile ? parentHref : indexFile;
+  const overviewLabel = activeFile === indexFile ? parentLabel : title;
   const links = rows.map((mail) => {
     const href = mail.assetFile || mail.file;
     return `<a class="stepmail-side-link ${href === activeFile ? "active" : ""}" href="${esc(href)}"><span class="date">${esc(mailTiming(mail))}</span>${esc(mail.title)}</a>`;
@@ -2004,7 +2005,7 @@ function mailAssetSidebar({ title, indexFile, activeFile, rows, parentHref = "lp
 <div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
 <h3>${esc(title)}</h3>
 <a class="stepmail-side-link top-link" href="${esc(upHref)}"><span class="date">Back</span>1つ上に戻る</a>
-<a class="stepmail-side-link top-link ${activeFile === indexFile ? "active" : ""}" href="${esc(indexFile)}"><span class="date">${esc(upLabel)}</span>一覧</a>
+<a class="stepmail-side-link top-link" href="${esc(overviewHref)}"><span class="date">${esc(overviewLabel)}</span>一覧</a>
 <div class="stepmail-side-section">${esc(sectionLabel)}</div>
 ${links}
 </aside>`;
