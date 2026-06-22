@@ -1133,6 +1133,24 @@ function hideFinishedUrls(text = "") {
   return String(text).replace(/https?:\/\/[^\s)）<>"']+/g, "（導線URLを設定）");
 }
 
+function hideActualDates(text = "") {
+  return String(text)
+    .replace(/20\d{2}年[0-9０-９]{1,2}月[0-9０-９]{1,2}日(?:[（(][^)）]+[)）])?(?:[月火水木金土日]曜日?)?/g, "配信日")
+    .replace(/[0-9０-９]{1,2}月[0-9０-９]{1,2}日(?:[（(][^)）]+[)）])?(?:[月火水木金土日]曜日?)?/g, "配信日")
+    .replace(/20\d{2}-[0-9]{1,2}-[0-9]{1,2}/g, "配信日");
+}
+
+function cleanOutputMaterialText(text = "") {
+  return hideActualDates(hideFinishedUrls(cleanVisibleFileRefs(stripSourceMeta(normalizeOutputTerms(text)))));
+}
+
+function cleanOutputTitle(text = "") {
+  return cleanOutputMaterialText(text)
+    .replace(/配信日[の]*/g, "配信日")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
 function stripSourceMeta(text = "") {
   return String(text)
     .replace(
@@ -1202,7 +1220,7 @@ function bodyExcerpt(relative, limit = 360) {
     .replace(/```[\s\S]*?```/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
-  const compact = cleanVisibleFileRefs(hideFinishedUrls(stripSourceMeta(normalizeOutputTerms(text.replace(/\s+\n/g, "\n").trim()))));
+  const compact = cleanOutputMaterialText(text.replace(/\s+\n/g, "\n").trim());
   return compact.length > limit ? `${compact.slice(0, limit)}...` : compact;
 }
 
@@ -1212,7 +1230,7 @@ function bodyFull(relative, limit = 36000) {
     .replace(/\n{4,}/g, "\n\n\n")
     .trim();
   if (!text) return "";
-  const normalized = stripSourceMeta(normalizeOutputTerms(text));
+  const normalized = cleanOutputMaterialText(text);
   return normalized.length > limit ? `${normalized.slice(0, limit).trim()}\n\n（以下、原本に続きます）` : normalized;
 }
 
@@ -1287,7 +1305,7 @@ function copyArticleFrom(relative, limit = 36000) {
   const body = text.includes("\n---")
     ? text.split(/^---$/m).slice(1).join("---")
     : text.replace(/^#\s+.+$/m, "");
-  const markdown = stripSourceMeta(normalizeOutputTerms(body))
+  const markdown = cleanOutputMaterialText(body)
     .replace(/^Produced by[\s\S]*$/m, "")
     .replace(/\n{4,}/g, "\n\n\n")
     .trim();
@@ -1297,7 +1315,7 @@ function copyArticleFrom(relative, limit = 36000) {
 }
 
 function sourceDetails(label, relative, limit = 36000, open = false) {
-  return `<details ${open ? "open" : ""}><summary>${esc(label)}</summary><div class="details-body">${articleFrom(relative, limit)}</div></details>`;
+  return `<details ${open ? "open" : ""}><summary>${esc(cleanOutputTitle(label))}</summary><div class="details-body">${copyArticleFrom(relative, limit)}</div></details>`;
 }
 
 function sourceDetailsList(items, openFirst = true) {
@@ -1312,7 +1330,7 @@ function sourceSummaryList(items) {
 
 function parseMail(relative) {
   const text = read(relative);
-  const title = titleOf(relative);
+  const title = cleanOutputTitle(titleOf(relative));
   const isLine = relative.includes("/公式LINE/");
   const phase = relative.includes("集客前メッセージ") || relative.includes("フェーズ0")
     ? "集客前"
@@ -1356,7 +1374,7 @@ function materialMailList(relative) {
 
 function parseSpot(relative) {
   const name = path.basename(relative, ".md");
-  const title = titleOf(relative);
+  const title = cleanOutputTitle(titleOf(relative));
   const phase = relative.includes("フェーズ1") ? "ライブ前" : relative.includes("フェーズ2") ? "価値提供中" : relative.includes("フェーズ3") ? "販売期" : "通常配信";
   const match = name.match(/_(Day[^_]+|販売[^_]+|9月[^_]+)_([0-9]+時(?:[0-9]+分)?|[0-9]+分)?_/);
   return {
@@ -2009,7 +2027,7 @@ const salesOcOverview = `${salesMaterialRoot}/03_LINEオープンチャット_Da
 const salesOfficialLines = materialMailList(`${salesMaterialRoot}/04_販売期公式LINE`)
   .filter((mail) => !path.basename(mail.relative).startsWith("00_"));
 const salesOfficialOverview = `${salesMaterialRoot}/04_販売期公式LINE/00_配信対応表.md`;
-const fixedNotes = list(`${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿`).map((relative) => ({ relative, title: titleOf(relative), excerpt: bodyExcerpt(relative, 280) }));
+const fixedNotes = list(`${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿`).map((relative) => ({ relative, title: cleanOutputTitle(titleOf(relative)), excerpt: bodyExcerpt(relative, 280) }));
 const plannedSpots = list(`${valueMaterialRoot}/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編`)
   .filter((file) => !path.basename(file).startsWith("00_"))
   .map(parseSpot)
@@ -2023,7 +2041,7 @@ const liveScriptRows = list(liveScriptRoot)
       day: `Day${day}`,
       file: `live-script-day${day}.html`,
       assetFile: `live-script-day${day}.html`,
-      title: titleOf(relative),
+      title: cleanOutputTitle(titleOf(relative)),
       excerpt: bodyExcerpt(relative, 240),
     };
   })
@@ -2114,9 +2132,13 @@ function mailDisplayTiming(row) {
 
 fixedNotes.forEach((note, index) => {
   note.file = lineFixedFile(index);
+  note.displayTiming = `固定投稿 ${index + 1}`;
+  note.timingLabel = "掲載順";
 });
 plannedSpots.forEach((spot, index) => {
   spot.file = lineNormalFile(index);
+  spot.displayTiming = `第${index + 1}投稿`;
+  spot.timingLabel = "配信順";
 });
 
 function folderList(rows, metaFn = mailTiming) {
@@ -2149,6 +2171,8 @@ function salesLineFile(index) {
 
 registrationMails.forEach((mail, index) => {
   mail.assetFile = optinAfterMailFile(index);
+  mail.displayTiming = `第${index + 1}通`;
+  mail.timingLabel = "配信順";
 });
 setupMails.forEach((mail, index) => {
   mail.assetFile = trafficMailFile(index);
@@ -2157,12 +2181,18 @@ setupMails.forEach((mail, index) => {
 });
 salesMails.forEach((mail, index) => {
   mail.assetFile = salesMailFile(index);
+  mail.displayTiming = `第${index + 1}通`;
+  mail.timingLabel = "配信順";
 });
 salesOcMessages.forEach((mail, index) => {
   mail.assetFile = salesOcFile(index);
+  mail.displayTiming = `第${index + 1}投稿`;
+  mail.timingLabel = "配信順";
 });
 salesOfficialLines.forEach((mail, index) => {
   mail.assetFile = salesLineFile(index);
+  mail.displayTiming = `第${index + 1}通`;
+  mail.timingLabel = "配信順";
 });
 
 function mailAssetSidebar({ title, indexFile, activeFile, rows, parentHref = "lp.html", parentLabel = "集客素材一覧", sectionLabel = "メール一覧" }) {
@@ -2203,7 +2233,6 @@ function mailAssetIndexBody({ title, lead, rows, label = "集客素材", overvie
 <p class="block-label">${esc(label)}</p>
 <h2>${esc(title)}</h2>
 <p>${esc(lead)}</p>
-${overview ? `<div class="details-body">${articleFrom(overview).replace(source(overview), "")}</div>` : ""}
 ${assetFolderList(rows, mailDisplayTiming)}
 </section>
 </div>`;
@@ -2232,9 +2261,13 @@ function spotTiming(row) {
   return [row.timing, row.time].filter(Boolean).join(" / ") || row.phase;
 }
 
+function spotDisplayTiming(row) {
+  return row.displayTiming || spotTiming(row);
+}
+
 function lineSidebar(activeFile = "line.html") {
-  const fixedLinks = fixedNotes.map((note) => `<a class="stepmail-side-link ${note.file === activeFile ? "active" : ""}" href="${esc(note.file)}"><span class="date">固定投稿</span>${esc(note.title)}</a>`).join("");
-  const normalLinks = plannedSpots.map((spot) => `<a class="stepmail-side-link ${spot.file === activeFile ? "active" : ""}" href="${esc(spot.file)}"><span class="date">${esc(spotTiming(spot))}</span>${esc(spot.title)}</a>`).join("");
+  const fixedLinks = fixedNotes.map((note) => `<a class="stepmail-side-link ${note.file === activeFile ? "active" : ""}" href="${esc(note.file)}"><span class="date">${esc(spotDisplayTiming(note))}</span>${esc(note.title)}</a>`).join("");
+  const normalLinks = plannedSpots.map((spot) => `<a class="stepmail-side-link ${spot.file === activeFile ? "active" : ""}" href="${esc(spot.file)}"><span class="date">${esc(spotDisplayTiming(spot))}</span>${esc(spot.title)}</a>`).join("");
   const parentHref = activeFile === "line.html" ? "value.html" : "line.html";
   const parentLabel = activeFile === "line.html" ? "価値提供素材一覧" : "価値提供LINE一覧";
   return `<aside class="reader-side stepmail-side line-side">
@@ -2250,7 +2283,7 @@ ${normalLinks}
 }
 
 function singleMaterialBody(item, label, timing = "") {
-  const timingRow = timing ? `<tr><th>タイミング</th><td>${esc(timing)}</td></tr>` : "";
+  const timingRow = timing ? `<tr><th>${esc(item.timingLabel || "タイミング")}</th><td>${esc(timing)}</td></tr>` : "";
   const metaTable = timingRow ? `<table class="asset-table compact-table"><tbody>${timingRow}</tbody></table>` : "";
   return `<section class="panel article-panel">
 <p class="block-label">${esc(label)}</p>
@@ -2278,7 +2311,7 @@ function lineSpotArticle(spot, index) {
 <div class="mail-entry-head">
 <span class="mail-number">${String(index + 1).padStart(2, "0")}</span>
 <div>
-<p class="block-label">${esc(spot.phase)} / ${esc(spotTiming(spot))}</p>
+<p class="block-label">${esc(spot.phase)} / ${esc(spotDisplayTiming(spot))}</p>
 <h3>${esc(spot.title)}</h3>
 </div>
 </div>
@@ -2311,7 +2344,7 @@ function linePageBody() {
 <section id="line-fixed" class="stepmail-block">
 <p class="block-label">常設案内</p>
 <h2>固定投稿</h2>
-${folderList(fixedNotes, () => "固定投稿")}
+${folderList(fixedNotes, spotDisplayTiming)}
 </section>
 <section id="line-normal" class="stepmail-block">
 <p class="block-label">時系列</p>
@@ -2321,7 +2354,7 @@ ${folderList(fixedNotes, () => "固定投稿")}
 <tr><td>価値提供中</td><td>${phaseCounts["価値提供中"] || 0}件</td><td>ライブリンク、課題、アーカイブ、質問回答、特典案内。</td></tr>
 </tbody></table>
 <h3 class="section-title">全スポット配信タイトル</h3>
-${folderList(plannedSpots, spotTiming)}
+${folderList(plannedSpots, spotDisplayTiming)}
 </section>
 </div>
 </div>`;
@@ -3408,7 +3441,7 @@ pages.set("offer.html", page({
 <tr><td><strong>実践コース</strong></td><td>69,800円（税込）</td><td>45日間の実践、チーム戦、全特典、サポート、ナレハブ、PLC差額参加の権利。</td></tr>
 <tr><td><strong>見るだけプラン</strong></td><td>49,800円（税込）</td><td>実践コースの活動をウォッチできる。講義動画とプロモーション素材一式を受け取れる。直接サポートとナレハブはなし。</td></tr>
 <tr><td><strong>教材プラン</strong></td><td>49,800円（税込）</td><td>講義動画とプロモーション素材一式を受け取れる。チーム実践、直接サポート、ナレハブはなし。</td></tr>
-</tbody></table><p class="quote">受付は9月18日21時から9月21日21時までの4日間限定。実践コースは次回以降99,800円で提供予定のところ、5日間チャレンジ参加者向けに69,800円で提示する。</p></section>`}));
+</tbody></table><p class="quote">受付は販売開始から締切までの期間限定。実践コースは次回以降99,800円で提供予定のところ、5日間チャレンジ参加者向けに69,800円で提示する。</p></section>`}));
 
 pages.set("assets.html", page({
   file: "assets.html",
@@ -3449,7 +3482,7 @@ for (const mail of registrationMails) {
     file: mail.assetFile,
     title: mail.title,
     eyebrow: "オプトイン後メルマガ",
-    lead: mailTiming(mail),
+    lead: mailDisplayTiming(mail),
     sidebar: mailAssetSidebar({ title: "オプトイン後メルマガ", indexFile: "optin-after-mails.html", activeFile: mail.assetFile, rows: registrationMails }),
     body: singleMailBody(mail),
   }));
@@ -3577,9 +3610,9 @@ for (const spot of plannedSpots) {
     file: spot.file,
     title: spot.title,
     eyebrow: "価値提供LINE通常配信",
-    lead: `${spot.phase} / ${spotTiming(spot)}`,
+    lead: `${spot.phase} / ${spotDisplayTiming(spot)}`,
     sidebar: lineSidebar(spot.file),
-    body: singleMaterialBody(spot, spot.phase, spotTiming(spot))}));
+    body: singleMaterialBody(spot, spot.phase, spotDisplayTiming(spot))}));
 }
 
 pages.set("script-opening.html", page({
@@ -3663,7 +3696,7 @@ for (const mail of salesMails) {
     file: mail.assetFile,
     title: mail.title,
     eyebrow: "販売メルマガ",
-    lead: mailTiming(mail),
+    lead: mailDisplayTiming(mail),
     sidebar: mailAssetSidebar({
       title: "販売メルマガ",
       indexFile: "sales-mails.html",
@@ -3712,7 +3745,7 @@ for (const mail of salesOcMessages) {
     file: mail.assetFile,
     title: mail.title,
     eyebrow: "販売導線LINE",
-    lead: mailTiming(mail),
+    lead: mailDisplayTiming(mail),
     sidebar: mailAssetSidebar({
       title: "販売導線LINE",
       indexFile: "sales-oc.html",
@@ -3753,7 +3786,7 @@ for (const mail of salesOfficialLines) {
     file: mail.assetFile,
     title: mail.title,
     eyebrow: "販売期LINE",
-    lead: mailTiming(mail),
+    lead: mailDisplayTiming(mail),
     sidebar: mailAssetSidebar({
       title: "販売期LINE",
       indexFile: "sales-line.html",
