@@ -181,6 +181,7 @@ const materialMdRoot = "90_制作パッケージサンプル/05_制作物一覧"
 const acquisitionMaterialRoot = `${materialMdRoot}/01_集客素材`;
 const valueMaterialRoot = `${materialMdRoot}/02_価値提供素材`;
 const salesMaterialRoot = `${materialMdRoot}/03_販売素材`;
+const liveScriptRoot = `${valueMaterialRoot}/02_Day1〜Day5ライブ台本`;
 
 const acquisitionPatternRows = [
   {
@@ -2004,6 +2005,20 @@ const plannedSpots = list(`${valueMaterialRoot}/01_LINEオープンチャット/
   .filter((file) => !path.basename(file).startsWith("00_"))
   .map(parseSpot)
   .filter((spot) => spot.phase !== "販売期");
+const liveScriptRows = list(liveScriptRoot)
+  .filter((relative) => /Day\d/.test(path.basename(relative)))
+  .map((relative, index) => {
+    const day = path.basename(relative).match(/Day(\d+)/)?.[1] || String(index + 1);
+    return {
+      relative,
+      day: `Day${day}`,
+      file: `live-script-day${day}.html`,
+      assetFile: `live-script-day${day}.html`,
+      title: titleOf(relative),
+      excerpt: bodyExcerpt(relative, 240),
+    };
+  })
+  .sort((a, b) => Number(a.day.replace("Day", "")) - Number(b.day.replace("Day", "")));
 
 const phaseCounts = plannedSpots.reduce((acc, item) => {
   acc[item.phase] = (acc[item.phase] || 0) + 1;
@@ -2087,6 +2102,20 @@ function mailAssetSidebar({ title, indexFile, activeFile, rows, parentHref = "lp
 <a class="stepmail-side-link top-link" href="${esc(upHref)}"><span class="date">Back</span>1つ上に戻る</a>
 <a class="stepmail-side-link top-link" href="${esc(overviewHref)}"><span class="date">${esc(overviewLabel)}</span>一覧</a>
 <div class="stepmail-side-section">${esc(sectionLabel)}</div>
+${links}
+</aside>`;
+}
+
+function liveScriptSidebar(activeFile = "live-scripts.html") {
+  const parentHref = activeFile === "live-scripts.html" ? "value.html" : "live-scripts.html";
+  const parentLabel = activeFile === "live-scripts.html" ? "価値提供素材一覧" : "ライブ台本一覧";
+  const links = liveScriptRows.map((script) => `<a class="stepmail-side-link ${script.file === activeFile ? "active" : ""}" href="${esc(script.file)}"><span class="date">${esc(script.day)}</span>${esc(script.title)}</a>`).join("");
+  return `<aside class="reader-side stepmail-side">
+<div class="brand"><div class="brand-mark">祐</div><div><p class="brand-title">田中祐一AI</p><span class="brand-sub">WEBマーケターへの道</span></div></div>
+<h3>ライブ台本</h3>
+<a class="stepmail-side-link top-link" href="${esc(parentHref)}"><span class="date">Back</span>1つ上に戻る</a>
+<a class="stepmail-side-link top-link ${activeFile === "live-scripts.html" ? "active" : ""}" href="live-scripts.html"><span class="date">${esc(parentLabel)}</span>一覧</a>
+<div class="stepmail-side-section">Day別ライブ台本</div>
 ${links}
 </aside>`;
 }
@@ -3466,20 +3495,37 @@ pages.set("script-opening.html", page({
   lead: "LP上で登録前に見せる動画台本です。今回の案件ではオプト前VSLのみを制作対象にします。",
   body: `<section class="panel article-panel"><h2>オプト前VSL台本</h2>${sourceDetailsList(list(`${acquisitionMaterialRoot}/03_オプト前VSL台本`))}</section>`}));
 
-pages.set("live-scripts.html", page({
+pages.set("live-scripts.html", readerPage({
   file: "live-scripts.html",
-  title: "Day1〜Day5 ライブ台本",
-  eyebrow: "制作物",
-  lead: "5日間チャレンジの各ライブ台本を、目的、コア論点、課題、スライド指示書に分けて確認します。",
-  body: `${funnelSpotlightCard({
+  title: "ライブ台本一覧",
+  eyebrow: "価値提供素材",
+  lead: "Day1〜Day5のライブ台本を、1台本1URLで確認します。",
+  sidebar: liveScriptSidebar("live-scripts.html"),
+  body: `<div class="stepmail-content reader-content">
+${funnelSpotlightCard({
   title: "ライブ台本の対象箇所",
   note: "ライブ台本は、教育グループ内のDay1〜Day5を進めるための素材です。",
   focus: "content",
   label: "Day1〜Day5",
 })}
-<section class="panel article-panel"><h2>Day1〜Day5ライブ台本</h2>${sourceDetailsList(list(`${valueMaterialRoot}/02_Day1〜Day5ライブ台本`))}</section>
-<section class="panel article-panel"><h2>課題・特典</h2><p class="note">課題や回答シートは点数が多いため、ここでは一覧と短い抜粋だけを表示します。</p>${sourceSummaryList(list(`${valueMaterialRoot}/03_課題・特典`))}</section>
-`}));
+<section class="stepmail-block">
+<p class="block-label">価値提供素材</p>
+<h2>Day別ライブ台本一覧</h2>
+<p>ライブ台本はDayごとに独立ページで管理します。各ページには1本の台本だけを表示し、他のDayの本文と混ざらないようにします。</p>
+${assetFolderList(liveScriptRows, (row) => row.day)}
+</section>
+</div>`}));
+
+for (const script of liveScriptRows) {
+  pages.set(script.file, readerPage({
+    file: script.file,
+    title: script.title,
+    eyebrow: `${script.day}ライブ台本`,
+    lead: "このページでは、1本のライブ台本だけを表示します。",
+    sidebar: liveScriptSidebar(script.file),
+    body: singleMaterialBody(script, `${script.day}ライブ台本`),
+  }));
+}
 
 pages.set("sales-page.html", page({
   file: "sales-page.html",

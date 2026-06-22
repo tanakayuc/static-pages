@@ -27,6 +27,11 @@ const requiredPages = [
   "line.html",
   "script-opening.html",
   "live-scripts.html",
+  "live-script-day1.html",
+  "live-script-day2.html",
+  "live-script-day3.html",
+  "live-script-day4.html",
+  "live-script-day5.html",
   "sales-page.html",
   "sales-mails.html",
   "sales-letter.html",
@@ -300,7 +305,8 @@ const contentChecks = [
   ["line.html", "line-normal-01.html"],
   ["line.html", "line-official-01.html"],
   ["line.html", "全スポット配信タイトル"],
-  ["live-scripts.html", "課題提出 91件"],
+  ["live-scripts.html", "live-script-day1.html"],
+  ["live-scripts.html", "live-script-day5.html"],
   ["lp.html", "集客の素材一覧"],
   ["lp.html", "集客で作る素材"],
   ["lp.html", "production-side"],
@@ -360,7 +366,11 @@ const contentChecks = [
   ["script-opening.html", "VSLスライド指示書"],
   ["script-opening.html", "オプト前VSL"],
   ["live-scripts.html", "Day別ライブ台本一覧"],
-  ["live-scripts.html", "Day別スライド指示書"],
+  ["live-script-day1.html", "Day1ライブ台本"],
+  ["live-script-day2.html", "Day2ライブ台本"],
+  ["live-script-day3.html", "Day3ライブ台本"],
+  ["live-script-day4.html", "Day4ライブ台本"],
+  ["live-script-day5.html", "Day5ライブ台本"],
   ["sales-page.html", "販売の素材一覧"],
   ["sales-page.html", "販売で作る素材"],
   ["sales-page.html", "production-side"],
@@ -627,19 +637,27 @@ for (const file of ["lp.html", "value.html", "sales-page.html"]) {
   }
 }
 
-for (const file of ["optin-after-mails.html", "traffic-mails.html", "line.html"]) {
+for (const file of ["optin-after-mails.html", "traffic-mails.html", "line.html", "live-scripts.html"]) {
   const html = read(file);
   if (html.includes('<div class="layout">')) fail(`${file} should use reader layout, not standard report layout`);
   if (html.includes('class="side">')) fail(`${file} should not include the global report sidebar`);
   if (html.includes("stepmail-shell")) fail(`${file} should not nest the mail sidebar inside a panel`);
   if (html.includes("copy-article")) fail(`${file} should be an index page and must not render MD bodies`);
   if (html.includes("source-path")) fail(`${file} should be an index page and must not expose MD source paths`);
+  if (html.includes("full-source-list") || html.includes("<details")) fail(`${file} should be an index page and must not aggregate multiple MD bodies`);
 }
 
 for (const file of generatedDetailPages) {
   const html = read(file);
   if (html.includes("source-path")) fail(`${file} should not expose MD source paths`);
   if (!html.includes("copy-article")) fail(`${file} should render exactly one MD body`);
+}
+
+for (const file of ["live-script-day1.html", "live-script-day2.html", "live-script-day3.html", "live-script-day4.html", "live-script-day5.html"]) {
+  const html = read(file);
+  if (html.includes("source-path")) fail(`${file} should not expose MD source paths`);
+  if (!html.includes("copy-article")) fail(`${file} should render exactly one MD body`);
+  if (!html.includes("1つ上に戻る")) fail(`${file} should have an up-navigation link`);
 }
 
 for (const snippet of ["オプト後VSL台本", "登録直後VSL", "OPT5のVSL台本"]) {
