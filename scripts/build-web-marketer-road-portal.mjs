@@ -2034,8 +2034,7 @@ function singleMailBody(mail) {
 <p class="block-label">${esc(mail.purpose || mail.phase)} / ${esc(mailTiming(mail))}</p>
 <h2>${esc(mail.title)}</h2>
 <table class="asset-table compact-table"><tbody>
-<tr><th>タイミング</th><td>${esc(mailTiming(mail))}</td></tr>
-<tr><th>カテゴリ</th><td>${esc(mail.category || mail.phase)}</td></tr>
+<tr><th>配信タイミング</th><td>${esc(mailTiming(mail))}</td></tr>
 </tbody></table>
 <div class="mail-full single-md">${copyArticleFrom(mail.relative).replace(source(mail.relative), "")}</div>
 </section>`;
