@@ -3232,7 +3232,15 @@ pages.set("optin-lp-copy.html", page({
   title: "オプトインLP原稿",
   eyebrow: "集客素材",
   lead: "登録前に見込み客へ提示するLP本文です。今回の構成ではLP上にオプト前VSLを置きます。",
-  body: `<section class="panel article-panel"><h2>オプトインLP原稿</h2>${sourceDetailsList(list(`${acquisitionMaterialRoot}/01_オプトインLP原稿`))}</section>`}));
+  body: `<section class="panel article-panel"><h2>オプトインLP原稿</h2>
+<p class="note">ページ制作に渡すためのLP原稿として、上から順に使える形で整理しています。</p>
+<div class="section-list">
+<div class="section-row"><span>01</span><div><strong>キャッチコピー</strong><p>ページ上部で、誰に何を約束するのかを一目で伝えます。</p></div></div>
+<div class="section-row"><span>02</span><div><strong>動画</strong><p>本編動画（オプト前VSL）を配置し、視聴後に下部の案内を表示します。</p></div></div>
+<div class="section-row"><span>03</span><div><strong>ヘッドバナー</strong><p>動画下で、5日間ライブトレーニングプログラムの案内へ接続します。</p></div></div>
+</div>
+${copyArticleFrom(`${acquisitionMaterialRoot}/01_オプトインLP原稿/オプトインLP_動画視聴前.md`)}
+${copyArticleFrom(`${acquisitionMaterialRoot}/01_オプトインLP原稿/オプトインLP_動画視聴後.md`)}</section>`}));
 
 pages.set("referral-copy.html", page({
   file: "referral-copy.html",
