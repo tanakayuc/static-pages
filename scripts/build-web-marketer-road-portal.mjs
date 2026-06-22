@@ -5,6 +5,8 @@ import path from "node:path";
 const publicDir = "/Users/tanakayuichi/Projects/static-pages/web-marketer-road-creation-portal";
 const mirrorDir = "/Users/tanakayuichi/Projects/theleadpromotion/21_プロジェクト一覧/田中祐一/PLCプロモ素材/WEBマーケターへの道/90_制作パッケージサンプル";
 const sourceRoot = "/Users/tanakayuichi/Projects/theleadpromotion/21_プロジェクト一覧/田中祐一/PLCプロモ素材/WEBマーケターへの道";
+const funnelWorklistMasterPath = "/Users/tanakayuichi/Projects/static-pages/scripts/data/funnel-worklist-master.v1.json";
+const funnelWorklistMaster = JSON.parse(fs.readFileSync(funnelWorklistMasterPath, "utf8"));
 
 const dirs = [publicDir, mirrorDir];
 const deprecatedOptInVsl = "オプトイン" + "VSL";
@@ -847,7 +849,9 @@ function roadmapStep(sourceStep, name, make, input, output, href = "") {
 const currentFunnelConfig = {
   vslPlacement: "opt-before",
   challengeDays: 5,
+  salesModel: "one_step",
   salesPattern: "sales-page-direct",
+  usesAdvertising: false,
 };
 
 const vslRoadmapByPlacement = {
@@ -878,6 +882,38 @@ function currentVslFunnelTag() {
 function currentVslRoadmapSpot() {
   return currentVslRoadmap()?.spot || null;
 }
+
+function expandFunnelWorklist(funnelKey) {
+  const funnel = funnelWorklistMaster.funnels[funnelKey];
+  if (!funnel) throw new Error(`Unknown funnel worklist key: ${funnelKey}`);
+
+  const rows = [...funnelWorklistMaster.common_pre];
+  funnel.stages.forEach((stageKey, stageIndex) => {
+    const stageType = funnelWorklistMaster.stage_types[stageKey];
+    if (!stageType) throw new Error(`Unknown stage type in funnel worklist: ${stageKey}`);
+
+    funnelWorklistMaster.stage_kit.forEach((kit) => {
+      if (kit.when === "has_meeting" && !stageType.has_meeting) return;
+      if (kit.when === "is_closing" && stageIndex !== funnel.stages.length - 1) return;
+      rows.push({
+        stage_key: stageKey,
+        stage_label: stageType.label,
+        cta: stageType.cta,
+        kit_key: kit.key,
+        label: kit.label,
+      });
+    });
+  });
+  rows.push(...funnelWorklistMaster.common_post);
+
+  if (rows.length !== funnel.expected_count) {
+    throw new Error(`Funnel worklist count mismatch for ${funnelKey}: expected ${funnel.expected_count}, got ${rows.length}`);
+  }
+  return rows;
+}
+
+const activeFunnelWorklist = expandFunnelWorklist(currentFunnelConfig.salesModel);
+if (!activeFunnelWorklist.length) throw new Error("Active funnel worklist is empty");
 
 const roadmapPhases = [
   {
@@ -1000,6 +1036,46 @@ const roadmapPhases = [
     ],
   },
 ];
+
+const meetingSalesModels = ["seminar_sales", "consult_sales", "trial_direct", "trial_to_consult"];
+const oneStepSalesModels = ["one_step"];
+
+const roadmapStepDisplayConditions = new Map([
+  ["16", { salesModels: meetingSalesModels }],
+  ["22", { salesModels: meetingSalesModels }],
+  ["39", { requiresAdvertising: true }],
+  ["40", { requiresAdvertising: true }],
+  ["45", { salesModels: meetingSalesModels }],
+  ["46", { salesModels: oneStepSalesModels }],
+  ["50", { salesModels: meetingSalesModels }],
+  ["51", { salesModels: meetingSalesModels }],
+  ["52", { salesModels: meetingSalesModels }],
+  ["53", { salesModels: oneStepSalesModels }],
+  ["54", { salesModels: oneStepSalesModels }],
+  ["55", { salesModels: oneStepSalesModels }],
+  ["58", { salesModels: oneStepSalesModels }],
+  ["59", { salesModels: meetingSalesModels }],
+  ["60", { salesModels: meetingSalesModels }],
+  ["61", { salesModels: meetingSalesModels }],
+  ["62", { salesModels: meetingSalesModels }],
+]);
+
+function roadmapStepVisibleForCurrentFunnel(item) {
+  const condition = roadmapStepDisplayConditions.get(String(item.sourceStep));
+  if (!condition) return true;
+  if (condition.salesModels && !condition.salesModels.includes(currentFunnelConfig.salesModel)) return false;
+  if (condition.requiresAdvertising && !currentFunnelConfig.usesAdvertising) return false;
+  return true;
+}
+
+function activeRoadmapPhases() {
+  return roadmapPhases
+    .map((phase) => ({
+      ...phase,
+      items: phase.items.filter(roadmapStepVisibleForCurrentFunnel),
+    }))
+    .filter((phase) => phase.items.length);
+}
 
 const contentVolumeRows = [
   ["動画/ライブ", "6本", "VSL台本1本 + Day1〜Day5ライブ5本"],
@@ -3082,7 +3158,7 @@ pages.set("roadmap.html", page({
   title: "制作工程表",
   eyebrow: "工程表",
   lead: "上から順に、どの素材を作るかを確認します。まずは1-1から進めます。",
-  body: `${roadmapPhases.map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
+  body: `${activeRoadmapPhases().map((phase, index) => roadmapPhaseSection(phase, index)).join("")}`}));
 
 pages.set("target.html", page({
   file: "target.html",

@@ -557,6 +557,22 @@ for (const snippet of [
   if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include old/all-step marker snippet: ${snippet}`);
 }
 
+for (const snippet of [
+  "中間オファー構築",
+  "ライブ5シナリオ作成（2ステップ版）",
+  "説明会ページ（2ステップ販売用）",
+  "説明会ページ自動返信",
+  "説明会ページサンキューページ",
+  "限定性のプッシュ（2ステップ販売）",
+  "説明会申込み後のステップ",
+  "販売スライド（2ステップ用）",
+  "セールストーク（クロージング）",
+  "広告用文章",
+  "広告用クリエイティブ",
+]) {
+  if (read("roadmap.html").includes(snippet)) fail(`roadmap.html should not include non-current-funnel step: ${snippet}`);
+}
+
 const roadmapTargetCount = (read("roadmap.html").match(/<div class="roadmap-step-target">/g) || []).length;
 if (roadmapTargetCount < 18 || roadmapTargetCount > 30) {
   fail(`roadmap target marker count should stay selective, got ${roadmapTargetCount}`);
