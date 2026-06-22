@@ -324,7 +324,6 @@ const productionLayerRows = [
     purpose: "登録後に参加者を迷わせず、ライブ、課題、特典で納得感を作る素材群。",
     items: [
       ["価値提供フェーズのLINEオープンチャット", "全体ポータル、固定投稿、通常配信、ライブ前リマインドを作る。", "line.html"],
-      ["価値提供中メール", "今回の本編は価値提供フェーズのLINEオープンチャットとライブで担うため、メールを使う場合だけ分けて作る。", "value-mails.html"],
       ["Day1〜Day5ライブ台本", "各日の教育テーマ、導入、本編、課題、次回予告を台本として分けて作る。", "live-scripts.html"],
       ["Day別スライド指示書", "各ライブにスライドが必要な場合、1日ごとのスライド構成案を作る。", "live-scripts.html"],
       ["課題/特典案内文", "課題フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html"],
@@ -384,7 +383,6 @@ const valueMaterialRows = [
   ["通常配信", "Day1前〜Day5本編", "ライブ前後の案内、課題提出、リマインド、特典案内を送る。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編/`],
   ["Day1〜Day5ライブ台本", "価値提供本編", "各日の導入、本編、課題、次回予告、販売接続を分けて作る。", "live-scripts.html", `${valueMaterialRoot}/02_Day1〜Day5ライブ台本/`],
   ["課題/特典案内文", "行動促進", "提出フォーム、提出特典、コンプリート特典、提出後案内を作る。", "live-scripts.html", `${valueMaterialRoot}/03_課題・特典/`],
-  ["価値提供中メール", "今回は未使用", "今回の価値提供本編はOCとライブで担うため、メールは判断MDだけ確認する。", "value-mails.html", `${valueMaterialRoot}/04_価値提供中メール/`],
 ];
 
 const salesMaterialRows = [
@@ -3425,13 +3423,6 @@ ${card("5チャレ", "Challenge", "今回のサンプルはDay1〜Day5の5日間
 ${card("価値提供フェーズのLINEオープンチャット", "Community", "固定投稿、通常配信で、参加者の動きを止めない。", "line.html")}
 ${card("課題と特典", "Action", "各日の課題提出と特典案内で、学習ではなく実践へ進める。", "live-scripts.html")}
 	</div></section>`}));
-
-pages.set("value-mails.html", page({
-  file: "value-mails.html",
-  title: "価値提供中メール",
-  eyebrow: "価値提供素材",
-  lead: "今回の価値提供本編は価値提供フェーズのLINEオープンチャットとライブで担うため、メールは判断MDだけ確認します。",
-  body: `<section class="panel article-panel"><h2>価値提供中メール</h2>${sourceDetailsList(list(`${valueMaterialRoot}/04_価値提供中メール`))}</section>`}));
 
 pages.set("head.html", page({
   file: "head.html",
