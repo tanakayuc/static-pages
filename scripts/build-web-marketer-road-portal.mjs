@@ -2815,6 +2815,37 @@ li { margin: 4px 0; }
 .reader-page .article ul,
 .reader-page .article ol { max-width: 48em; }
 .reader-page .copy-article { font-size: 1.02rem; line-height: 1.95; }
+.lp-writing-flow { display: grid; gap: 0; margin: 1.35rem 0 2.25rem; border-top: 1px dashed var(--line); }
+.lp-writing-flow .section-row {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+.lp-writing-flow .section-row > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--sub);
+  font-size: .82rem;
+  font-weight: 900;
+}
+.lp-writing-flow strong { display: block; color: var(--ink); font-size: 1.02rem; line-height: 1.5; }
+.lp-writing-flow p { margin-top: .15rem; color: #405a53; font-size: .92rem; line-height: 1.75; }
+.copy-part-heading {
+  margin: 2.4rem 0 1.1rem;
+  padding: .72rem 1rem;
+  border-left: 6px solid var(--main);
+  border-radius: 0 10px 10px 0;
+  background: linear-gradient(90deg, rgba(44, 181, 150, .13), rgba(44, 181, 150, 0));
+  color: var(--sub);
+}
+.copy-part-heading + .copy-article { margin-top: 0; }
+.lp-copy-panel .copy-article + .copy-part-heading { margin-top: 3rem; }
 .folder-list { display: grid; gap: 8px; margin-top: 1rem; }
 .folder-list a {
   display: grid;
@@ -3231,15 +3262,17 @@ pages.set("optin-lp-copy.html", page({
   file: "optin-lp-copy.html",
   title: "オプトインLP原稿",
   eyebrow: "集客素材",
-  lead: "登録前に見込み客へ提示するLP本文です。今回の構成ではLP上にオプト前VSLを置きます。",
-  body: `<section class="panel article-panel"><h2>オプトインLP原稿</h2>
-<p class="note">ページ制作に渡すためのLP原稿として、上から順に使える形で整理しています。</p>
-<div class="section-list">
-<div class="section-row"><span>01</span><div><strong>キャッチコピー</strong><p>ページ上部で、誰に何を約束するのかを一目で伝えます。</p></div></div>
-<div class="section-row"><span>02</span><div><strong>動画</strong><p>本編動画（オプト前VSL）を配置し、視聴後に下部の案内を表示します。</p></div></div>
-<div class="section-row"><span>03</span><div><strong>ヘッドバナー</strong><p>動画下で、5日間ライブトレーニングプログラムの案内へ接続します。</p></div></div>
+  lead: "登録前に見込み客へ提示するLP本文です。動画視聴前から、6分視聴後に開く下部エリアまで、1本のLP原稿として確認します。",
+  body: `<section class="panel article-panel lp-copy-panel"><h2>LP全体原稿</h2>
+<p class="note">実際のページを開いた状態で、上からそのまま読めるように並べています。オプト前VSLを約6分視聴した後に表示される範囲も、このページ内で続けて確認できます。</p>
+<div class="section-list lp-writing-flow">
+<div class="section-row"><span>01</span><div><strong>ファーストビュー</strong><p>キャッチコピー、サブヘッド、オプト前VSLを配置します。</p></div></div>
+<div class="section-row"><span>02</span><div><strong>動画視聴後に開くエリア</strong><p>ヘッドバナー、成果実績、特徴、CTA、プロフィールまでを続けて表示します。</p></div></div>
+<div class="section-row"><span>03</span><div><strong>登録フォーム</strong><p>LINEオープンチャット参加へつなげるためのメール登録フォームを置きます。</p></div></div>
 </div>
+<h3 class="copy-part-heading">常時表示エリア</h3>
 ${copyArticleFrom(`${acquisitionMaterialRoot}/01_オプトインLP原稿/オプトインLP_動画視聴前.md`)}
+<h3 class="copy-part-heading">動画6分視聴後に表示するエリア</h3>
 ${copyArticleFrom(`${acquisitionMaterialRoot}/01_オプトインLP原稿/オプトインLP_動画視聴後.md`)}</section>`}));
 
 pages.set("referral-copy.html", page({
