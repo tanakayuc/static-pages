@@ -7,7 +7,7 @@ const mirrorDir = "/Users/tanakayuichi/Projects/theleadpromotion/21_プロジェ
 const sourceRoot = "/Users/tanakayuichi/Projects/theleadpromotion/21_プロジェクト一覧/田中祐一/PLCプロモ素材/WEBマーケターへの道";
 const funnelWorklistMasterPath = "/Users/tanakayuichi/Projects/static-pages/scripts/data/funnel-worklist-master.v1.json";
 const funnelWorklistMaster = JSON.parse(fs.readFileSync(funnelWorklistMasterPath, "utf8"));
-const cssVersion = "20260623-soft-list-rhythm";
+const cssVersion = "20260623-quiet-output-audit";
 
 const dirs = [publicDir, mirrorDir];
 const deprecatedOptInVsl = "オプトイン" + "VSL";
@@ -68,7 +68,7 @@ const detailedAssetRows = [
   ["オプトイン自動返信", "メール登録で止まった人をオープンチャットへ戻す。", "optin-after-mails.html"],
   ["販売導線LINE", "Day5後に、レター希望者を公式LINEへ移動させる。", "sales-oc.html"],
   ["販売メルマガ", "レター閲覧、締切、購入を促すメール。", "sales-mails.html"],
-  ["販売期LINE", "販売開始、質問回答、締切を促すLINE。", "sales-line.html"],
+  ["販売期LINE", "販売開始、実績共有、締切を促すLINE。", "sales-line.html"],
   ["購入完了ページ", "決済後の案内、参加導線、次アクションを伝える。", "purchase-complete.html"],
 ];
 
@@ -299,10 +299,10 @@ const chapterAssetRows = [
   ["3. オファー設計", "商品オファーシート、提供内容、サポート、特典/保証、価格表", "offer.html"],
   ["4. コンテンツ設計", "全体カリキュラム、Day別テーマ、コアシナリオ、ワーク/特典案", "live-scripts.html"],
   ["5. オプトイン開始セット", "オプトインLP、VSL配置方針、ヘッド指示、サンキューページ、自動返信メール", "lp.html"],
-  ["6. 配信導線", "価値提供フェーズのLINEオープンチャット、固定投稿、通常配信、メルマガ件名と配信タイミング", "line.html"],
+  ["6. 配信導線", "価値提供フェーズのLINEオープンチャット、固定投稿、通常配信、登録後メール/販売期メールの配置", "line.html"],
   ["7. 台本制作", "Day1〜Day5ライブ台本、課題フォーム、提出特典、アーカイブ導線", "live-scripts.html"],
   ["8. 販売導線", "販売導線LINE、セールスレター、販売メルマガ、販売期LINE、購入完了ページ", "sales-page.html"],
-  ["9. 納品/添削準備", "成果物一覧、原稿/指示書所在、添削観点、更新履歴", "assets.html"],
+  ["9. 本番運用/改善", "成果物一覧、原稿/指示書所在、特典実体、公開前チェック、更新履歴", "assets.html"],
 ];
 
 const productionLayerRows = [
@@ -313,9 +313,9 @@ const productionLayerRows = [
       ["SNSセットアップ指示書", "プロフィール、固定投稿、導線、投稿テーマ。SNS起点の案件で作る。", "assets.html"],
       ["広告クリエイティブ指示書", "広告画像、広告文、遷移先、テストパターン。広告運用ありの案件で作る。", "head.html"],
       ["オプトインLP原稿", "LP本文、ファーストビュー、登録CTA、オプト前VSLの配置方針を作る。", "lp.html"],
-      ["LPヘッドデザイン指示書", "ヘッドの画面指示と参考サンプルをセットにし、ChatGPTやCodeXへ渡せる形にする。", "head.html"],
+      ["LPヘッドデザイン指示書", "ヘッドの画面指示と参考サンプルをセットにし、制作担当へ渡せる形にする。", "head.html"],
       ["オプト前VSL台本", "今回の配置に合わせ、登録前に見せるVSL台本を作る。", "script-opening.html"],
-      ["VSLスライド指示書", "VSLにスライドが必要な場合、CodeX等へ渡せる構成案と画面指示を作る。", "script-opening.html"],
+      ["VSLスライド指示書", "VSLにスライドが必要な場合、スライド制作担当へ渡せる構成案と画面指示を作る。", "script-opening.html"],
       ["オプトイン後メルマガ", "登録直後から正式参加・Day1着席へ戻すメールを作る。", "optin-after-mails.html"],
       ["サンキューページ原稿", "登録直後ページで、LINEオープンチャット参加へ進める本文を作る。", "thank-you-copy.html"],
       ["紹介用文章", "紹介元や既存リストから登録ページへ送る紹介文を作る。", "referral-copy.html"],
@@ -339,8 +339,8 @@ const productionLayerRows = [
       ["販売導線LINE", "Day5後に販売へ接続するLINEメッセージを作る。", "sales-oc.html"],
       ["セールスレター原稿", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "sales-page.html"],
       ["セールスページヘッド指示書", "ヘッド、CTA、証拠、オファー表など、実装担当へ渡す画面指示を作る。", "sales-head.html"],
-      ["販売メルマガ", "販売開始、質問回答、実績共有、締切、終了案内をメールで作る。", "sales-mails.html"],
-      ["販売期LINE", "販売開始、質問回答、実績共有、締切、終了案内をLINEで作る。", "sales-line.html"],
+      ["販売メルマガ", "販売開始、実績共有、締切、終了案内をメールで作る。", "sales-mails.html"],
+      ["販売期LINE", "販売開始、実績共有、締切、終了案内をLINEで作る。", "sales-line.html"],
       ["購入完了ページ原稿", "決済後の案内、参加導線、次アクションを作る。", "purchase-complete.html"],
     ],
   },
@@ -392,7 +392,7 @@ const salesMaterialRows = [
   ["販売メルマガ", "メール配信", "Day5後から販売終了までのメルマガ原稿を配信順に確認する。", "sales-mails.html", `${salesMaterialRoot}/01_オプトイン後メルマガ/`],
   ["セールスレター原稿", "販売ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "sales-letter.html", `${salesMaterialRoot}/02_セールスレター原稿/`],
   ["販売導線LINE", "Day5後", "Day5後に販売へ接続するLINEメッセージをまとめる。", "sales-oc.html", `${salesMaterialRoot}/03_LINEオープンチャット_Day5後販売導線/`],
-  ["販売期LINE", "公式LINE", "販売開始、質問回答、実績共有、締切、終了案内を作る。", "sales-line.html", `${salesMaterialRoot}/04_販売期公式LINE/`],
+  ["販売期LINE", "公式LINE", "販売開始、実績共有、締切、終了案内を作る。", "sales-line.html", `${salesMaterialRoot}/04_販売期公式LINE/`],
   ["セールスページヘッド指示書", "ファーストビュー", "販売ページ冒頭のコピー、CTA、締切、画面指示を作る。", "sales-head.html", `${salesMaterialRoot}/05_セールスページヘッド指示書/`],
   ["購入完了ページ原稿", "申込後", "決済後の案内、参加導線、連絡先、次アクションを作る。", "purchase-complete.html", `${salesMaterialRoot}/06_購入完了ページ原稿/`],
 ];
@@ -526,7 +526,7 @@ const salesAssetRows = [
   ["セールスレター原稿", "ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を1本にする。"],
   ["セールスページヘッド指示書", "デザイン指示", "ファーストビュー、CTA、対象者、変化の約束、締切表示の画面指示を作る。"],
   ["販売期メール原稿", "メール", "販売開始、理由、事例、不安解消、締切の配信原稿を作る。"],
-  ["販売期LINE原稿", "公式LINE", "販売開始、質問回答、実績共有、締切、終了案内の配信原稿を作る。"],
+  ["販売期LINE原稿", "公式LINE", "販売開始、実績共有、締切、終了案内の配信原稿を作る。"],
   ["販売導線LINE", "Day5後", "Day5後に販売へ接続するLINEメッセージを作る。"],
   ["購入完了ページ原稿", "申込後", "決済後に必要な参加案内、連絡先、次アクションを作る。"],
 ];
@@ -538,7 +538,7 @@ const productionFlowRows = [
     assets: ["全体構成レポート", "ファネル方針", "VSL配置方針", "KPI仮シミュレーション", "既存素材リスト"],
     done: "販売導線の全体像、オプト前VSL/オプト後VSLの選択、使える素材/足りない素材が見えている。",
     boundary: "田中祐一AI側の一区切りは、方針と素材台帳が揃うところ。",
-    next: "数値運用や公開後の改善は、公開後の添削/改善工程で扱う。",
+    next: "数値運用や公開後の改善は、公開後の改善工程で扱う。",
     href: "visual-report.html",
   },
   {
@@ -547,7 +547,7 @@ const productionFlowRows = [
     assets: ["リサーチシート", "ターゲットシート", "3C分析", "空きポジション", "コンセプトシート", "プロフィール", "コンフィグ"],
     done: "リサーチ結果から、LPや台本へ展開できる訴求軸が整理されている。",
     boundary: "田中祐一AI側の一区切りは、コンセプト素材が文章化されるところ。",
-    next: "表現の細かな違和感や追加調査は、添削モードで精度を上げる。",
+    next: "表現の細かな違和感や追加調査は、制作後の改善工程で精度を上げる。",
     href: "research.html",
   },
   {
@@ -565,7 +565,7 @@ const productionFlowRows = [
     assets: ["全体カリキュラム", "Day別テーマ", "コアシナリオ", "ワーク/特典案"],
     done: "参加者が何を学び、どこで納得し、どこで販売へ進むかが見えている。",
     boundary: "田中祐一AI側の一区切りは、Day別の設計と必要素材の棚卸し。",
-    next: "ライブごとの細かな言い回しは、台本制作と添削モードで詰める。",
+    next: "ライブごとの細かな言い回しは、台本制作後の改善工程で調整する。",
     href: "live-scripts.html",
   },
   {
@@ -574,16 +574,16 @@ const productionFlowRows = [
     assets: ["オプトインLP原稿", "VSL台本", "ヘッドデザイン指示書", "サンキューページ原稿", "自動返信メール"],
     done: "LP原稿、VSL配置に応じた台本、デザイン指示書、登録後ページ/メール原稿が揃っている。",
     boundary: "原稿とデザイン指示書の完成を、田中祐一AI側の一区切りにする。",
-    next: "LP実装や細部デザイン、実機への組み込みは本人作業または添削モードで扱う。",
+    next: "LP実装や細部デザイン、実機への組み込みは、実装・運用側の作業領域として扱う。",
     href: "lp.html",
   },
   {
     phase: "6. 配信導線",
-    purpose: "オープンチャット、メルマガ、LINEで、参加者を迷わせず次の行動へ進める。",
-    assets: ["価値提供フェーズのLINEオープンチャット", "固定投稿", "通常配信", "メルマガ件名", "配信タイミング"],
-    done: "どのタイミングで何を送るか、件名/投稿/配信文が確認できる。",
+    purpose: "オープンチャット、登録後メール、販売期メール/LINEで、参加者を迷わせず次の行動へ進める。",
+    assets: ["価値提供フェーズのLINEオープンチャット", "固定投稿", "通常配信", "登録後メールの配置", "販売期メール/LINEの配置"],
+    done: "どのタイミングで何を送るか、投稿/配信文とメール配置が確認できる。",
     boundary: "田中祐一AI側の一区切りは、配信原稿と配信順の完成。",
-    next: "配信予約、実機反映、反応を見た微修正は本人作業または添削モードで扱う。",
+    next: "配信予約、実機反映、反応を見た微修正は、実装・運用側の作業領域として扱う。",
     href: "line.html",
   },
   {
@@ -592,7 +592,7 @@ const productionFlowRows = [
     assets: ["Day1〜Day5ライブ台本", "課題フォーム", "提出特典", "アーカイブ導線"],
     done: "各日の台本と課題、提出後の導線が揃っている。",
     boundary: "田中祐一AI側の一区切りは、台本原稿と運用素材の完成。",
-    next: "当日の話し方、スライド演出、ライブ後の改善は添削モードで扱う。",
+    next: "当日の話し方、スライド演出、ライブ後の改善は、本番運用後の改善工程で扱う。",
     href: "live-scripts.html",
   },
   {
@@ -601,16 +601,16 @@ const productionFlowRows = [
     assets: ["販売導線LINE", "セールスレター原稿", "セールスページヘッド指示", "販売メルマガ", "販売期LINE", "購入完了ページ原稿"],
     done: "販売ページの原稿とデザイン指示書、販売期配信、購入後案内が揃っている。",
     boundary: "原稿とデザイン指示書の完成を、田中祐一AI側の一区切りにする。",
-    next: "決済システム設定、ページ実装、細かなデザインブラッシュアップは本人作業または添削モードで扱う。",
+    next: "決済システム設定、ページ実装、細かなデザインブラッシュアップは、実装・運用側の作業領域として扱う。",
     href: "sales-page.html",
   },
   {
-    phase: "9. 納品/添削準備",
-    purpose: "作成した原稿、台本、構成案、指示書の所在と、次の添削観点をまとめる。",
-    assets: ["成果物一覧", "原稿/指示書所在", "添削観点", "更新履歴"],
-    done: "どの工程で何が作られ、次に何を添削すべきかが追える。",
-    boundary: "田中祐一AI側の一区切りは、原稿・台本・指示書の納品整理。",
-    next: "ページ実装、実機への組み込み、細かなデザイン修正は本人作業または添削モードで扱う。",
+    phase: "9. 本番運用/改善",
+    purpose: "本番前に必要な特典実体、公開前チェック、納品物、更新履歴を整理する。",
+    assets: ["成果物一覧", "原稿/指示書所在", "特典実体", "公開前チェック", "更新履歴"],
+    done: "どの工程で何が作られ、本番運用前に何を確認するかが追える。",
+    boundary: "田中祐一AI側の一区切りは、原稿・台本・指示書・本番前チェックの整理。",
+    next: "ページ実装、実機への組み込み、公開後の細かな修正は、実装・運用側の作業領域として扱う。",
     href: "assets.html",
   },
 ];
@@ -1123,17 +1123,30 @@ function normalizeOutputTerms(text = "") {
     .replaceAll(deprecatedThanksVideo, "オプト後VSL")
     .replaceAll(deprecatedTeaseVideo, "オプト後VSL")
     .replaceAll(deprecatedOptInVsl, "オプト前VSL")
-    .replaceAll(deprecatedOptAfterVsl, "オプト後VSL");
+    .replaceAll(deprecatedOptAfterVsl, "オプト後VSL")
+    .replace(/ChatGPTやCodeX/g, "制作担当")
+    .replace(/ChatGPTやCodex/g, "制作担当")
+    .replace(/ChatGPT\/CodeX/g, "制作担当")
+    .replace(/ChatGPT\/Codex/g, "制作担当")
+    .replace(/ChatGPTやClaude|ClaudeやChatGPT|Claude\/ChatGPT\/Gemini|Claude\/Gemini/g, "田中祐一AI")
+    .replace(/CodeX等/g, "スライド制作担当")
+    .replace(/Codex等/g, "スライド制作担当")
+    .replace(/Claude\/HTML制作向け指示/g, "HTML制作向け指示")
+    .replace(/Claude向け指示/g, "制作向け指示")
+    .replace(/スクリーンショット/g, "参考画像")
+    .replace(/URL/g, "リンク");
 }
 
 function hideFinishedUrls(text = "") {
-  return String(text).replace(/https?:\/\/[^\s)）<>"']+/g, "（導線URLを設定）");
+  return String(text).replace(/https?:\/\/[^\s)）<>"']+/g, "（導線リンクを設定）");
 }
 
 function hideActualDates(text = "") {
   return String(text)
     .replace(/20\d{2}年[0-9０-９]{1,2}月[0-9０-９]{1,2}日(?:[（(][^)）]+[)）])?(?:[月火水木金土日]曜日?)?/g, "配信日")
-    .replace(/[0-9０-９]{1,2}月[0-9０-９]{1,2}日(?:[（(][^)）]+[)）])?(?:[月火水木金土日]曜日?)?/g, "配信日")
+    .replace(/(?<!年)[0-9０-９]{1,2}月[0-9０-９]{1,2}日(?:[（(][^)）]+[)）])?(?:[月火水木金土日]曜日?)?/g, "配信日")
+    .replace(/(?<!\d)[0-9０-９]{1,2}\/[0-9０-９]{1,2}(?:[（(][^)）]+[)）])?/g, "配信日")
+    .replace(/20\d{2}[/.][0-9]{1,2}[/.][0-9]{1,2}/g, "配信日")
     .replace(/20\d{2}-[0-9]{1,2}-[0-9]{1,2}/g, "配信日");
 }
 
@@ -1151,7 +1164,7 @@ function cleanOutputTitle(text = "") {
 function stripSourceMeta(text = "") {
   return String(text)
     .replace(
-      /^>?\s*(原稿URL|該当URL|該当LP|該当ページ|該当動画|完成URL|完成後URL|完成ページURL|実ページURL|取得元|生データ|配信一覧対応):.*$/gm,
+      /^>?\s*(URL|原稿URL|該当URL|該当LP|該当LP URL|該当ページ|該当動画|完成URL|完成後URL|完成ページURL|実ページURL|元URL|参照URL|参考URL|参考ページ|関連|参照|取得元|生データ|元データ|配信一覧対応|処理日|元PDF|保存PDF|原本PDF|保存先|処理範囲|処理モード|図解画像):.*$/gm,
       "",
     )
     .replace(/^>?\s*.*(relation_elements|実ページスクリーンショット|スクリーンショット PDF|突合).*$/gm, "")
@@ -1193,7 +1206,7 @@ function list(relative) {
 function titleOf(relative) {
   const text = read(relative);
   const heading = text.match(/^#\s+(.+)$/m)?.[1];
-  return normalizeOutputTerms(heading || path.basename(relative, ".md"));
+  return cleanOutputTitle(heading || path.basename(relative, ".md"));
 }
 
 function meta(text, key) {
@@ -1201,7 +1214,7 @@ function meta(text, key) {
 }
 
 function cleanMetaValue(value = "", fallback = "") {
-  const cleaned = stripSourceMeta(normalizeOutputTerms(value))
+  const cleaned = cleanOutputMaterialText(value)
     .replace(/（実ログ反映）/g, "")
     .replace(/\s*\/\s*実ログ\s*/g, "")
     .replace(/^実ログ$/g, "")
@@ -1322,7 +1335,7 @@ function sourceDetailsList(items, openFirst = true) {
 
 function sourceSummaryList(items) {
   if (!items.length) return `<p class="muted">素材が見つかりません。</p>`;
-  return `<div class="folder-list">${items.map((relative) => `<a href="#"><span>素材</span><strong>${esc(titleOf(relative))}</strong><small>${esc(bodyExcerpt(relative, 160))}</small></a>`).join("")}</div>`;
+  return `<div class="folder-list">${items.map((relative) => `<a href="#"><span>素材</span><strong>${esc(cleanOutputTitle(titleOf(relative)))}</strong><small>${esc(bodyExcerpt(relative, 160))}</small></a>`).join("")}</div>`;
 }
 
 function parseMail(relative) {
@@ -1367,6 +1380,35 @@ function materialMailList(relative) {
   return list(relative)
     .map(parseMail)
     .sort((a, b) => mailSortValue(a) - mailSortValue(b) || a.relative.localeCompare(b.relative, "ja"));
+}
+
+const generatedMessageExcludePatterns = [
+  /質問回答/,
+  /質問に回答/,
+  /質問いただ/,
+  /質問をいただ/,
+  /回答はこちら/,
+  /質問はこちら/,
+  /回答フィードバック/,
+  /フィードバック動画/,
+  /個別に回答/,
+  /お気軽に聞いて/,
+  /気になること.*聞いて/,
+  /チーム型トレーニングを実施するのか/,
+  /チームの組み方/,
+];
+
+function shouldExcludeGeneratedMessage(item) {
+  let body = "";
+  if (item?.relative) {
+    try {
+      body = read(item.relative);
+    } catch {
+      body = "";
+    }
+  }
+  const text = normalizeOutputTerms(`${item?.title || ""}\n${item?.excerpt || ""}\n${body}`);
+  return generatedMessageExcludePatterns.some((pattern) => pattern.test(text));
 }
 
 function parseSpot(relative) {
@@ -1902,20 +1944,21 @@ ${imageBlock}
 function roadmapPhaseSection(phase, index) {
   const phaseNumber = index + 1;
   const spotlight = roadmapPhaseSpotlight(phaseNumber);
+  const phaseSummary = cleanOutputTitle(phase.summary)
+    .replace(/^Step\s*\d+\s*[〜~－-]\s*\d+。?\s*/i, "")
+    .replace(/^Step\s*\d+。?\s*/i, "");
   return `<section class="panel roadmap-phase" id="phase-${phaseNumber}">
 <h2>${esc(phase.name)}</h2>
 ${spotlight}
-<p class="note">${esc(phase.summary)}</p>
+<p class="note">${esc(phaseSummary)}</p>
 <div class="roadmap-steps">${phase.items.map((item, itemIndex) => {
     const stepNumber = `${phaseNumber}-${itemIndex + 1}`;
-    const link = item.href ? `<a class="report-link" href="${esc(item.href)}">開く</a>` : "";
     return `<article class="roadmap-step">
 <span class="roadmap-step-num">${esc(stepNumber)}</span>
 <div>
 <h3>${esc(item.name)}</h3>
 <p>${esc(item.make)}</p>
 <p class="roadmap-step-output"><span>このステップで作る/決めるもの</span>${esc(item.output)}</p>
-${link}
 </div>
 </article>`;
   }).join("")}</div>
@@ -1928,7 +1971,7 @@ function roadmapPhaseSpotlight(phaseNumber) {
     3: ["第3章の対象箇所", "offer-product", "オファー構築"],
     4: ["第4章の対象箇所", "content", "第4章 コンテンツ設計"],
     5: ["第5章の対象箇所", "lp", "第5章 LP制作"],
-    6: ["第6章の対象箇所", "acquisition-and-value", "第6章 集客素材"],
+    6: ["第6章の対象箇所", "acquisition-and-value", "第6章 集客素材＋教育グループ"],
     7: ["第7章の対象箇所", "content", "第7章 ライブ台本"],
     8: ["第8章の対象箇所", "sales", "第8章 販売素材"],
   };
@@ -1969,16 +2012,21 @@ const salesLetters = list(`${salesMaterialRoot}/02_セールスレター原稿`)
 const salesHeadDocs = list(`${salesMaterialRoot}/05_セールスページヘッド指示書`);
 const purchaseCompleteDocs = list(`${salesMaterialRoot}/06_購入完了ページ原稿`);
 const salesOcMessages = materialMailList(`${salesMaterialRoot}/03_LINEオープンチャット_Day5後販売導線`)
-  .filter((mail) => !path.basename(mail.relative).startsWith("00_"));
+  .filter((mail) => !path.basename(mail.relative).startsWith("00_"))
+  .filter((mail) => !shouldExcludeGeneratedMessage(mail));
 const salesOcOverview = `${salesMaterialRoot}/03_LINEオープンチャット_Day5後販売導線/00_Day5後販売導線.md`;
 const salesOfficialLines = materialMailList(`${salesMaterialRoot}/04_販売期公式LINE`)
-  .filter((mail) => !path.basename(mail.relative).startsWith("00_"));
+  .filter((mail) => !path.basename(mail.relative).startsWith("00_"))
+  .filter((mail) => !shouldExcludeGeneratedMessage(mail));
 const salesOfficialOverview = `${salesMaterialRoot}/04_販売期公式LINE/00_配信対応表.md`;
-const fixedNotes = list(`${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿`).map((relative) => ({ relative, title: cleanOutputTitle(titleOf(relative)), excerpt: bodyExcerpt(relative, 280) }));
+const fixedNotes = list(`${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿`)
+  .map((relative) => ({ relative, title: cleanOutputTitle(titleOf(relative)), excerpt: bodyExcerpt(relative, 280) }))
+  .filter((note) => !shouldExcludeGeneratedMessage(note));
 const plannedSpots = list(`${valueMaterialRoot}/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編`)
   .filter((file) => !path.basename(file).startsWith("00_"))
   .map(parseSpot)
-  .filter((spot) => spot.phase !== "販売期");
+  .filter((spot) => spot.phase !== "販売期")
+  .filter((spot) => !shouldExcludeGeneratedMessage(spot));
 const liveScriptRows = list(liveScriptRoot)
   .filter((relative) => /Day\d/.test(path.basename(relative)))
   .map((relative, index) => {
@@ -2138,7 +2186,7 @@ salesOcMessages.forEach((mail, index) => {
 });
 salesOfficialLines.forEach((mail, index) => {
   mail.assetFile = salesLineFile(index);
-  mail.displayTiming = `第${index + 1}通`;
+  mail.displayTiming = `第${index + 1}投稿`;
   mail.timingLabel = "配信順";
 });
 
@@ -2298,7 +2346,7 @@ ${folderList(fixedNotes, spotDisplayTiming)}
 <h2>通常配信</h2>
 <table class="asset-table compact-table"><thead><tr><th>フェーズ</th><th>件数</th><th>役割</th></tr></thead><tbody>
 <tr><td>ライブ前</td><td>${phaseCounts["ライブ前"] || 0}件</td><td>参加前の期待値形成、概要説明、ライブ参加リマインド。</td></tr>
-<tr><td>価値提供中</td><td>${phaseCounts["価値提供中"] || 0}件</td><td>ライブリンク、課題、アーカイブ、質問回答、特典案内。</td></tr>
+<tr><td>価値提供中</td><td>${phaseCounts["価値提供中"] || 0}件</td><td>ライブリンク、課題、アーカイブ、質問受付、特典案内。</td></tr>
 </tbody></table>
 <h3 class="section-title">全スポット配信タイトル</h3>
 ${folderList(plannedSpots, spotDisplayTiming)}
@@ -2343,7 +2391,7 @@ body {
   background: var(--bg);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
   line-height: 1.95;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--sub); text-decoration: none; font-weight: 700; }
@@ -2412,15 +2460,15 @@ a:hover { text-decoration: underline; }
 .wrap { max-width: 880px; margin: 0 auto; }
 .hero { margin-bottom: 30px; }
 .eyebrow { margin: 0 0 10px; color: var(--sub); font-size: 13px; font-weight: 760; letter-spacing: .03em; }
-h1 { margin: 0 0 16px; font-size: clamp(30px, 2.9vw, 40px); line-height: 1.38; font-weight: 760; letter-spacing: 0; color: var(--ink); }
-h2 { margin: 0 0 18px; font-size: 1.32rem; line-height: 1.45; font-weight: 700; color: var(--sub); }
-h3 { margin: 0 0 10px; font-size: 1.1rem; line-height: 1.55; font-weight: 700; }
+h1 { margin: 0 0 16px; font-size: clamp(27px, 2.2vw, 36px); line-height: 1.42; font-weight: 720; letter-spacing: 0; color: var(--ink); }
+h2 { margin: 0 0 18px; font-size: 1.18rem; line-height: 1.48; font-weight: 680; color: var(--sub); }
+h3 { margin: 0 0 10px; font-size: 1rem; line-height: 1.6; font-weight: 680; }
 p { margin: 0; }
 ul, ol { margin: 10px 0 0; padding-left: 1.2em; }
 li { margin: 4px 0; }
-.lead { max-width: 42em; color: #526760; font-size: 1.05rem; font-weight: 450; }
+.lead { max-width: 42em; color: #526760; font-size: 1rem; font-weight: 430; }
 .muted { color: var(--muted); font-size: 13px; }
-.panel { margin: 24px 0; padding: 2.1rem 2.3rem 2.35rem; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: 0 8px 30px rgba(24, 155, 125, .06); font-size: 1.02rem; }
+.panel { margin: 26px 0; padding: 1.85rem 2.1rem 2.05rem; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); box-shadow: 0 8px 30px rgba(24, 155, 125, .05); font-size: .98rem; }
 .panel.flush { padding: 0; overflow: hidden; }
 .grid-2, .grid-3, .grid-4 { display: grid; grid-template-columns: 1fr; gap: 0; }
 .report-item,
@@ -2438,7 +2486,7 @@ li { margin: 4px 0; }
 .report-item .meta,
 .card .meta { display: block; margin-bottom: .14rem; color: var(--sub); font-size: .74rem; font-weight: 680; }
 .report-item h3,
-.card h3 { margin-bottom: .18rem; color: #243b36; font-size: .98rem; font-weight: 700; line-height: 1.55; }
+.card h3 { margin-bottom: .18rem; color: #243b36; font-size: .9rem; font-weight: 660; line-height: 1.6; }
 .report-item p,
 .card p { color: #4a625a; font-size: .92rem; line-height: 1.75; font-weight: 450; }
 .report-link,
@@ -2446,15 +2494,15 @@ li { margin: 4px 0; }
 .material-shelf { display: grid; gap: 0; }
 .material-card {
   display: block;
-  padding: .86rem 0 .9rem .95rem;
+  padding: .76rem 0 .78rem .85rem;
   border-left: 3px solid var(--line);
   color: #243b36;
 }
 .material-card + .material-card { border-top: 1px dashed var(--line); }
 .material-card:hover { border-left-color: var(--main); background: var(--pale); text-decoration: none; }
-.material-card .meta { display: block; margin-bottom: .14rem; color: var(--sub); font-size: .74rem; font-weight: 680; }
-.material-card strong { display: block; margin-bottom: .18rem; color: #243b36; font-size: .98rem; font-weight: 700; line-height: 1.55; }
-.material-card span:not(.meta):not(.pill) { display: block; color: #4a625a; font-size: .9rem; line-height: 1.72; font-weight: 450; }
+.material-card .meta { display: block; margin-bottom: .12rem; color: var(--sub); font-size: .68rem; font-weight: 620; }
+.material-card strong { display: block; margin-bottom: .14rem; color: #243b36; font-size: .82rem; font-weight: 620; line-height: 1.55; }
+.material-card span:not(.meta):not(.pill) { display: block; color: #4a625a; font-size: .8rem; line-height: 1.65; font-weight: 400; }
 .material-card code { display: block; margin-top: .45rem; color: #607970; font-size: .72rem; line-height: 1.55; word-break: break-all; }
 .category-card .pills { margin-top: .65rem; }
 .concept-sequence { display: grid; gap: 1rem; }
@@ -2649,7 +2697,7 @@ li { margin: 4px 0; }
 .spotlight-box.offer-product { left: 87%; top: 35%; width: 10%; height: 17%; }
 .spotlight-box.content { left: 39%; top: 24%; width: 31%; height: 50%; }
 .spotlight-box.lp { left: 5%; top: 18%; width: 29%; height: 45%; }
-.spotlight-box.acquisition-and-value { left: 5%; top: 18%; width: 65%; height: 56%; }
+.spotlight-box.acquisition-and-value { left: 5%; top: 18%; width: 66%; height: 58%; }
 .spotlight-box.sales { left: 70%; top: 20%; width: 26%; height: 51%; }
 .spotlight-box.traffic { left: 1.5%; top: 29%; width: 8%; height: 25%; }
 .spotlight-box.opt-before-vsl { left: 8%; top: 24%; width: 17%; height: 31%; }
@@ -2657,7 +2705,7 @@ li { margin: 4px 0; }
 .spotlight-box.opt-before-video { left: 10%; top: 29%; width: 13%; height: 9%; }
 .spotlight-box.thanks { left: 25%; top: 24%; width: 14%; height: 31%; }
 .spotlight-box.list { left: 15%; top: 56%; width: 18%; height: 13%; }
-.spotlight-box.day1 { left: 41.5%; top: 34%; width: 5.5%; height: 20%; }
+.spotlight-box.day1 { left: 40.2%; top: 33.5%; width: 5.8%; height: 21%; }
 .spotlight-box.day2 { left: 46.1%; top: 34%; width: 5.5%; height: 20%; }
 .spotlight-box.day3 { left: 50.8%; top: 34%; width: 5.5%; height: 20%; }
 .spotlight-box.day4 { left: 55.5%; top: 34%; width: 5.5%; height: 20%; }
@@ -2871,11 +2919,11 @@ li { margin: 4px 0; }
 }
 .roadmap-phase-spotlight .spotlight-figure { margin-top: .8rem; }
 .roadmap-steps { display: grid; gap: 0; }
-.roadmap-phase > .note + .roadmap-steps { margin-top: 1.45rem; }
-.roadmap-step { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 1rem; padding: 1.35rem 0; border-top: 1px dashed var(--line); }
-.roadmap-step:first-child { padding-top: .25rem; border-top: 0; }
-.roadmap-step-num { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: var(--soft); color: var(--sub); font-weight: 760; }
-.roadmap-step h3 { margin-bottom: .3rem; }
+.roadmap-phase > .note + .roadmap-steps { margin-top: 2rem; }
+.roadmap-step { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 1.35rem; padding: 1.65rem 0; border-top: 1px dashed var(--line); }
+.roadmap-step:first-child { padding-top: .8rem; border-top: 0; }
+.roadmap-step-num { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 9px; background: var(--soft); color: var(--sub); font-size: .9rem; font-weight: 720; }
+.roadmap-step h3 { margin-bottom: .28rem; font-size: 1.08rem; font-weight: 700; }
 .roadmap-step p { color: #324b44; line-height: 1.8; }
 .roadmap-step .report-link { margin-top: .75rem; }
 .roadmap-step-output {
@@ -2887,8 +2935,8 @@ li { margin: 4px 0; }
   display: inline-block;
   margin-right: .5rem;
   color: var(--sub);
-  font-size: .78rem;
-  font-weight: 900;
+  font-size: .72rem;
+  font-weight: 700;
 }
 .chapter-asset-table th:nth-child(1) { width: 24%; }
 .chapter-asset-table th:nth-child(3) { width: 16%; }
@@ -2990,11 +3038,11 @@ li { margin: 4px 0; }
 }
 .copy-part-heading + .copy-article { margin-top: 0; }
 .lp-copy-panel .copy-article + .copy-part-heading { margin-top: 3rem; }
-.folder-list { display: grid; gap: 7px; margin-top: .9rem; }
+.folder-list { display: grid; gap: 6px; margin-top: .9rem; }
 .folder-list a {
   display: grid;
   gap: 2px;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
@@ -3002,8 +3050,8 @@ li { margin: 4px 0; }
   text-decoration: none;
 }
 .folder-list a:hover { border-color: var(--main); background: var(--pale); text-decoration: none; }
-.folder-list span { color: var(--sub); font-size: .66rem; font-weight: 650; }
-.folder-list strong { color: #243b36; font-size: .88rem; font-weight: 700; line-height: 1.55; }
+.folder-list span { color: var(--sub); font-size: .62rem; font-weight: 600; }
+.folder-list strong { color: #243b36; font-size: .8rem; font-weight: 620; line-height: 1.5; }
 .folder-list.compact { gap: 6px; margin-top: 0; }
 .folder-list.compact a { padding: 8px 10px; }
 .single-md { margin-top: 1.35rem; }
@@ -3175,16 +3223,16 @@ ${currentPatternImageCard()}
 <tr><td>販売前</td><td>公式LINE移動</td><td>Day5後</td></tr>
 <tr><td>販売</td><td>レター閲覧 / 購入 / 売上</td><td>販売期間</td></tr>
 </tbody></table></section>
-<section class="panel"><h2>狙うスケジュール</h2><table class="asset-table"><thead><tr><th>日程</th><th>内容</th><th>時間</th></tr></thead><tbody>
-<tr><td>8月21日（木）〜9月4日（木）</td><td>集客期間</td><td>Day1開始まで</td></tr>
-<tr><td>8月21日（木）</td><td>集客スタート日</td><td>予定</td></tr>
-<tr><td>9月4日（木）</td><td>集客終了日</td><td>予定</td></tr>
-<tr><td>9月4日（木）</td><td>Day1ライブ</td><td>21:00〜22:30</td></tr>
-<tr><td>9月7日（日）</td><td>Day2ライブ</td><td>21:00〜22:00</td></tr>
-<tr><td>9月9日（火）</td><td>Day3ライブ</td><td>21:00〜22:00</td></tr>
-<tr><td>9月12日（金）</td><td>Day4ライブ</td><td>21:00〜22:00</td></tr>
-<tr><td>9月14日（日）</td><td>Day5ライブ</td><td>21:00〜22:30</td></tr>
-<tr><td>9月14日（日）〜9月19日（金）</td><td>セールス期間</td><td>9月19日 23:59まで</td></tr>
+<section class="panel"><h2>狙うスケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>内容</th><th>時間</th></tr></thead><tbody>
+<tr><td>Day1の2週間前〜Day1前日</td><td>集客期間</td><td>Day1開始まで</td></tr>
+<tr><td>Day1の2週間前</td><td>集客スタート日</td><td>予定</td></tr>
+<tr><td>Day1前日</td><td>集客終了日</td><td>予定</td></tr>
+<tr><td>Day1</td><td>Day1ライブ</td><td>21:00〜22:30</td></tr>
+<tr><td>Day2</td><td>Day2ライブ</td><td>21:00〜22:00</td></tr>
+<tr><td>Day3</td><td>Day3ライブ</td><td>21:00〜22:00</td></tr>
+<tr><td>Day4</td><td>Day4ライブ</td><td>21:00〜22:00</td></tr>
+<tr><td>Day5</td><td>Day5ライブ</td><td>21:00〜22:30</td></tr>
+<tr><td>Day5終了後〜販売終了日</td><td>セールス期間</td><td>最終日 23:59まで</td></tr>
 </tbody></table></section>
 <section class="panel"><h2>制作対象</h2><table class="asset-table"><thead><tr><th>区分</th><th>作る素材</th><th>確認ページ</th></tr></thead><tbody>
 <tr><td>集客</td><td>オプトインLP原稿、LPヘッドデザイン指示書、オプト前VSL台本、オプトイン後メルマガ、サンキューページ原稿、紹介用文章、集客前メッセージ</td><td><a href="lp.html">集客素材</a></td></tr>
@@ -3666,7 +3714,7 @@ pages.set("sales-line.html", readerPage({
   }),
   body: mailAssetIndexBody({
     title: "販売期LINE一覧",
-    lead: "販売開始、質問回答、実績共有、締切案内など、販売期に送るLINE文面です。",
+    lead: "販売開始、実績共有、締切案内、終了案内など、販売期に送るLINE文面です。",
     rows: salesOfficialLines,
     label: "販売素材",
   }),
@@ -3711,6 +3759,9 @@ const allPages = [
 ];
 
 const dynamicPagePatterns = [
+  /^stepmail\.html$/,
+  /^value-mails\.html$/,
+  /^value-mail(?:-\d+)?\.html$/,
   /^optin-after-mail-\d+\.html$/,
   /^traffic-mail-\d+\.html$/,
   /^line-fixed-\d+\.html$/,
