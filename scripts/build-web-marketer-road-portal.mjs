@@ -68,7 +68,7 @@ const detailedAssetRows = [
   ["オプトイン自動返信", "メール登録で止まった人をオープンチャットへ戻す。", "optin-after-mails.html"],
   ["販売導線LINE", "Day5後に、レター希望者を公式LINEへ移動させる。", "sales-oc.html"],
   ["販売メルマガ", "レター閲覧、締切、購入を促すメール。", "sales-mails.html"],
-  ["販売期LINE", "販売開始、実績共有、締切を促すLINE。", "sales-line.html"],
+  ["販売期LINE", "販売開始、判断材料、締切を促すLINE。", "sales-line.html"],
   ["購入完了ページ", "決済後の案内、参加導線、次アクションを伝える。", "purchase-complete.html"],
 ];
 
@@ -89,7 +89,6 @@ const activeFunnelFormat = {
   challengePattern: "5チャレ",
   nextLiveDay: "Day2",
   salesPattern: "セールスレターでの販売パターン",
-  acquisitionMedia: "カツオリーチ",
 };
 
 const funnelPatternAssetDir = "funnel-patterns";
@@ -122,7 +121,7 @@ const funnelPatternRows = [
     position: "今回採用",
     image: `${funnelPatternAssetDir}/pattern-current-opt-before-vsl-sales-page.png`,
     source: "/Users/tanakayuichi/Downloads/オプト前VSL_販売ページ.png",
-    acquisition: "流入元: カツオリーチ / 集客ページ上のオプト前VSL → サンクスページ → リスト化",
+    acquisition: "集客ページ上のオプト前VSL → サンクスページ → リスト化",
     value: "教育グループ Day1〜Day5",
     sales: "販売ページ → 成約 → 商品提供",
   },
@@ -244,12 +243,6 @@ const salesPatternRows = [
 
 const acquisitionMediaRows = [
   {
-    label: "カツオリーチ",
-    position: "今回採用",
-    detail: "KATSUO側の既存接点やリーチから、チャレンジ登録へ送る紹介・告知導線を作る。",
-    output: "カツオリーチ用紹介文、配信文、CTA",
-  },
-  {
     label: "集客前メッセージ",
     position: "素材種別",
     detail: "自分のリストや紹介元のメルマガで、チャレンジ登録へ送る紹介文を作る。",
@@ -278,7 +271,7 @@ const acquisitionMediaRows = [
 const visibleFunnelNodes = [
   ["オプトインLP", "登録前", "参加理由を作り、メール登録へ進ませる。オプト前VSLを置く場合は登録前に教育と選別を行う。", "lp.html", "工程5"],
   ["登録後サンキュー", "登録直後", "オープンチャット参加を正式登録として促す。オプト後VSLを置く場合は5分前後の動画で期待値を上げる。", "lp.html", "工程5"],
-  ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題、Q&Aを受け止める。", "line.html", "工程6"],
+  ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題、特典案内を受け止める。", "line.html", "工程6"],
   ["Day1〜Day5ライブ", "価値提供", "ライブ、課題、特典で実践経験と納得感を作る。", "live-scripts.html", "工程7"],
   ["販売導線LINE", "販売接続", "レターを受け取りたい人だけを移動させ、販売導線へ分岐する。", "sales-oc.html", "工程8"],
   ["期間限定レター", "販売", "公式LINE内で期限付きのセールスページを公開し、購入判断へ進ませる。", "sales-page.html", "工程8"],
@@ -339,8 +332,8 @@ const productionLayerRows = [
       ["販売導線LINE", "Day5後に販売へ接続するLINEメッセージを作る。", "sales-oc.html"],
       ["セールスレター原稿", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "sales-page.html"],
       ["セールスページヘッド指示書", "ヘッド、CTA、証拠、オファー表など、実装担当へ渡す画面指示を作る。", "sales-head.html"],
-      ["販売メルマガ", "販売開始、実績共有、締切、終了案内をメールで作る。", "sales-mails.html"],
-      ["販売期LINE", "販売開始、実績共有、締切、終了案内をLINEで作る。", "sales-line.html"],
+      ["販売メルマガ", "販売開始、判断材料、締切、終了案内をメールで作る。", "sales-mails.html"],
+      ["販売期LINE", "販売開始、判断材料、締切、終了案内をLINEで作る。", "sales-line.html"],
       ["購入完了ページ原稿", "決済後の案内、参加導線、次アクションを作る。", "purchase-complete.html"],
     ],
   },
@@ -392,7 +385,7 @@ const salesMaterialRows = [
   ["販売メルマガ", "メール配信", "Day5後から販売終了までのメルマガ原稿を配信順に確認する。", "sales-mails.html", `${salesMaterialRoot}/01_オプトイン後メルマガ/`],
   ["セールスレター原稿", "販売ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を作る。", "sales-letter.html", `${salesMaterialRoot}/02_セールスレター原稿/`],
   ["販売導線LINE", "Day5後", "Day5後に販売へ接続するLINEメッセージをまとめる。", "sales-oc.html", `${salesMaterialRoot}/03_LINEオープンチャット_Day5後販売導線/`],
-  ["販売期LINE", "公式LINE", "販売開始、実績共有、締切、終了案内を作る。", "sales-line.html", `${salesMaterialRoot}/04_販売期公式LINE/`],
+  ["販売期LINE", "公式LINE", "販売開始、判断材料、締切、終了案内を作る。", "sales-line.html", `${salesMaterialRoot}/04_販売期公式LINE/`],
   ["セールスページヘッド指示書", "ファーストビュー", "販売ページ冒頭のコピー、CTA、締切、画面指示を作る。", "sales-head.html", `${salesMaterialRoot}/05_セールスページヘッド指示書/`],
   ["購入完了ページ原稿", "申込後", "決済後の案内、参加導線、連絡先、次アクションを作る。", "purchase-complete.html", `${salesMaterialRoot}/06_購入完了ページ原稿/`],
 ];
@@ -526,7 +519,7 @@ const salesAssetRows = [
   ["セールスレター原稿", "ページ本文", "問題提起、コンセプト、商品内容、価格、特典、保証、申込導線を1本にする。"],
   ["セールスページヘッド指示書", "デザイン指示", "ファーストビュー、CTA、対象者、変化の約束、締切表示の画面指示を作る。"],
   ["販売期メール原稿", "メール", "販売開始、理由、事例、不安解消、締切の配信原稿を作る。"],
-  ["販売期LINE原稿", "公式LINE", "販売開始、実績共有、締切、終了案内の配信原稿を作る。"],
+  ["販売期LINE原稿", "公式LINE", "販売開始、判断材料、締切、終了案内の配信原稿を作る。"],
   ["販売導線LINE", "Day5後", "Day5後に販売へ接続するLINEメッセージを作る。"],
   ["購入完了ページ原稿", "申込後", "決済後に必要な参加案内、連絡先、次アクションを作る。"],
 ];
@@ -1396,6 +1389,18 @@ const generatedMessageExcludePatterns = [
   /気になること.*聞いて/,
   /チーム型トレーニングを実施するのか/,
   /チームの組み方/,
+  /初動/,
+  /申込状況/,
+  /実際の反応/,
+  /個別対応/,
+  /昨日から今朝/,
+  /申し込みがあり/,
+  /申込.*あり/,
+  /[0-9０-９]+名の申し込み/,
+  /早速初動/,
+  /全て9月21日/,
+  /ブートキャンプの募集は終了しました/,
+  /受付は終了しました/,
 ];
 
 function shouldExcludeGeneratedMessage(item) {
@@ -1414,7 +1419,11 @@ function shouldExcludeGeneratedMessage(item) {
 function parseSpot(relative) {
   const name = path.basename(relative, ".md");
   const title = cleanOutputTitle(titleOf(relative));
-  const phase = relative.includes("フェーズ1") ? "ライブ前" : relative.includes("フェーズ2") ? "価値提供中" : relative.includes("フェーズ3") ? "販売期" : "通常配信";
+  const phase = name.includes("販売")
+    ? "販売期"
+    : name.includes("開始前")
+      ? "ライブ前"
+      : "価値提供中";
   const match = name.match(/_(Day[^_]+|販売[^_]+|9月[^_]+)_([0-9]+時(?:[0-9]+分)?|[0-9]+分)?_/);
   return {
     relative,
@@ -1835,7 +1844,7 @@ function currentFunnelComposite() {
   <div class="composite-phase acquisition">
     <div class="composite-phase-label">集客</div>
     <div class="composite-chain">
-      ${compositeTextPart("part-reach", "流入", "カツオリーチ", "ハウス / 広告 / 紹介")}
+      ${compositeTextPart("part-reach", "流入", "ハウス / 広告 / 紹介", "既存リストや紹介導線")}
       ${compositeArrow()}
       ${compositeImagePart("part-optin", "opt-before-vsl-page", "登録前", "集客ページ / オプト前VSL", "メールアドレス登録")}
       ${compositeArrow()}
@@ -1884,7 +1893,6 @@ function roadmapFunnelAxis() {
 <p class="note">工程表の各ステップは、この流れのどこを作っているかを確認しながら進めます。</p>
 <div class="roadmap-axis" aria-label="今回のファネル工程軸">
   <div class="traffic-source" aria-label="集客元">
-    <span>カツオリーチ</span>
     <span>ハウス</span>
     <span>広告</span>
     <span>紹介</span>
@@ -1931,7 +1939,7 @@ ${imageBlock}
 <summary>追加で欲しい単独画像</summary>
 <div class="details-body">
 <ul>
-<li>集客単独: オプト後VSL、オプト前VSL、フォーム登録のみ、カツオリーチ/広告/ハウス/紹介の入口違い。</li>
+<li>集客単独: オプト後VSL、オプト前VSL、フォーム登録のみ、広告/ハウス/紹介の入口違い。</li>
 <li>価値提供単独: 2チャレ、3チャレ、4チャレ、5チャレ、次ライブがDay2/Day3/Day4/Day5の違い。</li>
 <li>販売単独: 個別説明会、セミナー→個別説明会、セミナー販売、販売ページ直販。</li>
 <li>任意で欲しいもの: 公式LINE販売、メール販売、LINEオープンチャット販売接続、購入完了後の提供導線。</li>
@@ -2346,7 +2354,7 @@ ${folderList(fixedNotes, spotDisplayTiming)}
 <h2>通常配信</h2>
 <table class="asset-table compact-table"><thead><tr><th>フェーズ</th><th>件数</th><th>役割</th></tr></thead><tbody>
 <tr><td>ライブ前</td><td>${phaseCounts["ライブ前"] || 0}件</td><td>参加前の期待値形成、概要説明、ライブ参加リマインド。</td></tr>
-<tr><td>価値提供中</td><td>${phaseCounts["価値提供中"] || 0}件</td><td>ライブリンク、課題、アーカイブ、質問受付、特典案内。</td></tr>
+<tr><td>価値提供中</td><td>${phaseCounts["価値提供中"] || 0}件</td><td>ライブ案内、課題提出、復習、特典案内。</td></tr>
 </tbody></table>
 <h3 class="section-title">全スポット配信タイトル</h3>
 ${folderList(plannedSpots, spotDisplayTiming)}
@@ -3188,7 +3196,6 @@ pages.set("visual-report.html", page({
 <tr><td>制作目的</td><td>WEBマーケターへの道の登録、価値提供、販売までの制作物を揃える。</td></tr>
 <tr><td>商品</td><td>45日間WEBマーケター超実践ブートキャンプ</td></tr>
 <tr><td>ファネル</td><td>チャレンジローンチ / 販売ページ直販</td></tr>
-<tr><td>流入元</td><td>カツオリーチ。今回の流入元として記録する。</td></tr>
 <tr><td>集客方式</td><td>オプト前VSL。集客ページ上で登録前にVSLを見せる。</td></tr>
 	<tr><td>価値提供</td><td>価値提供フェーズのLINEオープンチャット + 5チャレ（Day1〜Day5）</td></tr>
 <tr><td>販売方式</td><td>セールスレターでの販売ページ直販</td></tr>
@@ -3215,13 +3222,6 @@ ${currentPatternImageCard()}
 <tr><td>必要リスト数</td><td>300件</td><td>30名 ÷ 10%</td></tr>
 <tr><td>1リスト獲得単価</td><td>3,000円</td><td>仮置き</td></tr>
 <tr><td>広告費目安</td><td>900,000円</td><td>300件 × 3,000円</td></tr>
-</tbody></table></section>
-<section class="panel"><h2>KPI管理位置</h2><table class="asset-table"><thead><tr><th>位置</th><th>管理する数字</th><th>記録</th></tr></thead><tbody>
-<tr><td>入口</td><td>登録数 / 登録率 / 流入元</td><td>カツオリーチ、ハウス、広告、紹介など</td></tr>
-<tr><td>登録後</td><td>オープンチャット参加 / Day1着席</td><td>サンキューページ、自動返信メール</td></tr>
-<tr><td>価値提供</td><td>ライブ参加 / 課題提出</td><td>Day別</td></tr>
-<tr><td>販売前</td><td>公式LINE移動</td><td>Day5後</td></tr>
-<tr><td>販売</td><td>レター閲覧 / 購入 / 売上</td><td>販売期間</td></tr>
 </tbody></table></section>
 <section class="panel"><h2>狙うスケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>内容</th><th>時間</th></tr></thead><tbody>
 <tr><td>Day1の2週間前〜Day1前日</td><td>集客期間</td><td>Day1開始まで</td></tr>
@@ -3714,7 +3714,7 @@ pages.set("sales-line.html", readerPage({
   }),
   body: mailAssetIndexBody({
     title: "販売期LINE一覧",
-    lead: "販売開始、実績共有、締切案内、終了案内など、販売期に送るLINE文面です。",
+    lead: "販売開始、判断材料、締切案内、終了案内など、販売期に送るLINE文面です。",
     rows: salesOfficialLines,
     label: "販売素材",
   }),
