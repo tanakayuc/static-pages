@@ -182,7 +182,6 @@ const acquisitionMaterialRoot = `${materialMdRoot}/01_集客素材`;
 const valueMaterialRoot = `${materialMdRoot}/02_価値提供素材`;
 const salesMaterialRoot = `${materialMdRoot}/03_販売素材`;
 const liveScriptRoot = `${valueMaterialRoot}/02_Day1〜Day5ライブ台本`;
-const taskBonusRoot = `${valueMaterialRoot}/03_課題・特典`;
 
 const acquisitionPatternRows = [
   {
@@ -271,8 +270,8 @@ const acquisitionMediaRows = [
 const visibleFunnelNodes = [
   ["オプトインLP", "登録前", "参加理由を作り、メール登録へ進ませる。オプト前VSLを置く場合は登録前に教育と選別を行う。", "lp.html", "工程5"],
   ["登録後サンキュー", "登録直後", "LINEオープンチャット参加を正式登録として促す。オプト後VSLを置く場合は5分前後の動画で期待値を上げる。", "lp.html", "工程5"],
-  ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題、特典案内を受け止める。", "line.html", "工程6"],
-  ["Day1〜Day5ライブ", "価値提供", "ライブ、課題、特典で実践経験と納得感を作る。", "live-scripts.html", "工程7"],
+  ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題案内を受け止める。", "line.html", "工程6"],
+  ["Day1〜Day5ライブ", "価値提供", "ライブと課題で実践経験と納得感を作る。", "live-scripts.html", "工程7"],
   ["販売導線LINE", "販売接続", "レターを受け取りたい人だけを移動させ、販売導線へ分岐する。", "sales-oc.html", "工程8"],
   ["期間限定レター", "販売", "公式LINE内で期限付きのセールスページを公開し、購入判断へ進ませる。", "sales-page.html", "工程8"],
   ["購入完了ページ", "決済後", "参加方法、連絡先、次アクションを案内する。", "sales-page.html", "工程8"],
@@ -290,10 +289,10 @@ const chapterAssetRows = [
   ["1. 全体設計", "全体構成レポート、ファネル方針、VSL配置方針、KPI仮シミュレーション、既存素材リスト", "visual-report.html"],
   ["2. リサーチ/コンセプト", "リサーチシート、ターゲット、3C、空きポジション、コンセプトシート、プロフィール、コンフィグ", "research.html"],
   ["3. オファー設計", "商品オファーシート、提供内容、サポート、特典/保証、価格表", "offer.html"],
-  ["4. コンテンツ設計", "全体カリキュラム、Day別テーマ、コアシナリオ、ワーク/特典案", "live-scripts.html"],
+  ["4. コンテンツ設計", "全体カリキュラム、Day別テーマ、コアシナリオ、ワーク案", "live-scripts.html"],
   ["5. オプトイン開始セット", "オプトインLP、VSL配置方針、ヘッド指示、サンキューページ、自動返信メール", "lp.html"],
   ["6. 配信導線", "価値提供フェーズのLINEオープンチャット、固定投稿、通常配信、登録後メール/販売期メールの配置", "line.html"],
-  ["7. 台本制作", "Day1〜Day5ライブ台本、課題フォーム、提出特典、アーカイブ導線", "live-scripts.html"],
+  ["7. 台本制作", "Day1〜Day5ライブ台本、課題フォーム、アーカイブ導線", "live-scripts.html"],
   ["8. 販売導線", "販売導線LINE、セールスレター、販売メルマガ、販売期LINE、購入完了ページ", "sales-page.html"],
   ["9. 本番運用/改善", "成果物一覧、原稿/指示書所在、特典実体、公開前チェック、更新履歴", "assets.html"],
 ];
@@ -317,12 +316,11 @@ const productionLayerRows = [
   },
   {
     layer: "価値提供フェーズの素材",
-    purpose: "登録後に参加者を迷わせず、ライブ、課題、特典で納得感を作る素材群。",
+    purpose: "登録後に参加者を迷わせず、ライブと課題で納得感を作る素材群。",
     items: [
       ["価値提供フェーズのLINEオープンチャット", "全体ポータル、固定投稿、通常配信、ライブ前リマインドを作る。", "line.html"],
       ["Day1〜Day5ライブ台本", "各日の教育テーマ、導入、本編、課題、次回予告を台本として分けて作る。", "live-scripts.html"],
       ["Day別スライド指示書", "各ライブにスライドが必要な場合、1日ごとのスライド構成案を作る。", "live-scripts.html"],
-      ["課題/特典案内文", "課題フォーム、提出特典、コンプリート特典、提出後案内を作る。", "tasks-bonus.html"],
     ],
   },
   {
@@ -352,7 +350,7 @@ const productionCategoryRows = [
     meta: "Value",
     href: "value.html",
     detail: "Day1着席後からDay5本編まで。価値提供フェーズのLINEオープンチャット、ライブ台本、課題、特典を確認します。",
-    items: ["価値提供フェーズのLINEオープンチャット", "Day1〜Day5ライブ台本", "課題/特典案内文"],
+    items: ["価値提供フェーズのLINEオープンチャット", "Day1〜Day5ライブ台本"],
   },
   {
     label: "販売の素材一覧",
@@ -376,7 +374,6 @@ const acquisitionMaterialRows = [
 const valueMaterialRows = [
   ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿とDay1前〜Day5本編の通常配信を1ページにまとめる。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/`],
   ["Day1〜Day5ライブ台本", "価値提供本編", "各日の導入、本編、課題、次回予告、販売接続を分けて作る。", "live-scripts.html", `${valueMaterialRoot}/02_Day1〜Day5ライブ台本/`],
-  ["課題/特典案内文", "行動促進", "提出フォーム、提出特典、コンプリート特典、提出後案内を作る。", "tasks-bonus.html", `${valueMaterialRoot}/03_課題・特典/`],
 ];
 
 const salesMaterialRows = [
@@ -438,14 +435,6 @@ const productionSubnav = {
     rows: acquisitionMaterialRows,
   },
   "value.html": {
-    title: "価値提供素材",
-    categoryHref: "value.html",
-    currentCode: "V",
-    currentLabel: "価値提供素材",
-    currentSub: "LINE/ライブ",
-    rows: valueMaterialRows,
-  },
-  "tasks-bonus.html": {
     title: "価値提供素材",
     categoryHref: "value.html",
     currentCode: "V",
@@ -834,7 +823,7 @@ const liveRows = [
     title: "継続マインドセットと実践プログラム案内",
     purpose: "5日間の学びを実践環境へ接続し、45日間ブートキャンプの価値を伝える。",
     core: "全てが揃うことはない、出せるカードを切る、実践環境、ブートキャンプ案内。",
-    task: "最終アウトプットとコンプリート特典への導線。",
+    task: "最終アウトプットの提出導線。",
     count: "37件",
     video: "https://youtu.be/3F5T-slajMQ",
     script: "04_価値提供/01_ライブシナリオ/05_Day5ライブシナリオ.md",
@@ -948,11 +937,11 @@ const roadmapPhases = [
   },
   {
     name: "4. コンテンツ設計",
-    summary: "5日間の内容、課題、特典案、コアストーリー、登録直後の案内素材を決める。",
+    summary: "5日間の内容、課題フォーム、コアストーリー、登録直後の案内素材を決める。",
     items: [
       roadmapStep("17", "お客様の声ファイル生成", "既存の感想、実績、体験談を素材として使える形にする。", "既存の感想・実績・体験談", "お客様の声リスト", "assets.html"),
       roadmapStep("18", "5日間コンテンツ設計", "Day1〜Day5のテーマと小タイトルを決める。", "コンセプトシート・ターゲットシート", "5日間テーマ一覧", "live-scripts.html"),
-      roadmapStep("19", "チャレンジ課題＆特典設計", "各日の課題、提出特典、コンプリート特典を決める。", "コンセプト・ターゲット", "課題/特典設計", "tasks-bonus.html"),
+      roadmapStep("19", "チャレンジ課題フォームの整理", "各日の課題と提出フォームの運用メモを整理する。", "コンセプト・ターゲット", "課題フォームメモ"),
       roadmapStep("20", "スケジュール決め", "募集開始日、ライブ日、販売開始日、販売終了日を決める。", "開始日・販売終了日", "プロモ全体カレンダー", "visual-report.html"),
       roadmapStep("21", "ライブ1コアストーリー", "Day1の核になるストーリー骨格を作る。", "コンセプト・ターゲット", "コアストーリーシート", "live-scripts.html"),
       roadmapStep("22", "中間オファー構築", "説明会や個別相談を挟む場合の中間オファーを整理する。", "本命オファー", "中間オファーシート", "offer.html"),
@@ -996,7 +985,7 @@ const roadmapPhases = [
       roadmapStep("44", "ライブ4シナリオ作成", "Day4の導入、本編、課題、次回予告を台本化する。", "Day1〜Day3台本・コンセプト類・オファー", "Day4ライブ台本", "live-scripts.html"),
       roadmapStep("45", "ライブ5シナリオ作成（2ステップ版）", "説明会や個別相談へ接続する場合のDay5台本を作る。", "Day1〜Day4台本・本命オファー", "Day5台本（2ステップ版）", "live-scripts.html"),
       roadmapStep("46", "ライブ5シナリオ作成（1ステップ版）", "販売ページへ直接接続する場合のDay5台本を作る。", "Day1〜Day4台本・本命オファー", "Day5台本（1ステップ版）", "live-scripts.html"),
-      roadmapStep("47", "チャレンジ課題のアウトプットフォーム", "各日の課題提出先を用意する。", "課題内容", "回答フォームURL", "tasks-bonus.html"),
+      roadmapStep("47", "チャレンジ課題のアウトプットフォーム", "各日の課題提出先を用意する。", "課題内容", "回答フォームURL"),
     ],
   },
   {
@@ -1017,8 +1006,8 @@ const roadmapPhases = [
     name: "9. 本番運用",
     summary: "公開前の最終準備、集客実施、ライブ運用、販売、法務、改善で確認する項目。",
     items: [
-      roadmapStep("24", "特典コンテンツの制作", "本番で配布する特典を、渡せる状態まで仕上げる。", "特典設計", "特典コンテンツ", "tasks-bonus.html"),
-      roadmapStep("25", "特典サムネイルの用意", "配布時に見せる特典サムネイル方向を整える。", "特典コンテンツ", "特典サムネイル指示書", "head.html"),
+      roadmapStep("24", "特典コンテンツの制作", "特典を作る案件の場合のみ、配布物の所在を運用メモにまとめる。", "特典設計", "特典メモ"),
+      roadmapStep("25", "特典サムネイルの用意", "特典を作る案件の場合のみ、配布時に見せる特典サムネイル方向を整える。", "特典コンテンツ", "特典サムネイル指示書"),
       roadmapStep("56", "集客の実施", "用意した紹介文、投稿、広告素材から登録ページへ送る。", "紹介文・広告素材・サンキューページ・教育グループ", "目標オプト数", "visual-report.html"),
       roadmapStep("57", "ライブの実施", "Day1〜Day5の台本に沿ってライブ、課題、質問対応を行う。", "Day1〜Day5台本", "ライブ実施ログ", "live-scripts.html"),
       roadmapStep("58", "限定性のプッシュ（1ステップ販売）", "販売ページ直販の場合の販売開始、締切、終了案内を作る。", "販売ページ・限定特典", "販売期配信", "sales-mails.html"),
@@ -2055,68 +2044,6 @@ const liveScriptRows = list(liveScriptRoot)
     };
   })
   .sort((a, b) => Number(a.day.replace("Day", "")) - Number(b.day.replace("Day", "")));
-
-const taskBonusFiles = list(taskBonusRoot);
-const taskBonusVisibleFiles = taskBonusFiles.filter((relative) => {
-  const name = path.basename(relative);
-  return ![
-    "0.特典一覧.md",
-    "01_課題まとめシート.md",
-    "02_課題受け取りキーワード送信用LINE.md",
-  ].includes(name);
-});
-const taskBonusGroupRows = [
-  {
-    title: "課題・特典の全体整理",
-    lead: "Day1〜Day5の課題、提出後に渡す特典、全課題完了後に案内するコンプリート特典を、このページで確認します。",
-    notes: [
-      "Day別の課題文は、参加者がその日の行動に移れる形で用意する。",
-      "提出特典は、課題提出後に受け取れる素材として管理する。",
-      "コンプリート特典は、全課題提出後の案内としてまとめる。",
-    ],
-    files: [],
-  },
-  {
-    title: "Day別提出課題",
-    lead: "Day1〜Day5で参加者へ渡す課題文を確認します。",
-    files: taskBonusVisibleFiles.filter((relative) => /Day\d提出課題_お渡し用/.test(path.basename(relative))),
-  },
-  {
-    title: "Day別提出特典",
-    lead: "各日の提出後に渡す特典、スライド、オファーシートなどを確認します。",
-    items: taskBonusVisibleFiles
-      .filter((relative) => /課題\d特典/.test(path.basename(relative)))
-      .map((relative) => titleOf(relative)),
-    files: [],
-  },
-  {
-    title: "コンプリート特典",
-    lead: "全体完了者へ案内するコンプリート特典を確認します。",
-    items: taskBonusVisibleFiles
-      .filter((relative) => /コンプリート特典/.test(path.basename(relative)))
-      .map((relative) => titleOf(relative)),
-    files: [],
-  },
-];
-
-function taskBonusGroupSection(group, index) {
-  const notes = group.notes?.length
-    ? `<ul class="mini-list">${group.notes.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`
-    : "";
-  const items = group.items?.length
-    ? `<ul class="mini-list">${group.items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`
-    : "";
-  const details = group.files.length ? sourceDetailsList(group.files, false) : "";
-  if (!notes && !items && !details) return "";
-  return `<section class="stepmail-block">
-<p class="block-label">${String(index + 1).padStart(2, "0")} / 課題・特典</p>
-<h2>${esc(group.title)}</h2>
-<p>${esc(group.lead)}</p>
-${notes}
-${items}
-${details}
-</section>`;
-}
 
 const phaseCounts = plannedSpots.reduce((acc, item) => {
   acc[item.phase] = (acc[item.phase] || 0) + 1;
@@ -3508,25 +3435,7 @@ pages.set("value.html", page({
 <section class="panel"><h2>今回の価値提供構成</h2><div class="grid-3">
 ${card("5チャレ", "Challenge", "今回のサンプルはDay1〜Day5の5日間で、次ライブ Day2 を起点に設計する。", "live-scripts.html")}
 ${card("価値提供フェーズのLINEオープンチャット", "Community", "固定投稿、通常配信で、参加者の動きを止めない。", "line.html")}
-${card("課題と特典", "Action", "各日の課題提出と特典案内で、学習ではなく実践へ進める。", "tasks-bonus.html")}
 	</div></section>`}));
-
-pages.set("tasks-bonus.html", page({
-  file: "tasks-bonus.html",
-  title: "課題/特典案内文",
-  eyebrow: "価値提供素材",
-  lead: "Day別の提出課題、提出特典、コンプリート特典、受け取り導線をまとめて確認します。",
-  body: `${funnelSpotlightCard({
-  title: "課題/特典案内文の対象箇所",
-  note: "課題と特典は、教育グループ内の行動促進と提出後の受け取り導線に使います。",
-  focus: "content",
-  label: "課題/特典案内文",
-})}
-<section class="panel article-panel">
-<h2>課題/特典案内文</h2>
-<p>課題・特典はライブ台本とは分け、価値提供フェーズの独立素材として確認します。</p>
-${taskBonusGroupRows.map(taskBonusGroupSection).join("")}
-</section>`}));
 
 pages.set("head.html", page({
   file: "head.html",
