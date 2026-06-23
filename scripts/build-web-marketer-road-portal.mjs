@@ -352,7 +352,7 @@ const productionCategoryRows = [
     meta: "Value",
     href: "value.html",
     detail: "Day1着席後からDay5本編まで。価値提供フェーズのLINEオープンチャット、ライブ台本、課題、特典を確認します。",
-    items: ["価値提供フェーズのLINEオープンチャット", "固定投稿", "通常配信", "Day1〜Day5ライブ台本", "課題/特典案内文"],
+    items: ["価値提供フェーズのLINEオープンチャット", "Day1〜Day5ライブ台本", "課題/特典案内文"],
   },
   {
     label: "販売の素材一覧",
@@ -374,9 +374,7 @@ const acquisitionMaterialRows = [
 ];
 
 const valueMaterialRows = [
-  ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿とDay1前〜Day5本編の通常配信をまとめる。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/`],
-  ["固定投稿", "LINEオープンチャット内の常設案内", "参加直後に見るべき情報、ライブURL、提出先、注意事項を固定する。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿/`],
-  ["通常配信", "Day1前〜Day5本編", "ライブ前後の案内、課題提出、リマインド、特典案内を送る。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編/`],
+  ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿とDay1前〜Day5本編の通常配信を1ページにまとめる。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/`],
   ["Day1〜Day5ライブ台本", "価値提供本編", "各日の導入、本編、課題、次回予告、販売接続を分けて作る。", "live-scripts.html", `${valueMaterialRoot}/02_Day1〜Day5ライブ台本/`],
   ["課題/特典案内文", "行動促進", "提出フォーム、提出特典、コンプリート特典、提出後案内を作る。", "tasks-bonus.html", `${valueMaterialRoot}/03_課題・特典/`],
 ];
