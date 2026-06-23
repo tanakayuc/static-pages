@@ -56,8 +56,8 @@ const funnelSteps = [
 
 const coreFunnelRows = [
   ["LP", "見込み客を登録へ動かす入口。フォーム中心か、オプト前VSLを置くかを全体設計で選ぶ。", "lp.html"],
-  ["サンキューページ", "登録直後に次アクションを示す。必要に応じてオプト後VSLでオープンチャット参加と着席期待値を作る。5分前後、長くても5〜10分を目安にする。", "lp.html"],
-  ["オープンチャット", "参加者を受け止め、事務連絡、固定ノート、ライブ案内、課題、Q&Aを運用する。", "line.html"],
+  ["サンキューページ", "登録直後に次アクションを示す。必要に応じてオプト後VSLでLINEオープンチャット参加と着席期待値を作る。5分前後、長くても5〜10分を目安にする。", "lp.html"],
+  ["LINEオープンチャット", "参加者を受け止め、事務連絡、固定ノート、ライブ案内、課題、Q&Aを運用する。", "line.html"],
   ["Day1〜Day5コンテンツ", "5日間のライブ、課題、特典で価値提供と販売前の納得感を作る。", "live-scripts.html"],
   ["セールスレター販売", "個別相談を挟まず、レターで本命商品を販売する。", "sales-page.html"],
 ];
@@ -65,7 +65,7 @@ const coreFunnelRows = [
 const detailedAssetRows = [
   ["ヘッドデザイン指示", "LPとセールスページのファーストビュー制作指示。", "head.html"],
   ["VSL台本", "オプト前VSLまたはオプト後VSLとして、次CTAを担う5〜10分の説得動画。", "script-opening.html"],
-  ["オプトイン自動返信", "メール登録で止まった人をオープンチャットへ戻す。", "optin-after-mails.html"],
+  ["オプトイン自動返信", "メール登録で止まった人をLINEオープンチャットへ戻す。", "optin-after-mails.html"],
   ["販売導線LINE", "Day5後に、レター希望者を公式LINEへ移動させる。", "sales-oc.html"],
   ["販売メルマガ", "レター閲覧、締切、購入を促すメール。", "sales-mails.html"],
   ["販売期LINE", "販売開始、判断材料、締切を促すLINE。", "sales-line.html"],
@@ -73,8 +73,8 @@ const detailedAssetRows = [
 ];
 
 const vslPlacementRows = [
-  ["オプト後VSLパターン", "サンキューページ（登録直後）", "チャレンジローンチの標準。登録後の軽い案内ではなく、OC参加、Day1着席、チャレンジ参加期待値を高める本気のVSL。5分前後、長くても5〜10分を目安にする。", "サンキューページ原稿、5〜10分VSL台本、OC参加CTA"],
-  ["オプト前VSLパターン", "オプトインLP上部（登録前）", "ほとんどの受講生は選ばないオプション。コールド広告 × 無料チャレンジ × OC/ライブ必須で、登録前に教育と選別を入れたいとき。", "LP原稿、VSL台本、視聴連動の遅延CTA指示"],
+  ["オプト後VSLパターン", "サンキューページ（登録直後）", "チャレンジローンチの標準。登録後の軽い案内ではなく、LINEオープンチャット参加、Day1着席、チャレンジ参加期待値を高める本気のVSL。5分前後、長くても5〜10分を目安にする。", "サンキューページ原稿、5〜10分VSL台本、LINEオープンチャット参加CTA"],
+  ["オプト前VSLパターン", "オプトインLP上部（登録前）", "ほとんどの受講生は選ばないオプション。コールド広告 × 無料チャレンジ × LINEオープンチャット/ライブ必須で、登録前に教育と選別を入れたいとき。", "LP原稿、VSL台本、視聴連動の遅延CTA指示"],
   ["併用", "LP上 + サンキューページ", "コールド広告から重いチャレンジへ送る場合。入口で教育と選別をし、登録後に正式参加へ押し上げる。", "2本のVSL配置方針、LP/サンキュー原稿、CTA表示ルール"],
 ];
 
@@ -189,8 +189,8 @@ const acquisitionPatternRows = [
     label: "オプト後VSLパターン",
     position: "標準",
     placement: "フォーム登録後のサンキューページでオプト後VSLを見せる。",
-    chooseWhen: "チャレンジローンチの基本形。LPは短く登録を優先し、登録直後に正式参加、OC参加、Day1着席への期待値を高めたいとき。",
-    assets: ["オプトインLP原稿", "サンキューページ原稿", "OC参加CTA"],
+    chooseWhen: "チャレンジローンチの基本形。LPは短く登録を優先し、登録直後に正式参加、LINEオープンチャット参加、Day1着席への期待値を高めたいとき。",
+    assets: ["オプトインLP原稿", "サンキューページ原稿", "LINEオープンチャット参加CTA"],
     flow: ["集客ページ", "登録フォーム", "サンキューページ", "オプト後VSL", "LINE/メールリスト化"],
   },
   {
@@ -270,7 +270,7 @@ const acquisitionMediaRows = [
 
 const visibleFunnelNodes = [
   ["オプトインLP", "登録前", "参加理由を作り、メール登録へ進ませる。オプト前VSLを置く場合は登録前に教育と選別を行う。", "lp.html", "工程5"],
-  ["登録後サンキュー", "登録直後", "オープンチャット参加を正式登録として促す。オプト後VSLを置く場合は5分前後の動画で期待値を上げる。", "lp.html", "工程5"],
+  ["登録後サンキュー", "登録直後", "LINEオープンチャット参加を正式登録として促す。オプト後VSLを置く場合は5分前後の動画で期待値を上げる。", "lp.html", "工程5"],
   ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿、通常配信、ライブ案内、課題、特典案内を受け止める。", "line.html", "工程6"],
   ["Day1〜Day5ライブ", "価値提供", "ライブ、課題、特典で実践経験と納得感を作る。", "live-scripts.html", "工程7"],
   ["販売導線LINE", "販売接続", "レターを受け取りたい人だけを移動させ、販売導線へ分岐する。", "sales-oc.html", "工程8"],
@@ -280,7 +280,7 @@ const visibleFunnelNodes = [
 
 const kpiFunnelRows = [
   ["入口", "登録率", "オプトインLPごとの登録率と登録経路別の反応を見る。"],
-  ["登録後", "OC参加率 / Day1着席率", "サンキューからオープンチャットへ移動し、初日に着席する率を見る。"],
+  ["登録後", "LINEオープンチャット参加率 / Day1着席率", "サンキューからLINEオープンチャットへ移動し、初日に着席する率を見る。"],
   ["価値提供", "ライブ参加 / 課題提出", "Day1〜Day5の離脱と提出数を見る。Day1 91件を起点に落ち方を確認する。"],
   ["販売接続", "公式LINE移動率", "レターを受け取りたい人だけが公式LINEへ移動できているかを見る。"],
   ["販売", "レター購入率 / 売上", "期間限定レターから購入する率と、仮単価60,000円での売上規模を見る。"],
@@ -375,7 +375,7 @@ const acquisitionMaterialRows = [
 
 const valueMaterialRows = [
   ["価値提供フェーズのLINEオープンチャット", "参加場所", "固定投稿とDay1前〜Day5本編の通常配信をまとめる。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/`],
-  ["固定投稿", "OC内の常設案内", "参加直後に見るべき情報、ライブURL、提出先、注意事項を固定する。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿/`],
+  ["固定投稿", "LINEオープンチャット内の常設案内", "参加直後に見るべき情報、ライブURL、提出先、注意事項を固定する。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/01_固定投稿/`],
   ["通常配信", "Day1前〜Day5本編", "ライブ前後の案内、課題提出、リマインド、特典案内を送る。", "line.html", `${valueMaterialRoot}/01_LINEオープンチャット/02_通常配信_Day1前〜Day5本編/`],
   ["Day1〜Day5ライブ台本", "価値提供本編", "各日の導入、本編、課題、次回予告、販売接続を分けて作る。", "live-scripts.html", `${valueMaterialRoot}/02_Day1〜Day5ライブ台本/`],
   ["課題/特典案内文", "行動促進", "提出フォーム、提出特典、コンプリート特典、提出後案内を作る。", "tasks-bonus.html", `${valueMaterialRoot}/03_課題・特典/`],
@@ -502,9 +502,9 @@ const lpAssetRows = [
 const vslSlideRows = [
   ["1. 問題提起", "顔出し・自分の商品・実績がない人の停滞感を1枚で見せる。"],
   ["2. 旧世界/新世界", "スター型起業ではなく、裏方Webマーケターという別ルートを対比する。"],
-  ["3. 5日間で得るもの", "D.E.C.O.D.E.、ライブ、課題、オープンチャットの全体像を見せる。"],
+  ["3. 5日間で得るもの", "D.E.C.O.D.E.、ライブ、課題、LINEオープンチャットの全体像を見せる。"],
   ["4. 参加後の動き", "登録後に何をすれば正式参加になるかを、手順ではなく安心材料として見せる。"],
-  ["5. CTA", "オープンチャット参加、Day1着席、課題提出への次アクションを明確にする。"],
+  ["5. CTA", "LINEオープンチャット参加、Day1着席、課題提出への次アクションを明確にする。"],
 ];
 
 const liveSlideRows = [
@@ -572,7 +572,7 @@ const productionFlowRows = [
   },
   {
     phase: "6. 配信導線",
-    purpose: "オープンチャット、登録後メール、販売期メール/LINEで、参加者を迷わせず次の行動へ進める。",
+    purpose: "LINEオープンチャット、登録後メール、販売期メール/LINEで、参加者を迷わせず次の行動へ進める。",
     assets: ["価値提供フェーズのLINEオープンチャット", "固定投稿", "通常配信", "登録後メールの配置", "販売期メール/LINEの配置"],
     done: "どのタイミングで何を送るか、投稿/配信文とメール配置が確認できる。",
     boundary: "田中祐一AI側の一区切りは、配信原稿と配信順の完成。",
@@ -921,7 +921,7 @@ const roadmapPhases = [
       roadmapStep("1", "目的意識を明確にする", "なぜこのプロモーションを行うのかを3〜5項目で書き出す。", "プロフィール・背景情報", "目的リスト", "visual-report.html"),
       roadmapStep("2", "販売したい商品を決める", "販売する商品、価格、期間、販売本数を決める。", "既存の商品・サービス一覧", "商品リスト", "offer.html"),
       roadmapStep("3", "販売ファネルを決める", "今回採用するファネル種別を確定する。", "プロモーションのゴール・販売商品", "ファネル種別", "visual-report.html"),
-      roadmapStep("4", "目標KPIの設定", "目標売上から必要な登録数、参加率、購入率を逆算する。", "目標売上・商品単価・販売本数", "KPI逆算メモ", "visual-report.html"),
+      roadmapStep("4", "目標KPIの設定", "目標売上から必要な登録数、参加率、購入率を逆算する。", "目標売上・平均単価・販売本数", "KPI逆算メモ", "visual-report.html"),
       roadmapStep("5", "教育グループを決める", "参加者をどこに集めるかを決める。", "ターゲットが普段使う媒体", "教育グループ種別", "line.html"),
       roadmapStep("6", "ライブ回数を決める", "2チャレ / 3チャレ / 4チャレ / 5チャレのどれで進めるかを決める。", "期間・本人の稼働条件", "チャレンジ日数・ライブ本数", "live-scripts.html"),
     ],
@@ -978,9 +978,9 @@ const roadmapPhases = [
     name: "6. 集客素材の作成",
     summary: "教育グループ、固定投稿、自動返信、紹介文、広告素材を用意する。",
     items: [
-      roadmapStep("33", "教育グループ（オープンチャット）作成", "参加場所を作り、登録後に案内できる状態にする。", "コンセプト・グループ名案", "教育グループURL", "line.html"),
-      roadmapStep("34", "オープンチャットの固定メッセージを整える", "参加者が最初に見る固定投稿を作る。", "ノート用文章・掲示板用文章", "固定投稿", "line.html"),
-      roadmapStep("35", "オープンチャット事前案内の整備", "ライブ開始前までに送る事前案内文を作る。", "コンセプト・VSLシナリオ・特典・スケジュール", "事前案内文", "line.html"),
+      roadmapStep("33", "教育グループ（LINEオープンチャット）作成", "参加場所を作り、登録後に案内できる状態にする。", "コンセプト・グループ名案", "教育グループURL", "line.html"),
+      roadmapStep("34", "LINEオープンチャットの固定メッセージを整える", "参加者が最初に見る固定投稿を作る。", "ノート用文章・掲示板用文章", "固定投稿", "line.html"),
+      roadmapStep("35", "LINEオープンチャット事前案内の整備", "ライブ開始前までに送る事前案内文を作る。", "コンセプト・VSLシナリオ・特典・スケジュール", "事前案内文", "line.html"),
       roadmapStep("36", "オプト後自動返信メール", "登録直後に教育グループへ戻すメール文面を作る。", "コンセプト・登録直後案内素材", "自動返信メール文面", "optin-after-mails.html"),
       roadmapStep("37", "セットアップライティング", "メルマガやSNSで登録ページへ送る紹介文を作る。", "ターゲット情報・LP原稿", "紹介文章", "traffic-mails.html"),
       roadmapStep("38", "セットアップ用画像生成", "必要な場合のみ、投稿や紹介に使う画像方向を作る。", "紹介文章", "投稿用画像指示書", "head.html"),
@@ -1117,6 +1117,8 @@ function normalizeOutputTerms(text = "") {
     .replaceAll(deprecatedTeaseVideo, "オプト後VSL")
     .replaceAll(deprecatedOptInVsl, "オプト前VSL")
     .replaceAll(deprecatedOptAfterVsl, "オプト後VSL")
+    .replace(/\bOC\b/g, "LINEオープンチャット")
+    .replace(/(?<!LINE)オープンチャット/g, "LINEオープンチャット")
     .replace(/ChatGPTやCodeX/g, "制作担当")
     .replace(/ChatGPTやCodex/g, "制作担当")
     .replace(/ChatGPT\/CodeX/g, "制作担当")
@@ -1724,6 +1726,11 @@ function roadmapJump(phases) {
   return `<nav class="jump-nav">${phases.map((phase, index) => `<a href="#phase-${index + 1}">${esc(phase.name)}</a>`).join("")}</nav>`;
 }
 
+function roadmapSampleLink(item) {
+  if (!item.href) return "";
+  return `<a class="report-link" href="${esc(item.href)}">${esc(item.output)}のサンプルはこちら</a>`;
+}
+
 function roadmapFunnelTag(item) {
   const step = Number(item.sourceStep);
   if (step <= 22) return { label: "設計シート", target: "" };
@@ -1967,6 +1974,7 @@ ${spotlight}
 <h3>${esc(item.name)}</h3>
 <p>${esc(item.make)}</p>
 <p class="roadmap-step-output"><span>このステップで作る/決めるもの</span>${esc(item.output)}</p>
+${roadmapSampleLink(item)}
 </div>
 </article>`;
   }).join("")}</div>
@@ -2368,7 +2376,7 @@ function sourceInventory() {
     ["主要ページ", list("02_オプトインLP").length + list("03_サンキューページ").length + list("06_セールス").length],
     ["ライブ台本/動画", list("04_価値提供/01_ライブシナリオ").length + list("04_価値提供/02_ライブ動画").length],
     ["課題/特典", list("04_価値提供/03_課題").length + list("21_特典").length],
-    ["オープンチャット", fixedNotes.length + plannedSpots.length],
+    ["LINEオープンチャット", fixedNotes.length + plannedSpots.length],
     ["メール/公式LINE", registrationMails.length + salesMails.length + salesOfficialLines.length],
   ];
   return categories;
@@ -3212,27 +3220,26 @@ ${currentPatternImageCard()}
   ["購入完了ページ", "決済後", "購入完了ページ原稿", "sales-page.html", "販売"],
 ])}</section>
 <section class="panel"><h2>KPI逆算</h2><div class="grid-4">
-<div class="kpi"><span>商品単価</span><strong>60,000円</strong></div>
+<div class="kpi"><span>平均単価</span><strong>60,000円</strong></div>
 <div class="kpi"><span>目標売上</span><strong>1,800,000円</strong></div>
 <div class="kpi"><span>目標販売数</span><strong>30名</strong></div>
 <div class="kpi"><span>必要リスト数</span><strong>300件</strong></div>
 </div><table class="asset-table"><thead><tr><th>計算項目</th><th>設計値</th><th>計算式</th></tr></thead><tbody>
-<tr><td>目標販売数</td><td>30名</td><td>1,800,000円 ÷ 60,000円</td></tr>
+<tr><td>目標販売数</td><td>30名</td><td>1,800,000円 ÷ 平均単価60,000円</td></tr>
 <tr><td>販売ページ成約率</td><td>10%</td><td>仮置き</td></tr>
 <tr><td>必要リスト数</td><td>300件</td><td>30名 ÷ 10%</td></tr>
 <tr><td>1リスト獲得単価</td><td>3,000円</td><td>仮置き</td></tr>
 <tr><td>広告費目安</td><td>900,000円</td><td>300件 × 3,000円</td></tr>
 </tbody></table></section>
-<section class="panel"><h2>狙うスケジュール</h2><table class="asset-table"><thead><tr><th>タイミング</th><th>内容</th><th>時間</th></tr></thead><tbody>
-<tr><td>Day1の2週間前〜Day1前日</td><td>集客期間</td><td>Day1開始まで</td></tr>
-<tr><td>Day1の2週間前</td><td>集客スタート日</td><td>予定</td></tr>
-<tr><td>Day1前日</td><td>集客終了日</td><td>予定</td></tr>
-<tr><td>Day1</td><td>Day1ライブ</td><td>21:00〜22:30</td></tr>
-<tr><td>Day2</td><td>Day2ライブ</td><td>21:00〜22:00</td></tr>
-<tr><td>Day3</td><td>Day3ライブ</td><td>21:00〜22:00</td></tr>
-<tr><td>Day4</td><td>Day4ライブ</td><td>21:00〜22:00</td></tr>
-<tr><td>Day5</td><td>Day5ライブ</td><td>21:00〜22:30</td></tr>
-<tr><td>Day5終了後〜販売終了日</td><td>セールス期間</td><td>最終日 23:59まで</td></tr>
+<section class="panel"><h2>確定スケジュール</h2><table class="asset-table"><thead><tr><th>項目</th><th>日程</th><th>時間/補足</th></tr></thead><tbody>
+<tr><td>集客スタート日</td><td>8月21日（木）</td><td>集客開始</td></tr>
+<tr><td>集客終了日</td><td>9月4日（木）</td><td>集客終了</td></tr>
+<tr><td>Day1ライブ</td><td>9月4日（木）</td><td>21:00〜22:30</td></tr>
+<tr><td>Day2ライブ</td><td>9月7日（日）</td><td>21:00〜22:00</td></tr>
+<tr><td>Day3ライブ</td><td>9月9日（火）</td><td>21:00〜22:00</td></tr>
+<tr><td>Day4ライブ</td><td>9月12日（金）</td><td>21:00〜22:00</td></tr>
+<tr><td>Day5ライブ</td><td>9月14日（日）</td><td>21:00〜22:30</td></tr>
+<tr><td>セールス期間</td><td>9月14日（日）〜9月19日（金）</td><td>23:59まで</td></tr>
 </tbody></table></section>
 <section class="panel"><h2>制作対象</h2><table class="asset-table"><thead><tr><th>区分</th><th>作る素材</th><th>確認ページ</th></tr></thead><tbody>
 <tr><td>集客</td><td>オプトインLP原稿、LPヘッドデザイン指示書、オプト前VSL台本、オプトイン後メルマガ、サンキューページ原稿、紹介用文章、集客前メッセージ</td><td><a href="lp.html">集客素材</a></td></tr>
@@ -3335,8 +3342,15 @@ pages.set("research.html", page({
   lead: "同業ライバル、媒体別発信、取りこぼし、空きポジションを整理します。",
   body: `<section class="panel"><h2>同業ライバルリサーチ</h2>${competitorResearchTable()}</section>
 <section class="panel"><h2>空きポジション分析結果</h2>${competitorPositionCards()}</section>
+<section class="panel"><h2>ターゲット再整理</h2><div class="concept-sequence">
+${conceptItem(1, "過去に試した道", "History", "起業スクール、商品構築講座、SNS発信講座、コンテンツホルダー型の高単価講座、Web制作・デザイン・ライティングなどの単体スキル講座。学ぶ意欲はあるが、自分の商品を作って前に出る道では止まりやすい。")}
+${conceptItem(2, "挫折の理由", "Stuck", "知識や努力が足りないのではなく、市場の選択肢が「自分の商品を作る」「カリスマ的に発信する」「単体スキルを安く売る」に偏っているため、自分に合う役割を見つけられていない。")}
+${conceptItem(3, "業界への不信感トップ3", "Distrust", "誰でも商品を作れると言われたが自分には無理だった。他の人のようにカリスマにはなれない。裏方として動いても、結局は安く買い叩かれてしまう。")}
+${conceptItem(4, "本当の資質", "Strength", "真面目さ、継続力、支援力、客観視、メタ認知、数字を見る力。キャラクターの薄さや一歩引いて全体を見られることは、コンテンツホルダーを支える裏方Webマーケターの武器になる。")}
+</div></section>
+<section class="panel"><h2>空きポジション候補</h2><ol><li>キャラクターの薄さを武器にする裏方Webマーケター</li><li>社長・コンテンツホルダーの右腕として売上導線を支える人</li><li>器用貧乏が高単価で報われるプロモーション支援人材</li><li>自分の商品を作る側ではなく、価値ある商品を広げる側</li><li>単体作業者ではなく、ファネル全体を見られる実践者</li></ol></section>
 <section class="panel"><h2>3C分析</h2><div class="concept-sequence">
-${conceptItem(1, "Customer", "顧客", "顔出しや商品作りに抵抗があり、発信者として目立つことに違和感がある会社員。真面目さや支援力はあるが、売上に関わる経験がない。")}
+${conceptItem(1, "Customer", "顧客", "起業スクールやSNS発信型の講座で、自分の商品を作って売る道に挑戦したものの、自分の商品構築やカリスマ的な発信に自信を持てなかった会社員・副業希望者。真面目さや支援力はあるが、裏方として安く買い叩かれる不安がある。")}
 ${conceptItem(2, "Competitor", "競合", "横山直宏さんは自分らしい経営と温かいコミュニティ、おさるさんはSNS動画とコンテンツ販売、仙道達也さんは魂の差別化と伴走支援、北野哲正さんはAHAコンセプトとコンサル型ビジネス、才流はBtoBメソッドと書籍・メディア導線に強い。")}
 ${conceptItem(3, "Company", "自社", "売上導線、プロモーション全体、プロダクトローンチ、コンテンツホルダー支援、全員で勝つ文化を持つ。")}
 </div></section>
@@ -3346,14 +3360,14 @@ ${conceptItem(2, "自分の商品がない人", "Gap", "商品作りから始め
 ${conceptItem(3, "単体スキルだけでは不安な人", "Gap", "SNS動画、広告運用、AI活用を学んでも、売上全体にどうつながるかが見えない。")}
 ${conceptItem(4, "チームで支えたい人", "Gap", "自分が前に出るより、起業家や社長を支援する方が自然に力を出せる。")}
 </div></section>
-<section class="panel"><h2>空きポジション</h2><p class="quote">スター型起業でも単体スキル習得でもなく、起業家のプロモーションを裏方から支え、売上に関わる実績を作るWebマーケター。</p></section>
+<section class="panel"><h2>採用する空きポジション</h2><p class="quote">スター型起業でも単体スキル習得でもなく、社長・コンテンツホルダーの右腕としてプロモーション全体を裏方から支え、売上に関わる実績を作るWebマーケター。</p></section>
 <section class="panel"><h2>ずらし方</h2><div class="concept-sequence">
 ${conceptItem(1, "世界観でずらす", "Worldview", "華やかに見せる起業ではなく、地味で平凡でも売上を支える道として見せる。")}
 ${conceptItem(2, "役割でずらす", "Role", "自分の商品を売る人ではなく、社長の右腕としてプロモーション全体に関わる人にする。")}
 ${conceptItem(3, "ノウハウでずらす", "Know-how", "単体スキルではなく、D.E.C.O.D.E.でファネル全体を理解する。")}
 ${conceptItem(4, "実践環境でずらす", "Offer", "学ぶだけではなく、最初の実績作りに向かう45日間の環境として見せる。")}
 </div></section>
-<section class="panel"><h2>ターゲットの感情</h2><ol><li>副業や起業には興味があるが、自分が表に出るのは怖い。</li><li>スキルを学んでも、売上につながる実感がない。</li><li>自分の商品やフォロワーがないので、始める資格がないと思っている。</li><li>でも、誰かを支えたり、仕組みを整えたりすることには向いている気がする。</li><li>地味でも現実的に売上へ関われる道があるなら知りたい。</li></ol></section>
+<section class="panel"><h2>ターゲットの感情</h2><ol><li>副業や起業には興味があるが、自分が表に出るのは怖い。</li><li>起業スクールや商品構築講座で学んでも、自分の商品を作るところで止まってしまった。</li><li>カリスマ性、人脈、強い発信力がないと食っていけないと思っている。</li><li>裏方として動いても、単体作業を安く請けるだけになりそうで不安がある。</li><li>誰かを支えたり、仕組みを整えたりすることには向いている気がする。</li><li>地味でも現実的に売上へ関われる道があるなら知りたい。</li></ol></section>
 <section class="panel"><h2>LP/動画に使う論点</h2><ol><li>地味で平凡は弱みではなく、裏方Webマーケターの適性になり得る。</li><li>起業はスターになる道だけではない。</li><li>自分の商品がなくても、起業家のプロモーション支援で実績を作れる。</li><li>単体スキルではなく、売れる仕組み全体を理解する。</li><li>45日間の実践環境で、最初の経験作りへ進む。</li></ol></section>`}));
 
 pages.set("offer.html", page({

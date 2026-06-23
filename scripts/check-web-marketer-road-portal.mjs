@@ -44,6 +44,7 @@ const globalBans = [
 
 const actualDatePattern =
   /20\d{2}-[0-9]{1,2}-[0-9]{1,2}|20\d{2}[/.][0-9]{1,2}[/.][0-9]{1,2}|[0-9０-９]{1,2}月[0-9０-９]{1,2}日|(?<!\d)[0-9０-９]{1,2}\/[0-9０-９]{1,2}(?:[（(][^)）]+[)）])?/g;
+const approvedScheduleDates = new Set(["8月21日", "9月4日", "9月7日", "9月9日", "9月12日", "9月14日", "9月19日"]);
 
 const roadmapBans = [
   ["roadmap-step-label", /Step [0-9]/g],
@@ -67,6 +68,7 @@ for (const file of htmlFiles) {
     const end = Math.min(text.length, match.index + value.length + 20);
     const context = text.slice(start, end);
     if (value === "1月23日" && /生まれ|プロフィール|Profile/.test(context)) continue;
+    if (path.basename(file) === "visual-report.html" && approvedScheduleDates.has(value)) continue;
     addFailure(file, "actual-date", value);
     break;
   }
