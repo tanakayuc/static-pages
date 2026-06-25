@@ -33,8 +33,8 @@ function extractSection(text, phaseNumber) {
   return text.slice(start, next < 0 ? text.length : next);
 }
 
-function extractHeadings(text) {
-  return Array.from(text.matchAll(/<h3>(.*?)<\/h3>/g)).map((match) => match[1]);
+function extractRoadmapStepTitles(text) {
+  return Array.from(text.matchAll(/<article class="roadmap-step">[\s\S]*?<h3>(.*?)<\/h3>/g)).map((match) => match[1]);
 }
 
 function assertSameList(file, label, actual, expected) {
@@ -115,8 +115,8 @@ for (const file of htmlFiles) {
       if (match) addFailure(file, label, match[0]);
     }
 
-    const chapterOneTitles = extractHeadings(extractSection(text, 1));
-    const chapterFourStartTitles = extractHeadings(extractSection(text, 4)).slice(0, 2);
+    const chapterOneTitles = extractRoadmapStepTitles(extractSection(text, 1));
+    const chapterFourStartTitles = extractRoadmapStepTitles(extractSection(text, 4)).slice(0, 2);
     assertSameList(file, "roadmap-chapter-one-contract", chapterOneTitles, expectedChapterOneTitles);
     assertSameList(file, "roadmap-chapter-four-start-contract", chapterFourStartTitles, expectedChapterFourStartTitles);
     for (const title of retiredChapterOneTitles) {
