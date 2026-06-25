@@ -25,6 +25,24 @@ function addFailure(file, label, match) {
   failures.push(`${rel(file)}: ${label}: ${String(match).slice(0, 160)}`);
 }
 
+function extractSection(text, phaseNumber) {
+  const marker = `id="phase-${phaseNumber}"`;
+  const start = text.indexOf(marker);
+  if (start < 0) return "";
+  const next = text.indexOf(`id="phase-${phaseNumber + 1}"`, start + marker.length);
+  return text.slice(start, next < 0 ? text.length : next);
+}
+
+function extractHeadings(text) {
+  return Array.from(text.matchAll(/<h3>(.*?)<\/h3>/g)).map((match) => match[1]);
+}
+
+function assertSameList(file, label, actual, expected) {
+  if (actual.length !== expected.length || actual.some((value, index) => value !== expected[index])) {
+    addFailure(file, label, `${actual.join(" / ")} expected ${expected.join(" / ")}`);
+  }
+}
+
 if (!fs.existsSync(outDir)) {
   console.error(`[portal-check] missing output dir: ${outDir}`);
   process.exit(1);
@@ -54,6 +72,23 @@ const roadmapBans = [
   ["roadmap-knowledge-leak", /ナレッジ|選択候補|パターン説明/g],
 ];
 
+const expectedChapterOneTitles = [
+  "販売したい商品を決める",
+  "販売ファネルを決める",
+  "販売モデルを決める",
+  "目標KPIの設定",
+];
+
+const expectedChapterFourStartTitles = [
+  "教育グループを決める",
+  "チャレンジ日数・ライブ回数を決める",
+];
+
+const retiredChapterOneTitles = [
+  "目的意識を明確にする",
+  "ライブ回数を決める",
+];
+
 for (const file of htmlFiles) {
   const text = fs.readFileSync(file, "utf8");
   for (const [label, pattern] of globalBans) {
@@ -78,6 +113,14 @@ for (const file of htmlFiles) {
       pattern.lastIndex = 0;
       const match = pattern.exec(text);
       if (match) addFailure(file, label, match[0]);
+    }
+
+    const chapterOneTitles = extractHeadings(extractSection(text, 1));
+    const chapterFourStartTitles = extractHeadings(extractSection(text, 4)).slice(0, 2);
+    assertSameList(file, "roadmap-chapter-one-contract", chapterOneTitles, expectedChapterOneTitles);
+    assertSameList(file, "roadmap-chapter-four-start-contract", chapterFourStartTitles, expectedChapterFourStartTitles);
+    for (const title of retiredChapterOneTitles) {
+      if (text.includes(`<h3>${title}</h3>`)) addFailure(file, "retired-roadmap-step", title);
     }
   }
 
