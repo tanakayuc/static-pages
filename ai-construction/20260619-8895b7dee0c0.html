@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>監査_20260619_knowledge格納構造_findings_共有用 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    body { flex-direction: column; }
+    .sidebar { display: none; }
+    .mobile-nav { display: block; }
+    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.95rem; line-height: 1.7; }
+    .main a { word-wrap: break-word; overflow-wrap: break-word; }
+    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .main { padding: 0.75rem; }
+    .main h1 { font-size: 1.15rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.9rem; }
+    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
+    .main table { font-size: 0.8rem; }
+    .main th, .main td { padding: 0.25rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="029.html" class="sidebar-item"><span class="date">2026年06月25日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item active"><span class="date">2026年06月19日</span> 監査_20260619_knowledge格納構造_findings_共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</h1>
+<p>このメモは「格納ガバナンス修正」を担当する別チャット（議事録作成内で対応）への<strong>共有データ</strong>。<br />
+過大評価で大改修に走らないよう、事実ベースの所見と最小修正案を残す。Q&amp;Aループ担当チャットが実バンドル・実コードを確認して作成。</p>
+<h2>結論：取得品質には影響なし／ガバナンスのみ要修正</h2>
+<h3>① 取得（受講生が使う品質）への影響＝なし【最重要・誤解しないこと】</h3>
+<ul>
+<li><code>02_ツール/開発支援/統合添削_bundle.py:175</code> は <code>KNOWLEDGE.rglob("*.md")</code> で<strong>フォルダ非依存に全mdを拾う</strong>。</li>
+<li>取得は buildCompactKnowledge のキーワード＋embedding＋type-boost＝<strong>内容ベース</strong>。フォルダ位置は取得スコアに無関係。</li>
+<li>→ 「変なフォルダにある」レコードも普通にバンドルされ引ける。<strong>フォルダ構造の乱れで田中AIの回答品質は劣化していない。</strong></li>
+<li>→ だから<strong>大規模フォルダ統合・リネームは非推奨</strong>（取得non-影響なのにデグレ/リンク切れ/embedding再生成のリスクと工数が高い）。</li>
+</ul>
+<h3>② 真の二重構造は1カテゴリだけ</h3>
+<ul>
+<li><code>knowledge/セールス/</code>（1件＝<code>信頼関係_セールスの基盤.md</code>）と <code>knowledge/スキル別/セールス/</code>（40件）の名前衝突のみ。</li>
+<li>修正＝迷子1件を <code>knowledge/スキル別/セールス/</code> へ移動（related/索引/embedding再生成まで）。</li>
+</ul>
+<h3>③ 「集客 vs セットアップ」「コミュニティ vs 講座運営」は重複ではない</h3>
+<ul>
+<li>直下＝ドメイン軸（媒体別/ファネル型/事例/共通/プロモーション/集客/仕組み化/コンサルティング/ビジネスモデル/哲学/ワークフロー）。</li>
+<li>スキル別＝スキル軸（コンセプト設計/セールス/コピーライティング/商品設計/価値提供…）。</li>
+<li>名前違い＝別カテゴリ。Haiku監査の「重複」判定は過大。二軸が併存しているだけ。</li>
+</ul>
+<h3>④ 根因＝格納ルールが「機械で担保されていない」</h3>
+<ul>
+<li><code>ナレッジ構造化lint.py</code> は <code>genre</code> 有無は見るが、<strong>フォルダ配置×カテゴリの整合は検証していない</strong>。<code>正引き表</code>（カテゴリ→フォルダパス）も無い。</li>
+<li>だから人/AIが実在しないパス（例: 集客設計/ ※正は セットアップ/）を提案する事故が起きる。</li>
+</ul>
+<h2>推奨（最小修正・この順序）</h2>
+<ol>
+<li>迷子1件移動（<code>knowledge/セールス/信頼関係_セールスの基盤.md</code> → <code>knowledge/スキル別/セールス/</code>）。</li>
+<li><strong>正引き表（カテゴリ→フォルダパス）を確定</strong>し、ナレッジ管理担当 agent.md ＋ <code>knowledge/格納ルール.md</code>（新規）に明記。二軸（ドメイン/スキル）のどちらを優先するかの判断基準も書く。</li>
+<li><strong>lintにフォルダ配置チェックを追加</strong>＝genre/カテゴリと実フォルダの整合を機械検証（今後の誤格納を自動で止める）。</li>
+<li>大改修（フォルダ大統合）はしない。</li>
+</ol>
+<h2>参考：現状フォルダ実数（2026-06-19）</h2>
+<ul>
+<li>直下: スキル別172 / 事例133 / ファネル型70 / 共通62 / 媒体別39 / 仕組み化15 / プロモーション10 / _inbox10 / コミュニティ8 / 集客8 / コンサルティング7 / ビジネスモデル7 / ワークフロー3 / 哲学3 / セールス1(迷子)</li>
+<li>スキル別: セールス40 / コンセプト設計38 / コピーライティング24 / 商品設計14 / ビジネス設計12 / 講座運営5 / 価値提供5 ほか</li>
+</ul>
+</main>
+</body>
+</html>
