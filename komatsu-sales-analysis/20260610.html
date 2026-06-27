@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>36th/20260610_佐々木むつみ_佐野かおり_分析.md - 波動占いの学校 個別セールス分析（顧客別）</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>波動占いの学校 個別セールス分析（顧客別）</h3>
+<a class="sidebar-item sidebar-item--cross" href="../komatsu-sales-manual/">セールスレポート（トップ）</a><a class="sidebar-item sidebar-item--cross" href="../komatsu-monthly/">月次レポート</a><a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> 36th/20260616_冨士圭子_市嶋恵理子_分析.md</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 36th/20260614_松井陽子_伊藤恵_分析.md</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 36th/20260612_櫻田しのぶ_伊藤恵_分析.md</a>
+<a href="20260612-7beb7303c90b.html" class="sidebar-item"><span class="date">2026年06月12日</span> 36th/20260612_福田博明_市嶋恵理子_分析.md</a>
+<a href="20260611.html" class="sidebar-item"><span class="date">2026年06月11日</span> 36th/20260611_下元ほそみ_伊藤恵_分析.md</a>
+<a href="20260610.html" class="sidebar-item active"><span class="date">2026年06月10日</span> 36th/20260610_佐々木むつみ_佐野かおり_分析.md</a>
+<a href="20260610-e7c3b6c98f0d.html" class="sidebar-item"><span class="date">2026年06月10日</span> 36th/20260610_坂井理恵_佐野かおり_分析.md</a>
+<a href="20260610-0f9e635b00d7.html" class="sidebar-item"><span class="date">2026年06月10日</span> 36th/20260610_田中美善子_高木直子_分析.md</a>
+<a href="20260608.html" class="sidebar-item"><span class="date">2026年06月08日</span> 36th/20260608_今村久美子_高木直子_分析.md</a>
+<a href="20260608-3e8bbc33c672.html" class="sidebar-item"><span class="date">2026年06月08日</span> 36th/20260608_豊留喜久美_高木直子_分析.md</a>
+<a href="20260607.html" class="sidebar-item"><span class="date">2026年06月07日</span> 36th/20260607_久保田実里_高木直子_分析.md</a>
+<a href="20260607-96f5a756b97e.html" class="sidebar-item"><span class="date">2026年06月07日</span> 36th/20260607_麻生三詠_高木直子_分析.md</a>
+<a href="20260606.html" class="sidebar-item"><span class="date">2026年06月06日</span> 36th/20260606_今ユミ_佐野かおり_分析.md</a>
+<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 35th/20260522_大参かおり_高木直子_分析.md</a>
+<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> 35th/20260520_吉田佳那子_高木直子_分析.md</a>
+<a href="20260520-7e51273dc696.html" class="sidebar-item"><span class="date">2026年05月20日</span> 35th/20260520_窪田小夜里_高木直子_分析.md</a>
+<a href="20260519.html" class="sidebar-item"><span class="date">2026年05月19日</span> 35th/20260519_大瀧麻世_佐野かおり_分析.md</a>
+<a href="20260519-5542de5c4cd0.html" class="sidebar-item"><span class="date">2026年05月19日</span> 35th/20260519_小林とも子_市嶋恵理子_分析.md</a>
+<a href="20260518.html" class="sidebar-item"><span class="date">2026年05月18日</span> 35th/20260518_山本未来_高木直子_分析.md</a>
+<a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> 35th/20260516_山中きよみ_市嶋恵理子_分析.md</a>
+<a href="20260516-bf7d1287e1be.html" class="sidebar-item"><span class="date">2026年05月16日</span> 35th/20260516_湊隆義_高木直子_分析.md</a>
+<a href="20260505.html" class="sidebar-item"><span class="date">2026年05月05日</span> 34th/20260505_寺本としみ_高木直子_分析.md</a>
+<a href="20260503.html" class="sidebar-item"><span class="date">2026年05月03日</span> 34th/20260503_ウィリアムズいづみ_佐野かおり_分析.md</a>
+<a href="20260502.html" class="sidebar-item"><span class="date">2026年05月02日</span> 34th/20260502_森加代_伊藤恵_分析.md</a>
+<a href="20260502-ed92ad084b54.html" class="sidebar-item"><span class="date">2026年05月02日</span> 34th/20260502_鶴田健仁_伊藤恵_分析.md</a>
+<a href="20260501.html" class="sidebar-item"><span class="date">2026年05月01日</span> 34th/20260501_北野郁子_高木直子_分析.md</a>
+<a href="20260501-e9dcdb6f2b46.html" class="sidebar-item"><span class="date">2026年05月01日</span> 34th/20260501_福居理恵_佐野かおり_分析.md</a>
+<a href="20260501-665d9831f068.html" class="sidebar-item"><span class="date">2026年05月01日</span> 34th/20260501_筒井利惠子_伊藤恵_分析.md</a>
+<a href="20260430.html" class="sidebar-item"><span class="date">2026年04月30日</span> 34th/20260430_出口容子_伊藤恵_分析.md</a>
+<a href="20260430-932ee6a6068e.html" class="sidebar-item"><span class="date">2026年04月30日</span> 34th/20260430_清宮あやめ_高木直子_分析.md</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 34th/20260429_佐野由美子_伊藤恵_分析.md</a>
+<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 34th/20260428_武田彩子_高木直子_分析.md</a>
+<a href="20260428-d5366463f8d0.html" class="sidebar-item"><span class="date">2026年04月28日</span> 34th/20260428_高野ゆうこ_伊藤恵_分析.md</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 33th/20260413_鈴木泰子_伊藤恵_分析.md</a>
+<a href="20260409.html" class="sidebar-item"><span class="date">2026年04月09日</span> 33th/20260409_中梅真由美_佐野かおり_分析.md</a>
+<a href="20260408.html" class="sidebar-item"><span class="date">2026年04月08日</span> 33th/20260408_吉村あかね_伊藤恵_分析.md</a>
+<a href="20260408-074655717f1c.html" class="sidebar-item"><span class="date">2026年04月08日</span> 33th/20260408_浅子智美_伊藤恵_分析.md</a>
+<a href="20260407.html" class="sidebar-item"><span class="date">2026年04月07日</span> 33th/20260407_小口智代_伊藤恵_分析.md</a>
+<a href="20260407-f06c421c378a.html" class="sidebar-item"><span class="date">2026年04月07日</span> 33th/20260407_高橋陽一_高木直子_分析.md</a>
+<a href="20260406.html" class="sidebar-item"><span class="date">2026年04月06日</span> 32th/20260406_高橋かな子_高木直子_分析.md</a>
+<a href="20260406-9da88446543b.html" class="sidebar-item"><span class="date">2026年04月06日</span> 33th/20260406_おがたかよ_市嶋恵理子_分析.md</a>
+<a href="20260406-cd724302b212.html" class="sidebar-item"><span class="date">2026年04月06日</span> 33th/20260406_松下茜_伊藤恵_分析.md</a>
+<a href="20260323.html" class="sidebar-item"><span class="date">2026年03月23日</span> 32th/20260323_池田敦子_伊藤恵_分析.md</a>
+<a href="20260303.html" class="sidebar-item"><span class="date">2026年03月03日</span> 31th/20260303_ミランダサトウカナ_伊藤恵_分析.md</a>
+<a href="20260303-1064a0f581cd.html" class="sidebar-item"><span class="date">2026年03月03日</span> 31th/20260303_大石幸子_伊藤恵_分析.md</a>
+<a href="20260302.html" class="sidebar-item"><span class="date">2026年03月02日</span> 31th/20260302_對馬好美_伊藤恵_分析.md</a>
+<a href="20260226.html" class="sidebar-item"><span class="date">2026年02月26日</span> 31th/20260226_黒古勝栄_伊藤恵_分析.md</a>
+<a href="20260224.html" class="sidebar-item"><span class="date">2026年02月24日</span> 31th/20260224_三澤直子_伊藤恵_分析.md</a>
+<a href="20260224-467fc862c359.html" class="sidebar-item"><span class="date">2026年02月24日</span> 31th/20260224_緒方由香利_伊藤恵_分析.md</a>
+<a href="20260210.html" class="sidebar-item"><span class="date">2026年02月10日</span> 30th/20260210_近藤さつき_伊藤恵_分析.md</a>
+<a href="20260206.html" class="sidebar-item"><span class="date">2026年02月06日</span> 30th/20260206_上田佐和子_伊藤恵_分析.md</a>
+<a href="20260206-f5313d85a606.html" class="sidebar-item"><span class="date">2026年02月06日</span> 30th/20260206_古田和美_伊藤恵_分析.md</a>
+<a href="20260205.html" class="sidebar-item"><span class="date">2026年02月05日</span> 30th/20260205_嶋崎美紀子_伊藤恵_分析.md</a>
+<a href="20260205-0605a21a55b0.html" class="sidebar-item"><span class="date">2026年02月05日</span> 30th/20260205_紫牟田隆昭_伊藤恵_分析.md</a>
+<a href="20260204.html" class="sidebar-item"><span class="date">2026年02月04日</span> 30th/20260204_駒場昌江_伊藤恵_分析.md</a>
+<a href="20260128.html" class="sidebar-item"><span class="date">2026年01月28日</span> 29th/20260128_伊良皆真美（伊良皆オクネエ真美）_伊藤恵_分析.md</a>
+<a href="20260122.html" class="sidebar-item"><span class="date">2026年01月22日</span> 29th/20260122_千島孝之_伊藤恵_分析.md</a>
+<a href="20260122-4d447dbb931c.html" class="sidebar-item"><span class="date">2026年01月22日</span> 29th/20260122_酒井陽子_伊藤恵_分析.md</a>
+<a href="20260121.html" class="sidebar-item"><span class="date">2026年01月21日</span> 29th/20260121_米澤あゆみ_伊藤恵_分析.md</a>
+<a href="20260120.html" class="sidebar-item"><span class="date">2026年01月20日</span> 29th/20260120_二階堂努_伊藤恵_分析.md</a>
+<a href="20260120-1c88385efade.html" class="sidebar-item"><span class="date">2026年01月20日</span> 29th/20260120_吉岡えり_伊藤恵_分析.md</a>
+<a href="20260119.html" class="sidebar-item"><span class="date">2026年01月19日</span> 29th/20260119_吉村信子_伊藤恵_分析.md</a>
+<a href="20260116.html" class="sidebar-item"><span class="date">2026年01月16日</span> 29th/20260116_野村和泉_伊藤恵_分析.md</a>
+<a href="20260115.html" class="sidebar-item"><span class="date">2026年01月15日</span> 29th/20260115_中井真帆_伊藤恵_分析.md</a>
+<a href="20260113.html" class="sidebar-item"><span class="date">2026年01月13日</span> 29th/20260113_宮崎優子_伊藤恵_分析.md</a>
+<a href="20260113-94d7261ab1b1.html" class="sidebar-item"><span class="date">2026年01月13日</span> 29th/20260113_工藤むつみ_伊藤恵_分析.md</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>20260610 佐々木 むつみさん セールス分析（再構築版）</h1>
+<h2>基本情報</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客名</td>
+<td>佐々木 むつみ</td>
+</tr>
+<tr>
+<td>説明会日</td>
+<td>2026年6月10日</td>
+</tr>
+<tr>
+<td>セールス担当</td>
+<td>佐野かおり</td>
+</tr>
+<tr>
+<td>結果</td>
+<td>保留（スキルコース・申込フォーム）→ 否決</td>
+</tr>
+<tr>
+<td>コース選択</td>
+<td>スキルコース（課題に「自分のことを知ってあげる」・声の仕事志向）</td>
+</tr>
+<tr>
+<td>特記</td>
+<td>無職（先月退職）。簿記・電話応対スキル。本当は声の仕事がしたい。お金を使うのが怖い・やれるか不安。3日考えると保留。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>1. 良かった点</h2>
+<ul>
+<li>
+<p><strong>課題・鑑定の的確さ：</strong> 母親との関係・受け入れられない・お金ブロックなど、鑑定で核を特定。無職・先月退職の文脈と「自分の人生を生きていない」感覚を丁寧に聞き取った。</p>
+</li>
+<li>
+<p><strong>スキルコースと志の接続：</strong> 課題の「自分のことを知ってあげる」からスキルコース・声の仕事への志向を自然に接続。スピリチュアル血のついた学び（筋肉反射）の説明も、感覚がない不安に応えた。</p>
+</li>
+<li>
+<p><strong>申込フォームと当日価格：</strong> 銀行振込一括フォーム送付・本日価格キープ・「考えれば考えるほど逆に行く」など決断の心理にも触れた。</p>
+</li>
+<li>
+<p><strong>開花事例の共有：</strong> 感覚がなくても開花する卒業生事例で、自己効力感の補強を試みた。</p>
+</li>
+</ul>
+<hr />
+<h2>2. 改善点・今後の伸びしろ</h2>
+<ul>
+<li>
+<p><strong>真因は「無職×お金恐怖」の二重構造：</strong> やりたい気持ちはあるが、<strong>収入ゼロで高額決済は現実的に困難</strong>。スキル一択＋一括フォームは負荷が高く、動画への降格や収入再開後の開始日合意が先だった可能性。</p>
+</li>
+<li>
+<p><strong>正論と感情のズレ：</strong> 「お金を払うのもブロック」「決めたら変わる」は理論として正しいが、<strong>今すぐ払えない現実</strong>に対する共感と代替案（動画・分割・就職後開始）が弱く、保留→否決につながりやすい。</p>
+</li>
+<li>
+<p><strong>つなぎ提案：</strong> 3日保留は設定したが、<strong>無職の方への金額提案</strong>（動画・頭金最小・就職決まり次第）を明示的に並べると、申込フォームだけより転換しやすい。</p>
+</li>
+<li>
+<p><strong>声の仕事との具体化：</strong> スキル習得と声の仕事の中間イメージ（例：まず自分の声ブロックを鑑定で外す）まで落とすと、決断の軸が増える。</p>
+</li>
+</ul>
+<hr />
+<h2>3. マニュアルとの照合</h2>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>成功例との一致</h3>
+<table>
+<thead>
+<tr>
+<th>マニュアルの成功例</th>
+<th>本セールスでの実施</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>課題の根本原因を深く特定</td>
+<td>母親・お金・受け入れ・自分を知るを鑑定で特定</td>
+<td>◎</td>
+</tr>
+<tr>
+<td>段階的なコース選択肢</td>
+<td>スキル推奨・申込フォーム（動画降格は△）</td>
+<td><span class="eval eval-warn">△</span></td>
+</tr>
+<tr>
+<td>つなぎ提案（申込フォーム）</td>
+<td>申込送付・3日検討</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>経済的不安への具体策</td>
+<td>無職への配慮・代替プランは△</td>
+<td><span class="eval eval-warn">△</span></td>
+</tr>
+</tbody>
+</table>
+<h3>理想回答集との照合</h3>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>出現した質問・発言</th>
+<th>対応状況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2. 価格・費用への抵抗</td>
+<td>お金を使うのが怖い・無職で払えない</td>
+<td><span class="eval eval-warn">△</span></td>
+</tr>
+<tr>
+<td>6. コース選択の迷い</td>
+<td>スキルで自分を知る・動画も検討余地</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>7. 副業・仕事との両立</td>
+<td>先月退職・声の仕事がしたい</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>8. 自分にできるか不安</td>
+<td>感覚がない・やれるか不安</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>13. お金のブロック・セールスへの抵抗</td>
+<td>お金を使う恐怖・母親との関係</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>14. 申込・クロージング</td>
+<td>3日考える・申込フォーム</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. 総合評価</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ラポール構築</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>課題の明確化</td>
+<td>◎</td>
+</tr>
+<tr>
+<td>解決策の提示</td>
+<td><span class="eval eval-warn">△</span></td>
+</tr>
+<tr>
+<td>クロージング</td>
+<td><span class="eval eval-warn">△</span></td>
+</tr>
+<tr>
+<td>総合</td>
+<td><span class="grade" style="background:#E0973E">C</span></td>
+</tr>
+</tbody>
+</table>
+<h3>所見</h3>
+<p>鑑定と志の接続は良いが、無職・お金恐怖タイプにスキル一括申込はミスマッチで、保留→否決は予測可能なパターン。同タイプでは<strong>動画コース＋就職・収入再開後のスキル移行</strong>を最初から並列提示し、決済圧を下げるのが再現の鍵。</p>
+<hr />
+<h2>参照</h2>
+<ul>
+<li>セールス原本: <code>20260610_佐々木むつみ_佐野かおり</code></li>
+<li>個別説明会_セールス成功失敗マニュアル.md</li>
+<li><strong>セールス深掘り分析マニュアル_心理洞察と現場改善.md</strong></li>
+<li>質疑応答の理想回答集.md</li>
+</ul><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3／W3EV</dt><dd>W3はザ・リードが決済を担当する案件群の総称。W3EVは増田案件の商品名</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
