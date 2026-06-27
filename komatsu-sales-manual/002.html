@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>個別相談_セールス成功失敗マニュアル - 波動占いの学校 セールスレポート</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>波動占いの学校 セールスレポート</h3>
+<a class="sidebar-item sidebar-item--cross" href="../komatsu-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年06月27日</span> セールス担当別_傾向とクセ</a>
+<a href="002.html" class="sidebar-item active"><span class="date">2026年06月27日</span> 個別相談_セールス成功失敗マニュアル</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年06月27日</span> 来場者ペルソナ分析_セールスデータ集約</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>小松かよ 波動占いの学校 個別相談 成功例・改善点マニュアル</h1>
+<p>本マニュアルは、波動占いの学校（筋肉反射で魂の望みを観る独自占術。動画／スキル／プロの3コース、鑑定体験→「魂リスト」提示→クロージング、頭金10万→振込待ちの空白期間あり）の個別相談セールスについて、「再現したい」「次は直す」を共通値として蓄積する。構造はたかみず案件・中田案件の「個別相談／個別説明会_セールス成功失敗マニュアル」と同型。本案件は<strong>書き起こしが無く</strong>、担当者が記録した<strong>クロージングメモ（決済方法・決め手）と気づきメモ（良かった／改善）</strong>を素材としている。確定分の母数は成約353／否決805（確定分成約率30.5%）、本書はそのうち層化サンプル（成約70件・否決70件）から抽出した暫定の型であり、すべて<strong>要検証</strong>。新原本（メモ）を格納したら「〇〇さんの回で〜」と追記する。</p>
+<p>参照：<code>_sample_成約.txt</code>／<code>_sample_否決.txt</code>／<code>データ20260617/セールス/セールスマニュアル/個別説明会_セールス成功失敗マニュアル.md</code>（鑑定パートの型はこちらが詳しい）。</p>
+<hr />
+<h2>使い方</h2>
+<ul>
+<li>個別相談（鑑定体験→クロージング）の準備・振り返りで「成功例」を意識してトーク・鑑定に落とす</li>
+<li>改善点は次回の言い回し・進行設計に反映する</li>
+<li>担当傾向の偏り（佐野・高木・市嶋・足立・大平・齋藤・徳田ら）は各人のメモ分布で読む。メモは担当者が一人で更新できる</li>
+</ul>
+<hr />
+<h2>成功例（これは良かった）</h2>
+<h3>鑑定の感動で「入るつもりがなかった人」を動かす</h3>
+<p>鑑定そのものの精度・丁寧さが最大の決め手になっている。「鑑定と人柄に惹かれて申し込みます」「入るつもりが無かったのに」と本人が驚きながら成約する例が繰り返し出る。鑑定を一回しっかり当てることが、価格の壁より先に効く。（高木直子・市嶋恵理子のプロ／スキルで頻出）</p>
+<h3>音叉の体感をその場で起こす</h3>
+<p>音叉で「身体が軽くなった」「波動が上がった」という体感を鑑定中に作れた回は、価格提示後も気持ちが戻りにくい。理屈より先に身体で「効いた」を経験させると、スピ抵抗のある人でも納得が進む。（大平みなみのプロ、市嶋恵理子のプロで体感→申込の流れ）</p>
+<h3>根本原因が腑に落ちる瞬間を作る</h3>
+<p>「原因が母親だった」「種に母への思いがあった」など、長年悩んだことの根本原因を鑑定で特定し本人が腑に落ちると、そのまま受講動機に直結する。占いでは解決できないが波動占いなら根本解決できる、という差別化メッセージとセットで効く。（佐野かおりのプロ、市嶋恵理子のスキルで涙・感動→決断）</p>
+<h3>担当者自身の実体験を語って金銭ブロックを越える</h3>
+<p>「お金がない／支払いに追われている」で止まりかけた相手に、担当者が自分の体験（自分も苦しい中で踏み切った等）を話すと、動画コースでの決断に変わる例が複数。実体験は反論ではなく共感として効くため、価格反論に正面から押し返すより通りやすい。（大平みなみの動画、佐野かおりの動画で頻出）</p>
+<h3>コース比較を「一人では続かない」軸で語る</h3>
+<p>動画とスキルで迷う相手に、金額を一度度外視させ「一から独学は困難」「日程が決まっていれば嫌でもやる、一人だと流れる」と継続性で比較すると、本人からスキル希望が出る。価格の上下ではなく「やり切れるか」で選ばせるのが効く。（高木直子のスキルで複数）</p>
+<h3>先に予算を聞いてからコースを当てにいく</h3>
+<p>鑑定の早い段階で予算感を聞けた回は、提示コースが本人の財布と合い「これなら大丈夫」という自信につながる。後出しで高額提示して驚かせるより、予算を握ってから動画／スキルを当てるほうが成約が安定する。（高木直子の動画「先に予算を聞けたので動画なら大丈夫」）</p>
+<h3>仕事・事業への具体的な活かし方に翻訳する</h3>
+<p>「興味はあるが今必要か」と迷う相手（既にコーチング・タロット・整体等をやっている層）には、いま進めている事業にどう役立つかを一緒に言語化すると申込に変わる。波動占い単体ではなく既存スキルとの掛け合わせで「最強のコンテンツ」と未来を見せる型。（市嶋恵理子の動画＝マネーライフコーチング、高木直子のスキル＝既存講座との掛け合わせ）</p>
+<h3>「やりたいなら今」で先送りを断ち切る</h3>
+<p>「お金がないから今は無理」と本人が諦めかけた時に、「やりたい気持ちがあるなら今学んでみては」「決めないと変わらない」と一押しすると動画コースで決断する例が多い。否決の主因が先送りであるほど、この一押しの有無が分かれ目になる。（佐野かおりの動画、高木直子の動画「月5千円でも始めてみる」）</p>
+<h3>在り方を整え、邪念（入ってほしい）を消して鑑定に集中する</h3>
+<p>「入る入らないは別として純粋にこの人に何が必要かに集中した」回ほど、本人が「やるつもりなかったのに、なんでやりたくなってるんだろう」と自分から動く。売ろうとする力みが入ると逆に決まらない、という担当者自身の気づきが繰り返し記録されている。（高木直子のプロで複数の自己分析メモ）</p>
+<h3>支払いができる形を一緒に設計して頭金10万に着地させる</h3>
+<p>金銭的に厳しい相手でも、「できそうな支払い方を一緒に検討」して頭金10万入金まで握ると成約になる。価格を諦めさせるのではなく、まず10万という小さな確定をその場で作るのが定石。（大平みなみのスキル「まずは10万円入金」、足立友紀子のプロ「頭金を少しずつ」）</p>
+<h3>慎重派・寡黙な相手は動画から入れて移行を約束する</h3>
+<p>新しいことに不安が強い慎重派、または極端に寡黙で反応が読めない相手には、まず動画コースで入れて「後から移行できる」を明示すると決断しやすい。プロを最初から押すより、ハードルを下げて入口を作るほうが取りこぼしが減る。（高木直子の動画＝慎重派、徳田侑日子のプロ→スキル）</p>
+<h3>慌てず最後まで付き合う姿勢が信頼を生む</h3>
+<p>Zoom操作・カード操作が苦手な高齢／機械が苦手な層に、リンクが消える等のトラブルでも諦めず最後まで付き合うと、その行動自体に感謝され信頼が生まれ即決につながる。50代以降・機械が苦手な層が厚い案件で特に効く。（高木直子のプロ「諦めず最後までzoomに付き合った」、飯田千景）</p>
+<hr />
+<h2>改善例・注意点（次に活かす）</h2>
+<h3>「鑑定目的」を早期に見抜けず鑑定だけで終わる</h3>
+<p>否決の最頻パターン。最初から学校に興味が薄く鑑定だけ受けに来た相手に、雰囲気に飲まれて鑑定→説明と進め、結局「今ではない」で終わる。<strong>対策</strong>：冒頭で「これは学校の説明会に付属する鑑定で、学校に興味がある方へ提供している」と位置づけを揃える（実際にこれを伝えて日程変更に持ち込めた回がある）。30分しか取らない予約・車中参加・ビデオオフは鑑定目的のサイン。（高木直子・市嶋恵理子の否決で多発）</p>
+<h3>お悩みヒアリング・鑑定が長すぎてクロージングが薄くなる</h3>
+<p>話好きの相手で鑑定が倍の時間かかり、ヒアリングが長すぎたと自省するメモが成約・否決の両方に頻出。長尺は成約しても担当負荷が高く、否決時は特に「時間をかけたのに決まらない」ロスになる。<strong>対策</strong>：鑑定の深掘りに入る前に「今日の終了イメージ」を握り、ヒアリングの上限を決める。話が止まらない相手には音叉を早めに差し込む。（大平みなみ・伊藤恵で「最長記録」「長すぎた」と反省）</p>
+<h3>価格の数字で驚かせて引かせる</h3>
+<p>動画の金額発表で「声を出して驚く」「数万だと思っていた」が否決の典型。価格が想定外に高いと、それまでの感動が一気に冷める。<strong>対策</strong>：金額提示の前に予算感を聞き、価格を出す前にコースの活かし方・未来を十分に作っておく。画面共有時はカーソル位置に注意し、意図せず金額が先に見えないようにする。（足立友紀子の動画、複数の「金額を見て驚き終了」）</p>
+<h3>「お金がない」を環境として固めさせてしまう</h3>
+<p>「旦那のお金だから怒られる」「ドクターストップで働けない」など、本人が"無理という環境"を自分で作り上げると担当は手が出せなくなる。<strong>対策</strong>：早い段階で金銭の論点（誰の財布か・いくらまでなら・いつなら）を棚卸しし、固める前に「どうやったらできるか」へ焦点を移す。固まってからでは遅い。（飯田千景の否決「無理という環境を作ってしまわれた」）</p>
+<h3>並行受講・他講座優先で後回しにされる</h3>
+<p>タロット・潜在意識・起業塾・電話占い等を既に複数受講中の層が厚く、「あちらが先」「次期に」で先送りされる。<strong>対策</strong>：開始30分以内に「今動いている他の申込・期限」を棚卸しし、今日の個別で決めることを合意してから本題へ。終盤で初めて別コミットが出ると挽回できない。再接触する場合は「何を達成したら／いつ再提案するか」を一文残す。（市嶋恵理子・佐野かおりの否決で多発）</p>
+<h3>ブラックリスト・債務整理・自己破産は決済が物理的に止まる</h3>
+<p>やる気は十分でもカードが作れない・ローンが組めない・弁護士に止められている等で物理的に決済不能な否決が一定数ある。<strong>対策</strong>：トーク以前に決済可否を切り分けて早めに把握する。ダメ元でカード審査に出して通れば動画から、という打診はあり得るが、通らなければ「次回お金を貯めて」に着地。無理に追わずCRMに要因を残す。（齋藤由美・徳田侑日子の否決で頻出）</p>
+<h3>配偶者・家族・第三者の決裁で気持ちが薄れる</h3>
+<p>「夫に支払い権利を取り上げられた」「夫が神様の声を信頼／反対で変わる」「霊媒師に聞く」など、第三者に判断を委ねると、その場の熱が冷めて否決になりやすい。<strong>対策</strong>：家族決裁が見えた時点で「ご家族に今日なんて伝えますか」「何がクリアになれば家族もOKと言いそうか」を本人の口から言わせ、家族用トークを本人に作らせておく。（小谷禮子・足立友紀子の否決）</p>
+<h3>高圧的・知識誇示・天邪鬼な相手に飲まれる</h3>
+<p>「早く飛ばして」と高圧的、スピ知識でプライドが高い、相手のエネルギーに負けてペースを取られた、という否決メモが複数。<strong>対策</strong>：聞きすぎず方向転換を挟む。肯定しつつ自分で問題に気づかせる誘導に切り替え、相手のペースに巻き込まれない。（市嶋恵理子のスキル「高圧的」、坪井綾香「相手のペースになった」）</p>
+<h3>ポジティブ思考の人の感情を引き出せない</h3>
+<p>かなりポジティブ／探求好きの相手は感情の真因が出にくく、お悩みが抽象的なまま鑑定の刺さりが弱くなる。<strong>対策</strong>：ポジティブ思考を傷つけずに、苦笑い・沈黙が出た瞬間に「今のどこが？」と一問返して自覚を言語化させる。（大平みなみの否決「抽象的で捉えにくい」）</p>
+<h3 class="callout-h" style="--bar:#3E8CC0;--bg:#E9F3FA"><span class="callout-ico">📋</span>期限付き保留の次アクションが弱い</h3>
+<p>「3ヶ月で貯めたら」「カード審査の結果が出たら」「○日まで返答」で終わる保留が多いが、フォローの動線が弱いと自然消滅する。<strong>対策</strong>：返答期限をカレンダーに紐づけ、「期限内に何が起きていれば前進か（貯金・カード確認・家族相談）」を本人に復唱させてから別れる。（小松かよ・市嶋恵理子の保留型否決）</p>
+<hr />
+<h2>小松案件・固有の論点</h2>
+<p><strong>頭金10万→振込待ちの空白期間への有効打</strong><br />
+- クロージングのその場で「頭金10万」という小さな確定を取り切る（残額の支払い方法は後で詰める）。確定の核を一つ作ると空白期間でも気持ちが戻りにくい。<br />
+- 空白期間に熱が冷めないよう、本人発の前向き発言（LINEで「わくわくです」等）を引き出し、入金日を本人に宣言・復唱させる。「明日頭金入金」「○日に銀行へ」を本人の言葉で確定させる。<br />
+- 振込・SOMO・NSS分割など複数の支払い経路があるので、「いつ・どの経路で・いくら」をその場で1フレーズに固定し、ネットバンキングが苦手な層には操作の不安まで潰しておく（機械が苦手な層が厚い）。</p>
+<p><strong>スピ抵抗（占いを信じられない／音叉がよくわからない）への有効打</strong><br />
+- 理屈で説得せず、鑑定の的中と音叉の体感を先に起こす。「身体が軽くなった」を作れれば抵抗は溶ける。<br />
+- 「占いでは悩みは解決できないが、波動占いは根本原因まで解決できる」という差別化で、占い不信の人ほど刺さる。<br />
+- 海外のデータがある等の補強は使えるが、体感が出ていない相手に情報を足しても響かない（否決メモで実証）。</p>
+<p><strong>経済不安（生活保護・借金・無職・主婦で財布が夫）への有効打</strong><br />
+- 「無理という環境」を本人が固める前に、金銭論点を早期に棚卸しする。固まる前が勝負。<br />
+- 「どうやったらできるか」に焦点を移し、頭金10万＋できる範囲の分割で着地させる。プロが無理でも動画から入れて移行を約束する。<br />
+- ただしブラック・債務整理・自己破産は物理的に決済不能なので、追わず次期へ。やる気と決済可否は分けて記録する。</p>
+<p><strong>配偶者・家族の反対への有効打</strong><br />
+- 家族決裁が見えたら、本人に家族用トークを自分の言葉で作らせる（反射的NOが出にくくなる）。<br />
+- 「内緒で始めて講座終了後に伝える」で踏み切った成約例もある（足立友紀子のプロ）が、後トラブルのリスクがあるため本人の覚悟の強さを見極める。<br />
+- 第三者（霊媒師・占い）に委ねるスタイルは価値観を否定せず、ビジネス判断と霊的判断の役割を分ける質問を用意する。</p>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0（暫定・要検証）<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3／W3EV</dt><dd>W3はザ・リードが決済を担当する案件群の総称。W3EVは増田案件の商品名</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>

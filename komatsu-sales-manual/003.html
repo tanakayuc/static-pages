@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>来場者ペルソナ分析_セールスデータ集約 - 波動占いの学校 セールスレポート</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>波動占いの学校 セールスレポート</h3>
+<a class="sidebar-item sidebar-item--cross" href="../komatsu-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年06月27日</span> セールス担当別_傾向とクセ</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年06月27日</span> 個別相談_セールス成功失敗マニュアル</a>
+<a href="003.html" class="sidebar-item active"><span class="date">2026年06月27日</span> 来場者ペルソナ分析_セールスデータ集約</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>来場者ペルソナ分析 / セールスデータ集約（小松かよ 波動占いの学校）</h1>
+<p>お客様情報シート全クール<strong>1587名</strong>の生年月日・職業・悩み・願望・成約状況から集約。<strong>★暫定・要検証</strong>（心理項目は申込時自己申告、質的セグメントは層化120名合成。書き起こしは無くメモ素材ベース）。最終更新: 2026-06-26</p>
+<hr />
+<h2>第1部: 来場者（ペルソナ）インサイト分析</h2>
+<h3>全体像</h3>
+<ul>
+<li><strong>平均54.7歳・中央値56歳</strong>。50代が約46%＋60代26%＋40代20%で全体の9割。確定分成約率 約30.5%。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>年代</th>
+<th>人数</th>
+<th>構成比</th>
+<th>確定分成約率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20代</td>
+<td>7</td>
+<td>0%</td>
+<td>16.7%（n6）</td>
+</tr>
+<tr>
+<td>30代</td>
+<td>66</td>
+<td>4%</td>
+<td>40.8%（n49）</td>
+</tr>
+<tr>
+<td>40代</td>
+<td>299</td>
+<td>20%</td>
+<td>28.7%（n209）</td>
+</tr>
+<tr>
+<td>50代</td>
+<td>690</td>
+<td>46%</td>
+<td>31.2%（n532）</td>
+</tr>
+<tr>
+<td>60代</td>
+<td>391</td>
+<td>26%</td>
+<td>30.8%（n302）</td>
+</tr>
+<tr>
+<td>70代</td>
+<td>41</td>
+<td>3%</td>
+<td>19.4%（n31）</td>
+</tr>
+<tr>
+<td>80代</td>
+<td>3</td>
+<td>0%</td>
+<td>0%（n0）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>職業: 会社員・主婦・パート・事務 ＋ <strong>セラピスト/占い/カウンセラー/ヒーラー等スピ系が約300名</strong>。コース: プロコース110 / なし42 / 動画コース221 / スキルコース153。</li>
+</ul>
+<h3>来場者タイプ分類（3タイプ）</h3>
+<ul>
+<li><strong>癒し系プロA子（道具を増やしたい現役施術者）</strong>（40代後半〜50代／整体・エステ・セラピスト・占い師など、すでに現役で施術/鑑定をしている人）: 悩み「技術や資格はあるのに集客・売上が伸びない／単発で終わる／高単価商品がない。『人と同じことをしていては食べていけない』という差別化不安。」 願望「好きな施術を続けながら安定収入を得たい。オンライン化してどこでも稼ぎたい。お客様も自分も笑顔で豊かに。」</li>
+<li><strong>自分を取り戻したい主婦B美（第二の人生で意味を探す）</strong>（50代中心（一部60代）／専業主婦・パート・事務。これまで家庭中心、職歴ブランクあり。）: 悩み「『自分は何故生まれてきたのか』『取り柄がない自分』という存在不安。夫との関係・浮気・死別など家庭の傷。社会に出る勇気が出ず動けない自己嫌悪。」 願望「人生後半は社会と関わる自分を経験したい。穏やかに笑って暮らしたい。誰かの役に立ちたい。」</li>
+<li><strong>スピで起業したい転身志望C代（会社員/介護職から独立したい）</strong>（40代〜50代／会社員・公務員・看護師・介護士・派遣など、現職に限界を感じスピ系で独立を目指す層）: 悩み「今の仕事が体力的/精神的に限界。将来・お金の不安。『やりたいことが分からない』まま彷徨っている。副業がうまくいかない。」 願望「好きなこと（占い・スピ）で経済的に自立し、場所と時間に縛られず働きたい。」</li>
+</ul>
+<h3>決断を止める壁（否決層の共通パターン）</h3>
+<p>60代後半（65・67歳）に明確に集中。健康危機（脳梗塞・がん治療中・うつ休養）、親/子の介護負担、強い経済困窮で『学費が払えない・分割が欲しい』と訴える層。悩みが『やりたいことが分からない』と抽象的なまま／『気になる・どんな勉強か知りたい』という純粋な好奇心止まりの層。願望が『他力本願』『お金に縛られたくない』など他責・漠然としている人。経済不安を“今すぐ解決したい痛み”として語る人ほど、皮肉にも高額決済から遠い。</p>
+<h3>決断を後押しした材料（成約層の共通点）</h3>
+<p>40代後半〜50代前半が中心。すでに整体・エステ・占い等で『現役の手と顧客』を持ち、波動占いを“既存ビジネスに足す武器”として実需変換できる人。または家庭一段落で『人生後半に外と関わりたい』と明確に意思決定した主婦。共通点は(1)行動の足場が既にある(2)『これだ／分岐点』という確信表現がある(3)回収や活用の具体像を自分の言葉で語れる。痛みが深い主婦でも“還る・取り戻す”物語に乗れた人は成約する（[0][1027]）。</p>
+<p><strong>分岐点</strong>: 『すでに動いている足場（顧客・施術・明確な転身意思）があるか』×『波動占いを“自分のビジネス/人生にどう使うか”を具体的に語れるか』。足場＋具体像が揃うと成約、どちらも欠けて“気になる・救われたい・でもお金がない”が前面に出ると否決。年齢では50代前後が買い、60代後半は健康/経済/家族の制約で否決に傾く。</p>
+<h3>広告担当向け: 来場者像の要約</h3>
+<p><strong>刺さる訴求</strong><br />
+- 『既存の手仕事（整体・エステ・占い）に足す差別化ツール』として実需と回収像を描く——現役施術者の“食べていけない不安”に直接効く。<br />
+- 『本当の自分に還る／使命を見つける・おかえりわたし』型の自己回復ストーリー——主婦の存在不安と“社会復帰の勇気”に火をつける。<br />
+- 『スマホ1つ・在宅・どこでも』の身軽さと“迷子に方向性を与える”確信——転身志望の彷徨い層を“これだ”に着地させる。</p>
+<p><strong>刺さらない訴求</strong><br />
+- スピ用語・霊性を前面に出した抽象訴求——『波動を上げる』だけでは“気になる止まり”を増やし、特に経済不安層は決済に至らない（スピ抵抗より“具体性の欠如”が壁）。<br />
+- 『今すぐ稼げる・お金の不安が消える』という即金・経済救済の煽り——困窮を痛みとして抱える否決層に響くようでいて、支払い能力の現実とぶつかり逆効果。分割・回収設計の安心を添えないと反発。<br />
+- 『誰でも・何歳でも』の万人訴求——60代後半の健康/介護/経済の重い制約層まで巻き込むと否決率を上げる。50代前後の“足場のある人”へ的を絞る方が決まる。</p>
+<hr />
+<h2>第2部: 担当別成約率</h2>
+<h3>クロージング担当別KPI（確定分=成約/(成約+否決)）</h3>
+<table>
+<thead>
+<tr>
+<th>担当</th>
+<th>総数</th>
+<th>成約</th>
+<th>否決</th>
+<th>保留</th>
+<th>解約</th>
+<th>確定分成約率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高木直子</td>
+<td>302</td>
+<td>81</td>
+<td>163</td>
+<td>3</td>
+<td>1</td>
+<td>33.2%</td>
+</tr>
+<tr>
+<td>佐野かおり</td>
+<td>243</td>
+<td>60</td>
+<td>113</td>
+<td>6</td>
+<td>32</td>
+<td>34.7%</td>
+</tr>
+<tr>
+<td>市嶋恵理子</td>
+<td>179</td>
+<td>36</td>
+<td>105</td>
+<td>4</td>
+<td>2</td>
+<td>25.5%</td>
+</tr>
+<tr>
+<td>飯田千景</td>
+<td>149</td>
+<td>35</td>
+<td>63</td>
+<td>1</td>
+<td>34</td>
+<td>35.7%</td>
+</tr>
+<tr>
+<td>大平みなみ</td>
+<td>128</td>
+<td>23</td>
+<td>79</td>
+<td>0</td>
+<td>7</td>
+<td>22.5%</td>
+</tr>
+<tr>
+<td>足立友紀子</td>
+<td>112</td>
+<td>21</td>
+<td>68</td>
+<td>0</td>
+<td>0</td>
+<td>23.6%</td>
+</tr>
+<tr>
+<td>徳田侑日子</td>
+<td>90</td>
+<td>16</td>
+<td>55</td>
+<td>0</td>
+<td>9</td>
+<td>22.5%</td>
+</tr>
+<tr>
+<td>小谷禮子</td>
+<td>75</td>
+<td>8</td>
+<td>52</td>
+<td>0</td>
+<td>5</td>
+<td>13.3%</td>
+</tr>
+<tr>
+<td>(不明)</td>
+<td>71</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>齋藤由美</td>
+<td>70</td>
+<td>24</td>
+<td>26</td>
+<td>1</td>
+<td>13</td>
+<td>48.0%</td>
+</tr>
+<tr>
+<td>伊藤恵</td>
+<td>43</td>
+<td>12</td>
+<td>25</td>
+<td>3</td>
+<td>0</td>
+<td>32.4%</td>
+</tr>
+<tr>
+<td>小松かよ</td>
+<td>39</td>
+<td>14</td>
+<td>13</td>
+<td>1</td>
+<td>6</td>
+<td>51.9%</td>
+</tr>
+<tr>
+<td>飯田 千景</td>
+<td>24</td>
+<td>9</td>
+<td>9</td>
+<td>0</td>
+<td>4</td>
+<td>50.0%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>担当ごとの強み・伸びしろは 同フォルダ <a class="ref-link" href="001.html">セールス担当別_傾向とクセ.md</a> 参照。</li>
+</ul>
+<hr />
+<h2>第3部: データソース・書き出し状況</h2>
+<ul>
+<li>データソース: お客様情報シート（全37クール・1587名）。</li>
+<li><strong>セールス書き起こしは未取得</strong>（YouTube録画はあるが文字起こし無）。本ペルソナはお客様情報シートのテキスト由来。録画書き起こしが揃えば、他案件並みの工程別分析が可能になる（横断レポートの残課題）。</li>
+</ul>
+<h2>参照元</h2>
+<ul>
+<li>集計/質的合成スクリプト: <code>田中祐一のセールス分析/_ペルソナ解析.py</code>・<code>_担当別_素材抽出.py</code>・<code>_ペルソナ質的.json</code></li>
+<li>公開ページ（私用・noindex）: <a href="https://tanakayuc.github.io/static-pages/komatsu-persona/" target="_blank" rel="noopener noreferrer">https://tanakayuc.github.io/static-pages/komatsu-persona/</a></li>
+</ul>
+<p>Produced by KATSUO MARKETING（田中祐一・私用）</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3／W3EV</dt><dd>W3はザ・リードが決済を担当する案件群の総称。W3EVは増田案件の商品名</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
