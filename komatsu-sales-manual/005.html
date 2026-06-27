@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>質疑応答の理想回答集 - 波動占いの学校 セールスレポート</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>波動占いの学校 セールスレポート</h3>
+<a class="sidebar-item sidebar-item--cross" href="../komatsu-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../komatsu-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年06月27日</span> セールス担当別_傾向とクセ</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年06月27日</span> 個別相談_セールス成功失敗マニュアル</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年06月27日</span> 全体レポート</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年06月27日</span> 来場者ペルソナ分析_セールスデータ集約</a>
+<a href="005.html" class="sidebar-item active"><span class="date">2026年06月27日</span> 質疑応答の理想回答集</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>小松かよ 波動占いの学校 質疑応答の理想回答集</h1>
+<h2>このファイルの位置づけ</h2>
+<ul>
+<li>インプット: 否決客のクロージング/気づきメモ（不安・反論の宝庫・約70件分の素材）と、成約商談の書き起こし（20260430_清宮あやめ_高木直子）</li>
+<li>用途: 波動占いの学校の個別説明会（体験講座→鑑定→学校説明→クロージング）でよく出る不安・反論と、成約に近づく理想的な回答パターン</li>
+<li>構成は他案件（山崎・たかみず）の <a class="ref-link" href="005.html">質疑応答の理想回答集.md</a> に揃えている</li>
+<li>更新方針: セールス分析・書き起こしが増えるたびに該当Q&amp;Aを追記する。<code>YYYY-MM-DD 追記<span class="src-cite">（出典: ◯◯）</span></code> を付ける</li>
+</ul>
+<hr />
+<h2>現在のセールスデータ概況（確定分成約率30.5%・否決805件の主因はお金固定。書き起こしは御社担当取得済みデータ。暫定/要検証）</h2>
+<ul>
+<li>確定分の成約率は約30.5%。否決理由の最大ボリュームは「お金固定」（お金がない・分割も難しい・ブラックリスト/カード枠なし・他講座の支払い中）。</li>
+<li>お金固定の裏には「やりたい気持ちはあるが今ではない（保留パターン）」「鑑定目的で最初から学校に興味がない（冷やかし鑑定）」「配偶者・パートナーの反対」「期待ズレ（占い・前世が要らない／鑑定だけ欲しい）」が複合している。</li>
+<li>否決メモには「申込み書は書いたが返答待ち」「頭金10万が用意できない」「7月開講までに目処が立てば」というパターンが頻発。クロージングの分岐点は〈頭金10万→振込待ちの空白〉をどう設計するか。</li>
+<li>書き起こしは御社担当が取得済みのデータをベースにしている。本ファイルの数値・傾向は暫定であり、確定データでの検証が必要。</li>
+</ul>
+<hr />
+<h2>Q&amp;A</h2>
+<h3>Q1: お金がない。一括も無理だし、分割の支払いも続けられるか分からない。</h3>
+<p><strong>理想回答</strong>: 「正直にお話しいただいてありがとうございます。今お金がないと言われる方ほど、実は学校が一番必要な方なんです。お金がないという状態がずっと続いてきたのは、これまで何もしてこなかったから。何もしなければ、来月も来年もこのままです。波動占いは"自分を整えてお金の流れを良くする"スキルなので、ここを学ぶことで現状が変わっていきます。それから、いきなり大きな金額の話ではなく、まず動画コースなら月々1万円ちょっとから始められます。今日決めるのは"完済"ではなく"始めること"。どうやったらできるかに焦点を当てると、必ず道は出てきます。」</p>
+<p>背景: 否決メモの最大ボリュームが「お金がない・分割も払えるか不安」。成功商談でも「お金がないと言う前にどうお金を作るか・お金がない状態がずっと続いてきた」と、不足ではなく現状維持のリスクに焦点を移している。「お金がない＝できない」を「整えれば流れが変わる」に反転させ、入口を動画コース月1万円台まで下げる。</p>
+<h3>Q2: 頭金10万円が今すぐ用意できない。これがないと無理ですか。</h3>
+<p><strong>理想回答</strong>: 「頭金の10万円は、実は音叉（オンサ）をお届けするための費用なんです。音叉がプレゼントとして付いていて、それを発送する順番の都合で、頭金だけは先に入れていただく必要があります。残りはすべて分割で大丈夫です。今日この場で振り込んでいただくわけではありません。たとえば派遣のお給料日が15日でしたら、その日に振込でも大丈夫です。どうしてもタイミングが厳しければ、◯日までに必ずお支払いしますと一言いただければ、その状況を先生にお伝えして席を確保します。"いつ・どう払うか"だけ今日決めて、ラインで繋がっておきましょう。」</p>
+<p>背景: 成功商談の核心。頭金10万を「音叉発送の前提費用」と意味づけし、当日支払いではなく〈支払日と方法を決める→ライン併走→振込待ち〉という空白の橋渡しで申込を確定させている。否決メモでは「頭金10万も出せない」で離脱が多発するため、ここは「払えない理由」より「いつなら払えるか」に会話を移すのが鉄則。</p>
+<h3>Q3: 夫（パートナー）に相談しないと決められない。反対されそう。</h3>
+<p><strong>理想回答</strong>: 「ご家族と一緒に決めたいお気持ち、よく分かります。ただ一つだけ。これは"自分がどうしたいか"を先に決めることがとても大事なんです。旦那さんがOKなら、家族がOKならと順番が逆になると、自分のエネルギーが他人任せになってしまう。まず自分がどんな人生にしたいかを決めると、不思議とそこから流れが変わってきます。実際、最初は内緒で始めた方が、波動が変わってきたら旦那さんの方から応援してくれるようになった、というケースがすごく多いんです。成功している方ほど、最初は反対されながらそれを越えてきた方なんですね。」</p>
+<p>背景: 否決メモに「夫に支払い権利を取り上げられた」「ご主人が神様の声を信頼していて反対されると変わる」など配偶者反対パターンが複数。成功商談の定番トークが「家族に反対されるかも→まず自分がどうしたいかを決める／内緒で始めても波動が変われば応援に変わる」。決定権を本人に取り戻させるのが要点。</p>
+<h3>Q4: クレジットカードの枠がない／ブラックリストでカードが作れない。</h3>
+<p><strong>理想回答</strong>: 「カードの枠の問題でしたら、実は口座引き落としという方法があるんです。提携の会社を通して、毎月1万円ほどを口座から引き落とす形にできます。カードがなくても登録だけしていただければ大丈夫です。手数料はカード分割とほぼ同じくらいなので、損になることもありません。ご事情でカードがどうしても難しい場合は、頭金だけご家族から一時的にお借りして口座に入れていただき、そこから分割という形を取られる方もいらっしゃいます。"カードがない＝できない"ではないので、一緒に払える方法を探しましょう。」</p>
+<p>背景: 否決メモに「ブラックリストでローン組めない・カード持てない」「今月3講座でカード枠がない」「分割もできない」が頻出。成功商談で「カードじゃなくても口座引き落としができる／頭金だけ家族に借りてまとめて振込もできる」と複数の支払い手段を提示している。1つの手段で詰まったら次の手段を出すのが鉄則。</p>
+<h3>Q5: 占いだと思って来たのに、占いと違った。鑑定だけ受けたかった。</h3>
+<p><strong>理想回答</strong>: 「鑑定でスッキリしていただけたなら、本当に良かったです。実は波動占いは、当たる・外れるを言い当てる占いとは少し違って、お客様の魂の声を引き出して人生の方向を一緒に観ていくものなんです。今日鑑定で"重い岩がどいた感じ"を体感していただいたと思うんですが、これを自分でできるようになるのが学校です。占いの結果をもらう側から、人を整えてあげられる側に回れる。今学んでいるタロットや潜在意識の学びとも全部つながって、より深く観られるようになります。鑑定が良かったと感じられた方ほど、学校との相性は良いんです。」</p>
+<p>背景: 否決メモに「鑑定目的」「占いとして仕事はピンとこない」「鑑定は良かったが学校はピンとこない」が多発。期待ズレは「波動占い＝言い当て占い」という誤解が根。成功商談では冒頭で「うらないより深い、魂の声を伝えて人生を導くもの」と再定義し、既存の学び（タロット等）と接続している。鑑定の体感を学校価値へブリッジする。</p>
+<h3>Q6: 鑑定を受けたいだけで、学校（講座）には興味がない。</h3>
+<p><strong>理想回答</strong>: 「ありがとうございます。鑑定は、この学校の説明会に付属しているもので、学校にご興味がある方へ提供させていただいているんです。なので、まず短い説明動画だけ先にご覧いただいてもいいですか。そのうえで鑑定もぜひお受けください。鑑定を受けてみて"自分もこんなふうに人を整えてあげたい"と感じる方がとても多いんですよ。今日の鑑定が、ご自身が学ぶ側に回るきっかけになるかもしれません。」</p>
+<p>背景: 否決メモに「鑑定目的」「30分しか時間がない、鑑定だけと思って予約した」など冷やかし鑑定が多数。成功事例では「鑑定は学校説明会付属のもの」とやんわり線引きし、説明動画を先に流して関心を測っている。鑑定を入口に学ぶ側への転換を促すが、明らかな冷やかしは時間を守って早めに見切る判断も必要。</p>
+<h3>Q7: 7月開講なのに、なぜ今決めないといけないの。開講まで考えたい。</h3>
+<p><strong>理想回答</strong>: 「本日価格というのは、今日お金を払うという意味ではなく、今日この本日価格でお席（仕組み）を先に押さえるという意味なんです。動画コースなら7月を待たずに今日からでも見られますし、本期は7月2日スタートなので、始まる前に予習で進めておけます。逆に開講までずるずる待つと、その間に気持ちもお金の目処も先送りになりがちなんですね。"始める"と決めると、そこから自分の波動が変わって流れも動き出します。今日決めるのは支払いの完了ではなく、本日価格の確保とスタートの一歩です。」</p>
+<p>背景: 否決メモに「開講まで待てない／講座が12月からと知って気持ちが冷めた」「7月開講までに目処が立てば」など開講時期の論点が複数。成功商談では「本日価格＝今日支払う意味ではなく仕組みを先に押さえる／動画は7月を待たず見られる」と説明し、申込（席確保）と支払いを分離している。「今決める理由」は価格特典と即着手のメリットで示す。</p>
+<h3>Q8: 他にも占いやスピの講座を学んでいる／これから別の講座を申し込む。今は手一杯。</h3>
+<p><strong>理想回答</strong>: 「いろいろ学ばれているんですね。それは決して無駄になりません。波動占いの筋肉反射は、今学んでいるタロットや数秘とも組み合わせて使えるので、これまでの学びを全部活かせるんです。むしろ点で学んできたものが、自分を整えるという軸でつながってきます。たくさん学んでいるのに形になっていないとしたら、それは"自分のブロック"が引っかかっているサインかもしれません。学校では自分のブロックを開放しながら進むので、今までの学びが一気に動き出す方が多いんです。」</p>
+<p>背景: 否決メモに「他講座のローン中」「4つ講座を申し込んだ後で合わないと感じた」「タロット・数秘・四柱推命を受講中」など併学・併願が多数。「学びが形になっていない」という共通の痛点を、成功商談の「ブロックを開放すれば今までの学びが活きる」で接続。既存学習を否定せず統合する。</p>
+<h3>Q9: 占いや波動、筋肉反射（キネシ）が本当に効くのか疑わしい。音叉を鳴らしても変化が分からない。</h3>
+<p><strong>理想回答</strong>: 「疑う気持ちは自然なことですし、無理に信じてくださいとは言いません。筋肉反射は無意識の身体の反応で、医学的にも証明されているものを使わせていただいています。スピリチュアルというより、誰でも練習すれば取れるようになる技術なんですね。音叉も、日によって合うものが変わるので、毎回筋肉反射で確認しながら一番合うものをお出しします。今日"よく分からなかった"というのは、まだ受け取る側のブロックがある状態。学校ではそこを少しずつ開放していくので、回を重ねるほど体感がはっきりしてきます。海外では波動のデータも出ています。」</p>
+<p>背景: 否決メモに「Oリング習ったが出来ず信じられなかった」「音叉聞いても何も感じない」「波動を上げると言われてもよく分からない」などスピ抵抗・体感の薄さが頻出。成功商談では「筋肉反射＝無意識の反応で証明されている／誰でもできる技術／海外にデータ」と科学寄りにフレーミングし、体感の薄さは「ブロック」として学校で開放できると説明している。</p>
+<h3>Q10: 本当にこれで稼げるのか。占いの仕事をやっていけるのか不安。</h3>
+<p><strong>理想回答</strong>: 「いい質問です。自分が整って人生が楽になってくると、自然と"どうしたらそうなれるの？"と相談したい方が周りに増えてきます。波動占いはZoomで遠隔でもできるので、北海道から沖縄、海外の方まで、繋がれれば誰のお役にも立てる。助けられる人の範囲が一気に広がるんです。そうやって感謝されながら、それがお仕事や収入につながっていく。実際、60代からスタートして今は大人気の鑑定士になられた方もいます。最初から完璧でなくて大丈夫。学びながら自分の商品やサービスを作っていける、正解しやすい業界です。」</p>
+<p>背景: 否決メモに「いろいろ学んでいるが形になっていない」「集客が難しそう」「売り上げを上げる自信がない」など収益化不安が多い。成功商談では「Zoom遠隔で対象が全国・海外に広がる→助けられる人が増える→感謝が収入になる」「60代からの成功例」「正解しやすい業界」で稼げるイメージを具体化している。</p>
+<h3>Q11: 60代・70代だけど大丈夫？ パソコンやオンラインが不安。健康面も心配。</h3>
+<p><strong>理想回答</strong>: 「年齢はまったく問題ありません。エコさんという60代からスタートされた方が、今は本当に大人気の鑑定士になっています。波動占い恐怖（※小松式の丁寧な伴走指導）で一日のうちにこまめに手配りして質問していくので、膨大な暗記や難しい計算は不要なんです。Zoomさえ繋がれば、写真一枚あれば遠隔で鑑定できるので、外に出られない日でもご自宅でお仕事ができます。今まで学んできたことが筋肉反射を使うことでつながって、より深く観られるようになった、という声も多いんですよ。」</p>
+<p>背景: 否決メモに「76歳でもエネルギーある」「年金生活」「乳がん・抗癌剤中で収入がない」「病気で体が不自由」など高齢・健康不安が複数。成功商談で「60代スタートの成功例エコさん」「暗記・計算不要」「Zoom・写真一枚で遠隔可能＝在宅でできる」と年齢・健康のハードルを下げている。在宅で完結する点が高齢層への最大の安心材料。</p>
+<h3>Q12: 申込み書は書いたけど、もう少し考えてから返事したい（保留パターン）。</h3>
+<p><strong>理想回答</strong>: 「もちろん、じっくり考えていただいて大丈夫です。ただ一つだけ。今日この申込フォームに、当日のこの本日価格でお願いしますという形だけ残させていただけますか。お支払いがなければ実際には何も動きませんし、クーリングオフの制度もあるので、後からキャンセルも変更もできます。今日決めていただきたいのは"いつ・どう払うか"の日程だけ。クレジットにするか振込にするかは、その日に決めていただいて構いません。ラインで繋がって、不安が出てきたらいつでも遠慮なくご連絡くださいね。すぐ解決できることはその場で解決します。」</p>
+<p>背景: 否決メモで最も多いのが「申込み書は書いたが返答待ち」「3日考えたい」「保留パターン」。ここをどう越えるかが課題と担当自身が明記。成功商談では「本日価格でフォームだけ残す→支払いなければ動かない＋クーリングオフで安心→日程だけ今日決める→ライン併走」で、決断のハードルを"日程確定"まで小さくしている。保留を泳がせず、小さなYESで仕組みを動かすのが鍵。</p>
+<h3>Q13: 価格が高すぎる。内容の一部（筋肉反射だけ・音叉だけ）しか要らないのに、占いや前世まで込みで割に合わない。</h3>
+<p><strong>理想回答</strong>: 「学びたい部分を明確にお持ちなんですね。実は、最初から全部をフルで受ける必要はないんです。まず動画コースなら音叉も付いてきますし、ご自身の波動を整えて、今のお仕事に活かすところから始められます。やってみて"もっと質問しながらやりたい""筋肉反射をちゃんと身につけたい"となったら、差額だけでスキルコースに移行できる仕組みがあるんです（半年以内なら追加負担なし）。いきなり高い一括ではなく、必要なところから段階的に。それなら価格と内容のバランスも納得いただけると思います。」</p>
+<p>背景: 否決メモに「筋肉反射だけ学びたい」「占いや前世は興味ない、内容を分けて価格を下げてほしい」「動画学習は合わない」など期待ズレ＋価格不満の複合が複数。成功商談では「動画コース（音叉付き・月1万円台）→差額でスキル/プロへ移行（半年以内追加なし）」という段階アップ構造を提示。"全部一括"の重さを"必要な分から"に分解する。</p>
+<h3>Q14: 動画コースで本当に身につくの？ 仲間や質問できる場がないと不安。途中でコース変更できる？</h3>
+<p><strong>理想回答</strong>: 「動画コースでも教えている内容のベースは同じなので、身につかないことはありません。ただ、おっしゃる通り、何かあった時に共有できる仲間やすぐ質問できる場があるのはスキルコース以上なんですね。なので、まず動画で始めてみて、質問が出てきたり仲間と繋がりたくなったら、差額でスキルコースに移行できます。半年以内のうちなら、そのままの差額でいけます。普通の講座だとこういう柔軟な仕組みはなかなかないんですが、ここは始めやすいところから入って、必要に応じて上げていける。無理のない範囲でスタートできます。」</p>
+<p>背景: 成功商談で実際に出た質問。「動画はセルフ学習で仲間との繋がりがない」「途中でスキルに変更できるか」に対し、「ベースの内容は同じ／差額で移行できる（半年内は同じ差額、半年超は登録手数料5万）」と回答している。動画コースの弱点（孤独・質問不可）を正直に認めつつ、移行の柔軟性で不安を解消する流れが有効。</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3／W3EV</dt><dd>W3はザ・リードが決済を担当する案件群の総称。W3EVは増田案件の商品名</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
