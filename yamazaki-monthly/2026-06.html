@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-06_山崎みなみ_月次レポート - 山崎みなみ ホットペッパー 月次レポート</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>山崎みなみ ホットペッパー 月次レポート</h3>
+<a class="sidebar-item sidebar-item--cross" href="../yamazaki-sales-manual/">セールスレポート（トップ）</a><a class="sidebar-item sidebar-item--cross" href="../yamazaki-sales-analysis/">個別セールス分析（顧客別）</a><a href="2026-06.html" class="sidebar-item active"><span class="date">2026年06月</span> 2026-06_山崎みなみ_月次レポート</a>
+<a href="2026-05.html" class="sidebar-item"><span class="date">2026年05月</span> 2026-05_山崎みなみ_月次レポート</a>
+<a href="2026-04.html" class="sidebar-item"><span class="date">2026年04月</span> 2026-04_山崎みなみ_月次レポート</a>
+<a href="2026-03.html" class="sidebar-item"><span class="date">2026年03月</span> 2026-03_山崎みなみ_月次レポート</a>
+<a href="2026-02.html" class="sidebar-item"><span class="date">2026年02月</span> 2026-02_山崎みなみ_月次レポート</a>
+<a href="2026-01.html" class="sidebar-item"><span class="date">2026年01月</span> 2026-01_山崎みなみ_月次レポート</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>2026年6月 月次レポート（山崎みなみ ホットペッパー超集客メソッド）</h1>
+<p>先月（5月）までの流れの上に6月を積み上げるレポート。先月比較と「流れの中での今月の位置づけ」を重視する。<br />
+通期の流れ・月別推移・グラフは <code>全体レポート.md</code> を参照。</p>
+<p>対象期間: 2026-06-01 〜 2026-06-30<br />
+データソース: 管理シートCSV <code>管理シート/個別プランニングシート_20260630.csv</code>（KPI正本・申込ベース）／<code>管理シート/決済シート_20260630.csv</code>（実質入金の参照）／データ時点 申込・決済シートともに 2026-06-30 取得</p>
+<div class="verdict is-good">
+<div class="v-row"><span class="v-key">今月の判定</span><span class="v-val">◎好調 ── 前月の当期最低から一気に反転し、確定成約率は当期でも高い水準へ回復</span></div>
+<div class="v-row"><span class="v-key">理由</span><span class="v-val">前月そろって確定成約に至らなかった主力3名（三納・浜田・穏永）が当月はそろって成約を戻し、成約率は5.3%→43.8%へ跳ね上がった</span></div>
+<div class="v-row"><span class="v-key">来月やること</span><span class="v-val">6月に戻せた要因（投資対効果の可視化・ホットペッパー過去失敗との切り分け）を型として固定し、単月の反発で終わらせず定着させる</span></div>
+</div>
+
+<hr />
+<h2>1. 今月の数字（6月・先月比較つき）</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>5月</th>
+<th>6月</th>
+<th>増減</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>実施数（成約＋否決＋保留）</td>
+<td>21</td>
+<td>19</td>
+<td>-2</td>
+</tr>
+<tr>
+<td>成約数</td>
+<td>1</td>
+<td>7</td>
+<td>+6</td>
+</tr>
+<tr>
+<td>成約率（確定分）</td>
+<td>5.3%</td>
+<td>43.8%</td>
+<td>+38.5pp</td>
+</tr>
+<tr>
+<td>売上（申込ベース）</td>
+<td>¥660,000</td>
+<td>¥5,320,000</td>
+<td>+¥4,660,000</td>
+</tr>
+</tbody>
+</table>
+<p>6月の確定分内訳:</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>件数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge" style="background:#2CB596;color:#FFFFFF">成約</span></td>
+<td>7件</td>
+</tr>
+<tr>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td>9件</td>
+</tr>
+<tr>
+<td>保留・続きを別日・日程再調整中</td>
+<td>3件</td>
+</tr>
+<tr>
+<td>c系</td>
+<td>1件</td>
+</tr>
+<tr>
+<td><span class="badge" style="background:#E5E9EC;color:#5B6B72">講座案内前終了</span></td>
+<td>7件</td>
+</tr>
+<tr>
+<td><span class="badge" style="background:#EADBF2;color:#6B3A8C">申込後キャンセル</span></td>
+<td>1件</td>
+</tr>
+<tr>
+<td>当月成約率（確定分）</td>
+<td>43.8%（7 / 16）</td>
+</tr>
+<tr>
+<td>当月売上（申込ベース）</td>
+<td>¥5,320,000</td>
+</tr>
+<tr>
+<td>当月実質入金（決済シート・6月入金列）</td>
+<td>¥636,613（5件・過去成約分の分割入金を含む）</td>
+</tr>
+</tbody>
+</table>
+<p>実施数はほぼ横ばい（21→19件）ながら、成約が1→7件、確定成約率が5.3%→43.8%（+38.5pp）へ大きく回復した。母数を増やしたのではなく、同じ規模の面談で決め切れた点が今月の中身。申込ベース売上は¥5,320,000で前月比+¥4,660,000。6月成約7件の内訳はプレミアム実践コース5件・マンツーマンコース2件で、マンツーマン（¥1,100,000帯）2件が売上を押し上げた。なお決済シートの「6月実入金額」列は¥636,613（5件）で、これは6月成約者だけでなく過去成約分の分割・後払いを含む当月キャッシュ着金であり、申込ベース売上とは性質が異なる（申込＝当月に契約が確定した金額、実質入金＝当月に実際に着金した金額）。</p>
+<p>6月成約7件（担当／コース／金額）:</p>
+<table>
+<thead>
+<tr>
+<th>お名前</th>
+<th>担当</th>
+<th>コース</th>
+<th>金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>河村さやか様</td>
+<td>浜田</td>
+<td>プレミアム実践コース</td>
+<td>¥600,000</td>
+</tr>
+<tr>
+<td>野口久美子様</td>
+<td>浜田</td>
+<td>プレミアム実践コース</td>
+<td>¥600,000</td>
+</tr>
+<tr>
+<td>本田三恵様</td>
+<td>穏永</td>
+<td>プレミアム実践コース</td>
+<td>¥600,000</td>
+</tr>
+<tr>
+<td>五十嵐幸子様</td>
+<td>穏永</td>
+<td>プレミアム実践コース</td>
+<td>¥660,000</td>
+</tr>
+<tr>
+<td>森井喜美代様</td>
+<td>三納</td>
+<td>マンツーマンコース</td>
+<td>¥1,100,000</td>
+</tr>
+<tr>
+<td>藤田真理子様</td>
+<td>三納</td>
+<td>マンツーマンコース</td>
+<td>¥1,100,000</td>
+</tr>
+<tr>
+<td>原美幸様</td>
+<td>三納</td>
+<td>プレミアム実践コース</td>
+<td>¥660,000</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 先月までの流れと今月の位置づけ（所感）</h2>
+<p>先月まで: 2月38.5%（好調）→ 3月14.7%（落ち込み）→ 4月28.9%（持ち直し）→ 5月5.3%（当期最低まで再急落）と推移していた。5月は4月に立て直した直後の再急落で、主力3名（浜田・三納・穏永）がそろって当月の確定成約に至らず、案件全体でクロージングが同時に止まった要見直しの月だった。</p>
+<p>今月（6月）: その流れが再び反転した。実施は5月21→6月19件とほぼ横ばいのまま、成約が1→7件、成約率が5.3%→43.8%（+38.5pp）へ回復。5月に止まっていた主力3名（三納3・浜田2・穏永2）がそろって成約を戻し、9担当のうち成約が特定担当に偏らず3名に分散した。</p>
+<p>評価: ここが最も重要なポイント。5月は「4月に回復を確認した直後の再急落」で一過性と言い切れない要見直しシグナルだったが、6月はその主力3名が同時に戻ったことで、5月の落ち込みが「案件全体の構造崩れ」ではなく「同時期に一時的にクロージングが詰まったブレ」だった可能性が高いと読める。ただし通期で見ると2月38.5%→3月14.7%→4月28.9%→5月5.3%→6月43.8%と月ごとの振れ幅が大きく、山と谷を繰り返す不安定さは続いている。したがって6月は「好調」と判定しつつも、来月の焦点は新しい打ち手ではなく「6月に決め切れた型を固定して振れ幅を縮めること」に置く。単月の反発で満足せず、5月に指摘した改善事項（投資対効果の電卓計算・ホットペッパー過去失敗との切り分け）が実際に効いたのかを書き起こしで確認する。</p>
+<hr />
+<h2>3. 今月の担当別実績（6月・先月からの変化つき）</h2>
+<table>
+<thead>
+<tr>
+<th>担当</th>
+<th>6月実施</th>
+<th>6月成約</th>
+<th>6月成約率</th>
+<th>先月からの変化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三納</td>
+<td>9</td>
+<td>3</td>
+<td>33.3%</td>
+<td>5月0成約（否決7）→6月3成約。5月に止まっていた成約が戻り、マンツーマン¥110万帯2件を含む最多成約担当に。ただし否決も6件と多く、決まる面談と決まらない面談の差が残る</td>
+</tr>
+<tr>
+<td>浜田</td>
+<td>5</td>
+<td>2</td>
+<td>50.0%</td>
+<td>5月0成約（否決4）→6月2成約。4月をけん引した担当が当月は確定成約を戻した。保留1件のフォローも継続中</td>
+</tr>
+<tr>
+<td>穏永</td>
+<td>4</td>
+<td>2</td>
+<td>66.7%</td>
+<td>5月0成約→6月2成約。5月まで数ヶ月続いた確定成約ゼロが解消。説明力の高さが成約への接続まで結び付いた形</td>
+</tr>
+<tr>
+<td>沼</td>
+<td>1</td>
+<td>0</td>
+<td>-</td>
+<td>5月1成約（当月唯一）→6月は保留1件で確定成約なし。実施母数が1件のみ</td>
+</tr>
+<tr>
+<td>山岡</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td>6月実施なし</td>
+</tr>
+<tr>
+<td>成嶋</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td>6月実施なし</td>
+</tr>
+<tr>
+<td>永吉</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td>6月実施なし</td>
+</tr>
+<tr>
+<td>前田</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td>6月実施なし（動画書き出し不能のため固定記載運用）</td>
+</tr>
+<tr>
+<td>野口</td>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+<td>6月実施なし</td>
+</tr>
+</tbody>
+</table>
+<p>主軸メッセージ:</p>
+<ul>
+<li>前月そろって確定成約に至らなかった主力3名（三納・浜田・穏永）が、当月はそろって成約を戻した。5月は浜田・三納・穏永が同時に0成約だったが、6月は三納3・浜田2・穏永2と、成約が特定担当に偏らず3名に分散した。案件全体で同時に止まった5月の裏返しで、案件全体で同時に戻ったのが6月と読める</li>
+<li>穏永の66.7%（3件中2成約）は当月最良の指標。5月まで数ヶ月続いた確定成約ゼロが解消し、説明力の高さが成約まで接続した。三納は最多3成約でマンツーマン¥110万帯2件を取り切った一方、否決も6件と多く、決まる面談と決まらない面談の差の縮小が次の課題</li>
+<li>沼は5月の当月唯一の成約担当だったが6月は実施1件・保留1件のみで確定成約なし。単月の母数が小さく、指標としての振れが大きい</li>
+</ul>
+<p>前田担当は動画URLがhash無・削除済で書き出し取得が不能なため、書き出し失敗担当として固定記載で運用（田中祐一さん判断・2026-06-05）。</p>
+<hr />
+<h2>4. 今月の代表的な良かったこと（6月）</h2>
+<ul>
+<li>主力3名の同時回復 - 5月にそろって確定成約ゼロだった三納・浜田・穏永が、6月はそろって成約（三納3・浜田2・穏永2）。案件全体のクロージングが同時に戻り、5月の落ち込みが構造崩れではなくブレだったことを示す当月最大の好材料</li>
+<li>穏永の成約接続 - 穏永が3件中2成約（66.7%）で当月最良の担当指標。5月レポートで「内藤様の説明力は高評価で、成約への接続が次の課題」と指摘した接続部分が改善した形</li>
+<li>マンツーマン¥110万帯の受注 - 三納が森井喜美代様・藤田真理子様のマンツーマンコース2件（各¥1,100,000）を取り切り、ハイエンド枠を戻した。5月はハイエンドの中途解約・キャンセルが目立った月だっただけに、上位コースの新規受注は流れの反転として大きい</li>
+<li>成約の担当分散 - 7成約が3担当に分散（1名依存でない）。5月は9担当中1名のみ成約だったのに対し、当月は複数担当が同時に機能した</li>
+</ul>
+<hr />
+<h2>5. 今月の代表的な改善事項（6月）</h2>
+<ul>
+<li>三納の否決6件との差の分析 - 三納は最多3成約の一方で否決も6件と多い。同じ担当の中で「決まる面談」と「決まらない面談」の差が何なのかを書き起こしで洗い出し、5月に指摘した投資対効果の電卓計算・反論処理（ステップ10）が成約案件で実際に入っていたかを照合する</li>
+<li>単月反発を型として固定する - 6月は数字が戻ったが、通期の振れ幅（2月38.5%→3月14.7%→4月28.9%→5月5.3%→6月43.8%）は大きいまま。何が効いて戻ったのかを言語化しないと来月また谷に振れるリスクがある。6月成約7件の面談で共通して機能した要素を抽出し、面談前ブリーフィングのチェックリストに落とす</li>
+<li>講座案内前終了7件・申込後キャンセル1件の内訳確認 - 当月は成約前の離脱（講座案内前終了）が7件と多い。面談に入る前の段階で失っている見込みが一定数あるため、事前電話・アンケート段階での温度感の把握を点検する</li>
+<li>実施母数の縮小傾向 - 実施は5月21→6月19件と2ヶ月連続で20件前後にとどまる（1〜4月は35〜43件規模）。成約率が戻っても母数が細ると成約絶対数は伸びにくい。説明会集客の母数回復も並行して確認したい</li>
+</ul>
+<hr />
+<h2>6. 来月（7月）への申し送り</h2>
+<ul>
+<li>6月に戻せた要因の型化を最優先。三納・浜田・穏永の6月成約7件の書き起こしから、投資対効果の可視化・ホットペッパー過去失敗との切り分け・反論処理が実際に入っていたかを確認し、機能した要素をチェックリスト化して面談前ブリーフィングに固定する</li>
+<li>三納の「決まる／決まらない」の差の縮小。最多成約と否決6件が同居しているため、7月最初の三納案件で否決要因を毎回書き起こしで確認する運用を継続する</li>
+<li>実施母数の回復確認。5〜6月と実施が20件前後に縮小しているため、説明会集客の母数が細っていないかを点検し、母数×成約率の両輪で成約絶対数を見る</li>
+<li>沼・山岡・成嶋・永吉・前田など6月実施ゼロ／少数の担当の配分点検。特に前田は通期成約ゼロのため、新規配分の一時停止と過去案件の再アプローチまたは担当変更の検討を継続</li>
+</ul>
+<hr />
+<h2>7. 補足（6月のマニュアル還流）</h2>
+<ul>
+<li>6月成約: 7件（三納3・浜田2・穏永2）。コース内訳はプレミアム実践5件・マンツーマン2件</li>
+<li>4月数値の更新: 5月レポート時点では4月を実施50・成約10・成約率27.0%と記載していたが、2026-06-30取得の最新CSVでは4月成約11・確定成約率28.9%に更新（説明会日ベースで再集計。以後は最新値を正とする）</li>
+<li>書き起こし・分析未着手: 5月レポートで積み残した浜田13件・沼3件等に加え、6月成約7件・否決9件が新たに分析対象。特に6月成約7件は「戻せた型」の抽出源として優先処理</li>
+<li>個別説明会_セールス成功失敗マニュアル 追加候補: 主力担当が同時回復した6月の成約パターン（穏永の説明力→成約接続／三納のマンツーマン受注）</li>
+<li>質疑応答理想回答集 追記候補: 5月に指摘した「ホットペッパー過去失敗との違いは？」Q5型・「夫・社内確認」反論処理4類型が6月成約で機能したかの検証結果</li>
+<li>セールス担当別_傾向とクセ 追記候補: 穏永の成約接続改善の確定記載／三納の成約と否決の同居パターン／浜田の回復の経過観察</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-30・積み上げ型／先月比較・流れの中の位置づけ・主力3名同時回復シグナルを反映)</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
