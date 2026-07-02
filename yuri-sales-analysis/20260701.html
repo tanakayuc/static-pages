@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260701_吉澤那美_草刈 - 松本ゆり セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>松本ゆり セールス分析</h3>
+<a class="sidebar-item sidebar-item--cross" href="../yuri-sales-manual/">セールスレポート（トップ）</a><a href="20260701.html" class="sidebar-item active"><span class="date">2026年07月01日</span> 20260701_吉澤那美_草刈</a>
+<a href="20260701-2f17612b5c12.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_寺本敏美_草刈</a>
+<a href="20260701-3641ecbf8f93.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_小嶋美和_草刈</a>
+<a href="20260701-0ec578e2ded3.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_清水玉藻_草刈</a>
+<a href="20260701-b7d8e2675e59.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_谷田桂子_草刈</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>松本ゆり案件 個別セールス分析 — 吉澤那美さん（担当：草刈）</h1>
+<ul>
+<li>作成日: 2026-07-02</li>
+<li>種別: <strong>書き起こし本文ベースの確定分析</strong></li>
+<li>対象商品: 魅力覚醒プログラム（女性のための愛とお金の帝王学・¥598,000）</li>
+<li>結果: 成約（クレジットカード分割）</li>
+<li>書き起こし原本: <a class="ref-link" href="20260701.html">21_プロジェクト一覧/松本ゆり/セールス/セールス原本/20260701_吉澤那美_草刈.md</a>（約5,200行 / 説明会実尺 約2時間）</li>
+<li>アーカイブ: <a href="https://youtu.be/44pxP3Vqxw0" target="_blank" rel="noopener noreferrer">https://youtu.be/44pxP3Vqxw0</a></li>
+</ul>
+<blockquote class="callout-box">
+<p><strong>本分析の原理原則（現場主義）</strong><br />
+判断材料は書き起こし本文の実際の発話だけを根拠とする。担当報告（面談メモ）は「ただのデータ」であり真実ではない。本件では担当報告欄はほぼ結果情報のみで所感の記載がないため、突き合わせる主観記述は少ないが、その分「書き起こしにしか残っていない事実」を拾い上げ、あわせて資料内の事実矛盾も指摘する。</p>
+<p><strong>表記注記</strong>: 書き起こしは音声認識のため顧客名が「牛澤／西澤奈々／石澤／吉田／古田」などに揺れているが、担当報告欄およびゆり先生音声メッセージ内の実名から、顧客の正式名は <strong>吉澤那美</strong> と確定する。以下、引用は原文のまま（揺れを含む）残し、地の文では「吉澤さん」で統一する。</p>
+</blockquote>
+<hr />
+<h2>1. 基本情報（発話から判明した事実のみ）</h2>
+<p>書き起こしの吉澤さん本人の発話から拾える事実を、憶測を排して列挙する。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>発話から判明した内容</th>
+<th>根拠（書き起こし該当箇所）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>年齢帯</td>
+<td>40代（草刈「我々まだね／40代だから」に否定なく同調）</td>
+<td>L2521-2523「我々まだね 40代だから」／草刈が自身を「今年40歳になる年」(L200)</td>
+</tr>
+<tr>
+<td>生年月日</td>
+<td>本人申告 <strong>1977年6月6日</strong>（相手＝夫の生年月日を尋ねられ、その流れで自分の情報を口頭確認）</td>
+<td>L4957-4973「1977年 6月 6日 …66であってますか／はいあってます」</td>
+</tr>
+<tr>
+<td>居住地</td>
+<td>群馬県</td>
+<td>L3349「群馬です」</td>
+</tr>
+<tr>
+<td>仕事</td>
+<td>会社員。<strong>2026年6月に転職したばかり</strong>（面談は7/1、まさに転職直後）</td>
+<td>L347-359「会社員として 今年の6月からちょっと転職／本当今月ですよね／そうなんです」</td>
+</tr>
+<tr>
+<td>過去の職歴</td>
+<td>営業職を約2年。当初は数字が取れたが「通用しなくなって続かない」と挫折</td>
+<td>L576-613「仕事は営業だった／数字は取れたんですけど だんだんそれが通用しなくなって／でも2年」</td>
+</tr>
+<tr>
+<td>家族</td>
+<td>夫と娘（<strong>中学1年</strong>、女の子）。結婚13年、初婚</td>
+<td>L387-391「中一なんですけど」／L1400「娘なんです」／L934-940「初婚ですか／あそうです／13年」</td>
+</tr>
+<tr>
+<td>夫婦関係</td>
+<td>家庭内別居に近い状態。<strong>財布別・生活費別で約7年</strong>、会話も「めんどくさいので」ほぼ交流なし。夫の収入額すら不明</td>
+<td>L1788-1806「別々にしてる／生活を一緒にしてない／子供の…私が出していて／高熱費…私出していて」／L1924-1945「どれくらい稼いでるんですか／知らない／7年くらい／全くノータッチ」</td>
+</tr>
+<tr>
+<td>経済状況</td>
+<td>「そんなに余裕はなくて」。娘の費用・光熱費・日用品を自分が負担。夫は電気代等で「半分にしろ」と要求してくる</td>
+<td>L1808「そんなに余裕はなくて」／L1854-1876「電気代が上がって…払え／お前のが使ってんだから」</td>
+</tr>
+<tr>
+<td>持ち家</td>
+<td>持ち家（ローン中）</td>
+<td>L1993-2003「持ち家なんですね／持ち入れだとね じゃあ別れた時どうするとか結構めんどくさい」</td>
+</tr>
+<tr>
+<td>過去の自己投資歴</td>
+<td>①コーチング／カウンセラー養成の寄せ講座（<strong>昨年</strong>申込・現在つまずいて停滞） ②開運系の講座（結構前・「ダメで続かなかった」）③四柱推命の体験受講（女性特化ではない一般のもの）</td>
+<td>L624-648「コーチングカウンセラー ヨセ講座…去年やってて」／L851-865「風呂かけよくするような…結局それもダメで続いても」／L480-498「手語学…引用語行…体験みたいな感じで」</td>
+</tr>
+<tr>
+<td>コアの悩み</td>
+<td>(1)夫婦関係をどうするか決められない (2)お金が火種 (3)娘に同じ連鎖を残したくない (4)頑張っても報われず成果が続かない</td>
+<td>L451-468「一番がそこ／お金も喧嘩の火種／全く自分の両親と同じ」</td>
+</tr>
+<tr>
+<td>望む未来</td>
+<td>時間と場所に縛られない働き方／人の役に立つ仕事／自然にお金と愛が巡る状態</td>
+<td>L697-707「時間と場所に縛られない働き方をしたくて／人の役に立ちたい」／L2499-2501「自然とお金とか愛が回ってる状態がいい」</td>
+</tr>
+<tr>
+<td>自己認識・ブロック</td>
+<td>「言語化が苦手」「SNS発信に苦手意識・自信がない」「決断が苦手」</td>
+<td>L785-793「私も言語化が苦手／自信もないしSNSの時点で」</td>
+</tr>
+</tbody>
+</table>
+<p><strong>重要な家族の背景（本人が自ら語った核心）</strong>: 「私の両親もそういう喧嘩して、それを見てきているので／だから私は絶対に幸せな感じで築きたいと思って反面教師にしていたんですけど／私もやっぱり同じことをしている／子供にやっぱり悪い影響を与えてしまって」(L395-419)。この「両親と同じパターンを自分も繰り返し、娘に連鎖させている」という自己認識が、後述の「家系のカルマ」ロジックがそのまま刺さる下地になっている。</p>
+<hr />
+<h2>2. セールスの流れ（時間軸）</h2>
+<p>書き起こしの <code>## 00:00</code> 〜 <code>## 2:00:00</code> のブロックに沿って、話題の展開を再構成する。</p>
+<table>
+<thead>
+<tr>
+<th>時間帯</th>
+<th>フェーズ</th>
+<th>主な内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00:00-04:00</td>
+<td>環境整備</td>
+<td>スマホ画面を横向きにする操作サポート。終了時刻（14時目安）を先に確認</td>
+</tr>
+<tr>
+<td>04:00-08:00</td>
+<td>自己紹介・場のルール</td>
+<td>草刈の自己紹介（元絵師・過労で体を壊した・40歳）。「売り込みは一切ない」「耳の痛いことも言う」の前置き</td>
+</tr>
+<tr>
+<td>08:00-15:00</td>
+<td>ヒアリング① 現状把握</td>
+<td>転職直後・夫婦関係・両親と同じパターン・お金の火種・過去の営業挫折・コーチング講座の停滞を引き出す</td>
+</tr>
+<tr>
+<td>15:00-20:00</td>
+<td>ヒアリング② 深掘り</td>
+<td>SNS苦手／自信のなさ／夫婦関係を「良くしたいのか別れたいのか決められない」を確認</td>
+</tr>
+<tr>
+<td>20:00-25:00</td>
+<td>特典音声の再生</td>
+<td>ゆり先生からの個別音声メッセージを共有再生。天中殺（犬年・猪年、10/8-12/6）と「5つの力＝決断」に言及</td>
+</tr>
+<tr>
+<td>25:00-35:00</td>
+<td><strong>核心の教育（カルマ）</strong></td>
+<td>「名式情報の50%は家系から来る業」「本来一人でいた方がお金が巡る＝結婚で巡りが悪くなる家系」という説明。吉澤さんが「悩みの根幹がこれで解決できるじゃん」と強く反応</td>
+</tr>
+<tr>
+<td>35:00-40:00</td>
+<td>未来の見せ方</td>
+<td>「未来は決まっていない／回避できる」「気が巡れば正しい判断ができる」でエネルギー論に接続</td>
+</tr>
+<tr>
+<td>40:00-55:00</td>
+<td>望む未来の言語化</td>
+<td>時間・場所の自由、人の役に立つ仕事を引き出し、「決断＝夫婦の選択」に結びつける</td>
+</tr>
+<tr>
+<td>55:00-1:00:00</td>
+<td>温度確認</td>
+<td>「半年間の講座、興味ありますか」→「もうちょっと詳しいお話を聞けたら」で商品説明へ移行の合意を取る</td>
+</tr>
+<tr>
+<td>1:00:00-1:15:00</td>
+<td>商品説明①</td>
+<td>魅力エネルギー×成功設計図、他との違い（3つの学問の統合・女性専用・行動まで設計）、事例（身内が亡くなるトラブルが止まった話等）</td>
+</tr>
+<tr>
+<td>1:15:00-1:35:00</td>
+<td>商品説明②</td>
+<td>6ヶ月カリキュラム（全12回・リアル/オンライン）、週報2種、チャットワーク質問無制限、動画2年視聴、6大特典</td>
+</tr>
+<tr>
+<td>1:35:00-1:40:00</td>
+<td><strong>クロージング前の温度測定</strong></td>
+<td>「100%中何%やってみたい？」→<strong>80%</strong>。「あとは金額」を本人が自ら口にする</td>
+</tr>
+<tr>
+<td>1:40:00 前後</td>
+<td><strong>価格提示</strong></td>
+<td>通常77万→即決67万5800円→<strong>銀行振込なら税込59万8000円</strong>（一期生限定）。他社比較（音命字養成講座 半年130万）</td>
+</tr>
+<tr>
+<td>1:40:00</td>
+<td>当日特典</td>
+<td>個別コンサル+1回（最大4回）、ご先祖様鑑定</td>
+</tr>
+<tr>
+<td>直後</td>
+<td><strong>クロージング</strong></td>
+<td>「やってみますか」→<strong>「そうですね、やってみたいです」</strong>（L4380-4382）</td>
+</tr>
+<tr>
+<td>1:45:00-1:55:00</td>
+<td>事務手続き</td>
+<td>支払い方法（カード分割）、利用規約・法定書面の読み合わせ、クーリングオフ説明、申込フォーム入力</td>
+</tr>
+<tr>
+<td>2:00:00</td>
+<td>クロージング後フォロー</td>
+<td>夫の生年月日を聞き取り（初回コンサルへの引き継ぎ）、決意表明</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. 成約に至った要因構造（温度が上がった瞬間を発話で特定）</h2>
+<p>成約は「価格に驚いて渋る→説得して落とす」型ではない。<strong>価格提示の前にすでに購入意欲が形成されており（80%）、価格が予想より安かったことで一気に確定した</strong>、という構造。温度上昇の瞬間を時系列で特定する。</p>
+<h3>転換点① 25:00-35:00 「家系のカルマ」で悩みの根幹が言語化された瞬間（最大の山）</h3>
+<p>吉澤さんは冒頭のヒアリングで「両親と同じパターンを繰り返し、娘に連鎖させている／これもカルマなのかしら」と<strong>自分でカルマという言葉を先に出していた</strong>(L421-429)。草刈はそこに、ゆり先生からの伝言として「名式の50%は家系から来る業」「本来一人でいた方がお金が巡る＝結婚で巡りが悪くなる家系」というロジックをぶつけた。</p>
+<p>反応:</p>
+<blockquote class="callout-box">
+<p>「多分悩みの根幹みたいなところがこれで解決できるじゃんっていう風には結構思ってしまった」(L1480-1484)<br />
+「わーって思いながら 本当に当たってる」(L1490-1494)<br />
+「自分の代で断ち切りたい 私はこれを断ち切らなきゃまたどんどん潰れてしまうってことですね」(L1408-1410)</p>
+</blockquote>
+<p>ここが<strong>最大の温度上昇点</strong>。「自分がダメだから／努力が足りないから」ではなく「家系の業だから、あなたのせいではない／だが解決できる」という<strong>免責と希望を同時に与えるリフレーム</strong>が、過去の投資（営業・コーチング・開運講座）で挫折してきた吉澤さんの自責を解いた。</p>
+<h3>転換点② 35:00-40:00 「未来は回避できる」＋当たった実感</h3>
+<blockquote class="callout-box">
+<p>「未来のことっていうのは予知ではないですけれども こういうことが起こる可能性があるって思っておくと それを回避することができる」(L1549-1553)<br />
+草刈の自己開示「20代の時にこんな病気しましたって言われて ガッツリ当たってた」(L1561-1563)、「私の場合はとにかく体を動かすこと…キックボクシング…体調良くなった」(L1581-1599)</p>
+</blockquote>
+<p>「当たる占い」ではなく「行動に落とせる実用ツール」という位置づけを、担当自身の体験で証明した。これにより吉澤さんの「占いの延長かな」という警戒（後にL2228で本人が吐露）が中和された。</p>
+<h3>転換点③ 55:00-1:00:00 具体性への信頼</h3>
+<blockquote class="callout-box">
+<p>「そこまで具体的だったら確かにできるかもみたいな ところが結構ありますね」(L3982-3984)（カレンダーの具体性に対して）</p>
+</blockquote>
+<p>「何月何日に何をするまで落とし込む」という具体性が、「続かなかった／ついていけなかった」過去を持つ吉澤さんの最大の不安（=また続かないのでは）に直接応えた。</p>
+<h3>転換点④ 1:35:00 温度の明示化（80%）と金額懸念の自己開示</h3>
+<blockquote class="callout-box">
+<p>草刈「100%がマックスだったら 何パーセントくらいやってみたい？」→ 吉澤「あとは金額がどうなのかっていうのが」(L4139-4145)</p>
+</blockquote>
+<p><strong>残り20%の正体が「金額のみ」であることを、クロージング前に本人の口から特定できた</strong>。これが決定的。ここで草刈は80%の理由（何が良かったか）を先に言語化させ(L4149-4185)、購入理由を本人に確定させてから価格に入っている。</p>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>転換点⑤ 1:40:00 価格が予想を下回った（アンカリング成功）</h3>
+<p>価格提示前に「2、30万は動画だけ／サポートありは100万前後／もっと上も」と相場を提示(L2919-2937)、他社の音命字養成講座「半年で130万」を提示(L4245)。その上で通常77万→即決67.5万→<strong>銀行振込59.8万</strong>と段階的に下げた。「金額だけがネック」の相手に対し、事前アンカー（100万以上・130万）より大幅に安い数字を出したことで、<strong>「あとは金額」の20%が即座に埋まった</strong>。価格直後の反応が「そうですねやってみたいです」(L4382)で、価格に対する抵抗・値切り交渉は一切発生していない。</p>
+<h3>まとめ：決め手</h3>
+<p>決め手は価格そのものではなく、<strong>「家系のカルマ」フレームで自責を免責しつつ悩みの根幹を言語化したこと（転換点①）</strong>。これで購入意欲の土台（80%）が完成し、価格は「予想より安い確認」として機能しただけ。価格は最後の20%を埋めるトリガーに過ぎなかった。</p>
+<hr />
+<h2>4. 良かった点（担当トーク）と、なぜ効いたか</h2>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>良かった点① 顧客が先に出した言葉（カルマ）を拾って商品ロジックに接続した</h3>
+<p>吉澤さんは自己紹介中に自発的に「これもカルマなの／これもカルマなのかしら」(L421-429)と発話していた。草刈はこれを商品の中核概念「家系から来る業」に橋渡しした。<br />
+- <strong>なぜ効いたか</strong>: 売り手が持ち込んだ概念ではなく、<strong>顧客自身の言葉を商品が肯定した</strong>形になり、「間違いじゃなかったってことなんですよね」(L1416)という納得を生んだ。押し付けでなく答え合わせの構造。</p>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>良かった点② 「あなたのせいではない」という免責リフレーム</h3>
+<blockquote class="callout-box">
+<p>「この相手が相手だからとかではなく…このカルマ解決できてないから起こってること」(L1430-1438)<br />
+「自分じゃなくて 先祖代々来てるやつ」(L1276-1277)</p>
+</blockquote>
+<ul>
+<li><strong>なぜ効いたか</strong>: 営業でもコーチング講座でも「続かなかった」自責を抱える吉澤さんに、「あなたの努力不足ではなく家系の構造だ」という<strong>責任の外部化</strong>を与えた。同時に「解決できる」と希望も渡すので、投げ出しにならない。過去の挫折者ほど刺さるロジック。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>良かった点③ 担当自身の徹底した自己開示・自己一致</h3>
+<p>草刈は「私も過労で体を壊した」(L215)、「私はSNSが嫌でやめた」(L801-803)、「私は子供がいない・欲しいが夫は欲しくない・40だし」(L2348-2356)と、自分の弱みと迷いをかなり深く開示している。<br />
+- <strong>なぜ効いたか</strong>: 「認定コンサルタント＝完成された成功者」ではなく「同じ迷いを持つ40代の当事者」として並走した。吉澤さんが夫婦関係の生々しい愚痴（電気代・財布別）を安心して吐けたのはこの空気設計の効果。ラポールが終始崩れていない。</p>
+<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>良かった点④ 二者択一の脱力（「どっちでもいける」）</h3>
+<p>夫と「良くなりたいのか別れたいのか決められない」という最大の膠着に対し:</p>
+<blockquote class="callout-box">
+<p>「どっちもできるんですよ／選べないのかって言ったらそうではなくて選んではいける」(L1207-1211)<br />
+「どの道行っても大丈夫です」(L2449)</p>
+</blockquote>
+<ul>
+<li><strong>なぜ効いたか</strong>: 決断が苦手な相手に「今この場で夫婦の結論を出せ」と迫らず、「講座で設計すればどちらの道でも進める」と<strong>購入の前提から重い決断を外した</strong>。買うための心理的ハードルを下げた。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>良かった点⑤ クロージング前の%質問で残課題を金額に限定</h3>
+<blockquote class="callout-box">
+<p>「100%がマックスだったら何パーセント？」→「あとは金額がどうなのか」(L4139-4145)</p>
+</blockquote>
+<ul>
+<li><strong>なぜ効いたか</strong>: 反論処理を価格提示前に済ませ、<strong>残る障害が金額1点だけであることを本人に宣言させた</strong>。価格提示はその1点を潰すだけの作業になり、クロージングが極めてスムーズになった。教科書的に正しい順序。</li>
+</ul>
+<hr />
+<h2>5. 改善点（場面・何が起きたか・本来どうすべきか）</h2>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善点① 名式の生年月日が資料内で食い違っている（<strong>要修正・最優先</strong>）</h3>
+<ul>
+<li><strong>場面</strong>: L2194で草刈は「1984年8月6日っていうところで見ている」と発話。しかしゆり先生の音声(L1030-1034)は「今年は10月8日から12月6日まで」等を語り、クロージング後の夫確認の流れで<strong>本人が自分の生年月日を「1977年6月6日」と口頭確認</strong>している(L4957-4973)。1984/8/6 と 1977/6/6 は別人の生年月日であり、名式鑑定の前提が崩れる。</li>
+<li><strong>本来どうすべきか</strong>: 名式（四柱推命）は生年月日が1日違えば結果が変わる商品の根幹。説明会で読み上げた「1984/8/6」がどこから出た数字なのか要確認。ゆり先生の初回鑑定に引き継ぐ前に、正しい生年月日（本人確認済みの1977/6/6か）を必ず突き合わせること。<strong>間違った名式で「あなたはこういう家系の業がある」と説明していた場合、初回コンサルで前提が覆り、信頼を一気に失うリスクがある</strong>。本件で最も優先度の高い確認事項。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善点② カレンダー資料を出せなかった（最も効いていた具体性の証拠を提示し損ねた）</h3>
+<ul>
+<li><strong>場面</strong>: L3934-4006、草刈が「めちゃめちゃ可愛いカレンダー」を見せようとしたが「資料がたくさん過ぎてパッと出てこなくて」見せられず、「お見せしたかったな」で終わった。</li>
+<li><strong>本来どうすべきか</strong>: 吉澤さんが最も反応した訴求は「具体性（何月何日に何をするまで落とす）」(L3982)。その物証であるカレンダーを提示できなかったのは機会損失。成約はしたが、渋る相手だったら弱点になった。<strong>説明会前に提示資料の並び順を確定し、キー資料は即座に出せる状態にしておく</strong>こと。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善点③ 「金額懸念」を掘り切らずに価格提示へ進んだ</h3>
+<ul>
+<li><strong>場面</strong>: L4145「あとは金額がどうなのか」→ 草刈「そうですよね金額とかは」で受けたが、<strong>「ご予算感はどれくらいですか」「一括か分割か、無理のない範囲は」といった金額の中身を掘らずに</strong>価格提示へ進んだ。結果的に予想より安く着地したので問題化しなかったが、これは「相場アンカーが効いた＋実際に安かった」という結果論。</li>
+<li><strong>本来どうすべきか</strong>: 金額懸念が出た時点で「予算の上限」「支払い方法の希望」を軽く確認しておくと、価格提示のダメージコントロール（分割前提の月額換算での提示など）ができる。今回は運良くハマったが、再現性のためには金額の中身を一段掘る習慣を。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善点④ 商品説明が一方通行に長く、確認が「イメージ湧きました？」に偏った</h3>
+<ul>
+<li><strong>場面</strong>: 1:00:00-1:35:00 の商品説明・特典説明が長尺で、途中の確認が「なんとなくイメージ湧きましたでしょうか」(L4094)等の<strong>クローズドな相槌誘導</strong>に寄っている。実際、吉澤さんの理解が曖昧なまま進み、L3785-3861で「週1回どれがですか」「グルコンで課題を提出して話し合う感じ？」と<strong>運用イメージの取り違え</strong>が起きて説明し直しになった。</li>
+<li><strong>本来どうすべきか</strong>: 特典6つを一気に並べるより、吉澤さんの悩み（夫婦・娘・自由な働き方）に紐づく機能だけを厚く、残りは「後で資料で」に圧縮する。理解確認は「今の説明で一番使いたいと思ったのはどれですか」等の<strong>オープン質問</strong>にすると取り違えを早期に検知できる。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善点⑤ スピリチュアル訴求のエビデンス表現に将来リスク（コンプライアンス観点）</h3>
+<ul>
+<li><strong>場面</strong>: 「身内が亡くなるレベルのトラブルが全くなくなった」(L3040-3076)、「不幸から身を守る結界術」(L3677-3691)、「霊力が高まる」(L4340)等、<strong>効果を断定的に語る表現</strong>が複数ある。「できると思いますとかできる可能性がありますとかじゃなくてできるんです」(L4548-4550)という言い切りも。</li>
+<li><strong>本来どうすべきか</strong>: 成約は取れているが、この種の断定（不幸回避・霊力・死亡トラブルの解消）は<strong>特商法・景表法上のリスクおよびクーリングオフ後トラブルの火種</strong>になりうる。「そう感じる受講生が多い」「体感として語る方が多い」という<strong>体験談ベースの相対表現</strong>に寄せるのが安全。担当個人の問題というより、トークスクリプト全体で表現ガイドラインを持つべき論点。</li>
+</ul>
+<hr />
+<h2>6. 担当（草刈）へのフィードバック</h2>
+<p><strong>総評</strong>: ラポール構築と「顧客の言葉を拾って商品に接続する」技術が非常に高い。特に、顧客が自発的に出した「カルマ」を核に据え、免責リフレームで自責を解いてから希望を渡す流れは秀逸で、これが成約の主因。押し込み感ゼロで2時間ラポールを維持し切ったのは高評価。</p>
+<p><strong>具体的に良かった行動</strong>:<br />
+- 顧客の自己開示（両親と同じ・カルマ・娘への連鎖）を最後まで軸として一貫使用した設計力。<br />
+- 自分の弱み（過労・SNS嫌い・子供・夫との迷い）まで開示して当事者として並走した空気づくり。<br />
+- クロージング前の%質問で残課題を金額1点に絞り込んだ手順の正しさ。</p>
+<p><strong>次回に向けた依頼（優先順）</strong>:<br />
+1. <strong>【最優先】名式の生年月日の食い違い（1984/8/6 vs 1977/6/6）を初回コンサル前に必ず確認・訂正すること</strong>。商品の根幹が崩れる前に潰す。<br />
+2. キー資料（特にカレンダー）を即出しできるよう提示順を事前確定。今回は「見せたかった」で終わっている。<br />
+3. 金額懸念が出たら、価格提示前に予算・支払い希望を一段掘る癖をつける（今回は結果オーライ）。<br />
+4. 商品説明は顧客の悩みに紐づく機能に絞り、理解確認はオープン質問で。運用イメージの取り違えを早期検知する。<br />
+5. 効果の断定表現（不幸回避・霊力・死亡トラブル解消）は体験談ベースの相対表現へ。コンプライアンスと解約防止の両面で。</p>
+<hr />
+<h2>7. 担当報告（面談メモ）と書き起こしの突き合わせ</h2>
+<h3>7-1. 面談メモの記載内容</h3>
+<p>本件の担当報告欄（書き起こし冒頭）は以下のみ:<br />
+- 名前: 吉澤那美<br />
+- 結果: 成約<br />
+- 担当者: 草刈<br />
+- アーカイブURL</p>
+<p><strong>所感・面談メモ本文は記載なし</strong>。したがって「メモの主張 vs 書き起こしの矛盾」を直接検証できる記述は存在しない。以下は、<strong>メモに書かれていないが書き起こしにしか残っていない重要事実</strong>を、初回コンサル・今後の運用のために補完する。</p>
+<h3>7-2. メモに書かれていない重要事実（書き起こしからの発掘）</h3>
+<ol>
+<li><strong>名式生年月日の資料内矛盾</strong>: 説明会中は「1984/8/6」で語られたが、本人口頭確認は「1977/6/6」（前掲・改善点①）。<strong>メモにも報告欄にも生年月日の記載がなく、どちらが正しいか宙に浮いている</strong>。最重要引き継ぎ事項。</li>
+<li><strong>成約の実態は「銀行振込59.8万提示だが、支払いはカード分割」</strong>: 価格の主役として提示されたのは銀行振込税込59.8万だが、実際の吉澤さんの選択は「カードで分割」(L4621-4623)＝<strong>消費税負担なしの59.8万ではなく、67万5800円ベースのクレジット分割</strong>である可能性が高い。<strong>確定した受注金額（税込・分割手数料含む）を報告欄に明記すべき</strong>。金額が管理シートと食い違う温床になる。</li>
+<li><strong>転職直後・経済的余裕なしという与信/継続リスク</strong>: 面談当月（2026年6月）に転職したばかりで「そんなに余裕はなくて」と明言(L347, L1808)。カード分割での高額受注であり、<strong>新環境への適応途上＋家計逼迫という継続受講リスクを内包</strong>。初回コンサルで支払い・受講継続の負担感を早めにケアしたい。</li>
+<li><strong>最優先の相談テーマは夫婦関係の去就</strong>: クロージング後、本人が「一番最初に聞きたい」内容として「不(夫)関係、このまま行くべきかお別れするべきか」を明言し、夫の生年月日(1977/6/6と本人が読み上げ→実は本人自身の日付の可能性・要確認)を提供している(L4933-4973)。<strong>初回コンサルの主題は夫婦関係の意思決定</strong>であることが確定している。</li>
+<li><strong>過去の自己投資が全て「継続失敗」で終わっている</strong>: 営業（2年で頭打ち）、コーチング寄せ講座（去年・停滞中）、開運講座（ダメで続かず）。<strong>「また続かないのでは」が本人の最大の不安</strong>であり、初期の伴走設計（小さな成功体験を早く作る）が解約防止に直結する。</li>
+</ol>
+<hr />
+<h2>補足：この商談の再現可能な勝ちパターン（横展開メモ・ゆり案件内）</h2>
+<ol>
+<li><strong>顧客が自発的に出した悩みの言葉を、商品の中核概念に橋渡しする</strong>（本件＝「カルマ」）。持ち込みでなく答え合わせにする。</li>
+<li><strong>自責の強い顧客には「あなたのせいではない（構造/家系）」＋「だが解決できる」の免責＋希望を同時に渡す</strong>。過去に挫折歴のある顧客ほど刺さる。</li>
+<li><strong>クロージング前に%質問で残課題を特定し、価格提示はその1点を潰す作業に限定する</strong>。</li>
+<li><strong>価格は事前に相場アンカー（100万以上・他社130万）を置いてから、大幅に下回る数字を段階提示する</strong>。</li>
+</ol>
+<p>一方、再現性を上げるための必須整備は「提示資料の即出し体制」「受注金額・支払い方法の正確な記録」「名式生年月日の事前確定」「効果断定表現の相対化」の4点。</p>
+<hr />
+<p>Produced by KATSUO MARKETING（田中祐一・本案件専用）</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>

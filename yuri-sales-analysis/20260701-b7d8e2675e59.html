@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260701_谷田桂子_草刈 - 松本ゆり セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>松本ゆり セールス分析</h3>
+<a class="sidebar-item sidebar-item--cross" href="../yuri-sales-manual/">セールスレポート（トップ）</a><a href="20260701.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_吉澤那美_草刈</a>
+<a href="20260701-2f17612b5c12.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_寺本敏美_草刈</a>
+<a href="20260701-3641ecbf8f93.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_小嶋美和_草刈</a>
+<a href="20260701-0ec578e2ded3.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_清水玉藻_草刈</a>
+<a href="20260701-b7d8e2675e59.html" class="sidebar-item active"><span class="date">2026年07月01日</span> 20260701_谷田桂子_草刈</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>セールス個別分析｜谷田桂子さん（担当：草刈）</h1>
+<ul>
+<li>作成日：2026-07-02</li>
+<li>種別：<strong>書き起こし本文ベースの確定分析</strong>（暫定ではない）</li>
+<li>案件：松本ゆり「女性のための愛とお金の帝王学（魅力覚醒プログラム）」／価格 ¥598,000</li>
+<li>講師：松本ゆり先生（面談内では「ゆり先生」）</li>
+<li>担当：草刈（認定コンサルタント）</li>
+<li>実施日：2026-07-01（個別説明会）</li>
+<li>結果：<strong>案内前終了</strong>（申込後・正式な価格/クロージング案内前に受講見送り方向で終了）</li>
+<li>根拠：書き起こし原本 <a class="ref-link" href="20260701-b7d8e2675e59.html">21_プロジェクト一覧/松本ゆり/セールス/セールス原本/20260701_谷田桂子_草刈.md</a>（アーカイブ <a href="https://youtu.be/AbjDMbXNpfg" target="_blank" rel="noopener noreferrer">https://youtu.be/AbjDMbXNpfg</a> ）</li>
+</ul>
+<hr />
+<h2>0. 本分析のスタンス（現場主義・厳守）</h2>
+<p>本分析の判断材料は<strong>書き起こし本文の実際の発話だけ</strong>である。セールス担当報告に記載された所感（「経営者妻・困り事なし・カルマ解消済み」）は"ただのデータ"であり、真実として扱わない。書き起こしの発話で裏を取り、担当メモと食い違う箇所は書き起こしを正とし、食い違いを明示する。</p>
+<p><strong>結論（先出し）：担当メモの「困り事なし」というラベルは、離脱の"本当の要因"を隠している。</strong> 書き起こしを精読すると、谷田様が離脱に至った直接要因は「困り事がない」ことではなく、（1）<strong>決まった時間の講義に出られない＝時間の年出（捻出）ができない</strong>、（2）<strong>求めていた1対1の個人コンサル形式が今回募集されていない</strong>、（3）<strong>大人数・公開の場に自分の名前/顔を出せない立場上の制約</strong>、という3つの構造的ミスマッチである。しかもこの3点はすべて谷田様自身が明確に言語化しており、「困り事がないから要らない」という話とは別物である。</p>
+<hr />
+<h2>1. 基本情報（発話で確認できる事実のみ）</h2>
+<ul>
+<li>氏名：谷田桂子（本人発話「谷田恵子と申します」L295 ※書き起こし表記ゆれあり）</li>
+<li>年齢：48歳（「私は48歳になっていますけれども」L297）</li>
+<li>生年月日：1977年10月5日（草刈発話「1977年の10月5日っていうところ」L1405）</li>
+<li>家族：夫（経営者）、娘1人、猫1匹（「子供は一人 娘がおります」L313-315／「猫が一匹います」L331）</li>
+<li>立場：夫の会社を結婚時から27年手伝い。「経営者の妻としての役割」が主(L299-311)</li>
+<li>本人発話：「主人の会社を結婚した時からお手伝いをしていて もう27年やってるかな」「どちらかというと 経営者の妻としての お仕事の 役割の方が多い」(L299-311)</li>
+<li>会社での役割：社員・学生（外国人留学生含む）のケア。差し入れ・食事作りなどで場を和ませる(L1238-1266)</li>
+<li>流入経路：Instagramで講座を見て申込。「なんか見てたらインスタを見てたらあったんですよね それでちょっとあらと思って申し込んじゃったんです」(L506-508)</li>
+<li>講座受講状況：3日間セミナーを受講中だが「実は最後の講座はまだ聞けていない」(L355)</li>
+<li>天柱札（講師ボイスメッセージより）：辰年・蛇年、月の天柱札は4/5〜6/5(L984-1000)</li>
+<li>カルマ（草刈による名式リーディング）：家計から来るカルマ25%。「ご先祖様から続くカルマ」「栄えてるものが閉じていく」系(L1808-1833)</li>
+</ul>
+<hr />
+<h2>2. 会話の流れ（時系列・発話ベース）</h2>
+<ol>
+<li><strong>オープニング〜自己紹介（00:00〜10:00）</strong>：草刈が自己紹介・安心設計（録画・売り込みなし・耳の痛いこともある）を提示(L190-267)。谷田様は終始柔らかく協力的。</li>
+<li><strong>申込動機の確認（10:00〜15:00）</strong>：谷田様は「起業目的ではない」ことを確認しつつ(L361-388)、帝王学＝自然と共にある学問という自分なりの捉え方を語る(L598-600)。</li>
+<li><strong>求めるものの言語化（15:00〜40:00）</strong>：谷田様が「地図/設計図」「答え合わせ」「進む道の選択の指針」を求めていると高解像度で語る(L727-729, L1543-1622)。草刈は「めっちゃ解像度高いですね 素晴らしい」(L731-733)と受け止める。</li>
+<li><strong>ボイスメッセージ再生＋名式/カルマのリーディング（25:00〜50:00）</strong>：天柱札・5つの力・カルマ25%を提示(L974-1053, L1808-1833)。</li>
+<li><strong>価値/投資の是非提示（50:00前後）</strong>：草刈が「割とご自身でも解決されてきて 今そんな悩みもない」「時間とお金を投資する価値が…あるのか…これはちょっと私には答えが出せない」(L2114-2128)と発言。<strong>ここが分岐点。</strong></li>
+<li><strong>形式説明と障壁露呈（52:00〜1:00:00）</strong>：講座は9月から半年・グループ・月2回2時間（リアル月1回4時間）と説明(L2156-2422)。谷田様が時間・個人コンサル無し・公開の場への露出という3つの障壁を次々に表明。</li>
+<li><strong>クロージングせず終了（1:00:00前後）</strong>：草刈が「今すぐお願いしますとは言えない」を谷田様が先に言い(L2482-2496)、草刈も「思ったタイミングがいいのかな」(L2518-2524)と同調して、価格提示・クロージングに入らず終了。</li>
+</ol>
+<hr />
+<h2>3. なぜ「案内前終了＝離脱」に至ったか（要因構造・発話引用で検証）</h2>
+<h3>要因A：時間の年出（捻出）ができない＝最大の直接要因</h3>
+<p>谷田様は「一番問題は時間」と<strong>自分で2回明言</strong>している。これは"困り事なし"ではなく、明確な受講障壁である。</p>
+<ul>
+<li>「時間が問題ですね 結構時間が 時間の年出をしないといけないですね」(L2230-2234)</li>
+<li>「一番問題は時間の年出かと思います私」(L2482)</li>
+<li>「私は決まった時間にっていうのが 難しくて 時には海外に行ったり」「パッド時間で 決まった時間に っていうのはちょっと難しいかもしれない 私」(L2259-2283)</li>
+<li>講義量を確認して「それは難しそうですね」「2倍速で見てもね」(L2426-2428)</li>
+</ul>
+<p>→ 離脱の第一要因は「時間的に決まった講義に参加できない」。担当メモの「困り事なし」ではこの障壁が完全に抜け落ちている。</p>
+<h3>要因B：求めていた「1対1の個人コンサル」が今回募集されていない</h3>
+<p>谷田様は個人コンサル形式を明確に希望したが、今回は募集がないと分かり落胆している。</p>
+<ul>
+<li>谷田様「個人でそういうのを 個人のコンサルみたいなって意味ですよね」→草刈「っていうのは今回は募集はしてないんですよ」(L2147-2151)</li>
+<li>谷田様「個人があればいいなとはまだ思ったんですが それもなさそうなので」(L2255-2257)</li>
+<li>「ただ 個人もないので 難しいですよね」(L2287-2291)</li>
+</ul>
+<p>→ 商品ラインナップと顧客ニーズのミスマッチ。谷田様は「学びたい気持ちはあるが、提供形式が自分に合わない」と言っている。「要らない」ではない。</p>
+<h3>要因C：立場上、公開・大人数の場に出られない</h3>
+<p>夫の会社・社会的立場ゆえ、自分の顔や名前を公の場に出せないという制約を谷田様は明確に述べている。</p>
+<ul>
+<li>「私はいろいろな立場上 公のところに自分が出るのはあまりしないので 他の方との接触は そこはしっかりと ブロック…やはりそこが一番 大切」(L2349-2361)</li>
+<li>「分かっている方としか やらないので それが皆さんと一緒になる っていうのはちょっと難しいかな」(L2367-2373)</li>
+</ul>
+<p>→ グループ講座という形式そのものが、この受講生の立場と構造的に相性が悪い。草刈は「チャットは本名じゃなくても大丈夫」(L2387)と部分回答したが、根本の懸念（公の場への露出）には踏み込めていない。</p>
+<h3>「困り事なし」の実態＝担当メモへの反証</h3>
+<p>担当メモの「困り事なし」は、谷田様のこの発話を根拠にしていると推測される：</p>
+<ul>
+<li>「私の悩みって 例えばすごい困ってない 悩んでるんですとかそうではなくて」(L1511-1515)</li>
+<li>「今困ってることは 何ですかって 聞かれても多分私 うーんとかって言う」(L1521-1527)</li>
+</ul>
+<p>しかし直後に谷田様は<strong>「困っていないが、進む道の選択に指針が欲しい」</strong>という前向きな受講理由を語っている：</p>
+<ul>
+<li>「進む道が 例えばね 三つ自分で なんとなく進む道が 見えてた時に どの方向に行くのが より一層その時期に 合っていたり…ずいぶん見える景色が違う」(L1539-1557)</li>
+<li>「私がこんな風に進むと なおさらいいんじゃないかっていうことが 分かれば 指針になるかなって思うんです」(L1616-1622)</li>
+</ul>
+<p>→ 谷田様は「困っていないから要らない」とは一度も言っていない。「困りごと解決型」ではなく「より良く型（発展型）」のニーズを持っていた。したがって「困り事なし＝離脱理由」という担当の整理は<strong>因果を取り違えている</strong>。真の離脱理由はA/B/Cの形式ミスマッチである。</p>
+<hr />
+<h2>4. 良かった点</h2>
+<ol>
+<li><strong>傾聴と受容が丁寧</strong>：谷田様の抽象度の高い語りを遮らず受け止め、「めっちゃ解像度高いですね 素晴らしい」(L731)「よく来てくださいましたって思いました」(L1628)と承認を返し、終始安心できる空気を作れている。ラポール形成は成功。</li>
+<li><strong>名式・カルマの具体提示で"答え合わせ"欲求を刺激</strong>：カルマ25%・家計由来という具体リーディング(L1808-1833)を提供し、谷田様の「答え合わせ」欲求（L924, L2100, L2530）に一定応えた。</li>
+<li><strong>商品の川下り/岩の比喩が分かりやすい</strong>：「船で川を流れ、岩＝カルマをタイミングで避ける」比喩(L775-816)で、抽象的な帝王学の効用を情景化できた。</li>
+<li><strong>誠実で押しつけない姿勢</strong>：安心設計どおり強引な売り込みをしていない。ブランド毀損リスクは低い。</li>
+</ol>
+<hr />
+<h2>5. 改善点（3〜5）</h2>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善1：セールス担当が自ら「悩みなし・自己解決済み」を強調し、購入理由を消してしまった（最重要）</h3>
+<p>草刈は谷田様が言ってもいない「もう解決できている」を<strong>先回りして繰り返し肯定</strong>し、講座の必要性を自分から下げている。</p>
+<ul>
+<li>「割とご自身でも解決されてきて 今そんな悩みもない」(L2114-2116)</li>
+<li>カルマについても「でも多分そこはすでに解決できてるところも あるから 入ってきてるんじゃないか」(L1897-1901)、「解決できないことは一つもないですね」(L2088)</li>
+</ul>
+<p>→ 谷田様の「答え合わせ／発展の指針が欲しい」という購入理由が育ちかけていたのに(L1616-1622, L2096-2100)、担当が「もう大丈夫」と塗り替えた。<strong>発展型ニーズを"現状で十分"に着地させてしまった</strong>のが最大の失注要因。改善は「解決済み」を肯定せず、「自己流で来たからこそ、次のステージは意図的に設計する価値がある」と未来の伸びしろに接続すること。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善2：3つの障壁（時間・個人コンサル無し・公開露出）に一つも切り返し/代替提案を用意できていない</h3>
+<p>谷田様は障壁を丁寧に自己開示したのに、草刈の返答は説明どまりで、障壁を外す提案に至っていない。</p>
+<ul>
+<li>時間障壁に対し「アーカイブで見る方もいる」(L2206-2210)「録画で参加」(L2343)と情報提示はしたが、「海外・不定期でも回せる受講設計」を具体的に組み立てていない。</li>
+<li>個人コンサル希望に対しては「今回は募集していない」(L2151)で終わり、「ゆり先生との1対1が3〜4回ある」(L2299-2307)を<strong>障壁Bへの解決策として明確に束ねられていない</strong>（情報が散在）。</li>
+<li>公開露出の懸念には「本名じゃなくても大丈夫」(L2387)と部分対応のみ。</li>
+</ul>
+<p>→ 改善は、3障壁を1つずつ「それは○○で解決できます」と対応表として提示し、「あなたのケースはこう受講できる」と一本の受講プランに束ねること。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善3：価格・オファーを一度も提示しないまま終了している（案内前終了の直接形）</h3>
+<p>書き起こし全編で¥598,000という価格も、正式なコース内容/特典/申込導線も一切提示されていない。谷田様が「今すぐお願いしますとは言えない」(L2486)と言った時点で、草刈も同調して終了。<strong>「価値の橋渡し→障壁解消→提示」の順序に入る前に商談が閉じている。</strong></p>
+<p>→ 改善は、障壁を仮に解消できた前提で「では具体的にどういう内容・費用か"だけ"先にお伝えしますね」と、判断材料として最低限オファーを提示すること（押し売りにはならない）。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善4：谷田様の「起業ではない」不安への初期対応は良いが、その後の"活用イメージ"を経営者妻の日常業務に接地しきれていない</h3>
+<p>谷田様は「会社の空気を整える」「学生ケア」「娘・社会との関わり」(L1338-1396)という具体シーンを語っている。ここに名式活用を紐づければ強い動機になり得たが、草刈は「他人の名式も見られるようになる」(L2166-2172)と一般説明で返し、谷田様は「ただそれを求めているのかっていうと そこはちょっと分からない」(L2192-2194)と離れてしまった。</p>
+<p>→ 改善は、顧客が自ら出した具体シーン（社員のケア・娘・夫）に名式活用を直接当て込み、「あなたが今やっている○○が、名式でこう精度上がる」と接地する。</p>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善5：終盤で担当が「絶対まっすぐみたいな感じでもない」と顧客の温度を下方に決めつけている</h3>
+<ul>
+<li>「どっちかというとそういう絶対まっすぐみたいな感じでもないのかな」(L2397)</li>
+</ul>
+<p>→ セールス担当が顧客の購入意欲を自ら低く見積もる発言。これは要因1と同根で、担当の"見立て"が購入を後押しする方向に働いていない。改善は温度の断定を避け、意欲は質問で確認する。</p>
+<hr />
+<h2>6. 担当（草刈）フィードバック</h2>
+<ul>
+<li><strong>強み</strong>：傾聴・承認・安心設計・比喩による説明が上手く、ラポール形成は高水準。谷田様は最後まで好意的で「ゆり先生にもよろしく」(L2568)と締めており、関係性は良好に保たれた。将来の再接触余地は残っている。</li>
+<li><strong>今回の一番の課題</strong>：<strong>担当自身が「もう解決できている／悩みがない」と繰り返し、購入理由を消した</strong>こと（改善1）。発展型（より良くなりたい）ニーズを現状肯定で着地させたのが致命傷。</li>
+<li><strong>次回への具体アクション</strong>：</li>
+<li>顧客が「困っていない」と言っても、それを肯定しない。「発展型」ニーズを未来の設計価値に翻訳する。</li>
+<li>障壁が出たら「説明」で終えず「対応表→受講プラン」に束ねる。特に時間・形式の柔軟性（アーカイブ・1対1回数・匿名参加）を1枚で提示。</li>
+<li>価格/オファーは案内前終了させず、判断材料として最低限提示してから顧客に委ねる。</li>
+<li><strong>注意</strong>：本件は「顧客が本当に不要だった」案件ではない。<strong>提供形式（決まった時間のグループ講座）と、時間不定・非公開・1対1志向の顧客との構造的ミスマッチ</strong>が本質。商品側（個人コンサル枠の有無・時間の柔軟性）へのフィードバックも要検討。</li>
+</ul>
+<hr />
+<h2>7. 面談メモと書き起こしの食い違い（現場主義による検証結果）</h2>
+<table>
+<thead>
+<tr>
+<th>担当メモの記載</th>
+<th>書き起こしの実際</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>経営者妻</td>
+<td>「経営者の妻としての役割の方が多い」(L307-311)で一致</td>
+<td>○ 一致</td>
+</tr>
+<tr>
+<td>困り事なし</td>
+<td>「すごい困ってない」(L1513)発話はあるが、直後に「進む道の指針が欲しい」(L1616-1622)と<strong>発展型の受講理由を明言</strong>。「困り事がないから離脱」は因果の取り違え</td>
+<td>✕ <strong>食い違い（要因の誤帰属）</strong></td>
+</tr>
+<tr>
+<td>カルマ解消済み</td>
+<td>「解消済み」は<strong>担当（草刈）が「すでに解決できてるところもある」(L1897)「解決できないことは一つもない」(L2088)と誘導した見立て</strong>。谷田様自身は「自分自身への応援が入りにくい」カルマについて「どういうことかな…聞いてみないと」(L1909-1913)と<strong>未解明として関心を残している</strong>。「解消済み」は事実ではなく担当の一方的着地</td>
+<td>✕ <strong>食い違い（担当の見立てを事実化）</strong></td>
+</tr>
+<tr>
+<td>（メモに無い）離脱の真因</td>
+<td>時間の年出不可(L2230,L2482)・個人コンサル無し(L2151,L2255)・公開露出不可(L2349)の3障壁を顧客が明言</td>
+<td>△ <strong>メモに記載なし（最重要情報の欠落）</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>総括</strong>：担当メモは「経営者妻・困り事なし・カルマ解消済み」と、あたかも「満たされていて必要がない客だった」という物語に整えている。しかし書き起こしの真実は、<strong>「学ぶ意欲はあったが、時間・形式・露出の3つで物理的に受けられなかった」</strong>である。さらに「カルマ解消済み」は顧客の言葉ではなく担当自身の誘導であり、担当が購入理由を自ら消していた事実（改善1）を覆い隠す構図になっている。担当報告を鵜呑みにすれば「仕方ない失注」に見えるが、書き起こしが暴く真実は「対応可能だった形式ミスマッチを、切り返さずむしろ肯定して終わらせた失注」である。</p>
+<hr />
+<h2>8. 補足：離脱地点の特定（どこで失注が確定したか）</h2>
+<p>書き起こしを追うと、離脱は一点ではなく<strong>段階的に確定</strong>している。分岐点を発話で特定する。</p>
+<ul>
+<li><strong>第1分岐（50:00前後・L2114-2128）</strong>：草刈が「割とご自身でも解決されてきて 今そんな悩みもない」「時間とお金を投資する価値が…あるのか…私には答えが出せない」と発言。ここで購入理由を担当自ら弱め、顧客に「投資すべきか」の判断を丸投げした。ここが<strong>心理的な離脱の起点</strong>。</li>
+<li><strong>第2分岐（52:00前後・L2147-2151）</strong>：谷田様が希望した個人コンサルが「今回は募集していない」と分かり、代替案に束ねられないまま「わかりました」(L2154)と一段引いた。</li>
+<li><strong>第3分岐（54:00〜58:00・L2230-2281）</strong>：講義量（半年・月2回2時間/リアル4時間）を把握し「時間が問題」「決まった時間は難しい」と明言。<strong>物理的受講可否の確定</strong>。</li>
+<li><strong>クロージング不発（1:00:00前後・L2482-2496）</strong>：谷田様が先に「今すぐお願いしますとは言えない」と退き、草刈が「思ったタイミングがいいのかな」(L2518)と同調。価格・オファー提示に入らず終了＝<strong>案内前終了の成立</strong>。</li>
+</ul>
+<p>→ 失注は「顧客が拒否した」形ではなく、「担当が第1分岐で購入理由を下げ、第2・第3分岐の障壁を束ねられず、クロージングに入らずに閉じた」形。<strong>再現性のある改善余地が大きい</strong>。</p>
+<h2>9. 再接触の可能性（発話根拠）</h2>
+<p>谷田様は関係を良好に保って終えており、将来の再接触余地は明確に残っている。</p>
+<ul>
+<li>「それを心に留め置いて また何か学びたいな それでも学びたいなと思えたら またのくさせていただきたい」(L2488-2494)</li>
+<li>「もの自体はすごくいいものっていう風に 私もすごい断言できる」(草刈, L2500-2502)</li>
+<li>「井野先生にも よろしくお伝えください」(谷田様, L2568)</li>
+</ul>
+<p>→ 「時間の柔軟性が確保できる時期（本人談：半年の後半に海外予定あり L2273）」や「個人コンサル枠が開設された場合」を条件に、次期募集での再アプローチが有効。担当メモの「困り事なし」ラベルのまま放置すると、この再接触機会を失う。真因（形式ミスマッチ）で記録を残すことが次回接触の鍵。</p>
+<h2>10. 商品・オファー側への申し送り（本案件運用への示唆）</h2>
+<p>書き起こしから、以下は個別セールス技術ではなく商品設計側の論点として申し送る。</p>
+<ol>
+<li><strong>1対1個人コンサル枠のニーズ実在</strong>：本件は個人コンサル志向の顧客が明確に存在することを示す(L2147-2255)。高単価・非公開志向層向けの個別枠の可否は商品側で検討価値あり。</li>
+<li><strong>時間非拘束の受講導線</strong>：「決まった時間に出られない／海外あり」層に対し、アーカイブ＋1対1調整＋匿名チャットを"1つの受講プラン"として最初から提示できる資料化が有効。</li>
+<li><strong>発展型（悩みなし・より良く型）顧客向けトーク整備</strong>：本件のような「困っていないが指針が欲しい」層に、現状肯定で終わらせない標準トークが必要（改善1と直結）。</li>
+</ol>
+<hr />
+<p>Produced by KATSUO MARKETING（田中祐一・本案件専用）</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>

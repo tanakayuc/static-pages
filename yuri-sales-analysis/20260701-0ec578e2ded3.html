@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260701_清水玉藻_草刈 - 松本ゆり セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>松本ゆり セールス分析</h3>
+<a class="sidebar-item sidebar-item--cross" href="../yuri-sales-manual/">セールスレポート（トップ）</a><a href="20260701.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_吉澤那美_草刈</a>
+<a href="20260701-2f17612b5c12.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_寺本敏美_草刈</a>
+<a href="20260701-3641ecbf8f93.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_小嶋美和_草刈</a>
+<a href="20260701-0ec578e2ded3.html" class="sidebar-item active"><span class="date">2026年07月01日</span> 20260701_清水玉藻_草刈</a>
+<a href="20260701-b7d8e2675e59.html" class="sidebar-item"><span class="date">2026年07月01日</span> 20260701_谷田桂子_草刈</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>セールス分析｜清水玉藻さん（担当：草刈）</h1>
+<ul>
+<li>作成日：2026-07-02</li>
+<li>区分：<strong>書き起こし本文ベースの確定分析</strong>（暫定ではない。判断根拠はすべて書き起こし原本の実発話）</li>
+<li>案件：松本ゆり「女性のための愛とお金の帝王学」（¥598,000）</li>
+<li>結果（担当報告）：案内前終了</li>
+<li>書き起こし原本：<a class="ref-link" href="20260701-0ec578e2ded3.html">21_プロジェクト一覧/松本ゆり/セールス/セールス原本/20260701_清水玉藻_草刈.md</a>（全1172行）</li>
+</ul>
+<blockquote class="callout-box">
+<p>本分析の唯一の根拠は上記書き起こし本文である。担当（草刈）の面談メモ・区分は「ただのデータ」として扱い、実際の発話で裏を取った。両者が食い違う箇所は書き起こしを正とし、後段「面談メモとの食い違い」に明記する。</p>
+</blockquote>
+<hr />
+<h2>1. 基本情報（書き起こしから確認できる事実のみ）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+<th>根拠（発話）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>参加者</td>
+<td>清水玉藻さん</td>
+<td>L279「私は清水智元といって」（音声認識ゆれ。担当も冒頭で「清水様」と呼称）</td>
+</tr>
+<tr>
+<td>職業</td>
+<td>保育士／音楽療法士／ヨガティーチャー／音楽家</td>
+<td>L140-142「保育士さんと音楽療法士とヨガティーチャーさん 音楽家って書いてらっしゃった」、L281-295 本人確認</td>
+</tr>
+<tr>
+<td>働き方</td>
+<td>フリーランスで5施設を巡回</td>
+<td>L1872-1876「今フリーランスで仕事をしていて…5つぐらいの施設を回ってるんですよ」</td>
+</tr>
+<tr>
+<td>主領域</td>
+<td>障害児・不登校児への音楽療法、フリースクールでの音楽時間</td>
+<td>L293-305</td>
+</tr>
+<tr>
+<td>家族</td>
+<td>中3の息子（自閉症・受験生）、夫。3人兄弟の末っ子</td>
+<td>L474「中3」、L1378-1381「障害があって自閉症」、L1215「3人兄弟」「末っ子」、L3070「今受験なんで」</td>
+</tr>
+<tr>
+<td>参加きっかけ</td>
+<td>別の帝王学講座（なめかわ氏）受講中に「女性のための帝王学」が流入。無料講座を受けて興味</td>
+<td>L418-446、L452-454「無料の…はい」</td>
+</tr>
+<tr>
+<td>講座への現状態度</td>
+<td>「迷っている／興味あるに変わった」（申込フォーム）だが本人は方法を知りたいだけ</td>
+<td>L1010「小澤、気が迷ってます」（担当引用）、L2505「知りたいんです」</td>
+</tr>
+<tr>
+<td>担当</td>
+<td>草刈（認定コンサルタント）</td>
+<td>L98「認定コンサルタントの草刈明と申します」</td>
+</tr>
+<tr>
+<td>最終結果</td>
+<td>金銭・優先順位を理由に見送り。「来年ご縁があれば」</td>
+<td>L3062-3122</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 会話の流れ（時系列・発話引用）</h2>
+<h3>導入〜アイスブレイク（00:00〜10:00 / L21-416）</h3>
+<ul>
+<li>16時終了希望を確認（L34-48）。</li>
+<li>草刈の自己紹介：エステ経験→女性起業家理念でゆり先生と一致（L98-134）。</li>
+<li>清水さんの職業（保育士・音楽療法士・ヨガ）に「共通点いっぱい」と共感を重ねる（L146-401）。神社・ヨガ・音楽の融合という本人の夢に「めちゃくちゃいいですね」を連発（L337-403）。</li>
+</ul>
+<h3>参加動機と他講座比較（10:00〜15:00 / L415-664）</h3>
+<ul>
+<li>きっかけは「なめかわさん」の帝王学5日間講座受講中の流入（L418-446）。</li>
+<li>入口は「日本人・戦前・帝王学を知りたい」という知的関心（L456-540）。息子の神社巡りが起点（L466-505）。</li>
+<li>なめかわ講座との違いを本人が言語化：向こうは「置かれるに相応しい環境」「ぐいぐい進める」、ゆり先生は「子宮」「たおやか」（L588-664）。</li>
+</ul>
+<h3>命式・天柱札の説明（15:00〜35:00 / L666-1647）</h3>
+<ul>
+<li>草刈が「川を船で漕ぐ」比喩、天柱札（受動的であれ）、命式で回避できるという説明を長く展開（L666-944）。</li>
+<li>ゆり先生のボイスメッセージ（3分弱）を一緒に聴く：清水さんの天柱札は猿年・鳥年、月の天柱札は8/7〜10/7。幼少期環境・年下/子どもとの関係が愛とお金の動線（L1100-1199）。</li>
+<li>幼少期のヒアリング：仕事人間の両親、祖母が養育、茶碗が飛び交う激しい家庭、末っ子で可愛がられ兄姉から反発、ムードメーカー役（L1211-1315）。</li>
+<li>命式ポイント提示：「バランスを取るのが難しいカルマ」（L1338-1356）、夫婦仲と息子の体調がシーソー（L1450-1468）、草刈自身の「毎日動け＝キックボクシング」体験談で具体性を演出（L1504-1562）。</li>
+</ul>
+<h3>現状ビジネスの深掘り（35:00〜55:00 / L1578-2380）</h3>
+<ul>
+<li>去年やろうとして頓挫した理由を本人が語る：療育センターからの音楽グループ立ち上げ依頼＋別施設からの依頼が同時進行→「連絡先どうする」で悩み（L2007-2099）、いとこのおじの末期がん・行方不明（L2109-2149）、中学生の事件相談（L2167-2199）、自身の半月板損傷・全治1ヶ月（L2208-2236）が重なり全て流れた。</li>
+<li>「お金にはつながってない」ことを本人が認める（L1910-1916）。</li>
+<li>草刈がゆり先生の見立て「情に弱い／情の勘違いでトラブルに巻き込まれる」を提示（L2378-2380）。</li>
+</ul>
+<h3>クロージング（55:00〜終了 / L2382-3172）</h3>
+<ul>
+<li>草刈の締め：「やりたいことが3万（散漫）になっている」「順番」「設計図」（L2416-2487）。</li>
+<li>清水さんの唯一の明確なニーズ表明：「優先順位はつけるのが苦手」「何から始めるか知りたい」「うまくいく方法を知りたい」（L2497-2509）。</li>
+<li>「この講座で役に立てそうか」を問うと、清水さんは<strong>質問返し</strong>：「講座入るか分からない」「どういうことを求められますか」（L2565-2582）。</li>
+<li><strong>決定的なすれ違い</strong>：清水さんが「具体的に教えてもらいたい」→草刈「具体的に教えてくれるのは講座の中」「ここはそれを見ていく場ではない」（L2590-2594）。「どこまでだったら教えていただけるんですか」（L2596）に対しても「膨大」「占いみたいな曖昧なものではない」で実質ゼロ回答（L2604-2634）。</li>
+<li>価格開示（区分は「案内前終了」だが実際は口頭で提示）：「低勝ち隊で30万、高勝ち隊だと100万超える」（L2919-2924）、「130万するような講座のサポートと同じぐらいかそれ以上」（L2952-2954）、「100万はしない、だけど30万40万ではない、もうちょっとします」（L2962-2966）、分割可（L2946）。</li>
+<li>清水さんの断り：「子供にお金がかかる」「今出せるお金はない」「今回は多分難しい」（L3052-3064）、「今受験なんで」（L3070）、「来年もしあれば考えたい」（L3118-3122）。</li>
+</ul>
+<hr />
+<h2>3. なぜ「離脱」に至ったか — 要因構造（発話引用）</h2>
+<p>担当区分は「案内前終了」だが、書き起こしを読むと<strong>個別案内（価格・サポート内容）は口頭で提示されており、その上で顧客が明確に見送った</strong>（後述の食い違い）。離脱の本質は「案内前」ではなく「案内はしたが刺さらなかった」。要因は4層。</p>
+<h3>要因A：来た目的と商品が最初からズレている（入口のミスマッチ）</h3>
+<ul>
+<li>清水さんの入口は一貫して<strong>知的好奇心</strong>：「日本人・戦前・帝王学を知りたい」（L456-540）。当初から「講座を買う気」ではなく「学びたい／方法を知りたい」。</li>
+<li>L1016 で草刈自身が違和感に触れている：「最初は日本知りたいから入ったのに、なんでちょっと興味あるなって変わっていったんでしょうか」。ここで<strong>購買意欲の低さの根</strong>を掴みかけたのに、深掘りせず流した。</li>
+<li>温度が上がりきらないまま説明に入ったため、以降ずっと「顧客が欲しいもの」と「商品が売りたいもの」が交差しない。</li>
+</ul>
+<h3>要因B：顧客の唯一のニーズに商品が応えられていない（価値の空振り）</h3>
+<ul>
+<li>清水さんが繰り返し言った具体ニーズはただ一つ：<strong>「何から始めるか／うまくいく方法を知りたい」</strong>（L2497-2509）。</li>
+<li>ところが方法の一端を求めた瞬間（L2590「具体的に教えてもらいたい」）、草刈は「講座の中でしか教えない」「ここは見ていく場ではない」（L2592-2594）と壁を作った。</li>
+<li>「どこまでなら教えてもらえるか」（L2596）にも実質ゼロ回答（L2604-2634）。<strong>説明会で価値の片鱗を体験させられず、顧客は「お金を払わないと何も得られない」と受け取った</strong>。ここが最大の離脱点。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>要因C：説明が「商品説明」に終始し、顧客の課題解決に翻訳されていない</h3>
+<ul>
+<li>15:00〜35:00 の約20分（L666-1647）は命式・天柱札・比喩・草刈の体験談が中心で、清水さんの実際の課題（施設連携をどう事業化するか、連絡先・窓口をどう作るか＝L2073-2099 で本人が具体的に悩んでいた点）への<strong>具体的な打ち手が提示されていない</strong>。</li>
+<li>打ち手はすべて「講座に入れば」「一緒に設計図を」に留まる（L2547「しっかり設計図作っていけたらいいですよね」、L2781「一緒に先生と考えていくこともできます」）。<strong>未来の約束はあるが、今日の手応えがない</strong>。</li>
+</ul>
+<h3>要因D：現実的な制約（受験・資金）を覆すだけの緊急性を作れなかった</h3>
+<ul>
+<li>清水さんの制約は明確：中3息子の受験（L3070）、子供の学費（L3052）、可処分資金なし（L3058-3060）。</li>
+<li>草刈は「猿年・鳥年（天柱札2年）が来る前に準備を」「早い方がいい」（L2769-2887）と緊急性を出そうとしたが、これは<strong>商品側の理屈（命式の時期論）</strong>であって、顧客側の「今払う理由」に変換できていない。</li>
+<li>価格が「30万40万ではない、もうちょっとします」（L2964-2966）と曖昧に高額提示された直後に、受験・資金の現実が勝ち、「今回は難しい」（L3064）で確定した。</li>
+</ul>
+<p><strong>構造まとめ</strong>：知的関心で入った低温度の顧客（A）に、価値の体験を与えず（B）商品説明で押し（C）、現実制約を上回る緊急性も作れなかった（D）。温度が下がったというより、<strong>元々低い温度を上げる仕掛けがどこにもなかった</strong>というのが実態。</p>
+<hr />
+<h2>4. 良かった点（発話根拠）</h2>
+<ol>
+<li><strong>序盤の共感構築は丁寧</strong>。職業・夢（神社×音楽×ヨガ）への「めちゃくちゃいいですね」の重ね（L337-403）で、清水さんは自分の構想を饒舌に語れている。ラポールは取れていた。</li>
+<li><strong>顧客の違和感を言語化させる問いを一度出せている</strong>。L1016「なんで興味あるに変わったのか」、L2003「やろうとしてたのは何を」など、深掘りの入口となる質問自体は投げられている。</li>
+<li><strong>できない事は正直に線引きした</strong>。L2592-2634 で「ここでは具体的に教えられない」と誠実に伝えた点は、事前の宣言（L221-237「できないことははっきり伝える」）と整合し、誇大な約束で釣らなかった。</li>
+<li><strong>押し売りをしなかった</strong>。断りに対し「絶対やらないといけないわけではない」（L3024-3026）と引き、後味を悪くしていない。「来年ご縁があれば」（L3144）で関係を残した。</li>
+</ol>
+<hr />
+<h2>5. 改善点（離脱を防ぐには本来どうすべきだったか）3〜5</h2>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善1：説明会で「小さな成功体験」を必ず1つ渡す（要因B・C対策／最優先）</h3>
+<ul>
+<li>清水さんは「何から始めるか知りたい」（L2503）と明言していた。ここで<strong>その場で1つだけ具体的な打ち手</strong>——例えば「去年頓挫した療育センターの音楽グループは、まず連絡先を専用の無料フォーム/LINEで受け窓口だけ先に作る。それを天柱札が来る前の“今”やる」——を実演すべきだった。実際 L2752-2831 で草刈はこの具体案の断片を持っていた。<strong>それを『講座の中で』と出し惜しみせず、1つだけ完結させて体験させれば</strong>、「お金を払う価値」が実感に変わった。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善2：入口の温度を序盤で確定し、シナリオを分岐する（要因A対策）</h3>
+<ul>
+<li>L1016 で「知的関心で入った」ことが露呈した時点で、<strong>「買う相談」なのか「学ぶ相談」なのか</strong>を早期に確認すべきだった。低温度と分かれば、命式説明20分を短縮し、「今日の悩み（事業化の詰まり）を1つ解く」方向に時間配分を寄せられた。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善3：顧客の実課題を商品ベネフィットに翻訳する（要因C対策）</h3>
+<ul>
+<li>清水さんの実課題は「5施設連携という強みが金にならない」（L1910-1916）「連絡先・窓口・法人化で止まっている」（L2073-2099）と非常に具体的。これらに対し「講座ではこの詰まりを、こういう順で、こう解く」と<strong>顧客の言葉で解決像を描く</strong>べきだった。命式の比喩より、この翻訳が刺さる。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善4：資金・受験の制約を早期に把握し、オファー設計を変える（要因D対策）</h3>
+<ul>
+<li>中3受験生の母という属性は課題フォームから既知のはず。<strong>可処分資金が限られる前提を先に把握</strong>すれば、分割の出し方・開始タイミング（受験後スタート等）・返金/延期条件を武器として提示できた。実際、価格提示（L2919〜）まで資金状況を一度も確認せず、断られてから受験・学費が出てきた（L3052-3070）のは順序が逆。</li>
+</ul>
+<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>改善5：価格を曖昧にせず、価値と紐づけて明示する（要因D対策）</h3>
+<ul>
+<li>「100万はしない、だけど30万40万ではない、もうちょっとします」（L2962-2966）という<strong>金額をぼかした提示</strong>は、高額不安だけを残し価値の確信を伴わない最悪の形。598,000円という価格は、改善1で渡した「小さな成功体験」と「半年で事業化する設計図」に紐づけて、根拠とともに堂々と提示すべきだった。</li>
+</ul>
+<hr />
+<h2>6. 担当（草刈）へのフィードバック</h2>
+<ul>
+<li><strong>強み</strong>：ラポール構築と誠実さ。共感の量、押さない姿勢、線引きの正直さは資産。この土台があるからこそ、価値提示の一手で化ける余地が大きい。</li>
+<li><strong>最大の課題は「出し惜しみ」</strong>。清水さんが具体を求めた核心の瞬間（L2590「具体的に教えてもらいたい」）に「講座の中でしか」と閉じたことが致命傷。<strong>説明会は“価値のティザー体験”の場</strong>であり、1つ完結させて渡すことで初めて有料の価値が伝わる。手持ちの具体案（L2752-2831）を持っていたのだから、それを1つ実演すれば結果は変わった可能性が高い。</li>
+<li><strong>ヒアリング→提案の翻訳が弱い</strong>。良い質問を投げて良い情報（事業化の詰まり・資金制約・入口の低温度）を得ているのに、それを提案に反映せず商品説明に戻ってしまう。得た情報を「だからあなたにはこの講座がこう効く」に変換する訓練を推奨。</li>
+<li><strong>順序の逆転</strong>：資金・優先順位（受験）の確認を価格提示の後に回した。制約は価格前に把握し、オファー設計に織り込むこと。</li>
+</ul>
+<hr />
+<h2>7. 面談メモ（担当報告）と書き起こしの食い違い</h2>
+<blockquote class="callout-box">
+<p>原理原則：担当報告は「ただのデータ」。書き起こしの実発話を正とする。</p>
+</blockquote>
+<ol>
+<li><strong>区分「案内前終了」は不正確</strong>。</li>
+<li>担当報告（L9）：「案内前終了」。</li>
+<li>書き起こし：価格帯（30万〜100万超・実質「30万40万ではない、もうちょっとします」L2919-2966）、サポート内容（個別複数回・週1ワーク・週1グルコン・東京リアル L2648-2674）、分割可（L2946）まで<strong>口頭で案内済み</strong>。その上で顧客が資金・受験を理由に見送っている（L3052-3070）。</li>
+<li>実態は「<strong>案内は行ったが、価値体験がなく、資金・優先順位を理由に否決／見送り</strong>」。区分としては「否決（見送り）」に近く、「案内前終了」は離脱局面を実際より前倒しに記録しており、<strong>改善の焦点（＝価値提示の失敗）を見えなくする恐れがある</strong>。この食い違いは要注意。</li>
+</ol>
+<p>（上記以外、担当報告に記載された項目〔氏名・担当者・アーカイブURL〕は書き起こし冒頭情報と整合。追加の所感メモは原本に含まれていないため、照合対象は区分のみ。）</p>
+<hr />
+<p>Produced by KATSUO MARKETING（田中祐一・本案件専用）</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
