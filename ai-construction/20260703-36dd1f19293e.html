@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260703_プロモーション設計チームAI社員_実装設計とタスク一覧 - AI社員化プロジェクト 設計方針</title>
+<style>
+* { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
+.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
+.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
+.sidebar-item:hover { background: #e9ecef; }
+.sidebar-item.active { background: #0d6efd; color: white; }
+.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
+.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
+.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+.main pre code { background: none; padding: 0; }
+.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+.main th { background: #f8f9fa; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
+.main a:hover { text-decoration: underline; }
+.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    body { flex-direction: column; }
+    .sidebar { display: none; }
+    .mobile-nav { display: block; }
+    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.95rem; line-height: 1.7; }
+    .main a { word-wrap: break-word; overflow-wrap: break-word; }
+    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .main { padding: 0.75rem; }
+    .main h1 { font-size: 1.15rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.9rem; }
+    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
+    .main table { font-size: 0.8rem; }
+    .main th, .main td { padding: 0.25rem; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
+<nav class="sidebar">
+<h3>AI社員化プロジェクト 設計方針</h3>
+<a href="024.html" class="sidebar-item"><span class="date">2026年07月06日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年07月06日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年07月06日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年07月06日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ナレッジフィードバックループ_実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item active"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チーム_AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計_Zoom一括蒸留_StageB仕分けルール_20260703</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 一括蒸留_進捗台帳_20260702</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> 監査_20260619_knowledge格納構造_findings_共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+</nav>
+<main class="main">
+<h1>プロモーション設計チームAI社員 実装設計とタスク一覧</h1>
+<p>作成日: 2026-07-03<br />
+目的: 田中祐一AIを「ナレッジ検索AI」から「プロモーション設計チームを束ねるAI」へアップデートする</p>
+<h2>1. 基本方針</h2>
+<p>今後の訴求は「田中祐一AIが使える」ではなく、「田中祐一のプロモーション設計チームをAIで使える」に寄せる。</p>
+<p>田中祐一AIは表側の総合窓口。<br />
+裏側には、プロモーションディレクター、ビジネス設計、ファネル設計、コンセプト、オファー、台本、LP、ステップメール、QAなどのAI社員を配置する。</p>
+<p>ユーザーはAI社員の作り方を知らなくてよい。<br />
+ユーザーは「案件を進めたい」「LPを作りたい」「コンセプトを見てほしい」と依頼するだけ。<br />
+田中祐一AIが内部で適切な社員を呼び、工程表を作り、成果物を管理する。</p>
+<h2>2. 今回の教材から導入するもの</h2>
+<h3>導入する</h3>
+<ul>
+<li><code>MEMORY.md</code> を案内板にする考え方</li>
+<li><code>_RULE.md</code> を部署やフォルダのルールにする考え方</li>
+<li><code>SKILL.md</code> を再現可能な作業手順にする考え方</li>
+<li><code>knowledge/</code> と <code>output/</code> を分ける考え方</li>
+<li>既存本文を壊さず、原本と派生知識を分ける考え方</li>
+<li>AI社員ごとに、入力、出力、参照ナレッジ、品質基準、保存先を定義する考え方</li>
+<li>AI部署を空箱にせず、実際のロールと初期スキルまで作る考え方</li>
+<li>Source-Grounded Facts、Inferred Structure、Open Questionsを分ける考え方</li>
+<li>成果物をQAし、良い判断だけナレッジやスキルへ戻す考え方</li>
+</ul>
+<h3>そのままは導入しない</h3>
+<ul>
+<li><code>03-AI_departments/</code> を別のトップ階層として丸ごと新設すること</li>
+<li>Finance、HR、Technologyなど全部署を形式的に作ること</li>
+<li>すべての既存ファイルを一気に移動すること</li>
+<li>自動化や外部公開を最初から完成させること</li>
+</ul>
+<p>このリポジトリはすでに <code>agents/</code>、<code>skills/</code>、<code>knowledge/</code> がマスター層として定義されているため、OpenClaw型の思想を既存構造に翻訳して導入する。</p>
+<h2>3. 全体アーキテクチャ</h2>
+<pre><code class="language-text">田中祐一AI
+  ├── 総合窓口
+  ├── 依頼ルーター
+  ├── プロモーションディレクター呼び出し
+  └── 最終編集者
+
+プロモーション設計チーム
+  ├── プロモーションディレクター
+  ├── ビジネス設計担当
+  ├── ファネル設計担当
+  ├── コンセプトメイカー
+  ├── オファー設計担当
+  ├── シナリオ設計担当
+  ├── LP設計担当
+  ├── ステップメール担当
+  ├── 証拠・反論リサーチ担当
+  └── マーケティングQA担当
+
+横断チーム
+  ├── ナレッジ管理担当
+  ├── 議事録担当
+  ├── セールスフィードバック担当
+  └── デザイン＆コーディング担当
+</code></pre>
+<h2>4. 田中祐一AI本体の役割</h2>
+<p>田中祐一AI本体は、専門業務を全部自分で抱え込まない。</p>
+<p>主な役割は次の4つ。</p>
+<ol>
+<li>依頼を受ける</li>
+<li>必要なAI社員を選ぶ</li>
+<li>社員の成果物を統合する</li>
+<li>田中祐一の判断、文体、温度感に整える</li>
+</ol>
+<p>田中祐一AIは「全社員を束ねるプロデューサーの顔」を持つ。<br />
+実務の細部はAI社員に渡す。</p>
+<h2>5. 新設すべき中核ロール</h2>
+<h3>プロモーションディレクター</h3>
+<p>今回もっとも重要な新設ロール。</p>
+<p>これまで工程表を作るAIの精度が上がりきらなかった理由は、工程表を「作業一覧」として作っていたため。</p>
+<p>今後は工程表を、次の意味を持つ業務OSとして扱う。</p>
+<ul>
+<li>なぜこの工程が必要か</li>
+<li>何を入力にするか</li>
+<li>誰が担当するか</li>
+<li>何を成果物として残すか</li>
+<li>どの保存先に置くか</li>
+<li>何をもって完了とするか</li>
+<li>どの確認ゲートを通過したら次へ進むか</li>
+<li>次工程のAI社員に何を渡すか</li>
+</ul>
+<p>プロモーションディレクターは、田中祐一AIの下で最初に動くPM。</p>
+<h3>プロモーションディレクターの主な仕事</h3>
+<ol>
+<li>案件背景を聞き出す</li>
+<li>案件マスターや最小Configを作る</li>
+<li>工程表を作る</li>
+<li>工程ごとに担当AI社員を割り当てる</li>
+<li>各工程の完了条件を決める</li>
+<li>途中成果物を確認する</li>
+<li>QA担当にレビューを回す</li>
+<li>次工程への引き渡し文を作る</li>
+<li>作業ログを残す</li>
+<li>良かった判断をナレッジ候補へ送る</li>
+</ol>
+<h2>6. 工程表の標準フォーマット</h2>
+<p>工程表は、単なるToDo表にしない。</p>
+<p>標準列は以下。</p>
+<pre><code class="language-text">工程ID
+工程名
+目的
+この工程が必要な理由
+入力ファイル
+担当AI社員
+参照スキル
+参照ナレッジ
+成果物
+保存先
+完了条件
+確認ゲート
+次工程への引き渡し
+リスク
+ステータス
+</code></pre>
+<p>この中でも重要なのは「この工程が必要な理由」と「次工程への引き渡し」。</p>
+<p>ここがあると、AIがただ作業をこなすのではなく、プロモーション全体の中で何を担っているのかを理解しやすくなる。</p>
+<h2>7. 推奨フォルダ構成</h2>
+<p>既存の3層構造に合わせる。</p>
+<p>トップ階層に新しく巨大なフォルダを作るのではなく、既存の <code>agents/</code>、<code>skills/</code>、<code>knowledge/</code>、<code>21_プロジェクト一覧/</code> を整える。</p>
+<h3>agents</h3>
+<pre><code class="language-text">agents/
+├── _INDEX.md
+├── _RULE.md
+├── 00_田中祐一AI本体/
+│   └── agent.md
+├── 01_プロモーション設計チーム/
+│   ├── _RULE.md
+│   ├── プロモーションディレクター/
+│   │   └── agent.md
+│   ├── ビジネス設計担当/
+│   │   └── agent.md
+│   ├── ファネル設計担当/
+│   │   └── agent.md
+│   ├── コンセプトメイカー/
+│   │   └── agent.md
+│   ├── オファー設計担当/
+│   │   └── agent.md
+│   ├── シナリオ設計担当/
+│   │   └── agent.md
+│   ├── LP設計担当/
+│   │   └── agent.md
+│   ├── ステップメール担当/
+│   │   └── agent.md
+│   ├── 証拠反論リサーチ担当/
+│   │   └── agent.md
+│   └── マーケティングQA担当/
+│       └── agent.md
+├── 02_ナレッジ運用チーム/
+│   ├── _RULE.md
+│   └── ナレッジ管理担当/
+└── 90_既存エージェント/
+</code></pre>
+<p>既存エージェントはすぐ物理移動しなくてよい。<br />
+まず <code>agents/_INDEX.md</code> で所属を定義し、段階的に移す。</p>
+<h3>skills</h3>
+<pre><code class="language-text">skills/
+├── プロモーション構築/
+├── プロモーションディレクション/
+├── 工程表作成/
+├── 案件ヒアリング_Config作成/
+├── ビジネス設計/
+├── ファネル設計/
+├── コンセプト構築/
+├── オファー構築/
+├── シナリオ作成/
+├── LP作成/
+├── LP添削/
+├── ステップメール作成/
+├── 根拠リサーチ/
+├── 悪魔のフィードバック/
+└── マーケティングQA/
+</code></pre>
+<p>既存スキルがあるものは再利用する。<br />
+不足しているものだけ新設する。</p>
+<h3>knowledge</h3>
+<p>既存の <code>knowledge/</code> はかなり使える。</p>
+<p>特に以下をプロモーション設計チームの主参照にする。</p>
+<pre><code class="language-text">knowledge/スキル別/ビジネス設計/
+knowledge/スキル別/コンセプト構築/
+knowledge/スキル別/オファー構築/
+knowledge/スキル別/シナリオ作成/
+knowledge/スキル別/LP作成/
+knowledge/スキル別/LP添削/
+knowledge/スキル別/ステップメール作成/
+knowledge/スキル別/コピーライティング/
+knowledge/ファネル型/
+knowledge/共通/田中祐一メソッド/
+knowledge/共通/添削11観点/
+</code></pre>
+<h3>案件フォルダ</h3>
+<p>プロモーション設計チームが実際に働く場所。</p>
+<pre><code class="language-text">21_プロジェクト一覧/&lt;案件名&gt;/
+├── マスターデータ/
+│   ├── 案件マスター.md
+│   ├── 最小Config.md
+│   └── source-map.md
+├── 00_受付/
+│   └── ヒアリング回答.md
+├── 01_工程管理/
+│   ├── 工程表.md
+│   ├── 作業ログ.md
+│   └── 確認ゲート一覧.md
+├── 02_ビジネス設計/
+├── 03_ファネル設計/
+├── 04_コンセプト/
+├── 05_オファー/
+├── 06_シナリオ/
+├── 07_LP/
+├── 08_ステップメール/
+├── 09_セールス/
+├── 90_QA/
+└── 99_archive/
+</code></pre>
+<h2>8. AI社員配置</h2>
+<h3>田中祐一AI本体</h3>
+<p>役割:</p>
+<ul>
+<li>依頼受付</li>
+<li>モード判定</li>
+<li>プロモーションディレクター起動</li>
+<li>最終出力の編集</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>configs/田中祐一/</code></li>
+<li><code>knowledge/共通/田中祐一メソッド/</code></li>
+<li><code>skills/プロモーション構築/SKILL.md</code></li>
+</ul>
+<h3>プロモーションディレクター</h3>
+<p>役割:</p>
+<ul>
+<li>工程管理</li>
+<li>案件ヒアリング</li>
+<li>Config作成</li>
+<li>担当者割り当て</li>
+<li>確認ゲート管理</li>
+<li>成果物統合</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>skills/プロモーション構築/SKILL.md</code></li>
+<li><code>skills/プロモーションディレクション/SKILL.md</code></li>
+<li><code>skills/工程表作成/SKILL.md</code></li>
+<li><code>knowledge/スキル別/ビジネス設計/</code></li>
+</ul>
+<h3>ビジネス設計担当</h3>
+<p>役割:</p>
+<ul>
+<li>売上目標</li>
+<li>KPI</li>
+<li>商品群</li>
+<li>事業全体におけるプロモーション位置づけ</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>knowledge/スキル別/ビジネス設計/</code></li>
+</ul>
+<h3>ファネル設計担当</h3>
+<p>役割:</p>
+<ul>
+<li>ファネル型選定</li>
+<li>動線設計</li>
+<li>価値提供とセールスの配置</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>knowledge/ファネル型/</code></li>
+<li><code>skills/ファネル分析/SKILL.md</code></li>
+</ul>
+<h3>コンセプトメイカー</h3>
+<p>役割:</p>
+<ul>
+<li>3C</li>
+<li>上位概念</li>
+<li>共通の敵</li>
+<li>入口コンセプト</li>
+<li>訴求角度</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>knowledge/スキル別/コンセプト構築/</code></li>
+<li><code>13_データ原本保存庫/_学習資料_コンセプト添削.md</code></li>
+</ul>
+<h3>オファー設計担当</h3>
+<p>役割:</p>
+<ul>
+<li>商品設計</li>
+<li>価格</li>
+<li>特典</li>
+<li>保証</li>
+<li>限定性</li>
+<li>断る理由つぶし</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>knowledge/スキル別/オファー構築/</code></li>
+</ul>
+<h3>シナリオ設計担当</h3>
+<p>役割:</p>
+<ul>
+<li>動画台本</li>
+<li>セミナー構成</li>
+<li>価値提供の順番</li>
+<li>ビリーフ変化</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>knowledge/スキル別/シナリオ作成/</code></li>
+<li><code>knowledge/ファネル型/4本動画構成/</code></li>
+</ul>
+<h3>LP設計担当</h3>
+<p>役割:</p>
+<ul>
+<li>LP構造</li>
+<li>ファーストビュー</li>
+<li>証拠配置</li>
+<li>CTA</li>
+<li>FAQ</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>skills/LP作成/SKILL.md</code></li>
+<li><code>knowledge/スキル別/LP作成/</code></li>
+<li><code>knowledge/スキル別/LP添削/</code></li>
+</ul>
+<h3>ステップメール担当</h3>
+<p>役割:</p>
+<ul>
+<li>メール全体構成</li>
+<li>各通の目的</li>
+<li>件名</li>
+<li>CTA</li>
+<li>配信順</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>knowledge/スキル別/ステップメール作成/</code></li>
+<li><code>knowledge/スキル別/メルマガ作成/</code></li>
+</ul>
+<h3>証拠反論リサーチ担当</h3>
+<p>役割:</p>
+<ul>
+<li>お客様の声</li>
+<li>実績</li>
+<li>FAQ</li>
+<li>反論</li>
+<li>不安</li>
+<li>信頼材料</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>skills/根拠リサーチ/SKILL.md</code></li>
+<li><code>skills/お客様の声の整理/SKILL.md</code></li>
+</ul>
+<h3>マーケティングQA担当</h3>
+<p>役割:</p>
+<ul>
+<li>工程の抜け漏れチェック</li>
+<li>田中祐一メソッドとの整合</li>
+<li>ファネル矛盾チェック</li>
+<li>読み手心理チェック</li>
+<li>次工程に進めてよいか判定</li>
+</ul>
+<p>主な参照:</p>
+<ul>
+<li><code>skills/悪魔のフィードバック/SKILL.md</code></li>
+<li><code>knowledge/共通/添削11観点/</code></li>
+<li><code>knowledge/共通/田中祐一メソッド/</code></li>
+</ul>
+<h2>9. 3つの利用モード</h2>
+<h3>Private Mode</h3>
+<p>田中さん本人用。</p>
+<p>読めるもの:</p>
+<ul>
+<li>原本</li>
+<li>未整理ナレッジ</li>
+<li>社内メモ</li>
+<li>スタッフ向け資料</li>
+<li>内部戦略</li>
+</ul>
+<p>できること:</p>
+<ul>
+<li>AI社員の改善</li>
+<li>ナレッジ候補の承認</li>
+<li>社内設計の変更</li>
+<li>プロモーション全工程の実行</li>
+</ul>
+<h3>Staff Mode</h3>
+<p>スタッフ用。</p>
+<p>読めるもの:</p>
+<ul>
+<li>確定済みナレッジ</li>
+<li>案件マスター</li>
+<li>業務マニュアル</li>
+<li>作業対象フォルダ</li>
+</ul>
+<p>できること:</p>
+<ul>
+<li>工程表に沿った作業</li>
+<li>成果物作成</li>
+<li>確認ゲートの申請</li>
+<li>不明点のエスカレーション</li>
+</ul>
+<p>できないこと:</p>
+<ul>
+<li>原本層の勝手な編集</li>
+<li>knowledgeへの直接反映</li>
+<li>AI社員の仕様変更</li>
+<li>外部公開判断</li>
+</ul>
+<h3>Student Mode</h3>
+<p>受講生用。</p>
+<p>読めるもの:</p>
+<ul>
+<li>公開可能な教材</li>
+<li>テンプレート</li>
+<li>抽象化済みメソッド</li>
+<li>受講生用ナレッジ</li>
+</ul>
+<p>できること:</p>
+<ul>
+<li>コンセプト相談</li>
+<li>LP添削</li>
+<li>オファー相談</li>
+<li>ファネル診断</li>
+<li>セルフチェック</li>
+</ul>
+<p>できないこと:</p>
+<ul>
+<li>社内データ参照</li>
+<li>他案件参照</li>
+<li>未承認ナレッジ参照</li>
+<li>田中さん本人用の内部判断参照</li>
+</ul>
+<h2>10. 実装タスク一覧</h2>
+<h3>Phase 0: 現状棚卸し</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T00</td>
+<td>既存 <code>agents/</code> の全担当を棚卸しする</td>
+<td><code>agents/_現状棚卸し.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T01</td>
+<td>既存 <code>skills/</code> をプロモーション工程にマッピングする</td>
+<td><code>skills/_工程マッピング.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T02</td>
+<td>既存 <code>knowledge/</code> をAI社員別にマッピングする</td>
+<td><code>knowledge/_AI社員参照マップ.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T03</td>
+<td>既存の案件マスターと工程表の実例を確認する</td>
+<td><code>97_ザ・リード事業/AI構築/工程表実例レビュー.md</code></td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 1: 入口と部署設計</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T10</td>
+<td><code>agents/_RULE.md</code> を作る</td>
+<td><code>agents/_RULE.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T11</td>
+<td><code>agents/_INDEX.md</code> を作る</td>
+<td><code>agents/_INDEX.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T12</td>
+<td>田中祐一AI本体のagent定義を作る</td>
+<td><code>agents/00_田中祐一AI本体/agent.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T13</td>
+<td>プロモーション設計チームの部署ルールを作る</td>
+<td><code>agents/01_プロモーション設計チーム/_RULE.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T14</td>
+<td>既存エージェントを部署別に分類する</td>
+<td><code>agents/_INDEX.md</code> 更新</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 2: プロモーションディレクター実装</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T20</td>
+<td>プロモーションディレクターのagent定義を作る</td>
+<td><code>agents/01_プロモーション設計チーム/プロモーションディレクター/agent.md</code></td>
+<td>最優先</td>
+</tr>
+<tr>
+<td>T21</td>
+<td>プロモーションディレクションのSKILLを作る</td>
+<td><code>skills/プロモーションディレクション/SKILL.md</code></td>
+<td>最優先</td>
+</tr>
+<tr>
+<td>T22</td>
+<td>工程表作成SKILLを作る</td>
+<td><code>skills/工程表作成/SKILL.md</code></td>
+<td>最優先</td>
+</tr>
+<tr>
+<td>T23</td>
+<td>案件ヒアリングとConfig作成SKILLを作る</td>
+<td><code>skills/案件ヒアリング_Config作成/SKILL.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T24</td>
+<td>工程表テンプレートを作る</td>
+<td><code>templates/工程表テンプレート.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T25</td>
+<td>確認ゲート一覧テンプレートを作る</td>
+<td><code>templates/確認ゲート一覧テンプレート.md</code></td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 3: マーケティング主要社員の配置</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T30</td>
+<td>ビジネス設計担当を作る</td>
+<td><code>agents/01_プロモーション設計チーム/ビジネス設計担当/agent.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T31</td>
+<td>ファネル設計担当を作る</td>
+<td><code>agents/01_プロモーション設計チーム/ファネル設計担当/agent.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T32</td>
+<td>コンセプトメイカーを作る</td>
+<td><code>agents/01_プロモーション設計チーム/コンセプトメイカー/agent.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T33</td>
+<td>オファー設計担当を作る</td>
+<td><code>agents/01_プロモーション設計チーム/オファー設計担当/agent.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T34</td>
+<td>シナリオ設計担当を作る</td>
+<td><code>agents/01_プロモーション設計チーム/シナリオ設計担当/agent.md</code></td>
+<td>中</td>
+</tr>
+<tr>
+<td>T35</td>
+<td>LP設計担当を作る</td>
+<td><code>agents/01_プロモーション設計チーム/LP設計担当/agent.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T36</td>
+<td>ステップメール担当を作る</td>
+<td><code>agents/01_プロモーション設計チーム/ステップメール担当/agent.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T37</td>
+<td>証拠反論リサーチ担当を作る</td>
+<td><code>agents/01_プロモーション設計チーム/証拠反論リサーチ担当/agent.md</code></td>
+<td>中</td>
+</tr>
+<tr>
+<td>T38</td>
+<td>マーケティングQA担当を作る</td>
+<td><code>agents/01_プロモーション設計チーム/マーケティングQA担当/agent.md</code></td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 4: 案件フォルダ標準化</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T40</td>
+<td>案件フォルダ標準構成を定義する</td>
+<td><code>rules/プロモーション案件フォルダ構成.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T41</td>
+<td>案件マスターの標準テンプレートを作る</td>
+<td><code>templates/案件マスター_プロモーション設計用.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T42</td>
+<td>最小Configテンプレートを作る</td>
+<td><code>templates/最小Configテンプレート.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T43</td>
+<td>source-mapテンプレートを作る</td>
+<td><code>templates/source-mapテンプレート.md</code></td>
+<td>中</td>
+</tr>
+<tr>
+<td>T44</td>
+<td>既存案件1件に標準構成を試験適用する</td>
+<td>試験案件の標準フォルダ</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 5: 既存スキルの再配線</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T50</td>
+<td><code>skills/プロモーション構築/SKILL.md</code> にディレクター起動を追記する</td>
+<td>更新済みSKILL</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T51</td>
+<td><code>skills/LP作成/SKILL.md</code> の入力・出力契約を明確化する</td>
+<td>更新済みSKILL</td>
+<td>中</td>
+</tr>
+<tr>
+<td>T52</td>
+<td><code>skills/LP添削/SKILL.md</code> のQA位置づけを明確化する</td>
+<td>更新済みSKILL</td>
+<td>中</td>
+</tr>
+<tr>
+<td>T53</td>
+<td><code>skills/ファネル分析/SKILL.md</code> をファネル設計担当へ紐づける</td>
+<td>更新済みSKILL</td>
+<td>中</td>
+</tr>
+<tr>
+<td>T54</td>
+<td><code>skills/悪魔のフィードバック/SKILL.md</code> を確認ゲートに組み込む</td>
+<td>更新済みSKILL</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 6: ナレッジ参照マップ</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T60</td>
+<td>AI社員ごとの参照ナレッジ一覧を作る</td>
+<td><code>knowledge/_AI社員参照マップ.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T61</td>
+<td>ビジネス設計担当の参照マップを作る</td>
+<td>マップ内セクション</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T62</td>
+<td>コンセプトメイカーの参照マップを作る</td>
+<td>マップ内セクション</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T63</td>
+<td>オファー設計担当の参照マップを作る</td>
+<td>マップ内セクション</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T64</td>
+<td>LP設計担当の参照マップを作る</td>
+<td>マップ内セクション</td>
+<td>中</td>
+</tr>
+<tr>
+<td>T65</td>
+<td>ステップメール担当の参照マップを作る</td>
+<td>マップ内セクション</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 7: QAと学習ループ</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T70</td>
+<td>工程ごとのQAチェックリストを作る</td>
+<td><code>templates/工程別QAチェックリスト.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T71</td>
+<td>出力評価ログテンプレートを作る</td>
+<td><code>templates/出力評価ログ.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T72</td>
+<td>良いoutputをknowledge候補に戻す運用を定義する</td>
+<td><code>rules/outputからknowledgeへの還流ルール.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T73</td>
+<td>ナレッジ管理担当への引き渡しフォーマットを整える</td>
+<td><code>agents/ナレッジ管理担当/agent.md</code> 更新</td>
+<td>中</td>
+</tr>
+<tr>
+<td>T74</td>
+<td>週次AI社員改善レビューの手順を作る</td>
+<td><code>skills/AI社員改善レビュー/SKILL.md</code></td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 8: 利用モード分離</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T80</td>
+<td>Private / Staff / Student の権限表を作る</td>
+<td><code>rules/田中祐一AI_利用モード権限.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T81</td>
+<td>受講生向けに見せてよいナレッジ範囲を定義する</td>
+<td><code>knowledge/_公開可能範囲.md</code></td>
+<td>高</td>
+</tr>
+<tr>
+<td>T82</td>
+<td>スタッフ用の作業依頼テンプレートを作る</td>
+<td><code>templates/スタッフ用_AI社員依頼テンプレート.md</code></td>
+<td>中</td>
+</tr>
+<tr>
+<td>T83</td>
+<td>受講生用の依頼テンプレートを作る</td>
+<td><code>templates/受講生用_田中祐一AI依頼テンプレート.md</code></td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 9: PR・可視化</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T90</td>
+<td>「プロモーション設計チーム」訴求文を作る</td>
+<td>LP/セールス用コピー案</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T91</td>
+<td>AI社員の組織図を作る</td>
+<td>HTMLまたは画像</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T92</td>
+<td>AI社員が裏側で働く流れを図解する</td>
+<td>HTMLまたは画像</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T93</td>
+<td>実案件のBefore/After事例を作る</td>
+<td>事例レポート</td>
+<td>中</td>
+</tr>
+<tr>
+<td>T94</td>
+<td>「私が育てたAI社員を使ってください」の説明文を作る</td>
+<td>セールストーク素材</td>
+<td>中</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 10: 実走テスト</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>タスク</th>
+<th>成果物</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T100</td>
+<td>既存案件1件で工程表を作る</td>
+<td><code>21_プロジェクト一覧/&lt;案件&gt;/01_工程管理/工程表.md</code></td>
+<td>最優先</td>
+</tr>
+<tr>
+<td>T101</td>
+<td>工程表に沿ってコンセプト工程を実行する</td>
+<td>コンセプト成果物</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T102</td>
+<td>オファー工程まで実行する</td>
+<td>オファー成果物</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T103</td>
+<td>LP構造工程まで実行する</td>
+<td>LP構造案</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T104</td>
+<td>QA担当にレビューさせる</td>
+<td>QAレポート</td>
+<td>高</td>
+</tr>
+<tr>
+<td>T105</td>
+<td>実走後の改善点をAI社員仕様へ戻す</td>
+<td>改善ログ</td>
+<td>高</td>
+</tr>
+</tbody>
+</table>
+<h2>11. 最初の着手順</h2>
+<p>最初にやるべき順番はこれ。</p>
+<ol>
+<li><code>agents/_INDEX.md</code> を作る</li>
+<li><code>agents/_RULE.md</code> を作る</li>
+<li><code>プロモーションディレクター</code> を作る</li>
+<li><code>工程表作成SKILL</code> を作る</li>
+<li><code>プロモーション構築SKILL</code> からディレクターを呼ぶようにする</li>
+<li>既存案件1件で工程表を作ってテストする</li>
+<li>コンセプト、オファー、LP、ステップメール担当を順に整える</li>
+<li>その実走結果をPR用の可視化に使う</li>
+</ol>
+<h2>12. 完了状態</h2>
+<p>第一段階の完了状態は、以下。</p>
+<ul>
+<li>田中祐一AI本体の役割が定義されている</li>
+<li>プロモーションディレクターが存在する</li>
+<li>工程表の標準フォーマットがある</li>
+<li>主要AI社員が部署内に配置されている</li>
+<li>各AI社員に入力、出力、参照ナレッジ、完了条件がある</li>
+<li>既存スキルと既存ナレッジが各AI社員に紐づいている</li>
+<li>既存案件1件で工程表から成果物作成まで実走している</li>
+<li>実走結果をもとに、PR用の組織図と説明が作れる</li>
+</ul>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-07-03)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: P7D4K9A2<br />
+Generated by: 田中祐一</p>
+</main>
+</body>
+</html>

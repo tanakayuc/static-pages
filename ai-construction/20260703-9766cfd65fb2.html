@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>運用_田中AIナレッジ日次同期 - AI社員化プロジェクト 設計方針</title>
+<title>20260703_プロモーション設計チームAI社員_初期実装ログ - AI社員化プロジェクト 設計方針</title>
 <style>
 * { box-sizing: border-box; }
 html, body { overflow-x: hidden; }
@@ -70,12 +70,20 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
-<a href="016.html" class="sidebar-item"><span class="date">2026年07月03日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="032.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="033.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年07月06日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年07月06日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年07月06日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年07月06日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ナレッジフィードバックループ_実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item active"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チーム_AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
 <a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計_Zoom一括蒸留_StageB仕分けルール_20260703</a>
-<a href="047.html" class="sidebar-item active"><span class="date">2026年07月03日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 一括蒸留_進捗台帳_20260702</a>
 <a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
 <a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
@@ -119,57 +127,95 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<h1>運用: 田中AIナレッジ日次同期</h1>
+<h1>プロモーション設計チームAI社員 初期実装ログ</h1>
 <p>作成日: 2026-07-03</p>
-<h2>目的</h2>
-<p>田中祐一AIに反映される <code>knowledge/_bundle_添削モード.md</code>、<code>knowledge/_index.json</code>、<code>knowledge/_embeddings.json</code> を、knowledge正本の更新に合わせて1日1回確認・同期する。</p>
-<p>同時に、Zoom一括蒸留の中間生成物である <code>_抽出/*.yaml</code> が更新されていたら、Stage B全件統合MDを生成し、bundle/index/embeddingまで反映する。</p>
-<h2>実行コマンド</h2>
-<pre><code class="language-bash">cd /Users/tanakayuichi/Projects/theleadpromotion
-python3 '02_ツール/開発支援/田中AIナレッジ日次同期.py' --apply --write-report
-</code></pre>
-<h2>出力</h2>
-<ul>
-<li><code>97_ザ・リード事業/AI構築/田中AIナレッジ同期_最新状況.json</code></li>
-<li><code>97_ザ・リード事業/AI構築/田中AIナレッジ同期_最新状況.md</code></li>
-</ul>
-<h2>動作</h2>
+<h2>実装目的</h2>
+<p>田中祐一AIを、単体のナレッジ検索AIではなく、AI社員を束ねて制作を進めるプロモーション設計チームとして動かすための初期土台を作った。</p>
+<p>今回の実装は、次の2軸に対応する。</p>
 <ol>
-<li>Zoom抽出YAMLのdigestを確認し、前回から増減・更新があれば <code>02_ツール/Zoom抽出/Zoom蒸留_StageB全件統合生成.py --write</code> を実行する。</li>
-<li>Stage B生成で更新された <code>knowledge/</code> の本番反映対象ファイル、または通常のknowledge正本が bundle/index/embedding より新しければ、既存の正本スクリプト <code>02_ツール/開発支援/ナレッジ再生成.sh</code> を実行する。</li>
-<li>bundle md5 と index/embedding 側の md5 を突合し、同期済みか確認する。</li>
-<li>Zoom抽出YAML総数と、knowledge側に明記された「Zoom統合済み件数」の最大値を比較し、Stage B未統合件数を出す。</li>
-<li><code>_inbox/</code> は承認前の隔離棚なので、bundle反映対象として扱わない。</li>
+<li>GitHub上のフォルダ構成を、AI社員が動きやすい組織体制へ寄せる</li>
+<li>田中祐一AIがAI社員を束ね、スキルとナレッジを使って制作できるようにする</li>
 </ol>
-<h2>Stage B自動生成ファイル</h2>
+<h2>追加した主なファイル</h2>
+<h3>agents</h3>
 <ul>
-<li><code>knowledge/共通/Zoom一括蒸留_哲学と世界観_全件統合.md</code></li>
-<li><code>knowledge/ファネル型/共通/Zoom一括蒸留_原理_全件統合.md</code></li>
-<li><code>knowledge/共通/Zoom一括蒸留_判断基準_全件統合.md</code></li>
-<li><code>knowledge/共通/Zoom一括蒸留_基準値_全件統合.md</code></li>
-<li><code>knowledge/事例/Zoom一括蒸留_持ちネタ事例_全件統合.md</code></li>
-<li><code>knowledge/共通/Zoom一括蒸留_用語と話法_全件統合.md</code></li>
-<li><code>knowledge/共通/Zoom一括蒸留_実験宣言と採用見解_全件統合.md</code></li>
+<li><code>agents/_RULE.md</code></li>
+<li><code>agents/_INDEX.md</code></li>
+<li><code>agents/00_田中祐一AI本体/agent.md</code></li>
+<li><code>agents/01_プロモーション設計チーム/_RULE.md</code></li>
+<li><code>agents/01_プロモーション設計チーム/プロモーションディレクター/agent.md</code></li>
 </ul>
-<p>これらは既存の手動キュレーション済みknowledgeを上書きしない。未統合YAMLをAIが参照できるようにするためのライブ参照面であり、最終的な代表ルール化は別途、人手で行う。</p>
-<h2>2026-07-03時点の状況</h2>
+<h3>skills</h3>
 <ul>
-<li>Zoom抽出YAML: 320件</li>
-<li>Stage B全件統合生成: 7ファイル / 10,997エントリ</li>
-<li>knowledge統合済みとして検出できる最大値: 320件</li>
-<li>knowledge内YAML参照数: 320件</li>
-<li>Stage B未統合推定: 0件</li>
-<li>bundle/index/embedding: md5一致で同期済み</li>
-<li>bundle md5: <code>2b13c53232555b36d71ed49a5437fd09</code></li>
-<li>bundle bytes: 9,240,465</li>
-<li>embeddings: 4,782件 / <code>text-embedding-3-small</code></li>
+<li><code>skills/プロモーションディレクション/SKILL.md</code></li>
+<li><code>skills/工程表作成/SKILL.md</code></li>
+<li><code>skills/_工程マッピング.md</code></li>
 </ul>
-<h2>注意</h2>
+<h3>wrappers</h3>
 <ul>
-<li>この同期は「Zoom YAML → Stage B全件統合MD → AI配信用生成物」までの日次反映を自動化するもの。</li>
-<li>Stage B全件統合MDは、最終版の代表ルールではなく、出典付きのライブ参照面。既存の手動キュレーション済みknowledgeと矛盾する場合は手動キュレーションを優先する。</li>
-<li>リポジトリに unrelated な未コミット差分がある場合、日次ジョブでは勝手にcommit/pushしない。生成物差分だけを専用ターンで確認してから保全する。</li>
+<li><code>.cursor/skills/プロモーションディレクション/SKILL.md</code></li>
+<li><code>.claude/skills/プロモーションディレクション/SKILL.md</code></li>
+<li><code>.codex/skills/プロモーションディレクション/SKILL.md</code></li>
+<li><code>.cursor/skills/工程表作成/SKILL.md</code></li>
+<li><code>.claude/skills/工程表作成/SKILL.md</code></li>
+<li><code>.codex/skills/工程表作成/SKILL.md</code></li>
 </ul>
+<h3>knowledge</h3>
+<ul>
+<li><code>knowledge/_AI社員参照マップ.md</code></li>
+</ul>
+<h3>templates</h3>
+<ul>
+<li><code>templates/工程表テンプレート.md</code></li>
+<li><code>templates/確認ゲート一覧テンプレート.md</code></li>
+</ul>
+<h2>更新したファイル</h2>
+<ul>
+<li><code>skills/プロモーション構築/SKILL.md</code></li>
+</ul>
+<p>更新内容:</p>
+<ul>
+<li>田中祐一AI本体から直接すべてを実行するのではなく、プロモーションディレクターを起動する流れを追加</li>
+<li><code>skills/プロモーションディレクション/SKILL.md</code></li>
+<li><code>skills/工程表作成/SKILL.md</code></li>
+<li><code>agents/01_プロモーション設計チーム/プロモーションディレクター/agent.md</code></li>
+</ul>
+<p>への接続を明記。</p>
+<h2>今回できるようになったこと</h2>
+<ul>
+<li>田中祐一AI本体の役割を定義できた</li>
+<li>プロモーション設計チームという部署を作れた</li>
+<li>プロモーションディレクターをAI社員として定義できた</li>
+<li>工程表を業務OSとして扱うルールを作れた</li>
+<li>Cursor、Claude Code、Codexから新スキルを呼べる入口を作れた</li>
+<li>AI社員とskills、knowledgeの対応関係を見える化できた</li>
+</ul>
+<h2>同期チェック結果</h2>
+<p><code>python3 02_ツール/開発支援/3層構造_同期監視.py</code> を実行。</p>
+<p>今回追加した以下のスキルのラッパー不足は解消済み。</p>
+<ul>
+<li><code>プロモーションディレクション</code></li>
+<li><code>工程表作成</code></li>
+</ul>
+<p>残っている同期警告は、今回の実装範囲外。</p>
+<ul>
+<li><code>skills/セールススライド生成ver03/SKILL.md</code> のYAMLフロントマター不備</li>
+<li><code>skills/セールススライド生成ver02/SKILL.md</code> のYAMLフロントマター不備</li>
+<li><code>セールススライド生成04ver -画像</code> のラッパー不足</li>
+</ul>
+<h2>次にやること</h2>
+<ol>
+<li>実案件の案件名とフォルダを決める</li>
+<li><code>templates/工程表テンプレート.md</code> を使って、実案件の工程表を作る</li>
+<li>コンセプト、オファー、LP、ステップメールのうち、いま制作に入る工程から実走する</li>
+<li>実走で詰まった箇所を <code>agent.md</code>、<code>SKILL.md</code>、<code>knowledge/</code> に戻す</li>
+<li>実案件の動きをPR用の組織図や図解にする</li>
+</ol>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-07-03)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: N7F2L9K4<br />
+Generated by: 田中祐一</p>
 </main>
 </body>
 </html>
