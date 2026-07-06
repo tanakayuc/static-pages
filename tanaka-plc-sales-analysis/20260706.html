@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260706_来場者ペルソナ分析_電話とZoom個別統合 - 田中祐一 PLC セールス分析（電話・Zoom個別）</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>田中祐一 PLC セールス分析（電話・Zoom個別）</h3>
+<a href="20260706.html" class="sidebar-item active"><span class="date">2026年07月06日</span> 20260706_来場者ペルソナ分析_電話とZoom個別統合</a>
+<a href="20260312.html" class="sidebar-item"><span class="date">2026年03月12日</span> 20260312_zoom_ref01_分析</a>
+<a href="20260222.html" class="sidebar-item"><span class="date">2026年02月22日</span> 20260222_zoom_ref06_分析</a>
+<a href="20250801.html" class="sidebar-item"><span class="date">2025年08月01日</span> 20250801_zoom_ref10_分析</a>
+<a href="20250714.html" class="sidebar-item"><span class="date">2025年07月14日</span> 20250714_zoom_ref08_分析</a>
+<a href="20250601.html" class="sidebar-item"><span class="date">2025年06月01日</span> 20250601_zoom_ref09_分析</a>
+<a href="20250501.html" class="sidebar-item"><span class="date">2025年05月01日</span> 20250501_zoom_ref07_分析</a>
+<a href="20250315.html" class="sidebar-item"><span class="date">2025年03月15日</span> 20250315_zoom_ref04_分析</a>
+<a href="20250312.html" class="sidebar-item"><span class="date">2025年03月12日</span> 20250312_zoom_ref03_分析</a>
+<a href="20250308.html" class="sidebar-item"><span class="date">2025年03月08日</span> 20250308_zoom_ref02_分析</a>
+<a href="20250225.html" class="sidebar-item"><span class="date">2025年02月25日</span> 20250225_zoom_ref05_分析</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>来場者ペルソナ分析 / セールスデータ集約（田中祐一個人案件・PLC）</h1>
+<p>作成日: 2026-07-06（Zoom個別37件全件精読を追加し全面更新）<br />
+判断材料は「電話報告データ66件」（担当者=田中祐一・石田明・秋山直寛らのChatwork報告、2025年7月〜2026年5月）および「Zoom個別セールス書き起こし37件」（実発話、2025年〜2026年）を全件精読した内容のみ。電話報告は書き起こしではなく担当報告のため、担当の所感的表現は「所感」と明記し、断定は報告本文に書かれている範囲に留める。</p>
+<p>PLCの流れに合わせ、<strong>①電話フェーズ（スクリーニング）→②Zoom個別フェーズ（クロージング）</strong>の順で構成する。</p>
+<hr />
+<h2>第1部：電話フェーズのペルソナ分析（66件・現状の来場者像）</h2>
+<h3>1-1. 全体構造</h3>
+<p>66件の電話報告のうち、本文に明記された結論から分類すると次の3層になる（同一人物の重複報告・決済確認ログ等を除く実質60件弱が対象）。</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>目安件数</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>個別（Zoom）に進む</strong></td>
+<td>約25件</td>
+<td>電話段階で相性・投資体力・課題感が合致</td>
+</tr>
+<tr>
+<td><strong>電話で終了</strong></td>
+<td>約30件</td>
+<td>資金・ミスマッチ・コミュニケーション面等で見送り</td>
+</tr>
+<tr>
+<td><strong>保留・様子見</strong></td>
+<td>約6件</td>
+<td>「区切りがついたら」「資金ができたら」等で先送り</td>
+</tr>
+</tbody>
+</table>
+<p><strong>確定分（成約が本文・決済ログで確認できた件数）</strong>: 高野浩（太陽光B2C・法人契約）、土師鈴子（プロデューサー・121万円）、小迫優子（入会手続き完了）。吉田拳は個別後に成約したが、後日退会（受講契約第13条に基づく解除、返金¥400,574）。</p>
+<h3>1-2. 電話に来る人の属性（現状の実態）</h3>
+<p>66件を通して見える属性の型は大きく5つ。</p>
+<p><strong>A. 既存事業ありの専門職コンサル/コーチ/講師系（最多層）</strong><br />
+心理カウンセラー養成、コーチング、コンサル、キャリア系、企業研修講師など。ビジネスは既に立ち上がっているが、集客・広告・コンセプトのどこかで詰まっている。例：仲田めぐみ（月商200万コンサル）、原敏子（心理カウンセラー養成・単価48万）、マツヤマアヤ（研修講師養成）、向原真理（在宅セミナー講師）。</p>
+<p><strong>B. リアル店舗・実業系（B2C商材の実業）</strong><br />
+太陽光販売、塗装業、英語スクール、フィットネス、治療院など、地に足のついた実業を持つ層。集客をチラシ・口コミからデジタルへ移行したい動機が強い。例：高野浩（太陽光・年商規模大）、山路勇作（塗装業・年商9000万）、高本栄子（英語スクール27年・生徒450名）、宇佐美晴朗（フィットネス・年商2000万ペース）。</p>
+<p><strong>C. プロデューサー志望型（自分のコンテンツを持たず、チームで貢献したい）</strong><br />
+「みんなでやる」「チームでできる」という PLC のコンセプトそのものに惹かれて来る層。吉沼浩（ICT経営20年）、松川大悟（25歳・会社員）、クサカテルオミ（個人事業主エンジニア）、藤田健登（フリーランス2年半）、富岡大我（会社員営業）、野口究（製造業56歳）など。<strong>年齢・経歴の幅が広く、「自分のビジネスを立ち上げる」よりも「誰かの右腕になりたい」という動機が明確。</strong></p>
+<p><strong>D. ゼロイチ・起業準備段階</strong><br />
+中野沙織（ベビーマッサージ他複数副業・アイデア段階）、二見彩加（副業2ヶ月目）、笹倉志穂（公務員・完全ゼロベース）など。ビジネスの実態がまだ薄く、投資判断もしにくい層。</p>
+<p><strong>E. 経済的に厳しい・投資体力なしの層</strong><br />
+中野沙織、井上由賀里、久保理恵、石本かおり、原健太郎、吉田博之、三宅和子、ブッカー久華など、<strong>「PLCへの興味・腹落ちは高いが資金がネックで見送り」というパターンが電話終了理由の最頻出</strong>（下記1-3参照）。</p>
+<h3>1-3. 電話で終了・見送りになる理由（頻出パターン）</h3>
+<p>担当報告本文から読み取れる終了理由を整理すると、次の型に集約される。</p>
+<table>
+<thead>
+<tr>
+<th>型</th>
+<th>該当件数の目安</th>
+<th>具体例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>①資金不足（最頻出）</strong></td>
+<td>約12件</td>
+<td>中野沙織（月2万が上限）、久保理恵（資金的に新規投資は無理）、石本かおり（借金あり・投資できる状況にない）、原健太郎（説明会は高額とわかっているので受けなくていい）、三宅和子（年金生活・61歳・統合失調症）</td>
+</tr>
+<tr>
+<td><strong>②toB／PLCのtoC型ノウハウとのミスマッチ</strong></td>
+<td>約6件</td>
+<td>太田和成（映像マーケ・to B）、稲田智孝（キャリアコンサルtoB）、七島幸之（建築設計・成約率低下も的が絞れず）、長岡大輔（大企業向けコンサル）</td>
+</tr>
+<tr>
+<td><strong>③既存契約・既存業者との並行検討</strong></td>
+<td>約5件</td>
+<td>原敏子（マーケターと契約中）、諸橋（実力者で自走できる状態）、藤田健登（現講座終了後に再検討）、SORA FOL（別講座決済済み・半年後判断）</td>
+</tr>
+<tr>
+<td><strong>④コミュニケーション面での懸念（担当側が見送り判断）</strong></td>
+<td>2件</td>
+<td>下城園代（コミュニケーションに難ありと担当が判断）、稲村圭衣子（動画の要点を覚えておらず「逆に電話で説明して」という受け身な姿勢）</td>
+</tr>
+<tr>
+<td><strong>⑤特典目的のみで温度が低い</strong></td>
+<td>3件以上</td>
+<td>下城園代、笹倉志穂（今日でしたっけ、と電話を忘れていた）、立花進（ドタキャン・特典タイミングを事前確認）</td>
+</tr>
+<tr>
+<td><strong>⑥ビジネス実態が薄くゼロベース過ぎる</strong></td>
+<td>数件</td>
+<td>笹倉志穂、中村維吹（完全ゼロイチ、押さずに終了）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>担当（田中祐一・石田明）の判断姿勢の特徴</strong>：明らかに投資体力がない・コミュニケーションが難しいと感じた場合、<strong>強引にZoomへ誘導せず、意図的に押し込まない判断を複数回している</strong>（下城園代「講座での暴走が予想されたため意図してそこまでは踏み込まなかった」、中村維吹「完全ゼロイチだったので、押さずに終了」）。</p>
+<h3>1-4. 個別（Zoom）に進む決め手（頻出パターン）</h3>
+<p>Zoom個別に進んだ層に共通する要素：</p>
+<ol>
+<li><strong>既存事業があり、広告・集客の失敗経験が具体的に語れる</strong>（高野浩＝広告150万かけてもトントン、加藤慎二＝広告150万トントン、杉丸太一＝広告費40万/月で売上400万・成約率25%と既に一定の成果を出している）</li>
+<li><strong>PLCのコンセプト（「全員で勝つ」「教育してから販売」「チームで動く」）に強く共感している</strong>（高本栄子、金子奈緒美、マツヤマアヤ、今村徹也の一部など、複数件で「みんなでやる」というキーワードへの共感が明記されている）</li>
+<li><strong>担当が具体的な提案（プロデューサー活用・チーム化・既存動画の改善余地）を提示でき、相手が「腹落ちした」瞬間がある</strong>（松川大悟「1時間半話してワクワクパンパン状態」、山路勇作「チャレンジ価値ありそう、に着地」）</li>
+</ol>
+<hr />
+<h2>第2部：Zoom個別フェーズ（37件全件精読・2026-07-06実施）</h2>
+<h3>2-1. 成約・否決の内訳（37件・書き起こし本文に基づく判定）</h3>
+<p>37件全件を精読し、書き起こし本文中の実発話（決済完了・登録完了の記述、または明確な見送り発言）のみを根拠に判定した。担当者の主観や期待は含まない。</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>件数</th>
+<th>該当ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>成約</strong>（決済完了・登録完了の記述あり）</td>
+<td>8件</td>
+<td>12, 19, 23, 25, 27, 29, 30, 35</td>
+</tr>
+<tr>
+<td><strong>否決</strong>（明確な見送り発言あり）</td>
+<td>9件</td>
+<td>09, 16, 17, 21, 26, 28, 32, 33, 34</td>
+</tr>
+<tr>
+<td><strong>不明・保留・進行中</strong>（本文範囲内で決済完了の確認ができない）</td>
+<td>20件</td>
+<td>01〜08, 10, 11, 13〜15, 18, 20, 22, 24, 31, 36, 37</td>
+</tr>
+</tbody>
+</table>
+<p>「不明」が最多層（20/37）である最大の理由は、書き起こし自体が販売準備の説明途中や、決済手続きの途中（カード決済トラブル対応中など）で終了しているケースが多いこと。これは<strong>録画停止のタイミングの問題であり、必ずしも成約率の低さを意味しない</strong>（既存分析でも同様の構造課題が指摘されている＝アーカイブ欠損）。</p>
+<h3>2-2. 成約に至ったケースに共通する要素</h3>
+<ol>
+<li><strong>その場での即断・即決済への抵抗が少ない</strong>（12・19・23・25・27・30番は料金提示後、大きな躊躇なく決済手続きに入っている）</li>
+<li><strong>担当者が決済トラブル（カードエラー等）が起きても粘り強く代替手段（銀行振込・分割の組み替え）を提示し続けている</strong>（13・19・23番はいずれもカード決済エラーが発生したが、担当が諦めずに完了まで導いている。23番は特に典型的）</li>
+<li><strong>顧客自身に強い自己開示・ストーリーがある</strong>（25番の藤子様＝夫を亡くした経験、27番の高木様＝独立を見据えた明確な目標）</li>
+<li><strong>担当者の初期対応の不備（遅刻・返信遅延等）があっても、素直に謝罪し信頼を回復できている</strong>（12番の下村様のケース）</li>
+</ol>
+<h3>2-3. 否決・見送りに至ったケースに共通する要素</h3>
+<ol>
+<li><strong>資金不足が最頻出の理由</strong>（09・28番など。電話フェーズの終了理由と同様のパターンがZoom個別でも再現している）</li>
+<li><strong>担当者側が「そぐわない」と判断し提案を打ち切るケース</strong>（16番＝MLM/代理店業態でPLCの手法と不整合、33番＝借金1000万円超という切迫した資金状況を見て担当側から見送り）</li>
+<li><strong>高単価商品への懐疑心が最後まで解消しきれない</strong>（26番の長尾様＝「イメージが湧かない」「本当に満足させられるのか」という懸念に対し、担当が具体的な体験談・裏付けを十分に示せないまま終了）</li>
+<li><strong>担当は総じて無理に押し込まず、顧客の自己決定を尊重する姿勢が一貫している</strong>（21・26・33番など、いずれも「今日は申し込まなくて大丈夫」「ゆっくり考えてください」という言葉で引き下がっている）</li>
+</ol>
+<h3>2-4. 「不明・保留」層の構造（20件の内訳傾向）</h3>
+<ul>
+<li><strong>カード決済トラブルで手続きが完了しないまま書き起こしが終了</strong>（13・24・36番）。これは意思自体は前向きだが、実務的な決済手段（分割・法人カード等）の問題で足踏みしているケースであり、単純な「見込みが薄い」層とは性質が異なる。</li>
+<li><strong>料金提示前、コンセプト相談・雑談の途中で書き起こしが終了</strong>（01〜06番の一部、07・08・11番など）。特に34〜37番（大容量4件）は録画時間が長い一方、決済の意思確認の場面まで到達しない、または持ち帰りとなるケースが多い。</li>
+<li><strong>担当者が強く惹かれつつも、契約に直結しないまま終了</strong>（20番＝担当が「私だったら真っ先に手を上げる」と発言するほど好意的だが、当日の決済には至っていない）</li>
+</ul>
+<h3>2-5. 既存分析（電話フェーズ以前に作成された11件）からの参照</h3>
+<ul>
+<li>高野浩さん分析（<code>20260404_高野浩_石田明_分析.md</code>）：異業種（太陽光・設備販売B2C）でも成約に至った例。「現ファネルの弱点」と「プロダクトローンチへの共感」が明文化されている点が良い型として評価されている。</li>
+<li>既存分析の指摘：アーカイブ（YouTube等の録画）が無いケースが多く、トークの決め手・反論処理が検証できないという構造課題があったが、今回37件全件を精読したことでこの課題はほぼ解消された。</li>
+</ul>
+<h3>2-6. Zoom個別フェーズの詳細精読メモの所在</h3>
+<p>37件の個別精読メモは <code>セールス/セールス分析/</code> 配下に以下のファイルとして保存済み：<br />
+<code>_書き起こし精読_01-06.md</code>, <code>_07-12.md</code>, <code>_13-18.md</code>, <code>_19-24.md</code>, <code>_25-27.md</code>, <code>_28-30.md</code>, <code>_31-33.md</code>, <code>_34-37.md</code></p>
+<hr />
+<h2>第3部：現状のペルソナ ↔ 理想のペルソナ</h2>
+<h3>3-1. 現状、実際に来ている人（電話ベース）</h3>
+<ul>
+<li><strong>最多層＝既存の専門職ビジネス（コンサル・コーチ・講師）を持つ個人</strong>。実業はあるが集客・コンセプトで詰まっている。</li>
+<li><strong>次に多い＝プロデューサー志望型</strong>。自分のコンテンツを持たず、チームで貢献したい層。年齢・経歴の幅が広い。</li>
+<li><strong>約2割＝資金的に投資体力がなく、興味はあっても見送りになる層</strong>。特典目当てだけの温度が低い申込者も一定数混ざる。</li>
+<li><strong>toBビジネスの層はPLCのtoC型ノウハウとミスマッチしやすい</strong>。</li>
+</ul>
+<h3>3-2. 個別に進み、成約に至りやすい「理想のペルソナ」（データから逆算）</h3>
+<p>66件の中から個別に進んだ層・成約が確認できた層（高野浩・土師鈴子・小迫優子・加藤慎二・杉丸太一等）に共通する要素を統合すると：</p>
+<ol>
+<li><strong>既存事業を持ち、広告運用の実経験（失敗も含む）がある</strong> — 「広告を回したがROASが悪い」「LP・ファネルを作ったが機能しない」という具体的な悩みを言語化できる</li>
+<li><strong>投資体力がある</strong>（過去に広告費100万円単位・講座受講費を投じた経験がある）</li>
+<li><strong>「教育してから販売する」「チームで動く」というPLCのコンセプトそのものへの共感が強い</strong>（単なるノウハウ提供以上の世界観への共感）</li>
+<li><strong>プロデューサー型は、コンテンツホルダーとしての実績は薄くても、対人スキル・組織運営経験・営業経験が豊富</strong>（元大企業出身、組織構築・人材育成経験者など）</li>
+</ol>
+<h3 class="callout-h" style="--bar:#8C6BB1;--bg:#F2ECF7"><span class="callout-ico">🔁</span>3-3. 実務への示唆（提案ベース）</h3>
+<ul>
+<li><strong>電話スクリーニングの質問設計に「直近の広告投資額・失敗経験」を必ず含める</strong>と、個別移行の見込みが立てやすい（高野浩・加藤慎二・杉丸太一のパターンが繰り返し出ている）。</li>
+<li><strong>toBビジネスからの申込みは、電話段階でPLCのtoC前提とのギャップを早期に確認</strong>し、深追いしない判断を今後も継続する（既に担当がこの判断を複数回している）。</li>
+<li><strong>特典目的のみの低温度層を、電話前の申込みフォーム段階である程度スクリーニングできないか</strong>検討の余地あり（下城園代・笹倉志穂・立花進のパターン）。</li>
+<li><strong>資金不足で見送った層への再アプローチ導線</strong>（東洋一・ブッカー久華・SORA FOL・原敏子のように「区切りがついたら」「資金ができたら」と本人が明言しているケースが複数あり、フォロー体制があれば中長期の見込み客リストになりうる）。</li>
+<li><strong>カード決済トラブル対応のマニュアル整備</strong>（Zoom個別37件中、13・23・24・36番でカード決済エラーが発生。23番のように分割金額を組み替えて完了に導けたケースがある一方、24・36番のように未完了のまま終了したケースもあり、決済手段の事前確認（法人/個人カード・分割可否）を電話段階で済ませておくと機会損失を減らせる可能性がある）。</li>
+<li><strong>高単価への懐疑を解消する「顧客の声」ストックの活用</strong>（26番の長尾様のように「本当に満足させられるのか」という懸念が最後まで残ったケースがあり、同じ業種・年代の成功事例をその場で提示できる体制があるとよい）。</li>
+</ul>
+<h3>3-4. 電話フェーズとZoom個別フェーズを通した全体像</h3>
+<ul>
+<li>電話段階での主な離脱理由（資金不足・toBミスマッチ）は、Zoom個別段階でも同様のパターンで再現している。つまり<strong>資金体力のスクリーニングは電話の時点である程度機能しているが、完全には濾過しきれていない</strong>（Zoom個別でも資金不足による否決が最頻出のため）。</li>
+<li>Zoom個別段階での「成約」を分けるのは、商品・属性の違いよりも<strong>その場での決断力・自己開示の強さ・決済トラブル発生時の粘り強い対応</strong>という運用面の要素が大きい。</li>
+<li>「不明・保留」層（20/37）の多くは、書き起こし終了時点で契約意思自体は前向きであり、真の否決ではなく<strong>録画終了のタイミング・決済実務上のつまずき</strong>によるものと考えられる。この層への丁寧なフォローアップ（LINE等での後追い）が実質的な成約率を左右している可能性が高い。</li>
+</ul>
+<hr />
+<h2>データソースと限界</h2>
+<ul>
+<li>一次資料①: <code>セールス/セールス原本/書き起こし/電話報告データ/電話報告データ.md</code>（66件、抽出元はChatwork「報告のみ」ログ）。本データは<strong>担当者の要約報告</strong>であり、電話の実発話（書き起こし）ではない。担当の主観的判断（「コミュニケーションに難あり」等）は事実として断定せず、担当の所感として扱っている。同一人物の重複報告（中嶋真己子・金子奈緒美・西英子・石本かおり・高野浩が各2回報告されている）は名寄せして1人としてカウントしている。</li>
+<li>一次資料②: <code>セールス/セールス原本/書き起こし/01〜37_個別セールス書き起こし_XX.md</code>（Zoom個別セールス実発話の書き起こし37件、全件精読済み・2026-07-06実施）。判定は書き起こし本文の実発話（決済完了・登録完了の記述、明確な見送り発言）のみを根拠とし、担当者の期待や推測では断定していない。</li>
+<li>更新履歴: 2026-07-06、Zoom個別フェーズ37件の全件精読を追加し、第2部・第3部を全面更新。</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING（田中祐一・本案件専用）</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
