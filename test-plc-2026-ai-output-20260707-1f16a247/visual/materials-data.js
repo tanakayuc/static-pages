@@ -1,0 +1,1 @@
+window.masudaMaterialItems = {"items":[],"fetchReport":[]};
