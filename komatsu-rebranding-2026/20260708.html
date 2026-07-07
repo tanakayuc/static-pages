@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260708_MTGレポート_リブランディング提案 - 波動占いの学校 リブランディング提案</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>波動占いの学校 リブランディング提案</h3>
+<a href="20260708.html" class="sidebar-item active"><span class="date">2026年07月08日</span> 20260708_MTGレポート_リブランディング提案</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>波動占いの学校 リブランディング提案レポート</h1>
+<p>MTG日: 2026-07-08（水）<br />
+作成: 2026-07-07<br />
+作成者: 田中祐一（Claude Code併用）<br />
+データ正本: <code>田中祐一のセールス分析/全体レポート.md</code>（1585名・36クール）／個別セールス分析66件（行番号引用付き・2026-07-06最新化）／商談精読61件／お客様情報シート1587名</p>
+<hr />
+<h2>1. 現状の問題点</h2>
+<h3>1-1. 成約率の段階的低下と広告費の高騰</h3>
+<p>クール別の確定分成約率（成約÷(成約+否決)）を期間でまとめると:</p>
+<table>
+<thead>
+<tr>
+<th>期間</th>
+<th>平均成約率</th>
+<th>1クール平均顧客数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第1〜5クール（初期）</td>
+<td>約41%（35.7〜46.0%）</td>
+<td>69名</td>
+</tr>
+<tr>
+<td>第6〜10クール（中期）</td>
+<td><strong>約27%（20.5〜30.2%）に段階低下</strong></td>
+<td>58名</td>
+</tr>
+<tr>
+<td>第11〜25クール</td>
+<td>30〜50%台で乱高下（ネタ・オファー依存）</td>
+<td>43名</td>
+</tr>
+<tr>
+<td>第26〜36クール（直近）</td>
+<td>45.9%（直近5クール）と数字上は回復</td>
+<td><strong>17名（初期の1/4に縮小）</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>通期成約率は38.4%（354/922）。<strong>直近の成約率回復は母数縮小の見かけ</strong>であり、実態は「1クールあたりの集客が初期の1/4」＝リード単価高騰・広告効率（ROAS）の悪化が本丸。</li>
+<li>2年半同一LP・同一訴求で運用しており、エバーグリーンの陳腐化（訴求の摩耗・市場の食傷）がCPA高騰の構造要因。</li>
+</ul>
+<h3>1-2. クーリングオフ・解約（数値で判断いただきたい点）</h3>
+<ul>
+<li><strong>申込後の解約・クーリングオフ等は通期350件＝全顧客の22.1%</strong>。成約354件とほぼ同数が申込後に消えている。</li>
+<li>担当別の解約件数（全体レポートより）: 佐野かおり68・市嶋恵理子60・高木直子58・飯田千景45・大平みなみ29・足立友紀子25。<strong>成約上位の担当ほど解約も多い</strong>。</li>
+<li>クール別では第21クール（解約21/顧客57）・第5クール（20/89）・第23クール（18/52）が突出。直近も第35クール（7/12）など小母数で高比率。</li>
+<li>構造要因（商談精読より）: クロージングが「当日価格確保→頭金10万のみ→決済後日・キャンセル/クーリングオフ可」と段階的に下げて<strong>申込フォーム記入だけを取る</strong>設計のため、「振込待ちの空白」が量産され、成約と未入金失注の境界が曖昧化している。</li>
+<li><strong>論点</strong>: 解約22%は「セールス担当の対策不足」ではなく「クロージング設計の副産物」の可能性が高い。対策は担当への指導よりも(a)入口での期待値開示（価格帯・本気度）(b)決済完了までのフォロー設計（入金前ホームワーク・オンボーディング）(c)申込だけ取る誘導の見直し、の3点。</li>
+</ul>
+<hr />
+<h2>2. 大きな施策方針: ターゲットの変更</h2>
+<h3>2-1. 診断</h3>
+<p>需要・差別化（筋肉反射＝客観・再現性）・メソッド優位性は依然高い。問題は<strong>訴求が救済層に寄っていること</strong>。</p>
+<ul>
+<li>現行オプトLP/ライブは「霊感不要・未経験でも・誰でも」の万人訴求＋「自分が癒される・救われる」動線。</li>
+<li>結果、申込1587名の最大ボリュームが「②自分を取り戻したい主婦24%＋④経済不安・救済希求19%」＝<strong>意欲は高いが資金が薄い層が43%</strong>。④の成約率は26.6%と最低クラス。</li>
+<li>商談精読61件の最重要発見: <strong>「深い欠乏は購買動機ではなく購買障壁。満たされた人ほど即決し、欠乏層ほど保留に滞留する」</strong>。「お金はないがセッションは面白そう」層を集める設計自体が、低成約・高解約・広告費倒れを生んでいる。</li>
+</ul>
+<h3>2-1b. なぜ「救済層向け」は売れなくなったのか（時代背景の考察）</h3>
+<p>救済モデルは間違っていたのではなく、2年半で<strong>モデルの土台だった人口が市場から消えた</strong>。4つの力が同時進行:</p>
+<ol>
+<li><strong>「初めて夢を見る人」の在庫枯渇→市場のジプシー化</strong>: コロナ期(2020-23)に「おうちで占い師に」型ローンチが乱立し、救済層は同じ夢を既に1〜2回購入済み。現在の来場者はほぼ全員が既習・周遊層（精読61件）で、<strong>直前の他講座課金で財布が空</strong>（否決の決定打は先行課金による資金枯渇）。同じ救済訴求では「夢の残高」も「財布の残高」も減った人しか集まらない。</li>
+<li><strong>救済層コアの決済力低下</strong>: 主婦・パート・年金層を物価高・実質賃金停滞が直撃。以前は分割で通った110万/69.8万が、今は頭金10万も出ない（「カードで買い物したことない」「今月の生活費40万がない」）。成約率低下と解約22%は同じ現象の表裏——<strong>欲しい気持ちは変わらず、購買力だけが削れた</strong>。</li>
+<li><strong>ライト救済需要の無料流出（スピ市場版のAIインパクト）</strong>: YouTube/TikTokの無料鑑定・開運コンテンツ、ChatGPTへの悩み相談で、「気になる・癒されたい」レベルの需要は有料に来る前に満たされる。有料まで来るのは(a)深い欠乏=払えない層 (b)仕事にしたい実需層の二極になり、<strong>昔いちばん買った「中間のほどよい救済層」が抜けた</strong>。</li>
+<li><strong>チャレンジローンチの型バレ</strong>: 「無料3日→個別鑑定→高額」の型が既知化し、比較・リサーチ型が増加。当日限定価格が警戒材料化（對馬・三澤・ミランダ）。</li>
+</ol>
+<p><strong>結論</strong>: 広告をテストしても（入口の絵を変えても）、着地のLPと約束が同じなら同じ型の人しか来ない。「買える救済層」は市場からいなくなり、③の二極化で<strong>実需層（実践者・回収）は相対的に増えている側</strong>。ターゲット変更は好みではなく、市場の人口動態への適応。</p>
+<h3>2-2. 新ターゲット</h3>
+<p><strong>「スピ・波動・心理を学んで実践しているが、お客様に自信を持って提供できず、収益化できていない実践者」</strong></p>
+<ul>
+<li>欲求の核: 統合（バラバラの学びを一本化）× 承認（お客様に選ばれたい・すごいと言われたい）× 使命（貢献しながらマネタイズ）</li>
+<li>成約実例（個別分析66件・行番号引用付きより）:</li>
+<li><strong>黒古勝栄</strong>（54歳・サロン経営2年半・キネシ音叉既習）: 「これ以上学びたくない、<strong>もう回収したい</strong>」「そういうステージ」→プロコース銀行振込一括</li>
+<li><strong>吉村信子</strong>（充足層・スキル散財歴）: 「使うだけだったお金を、今度は活かす」→スキル一括</li>
+<li><strong>中井真帆</strong>（音楽教員・キネシ音叉経験）: 既存スキル回収＋家族テーマ体感→プロ即決</li>
+<li>除外する層: 初学者（「霊感とは」から始める層）／経済救済希求／「気になる」止まりの好奇心層</li>
+</ul>
+<h3>2-3. コンセプト（確定済み骨子）</h3>
+<ul>
+<li><strong>コンセプト1行</strong>: 今まで学んできたスピリチュアルを、客観的に整理し「選ばれる技術」に変える</li>
+<li><strong>共通の敵</strong>: 当てるだけの占い・感覚頼みのセッション（※ターゲットの過去を否定せず「世間の占いの常識」として対比。占いの再定義=「占いには2種類ある。当てるだけの占いと、結果に導く占い」）</li>
+<li><strong>メッセージ順序</strong>: 統合 → 選ばれる（承認）→ 使命（お金は「回収」という当人語彙で従属させる。金額前面の煽りは欠乏層を呼び戻すためNG）</li>
+<li><strong>訴求フック3点</strong>: 「たった1秒でわかる（触れただけで分かる）」「霊感も、占いの勉強も、もういらない」「選ばれる技術でオンラインで活躍」</li>
+<li><strong>時代背景（Day1冒頭）</strong>: AI情報爆発→脳疲労→「情報を増やす側と、答えを出せる側に二極化」→AIはお客様の体に触れられない=体に聴く技術は価値が上がり続ける</li>
+</ul>
+<h3>2-4. 制作物マトリクス（LP2枚 × キャッチ3案 × 広告の紐付け）</h3>
+<p>台本は全案共通（3日間チャレンジ新台本 Day1-3）のため列から除外。</p>
+<p><strong>キャッチ3案（確定清書・フル構造）</strong></p>
+<blockquote class="callout-box">
+<p><strong>案1</strong><br />
+霊感も、占いの勉強も、もういらない。<br />
+選ばれる技術で、オンラインで活躍できる<br />
+<strong>波動占いカウンセラー起業</strong>｜無料オンラインプログラム<br />
+― 1万人を鑑定した創始者のメソッドを公開 ―</p>
+<p><strong>案2</strong><br />
+心と体に聴いて、客観的に解決まで導くスキル。<br />
+オンラインでも選ばれ続け、安心して天職をビジネスにできる<br />
+<strong>波動占いカウンセラー起業</strong>｜無料オンラインプログラム</p>
+<p><strong>案3</strong><br />
+スマホより、あなたの「からだ」の方が、人生の正解を知っています。<br />
+世界100カ国で使われる医療技術「キネシオロジー」を母体に、音叉・ヒーリングまで、すべてを統合したスキル。<br />
+触れただけで分かる。たった1秒で、相手の本当の答えが分かる。<br />
+<strong>波動占いの学校</strong>｜無料オンラインプログラム</p>
+</blockquote>
+<p><strong>紐付け</strong></p>
+<table>
+<thead>
+<tr>
+<th>キャッチ</th>
+<th>LPデザイン</th>
+<th>主広告</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>案1</td>
+<td>セラピスト系（爽やか・清潔・プロ養成）</td>
+<td>広告スクリプト「学び足しの終焉」</td>
+</tr>
+<tr>
+<td>案2</td>
+<td>セラピスト系</td>
+<td>同スクリプト（Future Pacing差し替え版）</td>
+</tr>
+<tr>
+<td>案3</td>
+<td>スピリチュアル系（神秘・現行世界観の上位版）</td>
+<td>90秒動画版（筋反射実演カット入り）</td>
+</tr>
+</tbody>
+</table>
+<p>※ヘッドバナーのAI生成プロンプトは試行の結果、破棄。キャッチコピー確定→デザイナー制作の通常フローで進行。</p>
+<h3>2-5. 広告の追加切り口（推奨5本・テスト用）</h3>
+<p>主広告「学び足しの終焉」以外に、同一コンセプトから切り出せる広告アングル。ターゲット・世界観は共通で、入口の感情だけ変える。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>切り口</th>
+<th>フック例</th>
+<th>狙い・根拠</th>
+<th>相性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>1秒実演型</strong>（デモで殴る）</td>
+<td>筋反射の手元アップ映像→「触れただけで分かります。たった1秒で」</td>
+<td>百聞は一見に如かず。成約の決め手＝体感（精読61件）を広告の入口に前倒し。動画広告と最相性</td>
+<td>案3×スピ系</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>二極化・AI時代型</strong>（時代背景）</td>
+<td>「AIは、あなたのお客様の"体"に触れられません」「情報を増やす側と、答えを出せる側に二極化する」</td>
+<td>脳疲労・情報過多の時事性で新鮮さを確保（エバ陳腐化への対策）。知的層に刺さる</td>
+<td>案2×セラピスト系</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>回収型</strong>（当人語彙）</td>
+<td>「これ以上、学びたくない。もう"回収したい"あなたへ」</td>
+<td>成約者・黒古の実発話そのまま。学び疲れ層の本音を代弁する共感型</td>
+<td>案1×セラピスト系</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>意外性型</strong>（占い×ビジネス）</td>
+<td>「経営者が、意思決定に"占い"を使う時代」「その占い、実は事業になります」</td>
+<td>占いの再定義による驚きフック。別ジャンルのカウンセラー養成案件でCPA改善実績のある「共通の敵」型と同構造</td>
+<td>案2×セラピスト系</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>検索フック型</strong>（実績あり）</td>
+<td>「あなたのスマホに、答えはない。自分の筋肉に聞くと本当の答えが見つかる」</td>
+<td>山岸さん運用で反応実績のある勝ちコピーの正統後継。認知の広い層を安く拾う入口</td>
+<td>案3×スピ系</td>
+</tr>
+</tbody>
+</table>
+<p>※事例型（市嶋さん40名満席等の受講生実績を主役にする切り口）も有力だが、顧客事例の広告使用可否を小松さんに確認してから（チェックリスト参照）。</p>
+<h3>2-6. 本命広告スクリプト全文「"学び足し"の終焉」</h3>
+<p>動画広告・記事LP両用。Kayo先生一人称。</p>
+<details>
+<summary><b>▼ 広告スクリプト全文を開く</b></summary>
+<blockquote class="callout-box">
+<p><strong>『学び足し』の終焉</strong><br />
+——資格をもう一つ取っても、自信は手に入らない時代へ</p>
+</blockquote>
+<p>あなたは、波動や心理、ヒーリングを学んで、実践もしてきた。<br />
+なのに——お客様を前にすると、心のどこかでこう思っていませんか？</p>
+<p>「この答えで、本当に合ってるのかな…」</p>
+<p>セッションのたびに、感覚頼みの自分に不安になる。<br />
+だから講座を探し、また資格を取り、また学ぶ。</p>
+<p>もしあなたがこの繰り返しの中にいるなら——<strong>それは、あなたのせいではありません。</strong></p>
+<p>なぜなら今、この業界で学んできた人ほど苦しくなる、ある"構造"があるからです。</p>
+<p>これまで私たちは、こう信じてきました。</p>
+<p>「もっと学べば、自信がつくはず」<br />
+「資格をもう一つ取れば、選ばれるはず」<br />
+「もっと寄り添えば、お客様は変わるはず」</p>
+<p>でも、現実はどうでしょう。<br />
+学べば学ぶほど、知識は増えるのに、確信は増えない。<br />
+なぜか？</p>
+<p><strong>あなたが学んできた手法の多くが、「感覚」を根拠にしているからです。</strong><br />
+感じ取る。イメージする。降りてくるのを待つ。<br />
+——それが本物かどうか、<strong>自分でも確かめようがない。</strong><br />
+だから何年学んでも、「これで合ってる？」が消えない。<br />
+あなたに足りなかったのは、学びの量ではなく、<strong>"確かめられる根拠"</strong>だったんです。</p>
+<p>ではどうすればいいのか。結論から言います。</p>
+<p><strong>答えは、あなたの頭の中にはありません。お客様の「体」にあります。</strong><br />
+もう一度言います。<strong>答えは、お客様の体が知っています。</strong></p>
+<p>私たちの体は、嘘がつけません。<br />
+筋肉の反射は、心の状態にそのまま反応します。<br />
+世界100カ国で使われる医療技術「キネシオロジー」を使えば——<br />
+<strong>触れただけで分かる。たった1秒で、相手の本当の答えが分かる。</strong><br />
+感覚ではなく、体の反応という"根拠"を持って。</p>
+<p>申し遅れました。波動占い創始者、Kayoです。</p>
+<p>実は私も、皆さんと同じ側にいました。<br />
+エステサロンを経営しながらパニック障害になり、1年間引きこもり、あらゆる治療法と学びを渡り歩きました。<br />
+心理学、脳科学、ヒーリング——学んでも学んでも、確信が持てない。<br />
+そんな私が最後にたどり着いたのが、キネシオロジーでした。<br />
+そして気づいたんです。<strong>バラバラに学んできた全部が、"体に聴く"というひとつの技術で繋がる</strong>ことに。</p>
+<p>それを体系化したのが、<strong>波動占い</strong>です。</p>
+<p>世の中の占いやセッションには、実は2種類あります。<br />
+<strong>「当てるだけの占い」と、「結果に導く占い」。</strong><br />
+当てて終わり、癒して終わりなら、お客様はまた同じ悩みで戻ってきます。<br />
+波動占いは、体に聴いて原因を特定し、波動を整え、開運行動まで導く。<br />
+<strong>結果に導くから、選ばれ続ける。</strong></p>
+<p>この技術で、16年間で1万人以上を鑑定し、500名以上の生徒さんが学んできました。<br />
+サロンを経営しながら学んだ方は、今までの学びを全部活かして選ばれ続けています。<br />
+SNSで鑑定募集をした60代の生徒さんは、即満席・40名のご予約をいただきました。<br />
+「人生が変わった」と、泣きながら感謝された方もいます。</p>
+<p>想像してみてください。<br />
+セッションの前の、あの不安がなくなった毎日を。<br />
+感覚ではなく根拠を持って、「あなたはこうですね」と言い切れる自分を。<br />
+学んできたすべてが無駄にならず、ひとつの技術に統合されて、<br />
+<strong>「ありがとう」で予約が埋まっていく——オンラインで、生涯現役で。</strong></p>
+<p>もしこの話に少しでもピンときたなら、それはもう、体が反応しているのかもしれません。</p>
+<p>今回、<strong>3日間の無料オンラインプログラム</strong>で、<br />
+あなた自身が「1秒で答えを取る」体験をしていただけます。<br />
+霊感も、占いの勉強も、もういりません。必要なのは、あなたのこれまでの学びと、体ひとつ。</p>
+<p>ただし、この無料プログラムは期間限定です。<br />
+ページが閉じる前に、今すぐ確認してください。</p>
+<p>それでは、3日間のプログラムでお会いしましょう。</p>
+</details>
+<details>
+<summary><b>▼ 90秒動画版 撮影台本を開く</b></summary>
+<table>
+<thead>
+<tr>
+<th>秒</th>
+<th>映像</th>
+<th>セリフ（Kayo）</th>
+<th>テロップ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-3</td>
+<td>Kayo正面アップ</td>
+<td>「資格をもう一つ取っても——自信は、手に入りません」</td>
+<td><strong>『学び足し』の終焉</strong></td>
+</tr>
+<tr>
+<td>3-15</td>
+<td>正面続き</td>
+<td>「波動や心理を学んで、実践もしてきた。なのにお客様を前にすると『この答えで合ってるのかな…』って不安になる。だからまた講座を探して、また学ぶ。——それ、あなたのせいではありません」</td>
+<td>「これで合ってる…？」／<strong>あなたのせいではありません</strong></td>
+</tr>
+<tr>
+<td>15-30</td>
+<td>少し身を乗り出す</td>
+<td>「学べば学ぶほど確信が持てないのは、手法の多くが"感覚"を根拠にしているから。感じ取る、イメージする——それが本物かどうか、自分でも確かめようがないんですね」</td>
+<td>足りないのは学びの量ではなく<strong>"確かめられる根拠"</strong></td>
+</tr>
+<tr>
+<td>30-45</td>
+<td><strong>筋肉反射の実演カット</strong></td>
+<td>「答えは、あなたの頭の中にはありません。お客様の"体"にあります。もう一度言います。答えは、体が知っています」</td>
+<td><strong>触れただけで分かる。たった1秒。</strong></td>
+</tr>
+<tr>
+<td>45-60</td>
+<td>音叉・鑑定風景B-roll→Kayo</td>
+<td>「私も同じでした。パニック障害で1年引きこもり、あらゆる学びを渡り歩いて——最後にキネシオロジーで、バラバラだった全部がひとつに繋がったんです。それが波動占いです」</td>
+<td>世界100カ国の医療技術<strong>キネシオロジー</strong>／<strong>1万人鑑定・16年</strong></td>
+</tr>
+<tr>
+<td>60-75</td>
+<td>比較画面</td>
+<td>「占いには2種類あります。当てるだけの占いと、結果に導く占い。結果に導くから、選ばれ続けるんですね」</td>
+<td>当てるだけ vs <strong>結果に導く</strong></td>
+</tr>
+<tr>
+<td>75-90</td>
+<td>Kayo笑顔→CTA</td>
+<td>「霊感も、占いの勉強も、もういりません。3日間の無料プログラムで、あなた自身が"1秒で答えを取る"体験をしてください。ピンときたなら——それはもう、体が反応しているのかもしれません」</td>
+<td><strong>3日間無料オンラインプログラム</strong>／期間限定</td>
+</tr>
+</tbody>
+</table>
+</details>
+<hr />
+<h2>3. 戦略上の検討事項（MTGで決めたい2点）</h2>
+<h3>3-1. 本命ターゲット: スピリチュアル層 vs セラピスト層</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>スピリチュアル実践者層</th>
+<th>セラピスト層（店舗系）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>占い・カウンセリングへの興味</td>
+<td>高い（共有言語）</td>
+<td><strong>低い</strong>（技術系店舗オーナーは占いに関心薄）</td>
+</tr>
+<tr>
+<td>小松さんの強み（店舗なし・オンライン）との整合</td>
+<td><strong>高い</strong>（在宅・遠隔と相性）</td>
+<td>低い（店舗ビジネスはオンライン訴求と相性悪）</td>
+</tr>
+<tr>
+<td>成約実例</td>
+<td>黒古・吉村・中井・伊良皆・酒井など多数</td>
+<td>少ない</td>
+</tr>
+<tr>
+<td>推奨</td>
+<td><strong>本命</strong></td>
+<td>広告のサブセグメントとしてテスト</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推奨: 本命はスピリチュアル実践者層。</strong> ただしLP2枚（スピ系/セラピスト系デザイン）を用意するので、広告セグメントを分けて実測で判定可能。「セラピスト系デザイン」は店舗セラピスト向けではなく「知的・清潔トーンを好むスピ実践者」向けと位置づける。</p>
+<h3>3-2. 救済層メッセージの排除によるROAS復活</h3>
+<ul>
+<li>シナリオ・LP・メールから排除するもの: 「誰でも・未経験・霊感不要」の万人ハードル下げの前面配置／「あなたが癒される・救われる」の入口設置／不登校・夫婦崩壊等の救済系事例／「今すぐ稼げる・お金の不安が消える」の即金煽り</li>
+<li>残すもの（役割変更）: パニック障害ストーリー（→「学び疲れた側だった」統合物語へ）／音叉共鳴実験／宿命と運命（→「2種類の占い」へ統合）／市場数字</li>
+<li>効果仮説: 欠乏層の申込が減りリード単価は上がるが、(a)成約率 (b)高単価コース比率 (c)解約率 (d)入金完了率が改善し、<strong>CAC・ROAS・実入金LTVで逆転</strong>する。判定指標をCPAからCAC（広告費÷バックエンド成約）に変更する。</li>
+</ul>
+<hr />
+<h3>3-3. デザイン方針: 現行の定義と、移行先の明記</h3>
+<p><strong>現行LPデザインの定義</strong>: 「ボルドー×金の"占いの館"系」——深紅〜えんじのベルベット調の地に、金の明朝・飾り文字、曼荼羅の地紋、金の光の粒子、白抜き太文字＋赤帯、緑のCTAボタン。高級感のあるゴージャスな占い演出。<strong>「夢見る救済層」に最適化されたデザイン</strong>であり、旧ターゲットには正解だった。</p>
+<p>なお色使い（深色×金の高級感）は<strong>既に下記Bタイプ寄りの土台</strong>を持っている。そこにA要素（縁取り太文字・光の粒子・過密装飾の祭り感）が乗っている状態であり、リニューアルはゼロからの世界観転換ではなく、<strong>A要素を剥がしてBの純度を上げ「もっと大人に」仕上げる作業</strong>になる。</p>
+<p><strong>スピ系デザインの類型（同じ"スピリチュアル"でも4タイプある）</strong></p>
+<table>
+<thead>
+<tr>
+<th>タイプ</th>
+<th>特徴</th>
+<th>刺さる層</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. ゴージャス占い館系（現行）</td>
+<td>ボルドー×金・曼荼羅・光の粒子・飾り文字の祭り感</td>
+<td>夢見層・救済層・占いエンタメ好き</td>
+</tr>
+<tr>
+<td>B. <strong>シック・スピリチュアル系</strong></td>
+<td>深紺/深紫×金の細線、余白多め、明朝体、装飾密度低、実物質感（音叉・手元）</td>
+<td><strong>大人の実践者・プロ志向・高額を払う層</strong></td>
+</tr>
+<tr>
+<td>C. ナチュラル・オーガニック系</td>
+<td>生成り/ベージュ、植物、柔らかい手書き感</td>
+<td>癒しサロン系・ヒーリング好き</td>
+</tr>
+<tr>
+<td>D. クリニカル・ウェルネス系</td>
+<td>白×ティール/グリーン、図解、清潔・科学感</td>
+<td>知的・根拠重視・「怪しくないもの」を求める層</td>
+</tr>
+</tbody>
+</table>
+<p><strong>新ペルソナ（黒古・吉村・中井）が好むもの</strong></p>
+<ul>
+<li>3人の共通項: 50代前後・<strong>自分もお客様を持つ側</strong>（サロン経営・音楽教員・充足層）・学び疲れて「本物・根拠」を求めている・110万円を払える。</li>
+<li>この層にA（キラキラ全開）は「<strong>また夢を売る系の講座か</strong>」という既視感・警戒を生む（山岸さんの指摘「占いと言うとエンタメに聞こえて、本来ハマる人を落とす」のデザイン版）。</li>
+<li>一方で完全な無機質（Dのみ）はスピの世界観・ワクワクを削ぐ。彼女たちはスピが好きで来ている。</li>
+<li>→ 好むのは「<strong>自分のお客様に見せても恥ずかしくない、上質な神秘</strong>」。ブランドバッグ的な信頼感＋スピの深さの両立。</li>
+</ul>
+<p><strong>移行方針（明記）</strong></p>
+<ul>
+<li><strong>スピ系LP: 現行のA要素を剥がし、B「シック・スピリチュアル系」の純度を上げる（"もっと大人に"）。</strong></li>
+<li>残す: 深色（ボルドー/深紺）×金の高級感・神秘のモチーフ（最小限）——現行の土台はそのまま活きる</li>
+<li>減らす/やめる: 曼荼羅の過密装飾・光の粒子の乱舞・縁取り太文字の祭り感</li>
+<li>足す: 余白・明朝体・実物質感の写真（筋反射の手元・音叉・鑑定風景）＝「本物の技術」の画づくり</li>
+<li><strong>セラピスト系LP: D「クリニカル・ウェルネス系」を基調に、Cの温かみを少量</strong>（白×ティール/グリーン＋コーラルのアクセント。他ジャンルで成果実証済みのカウンセラー養成系LPと同系統のトーン）。</li>
+<li>2枚のLPは「別世界観」ではなく、<strong>同じ上質トーンの濃度違い</strong>（B=神秘濃いめ／D=科学濃いめ）として設計する。広告クリエイティブも各LPのトーンに揃える。</li>
+</ul>
+<h2>4. ファネルの検証: サンチャレ踏襲 + Autoウェビナー実験</h2>
+<h3>4-1. 基本はサンチャレ（3日間チャレンジ）踏襲</h3>
+<p>理由: 本商材は情報財でなく<strong>技術・変容財</strong>。成約の決め手はほぼ全件「鑑定・ワーク中の体感」（精読61件）であり、体感を作る時間が必要。助成金要件（研修の実体）とも整合。</p>
+<p>新3日間の設計（体験を毎日の背骨に。主語を1日ずつ上げる: 体は答える→私は取れる→私は導ける）:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Day1</th>
+<th>Day2</th>
+<th>Day3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>タイトル</td>
+<td>体は、答えを知っている——二極化の時代に「選ばれる技術」</td>
+<td>1秒で答えを取り、波動を整える——「私にもできた」</td>
+<td>人を結果に導く——学びを統合し「選ばれる側」になる</td>
+</tr>
+<tr>
+<td>体験</td>
+<td>セルフ筋肉反射・初体験（冒頭5分で「本当だ！」）</td>
+<td>自分の悩みを筋反射で深掘り→音叉で整えBefore/After</td>
+<td>家族・友人を代理テストで鑑定し開運行動まで導く</td>
+</tr>
+<tr>
+<td>体験が証明するもの</td>
+<td>技術が本物</td>
+<td>自分にできる</td>
+<td><strong>仕事になる</strong></td>
+</tr>
+<tr>
+<td>HW</td>
+<td>学びの棚卸し＋収入化できなかった理由</td>
+<td>「お客様にしたらどう喜ばれそう？」</td>
+<td>「選ばれ続ける自分」の未来＋誰を導きたいか</td>
+</tr>
+</tbody>
+</table>
+<details>
+<summary><b>▼ Day1 詳細タイムライン（70分・v3）を開く</b></summary>
+<p><strong>Day1「体は、答えを知っている——二極化の時代に"選ばれる技術"」</strong></p>
+<table>
+<thead>
+<tr>
+<th>時間</th>
+<th>セクション</th>
+<th>中身</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00〜3:00</td>
+<td>①オープニング＋自己選別</td>
+<td>挨拶＋冒頭宣言「今日は、すでに波動や心理、スピリチュアルを学んで実践してきた方にこそ聞いてほしい話です」（救済層でなく実践者に椅子を向ける。「波動が合う方・ご縁がある方」の自己選別で柔らかく）</td>
+</tr>
+<tr>
+<td>3:00〜8:00</td>
+<td>②いきなりミニ体験（冒頭フック）</td>
+<td>講義より先に体験：<strong>フィンガーテスト（Oリング）</strong>。「自分の名前を言う→指の輪が強い／偽名を言う→ふっと緩む」を全員で実施。<strong>開始5分で「え、本当だ！」を起こす</strong>→チャットに「変わった！」を書かせて場を沸かせる。「なぜ体は嘘がつけないのか——今日はその話です」</td>
+</tr>
+<tr>
+<td>8:00〜15:00</td>
+<td>③ワクワクの未来＝3つの扉</td>
+<td>「この3日間が終わる頃、あなたには3つの選択肢が生まれます」——(1)<strong>波動占いカウンセラーとして起業</strong>しオンラインで選ばれ続ける (2)<strong>今の技術・学びに統合してあなただけの独自メソッド</strong>を作る (3)まず<strong>自分自身の答えを出し、自分の人生を変える</strong>。「どの扉を選ぶかは自由。ただ3つ全部に共通して必要なのが"選ばれる技術"——今皆さんが体験した、体に聴く技術です」</td>
+</tr>
+<tr>
+<td>15:00〜24:00</td>
+<td>④時代背景＝二極化</td>
+<td>AIで情報爆発→何が本物か分からない→学んでもたどり着けない人が蔓延→<strong>脳疲労</strong>（左脳で考えて答えが出ない）。二極化宣言：<strong>「これから、情報を"増やす側"と、答えを"出せる側"に二極化します」</strong>。情報を増やすのはAIがやる。目の前の一人に答えを出せる人は希少になる一方。「そしてAIは、あなたのお客様の<strong>体には触れられない</strong>」＝体に聴く技術は時代が進むほど価値が上がる</td>
+</tr>
+<tr>
+<td>24:00〜31:00</td>
+<td>⑤占いには2種類ある（共通の敵）</td>
+<td>①当てるだけの占い ②結果に導く占い、の比較表を画面共有。市場数字（占い1兆円・カウンセリング300億）。宿命と運命（宿命2割・波動8割）をここに統合——「宿命を当てるのが①、運命を変えるのが②」。「答えを"出せる側"に回る技術が、実は占いにあった」</td>
+</tr>
+<tr>
+<td>31:00〜38:00</td>
+<td>⑥Kayoストーリー＝統合物語</td>
+<td>パニック障害→1年引きこもり→あらゆる治療法・学びを渡り歩いた（<strong>「私も皆さんと同じ、学び疲れた側だった」</strong>）→キネシオロジーに出会い、<strong>バラバラだった全部が一つに繋がった</strong>。1万人鑑定・16年・500名の実績</td>
+</tr>
+<tr>
+<td>38:00〜50:00</td>
+<td>⑦技術の全体像＝統合</td>
+<td>3要素の再フレーム：筋肉反射＝<strong>答えを取る技術</strong>（世界100カ国の医療技術）／音叉＝<strong>波動を整える技術</strong>／開運行動＝<strong>結果へ導く技術</strong>。「当てる→整える→導く」が一気通貫。だからタロットも占星術もヒーリングも、これ一つに統合される。音叉共鳴実験動画。<strong>「体に聞くから、嘘がつけない」</strong>を差別化の一言として明示</td>
+</tr>
+<tr>
+<td>50:00〜57:00</td>
+<td>⑧本体験：体に"本当の願い"を聴く</td>
+<td>②の応用編：「あなたは今のままでいい？」「本当はもっとできる？」を自分に問い、<strong>体の反応で自分の本音を確認</strong>。「頭の答えと体の答えが違った人？」→チャット殺到ポイント（脳疲労テーマの体感的回収：左脳と体はズレる）</td>
+</tr>
+<tr>
+<td>57:00〜64:00</td>
+<td>⑨事例（3つの扉の実例）＋まとめ＋HW</td>
+<td>扉(2)独自メソッド＝サロン経営者が既存メニューに統合して選ばれ続けている／扉(1)起業＝募集即満席40名／扉(3)自分が変わる＝学んだ全部が活きて自信。まとめ「あなたが学んできたものは無駄じゃない。バラバラなだけ。統合すれば"結果に導く技術"になる」。<strong>HW：①これまで学んできたもの・実践してきたことを書き出す ②それが"仕事・収入"に結びつかなかった理由は何だと思うか</strong>（48時間期限・コンプリート賞は温存）</td>
+</tr>
+<tr>
+<td>64:00〜70:00</td>
+<td>⑩Q&amp;A＋次回予告</td>
+<td>Q&amp;A想定の前面差し替え：「他の講座で学んだことと両立できますか？→むしろ全部活きます（上書き統合）」。次回予告「明日はいよいよ、<strong>1秒で答えを取って、波動を整えるところまで</strong>やります」</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Day1メッセージ5行</strong>: (1)この技術で開く扉は3つ——起業する・統合する・自分を変える (2)時代は「情報を増やす側」と「答えを出せる側」に二極化する (3)AIは情報を無限に出せるが、お客様の体には触れられない (4)占いには2種類ある——当てるだけと結果に導くもの。体に聞くから嘘がつけない (5)あなたの学びはバラバラなだけ——統合すれば"選ばれる技術"になる</p>
+</details>
+<p>※実装確認事項（小松さんへ）: Zoom越し・一人でやるセルフ筋反射の初回成功率。初心者でも8割出る型（Oリング/立位傾き/振り子）の選定を現場感覚で。</p>
+<h3>4-2. Autoウェビナー実験</h3>
+<ul>
+<li>仮説: サンチャレより教育・体感が浅い分、成約率は下がる。ただし新ターゲット（実践者）は下地があるため、(a)教育短縮の悪影響が小さい (b)時間拘束の少なさがむしろ効く可能性。</li>
+<li>設計: 確定済みVSL台本（脳疲労→2種類の占い→統合→回収）を60〜90分ウェビナーに拡張し、<strong>一撃で個別相談（鑑定付き説明会）へ</strong>。高額成約の決め手である「体感」は個別側で担保する（＝ウェビナーで教育を完結させず、個別の鑑定体験に山を残す）。</li>
+<li>判定指標: ウェビナー視聴→個別着席率／個別成約率／CAC／解約率。サンチャレと同一ターゲット・同一個別で比較。</li>
+<li>位置づけ: サンチャレを主、Autoウェビナーを小予算並走テスト。当たれば「常時稼働の刈り取り面」としてローンチ間の空白期間を埋められる（エバ脱却=フロー型運用とも整合）。</li>
+</ul>
+<hr />
+<h2>添付（既存成果物の所在）</h2>
+<table>
+<thead>
+<tr>
+<th>成果物</th>
+<th>所在</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>コンセプトシートv1・訴求DO/DON'T</td>
+<td>本レポート§2-3＋会話ログ（案件マスターへ転記予定）</td>
+</tr>
+<tr>
+<td>ターゲットペルソナ3名（黒古/吉村/中井・実商談引用付き）</td>
+<td><code>データ20260617/セールス/セールス分析/29th・31th/</code>該当ファイル</td>
+</tr>
+<tr>
+<td>Day1詳細タイムライン v3</td>
+<td>本レポート§4-1（折りたたみ）</td>
+</tr>
+<tr>
+<td>広告スクリプト「学び足しの終焉」全文＋90秒動画台本</td>
+<td>本レポート§2-6（折りたたみ）</td>
+</tr>
+<tr>
+<td>キャッチコピー3案（清書）</td>
+<td>本レポート§2-4</td>
+</tr>
+<tr>
+<td>現行シナリオ7つの問題点診断</td>
+<td>会話ログ（§2-1に要約）</td>
+</tr>
+<tr>
+<td>セールス数値の正本</td>
+<td><code>田中祐一のセールス分析/全体レポート.md</code>・<code>ペルソナ分析.md</code>・個別分析66件</td>
+</tr>
+</tbody>
+</table>
+<h2>MTGで決めること（チェックリスト）</h2>
+<ul>
+<li>[ ] ターゲット変更方針の承認（救済層→実践者層）</li>
+<li>[ ] 本命ターゲット: スピ実践者層でよいか（§3-1）</li>
+<li>[ ] キャッチ3案の採否・赤入れ（§2-4）</li>
+<li>[ ] LP2枚体制（スピ系/セラピスト系デザイン）の承認</li>
+<li>[ ] 新Day1-3構成の承認＋セルフ筋反射ワークの実装可否（小松さんの現場判断）</li>
+<li>[ ] クーリングオフ対策の方向（クロージング設計の見直し §1-2）</li>
+<li>[ ] Autoウェビナー小予算テストの承認（§4-2）</li>
+<li>[ ] 受講生事例（市嶋40名満席等）の広告使用可否</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-07-07)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
