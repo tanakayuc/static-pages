@@ -413,17 +413,6 @@ pre {
 
       <div id="summary" class="summary-grid" aria-label="取得済み素材数"></div>
 
-      <section id="quick" class="section">
-        <h2>取得済み素材一覧</h2>
-        <p class="section-lead">LP・動画書き起こし・ステップメール・LINE本文・チャットログを、このページ内で確認できる一覧です。</p>
-        <div id="quickGroups" class="quick-groups"></div>
-      </section>
-
-
-      <section id="files" class="section">
-        <h2>保存済み本文一覧</h2>
-        <div id="allFiles" class="all-files"></div>
-      </section>
     </div>
   </main>
 </div>
@@ -515,9 +504,7 @@ function setContentMode(mode) {
   const isGroup = mode === "stepmail" || mode === "line";
   const isMaterial = mode === "material";
   summary.hidden = isGroup || isMaterial;
-  document.getElementById("quick").hidden = isGroup || isMaterial;
   const urlsSection = document.getElementById("urls"); if (urlsSection) urlsSection.hidden = isGroup || isMaterial;
-  document.getElementById("files").hidden = isGroup || isMaterial;
 }
 
 function reportNavHtml() {
@@ -560,10 +547,7 @@ function renderSidebar(mode = "root", activeIndex = 0) {
         return '<a class="navlink' + sub + '" href="?group=' + item.group + '" data-group-nav="' + item.group + '">' + escapeHtml(item.label) + '</a>';
       }
       return '<a class="navlink' + sub + active + '" href="?path=' + encodeURIComponent(item.path) + '" data-source-path="' + escapeHtml(item.path) + '">' + escapeHtml(item.label) + '</a>';
-    }).join("") +
-    '<div class="nav-section">素材台帳</div>' +
-    '<a class="navlink" href="#quick">取得済み素材一覧</a>' +
-    '<a class="navlink" href="#files">保存済み本文一覧</a>';
+    }).join("");
   bindSidebarNav();
 }
 
@@ -586,6 +570,7 @@ function renderSummary() {
 }
 
 function renderQuickGroups() {
+  if (!quickGroups) return;
   const grouped = state.files.reduce((acc, file, index) => {
     if (!acc[file.category]) acc[file.category] = [];
     acc[file.category].push({ ...file, index });
@@ -648,6 +633,7 @@ if (urlRows) urlRows.innerHTML = state.primary.map((item) => {
 }).join("");
 
 function renderAllFiles() {
+  if (!allFiles) return;
   allFiles.innerHTML = state.files.map((file, index) => {
     return '<article class="file-card">' +
       '<strong>' + escapeHtml(file.title) + '</strong>' +
