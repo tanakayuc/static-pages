@@ -419,21 +419,6 @@ pre {
         <div id="quickGroups" class="quick-groups"></div>
       </section>
 
-      <section id="urls" class="section">
-        <h2>URL・保存済み原本対応表</h2>
-        <table class="url-table">
-          <thead>
-            <tr>
-              <th>素材</th>
-              <th>種別</th>
-              <th>実際URL</th>
-              <th>保存済み原本</th>
-              <th>内容</th>
-            </tr>
-          </thead>
-          <tbody id="urlRows"></tbody>
-        </table>
-      </section>
 
       <section id="files" class="section">
         <h2>保存済み本文一覧</h2>
@@ -537,10 +522,8 @@ function setContentMode(mode) {
 
 function reportNavHtml() {
   return '<div class="nav-section">レポート</div>' +
-    '<a class="navlink" href="../index.html">ファネルレポートポータル</a>' +
-    '<a class="navlink" href="../visual-report.html">ビジュアルレポート</a>' +
-    '<a class="navlink" href="../text-report.html">テキストレポート</a>' +
-    '<a class="navlink active" href="./materials.html">原本素材集</a>';
+    '<a class="navlink" href="../index.html">← ファネルレポートポータル</a>' +
+    '<a class="navlink active" href="./materials.html">原本素材集（このページ）</a>';
 }
 
 function renderSidebar(mode = "root", activeIndex = 0) {
@@ -579,7 +562,6 @@ function renderSidebar(mode = "root", activeIndex = 0) {
       return '<a class="navlink' + sub + active + '" href="?path=' + encodeURIComponent(item.path) + '" data-source-path="' + escapeHtml(item.path) + '">' + escapeHtml(item.label) + '</a>';
     }).join("") +
     '<div class="nav-section">素材台帳</div>' +
-    '<a class="navlink" href="#urls">URL対応表</a>' +
     '<a class="navlink" href="#quick">取得済み素材一覧</a>' +
     '<a class="navlink" href="#files">保存済み本文一覧</a>';
   bindSidebarNav();
@@ -655,7 +637,7 @@ function renderQuickGroups() {
   });
 }
 
-urlRows.innerHTML = state.primary.map((item) => {
+if (urlRows) urlRows.innerHTML = state.primary.map((item) => {
   return '<tr>' +
     '<td><strong>' + escapeHtml(item.title) + '</strong></td>' +
     '<td><span class="pill">' + escapeHtml(item.kind) + '</span></td>' +
