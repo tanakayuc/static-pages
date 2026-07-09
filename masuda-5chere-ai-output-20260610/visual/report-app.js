@@ -365,10 +365,8 @@
       <p class="brand">増田 W3EV<br>5日チャレ<br>ファネルレポート</p>
       <small class="side-note">左でレポート全体と素材を行き来し、右側でビジュアルフィードバックを確認します。</small>
       <div class="nav-section">レポート</div>
-      <a class="navlink" href="${esc(portalUrl())}">ファネルレポートポータル</a>
+      <a class="navlink" href="${esc(portalUrl())}">← ファネルレポートポータル</a>
       <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
-      <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-      <a class="navlink" href="${esc(materialsUrl())}">原本素材集</a>
       <div class="nav-section">ファネル素材</div>
       <div class="side-group">${nav}</div>
     `;
@@ -406,10 +404,8 @@
       <p class="brand">増田 W3EV<br>5日チャレ<br>ファネルレポート</p>
       <small class="side-note">${esc(stage.title)} の個別指摘を確認しています。</small>
       <div class="nav-section">レポート</div>
-      <a class="navlink" href="${esc(portalUrl())}">ファネルレポートポータル</a>
+      <a class="navlink" href="${esc(portalUrl())}">← ファネルレポートポータル</a>
       <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
-      <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-      <a class="navlink" href="${esc(materialsUrl())}">原本素材集</a>
       <div class="nav-section">現在の素材</div>
       <a class="back-link" href="${esc(stageUrl(stage))}">${esc(isTimeSeriesStage(stage) ? "全体所感へ戻る" : "素材ページに戻る")}</a>
       <small class="side-note">${esc(isTimeSeriesStage(stage) ? "時系列素材と指摘状態" : "キャプチャと番号付きフィードバック")}</small>
@@ -431,10 +427,8 @@
       <p class="brand">増田 W3EV<br>5日チャレ<br>ファネルレポート</p>
       <small class="side-note">${esc(stage.title)} の素材とフィードバックを確認しています。</small>
       <div class="nav-section">レポート</div>
-      <a class="navlink" href="${esc(portalUrl())}">ファネルレポートポータル</a>
+      <a class="navlink" href="${esc(portalUrl())}">← ファネルレポートポータル</a>
       <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
-      <a class="navlink" href="${esc(textUrl())}">テキストレポート</a>
-      <a class="navlink" href="${esc(materialsUrl())}">原本素材集</a>
       <div class="nav-section">現在の素材</div>
       <a class="back-link" href="${esc(homeUrl())}">ファネル一覧へ戻る</a>
       <small class="side-note">${esc(isTimeSeriesStage(stage) ? "全素材を時系列に表示。指摘ありだけ状態表示します。" : "このページをページ素材として、キャプチャと指摘を直接対応させます。")}</small>
