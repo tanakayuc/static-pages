@@ -413,32 +413,6 @@ pre {
 
       <div id="summary" class="summary-grid" aria-label="取得済み素材数"></div>
 
-      <section id="quick" class="section">
-        <h2>取得済み素材一覧</h2>
-        <p class="section-lead">LP・動画書き起こし・ステップメール・LINE本文・チャットログを、このページ内で確認できる一覧です。</p>
-        <div id="quickGroups" class="quick-groups"></div>
-      </section>
-
-      <section id="urls" class="section">
-        <h2>URL・保存済み原本対応表</h2>
-        <table class="url-table">
-          <thead>
-            <tr>
-              <th>素材</th>
-              <th>種別</th>
-              <th>実際URL</th>
-              <th>保存済み原本</th>
-              <th>内容</th>
-            </tr>
-          </thead>
-          <tbody id="urlRows"></tbody>
-        </table>
-      </section>
-
-      <section id="files" class="section">
-        <h2>保存済み本文一覧</h2>
-        <div id="allFiles" class="all-files"></div>
-      </section>
     </div>
   </main>
 </div>
@@ -473,6 +447,7 @@ const rootItems = [
   { label: "ライブ5", path: "Day5_書き起こし.md" },
   { label: "個別説明会ページ", path: "個別誘導LP_画面テキスト全文.md" },
   { label: "体験セミナー誘導ページ", path: "体験セミナー誘導LP_画面テキスト全文.md" },
+  { label: "個別セールススライド", path: "個別セールススライド_全文.md" },
   { label: "追加セミナー1", path: "追加セミナー1_書き起こし.md", sub: true },
   { label: "追加セミナー2", path: "追加セミナー2_書き起こし.md", sub: true },
   { label: "オープンチャット", path: "オプチャログ_全文.md" },
@@ -529,17 +504,13 @@ function setContentMode(mode) {
   const isGroup = mode === "stepmail" || mode === "line";
   const isMaterial = mode === "material";
   summary.hidden = isGroup || isMaterial;
-  document.getElementById("quick").hidden = isGroup || isMaterial;
-  document.getElementById("urls").hidden = isGroup || isMaterial;
-  document.getElementById("files").hidden = isGroup || isMaterial;
+  const urlsSection = document.getElementById("urls"); if (urlsSection) urlsSection.hidden = isGroup || isMaterial;
 }
 
 function reportNavHtml() {
   return '<div class="nav-section">レポート</div>' +
-    '<a class="navlink" href="../index.html">ファネルレポートポータル</a>' +
-    '<a class="navlink" href="../visual-report.html">ビジュアルレポート</a>' +
-    '<a class="navlink" href="../text-report.html">テキストレポート</a>' +
-    '<a class="navlink active" href="./materials.html">原本素材集</a>';
+    '<a class="navlink" href="../index.html">← ファネルレポートポータル</a>' +
+    '<a class="navlink active" href="./materials.html">原本素材集（このページ）</a>';
 }
 
 function renderSidebar(mode = "root", activeIndex = 0) {
@@ -576,11 +547,7 @@ function renderSidebar(mode = "root", activeIndex = 0) {
         return '<a class="navlink' + sub + '" href="?group=' + item.group + '" data-group-nav="' + item.group + '">' + escapeHtml(item.label) + '</a>';
       }
       return '<a class="navlink' + sub + active + '" href="?path=' + encodeURIComponent(item.path) + '" data-source-path="' + escapeHtml(item.path) + '">' + escapeHtml(item.label) + '</a>';
-    }).join("") +
-    '<div class="nav-section">素材台帳</div>' +
-    '<a class="navlink" href="#urls">URL対応表</a>' +
-    '<a class="navlink" href="#quick">取得済み素材一覧</a>' +
-    '<a class="navlink" href="#files">保存済み本文一覧</a>';
+    }).join("");
   bindSidebarNav();
 }
 
@@ -603,6 +570,7 @@ function renderSummary() {
 }
 
 function renderQuickGroups() {
+  if (!quickGroups) return;
   const grouped = state.files.reduce((acc, file, index) => {
     if (!acc[file.category]) acc[file.category] = [];
     acc[file.category].push({ ...file, index });
@@ -654,7 +622,7 @@ function renderQuickGroups() {
   });
 }
 
-urlRows.innerHTML = state.primary.map((item) => {
+if (urlRows) urlRows.innerHTML = state.primary.map((item) => {
   return '<tr>' +
     '<td><strong>' + escapeHtml(item.title) + '</strong></td>' +
     '<td><span class="pill">' + escapeHtml(item.kind) + '</span></td>' +
@@ -665,6 +633,7 @@ urlRows.innerHTML = state.primary.map((item) => {
 }).join("");
 
 function renderAllFiles() {
+  if (!allFiles) return;
   allFiles.innerHTML = state.files.map((file, index) => {
     return '<article class="file-card">' +
       '<strong>' + escapeHtml(file.title) + '</strong>' +

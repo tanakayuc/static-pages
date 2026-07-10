@@ -204,6 +204,14 @@ window.MASUDA_SOURCE_MATERIALS = {
       "sourceFile": "体験セミナー誘導LP_画面テキスト全文.md",
       "note": "保存済みの体験セミナー誘導LP画面テキスト全文。",
       "href": "source/%E4%BD%93%E9%A8%93%E3%82%BB%E3%83%9F%E3%83%8A%E3%83%BC%E8%AA%98%E5%B0%8ELP_%E7%94%BB%E9%9D%A2%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E5%85%A8%E6%96%87.md"
+    },
+    {
+      "title": "個別セールススライド",
+      "kind": "スライド",
+      "actualUrl": "https://docs.google.com/presentation/d/1c5SNmZx9NEzIIVbo6J4GTVeW52oHSIFs/edit",
+      "sourceFile": "個別セールススライド_全文.md",
+      "note": "個別説明会（個別セールス）スライド全文。",
+      "href": "source/%E5%80%8B%E5%88%A5%E3%82%BB%E3%83%BC%E3%83%AB%E3%82%B9%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89_%E5%85%A8%E6%96%87.md"
     }
   ],
   "files": [
@@ -854,6 +862,12 @@ window.MASUDA_SOURCE_MATERIALS = {
       "title": "追加セミナー2_書き起こし",
       "category": "動画書き起こし",
       "href": "source/%E8%BF%BD%E5%8A%A0%E3%82%BB%E3%83%9F%E3%83%8A%E3%83%BC2_%E6%9B%B8%E3%81%8D%E8%B5%B7%E3%81%93%E3%81%97.md"
+    },
+    {
+      "path": "個別セールススライド_全文.md",
+      "title": "個別セールススライド_全文",
+      "category": "LP/ページ本文",
+      "href": "source/%E5%80%8B%E5%88%A5%E3%82%BB%E3%83%BC%E3%83%AB%E3%82%B9%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%89_%E5%85%A8%E6%96%87.md"
     }
   ]
 };
