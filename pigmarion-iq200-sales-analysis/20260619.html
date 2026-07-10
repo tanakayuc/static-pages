@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20260619_尾上ありさ_角田ゆか_分析 - ピグマリオン IQ200ベビー セールス分析</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>ピグマリオン IQ200ベビー セールス分析</h3>
+<a class="sidebar-item sidebar-item--cross" href="../pigmarion-iq200-sales-manual/">セールスレポート（トップ）</a><a href="20260707.html" class="sidebar-item"><span class="date">2026年07月07日</span> 20260707_中村さやか_角田ゆか_分析</a>
+<a href="20260706.html" class="sidebar-item"><span class="date">2026年07月06日</span> 20260706_松本深咲_角田ゆか_分析</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_石川未希子_角田ゆか_分析</a>
+<a href="20260703-49f1b4e2d7d4.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_阿部由里_角田ゆか_分析</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 20260702_吉田恵里_角田ゆか_分析</a>
+<a href="20260619.html" class="sidebar-item active"><span class="date">2026年06月19日</span> 20260619_尾上ありさ_角田ゆか_分析</a>
+<a href="20260618.html" class="sidebar-item"><span class="date">2026年06月18日</span> 20260618_小林さやか_角田ゆか_分析</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_福田雅美_角田ゆか_分析</a>
+<a href="20260605.html" class="sidebar-item"><span class="date">2026年06月05日</span> 20260605_矢口ちひろ_角田ゆか_分析</a>
+</nav>
+<main class="content">
+<article class="article">
+<hr />
+<p>案件: ピグマリオン IQ200ベビー<br />
+説明会日: 2026-06-19<br />
+顧客: 尾上ありさ<br />
+セールス担当: 角田ゆか（後半クロージング）／発達相談: 吉田早惠子（さえこ先生・前半約16分）<br />
+結果: 否決（実態は「夫に相談・日曜返答」で持ち帰り。決裁権が本人になく夫が実質決裁者）<br />
+原本: <code>21_プロジェクト一覧/ピグマリオン恵美子（ベビー）/セールス/セールス原本/IQ200_No08_20260619_否決.md</code><br />
+適用マニュアル: 田中祐一式17ステップ（本案件は個別マニュアルなし）</p>
+<hr />
+<h1>個別説明会 分析：尾上ありささん（2026-06-19・否決）</h1>
+<blockquote class="callout-box">
+<p>本案件は個別のセールスマニュアルがないため、田中祐一式の17ステップマニュアルを適用する。</p>
+</blockquote>
+<h2>0. 結論（先に要点）</h2>
+<p><strong>これは「価値が伝わらなくて落ちた」案件ではない。むしろ顧客は最後「個別で見てもらえるのは大きい」と価値を認めている（L148）。落ちた直接原因は2つの構造要因に集約される。① 顧客がそもそも"悩みがまだない・情報収集段階の1人目ママ"で、当日決裁を可能にする「困り事の顕在化」と「覚悟」が固まる前に価格に到達した（L62「アンケートでは特にまだお悩みはない」／L64「とりあえず話だけ聞いてみよう」）。② 決裁権が本人になく夫（整体師）が実質決裁者で、その夫が同席していなかった（L142「私が消権持ってない」）。</strong> 教育は効いており（さえこ先生15分＋角田の価値付け）、夫が体に関心の高い整体師という追い風もある。追客は「夫を巻き込む導線」1点に絞れば余地がある失注。担当は次アクションを顧客側（LINE返答）に置けており、そこは良い。</p>
+<h2>1. 顧客像（書き起こしから確認できる事実のみ）</h2>
+<ul>
+<li>ベビー（女の子・2ヶ月）。「帝王切開でした」（L20）。エコーで頭が大きく「4kgぐらいある」（L22）と出て、陣痛促進剤後に本人判断で帝王切開。</li>
+<li>「横だきを嫌がる子ってやっぱり少しそりが強い傾向」（L26）で、そり（反り）が強め。授乳は「今完全乳ですか? はい」（L48）で完全母乳。</li>
+<li>住まいは「愛媛県です」（L48）。子は「1人目です」（L64）。</li>
+<li>「母は自分の母はすぐ近くに」（L76）住んでおり、夫の育休は「1ヶ月だけ」「平日だけ」（L76）。<strong>夫は整体師</strong>で「割と子供それ発達か…生体師なので」（L78）体のことに関心が高い。</li>
+<li><strong>来場動機は"悩み解決"ではなく情報収集</strong>。「IQ200ベビーっていうね、まずそもそもの名前があって…インスタの広告とかで見た」（L62）が入口で、「別にIQ200にしたいとは思ってはない」「成長のこう邪魔をすることはしたくないな」（L62）、「とりあえず話だけ聞いてみよう」（L64）という温度感。矢口案件（自分から価値を語るプリセールス済み）とは対照的に、当日はまだ検討の初期段階。</li>
+</ul>
+<h2>2. セールスの流れ（時間軸）</h2>
+<table>
+<thead>
+<tr>
+<th>区間</th>
+<th>担当</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00〜16:05</td>
+<td>さえこ先生</td>
+<td>発達の個別相談。縦抱き時の首負担・そり取り・授乳とゲップの因果。価値提供として濃い（L20〜L56）</td>
+</tr>
+<tr>
+<td>16:05</td>
+<td>—</td>
+<td>「ゆかさんにバトンタッチしますね」（L58）で講師退出→セールスへ交代</td>
+</tr>
+<tr>
+<td>16:05〜36:45</td>
+<td>角田ゆか</td>
+<td>動機ヒアリング→そりを「交換神経が優位になりやすい」（L66）等の将来リスクへ接続→個別最適化の価値付け→夫の巻き込み確認</td>
+</tr>
+<tr>
+<td>36:45</td>
+<td>角田ゆか</td>
+<td>「興味あります…内容とかをお説明してもいいし…あとは自分でやってみますでもいい」（L108）で説明同意を取る→顧客「内容は聞いておきたい」（L110）</td>
+</tr>
+<tr>
+<td>37:36〜47:49</td>
+<td>角田ゆか</td>
+<td>仕組み説明（発達段階の動画＋月3回グルコン＋個別2回）。「月3回やっていて…月曜の10時、月曜の夜10時、土曜の10時」（L132）「個別のお話も…2回あります」（L134）</td>
+</tr>
+<tr>
+<td>48:35</td>
+<td>角田ゆか</td>
+<td>価格提示。「正規価格としては…55万円で1年間」（L136）→「カード払いの場合には48万円…銀行振り込みであれば…44万円」（L138）／継続「月2500円」（L138）</td>
+</tr>
+<tr>
+<td>50:39〜56:09</td>
+<td>角田ゆか</td>
+<td>反論局面。「料金がきつい」（L140）＋「私が消権持ってない」（L142）。夫に相談→日曜返答で持ち帰り。LINE返答導線で終了</td>
+</tr>
+</tbody>
+</table>
+<h2>3. 17ステップ照合（できている/崩れている）</h2>
+<table>
+<thead>
+<tr>
+<th>ステップ</th>
+<th>状態</th>
+<th>根拠（書き起こし）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①アイスブレイク</td>
+<td>◎</td>
+<td>交代直後に「お話お聞きになってみていかがでした?」（L58）で感想から入り、顧客が「有料級じゃないけど…いいこと教えてもらえるんだな」（L60）と前向きに応答</td>
+</tr>
+<tr>
+<td>②自己紹介・前提共有</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>独白を挟まず、さえこ先生の相談の価値を「理由があるっていうところがすごく安心感」（L60）と受け止めて場を接続</td>
+</tr>
+<tr>
+<td>③個別のルール共有</td>
+<td><span class="eval eval-warn">△</span></td>
+<td>明示的な進行ルール・許可取りの発話は確認できない。終始やわらかい雑談基調</td>
+</tr>
+<tr>
+<td>④ポジティブメイク</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>「よく笑うのでもう可愛くて仕方なくて」（L94）等、子の様子への共感で場を温めている</td>
+</tr>
+<tr>
+<td>⑤現状と理想のギャップ</td>
+<td><span class="eval eval-warn">△</span></td>
+<td>動機は掘れた（L62・L64）が、顧客は「悩みはまだはっきりない」（L62）まま。数値や具体の"困り事"が顧客の言葉で顕在化しきる前に進行</td>
+</tr>
+<tr>
+<td>⑥原因の深掘り</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>講師パートの「そりが強い傾向」（L26）を受け、そりを残すと「交換神経が優位になりやすい」（L66）「眠りに入りづらくなったり眠りが浅くなったり」（L68）と将来リスクへ接続</td>
+</tr>
+<tr>
+<td>⑦覚悟の確認</td>
+<td><span class="eval eval-warn">△</span></td>
+<td>「困る一歩手前からアプローチできる…この後楽になる」（L70）と今やる意義は説くが、顧客側の「やる」というコミットの言葉を取る前に価値付けへ進む</td>
+</tr>
+<tr>
+<td>⑧真の原因の特定</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>「後から答え合わせだから…その時ってわかんない」（L102）と、1人目ゆえ気づけない構造を提示。自身の下の子の実例（L106）で自分ごと化を促す</td>
+</tr>
+<tr>
+<td>⑨解決策（メソッド）提示</td>
+<td>◎</td>
+<td>動画→課題→グルコン→個別の学習動線を具体的に説明（L122〜L134）。「グループだから全然質問できなかった…ことはない」（L132）で少人数の手厚さも明示</td>
+</tr>
+<tr>
+<td>⑩反論処理の先回り</td>
+<td><span class="eval eval-warn">△</span></td>
+<td>決裁者（夫）を早期に確認（L76・L78）し「見学参加…耳だけに画面オフにしてご主人に聞いといてもらおう」（L132）という巻き込み手段は提示できた。ただし「料金がきつい」（L140）への具体的な支払い設計（分割の月額等）は出していない</td>
+</tr>
+<tr>
+<td>⑪お金の価値観の教育</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>価格発表前に「この講座も正直高い」（L102）「後々じゃあ100万とかかけて強制する必要がなくなる」（L104）と投資対効果で前提を作る。順序（値段の前）は守れている</td>
+</tr>
+<tr>
+<td>⑫商品説明への同意</td>
+<td>◎</td>
+<td>「内容とかをお説明してもいいし…自分でやってみますでもいい」（L108）と選ばせ、顧客「内容は聞いておきたい」（L110）で明確に同意を取ってから説明へ</td>
+</tr>
+<tr>
+<td>⑬ターゲット・実績</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>「肉さんでお越しになった…その方も生態さんで…始めた」（L86）と、顧客と同じ整体師属性の受講例を提示</td>
+</tr>
+<tr>
+<td>⑭提供内容・期間・伴走</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>「講座するものは1年間」（L134）、月3回・個別2回・継続視聴と、時間軸と提供物を一通り提示</td>
+</tr>
+<tr>
+<td>⑮価格・支払い方法</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>55万→カード48万／銀行44万→継続月2500円（L136〜L138）を提示。ただし提示前の同意「気になることありますか? 大丈夫です」（L136）は取れているが、支払いの現実性チェック（月いくらなら現実的か）は未実施</td>
+</tr>
+<tr>
+<td>⑯保証・規約・条件</td>
+<td><span class="eval eval-warn">△</span></td>
+<td>「1年間経ったからパ手を離しますってことはない」（L138）で継続の安心は伝えるが、返金・キャンセル等の条件整理は確認できない</td>
+</tr>
+<tr>
+<td>⑰最終確認</td>
+<td><span class="eval eval-ok">○</span></td>
+<td>「こういうのがこうずっとあった方がいいな…印象が持っていただけたか」（L146）で意思を言語化させ、顧客「個別でやっぱ見てもらえる…いいかな」（L148）。次アクションを「LINEの方にいただけたら」（L148）「日曜日…それぐらい」（L150）と顧客側に握れている</td>
+</tr>
+</tbody>
+</table>
+<h2>4. 良かった点（再現したい）</h2>
+<ol>
+<li><strong>決裁者を早期に特定し、しかも味方化のフックまで打てている</strong>。「ご主人は結構一緒にやってくださる」（L76）→「割と…生体師なので」（L78）を引き出し、「もし学んだらきっとご主人のお仕事の幅も広がる」（L78）と夫にとっての利得へ翻訳した。整体師という追い風を見つけられている。</li>
+<li><strong>説明開始の同意を明示的に取れている</strong>。「あとは自分でやってみますでもいい」（L108）と一度引いてから、顧客自身に「内容は聞いておきたい」（L110）と言わせた。売り込み感を抑える型が守れている。</li>
+<li><strong>価格の"前"に価値観教育を置けている</strong>。「この講座も正直高い」（L102）「後々じゃあ100万とかかけて強制する必要がなくなる」（L104）を値段発表前に済ませ、投資対効果の土台を作ってから金額へ入った（田中式の「値段の前に前提を整える」に合致）。</li>
+<li><strong>次アクションを顧客側に置けている</strong>。「LINEの方にいただけたら」（L148）「日曜日…それぐらい」（L150）と、売り手の連絡待ちではなく顧客の返答期限として握れた（矢口案件で崩れた点をここでは回収できている）。</li>
+</ol>
+<h2>5. 改善点（次回そのまま実行できる打ち手）</h2>
+<p>※ここは"提案スクリプト"であり書き起こしの引用ではない（原本発話ではない）。</p>
+<ol>
+<li><strong>「悩みがない情報収集層」には、価格の前に困り事を"顧客の言葉で"顕在化させる</strong> → 顧客は「悩みはまだはっきりない」まま進んでいる。「今この瞬間、いちばん"これ大丈夫かな"と一瞬でも思ったのはどの場面ですか」と、そり・散歩できない・首すわりの遅れなど、当日出た具体を一つ顧客に言い切らせてから価値付けに入る。顕在化しないまま価格に着地すると「まだいいか」に流れやすい。</li>
+<li><strong>決裁者（夫）を"その場に引き込む"設計を、価格提示の前倒しで組む</strong> → 夫が整体師で体に関心が高いと分かった時点（L78付近）で、「今日この後10分だけでもご主人に画面を見てもらえませんか」「難しければ、今のお話を私からご主人宛に短い動画かメモでまとめます」と、夫の意思決定を"顧客の伝言ゲーム"任せにしない。見学・耳だけ参加（L132）は提示できているので、これを"次回"ではなく"今日"の選択肢として出す。</li>
+<li><strong>「料金がきつい」に価値の再説明ではなく支払い設計で応じる</strong> → L140の反論に対し、44万/48万を月額換算・分割手数料込みの現実的な数字で即提示する。「ご主人に相談」の論点を"金額の是非"から"月◯円をどう捻出するか"に具体化しておくと、夫との会話が前に進みやすい。</li>
+<li><strong>覚悟の確認（ステップ7）を一言入れてから提案へ</strong> → 「もし学ぶなら、動画を見て課題をやって、月1回グルコンに出る、を1年続ける形になりますが、その時間は取れそうですか」と、行動コストの合意を取ってからオファーへ。1人目・ワンオペ気味の生活で「続けられる像」を先に描かせる。</li>
+</ol>
+<h2>6. 追客メモ（夫の巻き込み1点に絞る）</h2>
+<ul>
+<li>論点は「価値」ではなく<strong>「夫（決裁者）が判断できる材料が届いているか」</strong>の1点。顧客は個別価値を認めており（L148）、夫は体に関心の高い整体師（L78）で相性は良い見込み。</li>
+<li>日曜返答（L150）の前に、<strong>夫向けの短い要約（そり→将来リスクの因果＋整体師の仕事にも活きる点＋月額換算の価格）</strong>をLINEで先に渡し、夫が読んだ状態で日曜の家族会議に臨めるようにする。</li>
+<li>説明会特別価格の期限（「ここ数日でもしお申し込みいただけたら」L138／「ずっと同じでご案内できない」L148）は既に伝えてあるので、追客では締切を"圧"ではなく"日曜までに夫と一度話す理由"として自然に絡める。</li>
+</ul>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-07-10)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Generated by: Claude（17ステップ照合・書き起こしL番号引用）</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
