@@ -1089,7 +1089,7 @@
     renderLayout(`
       <header class="hero">
         <h1>レポートが見つかりません</h1>
-        <p class="lead">指定されたビジュアルレポートURLは未定義です。</p>
+        <p class="lead">指定されたファネルレポートURLは未定義です。</p>
         ${renderToolbar()}
       </header>
     `, "home");
