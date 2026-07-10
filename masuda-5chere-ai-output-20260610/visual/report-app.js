@@ -366,7 +366,7 @@
       <small class="side-note">左でレポート全体と素材を行き来し、右側でビジュアルフィードバックを確認します。</small>
       <div class="nav-section">レポート</div>
       <a class="navlink" href="${esc(portalUrl())}">← ファネルレポートポータル</a>
-      <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
+      <a class="navlink active" href="${esc(homeUrl())}">ファネルレポート</a>
       <div class="nav-section">ファネル素材</div>
       <div class="side-group">${nav}</div>
     `;
@@ -405,7 +405,7 @@
       <small class="side-note">${esc(stage.title)} の個別指摘を確認しています。</small>
       <div class="nav-section">レポート</div>
       <a class="navlink" href="${esc(portalUrl())}">← ファネルレポートポータル</a>
-      <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
+      <a class="navlink active" href="${esc(homeUrl())}">ファネルレポート</a>
       <div class="nav-section">現在の素材</div>
       <a class="back-link" href="${esc(stageUrl(stage))}">${esc(isTimeSeriesStage(stage) ? "全体所感へ戻る" : "素材ページに戻る")}</a>
       <small class="side-note">${esc(isTimeSeriesStage(stage) ? "時系列素材と指摘状態" : "キャプチャと番号付きフィードバック")}</small>
@@ -428,7 +428,7 @@
       <small class="side-note">${esc(stage.title)} の素材とフィードバックを確認しています。</small>
       <div class="nav-section">レポート</div>
       <a class="navlink" href="${esc(portalUrl())}">← ファネルレポートポータル</a>
-      <a class="navlink active" href="${esc(homeUrl())}">ビジュアルレポート</a>
+      <a class="navlink active" href="${esc(homeUrl())}">ファネルレポート</a>
       <div class="nav-section">現在の素材</div>
       <a class="back-link" href="${esc(homeUrl())}">ファネル一覧へ戻る</a>
       <small class="side-note">${esc(isTimeSeriesStage(stage) ? "全素材を時系列に表示。指摘ありだけ状態表示します。" : "このページをページ素材として、キャプチャと指摘を直接対応させます。")}</small>
@@ -506,7 +506,7 @@
   function renderToolbar(extra = "", options = {}) {
     const homeButton = options.showHomeLink === false
       ? ""
-      : `<a class="btn" href="${esc(homeUrl())}">ビジュアル全体像</a>`;
+      : `<a class="btn" href="${esc(homeUrl())}">ファネル全体像</a>`;
     const inner = `${homeButton}${extra}`.trim();
     if (!inner) return "";
     return `
@@ -559,7 +559,7 @@
 
       <section class="panel soft">
         <h2>用語と出力先</h2>
-        <p>テキストレポートは、MD分析結果をHTMLで読めるようにしたものです。ビジュアルレポートは、キャプチャ画像・動画代表フレーム・スライド・メール本文などの該当箇所に番号を振り、右側で「現状」「問題点・考察」「解決策案」を対応させるものです。</p>
+        <p>ファネルレポートは、キャプチャ画像・動画代表フレーム・スライド・メール本文などの該当箇所に番号を振り、右側で「現状」「問題点・考察」「解決策案」を対応させるものです。</p>
         <div class="rule-list">
           <p><strong>番号ルール:</strong> ${esc(data.numberingPolicy)}</p>
           <p><strong>参照元ルール:</strong> ${esc(data.sourcePolicy)}</p>
@@ -776,7 +776,6 @@
     const sourceItems = [
       { label: "素材名", value: stage.source },
       { label: "原本素材集", value: "原本素材集で確認", href: materialsUrl(stage) },
-      { label: "テキストレポート", value: data.textReport, href: textUrl() },
     ].map((item) => `
       <li>
         <strong>${esc(item.label)}:</strong>
