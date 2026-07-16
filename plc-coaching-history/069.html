@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>鴇田真弥/ミーティング書き起こし原本/鴇田真弥_3回目_石田コーチ.md - PLC コーチング履歴（書き起こし・ナレッジ）</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>PLC コーチング履歴（書き起こし・ナレッジ）</h3>
+<a href="002.html" class="sidebar-item"><span class="date">2026年07月16日</span> マンディス理恵/ナレッジ/マンディス理恵_1回目_大脇コーチ.md</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年07月16日</span> マンディス理恵/ミーティング書き起こし原本/マンディス理恵_1回目_大脇コーチ.md</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年07月16日</span> 久保田くうき/ナレッジ/久保田くうき_1回目_原田コーチ.md</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年07月16日</span> 久保田くうき/ミーティング書き起こし原本/久保田くうき_1回目_原田コーチ.md</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年07月16日</span> 伴多洋美/ナレッジ/伴多洋美_1回目_吉岡コーチ.md</a>
+<a href="007.html" class="sidebar-item"><span class="date">2026年07月16日</span> 伴多洋美/ミーティング書き起こし原本/伴多洋美_1回目_吉岡コーチ.md</a>
+<a href="008.html" class="sidebar-item"><span class="date">2026年07月16日</span> 副島真澄/ナレッジ/副島真澄_1回目_大脇コーチ.md</a>
+<a href="009.html" class="sidebar-item"><span class="date">2026年07月16日</span> 副島真澄/ミーティング書き起こし原本/副島真澄_1回目_大脇コーチ.md</a>
+<a href="010.html" class="sidebar-item"><span class="date">2026年07月16日</span> 及川徳子/ナレッジ/及川徳子_1回目_吉岡コーチ.md</a>
+<a href="011.html" class="sidebar-item"><span class="date">2026年07月16日</span> 及川徳子/ミーティング書き起こし原本/及川徳子_1回目_吉岡コーチ.md</a>
+<a href="012.html" class="sidebar-item"><span class="date">2026年07月16日</span> 吉岡みかた/ナレッジ/吉岡みかた_1回目_原田コーチ.md</a>
+<a href="013.html" class="sidebar-item"><span class="date">2026年07月16日</span> 吉岡みかた/ミーティング書き起こし原本/吉岡みかた_1回目_原田コーチ.md</a>
+<a href="014.html" class="sidebar-item"><span class="date">2026年07月16日</span> 坂本登/ナレッジ/坂本登_1回目_吉岡コーチ.md</a>
+<a href="015.html" class="sidebar-item"><span class="date">2026年07月16日</span> 坂本登/ミーティング書き起こし原本/坂本登_1回目_吉岡コーチ.md</a>
+<a href="016.html" class="sidebar-item"><span class="date">2026年07月16日</span> 大平和幸/ナレッジ/大平和幸_3回目_大脇コーチ.md</a>
+<a href="017.html" class="sidebar-item"><span class="date">2026年07月16日</span> 大平和幸/ミーティング書き起こし原本/大平和幸_3回目_大脇コーチ.md</a>
+<a href="018.html" class="sidebar-item"><span class="date">2026年07月16日</span> 大澤恵美(救済)/ナレッジ/大澤恵美(救済)_2回目_石田コーチ.md</a>
+<a href="019.html" class="sidebar-item"><span class="date">2026年07月16日</span> 大澤恵美(救済)/ミーティング書き起こし原本/大澤恵美(救済)_2回目_石田コーチ.md</a>
+<a href="020.html" class="sidebar-item"><span class="date">2026年07月16日</span> 小林雅美/ナレッジ/小林雅美_1回目_吉岡コーチ.md</a>
+<a href="021.html" class="sidebar-item"><span class="date">2026年07月16日</span> 小林雅美/ミーティング書き起こし原本/小林雅美_1回目_吉岡コーチ.md</a>
+<a href="022.html" class="sidebar-item"><span class="date">2026年07月16日</span> 山本大(救済)/ナレッジ/山本大(救済)_2回目_原田コーチ.md</a>
+<a href="023.html" class="sidebar-item"><span class="date">2026年07月16日</span> 山本大(救済)/ミーティング書き起こし原本/山本大(救済)_2回目_原田コーチ.md</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年07月16日</span> 岩田妙/ナレッジ/岩田妙_1回目_吉岡コーチ.md</a>
+<a href="025.html" class="sidebar-item"><span class="date">2026年07月16日</span> 岩田妙/ミーティング書き起こし原本/岩田妙_1回目_吉岡コーチ.md</a>
+<a href="026.html" class="sidebar-item"><span class="date">2026年07月16日</span> 島田旬志/ナレッジ/島田旬志_4回目_渡邉コーチ.md</a>
+<a href="027.html" class="sidebar-item"><span class="date">2026年07月16日</span> 島田旬志/ミーティング書き起こし原本/島田旬志_4回目_渡邉コーチ.md</a>
+<a href="028.html" class="sidebar-item"><span class="date">2026年07月16日</span> 嶺島華蓮/ナレッジ/嶺島華蓮_1回目_原田コーチ.md</a>
+<a href="029.html" class="sidebar-item"><span class="date">2026年07月16日</span> 嶺島華蓮/ミーティング書き起こし原本/嶺島華蓮_1回目_原田コーチ.md</a>
+<a href="030.html" class="sidebar-item"><span class="date">2026年07月16日</span> 川越恵/ナレッジ/川越恵_1回目_大脇コーチ.md</a>
+<a href="031.html" class="sidebar-item"><span class="date">2026年07月16日</span> 川越恵/ミーティング書き起こし原本/川越恵_1回目_大脇コーチ.md</a>
+<a href="032.html" class="sidebar-item"><span class="date">2026年07月16日</span> 平尾玲奈/ナレッジ/平尾玲奈_3回目_石田コーチ.md</a>
+<a href="033.html" class="sidebar-item"><span class="date">2026年07月16日</span> 平尾玲奈/ミーティング書き起こし原本/平尾玲奈_3回目_石田コーチ.md</a>
+<a href="034.html" class="sidebar-item"><span class="date">2026年07月16日</span> 木下亮雄/ナレッジ/木下亮雄_1回目_吉岡コーチ.md</a>
+<a href="035.html" class="sidebar-item"><span class="date">2026年07月16日</span> 木下亮雄/ミーティング書き起こし原本/木下亮雄_1回目_吉岡コーチ.md</a>
+<a href="036.html" class="sidebar-item"><span class="date">2026年07月16日</span> 松井延子/ナレッジ/松井延子_1回目_吉岡コーチ.md</a>
+<a href="037.html" class="sidebar-item"><span class="date">2026年07月16日</span> 松井延子/ミーティング書き起こし原本/松井延子_1回目_吉岡コーチ.md</a>
+<a href="038.html" class="sidebar-item"><span class="date">2026年07月16日</span> 柳下郁子/ナレッジ/柳下郁子_1回目_吉岡コーチ.md</a>
+<a href="039.html" class="sidebar-item"><span class="date">2026年07月16日</span> 柳下郁子/ミーティング書き起こし原本/柳下郁子_1回目_吉岡コーチ.md</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年07月16日</span> 柴川桂子/ナレッジ/柴川桂子_1回目_大脇コーチ.md</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年07月16日</span> 柴川桂子/ミーティング書き起こし原本/柴川桂子_1回目_大脇コーチ.md</a>
+<a href="042.html" class="sidebar-item"><span class="date">2026年07月16日</span> 神田亜希/ナレッジ/神田亜希_1回目_渡邉コーチ.md</a>
+<a href="043.html" class="sidebar-item"><span class="date">2026年07月16日</span> 神田亜希/ミーティング書き起こし原本/神田亜希_1回目_渡邉コーチ.md</a>
+<a href="044.html" class="sidebar-item"><span class="date">2026年07月16日</span> 秋山直寛/ナレッジ/秋山直寛_1回目_大脇コーチ.md</a>
+<a href="045.html" class="sidebar-item"><span class="date">2026年07月16日</span> 秋山直寛/ミーティング書き起こし原本/秋山直寛_1回目_大脇コーチ.md</a>
+<a href="046.html" class="sidebar-item"><span class="date">2026年07月16日</span> 船引/ナレッジ/船引_2回目_渡邉コーチ.md</a>
+<a href="047.html" class="sidebar-item"><span class="date">2026年07月16日</span> 船引/ミーティング書き起こし原本/船引_2回目_渡邉コーチ.md</a>
+<a href="048.html" class="sidebar-item"><span class="date">2026年07月16日</span> 草薙 彬人(救済)/ナレッジ/草薙 彬人(救済)_1回目_原田コーチ.md</a>
+<a href="049.html" class="sidebar-item"><span class="date">2026年07月16日</span> 草薙 彬人(救済)/ミーティング書き起こし原本/草薙 彬人(救済)_1回目_原田コーチ.md</a>
+<a href="050.html" class="sidebar-item"><span class="date">2026年07月16日</span> 華崎雅子/ナレッジ/華崎雅子_1回目_原田コーチ.md</a>
+<a href="051.html" class="sidebar-item"><span class="date">2026年07月16日</span> 華崎雅子/ミーティング書き起こし原本/華崎雅子_1回目_原田コーチ.md</a>
+<a href="052.html" class="sidebar-item"><span class="date">2026年07月16日</span> 藤田かこ/ナレッジ/藤田かこ_1回目_原田コーチ.md</a>
+<a href="053.html" class="sidebar-item"><span class="date">2026年07月16日</span> 藤田かこ/ミーティング書き起こし原本/藤田かこ_1回目_原田コーチ.md</a>
+<a href="054.html" class="sidebar-item"><span class="date">2026年07月16日</span> 首藤淳/ナレッジ/首藤淳_1回目_原田コーチ.md</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年07月16日</span> 首藤淳/ミーティング書き起こし原本/首藤淳_1回目_原田コーチ.md</a>
+<a href="056.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高山翔伍/ナレッジ/高山翔伍_1回目_原田コーチ.md</a>
+<a href="057.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高山翔伍/ミーティング書き起こし原本/高山翔伍_1回目_原田コーチ.md</a>
+<a href="058.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高本栄子/ナレッジ/高本栄子_2回目_吉岡コーチ.md</a>
+<a href="059.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高本栄子/ナレッジ/高本栄子_3回目_吉岡コーチ.md</a>
+<a href="060.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高本栄子/ナレッジ/高本栄子_4回目_吉岡コーチ.md</a>
+<a href="061.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高本栄子/ミーティング書き起こし原本/高本栄子_2回目_吉岡コーチ.md</a>
+<a href="062.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高本栄子/ミーティング書き起こし原本/高本栄子_3回目_吉岡コーチ.md</a>
+<a href="063.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高本栄子/ミーティング書き起こし原本/高本栄子_4回目_吉岡コーチ.md</a>
+<a href="064.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高野浩/ナレッジ/高野浩_1回目_大脇コーチ.md</a>
+<a href="065.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高野浩/ナレッジ/高野浩_4回目_大脇コーチ.md</a>
+<a href="066.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高野浩/ミーティング書き起こし原本/高野浩_1回目_大脇コーチ.md</a>
+<a href="067.html" class="sidebar-item"><span class="date">2026年07月16日</span> 高野浩/ミーティング書き起こし原本/高野浩_4回目_大脇コーチ.md</a>
+<a href="068.html" class="sidebar-item"><span class="date">2026年07月16日</span> 鴇田真弥/ナレッジ/鴇田真弥_3回目_石田コーチ.md</a>
+<a href="069.html" class="sidebar-item active"><span class="date">2026年07月16日</span> 鴇田真弥/ミーティング書き起こし原本/鴇田真弥_3回目_石田コーチ.md</a>
+<a href="20260604.html" class="sidebar-item"><span class="date">2026年06月04日</span> 20260604_コーチング横断分析.md</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>コーチング 書き起こし原本（鴇田真弥さん・3回目・石田コーチ）</h1>
+<p>整理日: 2026-05-20</p>
+<p>入力: チャット貼り付け（ユーザー提供・タイムコード付き）</p>
+<p>処理: ユーザー提供の書き起こしテキストを取り込み（用語の簡易置換あり）</p>
+<h2>書き起こし本文</h2>
+<p>00:00 で、えーっと、そうね、だから、やることと言うと、うん、はい、だからそうですねと。いうところですね あとなんかあの北さんとしては 他のあれ他のチーム大沢さん以外で何だったっけ何か あこさんのところ あっかこさんはいはいはい サミッ 人の裏方です なるほど、思い出した はい これはいつやるんですか?<br />
+00:48 これは これも6月の 1日くらいから オフと始めたい うーん なるほどね 同じくらいなんだね なるほど えーっと こっち、えーっと これも同じくね なんかこの辺はやることは整理できてる感じ なんか赤子さんと話しながらって感じ?<br />
+01:56 話しながら、最初聞いてた話だと増田さんが なんかLPも全部作ってくれるみたいな話 あー あれ増田さんのやつか増田さんの前に募集してたやつか うんそうあの何でも募集チャットになんか前に出てたのあったんだけどそれになんか似てるなと思って 一応なんか、でも3人で話した時に加古さんに一応 あ、増田さんLPとか作っていただける感じで大丈夫ですかって言ったら いや、そっちで作ってねみたいな感じだったので 一応LP なんか宴の型をもらったので、 それをもとにLP、ちょっと書き換えるぐらいで作る。 はいはいはい、それは全然楽勝だと思うんで。 そうだね。 なんか写真と紹介文送ってもらって 貼り付けるぐらいな感じかなとは思って<br />
+03:02 型があればねもう入れ替えるだけなんで パワポをいじるみたいな感じなんで キャンバー 一応パトさんにアカウントみたいなのを貼りて ちょっといじって 消えたら怖いんで 別に保存するほどのいじりはしてないので 保存しないで消すっていう なるほどね この辺もね、AIに聞きながらやっていったら、僕も歌芸はよくわからないままずっとやってる だけど、とにかくAIね、聞きながら あの、やって まぁ、普通にそれできますよね、普通になんか この画面になっちゃってわかんないんだけど って言ったらスクショ撮って、ね、あの 教えてって言 言って 教えてくれるのも めちゃめちゃいい時代ですね そんなこれは大丈夫そうですね <br />
+04:11 あと他にはどんなタスクがあるん ですか 他は話し合いながらみたいな感じで なんかそこまで詳しくは決まってない うんうん なるほど 他の方にこの機能とか 髪の 人によってやることが違かったって言うので、そのサンキューメールとかそういうのをひたすら送りまくってたっていう人もいたし その辺はどうなんだろうかっていうのは 確認しておこうかなっていう感じです なるほど オッケーです ほんで あとは、昨日のワークショップでまた、どっかにCMに入り込めそうなきっかけになるかもとか、そういうのはあったんですか?<br />
+05:21 昨日はそんな感じの雰囲気はなかったかなっていう感じは なるほどね いますかね なんか初めて話した人結構いる 初めて話せました?何人か そうですね結構いろいろ話はして ただ今の一人でやってるっていう人とか なんかいろいろ 一旦こう流れができてるみたい 人たちが多かったので 追加で欲しそうな感じの話は特にないかなって 言って入れてくださいって言えばもしかしたら 入れてくれるのかなっていうような感じがする いろんな人と交流していくみたいなのは この2つ今やっていくよっていうのを と、並行してやっぱね、進めていくといいと思うんですよ。 なんか、結局… なんだろうね… なんか、スタンス…イメージ… スタンスとしては、こういう風にやっていくといいよって<br />
+06:40 仲良くなって一緒に仕事をする うーん まず仲良くなるっていうことか 仲良くなるって難しい 抽象的なんだけど えーっと これができると最強だよっていう話なんですけど うん、あのー こう こういう感じ、この3つの行動を なんか、ずっと同時進行でやっていけると どんどんいろんな仕事、いろんなチームに入って一緒にやれるよねっていう なんか、3種の人気じゃないけど うん 順番というか そんなイメージから仲良くなる一緒に仕事するその様子を発信するっていう でまぁそれどういうことかっていうとですね 検索するのは難しいんだけど 雑談チャットに、あの角垣さんがやっぱり非常に 非常に僕の中でプロデューサー志望でやってる時のなんか理想の動きだったなっていう<br />
+08:14 すごい上手にね たちまわってたんですよ 門脇さんのインタビュー動画って見ましたっけ 田中さんとの 見てないです またちょっとどんな人かって見てもらうといいかなと思うんですけど 女性のねあの新ママからの 新ママ会社員からプロデューサーにっていう 22案件くらいに関わったよっていう メインプロデューサーだけじゃなくて なんかいろんな関わり方 いろんなチーム入って いろんな貢献をさせてもらえてみたいな そういう話だったんだけど やっぱカノアキさんどうだったの?<br />
+08:55 やっぱこう自分がこういろんなね 動きをコンテンツウォダーと一緒に やってるよっていうのとか なんかその辺もね あとねあのー 投稿してたんですよよく雑談チャット に うん これはね難しいよね うん なんていう原作したらいいんだろう ね なんて検索したらいいんだろうね こうやってやって えーっと チャット別に表示だと 違い URL別に表示 これでKADOKIさんとか ラスト出てた うーん、違うね。 うん、なんかこういうのとかね。 うーん ねえその最初左も右もわからんところからあの まあ実況中継みたいな感じで今あの 私の 私初めてのローンチを挑戦してます 今こんな風に進めてるんだけど なんかみたいな感じとか<br />
+10:21 なんか plc なんかでもやっぱりこういう発信ができる できてくると そろそろみんなこれ 読む人は読んでくれるんで そろそろなんか ときたさすげー頑張ってんなみたいな で何がいいかっていうと じゃあそのオプトスタートするとき とかにあのー 時田さんがそれ始まるオプトのやつ 私紹介しますよみたいな その辺もねプロデューサーの実は 力になっていくというか 貢献できることにな なんて検索したらうまく 拾えるのかわからないんだけど こういう シリー こういうの投稿するのって なんかこういうの投稿しますねって 確認してからのほうがいいですよね、たぶん うーん まあ別に本当は なんか3人での話としてずれてなければ別にいいと思うんですけどね<br />
+11:35 どうだろうね いちいち全部 なんか なんかあまりにもずれた方 悲しみをね、するとあれかもしんないけど なんか、あぁまぁ うん、まぁ別に話してもいいと思いますけどね あの、うん うん そういうのを投稿をシェアして あとからね、いざスタートの時にみんなに紹介してもらいやすくするとか 視点もあるので みたいな 感じとか なんでだろうね なんかね 角脇さんもね うまいんだよね 振り返り ちょっといろいろね 読んでみてほしいなと思うんですよ ん んんんんんんnnnn なんか出してる気がするけど出てこない まあいいやなんかとにかく雑談チャット ひたすら遡るとねいろいろあったり するんですけど その様子を発信する<br />
+13:09 途中経過もそうだし なんか終わった後の話もそうだし なんかそういうのも あとなんか宣言とか? なんかイメージ的には宣言 途中経過 えっと 終わった後とか うーん なんかこの辺とか 仲良くなるっていうのは いろんな人と一緒に仕事をする 入り口を増やすっていう意味です けどね だからこれを全部同時でやるっていう 感じでいけるとやっぱりどんどん 増えていくよね えーっと、うん、これね、そうそうそう でー、そんな感じかなー このねいろんなイベントに参加したりとかやっぱり継続していった方がいいと思うしまぁ 結局なんていうんですかね ワークショップ行った時 昨日も感じたと思うけどやっぱりいろんな人と情報交換することによってより見えてくることもあるしと<br />
+14:40 今ねやっている大沢さんとの サミの案件のことについてもそうだと思うし サミットのことについてもそうだと思うし 新しく一緒に仕事をする入り口を増やす目的だけじゃない いろんな目的があるんで イベント参加したり仲良くなっていく これは続けてやっていくべきだと思います 交流ね はい 全部止めずにやってほしいなと思いますね はい うん あとは あーなんか気になってることとかあります?<br />
+15:47 この辺大丈夫かなーとか 大丈夫かなーというか 3人でやってるサポート 通訳がどこまで出ていいのかっていうのは 多分その3人の中でのがあるのかなって思うんですけど 一応その3人でミーティングとかして 意見とかもこれどうですかって聞いてはくれる そこはまあ 言うんですけど 一応Pさんがメインでいるわけで どこまで行っていいものかっていう あんまり喋ってい あちこちチャットに書くのもどうなのかなって思ってみたりもして それは聞いてみたほうがいいですか このチャットに書くってやつ そうです、そのチャットの方も、そうですね。 一応、軽くポッド始まった時に、このチャットに流してもら そこの効果を最大化するための発信<br />
+17:15 なわけですよ うんこの途中経過とか やってるなっていうのを理解してもらう 知ってもらうっていうところですよ うんとかなんかこんなの頑張ってなんかドキドキする中 なんかいろいろねあのこんな感じで進んでてみたいな感じとか ここからなんかこんな風に進めていこうと思う みたいな感じとか なんかまあ普通に等身大でいいのか 等身大宣言とか途中経過っていう感じだよね そうだから結局なんかね紹介してくださいっていうとこいつだけポンって送って それで紹介なんかじゃあみんながしてくれるかっていうと別にもかそうじゃないと思ってますね 全然スルーされますよ であの紹介をお願いするときって ても個別にお願いしないと 募集チャットにパーンっていつだけ投げてはい終わりってそんな簡単じゃないです<br />
+18:18 いくら仲間とはいえ 時間もねいただくわけだし 自分のSNSに投稿するとか なんか紹介してもらうみたいな感じになると それは当然ちょっと保証も多くなるんで そう、一対一でお願いすべしですね ていうことはね、やっぱ やっぱりいろいろね、あの事前に、結局何でも事前の仕込みなんですよ で、これはそれに当たる部分でもあるし チームの紹介してもらいやすくなるのもあるし 時田さんの認知を広める まあその両方として機能すると思いますね で、もちろんね、このPLCへの貢献 仲間への貢 貢献というところで言うとやっぱり そこは純粋に貢献になるそれが 結果自分に返ってくるみたいな 感じなんでそこはやっぱりすごい 大事な血液実験<br />
+19:28 一瞬間なので、やっぱり意識してほしいなと。 そうするとすごいね、あのほんと、 なんていうんすかね、あのー、 やっぱカドガキさんとかも、なんか黙っててもいろんな人から声がかかるみたいな感じだったと思うんですよ、正直。 そういうのを見て、 カドワキさんは文章上手いから、より読みやすくて、気づきもあったりとか、いろいろ。 カドワキさんは経験全くない状態から始めて、始めてたので、別に何かそういうこと ローンチ経験とか全くないんだけど なんかその文章でのシェアが 初心者のよちよち歩きでドキドキしながらなんだけど でもなんかこう あ、すごい頑張ってんなみたいな なんか上手かったんだよね だからこう真似するといいんじゃないかなと思って<br />
+20:16 ててでも雑談チャットに振り返るといっぱいあるんだけどうまくね検索してね あの探して欲しいなと思うんですよ どう検索すればいいかが今ちょっと見えなかった だから雑談チャットずーっと振り返っていくとね かのわきさんの発信を振り返っていくと めっちゃあるんで 特にね1年前とか2年前頃ぐらいは いっぱいあったかな最近よりね って感じですかね そんなとこですかね 何かあとありますか 今のところは大丈夫です OKです そしたら あれ、トキタさん、この工事部何回目だったっけ?<br />
+21:19 これ、2 これで最後なはずです あ、なるほどね えっと オッケーです あ、そうね うん、まあでもよかった 最初のなんか 一歩が踏み出せてる ようになって あとは僕とのコーチングは 個別コーチングは 割ではあるんだけども えっとね あのー 認定講師の個別コンサルってのもあるんですよ なんでちょっとしたら 石田さんとちょっと 壁打ちして しようっていうのもありですね まあ別にそんな1ヶ月後2ヶ月後 とかじゃなくてもいいです3ヶ月後 とか一旦ちょっと時間置いたから でもいいんですけど これ一年に1回しか使えないんで 公私一人あたり まあ結局なんて言うんですかねそのマーケティングの相談は田中派のグルコン<br />
+22:35 すればいいんですよ そのチームで進めているどういう施策でいくのか かとかそういうのは全部グルコン相談すればいいですよと プロデューサーとしての動き方とかなんか例えばなんでしょうねチームでこんなことあったらこんな状態で なんかすごいもやっとしててずーっと消化不良なんだよねみたいな感じとか あとはどんな自分のプロデューサーとして 立ち位置でやっていったらいいんだろうとか なんかそういうのっていうのは ちょっとそこってグルコンで相談しづらいなみたいな その辺も別にグルコーで相談しちゃえばいいんだけど 心理障壁は人によって違うんで これね 個別コンサル 認定講師僕を含めて4名いるんですけど その4名 まあこういうのもあるんだよね<br />
+23:39 プロデューサーのキャリア相談みたいな 大垣さんねプロデューサーとしてめちゃめ 壁打ちっていうのは別に何でもどんな相談でもって感じで あと僕のも2種類あるんだけど 僕の1個のやつ 本当は全部30分枠なんだけど 1個だけ60分枠のがあるんですけど これはセールスについての相談ですね これはセールスについての相談であれば60分枠と言う だからチームのやつのなんかこうセールスの段階の相 相談みたいな スライドづくりとかセールスが あのセールス一回やってみて録画 撮ってもらってフィードバック を僕がするとか 実際にやったセールスの振り返り こうした方がより決まる んじゃねえかみたいなところとか そういったところは結構多くやっているので<br />
+24:36 そういうやつに使うんだったらこれなんだけど それだったら大沢さんの枠使えばいいんで 時田さんは普通に カブ打ちでいいのかなと思う 思いますけどねこれ選んでもらえばまたこういう感じで話せるん まあ 目安としてはどうかな3ヶ月 2ヶ月を3ヶ月後とかまあそのくらいには1回まあ結局 あの本当に 他の人とも使えるんでね これはね、覚えといた方がいいですよ、また だからそれこそ 1ヶ月に チームでもう完全に進んでるだけっていう時とかだったらいいんだけど なんかもう 眉毛が出てきたとかなんかそういうのがあったら その都度使うでもいいんだけど まあ1ヶ月から2ヶ月に1回は それぞれ1回ずつですけどね 1年間の間に使えるってことですか<br />
+25:43 ? うん、そうですね という感じでございます はい、という感じで えっとー そう そんな感じでしょうか うんうん はい、という感じで、これをZoomのチャットに送りますね。 ありがとうございます。 まああとやっぱね、AIいじくりまくるのが大事だよね やっぱね、前とやっぱ様子が違う。みんなやっぱね、なんかね、この間、昨日、 坂井さんっていたじゃないですか。うん。僕と横にいた時に前にいたおじさん。うん。あの人と同 と話したときってこう 結局僕はあのなんか今このこういう とこに人が出が足りないっていうの なんかないのって聞いたときあれって なんか時田さんがそこに入り込めないからと思って まあちょっと聞いてみた<br />
+27:12 AI秘書を入れたら、あんまりいろんな人をいらなくなっちゃった、みたいな感じのところもあって。 まあでも、僕は昨日いろんな人とワークのときに、 こういうの作れたら便利っていう 感じでイメージは湧くんだけど でもなんかこうAIの使い方的に 全然あの そんなのできるのかしら えーみたいな感じの人とか結構 まあ多いのは多いんですね 特にコンテンツオブが そういうのってこういろいろ あのなんていうのかな やっぱこう AIいろいろいじってん とまあそう頼る頼りがいがあるように見えるんで うんでそこは時田さんがプロデューサーとして選ばれるポイントになってくる まあまあ だから必要最低限の状況 カーソルをいろいろ叩いてみて<br />
+28:19 こうだだとか こんなこともできるなとか こんな仕組みもできるなとか なんかそういうのをこういろいろ いろんなこう PLCの中でもこのやつを勉強していじってみる プラスXとかスレ図とか 覗くといろんなこういうこともできるんだ どんどん日々流れてくるんで そういうの最高 配信情報とってこういう風なちょっと やってみようって言ってこれ できるチームでやっていくのに この中入れた方がいいかもなって 言って試してみるとかそれを循環 もやっていった方がいいよね そうすると本当なんて言うんですかね、いろんな人と話したときに、こういうのとか作ってみたらこういう風に動いて結構面白いですよみたいな感じで、 え、そんなのトキ太さん作ってやっていってんの?そんなシステム<br />
+29:20 作っちゃったとかすげーなーとかってなったら なんかあの時田さんあの そこを先に進んでんなっていう感じが相手から感じられるだけで プロデューサーとしてお願いできませんかみたいな うん やっぱ頼られるポイントって必要だと思うんですよね でもそこの未経験でもAIのことについてやっぱこうなんていうのかな めちゃめちゃPLCってすっごいめっちゃ進んでるコミュニティではないのでまだまだ そのなんか かね昨日言ってたけどあの酒井さんが言ってたようなその夏の ai のマニアがやってる 講座みたいなああそういうところだって結構進んでると思うんだけど なんで逆に言うとそこをちょっと自分が勉強して実際に試して あのなんかやってみるっていうことをやっといたら結構みんなで先に行ける<br />
+30:10 先に行くことで頼られる存在になるっていう感じでそこもやっぱね 日々続けていったほうがいいと思う うん そこはね色々やっていくとね ほんとなんつーのかな なんなら結構 結構すごい めちゃめちゃ売り上げあげてるみたいな 人とか?<br />
+30:40 大沢さんとかで ねまだこれからって感じなんだけど めちゃめちゃ売り上げ上げてるみたいな感じの人からじゃあこういうのはあのちょっとあの作ってほしいんですけどお願いできますかってその場でなんかじゃあなんかこれぐらいのあの金額でお願いできたりできますかとか なんか さようなら そういうのを言ってもらう可能性も全然あるんで それめちゃめちゃ大事だよね プロデューサーとしての プロデューサーとしてのっていうか 自分のコンテンツを磨いていくみたいな感じのイメージですけどどっちかっていうとね うん はい って感じで また話しましょう はい5月コンサルねはい はい というところでじゃあコーチング終わりですけどちょっとはいコツコツ<br />
+31:42 あの進めていってください はいまずは田中さんにあの 相談していただいて はいはい あと大丈夫ですかね 大丈夫です はいじゃあまた話しましょう はいありがとうございました はい、失礼しまーす</p>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-05-20)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: R9LUKX6G<br />
+Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>

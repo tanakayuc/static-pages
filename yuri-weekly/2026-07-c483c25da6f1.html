@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-07-13_松本ゆり_週次レポート - 松本ゆり 週次レポート</title>
+<style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+}
+* { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.95;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a:hover { text-decoration: underline; }
+
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 3rem 3.2rem 3.5rem;
+  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border: 1px solid var(--line);
+  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+}
+
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 3px solid var(--main);
+  position: relative;
+}
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 46px; height: 6px;
+  background: linear-gradient(90deg, var(--main), var(--sub));
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 6px solid var(--main);
+  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
+  border-radius: 0 8px 8px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(180deg, var(--main), var(--sub));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: break-all;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 290px; min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  border-right: 1px solid var(--line);
+  padding: 1.6rem 1.1rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+}
+.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
+  border: 1px solid transparent; word-break: break-all;
+}
+.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--main), var(--sub));
+  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+}
+.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+</style>
+</head>
+<body>
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="brand">Sales Report</div>
+<h3>松本ゆり 週次レポート</h3>
+<a href="2026-07.html" class="sidebar-item"><span class="date">2026年07月</span> 2026-07-02_松本ゆり_週次レポート</a>
+<a href="2026-07-53ba084e2a67.html" class="sidebar-item"><span class="date">2026年07月</span> 2026-07-06_松本ゆり_週次レポート</a>
+<a href="2026-07-c483c25da6f1.html" class="sidebar-item active"><span class="date">2026年07月</span> 2026-07-13_松本ゆり_週次レポート</a>
+</nav>
+<main class="content">
+<article class="article">
+<h1>2026-07-13 週次レポート（松本ゆり ／ 女性のための愛とお金の帝王学）</h1>
+<p>対象: 個別申込状況シート（2026-07-13 取得）／週次・半自動生成<br />
+データ時点: 申込ベースシート 2026-07-13</p>
+<div class="verdict is-watch">
+<div class="v-row"><span class="v-key">今週の状況</span><span class="v-val">申込23名・確定0件（成約0・否決0）／確定分成約率0%</span></div>
+<div class="v-row"><span class="v-key">分析</span><span class="v-val">【レビュー時に追記】所感・来客層・成約逃しポイント・対策提案</span></div>
+</div>
+
+<hr />
+<h2>1. 今週の数字</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>申込総数</td>
+<td>23名</td>
+</tr>
+<tr>
+<td>担当別</td>
+<td>7月3日(金)10時〜</td>
+</tr>
+<tr>
+<td>リスケ</td>
+<td></td>
+</tr>
+<tr>
+<td>7月10日(金)9:30～1 / 7月1日(水)13時〜1 / 6月28日(日)12時〜1 / 7月4日（土）9時～1 / 6月29日(月)14時〜1 / 7月4日（土）14時～</td>
+<td></td>
+</tr>
+<tr>
+<td>7月11日（土）14:30～1 / 7月1日（水）14時〜1 / 7月2日（木）15時〜</td>
+<td></td>
+</tr>
+<tr>
+<td>7月9日（木）15時～</td>
+<td></td>
+</tr>
+<tr>
+<td>再個別延期1 / 7月1日(水)10時〜1 / 7月1日(水)17時〜1 / 7月5日（日）19時〜1 / 確認中1 / 7月25日(土)11時〜1 / 7月22日(水)10時〜1 / 7月22日(水)20:30～1 / 7月21日(火)20時〜1</td>
+<td></td>
+</tr>
+<tr>
+<td>確定（成約+否決）</td>
+<td>0件</td>
+</tr>
+<tr>
+<td><span class="badge" style="background:#2CB596;color:#FFFFFF">成約</span></td>
+<td>0件</td>
+</tr>
+<tr>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td>0件</td>
+</tr>
+<tr>
+<td>確定分成約率</td>
+<td>0%</td>
+</tr>
+<tr>
+<td>録画リンクあり</td>
+<td>0件</td>
+</tr>
+<tr>
+<td>入金確認</td>
+<td>残金357800円</td>
+</tr>
+<tr>
+<td>新規カード到着次第・7/8予定・済・済</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>成否内訳: {'(未実施)': 13, '1986.5.13世田谷在住。3人の女の子の母で、旦那さんは柔道整復師で個人で院をしている。\n\n元々、正社員→1人目妊娠→ヨガの資格→ヨガの業務委託→2人目妊娠→ヨガの正社員→コロナ→3人目妊娠→1回目の起業\n\nと色々な遍歴があり、1度目の起業はアドラー流子育てとコーチングをして、0→1は比較的早かったがそのあと鳴かず飛ばず。その頃から心理学など講座ジプシーに。自己肯定感アカデミーの本部認定講師をしていたこともあるが、家族の理解が得られず辞めた。\n\n現在は、起業を諦め、元いた会社に戻り管理職(IR室長2年目)をしているが、今の仕事を長くはできないと思っており、2度目の起業に向けて準備中。\n\n今、陰陽の法則の講座(食べるものから変えていく)に6月から入ったのと、それとは別に算命学の講座にも入ったが、入ってみたらただのビジネスコンサルだったので辞めたところ。\n\n頑張っても空回りなところなど、命式からみえるところにかなり思い当たるところがあり、その根本改善のために、起業についてではなく、パートナーや家族との関係の方を先に解決する必要がある可能性などもお伝え。\n\nパートナーとの関係は、後回しにして避けてきたところだったので、そこかぁというところと、行動まで落として本当に変えていきたいというところで、やってみたいと。\n\nただ、懸念点が2点あり\n1つは陰陽の法則講座とかぶるので、終わってからの方がよいのではないか？\nもう1つは、これまでたくさん自己投資して失敗してるので、本当に大丈夫か怖い。というもの。\n\n陰陽の法則については全く問題ない。\n失敗に関しては①今成功している起業家は、みんな失敗していないから成功したのではなく、成功するまでやり続けたから成功したんだという話と②「売ろうとしてないところがよいと思った」とその前に仰っていたので、その感覚は間違ってないから、ゆり先生は自信をもってお勧めできます！との2点お伝え。\n\n決済方法は、はじめは銀振とクレカの併用をご希望だったが、色々計算したら結局銀振で50万くらい払わないといけなくて、それなら銀振一括？でも余裕が…となっていたので\n\n特例として、いける分のみ3日以内にお支払いただき、残りを給料日(20日)明けにお支払いただくご提案。\n\nひとまずそれで、次の予定があるので金額の内訳を計算します、とのこと。\n\nまだ入金してないので心配なところもありますが、引き続きフォローしていきます。': 1, '旦那様が経営されている会社で会社員として働いている。いわゆる経営者の妻。\n\nとても良い生き方をされており、困っていることは特になく、カルマも既に解消されてそうな雰囲気もある。\n\n愛と感謝を大切に、循環している感じ。\n\nご本人が望まれることとしては、今まで自分のやってきたことの答え合わせと、今後複数の選択肢ができたときに、より一層確信を持って進んでいけること。\n\nただ、個別のコンサルをご希望で、集団でやる講座というところが厳しいのと、とにかく時間がないので、今、差し迫って困っていないなかで、優先順位を上げて講座のために時間を取るところにいない。\n\n個人のコンサルがあるならぜひお願いしたいとのことで終了しました。': 1, '1984.8.6生まれ\n旦那さんと中1の娘さん。\n\nこの6月に転職したばかり。\n\n結婚して13年だが、十数年不仲で家庭内別居状態。\n\n離婚した方が良いのか、このまま一緒にいた方が良いのかわからない。\n\nこの6月に転職したばかり。\n\n人の役に立ちたい気持ちが強いのと\n時間や場所に縛られない生き方がしたい想いが強く\n\n昨年から、コーチング・カウンセラーの養成講座でも学んでいるが、SNSの発信のところで気持ちが追いつかず、なかなか実践できていない。\n\n行動や努力が空回りしている実感があり、同じループにはまっているように思う。\n\n家系の業について、両親も自分と同じように夫婦仲が良くなく、反面教師にしようと思っていたのに同じことになっている現状と重なり、娘にはこの業を残したくない。\n\nしっかりと行動にひとつひとつ落とし込んでいくところがイメージわき、変わりたい！とご決断されました。\n\n将来は、ありがとうがそのまま価値につながって、愛とお金が巡っていき、自由に軽やかに生きること！': 1, '障害のある子供たちの施設で保育士や音楽療法士として活動している。自身のお子さん(中3)も障害持ち。\n\n元々、帝王学に興味があったというよりは\n日本人のルーツをたどった際に帝王学があるらしいとなり、のぞいてみようというきっかけ。\n\n滑川周平さんの無料5チャレや、いろんな無料プログラムで勉強している。(滑川さんのところも個別だけは行ってて、月額2万くらいのサブスク形式だったそう。入らず。)\n\n無料でどこまで教えてくれるんですか？というスタンスで、ここは具体策をお伝えする場ではないこと、講座は、本当に変わりたい方が実践しながらやっていくところだということお伝え。\n\n音楽で人と人を繋ぎたい、それを将来やっていきたいというところはあるが、今すぐ変えたいというよりは、いつかやりたい。\n\n今年は息子さんの受験でお金がかかるので、今は自分にお金を使うつもりはない。それが一息ついてから入る講座など探そうと思っていた。なので今は無料でやっている。とのことで、案内前で終了しました。\n\nまた募集やってますか？と聞かれましたが、未定とお伝えしております。': 1, '現役看護師さん、義理のお母様と共に、旦那さん、息子さん、娘さん、５人家族\nセミナーのメッセージの次の世代に豊かさをつないでいきたい。\n離婚があったり、\n女性系の病気の心配があって、解消したい。\nカルマ解消したい\nアバターど真ん中の方で\nインスタ講座をいくつか色々検討している中\n講座受講を決めて頂けました。\nとても感じの良い方でした。': 1, '20歳の息子さんとご主人の3人暮らし。\n専業主婦、今までに量子力学、占いと受講！\n去年までの2年間で1000万以上投資したけど結果がでず！サポートも何もなかった。\n講座に魅力を感じている。\n受講したい気持ち80％だけれど、\n一呼吸したい理由20％。\nその理由は即決したことで魔法にかかっていたかのように、\n高級車も変えるほど投資してしまった。\n\n現実的になりましょう！\nちゃんと変わりたい人しか受け入れていない\nこともお伝えしちゃいました。\n\n今日中に申し込むと\n45分のズームコンサルもつくことや\nリアル会場での講座、結界術も、\n楽しみにされていたようです。\n\n受講する場合も\nまた受講しない場合は、その理由も含め\n事務局LINEに連絡をしてもらうようにお願いしました。': 1, '1963.2.7生まれ、63歳。\n東京世田谷区在住。夫と28歳の娘と3人暮らし。\n\n書道、筆文字アートをビジネスとしてやっていきたく、複数の起業塾(3つ)や技術の学校など、学びに100万(数100万？)以上投資してきたが、ひとつも回収できていない。\n\n何か変えなければと、龍やチャネリングなどスピリチュアル系の無料講座などもいくつか登録してみたが、どれも何を言っているかよくわからず、具体的にわからず、どうすればよいかというところで来られた。\n\nゆり先生のやっていることとスピリチュアルの違い\n抽象的ではなく具体的\n\nというところを伝えていったのと\n\n本来めちゃくちゃ良い時期に入っているはずなのに、体調も含め悪いことしかみえてこないのは\n\nこれまでの行動やタイミングの可能性や\n義理の母親との関係が良くないことが関係している可能性など\n\nいろんな可能性があることお伝え。\n\n矢沢様は「ビジネスから変えていきたい」が\n\nもしかすると、家庭のこと、家系のことを\n解決することが順番として先で\n\nその順番が違うからうまくいかない可能性などもお伝え。\n\n(そこは、ゆり先生にみてもらわないとわからないところではある、とは確認したうえで)\n\n抽象的ではなく具体的に行動に落としていく、というところで、興味はあり。\n\n時間が2時間ジャストしかとれなったため\n続きは別日で時間を取ってお話しすることに。': 1, '1984.7.15、独身。大阪在住。\n16年間、同じお店でセラピスト(フット、ボディ)をしている。\n\n軽度の知的や自閉があるのか？はたまた自己肯定感の低さからか？しゃべり方がかなり変わっていて、声を発生しにくいのか？聞き取りにくかったり、次の考えを伝えるのに時間がかかる。\n\nただ、固定給でずっと働いてるとのことだったのと、時間はかかるがやり取りはふつうにできるので、健常かも？\n\nご本人は「親や祖母は同じ病気にかかっているが、自分にはこれまでなにも怪我も事故も病気もない」とのこと。\n\nあえて言うなれば、実際生まれるはずだった日よりも3ヶ月早く生まれているくらい？\n\n些細なミスなど多く、ずっと同じ仕事をしているのに結果が出ないことが悩み。\n\n大それて大きなことを成し遂げたい、というよりも、今の現状をより良くしたい、という想いが強いのではないかと推測。(本人がふわふわしている＆聴き取りにくいため)\n\n素直な方ではあると思う。\n\n命式も、カルマ100%のこともお伝えした。\n\nお金の面で、分割しても今行っているコミュニケーション塾？講座？の支払いと被ると難しいということで\n\n終わるタイミングをうかがい、8月で終わるとのことだったので、特別に入学金のみ先に決済して、残りは8/20にお手続きすることをご提案。\n\nそれなら、と決められました。\n\nお仕事が朝から晩までで、かなりお忙しいので\n参加はほとんどアーカイブになるとのことです。': 1, '1981.2.19.熊本県で地方銀行員を22年されていて、この4月から管理職。\n旦那さん(同い年)と中1、中3の男の子。元々老人4人の介護をしていたが、今はあと1人実父のみで、年末に施設に入ったため、ようやく一息ついたところ。\n\n20代後半から約12年、個性学(動物占いの)を学び、魅力発見講座や、この3月には滑川さんの帝王学講座にも1年分一括で支払って入ったが、実際に何をどう行動すればよいかがわからず\n滑川さんのところも動画学習が中心で、100名以上いるライングループのため、何も進まず、わからないままである。\n\n滑川さんのところでは、鑑定はしてもらえないそう。\n別のところでは、今まで行くところ行くところ「カルマが多く手の施しようがない」と言われ、あきらめてきた。\n\nパートナーシップに関しては、実は旦那さんも親との確執があり、子育てをするにあたり、幼少期のトラウマが蘇り、お子さんの受験のタイミングなどで鬱になってしまったりと、色々あるそうで\n\n涙ぐむ場面が多く見られた。\n\nとても優しい方で、自分がカルマを解消、克服できたら、同じように悩んでいる女性のために行動していきたいとのこと。\n\nとにかく自由になりたい。ご自身の命式やカルマをすごく自覚もされていて、行動することで、本当に変えていきたい。\n\n前向きに、痛みもあるかもしれないけれど向き合って、自分の代でカルマを終わらせたいとご決断されました。\n\n家系のカルマは解決できる！解消できる！というゆりさんの言葉に勇気をもらったとのことです。': 1, '感触的には良いと思いました！\n質問の全て該当している。\nお金の問題だけということで、、、\n\n求職中だけれど興味あるとのことで、\n最後まで話したところ、\n数年後に旦那さんの解職がきまっているのと、\n求職中で再就職9月にめざしている。\n受講したいけど、いま大金を支払うのが怖い。\n\nいちかごようさんの朝Youtubeで勉強して少し変わってきたと思うとのこと。\n「稼がせ屋\u3000一華五葉」と名乗り、\n元いた池田さんのコミュニティーで一緒だった人。': 1}</p>
+<hr />
+<h2>2. 分析（レビュー時に追記）</h2>
+<blockquote class="callout-box">
+<p>この節は半自動運用のため空枠です。田中さん確認時に、録画書き起こし・Chatworkから所感/来客層/成約逃しポイント/対策提案を追記してからクライアントへ共有します。</p>
+</blockquote>
+<hr />
+<p>Produced by KATSUO MARKETING（田中祐一・本案件専用）</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+</article>
+</main>
+</div>
+</body>
+</html>
