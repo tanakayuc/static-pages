@@ -1,368 +1,827 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>グラデーション理論_中間層の役割 - 勝ち隊マニュアル</title>
-<style>
-:root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
-  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="kachitai-source-sha256" content="995fe1f5e4799b9b4af721b2724f122ee7487488ae3b3f373358e4f06973c5d7">
+  <meta name="kachitai-manifest-sha256" content="9acdba1072822e77412b2035b9c2998d1897423406136350be6f16958a34a512">
+  <meta name="kachitai-jig-sha256" content="df321637fc4621ddfabeb8b84430f806cb3724b568541fd76d7356b07110be01">
+  <title>勝ち隊マニュアル</title>
+  <style>:root {
+  --teal-900: #123f3b;
+  --teal-700: #176b61;
+  --teal-500: #2cb596;
+  --teal-100: #dff5ef;
+  --teal-50: #f0faf7;
+  --ink: #173331;
+  --muted: #526966;
+  --line: #cfe3de;
+  --surface: #ffffff;
+  --warning: #a24b29;
+  --warning-bg: #fff5ed;
+  --shadow: 0 12px 36px rgba(18, 63, 59, 0.09);
+  --radius: 22px;
 }
+
 * { box-sizing: border-box; }
-/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
-   各要素は rem 指定なので全体が比例して拡大する。 */
-html { font-size: 18px; }
-@media (max-width: 720px) { html { font-size: 16.5px; } }
-html, body { overflow-x: hidden; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  min-width: 0;
+  overflow-x: clip;
   color: var(--ink);
-  line-height: 1.95;
-  -webkit-font-smoothing: antialiased;
-  letter-spacing: 0.01em;
+  background:
+    radial-gradient(circle at 8% 2%, rgba(44,181,150,.14), transparent 28rem),
+    linear-gradient(180deg, #eff9f6 0, #f7faf9 42rem, #eef6f4 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  font-size: 17px;
+  line-height: 1.8;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
-a:hover { text-decoration: underline; }
 
-/* ===== 記事カード ===== */
-.article {
-  background: var(--card);
+a { color: var(--teal-700); text-underline-offset: .2em; overflow-wrap: anywhere; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.page-shell { display: grid; grid-template-columns: 260px minmax(0, 880px); gap: 32px; justify-content: center; padding: 28px; }
+.manual { min-width: 0; width: 100%; }
+.toc {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 18px;
+  border: 1px solid rgba(207,227,222,.9);
   border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
-  border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  background: rgba(255,255,255,.88);
+  box-shadow: 0 8px 28px rgba(18,63,59,.06);
+  backdrop-filter: blur(12px);
+}
+.toc-brand { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; color: var(--teal-900); font-weight: 800; text-decoration: none; }
+.toc nav { display: grid; gap: 3px; }
+.toc-link { display: block; padding: 7px 9px; border-radius: 9px; color: var(--muted); font-size: 13px; line-height: 1.45; text-decoration: none; }
+.toc-link:hover, .toc-link.is-active { color: var(--teal-900); background: var(--teal-100); font-weight: 700; }
+.toc-toggle { display: none; }
+
+.hero-card, .chapter-card {
+  border: 1px solid rgba(207,227,222,.95);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.hero-card { position: relative; overflow: hidden; padding: clamp(28px, 6vw, 58px); margin-bottom: 28px; }
+.hero-card::after { content: "全員で勝つ！"; position: absolute; right: -10px; top: 18px; color: rgba(44,181,150,.08); font-size: clamp(42px, 8vw, 84px); font-weight: 900; transform: rotate(-6deg); pointer-events: none; }
+.hero-eyebrow { color: var(--teal-700); font-size: 12px; font-weight: 800; letter-spacing: .18em; }
+.hero-card h1 { position: relative; margin: 10px 0 2px; color: var(--teal-900); font-size: clamp(34px, 6vw, 58px); line-height: 1.25; letter-spacing: -.03em; }
+.hero-subtitle { margin: 0 0 24px; color: var(--teal-700); font-size: clamp(18px, 3vw, 24px); font-weight: 700; }
+.hero-message { position: relative; margin: 0; padding: 20px 22px 20px 52px; border: 0; border-radius: 16px; background: var(--teal-50); color: var(--teal-900); font-size: 17px; font-weight: 650; }
+.hero-message span { position: absolute; left: 17px; top: 4px; color: var(--teal-500); font-family: Georgia, serif; font-size: 54px; line-height: 1; }
+.last-updated { margin: 18px 0 0; color: var(--muted); font-size: 13px; }
+
+.chapter-stack { display: grid; gap: 24px; }
+.chapter-card { min-width: 0; overflow: hidden; scroll-margin-top: 24px; }
+.chapter-card.card--muted { border-color: #d8dfde; background: #f4f6f6; }
+.chapter-card.card--warning { border-color: #f2cbb9; background: var(--warning-bg); }
+.chapter-head { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 16px; align-items: center; padding: 24px 28px 18px; border-bottom: 1px solid var(--line); }
+.chapter-icon { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 16px; background: var(--teal-100); font-size: 27px; }
+.chapter-kicker { margin: 0 0 2px; color: var(--teal-700); font-size: 11px; font-weight: 800; letter-spacing: .14em; }
+.chapter-head h2 { margin: 0; color: var(--teal-900); font-size: clamp(22px, 3.5vw, 30px); line-height: 1.4; overflow-wrap: anywhere; }
+.chapter-body { min-width: 0; padding: 26px 30px 32px; }
+.chapter-body > :first-child { margin-top: 0; }
+.chapter-body > :last-child { margin-bottom: 0; }
+.chapter-body h3 { margin: 30px 0 12px; color: var(--teal-900); font-size: 20px; line-height: 1.5; }
+.chapter-body h4 { margin: 22px 0 9px; color: var(--teal-700); font-size: 17px; }
+.chapter-body p { margin: 14px 0; }
+.chapter-body ul, .chapter-body ol { padding-left: 1.45em; }
+.chapter-body li { margin: 7px 0; padding-left: .15em; }
+.chapter-body li::marker { color: var(--teal-500); font-weight: 800; }
+.chapter-body blockquote { margin: 18px 0; padding: 18px 20px; border-left: 5px solid var(--teal-500); border-radius: 0 14px 14px 0; background: var(--teal-50); color: var(--teal-900); font-weight: 650; }
+.chapter-body pre { max-width: 100%; margin: 18px 0; padding: 18px; overflow-wrap: anywhere; white-space: pre-wrap; border-radius: 14px; background: #123f3b; color: #f4fffc; font-size: 14px; line-height: 1.65; }
+.chapter-body code { overflow-wrap: anywhere; }
+.chapter-body :not(pre) > code { padding: .12em .35em; border-radius: 5px; background: #e8f1ef; }
+
+.table-scroll { width: 100%; max-width: 100%; margin: 18px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: #fff; -webkit-overflow-scrolling: touch; }
+.table-scroll table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 15px; }
+.table-scroll th, .table-scroll td { padding: 13px 15px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.table-scroll th { color: var(--teal-900); background: var(--teal-100); font-weight: 800; }
+.table-scroll tr:last-child td { border-bottom: 0; }
+
+.subcard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.subcard { min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: #fbfdfc; }
+.subcard > :first-child { margin-top: 0; }
+.subcard > :last-child { margin-bottom: 0; }
+.subcard--ng { border-color: #edc8c2; background: #fff7f5; }
+.subcard--ok { border-color: #b9e3d8; background: #f2fbf8; }
+.step-timeline, .history-timeline { display: grid; gap: 0; margin: 20px 0; }
+.step-item, .history-item { position: relative; display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 14px; padding-bottom: 20px; }
+.step-item:not(:last-child)::before, .history-item:not(:last-child)::before { content: ""; position: absolute; left: 23px; top: 42px; bottom: 2px; width: 2px; background: #b9dfd6; }
+.step-number, .history-dot { z-index: 1; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--teal-500); color: #fff; font-weight: 900; }
+.step-content, .history-content { min-width: 0; padding: 10px 0; }
+.history-date { display: block; color: var(--teal-700); font-weight: 800; }
+.checklist { display: grid; gap: 9px; padding: 0; list-style: none; }
+.check-item { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; margin: 0 !important; padding: 12px 14px !important; border: 1px solid var(--line); border-radius: 12px; background: #fbfdfc; }
+.check-box { display: grid; place-items: center; width: 24px; height: 24px; border: 2px solid var(--teal-500); border-radius: 7px; color: var(--teal-700); font-size: 13px; font-weight: 900; }
+.level-grid { display: grid; gap: 10px; margin: 20px 0; }
+.level-item { display: grid; grid-template-columns: 78px minmax(0, 1.4fr) minmax(0, .8fr); gap: 14px; align-items: start; padding: 16px; border-radius: 14px; background: linear-gradient(90deg, rgba(44,181,150,var(--level-alpha)), #fff 68%); border: 1px solid var(--line); }
+.level-badge { color: var(--teal-900); font-size: 18px; font-weight: 900; }
+.level-result { color: var(--teal-700); font-weight: 700; }
+.site-footer { margin: 34px 0 12px; padding: 24px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 12px; line-height: 1.7; }
+.site-footer p { margin: 2px 0; }
+
+@media (max-width: 900px) {
+  .page-shell { display: block; padding: 72px 16px 20px; }
+  .toc-toggle { position: fixed; z-index: 1001; top: 12px; left: 12px; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--teal-900); box-shadow: 0 6px 18px rgba(18,63,59,.12); font-size: 15px; font-weight: 800; }
+  .toc { position: fixed; z-index: 1000; inset: 0 0 auto 0; display: none; max-height: 82vh; padding: 70px 18px 22px; border: 0; border-radius: 0 0 18px 18px; background: rgba(255,255,255,.98); }
+  .toc.is-open { display: block; }
+  .toc-link { min-height: 44px; padding: 11px; font-size: 15px; }
 }
 
-/* ===== 見出し ===== */
-.article h1 {
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1.5;
-  margin: 0 0 2rem;
-  padding: 0 0 1.2rem;
-  color: var(--ink);
-  border-bottom: 3px solid var(--main);
-  position: relative;
-}
-.article h1::before {
-  content: "";
-  display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
-  border-radius: 6px;
-  position: absolute; left: 0; bottom: -4.5px;
-}
-.article h2 {
-  font-size: 1.32rem;
-  font-weight: 700;
-  color: var(--sub);
-  margin: 2.8rem 0 1.1rem;
-  padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
-}
-.article h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 2rem 0 0.7rem;
-  padding-left: 0.85rem;
-  border-left: 4px solid var(--line);
-}
-/* キーワード検出された H3（注意・結論・強み等） */
-.article h3.callout-h {
-  border-left: none;
-  padding: 0.6rem 1rem;
-  border-radius: 10px;
-  background: var(--bg);
-  color: var(--ink);
-  display: flex; align-items: center; gap: 0.5rem;
-  box-shadow: inset 5px 0 0 var(--bar);
-  background: var(--bg);
-}
-.article h3.callout-h { background: var(--bg); }
-.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
-
-.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
-
-/* ===== 本文 ===== */
-/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
-.article p { margin: 1.15rem 0; max-width: 42em; }
-.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
-.article li { margin: 0.5rem 0; }
-.article li::marker { color: var(--main); }
-.article strong { color: var(--sub); font-weight: 700; }
-.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
-/* 章/小見出し直後の段落をリード文として少し強調 */
-.article h2 + p, .article h3 + p { color: var(--ink); }
-
-/* ===== ステップバー（17ステップ照合などの構造化） ===== */
-.step {
-  display: flex; align-items: center; gap: 0.75rem;
-  margin: 1.6rem 0 0.4rem;
-  padding: 0.6rem 0.9rem;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
-}
-.step-no {
-  flex: 0 0 auto;
-  width: 30px; height: 30px;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; font-weight: 800; font-size: 0.95rem;
-  border-radius: 9px;
-}
-.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
-.eval {
-  flex: 0 0 auto;
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
-  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
-}
-.eval-ok { background: #E0F4EE; color: #1B8F70; }
-.eval-warn { background: #FCF0D9; color: #B07A14; }
-.eval-ng { background: #F7DEDB; color: #B0463B; }
-/* ステップバー直後の本文を少しインデントして従属関係を見せる */
-.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
-
-/* ===== 成績バッジ（A/B/C/D） ===== */
-.grade {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 2rem; height: 2rem; border-radius: 9px;
-  color: #fff; font-weight: 800; font-size: 1rem;
+@media (max-width: 560px) {
+  body { font-size: 16px; line-height: 1.75; }
+  .page-shell { padding-inline: 10px; }
+  .hero-card { padding: 28px 20px; border-radius: 18px; }
+  .hero-card h1 { font-size: 34px; }
+  .hero-subtitle { font-size: 18px; }
+  .hero-message { padding: 18px 16px 18px 44px; font-size: 16px; }
+  .chapter-card { border-radius: 17px; }
+  .chapter-head { grid-template-columns: 46px minmax(0, 1fr); gap: 12px; padding: 20px 18px 15px; }
+  .chapter-icon { width: 46px; height: 46px; border-radius: 13px; font-size: 23px; }
+  .chapter-head h2 { font-size: 24px; }
+  .chapter-body { padding: 21px 18px 26px; }
+  .chapter-body h3 { font-size: 20px; }
+  .subcard-grid { grid-template-columns: 1fr; }
+  .level-item { grid-template-columns: 64px minmax(0, 1fr); }
+  .level-result { grid-column: 2; }
+  .table-scroll { margin-inline: 0; }
+  .site-footer { padding-inline: 8px; }
 }
 
-/* ===== テーブル ===== */
-.article table {
-  border-collapse: separate; border-spacing: 0;
-  width: 100%; margin: 1.3rem 0;
-  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-  font-size: 0.95rem;
-}
-.article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
-  color: #fff; font-weight: 700; text-align: left;
-  padding: 0.8rem 0.95rem; border: none;
-}
-.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
-.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
-.article tbody tr:hover { background: rgba(44,181,150,0.10); }
-
-/* ===== バッジ（結果ラベル） ===== */
-.badge {
-  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
-  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
-}
-
-/* ===== 注意枠カード（blockquote） ===== */
-.callout-box {
-  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
-  background: #FCF3E6; border-left: 5px solid #E0973E;
-  border-radius: 0 12px 12px 0; color: var(--ink);
-}
-.callout-box p { margin: 0.4rem 0; }
-
-/* ===== コード ===== */
-.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
-.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
-.article pre code { background: none; color: inherit; padding: 0; }
-.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
-
-/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
-/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
-   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
-.sidebar-item--cross {
-  margin-top: 0.4rem;
-  border-left: 3px solid var(--line);
-}
-.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
-
-/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
-.article a.ref-link {
-  background: #E6F6F1; color: var(--sub);
-  padding: 0.1rem 0.5rem; border-radius: 6px;
-  font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
-}
-.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
-
-/* ===== 用語集（折りたたみ） ===== */
-.article .glossary {
-  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
-  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
-}
-.article .glossary summary {
-  cursor: pointer; font-weight: 700; color: var(--sub);
-  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
-}
-.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
-.article .glossary dl { margin: 0.3rem 0 0.8rem; }
-.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
-.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
-
-/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
-.article .verdict {
-  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
-  border-radius: 14px; border: 1px solid var(--line);
-  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
-}
-.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
-.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
-.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
-.article .verdict.is-good { border-left: 6px solid #2CB596; }
-.article .verdict.is-watch { border-left: 6px solid #E0973E; }
-.article .verdict.is-bad { border-left: 6px solid #C0584E; }
-
-/* ===== 出典表記（文字壁の緩和） ===== */
-/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
-   情報としては残すが視覚的な主役は本文に戻す。 */
-.article .src-cite {
-  font-size: 0.72em;
-  color: #9FB1AB;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.5;
-}
-
-/* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
-.sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
-  border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
-}
-.sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
-}
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
-.sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
-}
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
-.sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
-}
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
-/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
-.mobile-back {
-  display: none;
-  position: sticky; top: 0; z-index: 200;
-  background: var(--card); border-bottom: 1px solid var(--line);
-  padding: 0.6rem 1rem;
-}
-.mobile-back a {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.9rem; font-weight: 700; color: var(--sub);
-  text-decoration: none;
-}
-.mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
-  .sidebar { display: none; }
-  .mobile-back { display: block; }
-  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
-  .article h1 { font-size: 1.4rem; }
-  .article h2 { font-size: 1.15rem; }
-  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 </style>
 </head>
 <body>
-<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
-<div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
-<h3>勝ち隊マニュアル</h3>
-<a href="001.html" class="sidebar-item active"><span class="date">2026年07月22日</span> グラデーション理論_中間層の役割</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年07月22日</span> コミュニティ_価値観浸透の原理</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年07月22日</span> コミュニティファースト_哲学</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年07月22日</span> コミュニティ内の商品プッシュは事務局が制限する</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年07月22日</span> マインドセットプログラムを最優先_感想ゲートで受講強制</a>
-<a href="006.html" class="sidebar-item"><span class="date">2026年07月22日</span> マニフェスト_価値観言語化</a>
-<a href="007.html" class="sidebar-item"><span class="date">2026年07月22日</span> リーダーシップ_失敗開示の原則</a>
-<a href="008.html" class="sidebar-item"><span class="date">2026年07月22日</span> リーダーシップ_方向性委譲不可の原則</a>
-<a href="009.html" class="sidebar-item"><span class="date">2026年07月22日</span> 入口管理_価値観マッチングの原則</a>
-<a href="010.html" class="sidebar-item"><span class="date">2026年07月22日</span> 勝ち隊マニュアル</a>
-<a href="011.html" class="sidebar-item"><span class="date">2026年07月22日</span> 心理的安全性_失敗開示の文化</a>
-<a href="012.html" class="sidebar-item"><span class="date">2026年07月22日</span> 知識は動画に任せKPIシートで行動を強制する</a>
-<a href="013.html" class="sidebar-item"><span class="date">2026年07月22日</span> 結果責任と仕組み責任の切り分け_行動させる仕組みを作る</a>
-<a href="014.html" class="sidebar-item"><span class="date">2026年07月22日</span> 行動していない人の不満に応えない_定量的にあぶり出す仕組み</a>
-</nav>
-<main class="content">
-<article class="article">
-<hr />
-<p>type: 原理<br />
-tier: S<br />
-tags: ["コミュニティ", "原理", "スキル別", "講座運営"]<br />
-uniqueness: config延長<br />
-tier_scores.conflict: false<br />
-genre: コミュニティ<br />
-status: 採用<br />
-version: 1<br />
-last_updated: 2026-06-18<br />
-program: PLC会員サイト<br />
-chapter: 12<br />
-lesson: 12-3<br />
-backbone: true<br />
-source: "メイン講義 12-3 書き起こし原本。22_コミュニティサポート/会員サイト/PLC会員サイト/メイン講義/書き起こし原本/12-3-*.md"<br />
-related:<br />
-  - knowledge/コミュニティ/コミュニティ_価値観浸透の原理.md<br />
-  - knowledge/コミュニティ/リーダーシップ_方向性委譲不可の原則.md<br />
-used_by: [MCP:相談モード]<br />
-立場: [コミュニティリーダー]<br />
-活用シーン: [コミュニティ規模拡大時のサポーター設計]<br />
-リフレーム: 「講師が全員に届ける」モデルはスケールしない。「中間層（勝ちたい/認定講師）が伝道師になる」モデルが持続する</p>
-<hr />
-<h1>グラデーション理論 — 中間層の役割</h1>
-<h2>想定質問</h2>
+  <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="manual-toc">
+    <span aria-hidden="true">☰</span><span>目次を開く</span>
+  </button>
+  <div class="page-shell">
+    <aside class="toc" id="manual-toc" aria-label="章目次">
+      <a class="toc-brand" href="#top"><span>🏔️</span> 勝ち隊マニュアル</a>
+      <nav><a class="toc-link" href="#chapter-01"><span aria-hidden="true">💬</span> 想定質問</a><a class="toc-link" href="#chapter-02"><span aria-hidden="true">📑</span> 目次</a><a class="toc-link" href="#chapter-03"><span aria-hidden="true">🏔️</span> 1. 勝ち隊の基本</a><a class="toc-link" href="#chapter-04"><span aria-hidden="true">🧭</span> 2. マインドセット</a><a class="toc-link" href="#chapter-05"><span aria-hidden="true">✅</span> 3. 参加条件</a><a class="toc-link" href="#chapter-06"><span aria-hidden="true">👥</span> 4. 役割と担当</a><a class="toc-link" href="#chapter-07"><span aria-hidden="true">📣</span> 5. イベント告知担当の進め方</a><a class="toc-link" href="#chapter-08"><span aria-hidden="true">📏</span> 6. 活動のルールとガイドライン</a><a class="toc-link" href="#chapter-09"><span aria-hidden="true">💡</span> 7. イベント企画・運営</a><a class="toc-link" href="#chapter-10"><span aria-hidden="true">🤝</span> 8. リアルイベントガイドライン</a><a class="toc-link" href="#chapter-11"><span aria-hidden="true">🎉</span> 9. 新人懇親会・オンライン懇親会</a><a class="toc-link" href="#chapter-12"><span aria-hidden="true">💻</span> 10. 作業会の運営</a><a class="toc-link" href="#chapter-13"><span aria-hidden="true">💬</span> 11. SNS・週報へのフィードバック</a><a class="toc-link" href="#chapter-14"><span aria-hidden="true">🗣️</span> 12. コミュニケーションの心得</a><a class="toc-link" href="#chapter-15"><span aria-hidden="true">🎁</span> 13. 勝ち隊のメリット</a><a class="toc-link" href="#chapter-16"><span aria-hidden="true">⚠️</span> 14. 退会条件</a><a class="toc-link" href="#chapter-17"><span aria-hidden="true">📓</span> 15. 実践ノウハウ集（山小屋ノート）</a><a class="toc-link" href="#chapter-18"><span aria-hidden="true">🔬</span> 検討中・方針（2025年2月時点＋MTGで追加）</a><a class="toc-link" href="#chapter-19"><span aria-hidden="true">☑️</span> チェックリスト</a><a class="toc-link" href="#chapter-20"><span aria-hidden="true">🕘</span> 更新履歴</a></nav>
+    </aside>
+    <main class="manual" id="top">
+      <header class="hero-card">
+        <div class="hero-eyebrow">PLC COMMUNITY GUIDE</div>
+        <h1>勝ち隊マニュアル</h1>
+        <p class="hero-subtitle">〜一緒にPLCを最高に楽しもう！〜</p>
+        <blockquote class="hero-message"><span aria-hidden="true">“</span>勝ち隊のイベントに参加しないといけない」という思い込みがあるとしたら、それは期待とは違う</blockquote>
+        <p class="last-updated">最終更新日 <time datetime="2026-07-22">2026年07月22日</time></p>
+      </header>
+      <div class="chapter-stack"><section class="chapter-card card--list card--muted" id="chapter-01" data-source-heading="想定質問" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">💬</div><div><p class="chapter-kicker">CHAPTER 01</p><h2>想定質問</h2></div></header><div class="chapter-body"><ul>
+<li>Q: 勝ち隊マニュアルはどう判断すべきか？</li>
+<li>Q: 勝ち隊マニュアルが弱い時どうするか？</li>
+</ul></div></section><section class="chapter-card card--list" id="chapter-02" data-source-heading="目次" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">📑</div><div><p class="chapter-kicker">CHAPTER 02</p><h2>目次</h2></div></header><div class="chapter-body"><ol>
+<li><a href="#1-勝ち隊の基本">勝ち隊の基本</a></li>
+<li><a href="#2-マインドセット">マインドセット</a></li>
+<li><a href="#3-参加条件">参加条件</a></li>
+<li><a href="#4-役割と担当">役割と担当</a></li>
+<li><a href="#5-イベント告知担当の進め方">イベント告知担当の進め方</a></li>
+<li><a href="#6-活動のルールとガイドライン">活動のルールとガイドライン</a></li>
+<li><a href="#7-イベント企画運営">イベント企画・運営</a></li>
+<li><a href="#8-リアルイベントガイドライン">リアルイベントガイドライン</a></li>
+<li><a href="#9-新人懇親会オンライン懇親会">新人懇親会・オンライン懇親会</a></li>
+<li><a href="#10-作業会の運営">作業会の運営</a></li>
+<li><a href="#11-sns週報へのフィードバック">SNS・週報へのフィードバック</a></li>
+<li><a href="#12-コミュニケーションの心得">コミュニケーションの心得</a></li>
+<li><a href="#13-勝ち隊のメリット">勝ち隊のメリット</a></li>
+<li><a href="#14-退会条件">退会条件</a></li>
+<li><a href="#15-実践ノウハウ集山小屋ノート">実践ノウハウ集（山小屋ノート）</a></li>
+<li><a href="#検討中方針2025年2月時点">検討中・方針</a></li>
+</ol></div></section><section class="chapter-card card--list card--quote" id="chapter-03" data-source-heading="1. 勝ち隊の基本" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">🏔️</div><div><p class="chapter-kicker">CHAPTER 03</p><h2>1. 勝ち隊の基本</h2></div></header><div class="chapter-body"><h3>目的</h3>
 <ul>
-<li>Q: グラデーション理論 — 中間層の役割はどう判断すべきか？</li>
-<li>Q: グラデーション理論 — 中間層の役割が効く場面はどこか？</li>
+<li>コミュニティ全体で <strong>「全員で勝つ！」</strong> を実践し、成長に必要なサポートを実施していく役割を担う</li>
+<li>受講生が言うからこそ価値がある（厳しいことなど）ことを実践する</li>
+<li><strong>決して、弱者のサポートではない</strong></li>
 </ul>
-<p>コミュニティのグラデーション理論—先生と生徒の中間に「グレー」な人たちを増やすことが価値観浸透の仕組みである。</p>
-<h2>田中の説明（12-3 原文）</h2>
-<blockquote class="callout-box">
-<p>「グラデーション理論—白と黒の間にグレーが必要」（大学サークルの上下関係を比喩として使用、12-3 原文）</p>
+<h3>本当に期待していること（田中さんより）</h3>
+<blockquote>
+<p>「勝ち隊のイベントに参加しないといけない」という思い込みがあるとしたら、それは期待とは違う</p>
 </blockquote>
-<h2>原理</h2>
-<p>組織の文化は先輩→後輩の伝播で広がる。リーダー対全員ではなく中間層が鍵である。</p>
-<p>グラデーション構造:</p>
-<pre><code>リーダー（白）
-    ↓ 価値観を伝達
-中間層・上級者・認定講師（グレー）
-    ↓ 価値観を伝達
-新規メンバー（黒）
-</code></pre>
-<p>中間層が価値観の伝道師として機能することで、リーダーが全員に届けなくても価値観が浸透する。</p>
-<h2>PLCでの実装例</h2>
+<h4>やってほしいこと</h4>
 <ul>
-<li>「勝ちたい人」「認定講師」がグレー（中間層）として機能している</li>
-<li>新規メンバーは田中から直接ではなく、先輩会員から自然に価値観を受け取る</li>
+<li>来なくなってる人への声かけ</li>
+<li>「この人見かけたら拾い上げられた」という動き</li>
+<li>「この人めっちゃ弱ってるから田中さんからメッセージ送った方がいいですよ」という報告</li>
+<li>イベントやるときに、自分のグループで全然顔出してない人をお誘いする</li>
+<li>他の人のイベントを「これはめっちゃ面白そう」とピックアップする</li>
 </ul>
-<h2>スケールの原則</h2>
-<p>「講師が全員に届ける」モデルはメンバー数の上限がリーダーの稼働で決まる。中間層モデルは中間層の数でスケールする。</p>
-<p>Produced by KATSUO MARKETING<br />
-Version: 1.0 (2026-06-18)<br />
-Licensed to: KATSUO MARKETING Community Member<br />
-Security Trace ID: PLC12S3R1<br />
-Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
-</article>
-</main>
-</div>
+<h4>大事にしている価値観</h4>
+<blockquote>
+<p>参加人数10人のイベントより、参加人数3人でいいから「全然参加しなかった人がちょっと出て雑談できてホッとしました」という状態の方が嬉しい</p>
+<p>この6ヶ月の間に1人か2人がワークショップに来るようになったら嬉しい</p>
+</blockquote>
+<h4>ナイスチャレンジの例</h4>
+<ul>
+<li>「ここ最近全然参加できてなくて、PLCの使い方もわからなくなって、みんな進みすぎてわけわからなくなったけど、それでも頑張りたいから今から何をすればいいのか整理をしたいのかい？」というイベント</li>
+<li>結果1人やゼロ人でも、それは「ナイスチャレンジ」</li>
+</ul></div></section><section class="chapter-card card--list" id="chapter-04" data-source-heading="2. マインドセット" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">🧭</div><div><p class="chapter-kicker">CHAPTER 04</p><h2>2. マインドセット</h2></div></header><div class="chapter-body"><div class="subcard-grid"><section class="subcard"><h3>① 成長にフォーカスし、自立した存在であること</h3><ul>
+<li>このコミュニティは、ビジネスパーソンとして一人ひとりが「自立」した上に成り立つ</li>
+<li>手取り足取り教えるのではなく、一人ひとりが頼もしく、一緒にいることでエネルギーが上がるような関係性を目指す</li>
+</ul></section><section class="subcard"><h3>② コミュニティのあり方は「大学サークルの延長」</h3><ul>
+<li>勝ち隊の立ち位置は <strong>「大学サークルの2年生」</strong></li>
+<li>1年生（新規受講生）がコミュニティに馴染めるように、少し先輩の目線で積極的に声かけやサポートを行う</li>
+</ul></section><section class="subcard"><h3>③ 「面白い企画」と「個別の声かけ」の両輪で進める</h3><ul>
+<li>コミュニティを活性化させるためには、多くの人が参加したくなる「面白い企画」が不可欠</li>
+<li>同時に、イベントに参加しづらい人や輪に入りきれていない人を個別に見つけてフォローすることも重要</li>
+<li>この両輪によって、<strong>取り残される人がいないコミュニティ</strong> を創り上げる</li>
+</ul></section><section class="subcard"><h3>④ 思い出の複利を積み上げる</h3><ul>
+<li>PLCでの活動が、メンバーにとって価値ある「思い出」となることを目指す</li>
+<li>学びだけでなく、人と人がつながり、記憶に残るような体験を提供する大型イベントなども企画・運営していく</li>
+</ul></section><section class="subcard"><h3>④-2 リアル・イベントの「共犯者」とシチュエーショントリガー（2026/03 勝ち隊MTGより）</h3><ul>
+<li>フロントだけの募集より、「誰が参加するか」が見えている方が参加しやすい。主催や常連が「自分も行く」と投稿するのが基本に近い</li>
+<li>リアルでは「共犯者」（一緒に行く仲間）がいると心理的ハードルが下がる、という話を運営側でも共有しておく</li>
+</ul></section><section class="subcard"><h3>⑤ マンツーマンより、ゾーンプレス</h3><ul>
+<li>一人を徹底的にサポートするのではなく、コミュニティ全体に働きかけ、全体の意識レベルを上げることを目指す</li>
+</ul></section><section class="subcard"><h3>⑥ 勝ち隊は「すごい人の集まり」ではなく、やっていい文化を見せる場</h3><ul>
+<li>外から見ると勝ち隊は「すごい人」「目立つ人」の集まりに見えやすいが、本質はそこではない</li>
+<li>勝ち隊は、コミュニティを楽しみながら、自分の関心・得意・未完成の企画を試してよい場である</li>
+<li>まだ目立っていない人、企画を出す勇気がない人に対して、「自分もやっていいんだ」と思える空気をつくることが重要</li>
+<li>勝ち隊メンバー自身も、「勝ち隊だから全部完璧にやらなければならない」という思い込みを外してよい</li>
+</ul></section><section class="subcard"><h3>⑦ AI時代こそリアルと事例共有でチーム性を補う</h3><ul>
+<li>AIによって一人でできることが増えるほど、従来型の大人数チームは自然に減っていく</li>
+<li>その流れを無理に戻すより、リアル作業会・事例共有・部活を通じて、必要なときに人とつながれる環境をつくる</li>
+<li>AIの使い方そのものより、「AIで何を成果に変えたか」「ローンチや商品設計のどこに効いたか」を共有する</li>
+<li>新しい手法を追いかけるだけでなく、具体的な案件事例・失敗事例・市場変化への対応を共有することが、受講生にとって実践的な価値になる</li>
+</ul></section><section class="subcard"><h3>⑧ 期日は熱量ではなく仕組みで守る</h3><ul>
+<li>内部イベントであっても、期日を出す、リマインドする、期日通りに実行することは基本</li>
+<li>リーダー本人の頑張りだけに頼らず、担当者・締切・確認日・フォロー担当を見える化する</li>
+<li>人によって「先に決まっていないとストレス」「先に決まりすぎるとストレス」というタイプ差があるため、性格論ではなく運営設計として扱う</li>
+<li>期日管理の弱さは、プロデューサーとコンテンツホルダーの仕事にも直結する。勝ち隊内でも練習の場として扱う</li>
+</ul></section><section class="subcard"><h3>その他の大切なマインド</h3><ul>
+<li>「あれも、これも出来ないけど、なんとかなる」と本当のことをOpenにするだけで、受講生はとても安心する</li>
+<li>出来ないことがあっても大丈夫、という姿勢が大事</li>
+<li>講座生は良い成果は共有するが失敗はあまりしない → <strong>勝ち隊が積極的に失敗したことも共有すれば、そういった文化ができる</strong></li>
+<li>ガンガンとアウトプットしよう！</li>
+<li>コミュニティ内で人を集めるのは、自分のライティングや企画のスキルアップにもなる</li>
+</ul></section></div></div></section><section class="chapter-card card--checklist" id="chapter-05" data-source-heading="3. 参加条件" data-card-type="checklist"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">✅</div><div><p class="chapter-kicker">CHAPTER 05</p><h2>3. 参加条件</h2></div></header><div class="chapter-body"><ul class="checklist">
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>リアルワークショップに参加すること</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>月に1回、講座のサポートとして勉強会やサポート会を企画すること</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>リアルワークショップの際は、原則として <strong>開始1時間前に集合</strong> し、運営のサポートを行う</span></li>
+</ul></div></section><section class="chapter-card card--list" id="chapter-06" data-source-heading="4. 役割と担当" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">👥</div><div><p class="chapter-kicker">CHAPTER 06</p><h2>4. 役割と担当</h2></div></header><div class="chapter-body"><p>コミュニティを円滑に運営するため、以下の役割を分担します。<strong>当月の担当は定例ミーティングで決定</strong>し、イベント告知担当がスプレッドシートに取りまとめる。</p>
+<p><strong>3月の役割分担例</strong>：木下＝リアルイベント、齋藤＝自己紹介ツッコミ、秋山＝懇親会費補填・Cursor勉強会</p>
+<p><strong>4月の役割分担（2026/03/24 MTGで決定）</strong>：イベント告知担当＝広田純子（ひろじゅん）さん、自己紹介ツッコミ＝松本ゆりさん</p><div class="subcard-grid"><section class="subcard"><h3>イベント告知担当（月替わり）</h3><ul>
+<li>各メンバーが企画したイベントを取りまとめ、スプレッドシートに記入してもらう</li>
+<li>内容を田中さんに確認し、フィードバックを反映した後、事務局と連携してコミュニティ全体に告知</li>
+<li>詳細は「イベント告知担当の進め方」を参照</li>
+</ul>
+<h4>担当者が遅れそうなときの考え方</h4>
+<ul>
+<li>「担当者が頑張る」だけではなく、勝ち隊全体で期日が守られる仕組みにする</li>
+<li>告知担当は、提出期限・田中さん確認期限・全体告知予定日を最初に明示する</li>
+<li>期限の2〜3日前に、未提出者・未確認事項・詰まっている点を勝ち隊チャットに出す</li>
+<li>担当者自身が動けない場合は、早めに代理・サポートを依頼する。遅れた後に謝るより、遅れそうな段階で共有する方が運営として健全</li>
+<li>AIやリマインドツールを使って、期日・未提出・告知漏れを自動的に見えるようにしていく</li>
+</ul></section><section class="subcard"><h3>リアル勉強会／イベント担当（都度交代）</h3><ul>
+<li>オンラインでの学習につまずく人をサポートするため、リアルワークショップの合間に東京などで勉強会や交流会を企画・開催</li>
+<li><strong>最優先の目的は、参加者同士の「つながり」を創出すること</strong></li>
+<li>「セミナー形式」に固執せず、「バーベキュー」や「飲み比べ会」など、自然な交流が生まれる体験型の企画も推奨</li>
+<li>（パンケーキ会・Cursor勉強会は2026/06/15 勝ち隊MTGで休止決定。再開する場合は定例MTGで決める）</li>
+<li>主催者は懇親会費が運営から支給される（現在はテスト運用として、一般参加者も無料）</li>
+<li><strong>リアル会場を借りる場合はザリールに請求書をつける</strong>。食事食費は各自負担</li>
+<li><strong>大阪ワークショップ</strong>：年1回程度、10月にUSJパーティーなどを実施。ザリールで費用負担、交通費は各自</li>
+</ul></section><section class="subcard"><h3>新人懇親会担当（都度交代）</h3><ul>
+<li>新規受講生向けのオンライン交流会を企画・運営し、新メンバーがコミュニティに馴染めるようサポート</li>
+<li><strong>参考</strong>: 新規メンバー向けに「ピアラーニング」制度が導入されている。学習アウトプットは「新人交流会チャット」に集約される予定。勝ち隊メンバー、特に新人担当はこの動きを把握し、新規メンバーとの交流のきっかけとして活用する</li>
+<li><strong>新人にやらせてみる検証</strong>：新人が企画・運営を担当し、勝ち隊がサポートする形を試す。参加ハードルを下げ、新人が主役になる文化づくりを目指す</li>
+<li><strong>インセンティブ</strong>：新人懇親会の企画・運営を担当した新人には、次回懇親会費無料＋ドバイチョコを贈呈</li>
+</ul>
+<h4>日程調整のコツ</h4>
+<ul>
+<li>日程を1つ決めて告知するのではなく、<strong>調整さん等で対象者に投げて参加できる日を集める</strong></li>
+<li>新人さんに来てもらうことが目的であれば、対象者の都合に合わせる方が参加率が上がる</li>
+</ul></section><section class="subcard"><h3>自己紹介チャットのツッコミ担当（月替わり）</h3><ul>
+<li>「自己紹介＆ツッコミチャット」に投稿された新規参加者の自己紹介に対し、必ず誰かが反応するための担当者</li>
+<li>新規参加者がコミュニティに参加する最初のハードルを下げる</li>
+<li><strong>（勝ち隊内ルール）この担当者の存在は一般メンバーには公表しない</strong></li>
+</ul></section><section class="subcard"><h3>（廃止）議事録担当</h3><ul>
+<li>AIによる文字起こしをベースに作成するため、専任の議事録担当は廃止</li>
+</ul></section></div></div></section><section class="chapter-card card--steps" id="chapter-07" data-source-heading="5. イベント告知担当の進め方" data-card-type="steps"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">📣</div><div><p class="chapter-kicker">CHAPTER 07</p><h2>5. イベント告知担当の進め方</h2></div></header><div class="chapter-body"><p>イベント告知担当になった際のやることを時系列でまとめました。</p><div class="subcard-grid"><section class="subcard"><h3>ステップ</h3><div class="step-timeline"><div class="step-item"><div class="step-number">1</div><div class="step-content">勝ち隊メンバーに提出期限発表（通常月末に事務局チャットに告知という流れなので、そこから逆算。田中さんに確認）</div></div><div class="step-item"><div class="step-number">2</div><div class="step-content">スプレッドシートに各自記入してもらうようにアナウンス（日付、内容、プロフィール、アーカイブ有無など）。記入したらチャットワークに「書きました」と連絡してもらうように伝える</div></div><div class="step-item"><div class="step-number">3</div><div class="step-content">全員分集まったら田中さんメンションで揃ったことを連絡</div></div><div class="step-item"><div class="step-number">4</div><div class="step-content">田中さんからフィードバック</div></div><div class="step-item"><div class="step-number">5</div><div class="step-content">フィードバック後、修正点がある人は再度提出</div></div><div class="step-item"><div class="step-number">6</div><div class="step-content">全員再フィードバック通過したら、事務局チャットワークへの告知をお願いする</div></div><div class="step-item"><div class="step-number">7</div><div class="step-content">イベント担当は雑談チャットでも案内する。他の人の告知に勝ち隊でリアクションマークを付け合うと盛り上がり感が出る</div></div></div></section><section class="subcard"><h3>告知のタイミング</h3><ul>
+<li>定例ミーティング後、<strong>1週間以内</strong> に全体告知を行うことを原則とする</li>
+<li>担当（田中さん）の確認が完了したイベントから先に告知</li>
+<li>調整中のイベントについては「現在調整中」と記載の上、確定次第、別途告知する</li>
+<li>これにより、全体の告知が遅れることを防ぐ</li>
+</ul></section><section class="subcard"><h3>告知文の参考例</h3><pre><code>みなさま、こんにちは！○○です。
+
+＼📣12月〜1月の勝ち隊イベントについてのお知らせします／
+
+毎月お仕事のヒントに、マッチングに、交流などなどに役立つ
+勝ち隊イベントを開催しています〜！！
+
+1月はリアルワークショップ＆懇親会もありますね〜！
+
+特に11月以降入会された方は初めてでドキドキかもしれないですが、
+その前に勝ち隊イベントに参加してお互い繋がることで
+リアルワークショップ＆懇親会では学びも愉しみも何千倍にもなりますよ〜！！
+
+では、本日は決定ホヤホヤ！
+日程とタイトルをダイジェストでお伝えします。
+今すぐスケジュールを抑えておいてくださいね！
+
+[info][title]12月27日（金）20:00〜21:00[/title]
+あなたのローンチシナリオに磨きをかける
+PLC在籍の2年半で見つけたポイント！
+会社員ゼロスタートからでもできた伝家の宝刀ライティング共有会
+主催：○○さん[/info]
+
+[info][title]12月29日（日）13:00〜17:30／18:00〜20:00[/title]
+大阪リアル作業会＆忘年会
+【PLC入りたての方も大歓迎！】
+オンラインもいいけどやっぱり「リアル」はいい♪
+主催：○○さん[/info]
+
+今から日程を抑えておいてくださいね！
+内容など詳細は別途お伝えします✨
+</code></pre></section></div></div></section><section class="chapter-card card--list" id="chapter-08" data-source-heading="6. 活動のルールとガイドライン" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">📏</div><div><p class="chapter-kicker">CHAPTER 08</p><h2>6. 活動のルールとガイドライン</h2></div></header><div class="chapter-body"><div class="subcard-grid"><section class="subcard"><h3>定例ミーティングについて</h3><ul>
+<li>原則として <strong>「毎月第4火曜日の21時」</strong> に固定して開催</li>
+<li>定例ミーティングでは <strong>事前の議題記入を必須</strong> とする</li>
+</ul></section><section class="subcard"><h3>イベント告知のルール</h3><ul>
+<li><strong>カレンダーをセットで告知する</strong>（Googleカレンダーにイベントは登録されている）</li>
+<li>チャットワークを見ていない人が多いため、告知は複数チャネルで行う</li>
+<li>URLだけの告知は避け、テキストベースで内容も記載する（URLにした瞬間、離脱が起きる）</li>
+<li>告知は「一発で売る」のではなく、事前のセットアップで参加したくなる状態をつくる</li>
+<li>たとえば、イベント本体の前から「最近このテーマが面白い」「この人と話してきた」「興味ある人はいますか」と小さく出しておく</li>
+<li>公式イベントで興味づけし、その後の自主企画やプライベートな募集につなげる発想も持つ</li>
+</ul></section><section class="subcard"><h3>チャットワークの捌き方をシェアする</h3><ul>
+<li>真面目な人ほど全部見ようとして息切れする</li>
+<li>いくつか逃したらもう全部そこから逃す人が多い</li>
+<li>「どういうものに目をつけた方がいいか」という嗅覚を新人にシェアすると良い</li>
+<li>メンションがついているものを優先的に見る</li>
+</ul></section><section class="subcard"><h3>コミュニティ内の問題報告について</h3><div class="table-scroll" role="region" aria-label="表" tabindex="0"><table>
+<thead>
+<tr>
+<th>種類</th>
+<th>対応方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ビジネス上の課題や質問</td>
+<td>コミュニティ全体の学びになるため、積極的にオープンなチャットで共有・議論することを推奨</td>
+</tr>
+<tr>
+<td>人間関係のトラブルや他のメンバーへの懸念</td>
+<td>チャットで当事者を名指しで批判するのではなく、運営（田中さん）に直接、個別チャットで報告・相談。迅速かつ慎重に対応</td>
+</tr>
+</tbody>
+</table></div></section></div></div></section><section class="chapter-card card--list" id="chapter-09" data-source-heading="7. イベント企画・運営" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">💡</div><div><p class="chapter-kicker">CHAPTER 09</p><h2>7. イベント企画・運営</h2></div></header><div class="chapter-body"><div class="subcard-grid"><section class="subcard"><h3>基本方針</h3><h4>「勝負は企画」</h4>
+<ul>
+<li>魅力的なコンセプトで人を惹きつけることを重視</li>
+<li>何を意図している企画なのかが伝わらないものは、内容が良くても参加されにくい</li>
+<li>「勝ち隊の看板があるから人が来る」と考えすぎない。看板は安心材料にはなるが、参加の理由そのものは企画でつくる</li>
+</ul>
+<h4>集客のオーナーシップ</h4>
+<ul>
+<li>イベントの告知や集客の主体は <strong>企画者自身</strong></li>
+<li>事務局からの告知はあくまでリマインドと捉える</li>
+<li>担当者は自身の言葉で積極的にチャット等で参加を呼びかけ、イベントを盛り上げる責任を持つ</li>
+</ul>
+<h4>イベントは単発タイトルではなく段取りでつくる</h4>
+<ul>
+<li>参加者は、突然の募集よりも、事前に関心が温まっているテーマに反応しやすい</li>
+<li>企画前から、雑談・PS・感想投稿・小さな実践報告でテーマを見せておく</li>
+<li>誰かと一緒に行った、試してみた、話題になった、という既成事実があると参加ハードルが下がる</li>
+<li>勝ち隊イベントは、単発の集客ではなく、コミュニティ内で興味と信頼を育てる教育プロセスとして設計する</li>
+</ul></section><section class="subcard"><h3>テーマ設定</h3><ul>
+<li>PLCの目的（マーケティング実践、マインドセット向上）に沿った内容を企画</li>
+<li>「ツールの使い方」ではなく、「ツールを使って得られる成果」を主軸にタイトルや内容を設計</li>
+<li>❌「Heatmapの使い方」</li>
+<li>✅「LP改善でCVRを高めた方法」</li>
+<li>自分が初心者の頃に「こんなイベントがあったら嬉しかった」という視点で企画を考える</li>
+<li>AI・Cursor系の企画は、上級者の活用自慢だけでなく、「メール1本を書く」「メルマガを1本作る」「LPの一部を直す」など、部分成果に落とすと参加しやすい</li>
+<li>ローンチやマーケティングの企画は、新奇な手法よりも、具体事例・市場変化・何を狙ってどう組んだかの全体像が価値になる</li>
+</ul></section><section class="subcard"><h3>「交流」や「ガス抜き」を目的とした企画</h3><ul>
+<li>必ずしもノウハウ提供や勉強会にこだわる必要はない</li>
+<li>メンバー同士が日頃の悩みを共有したり、雑談したりする「ガス抜き」のような場も、コミュニティの活性化やメンバーの心理的安全性につながる重要な企画</li>
+<li>そうした交流メインの会も積極的に検討する</li>
+</ul></section><section class="subcard"><h3>部活・チャレンジ企画は「集めて解散」で設計する</h3><ul>
+<li>期日のないコミュニティ活動はマンネリ化しやすい</li>
+<li>30日間、1ヶ月、次回ワークショップまで、など期限を切って「集めて解散」する</li>
+<li>ほめほめクラブ、ライブ部、サミット部、低単価商品づくりなどは、常設化よりも期限付きの部活として始める方が熱量を保ちやすい</li>
+<li>期限後は成果物・感想・学びを共有し、次の企画に接続する</li>
+</ul></section><section class="subcard"><h3>企画の進め方</h3><ul>
+<li>企画案が固まったら、一覧シートに記入する前に、まず <strong>勝ち隊チャットで田中さんに方向性を相談</strong> することが推奨</li>
+<li>これにより手戻りを防ぐ</li>
+</ul></section><section class="subcard"><h3>大型イベントの配慮</h3><ul>
+<li>地方からの参加者が日帰りできるか、最終の新幹線の時間などを考慮して時刻を設定</li>
+<li>イベントの目的（例：交流メイン、広告撮影など）は、企画の初期段階で明確にし、正直に共有</li>
+</ul></section><section class="subcard"><h3>定期イベントの告知</h3><ul>
+<li>朝活など毎週開催するイベントは、数週間〜1ヶ月分の日程をまとめて告知し、参加しやすさを高める</li>
+</ul></section><section class="subcard"><h3>イベント企画のアイデア</h3><div class="table-scroll" role="region" aria-label="表" tabindex="0"><table>
+<thead>
+<tr>
+<th>イベント種類</th>
+<th>内容・効果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>作業会</td>
+<td>定番。決まった人が来がちなので周知を工夫する</td>
+</tr>
+<tr>
+<td>勉強会</td>
+<td>全体の基準値が上がる</td>
+</tr>
+<tr>
+<td>シェア会</td>
+<td>ローンチ生を招いてのシェアは特に効果的</td>
+</tr>
+<tr>
+<td>女子会</td>
+<td>横のつながりを得られる。困っていることを知るきっかけにも</td>
+</tr>
+<tr>
+<td>セールスロープレ会</td>
+<td>実践的なスキルアップ</td>
+</tr>
+<tr>
+<td>失敗シェア会</td>
+<td>失敗から学びがあればそれも価値になる</td>
+</tr>
+<tr>
+<td>クラブ活動</td>
+<td>気持ちが離れても復活するきっかけになる</td>
+</tr>
+<tr>
+<td>バーベキュー・飲み比べ会</td>
+<td>自然な交流が生まれる体験型</td>
+</tr>
+</tbody>
+</table></div></section><section class="subcard"><h3>ほめほめクラブ（勝ち隊での復活）</h3><ul>
+<li>受講生同士が「ほめ合う」ことで承認欲求を満たし、コミュニティの一体感を高める施策。勝ち隊として再開する。メンタルトレーニングの一環として位置づけ</li>
+<li><strong>募集</strong>：定例ミーティングで募集開始を決定し、告知する</li>
+<li><strong>ほめほめリーダー</strong>：企画・運営を担当した人は、次回懇親会無料</li>
+<li>詳細は <code>ほめほめクラブ運用ルール.md</code> を参照</li>
+</ul></section></div></div></section><section class="chapter-card card--list" id="chapter-10" data-source-heading="8. リアルイベントガイドライン" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">🤝</div><div><p class="chapter-kicker">CHAPTER 10</p><h2>8. リアルイベントガイドライン</h2></div></header><div class="chapter-body"><div class="subcard-grid"><section class="subcard"><h3>目的</h3><ul>
+<li>知識の共有ではなく、参加者同士の <strong>「つながり」を創出すること</strong> を最優先とする</li>
+<li>AI時代は一人で作業できる範囲が広がるため、リアルの価値は「一緒に作業している様子が見える」「隣で詰まりを解消できる」「自然に仲間ができる」ことにある</li>
+<li>初心者・乗り遅れ層ほど、オンラインで説明を聞くだけではなく、リアルで隣に座って触る方が進みやすい</li>
+</ul></section><section class="subcard"><h3>形式</h3><ul>
+<li>「セミナー」に固執せず、バーベキューや飲み比べ会のような体験型の交流企画を積極的に採用</li>
+<li>ただし、気候・移動・疲労・会場条件を具体的にシミュレーションし、参加後に「楽しかった未来」が見える企画にする</li>
+<li>大きな仕掛けより、小物・ゲーム・会話のきっかけなど、参加者同士が仲良くなれる設計を優先してよい</li>
+</ul></section><section class="subcard"><h3>ハイブリッド開催の原則</h3><ul>
+<li>リアル開催時にオンライン参加者の手厚いサポートまで担うと、現地参加者との交流が薄くなる</li>
+<li>リアル会場の主目的は、現地のつながりと作業の進行をつくること</li>
+<li>オンライン側は「見るだけ」「聞くだけ」に寄せ、現地メンバーがオンライン対応に追われすぎないようにする</li>
+<li>拠点ごとに集まる場合は、マイク・会場・現地進行の担当を事前に決める</li>
+</ul></section><section class="subcard"><h3>活動記録の共有</h3><ul>
+<li>リアルイベントや交流会開催後は、活動の様子がわかる写真を写真共有グループ「思い入れ」に投稿し、そのリンクをチャットで共有</li>
+<li>これはコミュニティ全体の「思い出の複利」を積み上げ、後のメンバーが活動の歴史を振り返れるようにするための重要な活動</li>
+</ul></section><section class="subcard"><h3>グループワーク</h3><ul>
+<li>実施する場合は、事前にワークシートを記入させる形式よりも、その場で会話をしながら進める形式の方が、自然な交流が生まれやすいため推奨</li>
+</ul></section><section class="subcard"><h3>席の配置</h3><ul>
+<li><strong>「勝ち隊が固まって座っている」と指摘されたことがある</strong></li>
+<li>初めてで緊張していたり、大人しくてなじめない人もいる</li>
+<li>意識してバラけて席につくことで、そういう人たちが交流できるよう気を配る</li>
+</ul></section><section class="subcard"><h3>ワークショップ会場設営の注意点</h3><ul>
+<li>参加人数に合わせて机の配置を事前に調整する</li>
+<li>大きな会場で人数が少ない場合、前方に詰めて配置する</li>
+<li>カメラの設置位置も事前に計画しておく（後から人が詰めて再設置が必要になると時間の無駄）</li>
+<li>会場によってルールが異なるため、事前に確認が必要</li>
+</ul></section><section class="subcard"><h3>懇親会の退店ルール</h3><ul>
+<li>終了時間になったら速やかに退店する</li>
+<li><strong>時間を過ぎるとお店から指摘されることがある</strong></li>
+<li>田中さんがいない場合でも、勝ち隊メンバーが率先して「時間なので二次会に移動しましょう」と声かけする</li>
+<li>効果的な方法：「〇時〇分までに出ないと田中さんに追加請求が行きます」と伝えると動きやすい（損失回避のトリガー）</li>
+</ul></section><section class="subcard"><h3>会場予約名について</h3><ul>
+<li>予約名は<strong>PLCメンバーがわかる名前</strong>にする</li>
+<li>または予約名を事務局チャットに投稿する</li>
+<li>主催者が緊急で不在になった場合、誰の予約かわからないと当日困る</li>
+</ul></section></div></div></section><section class="chapter-card card--list" id="chapter-11" data-source-heading="9. 新人懇親会・オンライン懇親会" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">🎉</div><div><p class="chapter-kicker">CHAPTER 11</p><h2>9. 新人懇親会・オンライン懇親会</h2></div></header><div class="chapter-body"><h3>新人懇親会の運営ガイドライン</h3>
+<h4>時間管理の徹底</h4>
+<ul>
+<li>自己紹介が長くなりすぎないよう、1人あたりの持ち時間を明確に定め、タイマーを使って進行</li>
+</ul>
+<h4>マインドセットの共有</h4>
+<ul>
+<li>会のはじめに「自己紹介は"チラ見せ"です。詳しい話は後のブレイクアウトでしましょう」と伝える</li>
+<li>参加者が安心して簡潔に話せる雰囲気を作る</li>
+</ul>
+<h4>質問項目の簡素化</h4>
+<ul>
+<li>自己紹介で話す項目は <strong>3〜4個程度</strong> に絞り、話しやすく、聞きやすい環境を作る</li>
+</ul>
+<h3>オンライン懇親会の扱い（2026年4月以降）</h3>
+<ul>
+<li><strong>運営主催のオンライン懇親会は、定例としては廃止</strong>（2026/03/24 勝ち隊MTGで決定）</li>
+<li>理由の整理：運営・田中のモチベーション維持が難しく、ワンウェイになりがちだったため</li>
+<li>交流の代替は、<strong>目的の旗がある部活・交流会</strong>（ほめほめクラブ、情報発信、サミット部など）や、企画単位の会を優先して検討する</li>
+</ul>
+<h4>参考：これまでの刷新方針（アーカイブ）</h4>
+<ul>
+<li>形骸化を防ぐため、一時期は <strong>「入会4ヶ月以内の新規参加者」が毎月持ち回りで主催</strong> する形式を試した</li>
+<li>目的を「専門家の話を聞く会」から <strong>「困っている新メンバーをみんなで助ける会」</strong> へと転換する、という考え方</li>
+</ul></div></section><section class="chapter-card card--steps" id="chapter-12" data-source-heading="10. 作業会の運営" data-card-type="steps"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">💻</div><div><p class="chapter-kicker">CHAPTER 12</p><h2>10. 作業会の運営</h2></div></header><div class="chapter-body"><div class="subcard-grid"><section class="subcard"><h3>基本ルール</h3><ul>
+<li>途中参加、途中退席、自由</li>
+<li>事前に出欠はとらない</li>
+<li>当日、時間の少し前にZOOMリンクを発行、参加できる方は自由に参加</li>
+</ul></section><section class="subcard"><h3>進行の流れ</h3><div class="step-timeline"><div class="step-item"><div class="step-number">最初の15分</div><div class="step-content">実践講座などのシェア（わからなかったところや、気付き、取り入れようと思ったこと）</div></div><div class="step-item"><div class="step-number">シェア後</div><div class="step-content">その日に作業する内容を宣言して作業に入る</div></div><div class="step-item"><div class="step-number">作業中</div><div class="step-content">ミュートにして作業に集中</div></div><div class="step-item"><div class="step-number">最後の15分</div><div class="step-content">作業の進み具合を報告</div></div></div></section><section class="subcard"><h3>注意事項</h3><ul>
+<li>最初と最後の15分だけ話せるが、それ以外はミュートにして作業に集中</li>
+<li>前後15分間の話せる期間外の途中参加や途中退席の人は、ミュートのまま</li>
+</ul></section></div></div></section><section class="chapter-card card--levels" id="chapter-13" data-source-heading="11. SNS・週報へのフィードバック" data-card-type="levels"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">💬</div><div><p class="chapter-kicker">CHAPTER 13</p><h2>11. SNS・週報へのフィードバック</h2></div></header><div class="chapter-body"><p>フィードバックはコミュニティの活性化に不可欠な要素です。</p><div class="subcard-grid"><section class="subcard"><h3>フィードバックのマインドセット</h3><ul>
+<li>完璧主義にならない。できれば <strong>1分以内</strong> にコメント箇所を見つける</li>
+<li>内容より、コメントされるだけで嬉しい（人は興味を持ってもらうことが嬉しい）</li>
+<li>批判ではなく「もっとこうしたらいいかもですね！」とポジティブな提案を</li>
+</ul></section><section class="subcard"><h3>フィードバックの流れ</h3><ol>
+<li>全部読むのではなく、コメントする箇所を発見する</li>
+<li>見つけたら、＜全員で勝つ！＞の考え方に照らしてコメントする</li>
+</ol></section><section class="subcard"><h3>コメントのケーススタディ</h3><div class="table-scroll" role="region" aria-label="表" tabindex="0"><table>
+<thead>
+<tr>
+<th>状況</th>
+<th>コメント例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>面白い行動について</td>
+<td>「素晴らしいですね！」</td>
+</tr>
+<tr>
+<td>目標から大きく外れている行動</td>
+<td>「それはあなたの目標に向かう行動ですか？」「目標からずれていませんか？」</td>
+</tr>
+<tr>
+<td>コンサル等で話題になったことを理解・実行できていない</td>
+<td>「○○でしたよね？」と、内容を思い出させる</td>
+</tr>
+<tr>
+<td>行動の記述が具体的でない</td>
+<td>「来週は具体的に何をしますか？」</td>
+</tr>
+<tr>
+<td>コメントしにくい内容</td>
+<td>「もっと具体的に書くとコメントも付きやすいです」</td>
+</tr>
+</tbody>
+</table></div></section><section class="subcard"><h3>＜全員で勝つ！＞フィードバック法（サンドイッチ法）</h3><p>1つポジティブなことを伝え、1つ改善点を伝える。さらに良いことで挟む。</p>
+<p><strong>テンプレート：</strong></p>
+<pre><code>「よかった点は●●です。ただ、欲をいえば……。でも、こういう点は本当に素晴らしいですね！」
+</code></pre>
+<p><strong>例：</strong></p>
+<pre><code>「行動量が多くていいですね！ 欲を言えば、価値提供の行動を増やすと、
+もっと素晴らしい結果につながりますよ！ でも、本当に行動が多くて素晴らしいです！」
+</code></pre></section><section class="subcard"><h3>週報へのフィードバックレベル</h3><p>レベル0から始め、徐々にレベルを上げていきましょう。</p>
+<div class="level-grid"><div class="level-item" style="--level-alpha:0.08"><div class="level-badge">レベル0</div><div>なんでもいいからコメントする（例：楽しそうですね！ がんばってますね！）</div><div class="level-result">つながりの強化</div></div><div class="level-item" style="--level-alpha:0.13"><div class="level-badge">レベル1</div><div>具体的な行動へのポジティブなフィードバック（例：週報がコツコツ書けてますね！）</div><div class="level-result">承認欲求が満たされる</div></div><div class="level-item" style="--level-alpha:0.18"><div class="level-badge">レベル2</div><div>価値観を踏まえた行動へのポジティブなフィードバック（例：全員で勝つ！につながる行動ができていて素晴らしい！）</div><div class="level-result">良い価値観の強化</div></div><div class="level-item" style="--level-alpha:0.22"><div class="level-badge">レベル3</div><div>パターンの特定、価値観へのネガティブなフィードバック（例：●●は、あなたのパターンですよね）</div><div class="level-result">直面化、悪い価値観の破壊</div></div><div class="level-item" style="--level-alpha:0.27"><div class="level-badge">レベル4</div><div>レベル3に、さらに痛みや快楽を入れる（例：その●●を続けていると、ビジネスで結果が出るのが遅くなりますね）</div><div class="level-result">パターンを変えるモチベーションの創出</div></div><div class="level-item" style="--level-alpha:0.32"><div class="level-badge">レベル5</div><div>レベル4に加え、さらに環境を変えるヒントを出す（例：もし●●を変えたいなら、◯◯さんに相談するといいかも）</div><div class="level-result">よりパターンを変えやすくなる</div></div></div></section></div></div></section><section class="chapter-card card--list" id="chapter-14" data-source-heading="12. コミュニケーションの心得" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">🗣️</div><div><p class="chapter-kicker">CHAPTER 14</p><h2>12. コミュニケーションの心得</h2></div></header><div class="chapter-body"><div class="subcard-grid"><section class="subcard"><h3>全体チャットでの振る舞い</h3><ul>
+<li><strong>できるだけ絡む！</strong></li>
+<li>ワークショップでも関係構築のきっかけを作りやすい</li>
+<li>講座生からも声をかけやすい雰囲気を作ることができる</li>
+</ul></section><section class="subcard"><h3>田中さんの投稿への反応</h3><ul>
+<li>田中さんが発したことに対して反応することで、他の受講生も気にして読むようになる</li>
+<li>継続して反応することをオススメ</li>
+</ul></section><section class="subcard"><h3>勝ち隊チャットの活用</h3><ul>
+<li>運営などで思ったこと、迷ったことは勝ち隊チャットで提案＆アウトプット</li>
+<li>全体チャットと同様に何でも話せる場＆何でもリアクションしてもらえる</li>
+<li>運営やチーム内での困りごとは、早めに勝ち隊チャットで相談する</li>
+</ul></section><section class="subcard"><h3>雑談チャットの施策（裏なかさん）</h3><ul>
+<li>裏なかさんアカウントで、ドジな話・心の声・日常の失敗談などを投稿する</li>
+<li>参加ハードルを下げ、受講生が「自分も参加していいんだ」と思える雰囲気づくりを目指す</li>
+<li>勝ち隊の「完璧な先輩」イメージを緩和し、親しみやすさを出す</li>
+</ul></section><section class="subcard"><h3>参加できていない人へのアプローチ</h3><ul>
+<li>なるべく参加できていない方と積極的に絡む</li>
+<li>ワークショップで積極的に絡む</li>
+<li>自身のチームも盛り上げる意識</li>
+<li><strong>勝ち隊が継続メンバーや勝ち隊同士でくっつきすぎない</strong></li>
+</ul></section><section class="subcard"><h3>低アクティブ層の拾い上げ</h3><ul>
+<li>「この人いたはずなのにどうなったんですか？」と田中さんに投げかける</li>
+<li>グルコンやワークショップに最近参加していない人をリストアップ</li>
+<li>勝ち隊のイベントに個別にお誘いする</li>
+<li>担当コーチと連携して声かけする</li>
+</ul></section><section class="subcard"><h3>チーム解散後のメンバーケア</h3><ul>
+<li>チームを組んでいたが途中で解散した人は、メンタルが落ちやすい</li>
+<li>「PLCにいる意味があるか」「継続するか」悩んでいる人が多い</li>
+<li>実態：<strong>4割の人はプロデューサーがいない状態で活動している</strong></li>
+<li>「チームがいないとうまくいかない」という思い込みを解いてあげる</li>
+<li>一人で活動している人同士が集まれる会も有効</li>
+</ul></section><section class="subcard"><h3>ワークショップでの振る舞い</h3><ul>
+<li><strong>かなりフレンドリーにしたほうがいい</strong>（新しい人は結構緊張されている）</li>
+<li>新しい人には個別に声をかける</li>
+</ul></section><section class="subcard"><h3>初日・2日目は特に意識する</h3><ul>
+<li>勝ち隊メンバーから積極的に声をかける</li>
+<li>めちゃ笑顔で話しかける</li>
+<li>→ 初めてで緊張されている方もホッとして、良いスタートになる</li>
+</ul></section><section class="subcard"><h3>よくある質問への対応</h3><ul>
+<li>最初の時期は、参加者からプロデューサーとクライアント関連を質問されることが多い</li>
+<li>組み方や進め方など、全体チャットに投げてみることを勧める</li>
+<li>どのようなことも全体チャットに投げて「1人で悩まない」ことを勧めると、参加者の背中を押すことができる</li>
+</ul></section></div></div></section><section class="chapter-card card--list" id="chapter-15" data-source-heading="13. 勝ち隊のメリット" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">🎁</div><div><p class="chapter-kicker">CHAPTER 15</p><h2>13. 勝ち隊のメリット</h2></div></header><div class="chapter-body"><ul>
+<li>講座運営の裏側がわかる</li>
+<li>田中が普段どうやって受講生に成果を出させようとしているのか把握できる</li>
+<li>PLCメンバーとより深く、仲良くなれる</li>
+</ul></div></section><section class="chapter-card card--list card--warning" id="chapter-16" data-source-heading="14. 退会条件" data-card-type="list"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">⚠️</div><div><p class="chapter-kicker">CHAPTER 16</p><h2>14. 退会条件</h2></div></header><div class="chapter-body"><p>以下の条件に該当した場合、返金せずコミュニティまたは勝ち隊から抜けていただく可能性があります。勝ち隊の報酬も支払われません。</p>
+<ul>
+<li>コミュニティ内に人間関係のヒビをもたらすこと（揉めるのは構わないが、周りが気を使うのは問題）</li>
+<li>金銭的なトラブル</li>
+<li>先輩として活躍していない、コミュニティの成長に寄与していないと判断された場合</li>
+</ul></div></section><section class="chapter-card card--two-col" id="chapter-17" data-source-heading="15. 実践ノウハウ集（山小屋ノート）" data-card-type="two-col"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">📓</div><div><p class="chapter-kicker">CHAPTER 17</p><h2>15. 実践ノウハウ集（山小屋ノート）</h2></div></header><div class="chapter-body"><p>勝ち隊メンバーが実践を通じて得た知見・ノウハウをまとめたものです。</p><div class="subcard-grid"><section class="subcard"><h3>イベント告知の鉄則</h3><h4>❌ NG例</h4>
+<ul>
+<li>時間ギリギリに「やりまーす！」とただ告知する → 参加者は少ない</li>
+</ul>
+<h4>✅ OK例</h4>
+<ul>
+<li><strong>早めの告知</strong>をする</li>
+<li><strong>何が得られるのか？</strong> などの明確なメリットを記載する → 参加者を増やすことができる</li>
+</ul></section><section class="subcard"><h3>セットアップの重要性</h3><ul>
+<li>イベントは前もって告知しよう</li>
+<li>同じチームのメンバーには直接の声がけをする</li>
+<li>普段のワークショップやチームミーティングで、参加する意義をみんなで意識して伝えていく</li>
+</ul></section><section class="subcard"><h3>実際に効果があったイベント</h3><ul>
+<li>自分がやったローンチのシェア会</li>
+<li>SNS投稿のシェア会</li>
+<li>→ 予想以上に興味を持って参加者が集まった</li>
+</ul>
+<p><strong>仲間の価値提供になるのであれば、ご自身のローンチやご自身がやっていることのシェアを積極的にするのがおすすめ</strong></p></section><section class="subcard"><h3>チームでの基本姿勢</h3><ul>
+<li>最初にリーダーになって積極的にメンバーとコミュニケーションをとる</li>
+<li>チーム内でも積極的に振る舞う</li>
+<li>盛り上げ役を頑張る（集まったメンバーによって盛り上がらないことがある）</li>
+<li>新しい人には個別に声をかけるのも良い</li>
+</ul></section><section class="subcard"><h3>月報（週報）チームミーティングの進め方</h3><h4>❌ もったいない進め方</h4>
+<ul>
+<li>ただ決められた文章を読むだけ</li>
+</ul>
+<h4>✅ 効果的な進め方</h4>
+<ol>
+<li>前もってグループのチャットに投稿しておく</li>
+<li>ミーティングの場では、お互いの困っていることを把握した上で「どうするのが良いか」の意見を活発に出し合う</li>
+<li>→ 自分のためにもメンバーのためにもなり、全員が成長していく速度が速くなる</li>
+</ol></section><section class="subcard"><h3>勝ち隊ミーティングでの姿勢</h3><ul>
+<li>運営に関して意見を求められるが、臆せず自分の思ったことを言えばいい</li>
+<li>聞かれる前提で、運営を俯瞰して見ておくといい</li>
+</ul></section><section class="subcard"><h3>反省会の進め方（より密度の濃いミーティングに）</h3><ol>
+<li>反省会に参加する前に、簡易的にでも自分の意見を持って参加する</li>
+<li>思いつきで回答するより、先に考えておいた方が時間の節約になる</li>
+<li>事前に気づいたことはドキュメントで共有しておく</li>
+<li>それに対してどう対策・行動するかを話す → 密度が濃くなる</li>
+</ol></section><section class="subcard"><h3>オンライン参加時の心得</h3><ul>
+<li>休憩中、交流会などにできるだけ参加</li>
+<li>初めての方とコミュニケーションをとる</li>
+<li>勝ち隊メンバーが共同ホストになってオンラインのZoom運営サポートをするのは非常に良かった</li>
+</ul></section><section class="subcard"><h3>懇親会・交流会</h3><ul>
+<li><strong>リアル懇親会</strong>では、なるべく参加し、こちらから話しかけてコミュニケーションを取る → 講座全体の雰囲気が良くなる</li>
+<li><strong>運営主催のオンライン懇親会</strong>は2026年4月以降、定例としては行わない。部活・目的付きの会でつながりを補う</li>
+<li>リアル後の食事や二次会は、必ず公式で用意しなければならないものではない。自然にくっつく余白も大事にする</li>
+</ul></section><section class="subcard"><h3>途中参加の受講生への対応</h3><ul>
+<li>途中で参加する受講生もいる</li>
+<li>積極的に声をかけることや関係構築をするだけでも頼りにされる</li>
+</ul></section><section class="subcard"><h3>困ったときは</h3><ul>
+<li>グループで積極的な働きかけは望ましいが、困ったら勝ち隊チャットで他のグループの情報や取り組み方を相談するのがオススメ</li>
+</ul></section></div></div></section><section class="chapter-card card--table card--muted" id="chapter-18" data-source-heading="検討中・方針（2025年2月時点＋MTGで追加）" data-card-type="table"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">🔬</div><div><p class="chapter-kicker">CHAPTER 18</p><h2>検討中・方針（2025年2月時点＋MTGで追加）</h2></div></header><div class="chapter-body"><p>以下の項目は検討中。定例ミーティングで議論を継続する。</p>
+<div class="table-scroll" role="region" aria-label="表" tabindex="0"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>個人講座の流れ変更</td>
+<td>個人講座の案内・流れを変更するか検討中</td>
+</tr>
+<tr>
+<td>ゆるコン</td>
+<td>ゆるいコンサル形式の検証</td>
+</tr>
+<tr>
+<td>新人がイベントを引き継ぐ文化</td>
+<td>新人懇親会を新人に任せる検証と同様に、イベント企画を新人が引き継ぐ文化づくりを検討</td>
+</tr>
+<tr>
+<td>VSL検証</td>
+<td>VSL（ビデオセールスレター）の効果検証</td>
+</tr>
+<tr>
+<td>広告代行サービス</td>
+<td>広告代行サービスの提供可否を検討</td>
+</tr>
+<tr>
+<td>サミット方針</td>
+<td>全員が仕掛け人になる方向で検討</td>
+</tr>
+<tr>
+<td>Cursor／AIワークショップの層別設計</td>
+<td>「ついてこない」「ついていきたいができない」「興奮組」など、参加者の層に合わせたカリキュラム整備（2026/03 MTG）</td>
+</tr>
+<tr>
+<td>Chatworkの月次・個別リマインド</td>
+<td>AI経由の一括個別送信、月次報告ステップなど。設定は鈴木さんと連携（2026/03 MTG）</td>
+</tr>
+<tr>
+<td>田中の週1ライブ</td>
+<td>4月から目標。PLCからの質問募集の形でコミュニティ還元（2026/03 MTG）</td>
+</tr>
+<tr>
+<td>部活・目的付き交流会の強化</td>
+<td>オンライン懇親会廃止に伴い、サミット部・メルマガ部・情報発信など旗のある場を厚くする（2026/03 MTG）</td>
+</tr>
+<tr>
+<td>コンテンツホルダー×プロデューサー確認</td>
+<td>チェックリスト＋フォームで「目を通したか」を確認する仕組み（2026/03 MTG）</td>
+</tr>
+<tr>
+<td>5月以降のリアル・ライティングWS</td>
+<td>GW〜5月にライティング基礎とティーアップの可能性（2026/03 MTG）</td>
+</tr>
+<tr>
+<td>第1水曜セミナー＋第3土曜リアル作業会</td>
+<td>オンラインワークショップ月2回から、全体セミナーとリアル作業会の組み合わせへ移行検討（2026/04 MTG）</td>
+</tr>
+<tr>
+<td>認定講師のファミレス式運用</td>
+<td>認定講師が専門テーマの勉強会を開き、その後グルコンを行う形へ見直し（2026/04 MTG）</td>
+</tr>
+<tr>
+<td>低単価商品・Brain部活</td>
+<td>100〜3,000円程度の低単価商品を各自が作り、ストック型資産と購入者リストをつくる検証（2026/05 MTG）</td>
+</tr>
+<tr>
+<td>AI時代の新人プロデューサー課題</td>
+<td>見習いプロデューサーだけでなく、書籍化・図解化・編集・AI導入サポートなど新しい役割を検討（2026/05 MTG）</td>
+</tr>
+<tr>
+<td>ローンチ実践報告の強化</td>
+<td>新しい手法探しより、具体案件の座組・広告リスク・SNS・LTV設計など総合マーケティングの共有を厚くする（2026/05 MTG）</td>
+</tr>
+</tbody>
+</table></div></div></section><section class="chapter-card card--checklist" id="chapter-19" data-source-heading="チェックリスト" data-card-type="checklist"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">☑️</div><div><p class="chapter-kicker">CHAPTER 19</p><h2>チェックリスト</h2></div></header><div class="chapter-body"><div class="subcard-grid"><section class="subcard"><h3>イベント開催前</h3><ul class="checklist">
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>早めに告知したか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>何が得られるか明確にしたか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>チームメンバーに直接声かけしたか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>田中さんに方向性を相談したか</span></li>
+</ul></section><section class="subcard"><h3>ワークショップ・リアル参加時</h3><ul class="checklist">
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>フレンドリーに接しているか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>新しい人に声をかけたか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>勝ち隊で固まっていないか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>参加できていない人を気にしているか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>開始1時間前に集合しているか</span></li>
+</ul></section><section class="subcard"><h3>日常的なコミュニケーション</h3><ul class="checklist">
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>全体チャットに絡んでいるか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>田中さんの投稿に反応しているか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>困ったことを勝ち隊チャットで共有しているか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>失敗も含めてアウトプットしているか</span></li>
+</ul></section><section class="subcard"><h3>チーム活動</h3><ul class="checklist">
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>積極的にリーダーシップを取っているか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>月報ミーティングで意見を出し合えているか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>事前に情報共有しているか</span></li>
+</ul></section><section class="subcard"><h3>フィードバック</h3><ul class="checklist">
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>週報にコメントしているか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>サンドイッチ法を意識しているか</span></li>
+<li class="check-item"><span class="check-box" aria-hidden="true"></span><span>レベルを意識してフィードバックしているか</span></li>
+</ul></section></div></div></section><section class="chapter-card card--timeline" id="chapter-20" data-source-heading="更新履歴" data-card-type="timeline" data-history-count="6"><header class="chapter-head"><div class="chapter-icon" aria-hidden="true">🕘</div><div><p class="chapter-kicker">CHAPTER 20</p><h2>更新履歴</h2></div></header><div class="chapter-body"><div class="history-timeline"><div class="history-item"><div class="history-dot" aria-hidden="true">•</div><div class="history-content"><time class="history-date">2026/02/06</time><div>初版作成</div></div></div><div class="history-item"><div class="history-dot" aria-hidden="true">•</div><div class="history-content"><time class="history-date">2026/02/06</time><div>1/27勝ち隊MTG内容を反映（勝ち隊の本当の役割、新人懇親会の日程調整方式、低アクティブ層の拾い上げ、ワークショップ会場設営、懇親会退店ルール、チーム解散後のケア、告知ルール追加）</div></div></div><div class="history-item"><div class="history-dot" aria-hidden="true">•</div><div class="history-content"><time class="history-date">2026/02/28</time><div>2/28勝ち隊MTG内容を反映（3月役割分担、リアルイベントのザリール請求・大阪USJ、新人懇親会の新人に任せる検証・インセンティブ、ほめほめクラブ復活、雑談チャットの裏なかさん施策、検討中・方針の整理）</div></div></div><div class="history-item"><div class="history-dot" aria-hidden="true">•</div><div class="history-content"><time class="history-date">2026/03/26</time><div>3/24勝ち隊MTG内容を反映（オンライン懇親会の定例廃止、4月告知・自己紹介ツッコミ担当、リアル「共犯者」・シチュエーショントリガーをマインドセットに追加、検討中テーブルにAI・Chatwork・週1ライブ等を追加、山小屋ノートの懇親会項を更新）</div></div></div><div class="history-item"><div class="history-dot" aria-hidden="true">•</div><div class="history-content"><time class="history-date">2026/06/15</time><div>4/28・5/26勝ち隊MTG内容を反映（勝ち隊は「やっていい文化」を見せる場、AI時代のリアル・事例共有の価値、期日管理の仕組み化、イベントのセットアップ設計、部活の「集めて解散」、ハイブリッド開催原則、低単価商品・Brain部活、ローンチ実践報告強化を追加）</div></div></div><div class="history-item"><div class="history-dot" aria-hidden="true">•</div><div class="history-content"><time class="history-date">2026/07/22</time><div>6/15勝ち隊MTGの決定を反映（パンケーキ会・Cursor勉強会の休止を明記、体験型企画の推奨例から削除）</div></div></div></div></div></section></div>
+      <footer class="site-footer"><p>Produced by KATSUO MARKETING</p><p>Version: 1.3 (2026-06-15)</p><p>Licensed to: KATSUO MARKETING Community Member</p><p>Security Trace ID: R3W8L1Q6</p><p>Generated by: 田中祐一</p></footer>
+    </main>
+  </div>
+  <script>(() => {
+  const toc = document.querySelector('.toc');
+  const toggle = document.querySelector('.toc-toggle');
+  const links = [...document.querySelectorAll('.toc-link')];
+  const cards = [...document.querySelectorAll('.chapter-card')];
+
+  const closeToc = () => {
+    if (!toc || !toggle) return;
+    toc.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.lastElementChild.textContent = '目次を開く';
+  };
+
+  toggle?.addEventListener('click', () => {
+    const willOpen = !toc.classList.contains('is-open');
+    toc.classList.toggle('is-open', willOpen);
+    toggle.setAttribute('aria-expanded', String(willOpen));
+    toggle.lastElementChild.textContent = willOpen ? '目次を閉じる' : '目次を開く';
+  });
+
+  links.forEach((link) => link.addEventListener('click', () => {
+    if (window.matchMedia('(max-width: 900px)').matches) closeToc();
+  }));
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (!visible) return;
+      links.forEach((link) => link.classList.toggle(
+        'is-active', link.getAttribute('href') === `#${visible.target.id}`
+      ));
+    }, { rootMargin: '-12% 0px -72% 0px', threshold: [0, 0.15] });
+    cards.forEach((card) => observer.observe(card));
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeToc();
+  });
+})();
+</script>
 </body>
 </html>
