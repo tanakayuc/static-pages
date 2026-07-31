@@ -19,7 +19,7 @@ from template_pages_data import CARD_COPY, GROUP_COPY, FILE_NOTES, CARD_FLOWS, F
 
 CARDS_JSON = BUILD / 'portal_cards.json'
 OUT_DIR = ROOT / 'templates' / 't'
-MAX_CHILDREN = 12   # サブフォルダ内で直接列挙する上限（超過分はフォルダリンクへ誘導）
+FOLD_THRESHOLD = 30  # これを超えるフォルダは折りたたみ(details)で全件表示（打ち切りはしない=田中要件「すべての素材へのリンク」）
 SKIP_NAMES = {'.DS_Store'}
 
 def resolve_copy(group, name, desc):
@@ -37,7 +37,8 @@ def note_for(name):
     return ''
 
 def esc(s):
-    return html.escape(s, quote=True)
+    # クロールデータ側が既にHTMLエスケープ済みの場合の二重エスケープを防ぐ
+    return html.escape(html.unescape(s), quote=True)
 
 def item_li(node, indent=False):
     """素材1件=名前(直リンク)+一言。フォルダは📁で自身のリンクも持つ。"""
@@ -53,30 +54,25 @@ def item_li(node, indent=False):
     )
 
 def section_for_folder(node):
-    """トップ階層フォルダ1つ=1セクション。配下素材を直リンクで列挙。"""
+    """トップ階層フォルダ1つ=1セクション。配下素材を全件直リンクで列挙（多い場合は折りたたみ）。"""
     cap = note_for(node['name'])
     children = [c for c in node.get('children', []) if c['name'] not in SKIP_NAMES]
-    lis = [item_li(c) for c in children[:MAX_CHILDREN]]
-    more = len(children) - MAX_CHILDREN
-    more_html = (
-        f'<li class="py-1.5 text-sm"><a href="{node["url"]}" target="_blank" rel="noopener" '
-        f'class="text-brand-700 hover:underline">…ほか{more}件をフォルダで見る →</a></li>'
-        if more > 0 else ''
-    )
-    empty_html = (
-        f'<li class="py-1.5 text-sm text-slate-500">中身は<a href="{node["url"]}" target="_blank" rel="noopener" '
-        f'class="text-brand-700 hover:underline">フォルダを開いて</a>確認してください。</li>'
-        if not children else ''
-    )
+    lis = ''.join(item_li(c) for c in children)
+    if not children:
+        body = (f'<ul><li class="py-1.5 text-sm text-slate-500">中身は'
+                f'<a href="{node["url"]}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">フォルダを開いて</a>確認してください。</li></ul>')
+    elif len(children) > FOLD_THRESHOLD:
+        body = (f'<details><summary class="cursor-pointer text-brand-700 font-medium py-1.5">全{len(children)}件を開く（クリックで展開）</summary>'
+                f'<ul class="divide-y divide-slate-100 mt-2">{lis}</ul></details>')
+    else:
+        body = f'<ul class="divide-y divide-slate-100">{lis}</ul>'
     return f'''
     <section class="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
       <h3 class="font-bold text-slate-900 mb-1">
         <a href="{node['url']}" target="_blank" rel="noopener" class="text-inherit no-underline hover:underline">📁 {esc(node['name'])}</a>
       </h3>
       {f'<p class="text-sm text-slate-500 mb-3">{esc(cap)}</p>' if cap else '<div class="mb-3"></div>'}
-      <ul class="divide-y divide-slate-100">
-        {''.join(lis)}{more_html}{empty_html}
-      </ul>
+      {body}
     </section>'''
 
 def flow_chips(slug):
@@ -120,10 +116,15 @@ def page_html(group, gdesc, card, copy):
     other_section = ''
     if other_files:
         lis = ''.join(item_li(n) for n in other_files)
+        if len(other_files) > FOLD_THRESHOLD:
+            body = (f'<details><summary class="cursor-pointer text-brand-700 font-medium py-1.5">全{len(other_files)}件を開く（クリックで展開）</summary>'
+                    f'<ul class="divide-y divide-slate-100 mt-2">{lis}</ul></details>')
+        else:
+            body = f'<ul class="divide-y divide-slate-100">{lis}</ul>'
         other_section = f'''
     <section class="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
-      <h3 class="font-bold text-slate-900 mb-3">📄 単票の資料</h3>
-      <ul class="divide-y divide-slate-100">{lis}</ul>
+      <h3 class="font-bold text-slate-900 mb-3">📄 素材ファイル</h3>
+      {body}
     </section>'''
 
     single_cta = '資料を開く' if copy.get('single_file') else 'フォルダ全体をGoogle Driveで開く'
@@ -175,6 +176,7 @@ def page_html(group, gdesc, card, copy):
       {single_cta} →
     </a>
     <p class="text-center text-xs text-slate-400 mt-3">Googleドライブが新しいタブで開きます</p>
+    <p class="text-center mt-6"><a href="/templates" class="text-sm font-medium text-brand-700 no-underline hover:underline">← テンプレート集に戻る</a></p>
   </main>
 </body>
 </html>
@@ -206,6 +208,12 @@ def main():
     h2 = re.sub(r'<a href="(https://drive\.google\.com/[^"]+)" target="_blank" rel="noopener" class=', sub, h)
     tpl.write_text(h2, encoding='utf-8')
     print(f'一覧リンク差し替え(新規分): {replaced} 箇所')
+
+    # 余剰ページ掃除: 正本に無いslugのHTMLは残さない（公開停止が効かない事故の防止・Codex指摘）
+    expected = {v.rsplit('/',1)[-1] + '.html' for v in slug_map.values()}
+    removed = [p.name for p in OUT_DIR.glob('*.html') if p.name not in expected and (p.unlink() or True)]
+    if removed:
+        print(f'余剰ページ削除: {removed}')
 
 if __name__ == '__main__':
     main()
