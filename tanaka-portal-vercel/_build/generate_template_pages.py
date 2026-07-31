@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-"""テンプレート説明ページ（ワンクッション）生成器。
+"""テンプレート説明ページ（素材集スタイル）生成器 v2。
 
-田中要望 2026-07-31: テンプレ集の各カードとDriveの間に、用途説明のHTMLを1枚挟む。
-- 入力: portal_cards.json（templates.htmlから抽出したカード＋Drive実フォルダ一覧）
-       template_pages_data.py（37件の説明文言・slug）
-- 出力: templates/t/<slug>.html（37枚）＋ templates.html のカードリンク差し替え
+v1への田中FB(2026-07-31):「フォルダ階層を見せてるだけ。素材1個1個へのリンクと
+使い方の説明が欲しい。cl-tokutenの素材集のように」→ 全面改修。
+- 全体像フロー（チップ表示）
+- 「まずはここから」= 00_系資料への直リンク
+- フェーズごとのセクション: 素材1個1個にDrive直リンク＋一言説明
+- 入力: portal_cards.json（tree=再帰取得済みの素材ツリー・直リンク付き）
 実行: python3 _build/generate_template_pages.py （tanaka-portal-vercel/ で実行）
 """
 import json, re, sys, html
@@ -13,64 +15,118 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent
 ROOT = BUILD.parent
 sys.path.insert(0, str(BUILD))
-from template_pages_data import CARD_COPY, GROUP_COPY, FILE_NOTES
+from template_pages_data import CARD_COPY, GROUP_COPY, FILE_NOTES, CARD_FLOWS, FOLDER_CAPS
 
 CARDS_JSON = BUILD / 'portal_cards.json'
 OUT_DIR = ROOT / 'templates' / 't'
-MAX_FILES_SHOWN = 24
+MAX_CHILDREN = 12   # サブフォルダ内で直接列挙する上限（超過分はフォルダリンクへ誘導）
+SKIP_NAMES = {'.DS_Store'}
 
 def resolve_copy(group, name, desc):
-    for key in (
-        f"{group}|{name}|{'3期' if '3期' in desc else '4期'}",
-        f"{group}|{name}",
-        name,
-    ):
+    for key in (f"{group}|{name}|{'3期' if '3期' in desc else '4期'}", f"{group}|{name}", name):
         if key in CARD_COPY:
             return CARD_COPY[key]
     raise KeyError(f'文言未定義: {group}/{name}')
 
-def note_for(fname):
+def note_for(name):
+    if name in FOLDER_CAPS:
+        return FOLDER_CAPS[name]
     for prefix, note in FILE_NOTES.items():
-        if fname.startswith(prefix):
+        if name.startswith(prefix):
             return note
     return ''
 
-def page_html(group, gdesc, card, copy):
-    name = html.escape(card['name'])
-    emoji = card['emoji'] or '📁'
-    drive = card['url']
-    files = card.get('files', [])
-    shown = files[:MAX_FILES_SHOWN]
-    more = len(files) - len(shown)
-    origin = GROUP_COPY.get(group, '')
-    first_read = next((f for f in files if f.startswith('00_')), None)
-    is_single = copy.get('single_file')
+def esc(s):
+    return html.escape(s, quote=True)
 
-    items = '\n'.join(
-        f'          <li class="flex items-start gap-3 py-2.5 border-b border-slate-100 last:border-0">'
-        f'<span class="text-slate-400 mt-0.5">📄</span>'
-        f'<div class="min-w-0"><div class="font-medium text-slate-800 break-all">{html.escape(f)}</div>'
-        + (f'<div class="text-xs text-slate-500 mt-0.5">{html.escape(note_for(f))}</div>' if note_for(f) else '')
-        + '</div></li>'
-        for f in shown
+def item_li(node, indent=False):
+    """素材1件=名前(直リンク)+一言。フォルダは📁で自身のリンクも持つ。"""
+    icon = '📁' if node['is_folder'] else '📄'
+    note = note_for(node['name'])
+    note_html = f'<span class="text-xs text-slate-500 ml-2">{esc(note)}</span>' if note else ''
+    pad = ' pl-6' if indent else ''
+    return (
+        f'<li class="py-1.5{pad}"><span class="mr-1">{icon}</span>'
+        f'<a href="{node["url"]}" target="_blank" rel="noopener" '
+        f'class="font-medium text-brand-700 hover:underline break-all">{esc(node["name"])}</a>'
+        f'{note_html}</li>'
     )
+
+def section_for_folder(node):
+    """トップ階層フォルダ1つ=1セクション。配下素材を直リンクで列挙。"""
+    cap = note_for(node['name'])
+    children = [c for c in node.get('children', []) if c['name'] not in SKIP_NAMES]
+    lis = [item_li(c) for c in children[:MAX_CHILDREN]]
+    more = len(children) - MAX_CHILDREN
     more_html = (
-        f'<p class="text-sm text-slate-500 mt-3">ほか {more} 件。全量はDriveで確認できます。</p>' if more > 0 else ''
+        f'<li class="py-1.5 text-sm"><a href="{node["url"]}" target="_blank" rel="noopener" '
+        f'class="text-brand-700 hover:underline">…ほか{more}件をフォルダで見る →</a></li>'
+        if more > 0 else ''
     )
-    contents_section = '' if is_single else f'''
-    <section class="bg-white rounded-2xl border border-slate-200 p-6 mb-6">
-      <h2 class="font-bold text-lg text-slate-900 mb-3">📦 中身（Driveの実フォルダ構成）</h2>
-      <ul>
-{items}
+    empty_html = (
+        f'<li class="py-1.5 text-sm text-slate-500">中身は<a href="{node["url"]}" target="_blank" rel="noopener" '
+        f'class="text-brand-700 hover:underline">フォルダを開いて</a>確認してください。</li>'
+        if not children else ''
+    )
+    return f'''
+    <section class="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
+      <h3 class="font-bold text-slate-900 mb-1">
+        <a href="{node['url']}" target="_blank" rel="noopener" class="text-inherit no-underline hover:underline">📁 {esc(node['name'])}</a>
+      </h3>
+      {f'<p class="text-sm text-slate-500 mb-3">{esc(cap)}</p>' if cap else '<div class="mb-3"></div>'}
+      <ul class="divide-y divide-slate-100">
+        {''.join(lis)}{more_html}{empty_html}
       </ul>
-      {more_html}
     </section>'''
 
-    howto_first = (
-        f'<li>まず <strong>{html.escape(first_read)}</strong> を開いて全体の並びをつかむ</li>'
-        if first_read else
-        '<li>まずフォルダを一望して、自分の案件にある物・ない物を見比べる</li>'
+def flow_chips(slug):
+    steps = CARD_FLOWS.get(slug)
+    if not steps:
+        return ''
+    chips = '<span class="text-slate-300 mx-1">→</span>'.join(
+        f'<span class="inline-block bg-white border border-brand-200 text-brand-700 text-sm font-medium px-3 py-1.5 rounded-full whitespace-nowrap">{esc(s)}</span>'
+        for s in steps
     )
+    return f'''
+    <section class="mb-6">
+      <h2 class="font-bold text-lg text-slate-900 mb-3">🗺️ 全体像</h2>
+      <div class="overflow-x-auto"><div class="flex items-center py-1">{chips}</div></div>
+      <p class="text-sm text-slate-500 mt-2">この流れが、下の実物素材でひとつながりになっています。</p>
+    </section>'''
+
+def page_html(group, gdesc, card, copy):
+    name = esc(card['name'])
+    emoji = card['emoji'] or '📁'
+    drive = card['url']
+    origin = GROUP_COPY.get(group, '')
+    tree = [n for n in card.get('tree', []) if n['name'] not in SKIP_NAMES]
+    folders = [n for n in tree if n['is_folder']]
+    loose_files = [n for n in tree if not n['is_folder']]
+    first_reads = [n for n in loose_files if n['name'].startswith('00_')] or \
+                  [n for n in tree if n['name'].startswith(('00_', '01_素材リンク集'))]
+    other_files = [n for n in loose_files if n not in first_reads]
+
+    first_section = ''
+    if first_reads:
+        lis = ''.join(item_li(n) for n in first_reads)
+        first_section = f'''
+    <section class="bg-brand-100/60 rounded-2xl border border-brand-200 p-6 mb-5">
+      <h3 class="font-bold text-slate-900 mb-1">🔰 まずはここから</h3>
+      <p class="text-sm text-slate-600 mb-3">全体の設計と素材の並び順の解説です。最初に読むと、各素材の位置づけが分かります。</p>
+      <ul>{lis}</ul>
+    </section>'''
+
+    folder_sections = ''.join(section_for_folder(n) for n in folders)
+    other_section = ''
+    if other_files:
+        lis = ''.join(item_li(n) for n in other_files)
+        other_section = f'''
+    <section class="bg-white rounded-2xl border border-slate-200 p-6 mb-5">
+      <h3 class="font-bold text-slate-900 mb-3">📄 単票の資料</h3>
+      <ul class="divide-y divide-slate-100">{lis}</ul>
+    </section>'''
+
+    single_cta = '資料を開く' if copy.get('single_file') else 'フォルダ全体をGoogle Driveで開く'
     return f'''<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -90,32 +146,33 @@ def page_html(group, gdesc, card, copy):
         <span class="text-4xl">{emoji}</span>
         <h1 class="text-2xl font-bold text-slate-900">{name}</h1>
       </div>
-      <span class="inline-block text-xs font-bold text-brand-700 bg-brand-100 px-2.5 py-1 rounded-full">{html.escape(group)}</span>
-      <span class="inline-block text-xs text-slate-500 ml-2">{html.escape(gdesc)}</span>
+      <span class="inline-block text-xs font-bold text-brand-700 bg-brand-100 px-2.5 py-1 rounded-full">{esc(group)}</span>
+      <span class="inline-block text-xs text-slate-500 ml-2">{esc(gdesc)}</span>
     </header>
 
     <section class="bg-white rounded-2xl border border-slate-200 p-6 mb-6">
       <h2 class="font-bold text-lg text-slate-900 mb-3">✅ これは何？</h2>
-      <p class="leading-relaxed mb-3">{html.escape(copy['what'])}</p>
-      <p class="leading-relaxed text-slate-600">{html.escape(origin)}</p>
+      <p class="leading-relaxed mb-3">{esc(copy['what'])}</p>
+      <p class="leading-relaxed text-slate-600">{esc(origin)}</p>
     </section>
 
     <section class="bg-white rounded-2xl border border-slate-200 p-6 mb-6">
       <h2 class="font-bold text-lg text-slate-900 mb-3">🕐 いつ使う？</h2>
-      <p class="leading-relaxed">{html.escape(copy['when'])}</p>
+      <p class="leading-relaxed">{esc(copy['when'])}</p>
     </section>
-{contents_section}
+{flow_chips(copy['slug'])}
+{first_section}{folder_sections}{other_section}
     <section class="bg-white rounded-2xl border border-slate-200 p-6 mb-8">
       <h2 class="font-bold text-lg text-slate-900 mb-3">📖 使い方</h2>
       <ol class="list-decimal list-inside space-y-2 text-slate-700">
-        {howto_first}
-        <li>自分の案件に当てはめたい素材を選び、<strong>コピーして</strong>編集する（原本は書き換えない）</li>
+        <li>上の素材リンクは<strong>すべて閲覧用の実物</strong>です。まず気になる素材を開いて読む</li>
+        <li>自分の案件に使いたい素材は<strong>コピーして</strong>編集する（原本は書き換えない）</li>
         <li>書き換えた原稿は田中祐一AIの添削に出して仕上げる</li>
       </ol>
     </section>
 
     <a href="{drive}" target="_blank" rel="noopener" class="block w-full text-center bg-brand-600 hover:bg-brand-700 text-white font-bold text-lg py-4 rounded-2xl no-underline shadow-md">
-      Google Driveでこのテンプレートを開く →
+      {single_cta} →
     </a>
     <p class="text-center text-xs text-slate-400 mt-3">Googleドライブが新しいタブで開きます</p>
   </main>
@@ -136,7 +193,6 @@ def main():
             slug_map[c['url']] = f'/templates/t/{slug}'
     print(f'生成: {len(slug_map)} ページ → templates/t/')
 
-    # templates.html のカードリンクを説明ページへ差し替え（funnel-cardのhrefのみ）
     tpl = ROOT / 'templates.html'
     h = tpl.read_text(encoding='utf-8')
     replaced = 0
@@ -149,9 +205,7 @@ def main():
         return m.group(0)
     h2 = re.sub(r'<a href="(https://drive\.google\.com/[^"]+)" target="_blank" rel="noopener" class=', sub, h)
     tpl.write_text(h2, encoding='utf-8')
-    print(f'リンク差し替え: {replaced} 箇所')
-    if replaced != len(slug_map):
-        print(f'⚠️ 差し替え数がページ数と不一致（重複URLか構造差異）')
+    print(f'一覧リンク差し替え(新規分): {replaced} 箇所')
 
 if __name__ == '__main__':
     main()
