@@ -45,6 +45,49 @@
     .aw-select:focus { outline: 2px solid var(--g2); border-color: var(--g); }
     .aw-form .cta-big-3d { margin-top: 18px; width: 100%; box-sizing: border-box; }
     .aw-form-note { font-size: 12px; line-height: 1.8; color: #6b5a3e; margin-top: 10px; }
+    /* ===== 申込フォーム モーダル ===== */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(26, 10, 10, 0.62);
+      display: flex; align-items: flex-start; justify-content: center;
+      padding: 24px 14px; overflow-y: auto;
+      animation: modalFade .18s ease-out;
+    }
+    .modal-overlay[hidden] { display: none; }
+    @keyframes modalFade { from { opacity: 0 } to { opacity: 1 } }
+    .modal-box {
+      position: relative; width: 100%; max-width: 520px; margin: auto;
+      background: var(--i); border-radius: 18px; padding: 26px 20px 22px;
+      border: 2px solid var(--g2); box-shadow: 0 22px 60px rgba(26,10,10,.4);
+    }
+    .modal-close {
+      position: absolute; top: 10px; right: 12px; width: 38px; height: 38px;
+      border: none; background: transparent; font-size: 27px; line-height: 1;
+      color: var(--sub, #6b5a3e); cursor: pointer; border-radius: 50%;
+    }
+    .modal-close:hover { background: rgba(201,154,63,.14); }
+    .modal-title {
+      margin: 0 0 8px; font-size: 21px; font-weight: 900; text-align: center;
+      font-family: 'Noto Serif JP', serif; color: var(--r);
+    }
+    .modal-lead { margin: 0 0 4px; font-size: 13px; line-height: 1.8; text-align: center; color: var(--t); }
+    button.cta-big-3d, button.jump-btn { border: none; cursor: pointer; font-family: inherit; width: 100%; }
+    button.jump-btn { max-width: 460px; }
+    /* 動画直下→フォームへのジャンプボタン */
+    .jump-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin: 14px auto 0; max-width: 460px; padding: 16px 20px;
+      border-radius: 999px; text-decoration: none;
+      background: linear-gradient(180deg, var(--g3) 0%, var(--g) 100%);
+      color: var(--k); font-weight: 900; font-size: 19px; letter-spacing: .02em;
+      border: 2px solid #fff; box-shadow: 0 10px 22px rgba(139,0,0,.16);
+      animation: jumpPulse 2.4s ease-in-out infinite;
+    }
+    .jump-btn-arrow { font-size: 15px; }
+    .jump-btn:hover, .jump-btn:focus-visible { filter: brightness(1.05); transform: translateY(-1px); }
+    @keyframes jumpPulse { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    @media (prefers-reduced-motion: reduce) { .jump-btn { animation: none; } }
+    html { scroll-behavior: smooth; }
     .video-embed { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: #000; margin: 0 auto; }
     .video-embed .ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff; text-align: center; font-size: 14px; line-height: 1.8; }
     .video-embed .ph .pm { display: block; font-size: 44px; margin-bottom: 8px; color: var(--g3); }
@@ -945,6 +988,10 @@
         <div class="ph"><div><span class="pm" aria-hidden="true">▶</span>まずはこちらの動画をご覧ください<br>（約8分）</div></div>
       </div>
       <p class="video-caption">動画の最後にご案内している無料勉強会は、<strong>下のフォームから日程を選ぶだけ</strong>でご予約いただけます。</p>
+      <button type="button" class="jump-btn js-open-form" data-open-form>
+        <span class="jump-btn-main">日程を確認する</span>
+        <span class="jump-btn-arrow" aria-hidden="true">▶</span>
+      </button>
     </section>
 
     <!-- ===== Benefit（7つ・画像付き・答えは言わない） ===== -->
@@ -1001,44 +1048,23 @@
     </section>
 
     <!-- ===== Schedule (top) ===== -->
-    <section class="section section-pale" aria-labelledby="schedule-top-title">
+    <section class="section section-pale" id="form-top" aria-labelledby="schedule-top-title">
       <div class="schedule-panel">
         <h2 class="schedule-title" id="schedule-top-title">「次世代型セールス」無料勉強会 日程を選んでご予約</h2>
         <div class="schedule-copy">
           <p>このページからご予約いただいた方に、特別に無料でご視聴いただけます。</p>
           <p>34年・20万人分のセールスデータを数値化したAIを、初めて公開する1時間40分です。他のどこにも、同じものはありません。</p>
-          <p>本勉強会は、たかみず保江が登壇した勉強会を編集した<strong>収録版の放映</strong>です。開催日程の中から、ご都合のよい日時をお選びください。</p>
+          <p>本勉強会は、たかみず保江が登壇した勉強会の中から<strong>いちばん反応のよかった回を選び、要点だけに編集した収録版</strong>です。無駄な待ち時間や脱線がないぶん、<span class="marker">1時間40分で一気に学べます</span>。開催日程の中から、ご都合のよい日時をお選びください。</p>
         </div>
 
         <!-- ▼ここをUTAGE「自動ウェビナー登録フォーム要素」に差し替える（項目: 姓名／メール／携帯／日程選択の4つのみ）。
              以下はデザイン確認用のサンプルUI。日程の候補は自動ウェビナーの開催スケジュール（UTAGEダッシュボードで設定・変更）から自動表示される。ページ本文に時刻をベタ書きしない（2026-08-05 田中裁定） -->
-        <form class="aw-form" action="#" method="post" onsubmit="return false;" aria-label="勉強会 お申し込みフォーム">
-          <label class="fld" for="name-top">お名前<span class="req">必須</span></label>
-          <input type="text" id="name-top" name="name" placeholder="例）田中花子" autocomplete="name" required>
-
-          <label class="fld" for="mail-top">メールアドレス<span class="req">必須</span></label>
-          <input type="email" id="mail-top" name="mail" placeholder="例）hanako@example.com" autocomplete="email" inputmode="email" required>
-
-          <label class="fld" for="tel-top">電話番号<span class="req">必須</span></label>
-          <input type="tel" id="tel-top" name="tel" placeholder="例）09012345678" autocomplete="tel" inputmode="tel" required>
-
-          <label class="fld" for="slot-top">ご希望の日時<span class="req">必須</span></label>
-          <!-- ▼UTAGE自動ウェビナー登録フォームの「日程選択」プルダウンに差し替え。選択肢は開催スケジュール設定から自動生成される -->
-          <select id="slot-top" name="slot" class="aw-select" aria-label="ご希望の日時を選択" required>
-            <option value="" disabled selected>日程を選択してください</option>
-            <option value="1">{開催日程1}</option>
-            <option value="2">{開催日程2}</option>
-            <option value="3">{開催日程3}</option>
-            <option value="4">{開催日程4}</option>
-          </select>
-
-          <button type="submit" class="cta-big-3d" aria-label="この日程で無料予約する">
-            <span class="cta-big-3d-sub">無料・1時間40分</span>
-            <span class="cta-big-3d-main">この日程で<br>無料予約する</span>
-            <span class="cta-big-3d-arrow" aria-hidden="true">▶</span>
-          </button>
-          <p class="aw-form-note">ご予約後、視聴用のURLをメールと公式LINEでお届けします。ご都合が悪くなった場合は日程の取り直しができます。</p>
-        </form>
+        <button type="button" class="cta-big-3d js-open-form" data-open-form>
+          <span class="cta-big-3d-sub">無料・1時間40分</span>
+          <span class="cta-big-3d-main">日程を確認して<br>無料で予約する</span>
+          <span class="cta-big-3d-arrow" aria-hidden="true">▶</span>
+        </button>
+        <p class="aw-form-note">ボタンを押すと、お申し込みフォームが開きます。ご予約後、視聴用のURLをメールと公式LINEでお届けします。</p>
       </div>
     </section>
 
@@ -1325,24 +1351,47 @@
         <div class="schedule-copy">
           <p>このページからご予約いただいた方に、特別に無料でご視聴いただけます。</p>
           <p>34年・20万人分のセールスデータを数値化したAIを、初めて公開する1時間40分です。他のどこにも、同じものはありません。</p>
-          <p>本勉強会は、たかみず保江が登壇した勉強会を編集した<strong>収録版の放映</strong>です。開催日程の中から、ご都合のよい日時をお選びください。</p>
+          <p>本勉強会は、たかみず保江が登壇した勉強会の中から<strong>いちばん反応のよかった回を選び、要点だけに編集した収録版</strong>です。無駄な待ち時間や脱線がないぶん、<span class="marker">1時間40分で一気に学べます</span>。開催日程の中から、ご都合のよい日時をお選びください。</p>
         </div>
 
         <!-- ▼ここをUTAGE「自動ウェビナー登録フォーム要素」に差し替える（項目: 姓名／メール／携帯／日程選択の4つのみ）。
              以下はデザイン確認用のサンプルUI。日程の候補は自動ウェビナーの開催スケジュール（UTAGEダッシュボードで設定・変更）から自動表示される。ページ本文に時刻をベタ書きしない（2026-08-05 田中裁定） -->
+        <button type="button" class="cta-big-3d js-open-form" data-open-form>
+          <span class="cta-big-3d-sub">無料・1時間40分</span>
+          <span class="cta-big-3d-main">日程を確認して<br>無料で予約する</span>
+          <span class="cta-big-3d-arrow" aria-hidden="true">▶</span>
+        </button>
+        <p class="aw-form-note">ボタンを押すと、お申し込みフォームが開きます。ご予約後、視聴用のURLをメールと公式LINEでお届けします。</p>
+        <div class="final-copy" style="margin-top:16px;">
+          <p>セールスが変われば、売上も、集客も、あなたの働き方も変わります。</p>
+          <p>このまま一般論のセールスを続けるのか。それとも、お客様一人ひとりの心が動く順番を手に入れるのか。</p>
+          <p>分岐点は、ここです。まずは勉強会で、動画の先にある実践を体感してください。</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===== 申込フォーム（ポップアップ・ページ内に1つだけ） ===== -->
+    <!-- ▼UTAGE実装: このダイアログの中身を「自動ウェビナー登録フォーム要素」に差し替える。
+         ページ内のCTAボタン（data-open-form）はすべてこのダイアログを開く -->
+    <div class="modal-overlay" id="applyModal" role="dialog" aria-modal="true" aria-labelledby="applyModalTitle" hidden>
+      <div class="modal-box" role="document">
+        <button type="button" class="modal-close" data-close-form aria-label="閉じる">×</button>
+        <h2 class="modal-title" id="applyModalTitle">無料勉強会のお申し込み</h2>
+        <p class="modal-lead">ご希望の日時を選んで、下の項目をご入力ください。<br>所要時間は1時間40分を予定しています。</p>
         <form class="aw-form" action="#" method="post" onsubmit="return false;" aria-label="勉強会 お申し込みフォーム">
-          <label class="fld" for="name-bottom">お名前<span class="req">必須</span></label>
-          <input type="text" id="name-bottom" name="name" placeholder="例）田中花子" autocomplete="name" required>
+          <label class="fld" for="name-modal">お名前<span class="req">必須</span></label>
+          <input type="text" id="name-modal" name="name" placeholder="例）田中花子" autocomplete="name" required>
 
-          <label class="fld" for="mail-bottom">メールアドレス<span class="req">必須</span></label>
-          <input type="email" id="mail-bottom" name="mail" placeholder="例）hanako@example.com" autocomplete="email" inputmode="email" required>
+          <label class="fld" for="mail-modal">メールアドレス<span class="req">必須</span></label>
+          <input type="email" id="mail-modal" name="mail" placeholder="例）hanako@example.com" autocomplete="email" inputmode="email" required>
 
-          <label class="fld" for="tel-bottom">電話番号<span class="req">必須</span></label>
-          <input type="tel" id="tel-bottom" name="tel" placeholder="例）09012345678" autocomplete="tel" inputmode="tel" required>
+          <label class="fld" for="tel-modal">電話番号<span class="req">必須</span></label>
+          <input type="tel" id="tel-modal" name="tel" placeholder="例）09012345678" autocomplete="tel" inputmode="tel" required>
 
-          <label class="fld" for="slot-bottom">ご希望の日時<span class="req">必須</span></label>
+          <label class="fld" for="slot-modal">ご希望の日時<span class="req">必須</span></label>
           <!-- ▼UTAGE自動ウェビナー登録フォームの「日程選択」プルダウンに差し替え。選択肢は開催スケジュール設定から自動生成される -->
-          <select id="slot-bottom" name="slot" class="aw-select" aria-label="ご希望の日時を選択" required>
+          <select id="slot-modal" name="slot" class="aw-select" required>
             <option value="" disabled selected>日程を選択してください</option>
             <option value="1">{開催日程1}</option>
             <option value="2">{開催日程2}</option>
@@ -1357,13 +1406,38 @@
           </button>
           <p class="aw-form-note">ご予約後、視聴用のURLをメールと公式LINEでお届けします。ご都合が悪くなった場合は日程の取り直しができます。</p>
         </form>
-        <div class="final-copy" style="margin-top:16px;">
-          <p>セールスが変われば、売上も、集客も、あなたの働き方も変わります。</p>
-          <p>このまま一般論のセールスを続けるのか。それとも、お客様一人ひとりの心が動く順番を手に入れるのか。</p>
-          <p>分岐点は、ここです。まずは勉強会で、動画の先にある実践を体感してください。</p>
-        </div>
       </div>
-    </section>
+    </div>
+
+    <script>
+      (function () {
+        var modal = document.getElementById('applyModal');
+        var lastFocus = null;
+        function open(e) {
+          if (e) e.preventDefault();
+          lastFocus = document.activeElement;
+          modal.hidden = false;
+          document.body.style.overflow = 'hidden';
+          var f = modal.querySelector('input, select');
+          if (f) setTimeout(function () { f.focus(); }, 60);
+        }
+        function close() {
+          modal.hidden = true;
+          document.body.style.overflow = '';
+          if (lastFocus) lastFocus.focus();
+        }
+        document.querySelectorAll('[data-open-form]').forEach(function (b) {
+          b.addEventListener('click', open);
+        });
+        modal.querySelectorAll('[data-close-form]').forEach(function (b) {
+          b.addEventListener('click', close);
+        });
+        modal.addEventListener('click', function (ev) { if (ev.target === modal) close(); });
+        document.addEventListener('keydown', function (ev) {
+          if (ev.key === 'Escape' && !modal.hidden) close();
+        });
+      })();
+    </script>
 
     <!-- ===== Footer ===== -->
     <footer class="footer">
