@@ -25,8 +25,17 @@ nav.idx a{display:block;padding:13px 14px;background:#fff;border:1px solid var(-
 nav.idx a b{display:block;font-size:15px}
 nav.idx a span{display:block;font-size:12px;color:var(--sub);margin-top:3px}
 nav.idx a em{display:block;font-style:normal;font-size:12px;color:var(--gold);font-weight:700;margin-top:5px}
+.filter{position:sticky;top:0;z-index:20;display:flex;gap:8px;flex-wrap:wrap;
+  padding:12px 0;margin:0 0 26px;background:var(--bg);border-bottom:1px solid var(--line)}
+.fbtn{font:inherit;cursor:pointer;padding:9px 16px;border-radius:999px;
+  border:1.5px solid var(--line);background:#fff;color:var(--sub);font-weight:700;font-size:13px}
+.fbtn em{font-style:normal;margin-left:5px;opacity:.7}
+.fbtn.is-on{background:var(--gold);border-color:var(--gold);color:#fff}
+.fbtn:hover{border-color:var(--gold)}
+.card[hidden]{display:none}
+.grp[hidden]{display:none}
 .grp{margin:0 0 46px}
-.grp-head{position:sticky;top:0;background:var(--bg);padding:14px 0 10px;z-index:5;
+.grp-head{position:sticky;top:57px;background:var(--bg);padding:14px 0 10px;z-index:5;
   border-bottom:1px solid var(--line);margin-bottom:18px}
 .grp-head h2{margin:0;font-size:19px}
 .grp-head p{margin:4px 0 0;font-size:13px;color:var(--sub)}
@@ -61,6 +70,11 @@ nav.idx a em{display:block;font-style:normal;font-size:12px;color:var(--gold);fo
   <span class="stat">全39通（メール25通・LINE14通）</span>
 </header>
 <nav class="idx"><a href="#l1a"><b>ライン1a</b><span>視聴前リマインド</span><em>メール10 / LINE6</em></a><a href="#l1b"><b>ライン1b</b><span>視聴後5日間</span><em>メール11 / LINE6</em></a><a href="#l1c"><b>ライン1c</b><span>期限後</span><em>メール1 / LINE1</em></a><a href="#l2"><b>ライン2</b><span>個別説明会 申込後</span><em>メール3 / LINE1</em></a></nav>
+<div class="filter" role="group" aria-label="媒体で絞り込み">
+  <button type="button" class="fbtn is-on" data-filter="all">すべて <em>39</em></button>
+  <button type="button" class="fbtn" data-filter="mail">メールのみ <em>25</em></button>
+  <button type="button" class="fbtn" data-filter="line">LINEのみ <em>14</em></button>
+</div>
 <section class="grp" id="l1a"><header class="grp-head"><h2>ライン1a｜視聴前リマインド</h2><p>予約直後〜開始時・全通たかみず本人語り<span class="cnt">メール10通・LINE6通</span></p></header><div class="card mail"><div class="card-head"><span class="badge mail">メール</span><span class="timing">勉強会の日程予約 直後（自動返信）</span><span class="fname">00_申込直後_ご挨拶と予約確認.md</span></div><p class="subject">件名：34年・20万人分のセールスを、1時間40分で受け取る</p><p class="purpose">①たかみずのご挨拶（何者か） ②この勉強会の価値の教育 ③予約確認＋個別視聴URL ④LINE登録（2026-08-05 田中指示で全面改稿）</p><div class="body"><p>はじめまして。</p>
 <p>『次世代型セールス 勉強会』の<br>たかみず保江です。</p>
 <p>このたびは勉強会へのご予約、<br>ありがとうございます。</p>
@@ -1037,5 +1051,23 @@ ____________________________________
 <p>お名前が確認できましたら、<br>日程のやり取りも、そのまま<br>このLINEでできます😊</p>
 <p>どうぞよろしくお願いいたします✨</p></div></div></section>
 </div>
+<script>
+(function(){
+  var btns=document.querySelectorAll('.fbtn');
+  function apply(mode){
+    document.querySelectorAll('.card').forEach(function(c){
+      c.hidden = (mode!=='all' && !c.classList.contains(mode));
+    });
+    document.querySelectorAll('.grp').forEach(function(g){
+      g.hidden = g.querySelectorAll('.card:not([hidden])').length===0;
+    });
+    btns.forEach(function(b){ b.classList.toggle('is-on', b.dataset.filter===mode); });
+    try{ history.replaceState(null,'', mode==='all' ? location.pathname+location.hash : '?m='+mode+location.hash); }catch(e){}
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ apply(b.dataset.filter); }); });
+  var m=new URLSearchParams(location.search).get('m');
+  if(m==='mail'||m==='line') apply(m);
+})();
+</script>
 </body>
 </html>
