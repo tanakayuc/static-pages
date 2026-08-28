@@ -15,6 +15,16 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
+.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
+        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0.2rem 0; line-height: 1.5; }
+.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
+.toc a { color: #333; text-decoration: none; }
+.toc a:hover { color: #0d6efd; text-decoration: underline; }
+h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -70,10 +80,10 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -127,34 +137,26 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<pre># 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）
-
-田中の指示（2026-06-16）：会員サイト（メイン講義＝プロダクトローンチ体系の背骨）は最重要かつ大容量。受講生はこの根幹の上でグルコン/添削を受けている。土台がAI側に無いのはおかしい。これを「引用しやすく・容量をオーバーフローさせず・綺麗に抽出できる仕組み」で格納し直す。DB移植も見据えた設計にする。
-
-## 問題の核心
-
-背骨は大容量（メイン講義77レッスン＋他11プログラム）。現アーキテクチャ（フラットbundle全fetch → buildCompactKnowledgeがkeyword/n-gramで約24k字選抜）では：
-
-1. **オーバーフロー**：背骨を全部knowledge/に入れるとbundleが肥大。tier0予算（11,000字）はすぐ超える（先日13,344字で視点のマッピングが落ちた実例）。
-2. **そもそも浮上しない**：keyword/n-gram選抜では、字面一致が強くても大プールの競合で関連背骨が選ばれない（golden baseline B群＝組織体制/経営が浮上せず、見出しブーストも回帰で撤回＝通算4回目の実証）。
-
-→ **「全部載せる」ことも「キーワードで選ぶ」ことも、背骨の規模では破綻する。**
-
-## 設計原則（オーバーフロー回避の本質）
-
-**AIに渡す量は総量に依らず一定にする。「意味で近い背骨だけ top-K」を渡す。**
-
-1. **正本＝git上の構造化レコード**（章アンカー付き・引用しやすい・DB移植可）。
-2. **検索＝embedding（意味検索）でtop-K選抜**。総コーパスがどれだけ増えても、クエリに意味的に近い少数だけ予算内で注入＝オーバーフローしない。これがキーワード検索の限界（B群）を根治する。
-3. **tier0は最小**（普遍的な哲学/原理のみ・常時）。背骨は「常時ロード」でなく「関連時にembeddingで取得」。
-4. **DB移植は派生**：構造化レコード（正本・git）→ build → ①実行用index ②embeddingベクトル。ベクトルはローカル or Supabase pgvector。正本は最後までgit（差分レビュー/Codex/AI編集の資産維持）。
-
-## 背骨レコードのスキーマ（引用しやすさ＝アンカー＋出典）
-
-既存frontmatter＋matrix＋**背骨アンカー**を持たせる：
-
-```yaml
----
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#問題の核心">問題の核心</a></li><li class="toc-main"><a href="#設計原則（オーバーフロー回避の本質）">設計原則（オーバーフロー回避の本質）</a></li><li class="toc-main"><a href="#背骨レコードのスキーマ（引用しやすさ＝アンカー＋出典）">背骨レコードのスキーマ（引用しやすさ＝アンカー＋出典）</a></li><li class="toc-main"><a href="#取得の仕組み（オーバーフローしない）">取得の仕組み（オーバーフローしない）</a></li><li class="toc-main"><a href="#DB移植を見据えた段階設計">DB移植を見据えた段階設計</a></li><li class="toc-main"><a href="#重要な判断（田中の確認が要る大きな分岐）">重要な判断（田中の確認が要る大きな分岐）</a></li><li class="toc-main"><a href="#まとめ">まとめ</a></li></ul></nav><h1>設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</h1>
+<p>田中の指示（2026-06-16）：会員サイト（メイン講義＝プロダクトローンチ体系の背骨）は最重要かつ大容量。受講生はこの根幹の上でグルコン/添削を受けている。土台がAI側に無いのはおかしい。これを「引用しやすく・容量をオーバーフローさせず・綺麗に抽出できる仕組み」で格納し直す。DB移植も見据えた設計にする。</p>
+<h2 id="問題の核心">問題の核心</h2>
+<p>背骨は大容量（メイン講義77レッスン＋他11プログラム）。現アーキテクチャ（フラットbundle全fetch → buildCompactKnowledgeがkeyword/n-gramで約24k字選抜）では：</p>
+<ol>
+<li><strong>オーバーフロー</strong>：背骨を全部knowledge/に入れるとbundleが肥大。tier0予算（11,000字）はすぐ超える（先日13,344字で視点のマッピングが落ちた実例）。</li>
+<li><strong>そもそも浮上しない</strong>：keyword/n-gram選抜では、字面一致が強くても大プールの競合で関連背骨が選ばれない（golden baseline B群＝組織体制/経営が浮上せず、見出しブーストも回帰で撤回＝通算4回目の実証）。</li>
+</ol>
+<p>→ <strong>「全部載せる」ことも「キーワードで選ぶ」ことも、背骨の規模では破綻する。</strong></p>
+<h2 id="設計原則（オーバーフロー回避の本質）">設計原則（オーバーフロー回避の本質）</h2>
+<p><strong>AIに渡す量は総量に依らず一定にする。「意味で近い背骨だけ top-K」を渡す。</strong></p>
+<ol>
+<li><strong>正本＝git上の構造化レコード</strong>（章アンカー付き・引用しやすい・DB移植可）。</li>
+<li><strong>検索＝embedding（意味検索）でtop-K選抜</strong>。総コーパスがどれだけ増えても、クエリに意味的に近い少数だけ予算内で注入＝オーバーフローしない。これがキーワード検索の限界（B群）を根治する。</li>
+<li><strong>tier0は最小</strong>（普遍的な哲学/原理のみ・常時）。背骨は「常時ロード」でなく「関連時にembeddingで取得」。</li>
+<li><strong>DB移植は派生</strong>：構造化レコード（正本・git）→ build → ①実行用index ②embeddingベクトル。ベクトルはローカル or Supabase pgvector。正本は最後までgit（差分レビュー/Codex/AI編集の資産維持）。</li>
+</ol>
+<h2 id="背骨レコードのスキーマ（引用しやすさ＝アンカー＋出典）">背骨レコードのスキーマ（引用しやすさ＝アンカー＋出典）</h2>
+<p>既存frontmatter＋matrix＋<strong>背骨アンカー</strong>を持たせる：</p>
+<pre><code class="language-yaml">---
 type: 哲学|原理|判断基準|基準値|事例|語彙
 program: PLC会員サイト        # どのプログラムか
 chapter: 8                     # 章（体系の背骨位置）
@@ -162,44 +164,66 @@ lesson: 8-3                    # レッスンID（安定・引用の宛先）
 backbone: true                 # 背骨フラグ（体系の軸）
 主張: &lt;一文&gt;
 立場/活用シーン/事例link/リフレーム: ...（matrix）
-出典: "メイン講義 8-3 書き起こし原本#L&lt;行&gt;"   # 原本まで遡れる
+出典: &quot;メイン講義 8-3 書き起こし原本#L&lt;行&gt;&quot;   # 原本まで遡れる
 status: 採用
 ---
-```
-
-- **引用しやすさ**：`program/chapter/lesson` で「8章ローンチ運営の入金率基準」と体系位置で引ける。出典で原本まで遡れる。
-- **体系（面）の保持**：chapter順がそのまま脳の背骨。点（グルコン/添削）は将来 `backbone_ref: 8-3` で背骨に紐付ける。
-
-## 取得の仕組み（オーバーフローしない）
-
-```
-クエリ
+</code></pre>
+<ul>
+<li><strong>引用しやすさ</strong>：<code>program/chapter/lesson</code> で「8章ローンチ運営の入金率基準」と体系位置で引ける。出典で原本まで遡れる。</li>
+<li><strong>体系（面）の保持</strong>：chapter順がそのまま脳の背骨。点（グルコン/添削）は将来 <code>backbone_ref: 8-3</code> で背骨に紐付ける。</li>
+</ul>
+<h2 id="取得の仕組み（オーバーフローしない）">取得の仕組み（オーバーフローしない）</h2>
+<pre><code>クエリ
  → ① tier0(普遍哲学・常時・最小)
  → ② embedding近傍検索で関連レコードtop-K（背骨含む・予算内）
  → ③ keyword/n-gramは補助シグナル（完全一致の僅差調整のみ）
  → AIに渡す量は常に一定（予算24k等）。総量が増えても変わらない＝オーバーフロー回避
-```
-
-## DB移植を見据えた段階設計
-
-| Phase | 内容 | DB移植との関係 |
-|---|---|---|
-| **B0 スキーマ確定** | 背骨アンカー付きレコード形式を確定。lint拡張（chapter/lesson/backbone検証） | レコード＝将来のDB行。今のうちに構造を整える |
-| **B1 embeddingパイプライン** | レコード→チャンク→ベクトル生成（モデル選定）。ローカルindex（JSON/sqlite-vss等）でまず動かす | ベクトルは正本から再生成可能な派生 |
-| **B2 retrieval接続** | buildCompactKnowledgeをembedding top-K選抜に接続。**golden baseline A群で無回帰検証必須**（わしづかみ等が浮上し続ける）。B群が✅化することがゲート | — |
-| **B3 背骨ingest** | 会員サイト背骨を段階的にレコード化（章順）。embeddingで取得されることを都度確認 | レコード増＝DB行増。retrieval量は一定 |
-| **B4 (条件付き) pgvector** | 同時多重・大規模・横断クエリが実害化したらSupabase pgvectorへベクトル/レコードを投影 | 正本はgitのまま。DBは派生・読み取り |
-
-## 重要な判断（田中の確認が要る大きな分岐）
-
-- **embedding着手＝Phase B本体**。これは「本番AIの取得を変える」構造判断。コスト（embedding API・ベクトル保存）が発生。
-- embeddingモデル：OpenAI text-embedding-3-small等（多言語・安価）か、ローカルモデルか。日本語性能とコストで選ぶ。
-- まずローカルindexで動かし（B1-B3）、規模が要求したらpgvector（B4）＝段階的でコスト最小。
-
-## まとめ
-
-背骨の大容量が、ついにembeddingを「あったらいい」から「無いと土台が載らない」に変えた。設計の肝＝**正本はgit構造化レコード（章アンカー・引用容易・DB可）／取得はembedding top-Kで総量に依らず一定（オーバーフロー回避）／tier0最小／DBは最後に派生**。これで会員サイト背骨を高精度かつ破綻なく載せられる。
-</pre>
+</code></pre>
+<h2 id="DB移植を見据えた段階設計">DB移植を見据えた段階設計</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>内容</th>
+<th>DB移植との関係</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B0 スキーマ確定</strong></td>
+<td>背骨アンカー付きレコード形式を確定。lint拡張（chapter/lesson/backbone検証）</td>
+<td>レコード＝将来のDB行。今のうちに構造を整える</td>
+</tr>
+<tr>
+<td><strong>B1 embeddingパイプライン</strong></td>
+<td>レコード→チャンク→ベクトル生成（モデル選定）。ローカルindex（JSON/sqlite-vss等）でまず動かす</td>
+<td>ベクトルは正本から再生成可能な派生</td>
+</tr>
+<tr>
+<td><strong>B2 retrieval接続</strong></td>
+<td>buildCompactKnowledgeをembedding top-K選抜に接続。<strong>golden baseline A群で無回帰検証必須</strong>（わしづかみ等が浮上し続ける）。B群が✅化することがゲート</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>B3 背骨ingest</strong></td>
+<td>会員サイト背骨を段階的にレコード化（章順）。embeddingで取得されることを都度確認</td>
+<td>レコード増＝DB行増。retrieval量は一定</td>
+</tr>
+<tr>
+<td><strong>B4 (条件付き) pgvector</strong></td>
+<td>同時多重・大規模・横断クエリが実害化したらSupabase pgvectorへベクトル/レコードを投影</td>
+<td>正本はgitのまま。DBは派生・読み取り</td>
+</tr>
+</tbody>
+</table>
+<h2 id="重要な判断（田中の確認が要る大きな分岐）">重要な判断（田中の確認が要る大きな分岐）</h2>
+<ul>
+<li><strong>embedding着手＝Phase B本体</strong>。これは「本番AIの取得を変える」構造判断。コスト（embedding API・ベクトル保存）が発生。</li>
+<li>embeddingモデル：OpenAI text-embedding-3-small等（多言語・安価）か、ローカルモデルか。日本語性能とコストで選ぶ。</li>
+<li>まずローカルindexで動かし（B1-B3）、規模が要求したらpgvector（B4）＝段階的でコスト最小。</li>
+</ul>
+<h2 id="まとめ">まとめ</h2>
+<p>背骨の大容量が、ついにembeddingを「あったらいい」から「無いと土台が載らない」に変えた。設計の肝＝<strong>正本はgit構造化レコード（章アンカー・引用容易・DB可）／取得はembedding top-Kで総量に依らず一定（オーバーフロー回避）／tier0最小／DBは最後に派生</strong>。これで会員サイト背骨を高精度かつ破綻なく載せられる。</p>
 </main>
 </body>
 </html>

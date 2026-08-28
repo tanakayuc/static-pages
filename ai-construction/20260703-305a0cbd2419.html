@@ -15,6 +15,16 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
+.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
+        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0.2rem 0; line-height: 1.5; }
+.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
+.toc a { color: #333; text-decoration: none; }
+.toc a:hover { color: #0d6efd; text-decoration: underline; }
+h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -70,10 +80,10 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -127,96 +137,70 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<pre># 田中祐一AIとAI社員の連携設計メモ
-
-作成日: 2026-07-03
-
-## 1. 先に結論
-
-田中祐一AIとAI社員は、絡ませた方がよい。
-
-ただし、ユーザーに「どのエージェントを呼びますか」と毎回選ばせるのではなく、田中祐一AIを総合窓口兼PMとして置き、内部で必要なAI社員を呼び分ける構造がよい。
-
-田中祐一AIは「田中祐一の脳を再現する本体」。
-AI社員は「その脳の中にある専門部署・専門担当」。
-スキルは「担当者が行う作業手順」。
-ナレッジは「担当者が参照する判断材料」。
-outputは「担当者が残す成果物と検証ログ」。
-
-この関係にすると、田中祐一AIの出力は次の3点で強くなる。
-
-1. 精度: 必要なナレッジだけを専門担当が読むため、判断が薄まりにくい
-2. 独自性: 田中祐一メソッド、発話、添削、事例を担当別に蒸留できる
-3. 再現性: 毎回同じ工程、同じ確認ゲート、同じ成果物形式で動かせる
-
-## 2. 現在地の整理
-
-既存の `agents/` には、すでに以下のような担当がある。
-
-- 議事録担当
-- セールスフィードバック担当
-- ナレッジ管理担当
-- ファネル分析担当
-- LP添削担当
-- LP作成担当
-- コンテンツライティング担当
-- 経理担当
-- 採用担当
-
-これはかなり良い初期設計。
-
-一方で、現在の課題は、エージェントが「部署」ではなく「個別担当の平置き」に近いこと。
-
-そのため、マーケティングのような広い仕事では、結局田中さん本人がPM、設計者、コンセプター、ライター、レビュー担当を兼ねてしまう。
-
-教材の考え方に寄せるなら、次のように変える。
-
-```text
-田中祐一AI
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#1.-先に結論">1. 先に結論</a></li><li class="toc-main"><a href="#2.-現在地の整理">2. 現在地の整理</a></li><li class="toc-main"><a href="#3.-田中祐一AIの役割">3. 田中祐一AIの役割</a></li><li class="toc-sub"><a href="#3-1.-総合窓口">3-1. 総合窓口</a></li><li class="toc-sub"><a href="#3-2.-ルーター">3-2. ルーター</a></li><li class="toc-sub"><a href="#3-3.-PM">3-3. PM</a></li><li class="toc-sub"><a href="#3-4.-最終編集者">3-4. 最終編集者</a></li><li class="toc-main"><a href="#4.-AI社員を細分化する基準">4. AI社員を細分化する基準</a></li><li class="toc-main"><a href="#5.-マーケティング部署の推奨構造">5. マーケティング部署の推奨構造</a></li><li class="toc-sub"><a href="#cmo">cmo</a></li><li class="toc-sub"><a href="#business-design-strategist">business-design-strategist</a></li><li class="toc-sub"><a href="#funnel-architect">funnel-architect</a></li><li class="toc-sub"><a href="#concept-maker">concept-maker</a></li><li class="toc-sub"><a href="#offer-architect">offer-architect</a></li><li class="toc-sub"><a href="#scenario-planner">scenario-planner</a></li><li class="toc-sub"><a href="#lp-architect">lp-architect</a></li><li class="toc-sub"><a href="#stepmail-writer">stepmail-writer</a></li><li class="toc-sub"><a href="#proof-objection-researcher">proof-objection-researcher</a></li><li class="toc-sub"><a href="#marketing-copywriter">marketing-copywriter</a></li><li class="toc-sub"><a href="#marketing-qa-reviewer">marketing-qa-reviewer</a></li><li class="toc-main"><a href="#6.-既存エージェントとの対応">6. 既存エージェントとの対応</a></li><li class="toc-main"><a href="#7.-田中祐一AIの3つの利用モード">7. 田中祐一AIの3つの利用モード</a></li><li class="toc-sub"><a href="#7-1.-Private-Mode">7-1. Private Mode</a></li><li class="toc-sub"><a href="#7-2.-Staff-Mode">7-2. Staff Mode</a></li><li class="toc-sub"><a href="#7-3.-Student-Mode">7-3. Student Mode</a></li><li class="toc-main"><a href="#8.-精度・独自性・再現性が上がる条件">8. 精度・独自性・再現性が上がる条件</a></li><li class="toc-main"><a href="#9.-まず実装する最小セット">9. まず実装する最小セット</a></li><li class="toc-main"><a href="#10.-設計上の重要判断">10. 設計上の重要判断</a></li><li class="toc-sub"><a href="#判断1:-田中祐一AIはAI社員を呼ぶべきか">判断1: 田中祐一AIはAI社員を呼ぶべきか</a></li><li class="toc-sub"><a href="#判断2:-エージェントを細分化すべきか">判断2: エージェントを細分化すべきか</a></li><li class="toc-sub"><a href="#判断3:-フォルダは業務部署で括るべきか">判断3: フォルダは業務部署で括るべきか</a></li><li class="toc-sub"><a href="#判断4:-田中祐一AIの価値訴求に使えるか">判断4: 田中祐一AIの価値訴求に使えるか</a></li><li class="toc-main"><a href="#11.-次に決めること">11. 次に決めること</a></li></ul></nav><h1>田中祐一AIとAI社員の連携設計メモ</h1>
+<p>作成日: 2026-07-03</p>
+<h2 id="1.-先に結論">1. 先に結論</h2>
+<p>田中祐一AIとAI社員は、絡ませた方がよい。</p>
+<p>ただし、ユーザーに「どのエージェントを呼びますか」と毎回選ばせるのではなく、田中祐一AIを総合窓口兼PMとして置き、内部で必要なAI社員を呼び分ける構造がよい。</p>
+<p>田中祐一AIは「田中祐一の脳を再現する本体」。<br />
+AI社員は「その脳の中にある専門部署・専門担当」。<br />
+スキルは「担当者が行う作業手順」。<br />
+ナレッジは「担当者が参照する判断材料」。<br />
+outputは「担当者が残す成果物と検証ログ」。</p>
+<p>この関係にすると、田中祐一AIの出力は次の3点で強くなる。</p>
+<ol>
+<li>精度: 必要なナレッジだけを専門担当が読むため、判断が薄まりにくい</li>
+<li>独自性: 田中祐一メソッド、発話、添削、事例を担当別に蒸留できる</li>
+<li>再現性: 毎回同じ工程、同じ確認ゲート、同じ成果物形式で動かせる</li>
+</ol>
+<h2 id="2.-現在地の整理">2. 現在地の整理</h2>
+<p>既存の <code>agents/</code> には、すでに以下のような担当がある。</p>
+<ul>
+<li>議事録担当</li>
+<li>セールスフィードバック担当</li>
+<li>ナレッジ管理担当</li>
+<li>ファネル分析担当</li>
+<li>LP添削担当</li>
+<li>LP作成担当</li>
+<li>コンテンツライティング担当</li>
+<li>経理担当</li>
+<li>採用担当</li>
+</ul>
+<p>これはかなり良い初期設計。</p>
+<p>一方で、現在の課題は、エージェントが「部署」ではなく「個別担当の平置き」に近いこと。</p>
+<p>そのため、マーケティングのような広い仕事では、結局田中さん本人がPM、設計者、コンセプター、ライター、レビュー担当を兼ねてしまう。</p>
+<p>教材の考え方に寄せるなら、次のように変える。</p>
+<pre><code class="language-text">田中祐一AI
   └── AI部署
         └── AI社員
               └── skill
                     └── knowledge / output
-```
-
-## 3. 田中祐一AIの役割
-
-田中祐一AIは、単体の万能回答AIではなく、以下の役割を持つ。
-
-### 3-1. 総合窓口
-
-ユーザーの依頼を受ける。
-
-例:
-
-- コンセプトを作りたい
-- LPを添削してほしい
-- ステップメールを書きたい
-- ファネル全体を見直したい
-- 受講生向けに説明してほしい
-
-### 3-2. ルーター
-
-依頼内容を見て、どの部署、どの社員、どのスキルを使うか決める。
-
-例:
-
-```text
-「LPを作りたい」
+</code></pre>
+<h2 id="3.-田中祐一AIの役割">3. 田中祐一AIの役割</h2>
+<p>田中祐一AIは、単体の万能回答AIではなく、以下の役割を持つ。</p>
+<h3 id="3-1.-総合窓口">3-1. 総合窓口</h3>
+<p>ユーザーの依頼を受ける。</p>
+<p>例:</p>
+<ul>
+<li>コンセプトを作りたい</li>
+<li>LPを添削してほしい</li>
+<li>ステップメールを書きたい</li>
+<li>ファネル全体を見直したい</li>
+<li>受講生向けに説明してほしい</li>
+</ul>
+<h3 id="3-2.-ルーター">3-2. ルーター</h3>
+<p>依頼内容を見て、どの部署、どの社員、どのスキルを使うか決める。</p>
+<p>例:</p>
+<pre><code class="language-text">「LPを作りたい」
   → Marketing Department
   → lp-architect
   → 01-lp-structure-design
   → 必要なら proof-researcher / copywriter / qa-reviewer へ回す
-```
-
-### 3-3. PM
-
-複数のAI社員を順番に動かす。
-
-同時にたくさん呼ぶのではなく、工程に沿って回す。
-
-```text
-ビジネス設計
+</code></pre>
+<h3 id="3-3.-PM">3-3. PM</h3>
+<p>複数のAI社員を順番に動かす。</p>
+<p>同時にたくさん呼ぶのではなく、工程に沿って回す。</p>
+<pre><code class="language-text">ビジネス設計
   → ファネル設計
   → コンセプト
   → オファー
@@ -225,45 +209,33 @@ outputは「担当者が残す成果物と検証ログ」。
   → ステップメール
   → セールス
   → QA
-```
-
-### 3-4. 最終編集者
-
-AI社員が出した成果物を、田中祐一AIとして統合する。
-
-担当者ごとの出力をそのままユーザーに出すのではなく、最後に田中祐一AIが、文体、判断、温度感、説明順を整える。
-
-## 4. AI社員を細分化する基準
-
-細分化はした方がよい。
-
-ただし、増やせば増やすほど良いわけではない。
-
-新しいAI社員として独立させる条件は、次の5つ。
-
-1. その作業が何度も発生する
-2. 入力と出力が明確に分けられる
-3. 参照するナレッジが他の担当と違う
-4. 品質基準やレビュー観点が違う
-5. スタッフや受講生にも将来渡せる
-
-この5つを満たすなら社員化する。
-満たさないなら、既存社員の `skills/` に入れる。
-
-例:
-
-- LP作成担当をいきなり10人に分ける必要はない
-- まずは LP作成担当の中に複数skillを持たせる
-- 何度も独立して使うようになったら、LP構造設計担当、LPコピー担当、LPデザイン担当に分ける
-
-## 5. マーケティング部署の推奨構造
-
-最初に作るべき部署は、Marketing Department。
-
-田中さんが自分で巻き取ってしまいやすい領域なので、ここを社員化すると効果が大きい。
-
-```text
-Marketing Department/
+</code></pre>
+<h3 id="3-4.-最終編集者">3-4. 最終編集者</h3>
+<p>AI社員が出した成果物を、田中祐一AIとして統合する。</p>
+<p>担当者ごとの出力をそのままユーザーに出すのではなく、最後に田中祐一AIが、文体、判断、温度感、説明順を整える。</p>
+<h2 id="4.-AI社員を細分化する基準">4. AI社員を細分化する基準</h2>
+<p>細分化はした方がよい。</p>
+<p>ただし、増やせば増やすほど良いわけではない。</p>
+<p>新しいAI社員として独立させる条件は、次の5つ。</p>
+<ol>
+<li>その作業が何度も発生する</li>
+<li>入力と出力が明確に分けられる</li>
+<li>参照するナレッジが他の担当と違う</li>
+<li>品質基準やレビュー観点が違う</li>
+<li>スタッフや受講生にも将来渡せる</li>
+</ol>
+<p>この5つを満たすなら社員化する。<br />
+満たさないなら、既存社員の <code>skills/</code> に入れる。</p>
+<p>例:</p>
+<ul>
+<li>LP作成担当をいきなり10人に分ける必要はない</li>
+<li>まずは LP作成担当の中に複数skillを持たせる</li>
+<li>何度も独立して使うようになったら、LP構造設計担当、LPコピー担当、LPデザイン担当に分ける</li>
+</ul>
+<h2 id="5.-マーケティング部署の推奨構造">5. マーケティング部署の推奨構造</h2>
+<p>最初に作るべき部署は、Marketing Department。</p>
+<p>田中さんが自分で巻き取ってしまいやすい領域なので、ここを社員化すると効果が大きい。</p>
+<pre><code class="language-text">Marketing Department/
 ├── _RULE.md
 ├── cmo/
 │   ├── _RULE.md
@@ -279,64 +251,35 @@ Marketing Department/
 ├── proof-objection-researcher/
 ├── marketing-copywriter/
 └── marketing-qa-reviewer/
-```
-
-### cmo
-
-マーケティング依頼の受付、担当振り分け、工程管理を行う。
-
-田中祐一AI本体から最初に呼ばれる部署内PM。
-
-### business-design-strategist
-
-単発ファネルではなく、事業全体、商品群、プロモーション順序、年間導線を見る。
-
-### funnel-architect
-
-1つのプロモーション内のファネルを設計する。
-
-チャレンジ、動画、ウェビナー、個別相談、説明会、直売りなどの組み合わせを判断する。
-
-### concept-maker
-
-3C、上位概念、共通の敵、切り口、入口コンセプトを作る。
-
-### offer-architect
-
-商品設計、特典、価格、保証、限定性、比較軸を作る。
-
-### scenario-planner
-
-動画、セミナー、価値提供、教育コンテンツの流れを作る。
-
-### lp-architect
-
-LPの構造、見出し、セクション順、CTA、証拠配置を設計する。
-
-### stepmail-writer
-
-ステップメール、LINE配信、価値提供メッセージを作る。
-
-### proof-objection-researcher
-
-お客様の声、実績、反論、不安、FAQ、信頼材料を整理する。
-
-### marketing-copywriter
-
-見出し、本文、メルマガ、広告文、SNS投稿などのコピーを作る。
-
-### marketing-qa-reviewer
-
-田中祐一メソッドとして成立しているか、ファネルの矛盾がないか、訴求がズレていないかを確認する。
-
-## 6. 既存エージェントとの対応
-
-既存のエージェントは捨てない。
-
-Marketing Departmentの中に位置づけを与える。
-
-```text
-既存: ファネル分析担当
+</code></pre>
+<h3 id="cmo">cmo</h3>
+<p>マーケティング依頼の受付、担当振り分け、工程管理を行う。</p>
+<p>田中祐一AI本体から最初に呼ばれる部署内PM。</p>
+<h3 id="business-design-strategist">business-design-strategist</h3>
+<p>単発ファネルではなく、事業全体、商品群、プロモーション順序、年間導線を見る。</p>
+<h3 id="funnel-architect">funnel-architect</h3>
+<p>1つのプロモーション内のファネルを設計する。</p>
+<p>チャレンジ、動画、ウェビナー、個別相談、説明会、直売りなどの組み合わせを判断する。</p>
+<h3 id="concept-maker">concept-maker</h3>
+<p>3C、上位概念、共通の敵、切り口、入口コンセプトを作る。</p>
+<h3 id="offer-architect">offer-architect</h3>
+<p>商品設計、特典、価格、保証、限定性、比較軸を作る。</p>
+<h3 id="scenario-planner">scenario-planner</h3>
+<p>動画、セミナー、価値提供、教育コンテンツの流れを作る。</p>
+<h3 id="lp-architect">lp-architect</h3>
+<p>LPの構造、見出し、セクション順、CTA、証拠配置を設計する。</p>
+<h3 id="stepmail-writer">stepmail-writer</h3>
+<p>ステップメール、LINE配信、価値提供メッセージを作る。</p>
+<h3 id="proof-objection-researcher">proof-objection-researcher</h3>
+<p>お客様の声、実績、反論、不安、FAQ、信頼材料を整理する。</p>
+<h3 id="marketing-copywriter">marketing-copywriter</h3>
+<p>見出し、本文、メルマガ、広告文、SNS投稿などのコピーを作る。</p>
+<h3 id="marketing-qa-reviewer">marketing-qa-reviewer</h3>
+<p>田中祐一メソッドとして成立しているか、ファネルの矛盾がないか、訴求がズレていないかを確認する。</p>
+<h2 id="6.-既存エージェントとの対応">6. 既存エージェントとの対応</h2>
+<p>既存のエージェントは捨てない。</p>
+<p>Marketing Departmentの中に位置づけを与える。</p>
+<pre><code class="language-text">既存: ファネル分析担当
   → Marketing Department/funnel-architect または funnel-analyst
 
 既存: LP作成担当
@@ -350,63 +293,48 @@ Marketing Departmentの中に位置づけを与える。
 
 既存: ナレッジ管理担当
   → 横断部署 Knowledge Management Department
-```
-
-当面は物理的に移動しなくてもよい。
-まずは `agents/README.md` や部署INDEXで「どの部署の社員か」を明示するだけでもよい。
-
-## 7. 田中祐一AIの3つの利用モード
-
-田中祐一AIは、使う人によって権限と出力を分ける。
-
-### 7-1. Private Mode
-
-田中さん本人用。
-
-読める範囲が最も広い。
-
-- 原本データ
-- 内部メモ
-- 未整理ナレッジ
-- スタッフ向け資料
-- 受講生には見せない判断
-- 事業戦略
-
-### 7-2. Staff Mode
-
-スタッフ用。
-
-業務実行に必要な範囲だけを読ませる。
-
-- 確定済みナレッジ
-- 業務マニュアル
-- 案件情報
-- 出力テンプレート
-- 禁止事項
-- エスカレーション条件
-
-### 7-3. Student Mode
-
-受講生用。
-
-社内情報を見せず、教材化・抽象化済みのナレッジだけを使う。
-
-- 公開してよいメソッド
-- 受講生向けテンプレート
-- セルフチェック
-- 例題
-- 添削結果の一般化パターン
-
-この3モードを分けることで、田中祐一AIの価値を外部提供しながら、社内の情報管理も守れる。
-
-## 8. 精度・独自性・再現性が上がる条件
-
-AI社員を作っただけでは精度は上がらない。
-
-精度が上がる条件は、次の循環があること。
-
-```text
-原本
+</code></pre>
+<p>当面は物理的に移動しなくてもよい。<br />
+まずは <code>agents/README.md</code> や部署INDEXで「どの部署の社員か」を明示するだけでもよい。</p>
+<h2 id="7.-田中祐一AIの3つの利用モード">7. 田中祐一AIの3つの利用モード</h2>
+<p>田中祐一AIは、使う人によって権限と出力を分ける。</p>
+<h3 id="7-1.-Private-Mode">7-1. Private Mode</h3>
+<p>田中さん本人用。</p>
+<p>読める範囲が最も広い。</p>
+<ul>
+<li>原本データ</li>
+<li>内部メモ</li>
+<li>未整理ナレッジ</li>
+<li>スタッフ向け資料</li>
+<li>受講生には見せない判断</li>
+<li>事業戦略</li>
+</ul>
+<h3 id="7-2.-Staff-Mode">7-2. Staff Mode</h3>
+<p>スタッフ用。</p>
+<p>業務実行に必要な範囲だけを読ませる。</p>
+<ul>
+<li>確定済みナレッジ</li>
+<li>業務マニュアル</li>
+<li>案件情報</li>
+<li>出力テンプレート</li>
+<li>禁止事項</li>
+<li>エスカレーション条件</li>
+</ul>
+<h3 id="7-3.-Student-Mode">7-3. Student Mode</h3>
+<p>受講生用。</p>
+<p>社内情報を見せず、教材化・抽象化済みのナレッジだけを使う。</p>
+<ul>
+<li>公開してよいメソッド</li>
+<li>受講生向けテンプレート</li>
+<li>セルフチェック</li>
+<li>例題</li>
+<li>添削結果の一般化パターン</li>
+</ul>
+<p>この3モードを分けることで、田中祐一AIの価値を外部提供しながら、社内の情報管理も守れる。</p>
+<h2 id="8.-精度・独自性・再現性が上がる条件">8. 精度・独自性・再現性が上がる条件</h2>
+<p>AI社員を作っただけでは精度は上がらない。</p>
+<p>精度が上がる条件は、次の循環があること。</p>
+<pre><code class="language-text">原本
   → ナレッジ候補
   → 田中さん承認
   → knowledgeへ格納
@@ -414,98 +342,69 @@ AI社員を作っただけでは精度は上がらない。
   → output生成
   → QA
   → 良い判断だけknowledge / SKILLへ還流
-```
-
-独自性は「田中さんの判断」を分解して保存したときに生まれる。
-
-再現性は「毎回同じ工程と確認ゲート」を通すことで生まれる。
-
-したがって、重要なのはエージェント数ではなく、各AI社員に以下が揃っていること。
-
-- 役割定義
-- 入力
-- 出力
-- 参照ナレッジ
-- 手順
-- 品質基準
-- 保存先
-- QA
-- 改善ログ
-
-## 9. まず実装する最小セット
-
-最初から全部署を完成させない。
-
-最初の実装はこれでよい。
-
-```text
-Marketing Department/
+</code></pre>
+<p>独自性は「田中さんの判断」を分解して保存したときに生まれる。</p>
+<p>再現性は「毎回同じ工程と確認ゲート」を通すことで生まれる。</p>
+<p>したがって、重要なのはエージェント数ではなく、各AI社員に以下が揃っていること。</p>
+<ul>
+<li>役割定義</li>
+<li>入力</li>
+<li>出力</li>
+<li>参照ナレッジ</li>
+<li>手順</li>
+<li>品質基準</li>
+<li>保存先</li>
+<li>QA</li>
+<li>改善ログ</li>
+</ul>
+<h2 id="9.-まず実装する最小セット">9. まず実装する最小セット</h2>
+<p>最初から全部署を完成させない。</p>
+<p>最初の実装はこれでよい。</p>
+<pre><code class="language-text">Marketing Department/
 ├── cmo/
 ├── concept-maker/
 ├── offer-architect/
 ├── lp-architect/
 ├── stepmail-writer/
 └── marketing-qa-reviewer/
-```
-
-最初に作るskillは、次の5つ。
-
-1. マーケティング依頼ルーティング
-2. コンセプト構築
-3. オファー構築
-4. LP構造設計
-5. ステップメール設計
-
-その後、必要に応じてシナリオ、広告、SNS、セールス、講座運営へ広げる。
-
-## 10. 設計上の重要判断
-
-### 判断1: 田中祐一AIはAI社員を呼ぶべきか
-
-呼ぶべき。
-
-ただし、ユーザーに複雑な選択をさせない。
-
-田中祐一AIが内部で呼び分ける。
-
-### 判断2: エージェントを細分化すべきか
-
-すべき。
-
-ただし、部署、社員、skillの3層に分ける。
-
-何でも社員にせず、まずskillとして持たせる。
-
-### 判断3: フォルダは業務部署で括るべきか
-
-括るべき。
-
-今後エージェントが増えるほど、部署単位のINDEXと_RULEが必要になる。
-
-### 判断4: 田中祐一AIの価値訴求に使えるか
-
-使える。
-
-「田中祐一AIを使える」よりも、「田中祐一のプロモーション設計チームを使える」という訴求にできる。
-
-ただし、受講生に内部構造を全部見せる必要はない。
-
-表側ではシンプルに見せ、裏側で社員群が動く構造がよい。
-
-## 11. 次に決めること
-
-次に決めるべきは、Marketing Departmentの最初の社員とskillのI/O。
-
-具体的には以下。
-
-1. `cmo` は何を入力にして、誰に振り分けるか
-2. `concept-maker` は何を読んで、何を出すか
-3. `offer-architect` はコンセプト確定前に動くのか、後に動くのか
-4. `lp-architect` は本文まで書くのか、構造だけ作るのか
-5. `marketing-qa-reviewer` はどの段階で止める権限を持つか
-
-この5つが決まると、田中祐一AIとAI社員の関係はかなり明確になる。
-</pre>
+</code></pre>
+<p>最初に作るskillは、次の5つ。</p>
+<ol>
+<li>マーケティング依頼ルーティング</li>
+<li>コンセプト構築</li>
+<li>オファー構築</li>
+<li>LP構造設計</li>
+<li>ステップメール設計</li>
+</ol>
+<p>その後、必要に応じてシナリオ、広告、SNS、セールス、講座運営へ広げる。</p>
+<h2 id="10.-設計上の重要判断">10. 設計上の重要判断</h2>
+<h3 id="判断1:-田中祐一AIはAI社員を呼ぶべきか">判断1: 田中祐一AIはAI社員を呼ぶべきか</h3>
+<p>呼ぶべき。</p>
+<p>ただし、ユーザーに複雑な選択をさせない。</p>
+<p>田中祐一AIが内部で呼び分ける。</p>
+<h3 id="判断2:-エージェントを細分化すべきか">判断2: エージェントを細分化すべきか</h3>
+<p>すべき。</p>
+<p>ただし、部署、社員、skillの3層に分ける。</p>
+<p>何でも社員にせず、まずskillとして持たせる。</p>
+<h3 id="判断3:-フォルダは業務部署で括るべきか">判断3: フォルダは業務部署で括るべきか</h3>
+<p>括るべき。</p>
+<p>今後エージェントが増えるほど、部署単位のINDEXと_RULEが必要になる。</p>
+<h3 id="判断4:-田中祐一AIの価値訴求に使えるか">判断4: 田中祐一AIの価値訴求に使えるか</h3>
+<p>使える。</p>
+<p>「田中祐一AIを使える」よりも、「田中祐一のプロモーション設計チームを使える」という訴求にできる。</p>
+<p>ただし、受講生に内部構造を全部見せる必要はない。</p>
+<p>表側ではシンプルに見せ、裏側で社員群が動く構造がよい。</p>
+<h2 id="11.-次に決めること">11. 次に決めること</h2>
+<p>次に決めるべきは、Marketing Departmentの最初の社員とskillのI/O。</p>
+<p>具体的には以下。</p>
+<ol>
+<li><code>cmo</code> は何を入力にして、誰に振り分けるか</li>
+<li><code>concept-maker</code> は何を読んで、何を出すか</li>
+<li><code>offer-architect</code> はコンセプト確定前に動くのか、後に動くのか</li>
+<li><code>lp-architect</code> は本文まで書くのか、構造だけ作るのか</li>
+<li><code>marketing-qa-reviewer</code> はどの段階で止める権限を持つか</li>
+</ol>
+<p>この5つが決まると、田中祐一AIとAI社員の関係はかなり明確になる。</p>
 </main>
 </body>
 </html>

@@ -15,6 +15,16 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
+.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
+        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0.2rem 0; line-height: 1.5; }
+.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
+.toc a { color: #333; text-decoration: none; }
+.toc a:hover { color: #0d6efd; text-decoration: underline; }
+h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -70,10 +80,10 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -127,56 +137,47 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<pre># ナレッジフィードバックループ 実装ログ
-
-作成日: 2026-07-03
-
-## 実装目的
-
-田中さんが毎回、スキル化・ナレッジ化・社員化を完了させなくても、会社としてAI社員が育つ仕組みを作る。
-
-今回の中核は、ナレッジ管理担当を「書庫を管理する中核社員」として再定義し、週次で田中さんが判断しやすいレポートを届けること。
-
-## 追加したもの
-
-### ルール
-
-- `rules/ナレッジフィードバックループ.md`
-
-### スキル
-
-- `skills/週次ナレッジレビュー/SKILL.md`
-- `skills/AI社員育成レビュー/SKILL.md`
-
-### AI社員
-
-- `agents/02_ナレッジ運用チーム/_RULE.md`
-- `agents/02_ナレッジ運用チーム/AI社員育成担当/agent.md`
-
-### テンプレート
-
-- `templates/週次ナレッジ判断レポート.md`
-- `templates/AI社員育成ログ.md`
-
-### ラッパー
-
-Cursor / Claude Code / Codex 用に、以下の薄いラッパーを追加。
-
-- `週次ナレッジレビュー`
-- `AI社員育成レビュー`
-
-## 更新したもの
-
-- `agents/_RULE.md`
-- `agents/_INDEX.md`
-- `agents/ナレッジ管理担当/agent.md`
-- `knowledge/_AI社員参照マップ.md`
-- `AGENTS.md`
-
-## 作った運用ループ
-
-```text
-業務実行
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#実装目的">実装目的</a></li><li class="toc-main"><a href="#追加したもの">追加したもの</a></li><li class="toc-sub"><a href="#ルール">ルール</a></li><li class="toc-sub"><a href="#スキル">スキル</a></li><li class="toc-sub"><a href="#AI社員">AI社員</a></li><li class="toc-sub"><a href="#テンプレート">テンプレート</a></li><li class="toc-sub"><a href="#ラッパー">ラッパー</a></li><li class="toc-main"><a href="#更新したもの">更新したもの</a></li><li class="toc-main"><a href="#作った運用ループ">作った運用ループ</a></li><li class="toc-main"><a href="#月曜オートメーション">月曜オートメーション</a></li><li class="toc-main"><a href="#期待する変化">期待する変化</a></li></ul></nav><h1>ナレッジフィードバックループ 実装ログ</h1>
+<p>作成日: 2026-07-03</p>
+<h2 id="実装目的">実装目的</h2>
+<p>田中さんが毎回、スキル化・ナレッジ化・社員化を完了させなくても、会社としてAI社員が育つ仕組みを作る。</p>
+<p>今回の中核は、ナレッジ管理担当を「書庫を管理する中核社員」として再定義し、週次で田中さんが判断しやすいレポートを届けること。</p>
+<h2 id="追加したもの">追加したもの</h2>
+<h3 id="ルール">ルール</h3>
+<ul>
+<li><code>rules/ナレッジフィードバックループ.md</code></li>
+</ul>
+<h3 id="スキル">スキル</h3>
+<ul>
+<li><code>skills/週次ナレッジレビュー/SKILL.md</code></li>
+<li><code>skills/AI社員育成レビュー/SKILL.md</code></li>
+</ul>
+<h3 id="AI社員">AI社員</h3>
+<ul>
+<li><code>agents/02_ナレッジ運用チーム/_RULE.md</code></li>
+<li><code>agents/02_ナレッジ運用チーム/AI社員育成担当/agent.md</code></li>
+</ul>
+<h3 id="テンプレート">テンプレート</h3>
+<ul>
+<li><code>templates/週次ナレッジ判断レポート.md</code></li>
+<li><code>templates/AI社員育成ログ.md</code></li>
+</ul>
+<h3 id="ラッパー">ラッパー</h3>
+<p>Cursor / Claude Code / Codex 用に、以下の薄いラッパーを追加。</p>
+<ul>
+<li><code>週次ナレッジレビュー</code></li>
+<li><code>AI社員育成レビュー</code></li>
+</ul>
+<h2 id="更新したもの">更新したもの</h2>
+<ul>
+<li><code>agents/_RULE.md</code></li>
+<li><code>agents/_INDEX.md</code></li>
+<li><code>agents/ナレッジ管理担当/agent.md</code></li>
+<li><code>knowledge/_AI社員参照マップ.md</code></li>
+<li><code>AGENTS.md</code></li>
+</ul>
+<h2 id="作った運用ループ">作った運用ループ</h2>
+<pre><code class="language-text">業務実行
   ↓
 AI社員育成ログ
   ↓
@@ -185,38 +186,31 @@ AI社員育成ログ
 田中さん判断
   ↓
 knowledge / skills / agents / rules へ昇格
-```
-
-## 月曜オートメーション
-
-Codexアプリのオートメーションとして、毎週月曜日9:00に `週次ナレッジ判断レポート` を作成するジョブを追加した。
-
-出力先:
-
-```text
-agents/ナレッジ管理担当/週次レポート/YYYY-MM-DD_週次ナレッジ判断レポート.md
-```
-
-制約:
-
-- `knowledge/` へ直接反映しない
-- 最優先判断は5件以内
-- 田中さんが OK / 修正 / 却下 / 保留 で判断できる形にする
-- コミットやpushはしない
-
-## 期待する変化
-
-- MTGや日々のAI作業が、週次で書庫に戻る候補になる
-- 田中さんが毎回ナレッジ化を完了させなくてよくなる
-- AI社員の成長履歴が残る
-- 「AIを使う社長」から「AI社員が育つ会社」へ運用が寄る
-
-Produced by KATSUO MARKETING
-Version: 1.0 (2026-07-03)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: A6Q9M2V4
-Generated by: 田中祐一
-</pre>
+</code></pre>
+<h2 id="月曜オートメーション">月曜オートメーション</h2>
+<p>Codexアプリのオートメーションとして、毎週月曜日9:00に <code>週次ナレッジ判断レポート</code> を作成するジョブを追加した。</p>
+<p>出力先:</p>
+<pre><code class="language-text">agents/ナレッジ管理担当/週次レポート/YYYY-MM-DD_週次ナレッジ判断レポート.md
+</code></pre>
+<p>制約:</p>
+<ul>
+<li><code>knowledge/</code> へ直接反映しない</li>
+<li>最優先判断は5件以内</li>
+<li>田中さんが OK / 修正 / 却下 / 保留 で判断できる形にする</li>
+<li>コミットやpushはしない</li>
+</ul>
+<h2 id="期待する変化">期待する変化</h2>
+<ul>
+<li>MTGや日々のAI作業が、週次で書庫に戻る候補になる</li>
+<li>田中さんが毎回ナレッジ化を完了させなくてよくなる</li>
+<li>AI社員の成長履歴が残る</li>
+<li>「AIを使う社長」から「AI社員が育つ会社」へ運用が寄る</li>
+</ul>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-07-03)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: A6Q9M2V4<br />
+Generated by: 田中祐一</p>
 </main>
 </body>
 </html>

@@ -15,6 +15,16 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
+.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
+        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0.2rem 0; line-height: 1.5; }
+.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
+.toc a { color: #333; text-decoration: none; }
+.toc a:hover { color: #0d6efd; text-decoration: underline; }
+h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -70,10 +80,10 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item active"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -127,233 +137,172 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<pre># AI社員DB化 実装バックログ
-
-作成日: 2026-07-03
-
-## 結論
-
-実装に入ってよい。
-
-ただし、最初にやる実装は「本番DBへ即反映」ではなく、次の順番にする。
-
-1. Supabase migrationのレビューとローカル検証
-2. 既存MDのサンプル20件マニフェスト生成
-3. サンプル20件のDB取り込みスクリプト
-4. MCP最小ツールの追加
-5. AI社員稼働ログの実運用接続
-6. ダッシュボード化
-
-## 実装フェーズ
-
-### Phase 1: DBスキーマ確定
-
-目的:
-
-AI社員DB化に必要なテーブルをTanakaKnowledgeOSへ追加する。
-
-対象:
-
-```text
-71_システム開発/TanakaKnowledgeOS/supabase/migrations/0030_ai_employee_knowledge_os.sql
-```
-
-残タスク:
-
-1. SQLレビュー
-2. RLS方針の確認
-3. 既存テーブルとの重複確認
-4. ローカルまたはstaging Supabaseでmigration検証
-5. 本番適用可否の判断
-
-判断:
-
-ここは実装に入ってよいが、本番DB適用はレビュー後にする。
-
-### Phase 2: 既存MDの救済取り込み
-
-目的:
-
-過去のMarkdown整理を、DBの初期データとして救済する。
-
-残タスク:
-
-1. 既存MDを走査するスクリプトを作る。
-2. `source_assets_import_manifest.jsonl` を生成する。
-3. まず20件だけサンプル出力する。
-4. `source_type`、`privacy_level`、`legacy_labels` の推定精度を確認する。
-5. 問題なければ対象範囲を広げる。
-
-最初の対象候補:
-
-```text
-13_データ原本保存庫/
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#結論">結論</a></li><li class="toc-main"><a href="#実装フェーズ">実装フェーズ</a></li><li class="toc-sub"><a href="#Phase-1:-DBスキーマ確定">Phase 1: DBスキーマ確定</a></li><li class="toc-sub"><a href="#Phase-2:-既存MDの救済取り込み">Phase 2: 既存MDの救済取り込み</a></li><li class="toc-sub"><a href="#Phase-3:-サンプルDB取り込み">Phase 3: サンプルDB取り込み</a></li><li class="toc-sub"><a href="#Phase-4:-MCP最小ツール">Phase 4: MCP最小ツール</a></li><li class="toc-sub"><a href="#Phase-5:-AI社員台帳の初期登録">Phase 5: AI社員台帳の初期登録</a></li><li class="toc-sub"><a href="#Phase-6:-稼働ログの接続">Phase 6: 稼働ログの接続</a></li><li class="toc-sub"><a href="#Phase-7:-週次ナレッジレビューとの統合">Phase 7: 週次ナレッジレビューとの統合</a></li><li class="toc-sub"><a href="#Phase-8:-ダッシュボード">Phase 8: ダッシュボード</a></li><li class="toc-main"><a href="#すぐ着手する実装">すぐ着手する実装</a></li><li class="toc-main"><a href="#まだ確認してから進める実装">まだ確認してから進める実装</a></li><li class="toc-main"><a href="#完了条件">完了条件</a></li><li class="toc-main"><a href="#重要メモ">重要メモ</a></li></ul></nav><h1>AI社員DB化 実装バックログ</h1>
+<p>作成日: 2026-07-03</p>
+<h2 id="結論">結論</h2>
+<p>実装に入ってよい。</p>
+<p>ただし、最初にやる実装は「本番DBへ即反映」ではなく、次の順番にする。</p>
+<ol>
+<li>Supabase migrationのレビューとローカル検証</li>
+<li>既存MDのサンプル20件マニフェスト生成</li>
+<li>サンプル20件のDB取り込みスクリプト</li>
+<li>MCP最小ツールの追加</li>
+<li>AI社員稼働ログの実運用接続</li>
+<li>ダッシュボード化</li>
+</ol>
+<h2 id="実装フェーズ">実装フェーズ</h2>
+<h3 id="Phase-1:-DBスキーマ確定">Phase 1: DBスキーマ確定</h3>
+<p>目的:</p>
+<p>AI社員DB化に必要なテーブルをTanakaKnowledgeOSへ追加する。</p>
+<p>対象:</p>
+<pre><code class="language-text">71_システム開発/TanakaKnowledgeOS/supabase/migrations/0030_ai_employee_knowledge_os.sql
+</code></pre>
+<p>残タスク:</p>
+<ol>
+<li>SQLレビュー</li>
+<li>RLS方針の確認</li>
+<li>既存テーブルとの重複確認</li>
+<li>ローカルまたはstaging Supabaseでmigration検証</li>
+<li>本番適用可否の判断</li>
+</ol>
+<p>判断:</p>
+<p>ここは実装に入ってよいが、本番DB適用はレビュー後にする。</p>
+<h3 id="Phase-2:-既存MDの救済取り込み">Phase 2: 既存MDの救済取り込み</h3>
+<p>目的:</p>
+<p>過去のMarkdown整理を、DBの初期データとして救済する。</p>
+<p>残タスク:</p>
+<ol>
+<li>既存MDを走査するスクリプトを作る。</li>
+<li><code>source_assets_import_manifest.jsonl</code> を生成する。</li>
+<li>まず20件だけサンプル出力する。</li>
+<li><code>source_type</code>、<code>privacy_level</code>、<code>legacy_labels</code> の推定精度を確認する。</li>
+<li>問題なければ対象範囲を広げる。</li>
+</ol>
+<p>最初の対象候補:</p>
+<pre><code class="language-text">13_データ原本保存庫/
 97_ザ・リード事業/AI構築/
 41_リサーチ/購入教材/
-```
-
-判断:
-
-ここはすぐ実装に入ってよい。既存ファイルを壊さず、JSONLを生成するだけなので安全。
-
-### Phase 3: サンプルDB取り込み
-
-目的:
-
-JSONLマニフェストからSupabaseへ登録できることを確認する。
-
-残タスク:
-
-1. `source_assets` 登録
-2. `source_asset_links` 登録
-3. `source_chunks` 分割登録
-4. `classification_rubrics` に `legacy_md_2026Q2` を登録
-5. `classification_runs` / `classification_labels` 登録
-
-判断:
-
-stagingまたはlocal Supabaseで先に実行する。本番はまだ後。
-
-### Phase 4: MCP最小ツール
-
-目的:
-
-田中祐一AIとAI社員がDBを参照・記録できる入口を作る。
-
-最初に作るツール:
-
-1. `search_source_assets`
-2. `get_source_asset`
-3. `log_agent_run`
-4. `submit_classification_label`
-5. `submit_knowledge_promotion_candidate`
-6. `submit_eval_case`
-
-判断:
-
-MCPの実装はDBスキーマ検証後に入る。先にI/Oの型だけ作るのは可能。
-
-### Phase 5: AI社員台帳の初期登録
-
-目的:
-
-既存の `agents/` 配下にいるAI社員をDBへ登録する。
-
-残タスク:
-
-1. agent.mdを走査する。
-2. agent_slug、display_name、department、agent_pathを抽出する。
-3. `ai_agents` に登録する。
-4. agent.mdのハッシュを取り、`ai_agent_versions` に登録する。
-5. 変更履歴を追えるようにする。
-
-判断:
-
-ここもすぐ実装に入ってよい。最初はJSONL出力だけで安全に進める。
-
-### Phase 6: 稼働ログの接続
-
-目的:
-
-「AI社員が働いた」という事実を残す。
-
-残タスク:
-
-1. 田中祐一AI起点の作業に `agent_slug` を付ける。
-2. Codex / Claude / Cursor で呼び出したAI社員を `ai_agent_runs` に残す。
-3. どのナレッジを使ったかを `ai_agent_knowledge_usage` に残す。
-4. 成果物パスを `output_path` に残す。
-
-判断:
-
-最初は手動ログ・MCPログの併用でよい。完全自動化は後でよい。
-
-### Phase 7: 週次ナレッジレビューとの統合
-
-目的:
-
-毎回手動で「スキル化・ナレッジ化・社員化」を完了させる負担を減らす。
-
-残タスク:
-
-1. `knowledge_promotion_queue` を週次レビュー対象にする。
-2. 月曜レポートに、DB上の未処理候補を入れる。
-3. 田中祐一が承認・保留・却下できる形式にする。
-4. 承認されたものだけ `rules/`、`skills/`、`knowledge/`、`agents/` に反映する。
-
-判断:
-
-DB取り込み後に実装する。
-
-### Phase 8: ダッシュボード
-
-目的:
-
-AI社員が育っているか、使われているかを見える化する。
-
-表示項目:
-
-1. AI社員別の利用回数
-2. AI社員別の成果物数
-3. 評価スコア
-4. 使われたナレッジ
-5. 未処理ナレッジ候補
-6. 統合・停止候補のAI社員
-7. 評価テストの合格率
-
-判断:
-
-MVP後に実装する。最初から作り込まない。
-
-## すぐ着手する実装
-
-最初の実装順は以下。
-
-1. 既存MD走査スクリプト
-2. サンプル20件の `source_assets_import_manifest.jsonl`
-3. AI社員agent.md走査スクリプト
-4. AI社員台帳インポートJSONL
-5. SQL migrationのレビュー
-
-この5つは既存データを壊さないため、すぐ進めてよい。
-
-## まだ確認してから進める実装
-
-以下は確認後に進める。
-
-1. Supabase本番DBへのmigration適用
-2. 本番MCPへの新ツール追加
-3. 受講生やスタッフが触れるUIへの表示
-4. `restricted` / `tanaka_only` データの検索許可
-5. 自動で `knowledge/` を書き換える処理
-
-## 完了条件
-
-MVP完了条件:
-
-1. 既存MD20件がDBへ取り込める。
-2. 旧分類が `legacy_md_2026Q2` として残る。
-3. 新分類 `ai_employee_knowledge_v1` を追加できる。
-4. AI社員1名以上の稼働ログを残せる。
-5. `search_source_assets` で原本と分類ラベルを検索できる。
-6. ナレッジ化候補を週次レビューへ送れる。
-
-この状態になれば、「DB化した意味がある」と言える。
-
-## 重要メモ
-
-今回のDB化は、過去MD整理を否定するものではない。
-
-むしろ、過去MD整理で作った判断・分類・フォルダ分けを、DB上で再利用可能な履歴に変換する作業である。
-
-今後は、評価軸が変わっても原本を再仕分けし直すのではなく、新しい `classification_rubrics` と `classification_runs` を追加する。これにより、田中祐一AIとAI社員の進化履歴そのものが資産になる。
-
-Produced by KATSUO MARKETING
-Version: 1.0 (2026-07-03)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: CF82B30C
-Generated by: 田中祐一
-</pre>
+</code></pre>
+<p>判断:</p>
+<p>ここはすぐ実装に入ってよい。既存ファイルを壊さず、JSONLを生成するだけなので安全。</p>
+<h3 id="Phase-3:-サンプルDB取り込み">Phase 3: サンプルDB取り込み</h3>
+<p>目的:</p>
+<p>JSONLマニフェストからSupabaseへ登録できることを確認する。</p>
+<p>残タスク:</p>
+<ol>
+<li><code>source_assets</code> 登録</li>
+<li><code>source_asset_links</code> 登録</li>
+<li><code>source_chunks</code> 分割登録</li>
+<li><code>classification_rubrics</code> に <code>legacy_md_2026Q2</code> を登録</li>
+<li><code>classification_runs</code> / <code>classification_labels</code> 登録</li>
+</ol>
+<p>判断:</p>
+<p>stagingまたはlocal Supabaseで先に実行する。本番はまだ後。</p>
+<h3 id="Phase-4:-MCP最小ツール">Phase 4: MCP最小ツール</h3>
+<p>目的:</p>
+<p>田中祐一AIとAI社員がDBを参照・記録できる入口を作る。</p>
+<p>最初に作るツール:</p>
+<ol>
+<li><code>search_source_assets</code></li>
+<li><code>get_source_asset</code></li>
+<li><code>log_agent_run</code></li>
+<li><code>submit_classification_label</code></li>
+<li><code>submit_knowledge_promotion_candidate</code></li>
+<li><code>submit_eval_case</code></li>
+</ol>
+<p>判断:</p>
+<p>MCPの実装はDBスキーマ検証後に入る。先にI/Oの型だけ作るのは可能。</p>
+<h3 id="Phase-5:-AI社員台帳の初期登録">Phase 5: AI社員台帳の初期登録</h3>
+<p>目的:</p>
+<p>既存の <code>agents/</code> 配下にいるAI社員をDBへ登録する。</p>
+<p>残タスク:</p>
+<ol>
+<li>agent.mdを走査する。</li>
+<li>agent_slug、display_name、department、agent_pathを抽出する。</li>
+<li><code>ai_agents</code> に登録する。</li>
+<li>agent.mdのハッシュを取り、<code>ai_agent_versions</code> に登録する。</li>
+<li>変更履歴を追えるようにする。</li>
+</ol>
+<p>判断:</p>
+<p>ここもすぐ実装に入ってよい。最初はJSONL出力だけで安全に進める。</p>
+<h3 id="Phase-6:-稼働ログの接続">Phase 6: 稼働ログの接続</h3>
+<p>目的:</p>
+<p>「AI社員が働いた」という事実を残す。</p>
+<p>残タスク:</p>
+<ol>
+<li>田中祐一AI起点の作業に <code>agent_slug</code> を付ける。</li>
+<li>Codex / Claude / Cursor で呼び出したAI社員を <code>ai_agent_runs</code> に残す。</li>
+<li>どのナレッジを使ったかを <code>ai_agent_knowledge_usage</code> に残す。</li>
+<li>成果物パスを <code>output_path</code> に残す。</li>
+</ol>
+<p>判断:</p>
+<p>最初は手動ログ・MCPログの併用でよい。完全自動化は後でよい。</p>
+<h3 id="Phase-7:-週次ナレッジレビューとの統合">Phase 7: 週次ナレッジレビューとの統合</h3>
+<p>目的:</p>
+<p>毎回手動で「スキル化・ナレッジ化・社員化」を完了させる負担を減らす。</p>
+<p>残タスク:</p>
+<ol>
+<li><code>knowledge_promotion_queue</code> を週次レビュー対象にする。</li>
+<li>月曜レポートに、DB上の未処理候補を入れる。</li>
+<li>田中祐一が承認・保留・却下できる形式にする。</li>
+<li>承認されたものだけ <code>rules/</code>、<code>skills/</code>、<code>knowledge/</code>、<code>agents/</code> に反映する。</li>
+</ol>
+<p>判断:</p>
+<p>DB取り込み後に実装する。</p>
+<h3 id="Phase-8:-ダッシュボード">Phase 8: ダッシュボード</h3>
+<p>目的:</p>
+<p>AI社員が育っているか、使われているかを見える化する。</p>
+<p>表示項目:</p>
+<ol>
+<li>AI社員別の利用回数</li>
+<li>AI社員別の成果物数</li>
+<li>評価スコア</li>
+<li>使われたナレッジ</li>
+<li>未処理ナレッジ候補</li>
+<li>統合・停止候補のAI社員</li>
+<li>評価テストの合格率</li>
+</ol>
+<p>判断:</p>
+<p>MVP後に実装する。最初から作り込まない。</p>
+<h2 id="すぐ着手する実装">すぐ着手する実装</h2>
+<p>最初の実装順は以下。</p>
+<ol>
+<li>既存MD走査スクリプト</li>
+<li>サンプル20件の <code>source_assets_import_manifest.jsonl</code></li>
+<li>AI社員agent.md走査スクリプト</li>
+<li>AI社員台帳インポートJSONL</li>
+<li>SQL migrationのレビュー</li>
+</ol>
+<p>この5つは既存データを壊さないため、すぐ進めてよい。</p>
+<h2 id="まだ確認してから進める実装">まだ確認してから進める実装</h2>
+<p>以下は確認後に進める。</p>
+<ol>
+<li>Supabase本番DBへのmigration適用</li>
+<li>本番MCPへの新ツール追加</li>
+<li>受講生やスタッフが触れるUIへの表示</li>
+<li><code>restricted</code> / <code>tanaka_only</code> データの検索許可</li>
+<li>自動で <code>knowledge/</code> を書き換える処理</li>
+</ol>
+<h2 id="完了条件">完了条件</h2>
+<p>MVP完了条件:</p>
+<ol>
+<li>既存MD20件がDBへ取り込める。</li>
+<li>旧分類が <code>legacy_md_2026Q2</code> として残る。</li>
+<li>新分類 <code>ai_employee_knowledge_v1</code> を追加できる。</li>
+<li>AI社員1名以上の稼働ログを残せる。</li>
+<li><code>search_source_assets</code> で原本と分類ラベルを検索できる。</li>
+<li>ナレッジ化候補を週次レビューへ送れる。</li>
+</ol>
+<p>この状態になれば、「DB化した意味がある」と言える。</p>
+<h2 id="重要メモ">重要メモ</h2>
+<p>今回のDB化は、過去MD整理を否定するものではない。</p>
+<p>むしろ、過去MD整理で作った判断・分類・フォルダ分けを、DB上で再利用可能な履歴に変換する作業である。</p>
+<p>今後は、評価軸が変わっても原本を再仕分けし直すのではなく、新しい <code>classification_rubrics</code> と <code>classification_runs</code> を追加する。これにより、田中祐一AIとAI社員の進化履歴そのものが資産になる。</p>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-07-03)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: CF82B30C<br />
+Generated by: 田中祐一</p>
 </main>
 </body>
 </html>
