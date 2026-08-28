@@ -15,16 +15,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
-.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
-        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
-.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
-.toc ul { list-style: none; margin: 0; padding: 0; }
-.toc li { margin: 0.2rem 0; line-height: 1.5; }
-.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
-.toc a { color: #333; text-decoration: none; }
-.toc a:hover { color: #0d6efd; text-decoration: underline; }
-h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -80,10 +70,10 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -137,64 +127,64 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#0.-背景（なぜ必要か）">0. 背景（なぜ必要か）</a></li><li class="toc-main"><a href="#1.-対象プロジェクト">1. 対象プロジェクト</a></li><li class="toc-main"><a href="#2.-設定手順（Vercel管理画面・技術担当）">2. 設定手順（Vercel管理画面・技術担当）</a></li><li class="toc-sub"><a href="#Step-1【Git連携】">Step 1【Git連携】</a></li><li class="toc-sub"><a href="#Step-2【Production-Branch】">Step 2【Production Branch】</a></li><li class="toc-sub"><a href="#Step-3【Root-Directory（最重要）】">Step 3【Root Directory（最重要）】</a></li><li class="toc-sub"><a href="#Step-4【Framework-/-Node】">Step 4【Framework / Node】</a></li><li class="toc-sub"><a href="#Step-5【初回デプロイ確認】">Step 5【初回デプロイ確認】</a></li><li class="toc-main"><a href="#3.-同時に必須【ブランチCLIデプロイの停止】">3. 同時に必須【ブランチCLIデプロイの停止】</a></li><li class="toc-main"><a href="#4.-現状（2026-06-14時点）">4. 現状（2026-06-14時点）</a></li></ul></nav><h1>田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</h1>
-<p>作成日: 2026-06-14<br />
-目的: 「本番デプロイがCodexのブランチ作業ツリー由来で、mainの最新コードが本番に届かない」事故の恒久対策。Vercelをmainにgit連携し、push→自動デプロイを本当に有効化する。<br />
-担当: 田中／技術担当（Vercel管理画面・GitHub OAuth付与が必要なため）。設計: Claude。</p>
-<h2 id="0.-背景（なぜ必要か）">0. 背景（なぜ必要か）</h2>
-<ul>
-<li>2026-06-14、B4（哲学常時ロード）のコードはmainにあるのに本番に出ていなかった。</li>
-<li>原因: 本番デプロイが <strong>git連携ではなくCLI <code>vercel --prod</code></strong>（<code>vercel inspect</code> で <code>gitSource: None</code>）で、しかも <strong>Codexのブランチ作業ツリー</strong>（<code>codex/creation-overview-main</code>等）から実行されていた。→ mainの成果が本番に届かない。</li>
-<li>詳細: メモリ <code>project_mcp_deploy_mechanism</code>、<code>docs/AI進行中作業台帳.md</code> 冒頭の警告。</li>
-</ul>
-<h2 id="1.-対象プロジェクト">1. 対象プロジェクト</h2>
-<ul>
-<li>Vercelプロジェクト: <strong><code>tanaka-knowledge-mcp</code></strong>（ID <code>prj_ZTbbaLQoXinJX6GdXcii3DoYzXTr</code>、team: promoter-crm）</li>
-<li>本番URL（不変・受講生/Cursor接続先）: <code>mcp-promoter-crm.vercel.app</code>、既定 <code>mcp-jade-beta.vercel.app</code></li>
-<li>アプリ実体: <code>71_システム開発/TanakaKnowledgeOS/apps/mcp</code>（Next.js・Node 24.x・<strong>workspace依存なし＝自己完結</strong>）</li>
-</ul>
-<h2 id="2.-設定手順（Vercel管理画面・技術担当）">2. 設定手順（Vercel管理画面・技術担当）</h2>
-<h3 id="Step-1【Git連携】">Step 1【Git連携】</h3>
-<ul>
-<li>Vercel → <code>tanaka-knowledge-mcp</code> → Settings → Git → Connect Git Repository</li>
-<li>リポジトリ: <strong><code>tanakayuc/theleadpromotion</code></strong>（GitHub OAuth付与が必要）</li>
-</ul>
-<h3 id="Step-2【Production-Branch】">Step 2【Production Branch】</h3>
-<ul>
-<li>Settings → Git → Production Branch = <strong><code>main</code></strong></li>
-</ul>
-<h3 id="Step-3【Root-Directory（最重要）】">Step 3【Root Directory（最重要）】</h3>
-<ul>
-<li>Settings → Build &amp; Deployment → Root Directory = <strong><code>71_システム開発/TanakaKnowledgeOS/apps/mcp</code></strong></li>
-<li>⚠️ 現在は <code>.</code>（CLIがapps/mcpから実行するため今は機能）。git連携はリポジトリ全体をcloneするので、<code>.</code> のままだとリポジトリルートをビルドしようとして<strong>壊れる</strong>。必ずアプリのパスに設定する。</li>
-<li>⚠️ パスに日本語（<code>71_システム開発</code>）を含む。Vercelが非ASCIIパスを正しく扱えるか、初回ビルドで必ず確認する。もし問題が出るなら、アプリを ASCII パス配下へ移すか、<code>vercel.json</code>/Root設定で回避を検討。</li>
-</ul>
-<h3 id="Step-4【Framework-/-Node】">Step 4【Framework / Node】</h3>
-<ul>
-<li>Framework Preset: <strong>Next.js</strong>（自動検出）／ Node.js: <strong>24.x</strong>（現行維持）</li>
-<li>Build Command / Install Command は既定（next build / 自動）でよい</li>
-</ul>
-<h3 id="Step-5【初回デプロイ確認】">Step 5【初回デプロイ確認】</h3>
-<ul>
-<li>mainに軽微なpush（またはVercel上でRedeploy）→ git連携デプロイがReadyになるか確認</li>
-<li>完了条件:</li>
-<li><code>vercel inspect <a href="https://mcp-promoter-crm.vercel.app" target="_blank" rel="noopener noreferrer">https://mcp-promoter-crm.vercel.app</a></code> で <code>gitSource</code> がmain/commit付きになる（CLI由来の <code>None</code> でなくなる）</li>
-<li>添削モードで「## 田中祐一OS 核（哲学・原理）｜常時適用」が返却ナレッジ先頭に乗る（B4が生きている）</li>
-</ul>
-<h2 id="3.-同時に必須【ブランチCLIデプロイの停止】">3. 同時に必須【ブランチCLIデプロイの停止】</h2>
-<p>git連携を入れても、誰かが<strong>ブランチ作業ツリーから <code>vercel --prod</code> を続けると本番を上書きしてB4が消える</strong>。以下を徹底:</p>
-<ul>
-<li><strong>Codexはブランチ作業をやめ、main直接作業に戻す</strong>（CLAUDE.mdのブランチ禁止ルール。<code>git worktree list</code> に出る <code>codex/*</code> ツリーは整理）</li>
-<li>手動 <code>vercel --prod</code> は原則禁止。デプロイは「mainへpush→git連携が自動デプロイ」に一本化</li>
-<li>緊急の手動デプロイが要る場合のみ、必ず <code>git checkout main &amp;&amp; git pull</code> してから実行</li>
-</ul>
-<h2 id="4.-現状（2026-06-14時点）">4. 現状（2026-06-14時点）</h2>
-<ul>
-<li>B4は <strong>mainから手動デプロイ＋<code>mcp-promoter-crm.vercel.app</code> を手動aliasで固定</strong>して本番反映済み（実地検証OK）。</li>
-<li>ただし上記git連携＋ブランチデプロイ停止が完了するまでは、<strong>ブランチデプロイで巻き戻るリスクが残る</strong>。巻き戻ったら <code>apps/mcp</code>（mainチェックアウト）で <code>vercel --prod</code> → <code>vercel alias set &lt;deploy&gt; mcp-promoter-crm.vercel.app</code> で復旧。</li>
-</ul>
-<p>Produced by KATSUO MARKETING<br />
-Generated by: 田中祐一AI設計チーム（Claude）</p>
+<pre># 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック
+
+作成日: 2026-06-14
+目的: 「本番デプロイがCodexのブランチ作業ツリー由来で、mainの最新コードが本番に届かない」事故の恒久対策。Vercelをmainにgit連携し、push→自動デプロイを本当に有効化する。
+担当: 田中／技術担当（Vercel管理画面・GitHub OAuth付与が必要なため）。設計: Claude。
+
+## 0. 背景（なぜ必要か）
+
+- 2026-06-14、B4（哲学常時ロード）のコードはmainにあるのに本番に出ていなかった。
+- 原因: 本番デプロイが **git連携ではなくCLI `vercel --prod`**（`vercel inspect` で `gitSource: None`）で、しかも **Codexのブランチ作業ツリー**（`codex/creation-overview-main`等）から実行されていた。→ mainの成果が本番に届かない。
+- 詳細: メモリ `project_mcp_deploy_mechanism`、`docs/AI進行中作業台帳.md` 冒頭の警告。
+
+## 1. 対象プロジェクト
+
+- Vercelプロジェクト: **`tanaka-knowledge-mcp`**（ID `prj_ZTbbaLQoXinJX6GdXcii3DoYzXTr`、team: promoter-crm）
+- 本番URL（不変・受講生/Cursor接続先）: `mcp-promoter-crm.vercel.app`、既定 `mcp-jade-beta.vercel.app`
+- アプリ実体: `71_システム開発/TanakaKnowledgeOS/apps/mcp`（Next.js・Node 24.x・**workspace依存なし＝自己完結**）
+
+## 2. 設定手順（Vercel管理画面・技術担当）
+
+### Step 1【Git連携】
+- Vercel → `tanaka-knowledge-mcp` → Settings → Git → Connect Git Repository
+- リポジトリ: **`tanakayuc/theleadpromotion`**（GitHub OAuth付与が必要）
+
+### Step 2【Production Branch】
+- Settings → Git → Production Branch = **`main`**
+
+### Step 3【Root Directory（最重要）】
+- Settings → Build &amp; Deployment → Root Directory = **`71_システム開発/TanakaKnowledgeOS/apps/mcp`**
+- ⚠️ 現在は `.`（CLIがapps/mcpから実行するため今は機能）。git連携はリポジトリ全体をcloneするので、`.` のままだとリポジトリルートをビルドしようとして**壊れる**。必ずアプリのパスに設定する。
+- ⚠️ パスに日本語（`71_システム開発`）を含む。Vercelが非ASCIIパスを正しく扱えるか、初回ビルドで必ず確認する。もし問題が出るなら、アプリを ASCII パス配下へ移すか、`vercel.json`/Root設定で回避を検討。
+
+### Step 4【Framework / Node】
+- Framework Preset: **Next.js**（自動検出）／ Node.js: **24.x**（現行維持）
+- Build Command / Install Command は既定（next build / 自動）でよい
+
+### Step 5【初回デプロイ確認】
+- mainに軽微なpush（またはVercel上でRedeploy）→ git連携デプロイがReadyになるか確認
+- 完了条件:
+  - `vercel inspect <a href="https://mcp-promoter-crm.vercel.app" target="_blank" rel="noopener noreferrer">https://mcp-promoter-crm.vercel.app</a>` で `gitSource` がmain/commit付きになる（CLI由来の `None` でなくなる）
+  - 添削モードで「## 田中祐一OS 核（哲学・原理）｜常時適用」が返却ナレッジ先頭に乗る（B4が生きている）
+
+## 3. 同時に必須【ブランチCLIデプロイの停止】
+
+git連携を入れても、誰かが**ブランチ作業ツリーから `vercel --prod` を続けると本番を上書きしてB4が消える**。以下を徹底:
+
+- **Codexはブランチ作業をやめ、main直接作業に戻す**（CLAUDE.mdのブランチ禁止ルール。`git worktree list` に出る `codex/*` ツリーは整理）
+- 手動 `vercel --prod` は原則禁止。デプロイは「mainへpush→git連携が自動デプロイ」に一本化
+- 緊急の手動デプロイが要る場合のみ、必ず `git checkout main &amp;&amp; git pull` してから実行
+
+## 4. 現状（2026-06-14時点）
+
+- B4は **mainから手動デプロイ＋`mcp-promoter-crm.vercel.app` を手動aliasで固定**して本番反映済み（実地検証OK）。
+- ただし上記git連携＋ブランチデプロイ停止が完了するまでは、**ブランチデプロイで巻き戻るリスクが残る**。巻き戻ったら `apps/mcp`（mainチェックアウト）で `vercel --prod` → `vercel alias set &lt;deploy&gt; mcp-promoter-crm.vercel.app` で復旧。
+
+Produced by KATSUO MARKETING
+Generated by: 田中祐一AI設計チーム（Claude）
+</pre>
 </main>
 </body>
 </html>

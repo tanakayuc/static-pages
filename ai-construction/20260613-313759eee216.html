@@ -15,16 +15,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
-.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
-        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
-.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
-.toc ul { list-style: none; margin: 0; padding: 0; }
-.toc li { margin: 0.2rem 0; line-height: 1.5; }
-.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
-.toc a { color: #333; text-decoration: none; }
-.toc a:hover { color: #0d6efd; text-decoration: underline; }
-h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -80,10 +70,10 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -137,128 +127,68 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#1.-問題の構造">1. 問題の構造</a></li><li class="toc-main"><a href="#2.-設計原則">2. 設計原則</a></li><li class="toc-sub"><a href="#原則1:-型で自動包含（ハードコード許可リスト廃止）">原則1: 型で自動包含（ハードコード許可リスト廃止）</a></li><li class="toc-sub"><a href="#原則2:-3層ロード（容量を型で配分）">原則2: 3層ロード（容量を型で配分）</a></li><li class="toc-sub"><a href="#原則3:-インデックス駆動（バンドル丸読み→keyword-pick-をやめる）">原則3: インデックス駆動（バンドル丸読み→keyword pick をやめる）</a></li><li class="toc-sub"><a href="#原則4:-容量回避は設計で（削るのでなく階層化）">原則4: 容量回避は設計で（削るのでなく階層化）</a></li><li class="toc-sub"><a href="#原則5:-出典信頼度（Codex指摘3・基準010連動）">原則5: 出典信頼度（Codex指摘3・基準010連動）</a></li><li class="toc-main"><a href="#3.-実装ブロック（細切れ・kill対策で1本ずつ）">3. 実装ブロック（細切れ・kill対策で1本ずつ）</a></li><li class="toc-main"><a href="#4.-検証の合格条件（B6）">4. 検証の合格条件（B6）</a></li><li class="toc-main"><a href="#5.-進め方">5. 進め方</a></li></ul></nav><h1>田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</h1>
-<p>作成日: 2026-06-13<br />
-背景: 検証の結果、足したv2ナレッジ（哲学/原理）が本番AIに届いていなかった。2段フィルタ（バンドルSOURCESのハードコード許可リスト＋buildCompactKnowledgeのキーワード上位10）が原因。田中さん指示「MCPは全ナレッジを読めない→インデックス化して読む範囲を限定する設計が必要」を実装する。</p>
-<h2 id="1.-問題の構造">1. 問題の構造</h2>
-<ul>
-<li>MCPがClaudeへ返せるのは18,000字（KNOWLEDGE_RETURN_LIMIT）。knowledge/は210+ファイル＝全部は載らない</li>
-<li>現状の2段フィルタが哲学/原理を落とす:</li>
-<li><code>02_ツール/開発支援/統合添削_bundle.py</code> のSOURCESがハードコード許可リスト（スキル別は<code>ジャンル別固有論点.md</code>のみ・共通は特定4フォルダのみ）→ 新規の5要素ファイルがバンドルに入らない</li>
-<li><code>apps/mcp/src/mcp/tools/correction.ts</code> の <code>buildCompactKnowledge</code> がキーワードスコア上位10セクション→哲学/原理が表層語(LP/CTA)に負ける</li>
-</ul>
-<h2 id="2.-設計原則">2. 設計原則</h2>
-<h3 id="原則1:-型で自動包含（ハードコード許可リスト廃止）">原則1: 型で自動包含（ハードコード許可リスト廃止）</h3>
-<p>frontmatter <code>type ∈ {哲学,原理,判断基準,事例,基準値,用語,手順書,ルーター,エンジン設定}</code> のファイルは自動でインデックス対象。新ファイルを足すだけで届く（スクリプト改修不要）。</p>
-<h3 id="原則2:-3層ロード（容量を型で配分）">原則2: 3層ロード（容量を型で配分）</h3>
-<p>18,000字を型で予算配分し、各層が必ず席を持つ。哲学がキーワード勝負で消えない。</p>
-<table>
-<thead>
-<tr>
-<th>層</th>
-<th>内容</th>
-<th>予算目安</th>
-<th>選抜方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Tier0 OS核（常時）</strong></td>
-<td>哲学・横断共通仕様・該当モードの中核原理・絶対ルール</td>
-<td>約5,000字</td>
-<td>常時全載（小さく保つ）</td>
-</tr>
-<tr>
-<td><strong>Tier1 モード判断基準</strong></td>
-<td>correction_typeに対応する判断基準・該当ジャンルの観点重み</td>
-<td>約7,000字</td>
-<td>モードで選抜</td>
-</tr>
-<tr>
-<td><strong>Tier2 関連事例・詳細</strong></td>
-<td>入力に関連する事例・ジャンル論点・基準値</td>
-<td>約6,000字</td>
-<td>インデックスで関連上位のみ</td>
-</tr>
-</tbody>
-</table>
-<h3 id="原則3:-インデックス駆動（バンドル丸読み→keyword-pick-をやめる）">原則3: インデックス駆動（バンドル丸読み→keyword pick をやめる）</h3>
-<p><code>knowledge/_index.json</code> を生成。各ファイルの {path, type, genre, used_by, keywords, char数, 1行要約, tier} を持つ。MCPはインデックスで「どのファイルのどのセクションを、どの層で載せるか」を決める。</p>
-<h3 id="原則4:-容量回避は設計で（削るのでなく階層化）">原則4: 容量回避は設計で（削るのでなく階層化）</h3>
-<ul>
-<li>Tier0が予算超過したら警告を出し、哲学を削らず「核の核」要約版を別途持つ</li>
-<li>Tier2は関連上位のみ＝入力ごとに動的に変わる（事例は全部載せない前提）</li>
-<li>大きいファイルはセクション単位で分割インデックス化（ファイル全文でなくセクションを選ぶ）</li>
-</ul>
-<h3 id="原則5:-出典信頼度（Codex指摘3・基準010連動）">原則5: 出典信頼度（Codex指摘3・基準010連動）</h3>
-<p>frontmatterに <code>source_tier: 本人発話 | 田中監修 | 教材 | 推定</code> を追加。同じ内容でも本人発話を優先ロード・優先表示。田中本人でないゲストメソッドは除外（基準010）。</p>
-<h2 id="3.-実装ブロック（細切れ・kill対策で1本ずつ）">3. 実装ブロック（細切れ・kill対策で1本ずつ）</h2>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>ブロック</th>
-<th>担当</th>
-<th>依存</th>
-<th>破壊性</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>B1</strong></td>
-<td>frontmatter拡張: 全knowledgeに <code>source_tier</code> と <code>tier</code>（0/1/2）を付与（移行157件と統合）</td>
-<td>Codex小バッチ</td>
-<td>なし</td>
-<td>低（メタのみ）</td>
-</tr>
-<tr>
-<td><strong>B2</strong></td>
-<td>index生成スクリプト <code>02_ツール/開発支援/ナレッジインデックス生成.py</code>（frontmatter→_index.json）</td>
-<td>Claude</td>
-<td>B1</td>
-<td>なし（新規）</td>
-</tr>
-<tr>
-<td><strong>B3</strong></td>
-<td>バンドル生成を型ベース自動包含へ改修（SOURCESハードコード廃止・Tier別バンドル出力）</td>
-<td>Claude/Codex</td>
-<td>B1</td>
-<td>中（既存スクリプト改修・Codex検証必須）</td>
-</tr>
-<tr>
-<td><strong>B4</strong></td>
-<td><code>buildCompactKnowledge</code> 3層ロード書き換え（Tier0常時＋Tier1モード＋Tier2関連・予算配分）</td>
-<td>Codex</td>
-<td>B2,B3</td>
-<td>中（MCP中核・type-check必須）</td>
-</tr>
-<tr>
-<td><strong>B5</strong></td>
-<td>本番env <code>GITHUB_KNOWLEDGE_PATH</code> 実値確認（knowledge であること）</td>
-<td>田中/Vercel</td>
-<td>なし</td>
-<td>なし</td>
-</tr>
-<tr>
-<td><strong>B6</strong></td>
-<td>検証: 5要素（特に哲学/原理）が実際にロードされるテスト＋旧比較</td>
-<td>Claude</td>
-<td>B4</td>
-<td>なし</td>
-</tr>
-</tbody>
-</table>
-<h2 id="4.-検証の合格条件（B6）">4. 検証の合格条件（B6）</h2>
-<ul>
-<li>添削モードで「LP添削」依頼時、ロードされたナレッジに <strong>疑いのレベル/マーケ=教育/横断共通仕様（哲学・原理）が必ず含まれる</strong></li>
-<li>各correction_typeで Tier0 が常に載る（哲学が0件になるケースがない）</li>
-<li>18,000字を超えない</li>
-<li>旧（哲学なし）と新（哲学あり）で、同一入力への添削出力が「田中らしさ」で差が出る（→E5ブラインドテストへ）</li>
-</ul>
-<h2 id="5.-進め方">5. 進め方</h2>
-<p>Claude設計→Codex実装。kill対策で1ブロックずつ・小バッチ。まずB2（index生成・Claude直接・破壊性ゼロ）から着手し、インデックスの形を確定させてからB3/B4の実装仕様をCodexに渡す。</p>
-<p>Produced by KATSUO MARKETING<br />
-Generated by: 田中祐一AI設計チーム（Claude）</p>
+<pre># 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）
+
+作成日: 2026-06-13
+背景: 検証の結果、足したv2ナレッジ（哲学/原理）が本番AIに届いていなかった。2段フィルタ（バンドルSOURCESのハードコード許可リスト＋buildCompactKnowledgeのキーワード上位10）が原因。田中さん指示「MCPは全ナレッジを読めない→インデックス化して読む範囲を限定する設計が必要」を実装する。
+
+## 1. 問題の構造
+
+- MCPがClaudeへ返せるのは18,000字（KNOWLEDGE_RETURN_LIMIT）。knowledge/は210+ファイル＝全部は載らない
+- 現状の2段フィルタが哲学/原理を落とす:
+  1. `02_ツール/開発支援/統合添削_bundle.py` のSOURCESがハードコード許可リスト（スキル別は`ジャンル別固有論点.md`のみ・共通は特定4フォルダのみ）→ 新規の5要素ファイルがバンドルに入らない
+  2. `apps/mcp/src/mcp/tools/correction.ts` の `buildCompactKnowledge` がキーワードスコア上位10セクション→哲学/原理が表層語(LP/CTA)に負ける
+
+## 2. 設計原則
+
+### 原則1: 型で自動包含（ハードコード許可リスト廃止）
+frontmatter `type ∈ {哲学,原理,判断基準,事例,基準値,用語,手順書,ルーター,エンジン設定}` のファイルは自動でインデックス対象。新ファイルを足すだけで届く（スクリプト改修不要）。
+
+### 原則2: 3層ロード（容量を型で配分）
+18,000字を型で予算配分し、各層が必ず席を持つ。哲学がキーワード勝負で消えない。
+
+| 層 | 内容 | 予算目安 | 選抜方法 |
+|---|---|---|---|
+| **Tier0 OS核（常時）** | 哲学・横断共通仕様・該当モードの中核原理・絶対ルール | 約5,000字 | 常時全載（小さく保つ） |
+| **Tier1 モード判断基準** | correction_typeに対応する判断基準・該当ジャンルの観点重み | 約7,000字 | モードで選抜 |
+| **Tier2 関連事例・詳細** | 入力に関連する事例・ジャンル論点・基準値 | 約6,000字 | インデックスで関連上位のみ |
+
+### 原則3: インデックス駆動（バンドル丸読み→keyword pick をやめる）
+`knowledge/_index.json` を生成。各ファイルの {path, type, genre, used_by, keywords, char数, 1行要約, tier} を持つ。MCPはインデックスで「どのファイルのどのセクションを、どの層で載せるか」を決める。
+
+### 原則4: 容量回避は設計で（削るのでなく階層化）
+- Tier0が予算超過したら警告を出し、哲学を削らず「核の核」要約版を別途持つ
+- Tier2は関連上位のみ＝入力ごとに動的に変わる（事例は全部載せない前提）
+- 大きいファイルはセクション単位で分割インデックス化（ファイル全文でなくセクションを選ぶ）
+
+### 原則5: 出典信頼度（Codex指摘3・基準010連動）
+frontmatterに `source_tier: 本人発話 | 田中監修 | 教材 | 推定` を追加。同じ内容でも本人発話を優先ロード・優先表示。田中本人でないゲストメソッドは除外（基準010）。
+
+## 3. 実装ブロック（細切れ・kill対策で1本ずつ）
+
+| # | ブロック | 担当 | 依存 | 破壊性 |
+|---|---|---|---|---|
+| **B1** | frontmatter拡張: 全knowledgeに `source_tier` と `tier`（0/1/2）を付与（移行157件と統合） | Codex小バッチ | なし | 低（メタのみ） |
+| **B2** | index生成スクリプト `02_ツール/開発支援/ナレッジインデックス生成.py`（frontmatter→_index.json） | Claude | B1 | なし（新規） |
+| **B3** | バンドル生成を型ベース自動包含へ改修（SOURCESハードコード廃止・Tier別バンドル出力） | Claude/Codex | B1 | 中（既存スクリプト改修・Codex検証必須） |
+| **B4** | `buildCompactKnowledge` 3層ロード書き換え（Tier0常時＋Tier1モード＋Tier2関連・予算配分） | Codex | B2,B3 | 中（MCP中核・type-check必須） |
+| **B5** | 本番env `GITHUB_KNOWLEDGE_PATH` 実値確認（knowledge であること） | 田中/Vercel | なし | なし |
+| **B6** | 検証: 5要素（特に哲学/原理）が実際にロードされるテスト＋旧比較 | Claude | B4 | なし |
+
+## 4. 検証の合格条件（B6）
+
+- 添削モードで「LP添削」依頼時、ロードされたナレッジに **疑いのレベル/マーケ=教育/横断共通仕様（哲学・原理）が必ず含まれる**
+- 各correction_typeで Tier0 が常に載る（哲学が0件になるケースがない）
+- 18,000字を超えない
+- 旧（哲学なし）と新（哲学あり）で、同一入力への添削出力が「田中らしさ」で差が出る（→E5ブラインドテストへ）
+
+## 5. 進め方
+
+Claude設計→Codex実装。kill対策で1ブロックずつ・小バッチ。まずB2（index生成・Claude直接・破壊性ゼロ）から着手し、インデックスの形を確定させてからB3/B4の実装仕様をCodexに渡す。
+
+Produced by KATSUO MARKETING
+Generated by: 田中祐一AI設計チーム（Claude）
+</pre>
 </main>
 </body>
 </html>

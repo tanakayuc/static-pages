@@ -15,16 +15,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
-.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
-        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
-.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
-.toc ul { list-style: none; margin: 0; padding: 0; }
-.toc li { margin: 0.2rem 0; line-height: 1.5; }
-.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
-.toc a { color: #333; text-decoration: none; }
-.toc a:hover { color: #0d6efd; text-decoration: underline; }
-h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -80,10 +70,10 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -137,104 +127,52 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<h1>Golden Query ベースライン（2026-06-16）</h1>
-<p>embedding移行（Phase B）の効果を測る基準点。Codex条件「recall改善を測れないまま移行すると悪化に気づけない→golden queryで現行バンドルとの比較を移行ゲートにする」への対応。</p>
-<p>測定: 実バンドル <code>knowledge/_bundle_添削モード.md</code> に対し <code>buildCompactKnowledge(mode, {inputText, bare:true, indexJson})</code> を実行し、期待語の浮上を判定（2026-06-16時点・キーワード/n-gram検索）。</p>
-<h2>A. 現状PASS（回帰ガード＝<code>tests/correction-recall-live.test.ts</code> で自動検証）</h2>
-<table>
-<thead>
-<tr>
-<th>クエリ概要</th>
-<th>期待語</th>
-<th>現状</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>わしづかみコンセプト15質問</td>
-<td>わしづかみコンセプト構築</td>
-<td>✅</td>
-</tr>
-<tr>
-<td>潜在意識ライティング7通</td>
-<td>潜在意識ライティング</td>
-<td>✅</td>
-</tr>
-<tr>
-<td>個別相談クロージング/価格提示</td>
-<td>価格提示</td>
-<td>✅</td>
-</tr>
-<tr>
-<td>オプトインLP冒頭フック</td>
-<td>グラデーション設計</td>
-<td>✅</td>
-</tr>
-<tr>
-<td>セミナースライド教えすぎ</td>
-<td>ノウハウ教えすぎ</td>
-<td>✅</td>
-</tr>
-<tr>
-<td>個別相談の入口 審査制か面談相談会30分</td>
-<td>面談</td>
-<td>✅（新規Q1）</td>
-</tr>
-<tr>
-<td>高単価コンセプトは料金でなく集客</td>
-<td>高単価は料金でなく</td>
-<td>✅（新規Q4・見出し）</td>
-</tr>
-</tbody>
-</table>
-<p>→ embedding導入後もこれらは<strong>浮上し続けること（無回帰）</strong>がゲート条件。</p>
-<h2>B. 現状FAIL（embeddingで解消すべき既知ギャップ＝KPI）</h2>
-<p>2026-06-16にマージした実体験レコードのうち、<strong>強いキーワード重複があるのに浮上しないもの</strong>。キーワード/n-gram検索の限界の実証。</p>
-<table>
-<thead>
-<tr>
-<th>クエリ概要</th>
-<th>期待語</th>
-<th>現状</th>
-<th>備考</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>業務委託より社員・専業で組織を作る方が生産性高いか（AI時代の人員設計）</td>
-<td>組織体制 / 社員・専業</td>
-<td>❌ 全く浮上しない</td>
-<td>クエリに 組織・業務委託・社員・専業 が含まれるのに未取得</td>
-</tr>
-<tr>
-<td>経営とコミュニティ運営は別物・ホメホメクラブの場づくり</td>
-<td>経営とコミュニティ運営 / ホメホメ</td>
-<td>❌ 全く浮上しない</td>
-<td>クエリに 経営・コミュニティ・ホメホメ が含まれるのに未取得</td>
-</tr>
-<tr>
-<td>高単価コンセプトの深部</td>
-<td>変化をコミット</td>
-<td>❌ section truncate(2800字)で欠落</td>
-<td>見出しは出るが深部が切れる</td>
-</tr>
-</tbody>
-</table>
-<h3>何を意味するか</h3>
-<ul>
-<li>マージした原理レコード（[[組織体制_社員と業務委託_AI時代]] [[経営とコミュニティ運営は別物_場の設計]]）は、<strong>バンドルには載っているが相談AIに取得されない</strong>。＝knowledge追加だけでは「呼ばれる」とは限らない。</li>
-<li>強い字面一致でも落ちる＝スコアリング/選抜（大プールでの競合・section長・budget）が原因で、字面の問題ではない。</li>
-<li><strong>これがembedding（意味検索）が必要な直接証拠</strong>。embedding導入後、Bの❌が✅に変わり、Aの✅が維持されることを移行の合否基準にする。</li>
-</ul>
-<h2>暫定の打ち手（embedding前にできること）</h2>
-<ul>
-<li>~~案1: 見出し一致ブースト（クエリn-gramが見出しに含まれたら加点）~~ → <strong>2026-06-16 実装・実証 → 撤回</strong>。</li>
-<li>結果: 組織体制は浮上(✅化)したが、<strong>最重要canonical「わしづかみコンセプト構築」を押し出して回帰</strong>（'コンセプト'n-gramが5レベル/三人称等の見出しに一致して浮上→わしづかみ退場）。経営vsコミュニティは依然浮上せず。</li>
-<li>教訓: キーワード/n-gramのスコア調整は、大プールでの競合で<strong>必ず別のcanonicalを巻き添えにする</strong>（「ファイル粒度はrecallを下げる」と同じ構造、これで通算4回目）。字面ベースの加点では根治しない。</li>
-<li>案2: section truncate(2800)の見直し（深部句が切れる「変化をコミット」問題）。これは局所的で低リスク・別途検討可。</li>
-<li><strong>案3（採用方針）: B群はembedding（意味検索・Phase B）で根治する。</strong> キーワード調整を重ねるほどcanonicalを壊すので、ここはembedding一択。</li>
-</ul>
-<p>現時点はBを「embeddingのKPI」として固定し、AをCI回帰ガード(<code>correction-recall-live.test.ts</code> 12件)で守る。案1の撤回により、<strong>B群解消＝embedding着手の根拠がさらに強まった</strong>。</p>
+<pre># Golden Query ベースライン（2026-06-16）
+
+embedding移行（Phase B）の効果を測る基準点。Codex条件「recall改善を測れないまま移行すると悪化に気づけない→golden queryで現行バンドルとの比較を移行ゲートにする」への対応。
+
+測定: 実バンドル `knowledge/_bundle_添削モード.md` に対し `buildCompactKnowledge(mode, {inputText, bare:true, indexJson})` を実行し、期待語の浮上を判定（2026-06-16時点・キーワード/n-gram検索）。
+
+## A. 現状PASS（回帰ガード＝`tests/correction-recall-live.test.ts` で自動検証）
+
+| クエリ概要 | 期待語 | 現状 |
+|---|---|---|
+| わしづかみコンセプト15質問 | わしづかみコンセプト構築 | ✅ |
+| 潜在意識ライティング7通 | 潜在意識ライティング | ✅ |
+| 個別相談クロージング/価格提示 | 価格提示 | ✅ |
+| オプトインLP冒頭フック | グラデーション設計 | ✅ |
+| セミナースライド教えすぎ | ノウハウ教えすぎ | ✅ |
+| 個別相談の入口 審査制か面談相談会30分 | 面談 | ✅（新規Q1） |
+| 高単価コンセプトは料金でなく集客 | 高単価は料金でなく | ✅（新規Q4・見出し） |
+
+→ embedding導入後もこれらは**浮上し続けること（無回帰）**がゲート条件。
+
+## B. 現状FAIL（embeddingで解消すべき既知ギャップ＝KPI）
+
+2026-06-16にマージした実体験レコードのうち、**強いキーワード重複があるのに浮上しないもの**。キーワード/n-gram検索の限界の実証。
+
+| クエリ概要 | 期待語 | 現状 | 備考 |
+|---|---|---|---|
+| 業務委託より社員・専業で組織を作る方が生産性高いか（AI時代の人員設計） | 組織体制 / 社員・専業 | ❌ 全く浮上しない | クエリに 組織・業務委託・社員・専業 が含まれるのに未取得 |
+| 経営とコミュニティ運営は別物・ホメホメクラブの場づくり | 経営とコミュニティ運営 / ホメホメ | ❌ 全く浮上しない | クエリに 経営・コミュニティ・ホメホメ が含まれるのに未取得 |
+| 高単価コンセプトの深部 | 変化をコミット | ❌ section truncate(2800字)で欠落 | 見出しは出るが深部が切れる |
+
+### 何を意味するか
+
+- マージした原理レコード（[[組織体制_社員と業務委託_AI時代]] [[経営とコミュニティ運営は別物_場の設計]]）は、**バンドルには載っているが相談AIに取得されない**。＝knowledge追加だけでは「呼ばれる」とは限らない。
+- 強い字面一致でも落ちる＝スコアリング/選抜（大プールでの競合・section長・budget）が原因で、字面の問題ではない。
+- **これがembedding（意味検索）が必要な直接証拠**。embedding導入後、Bの❌が✅に変わり、Aの✅が維持されることを移行の合否基準にする。
+
+## 暫定の打ち手（embedding前にできること）
+
+- ~~案1: 見出し一致ブースト（クエリn-gramが見出しに含まれたら加点）~~ → **2026-06-16 実装・実証 → 撤回**。
+  - 結果: 組織体制は浮上(✅化)したが、**最重要canonical「わしづかみコンセプト構築」を押し出して回帰**（'コンセプト'n-gramが5レベル/三人称等の見出しに一致して浮上→わしづかみ退場）。経営vsコミュニティは依然浮上せず。
+  - 教訓: キーワード/n-gramのスコア調整は、大プールでの競合で**必ず別のcanonicalを巻き添えにする**（「ファイル粒度はrecallを下げる」と同じ構造、これで通算4回目）。字面ベースの加点では根治しない。
+- 案2: section truncate(2800)の見直し（深部句が切れる「変化をコミット」問題）。これは局所的で低リスク・別途検討可。
+- **案3（採用方針）: B群はembedding（意味検索・Phase B）で根治する。** キーワード調整を重ねるほどcanonicalを壊すので、ここはembedding一択。
+
+現時点はBを「embeddingのKPI」として固定し、AをCI回帰ガード(`correction-recall-live.test.ts` 12件)で守る。案1の撤回により、**B群解消＝embedding着手の根拠がさらに強まった**。
+</pre>
 </main>
 </body>
 </html>

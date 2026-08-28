@@ -15,16 +15,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
-.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
-        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
-.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
-.toc ul { list-style: none; margin: 0; padding: 0; }
-.toc li { margin: 0.2rem 0; line-height: 1.5; }
-.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
-.toc a { color: #333; text-decoration: none; }
-.toc a:hover { color: #0d6efd; text-decoration: underline; }
-h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -80,10 +70,10 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -137,24 +127,29 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#決定事項">決定事項</a></li><li class="toc-main"><a href="#なぜDB全面移行を今やらないか">なぜDB全面移行を今やらないか</a></li><li class="toc-main"><a href="#構造化レコードのスキーマ（1ナレッジ＝1レコード）">構造化レコードのスキーマ（1ナレッジ＝1レコード）</a></li><li class="toc-main"><a href="#パイプライン（一方通行）">パイプライン（一方通行）</a></li><li class="toc-main"><a href="#Qamp;Aループの運用（Chatwork）">Q&amp;Aループの運用（Chatwork）</a></li><li class="toc-main"><a href="#フェーズ">フェーズ</a></li><li class="toc-main"><a href="#留意">留意</a></li><li class="toc-main"><a href="#Codex検証（2026-06-16-/-条件付きGO）→-反映済み修正">Codex検証（2026-06-16 / 条件付きGO）→ 反映済み修正</a></li></ul></nav><h1>設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</h1>
-<p>田中の意思決定（2026-06-16）に基づく、田中祐一AIの知識層の次アーキテクチャ。</p>
-<h2 id="決定事項">決定事項</h2>
-<ol>
-<li><strong>正本（source of truth）= git上の構造化レコード</strong>（DBに移さない）。理由＝差分レビュー／Codex検証／AIのEdit直接編集／インフラ非依存、という現行資産を維持。</li>
-<li><strong>検索＝embedding（意味検索）</strong>。必要になった段で Supabase pgvector を「正本から再生成する派生・読み取り専用インデックス」として導入。SQLストレージ自体がノーミスを生むのではなく、①明示リンク＋②意味検索がノーミスを生む。</li>
-<li><strong>網羅性の充填＝毎日10-20件のQ&amp;Aループ</strong>。AIが上流データの空欄カラム（特に事例・背景・因果）から質問を生成→田中がChatworkで回答→構造化レコードに折り返す。1ヶ月で背景情報を網羅。</li>
-<li>移行中も<strong>現行フラットMD＋バンドルで田中AIは稼働し続ける</strong>（無停止）。</li>
-</ol>
-<h2 id="なぜDB全面移行を今やらないか">なぜDB全面移行を今やらないか</h2>
-<ul>
-<li>重複の原因は「リンクが無く各MDに事実をコピーしている」こと。<strong>事例を"コピー"でなく"参照(パス/ID)"にした時点で重複は消える</strong>＝構造化レコードで解決、DB不要。</li>
-<li>ノーミス取得は embedding（意味検索）が本体。DBに入れてもキーワード一致のままなら取りこぼす。embeddingはMD/レコードのままでも載る。</li>
-<li>正本をDBにすると、移行数日＋buildCompactKnowledge全書き換え＋認証配線、かつ git/レビュー/AI編集の資産を失う。費用対効果が今は合わない。</li>
-</ul>
-<h2 id="構造化レコードのスキーマ（1ナレッジ＝1レコード）">構造化レコードのスキーマ（1ナレッジ＝1レコード）</h2>
-<p>frontmatter(YAML)＋本文(MD)。<code>knowledge/</code> 配下に追加（バンドルビルドがレンダリングできる形）。</p>
-<pre><code class="language-yaml">---
+<pre># 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）
+
+田中の意思決定（2026-06-16）に基づく、田中祐一AIの知識層の次アーキテクチャ。
+
+## 決定事項
+
+1. **正本（source of truth）= git上の構造化レコード**（DBに移さない）。理由＝差分レビュー／Codex検証／AIのEdit直接編集／インフラ非依存、という現行資産を維持。
+2. **検索＝embedding（意味検索）**。必要になった段で Supabase pgvector を「正本から再生成する派生・読み取り専用インデックス」として導入。SQLストレージ自体がノーミスを生むのではなく、①明示リンク＋②意味検索がノーミスを生む。
+3. **網羅性の充填＝毎日10-20件のQ&amp;Aループ**。AIが上流データの空欄カラム（特に事例・背景・因果）から質問を生成→田中がChatworkで回答→構造化レコードに折り返す。1ヶ月で背景情報を網羅。
+4. 移行中も**現行フラットMD＋バンドルで田中AIは稼働し続ける**（無停止）。
+
+## なぜDB全面移行を今やらないか
+
+- 重複の原因は「リンクが無く各MDに事実をコピーしている」こと。**事例を"コピー"でなく"参照(パス/ID)"にした時点で重複は消える**＝構造化レコードで解決、DB不要。
+- ノーミス取得は embedding（意味検索）が本体。DBに入れてもキーワード一致のままなら取りこぼす。embeddingはMD/レコードのままでも載る。
+- 正本をDBにすると、移行数日＋buildCompactKnowledge全書き換え＋認証配線、かつ git/レビュー/AI編集の資産を失う。費用対効果が今は合わない。
+
+## 構造化レコードのスキーマ（1ナレッジ＝1レコード）
+
+frontmatter(YAML)＋本文(MD)。`knowledge/` 配下に追加（バンドルビルドがレンダリングできる形）。
+
+```yaml
+---
 id: &lt;kebab-slug&gt;                 # 安定ID（リンクの宛先）
 type: 哲学 | 原理 | 判断基準 | 基準値 | 事例 | 語彙
 主張: &lt;一文&gt;
@@ -168,81 +163,70 @@ status: 採用 | 保留(事例待ち) | 仮説
 空欄: [事例link, リフレーム]        # 未充填カラム＝Q&amp;Aループの質問源
 ---
 （本文：補足・verbatim・文脈）
-</code></pre>
-<ul>
-<li><strong>重複ゼロの担保</strong>：事例・哲学は実体を1レコードに置き、他は <code>link</code> で参照（コピー禁止）。</li>
-<li><strong>空欄フラグ</strong>：埋まっていないカラムを明示＝「次に取材すべき箇所」をデータ自身が持つ。4/6でも価値あり、の運用を支える。</li>
-</ul>
-<h2 id="パイプライン（一方通行）">パイプライン（一方通行）</h2>
-<pre><code>正本: knowledge/ の構造化レコード（人/AI/Codexが編集・git管理）
+```
+
+- **重複ゼロの担保**：事例・哲学は実体を1レコードに置き、他は `link` で参照（コピー禁止）。
+- **空欄フラグ**：埋まっていないカラムを明示＝「次に取材すべき箇所」をデータ自身が持つ。4/6でも価値あり、の運用を支える。
+
+## パイプライン（一方通行）
+
+```
+正本: knowledge/ の構造化レコード（人/AI/Codexが編集・git管理）
    │  ← 毎日のQ&amp;Aループが追記（空欄を埋める）
    ▼ ビルド（既存スクリプト拡張）
    ├─ ①実行用バンドル _bundle_添削モード.md  [現行・無停止]
    └─ ②embedding索引（Phase B：必要時にSupabase pgvector等）
-</code></pre>
-<h2 id="Qamp;Aループの運用（Chatwork）">Q&amp;Aループの運用（Chatwork）</h2>
-<ol>
-<li><strong>質問生成</strong>：AIが構造化レコード／上流YAMLを走査し、<code>空欄</code> カラムと「事例・背景・因果が薄い主張」から、田中固有性を引き出す質問を毎日10-20件生成。</li>
-<li><strong>配信</strong>：Chatworkに通知（[info]タグ・ルームは要確認）。※自動送信は田中の都度/標準承認を取ってから。初回は内容を提示し確認後に送る。</li>
-<li><strong>回答</strong>：田中がChatworkで返信（スマホ可・低摩擦）。</li>
-<li><strong>取り込み</strong>：返信を該当レコードの該当カラムへ折り返し、<code>空欄</code> から外し、<code>status</code> を再判定（事例が付けば保留→採用へ昇格し得る）。</li>
-<li>反復。1ヶ月で網羅性を底上げ。</li>
-</ol>
-<h2 id="フェーズ">フェーズ</h2>
-<ul>
-<li><strong>Phase A（今）</strong>：構造化レコード形式の確定＋Q&amp;Aループ起動（第1バッチ生成）。バンドルは現行のまま無停止。</li>
-<li><strong>Phase B</strong>：embedding索引を正本から生成（意味検索）。曖昧クエリのrecallを解決（[[project_tanaka_brain_retrieval_rearchitecture]] の積み残し）。</li>
-<li><strong>Phase C（条件付き）</strong>：同時多重書き込み・リアルタイム・大規模クエリが実害化したら、派生読み取り層としてSupabase導入。正本は最後までgit。</li>
-</ul>
-<h2 id="留意">留意</h2>
-<ul>
-<li>Chatwork自動送信＝「田中の代理送信」。標準承認の範囲を都度確認。</li>
-<li>knowledge/本体への取り込みは全件ユーザー確認・全文提示・重複チェック（既存ルール厳守）。</li>
-<li>構造変更につき本設計はCodex検証にかける。</li>
-</ul>
-<h2 id="Codex検証（2026-06-16-/-条件付きGO）→-反映済み修正">Codex検証（2026-06-16 / 条件付きGO）→ 反映済み修正</h2>
-<p>Codexレビューで以下の致命リスクが指摘され、設計を改訂した。<strong>これらを満たさず「1レコード=1ファイル/リンク参照/embedding」を先に実装すると、構造はきれいでも本番AIの回答が薄くなる</strong>との警告。</p>
-<ol>
-<li><strong>検索単位は「ファイル」でなく「record_id ＋ ###チャンク」</strong>（最重要）</li>
-<li>1レコード=1ファイルにするとファイル粒度が上がり、過去3度実証の「ファイル粒度↑→recall↓」に逆行する。</li>
-<li>
-<p>対策＝<strong>frontmatterは既存MDに"追加"するメタデータ</strong>とし、ファイルは分割しない。取得は従来どおり###チャンク粒度を維持。構造化は「メタ層」であって「ファイル分割」ではない。</p>
-</li>
-<li>
-<p><strong>二重管理を作らない（正本は1つ）</strong></p>
-</li>
-<li>「現行フラットMD」と「新構造化レコード」を人が並行編集すると必ずズレる。</li>
-<li>
-<p>移行順序＝①既存MDに最小frontmatter追加 → ②bundle生成を壊さず構造化メタだけ読み始める → ③link/schema/duplicate lint導入 → ④段階移行 → ⑤新レコードから現行 <code>_bundle_添削モード.md</code> を生成 → ⑥embeddingは最後に派生追加。</p>
-</li>
-<li>
-<p><strong>bundle/embeddingの同時性保証</strong></p>
-</li>
-<li>
-<p><code>knowledge_build_id</code>（commit hash＋bundle md5＋schema version＋embedding model version）を両方に付け、publishは原子的に。片方だけ更新なら旧版へフォールバック。本番は「最新main」でなく「検証済みbuild manifest」を読む。Q&amp;A反映後はCI/jobで再ビルド。</p>
-</li>
-<li>
-<p><strong>Q&amp;Aループは「raw保存→蒸留→レビュー→採用」の段階を必須化</strong></p>
-</li>
-<li>空欄から質問生成→回答を直接レコード追記、だと低品質レコード製造機になる（質問の一般論化・回答の断片化・主張/事例/判断基準の混在）。</li>
-<li>対策＝質問に「対象record_id／埋めるカラム／想定ユースケース／不足している判断」を添付。田中回答は <code>raw_answer</code> として保存し、採用ナレッジは別途要約（蒸留）。状態遷移 <code>仮説→レビュー待ち→採用→廃止</code>。</li>
-<li>
-<p><strong>初回は10-20件でなく5件で品質基準を固定</strong>してから日次10-20へ増やす。</p>
-</li>
-<li>
-<p><strong>embedding移行のゲート＝golden queryセット</strong></p>
-</li>
-<li>
-<p>recall改善を測れないまま移行すると悪化に気づけない。移行前に golden query（既知の正解recall集）で現行バンドルとの比較を必須ゲートに。<code>tests/correction-recall-live.test.ts</code> を母体に拡張。</p>
-</li>
-<li>
-<p><strong>リンク健全性・トークン予算・PII</strong></p>
-</li>
-<li>ビルド必須＝link解決／逆参照／循環検知／孤立検知。</li>
-<li>リンク展開はトークンを食う。展開優先度と上限を設け、哲学/事例/出典で本文が押し出されないようにする（3モードで必要な展開が異なる点も考慮）。</li>
-<li>事例レコードは個人情報・案件情報が混ざる。<strong>受講生向けAIに渡してよい要約</strong>と<strong>内部出典</strong>を分離する。</li>
-<li><code>core:true</code>（常時ロード哲学/原理）の肥大化を監視。</li>
-</ol>
+```
+
+## Q&amp;Aループの運用（Chatwork）
+
+1. **質問生成**：AIが構造化レコード／上流YAMLを走査し、`空欄` カラムと「事例・背景・因果が薄い主張」から、田中固有性を引き出す質問を毎日10-20件生成。
+2. **配信**：Chatworkに通知（[info]タグ・ルームは要確認）。※自動送信は田中の都度/標準承認を取ってから。初回は内容を提示し確認後に送る。
+3. **回答**：田中がChatworkで返信（スマホ可・低摩擦）。
+4. **取り込み**：返信を該当レコードの該当カラムへ折り返し、`空欄` から外し、`status` を再判定（事例が付けば保留→採用へ昇格し得る）。
+5. 反復。1ヶ月で網羅性を底上げ。
+
+## フェーズ
+
+- **Phase A（今）**：構造化レコード形式の確定＋Q&amp;Aループ起動（第1バッチ生成）。バンドルは現行のまま無停止。
+- **Phase B**：embedding索引を正本から生成（意味検索）。曖昧クエリのrecallを解決（[[project_tanaka_brain_retrieval_rearchitecture]] の積み残し）。
+- **Phase C（条件付き）**：同時多重書き込み・リアルタイム・大規模クエリが実害化したら、派生読み取り層としてSupabase導入。正本は最後までgit。
+
+## 留意
+
+- Chatwork自動送信＝「田中の代理送信」。標準承認の範囲を都度確認。
+- knowledge/本体への取り込みは全件ユーザー確認・全文提示・重複チェック（既存ルール厳守）。
+- 構造変更につき本設計はCodex検証にかける。
+
+## Codex検証（2026-06-16 / 条件付きGO）→ 反映済み修正
+
+Codexレビューで以下の致命リスクが指摘され、設計を改訂した。**これらを満たさず「1レコード=1ファイル/リンク参照/embedding」を先に実装すると、構造はきれいでも本番AIの回答が薄くなる**との警告。
+
+1. **検索単位は「ファイル」でなく「record_id ＋ ###チャンク」**（最重要）
+   - 1レコード=1ファイルにするとファイル粒度が上がり、過去3度実証の「ファイル粒度↑→recall↓」に逆行する。
+   - 対策＝**frontmatterは既存MDに"追加"するメタデータ**とし、ファイルは分割しない。取得は従来どおり###チャンク粒度を維持。構造化は「メタ層」であって「ファイル分割」ではない。
+
+2. **二重管理を作らない（正本は1つ）**
+   - 「現行フラットMD」と「新構造化レコード」を人が並行編集すると必ずズレる。
+   - 移行順序＝①既存MDに最小frontmatter追加 → ②bundle生成を壊さず構造化メタだけ読み始める → ③link/schema/duplicate lint導入 → ④段階移行 → ⑤新レコードから現行 `_bundle_添削モード.md` を生成 → ⑥embeddingは最後に派生追加。
+
+3. **bundle/embeddingの同時性保証**
+   - `knowledge_build_id`（commit hash＋bundle md5＋schema version＋embedding model version）を両方に付け、publishは原子的に。片方だけ更新なら旧版へフォールバック。本番は「最新main」でなく「検証済みbuild manifest」を読む。Q&amp;A反映後はCI/jobで再ビルド。
+
+4. **Q&amp;Aループは「raw保存→蒸留→レビュー→採用」の段階を必須化**
+   - 空欄から質問生成→回答を直接レコード追記、だと低品質レコード製造機になる（質問の一般論化・回答の断片化・主張/事例/判断基準の混在）。
+   - 対策＝質問に「対象record_id／埋めるカラム／想定ユースケース／不足している判断」を添付。田中回答は `raw_answer` として保存し、採用ナレッジは別途要約（蒸留）。状態遷移 `仮説→レビュー待ち→採用→廃止`。
+   - **初回は10-20件でなく5件で品質基準を固定**してから日次10-20へ増やす。
+
+5. **embedding移行のゲート＝golden queryセット**
+   - recall改善を測れないまま移行すると悪化に気づけない。移行前に golden query（既知の正解recall集）で現行バンドルとの比較を必須ゲートに。`tests/correction-recall-live.test.ts` を母体に拡張。
+
+6. **リンク健全性・トークン予算・PII**
+   - ビルド必須＝link解決／逆参照／循環検知／孤立検知。
+   - リンク展開はトークンを食う。展開優先度と上限を設け、哲学/事例/出典で本文が押し出されないようにする（3モードで必要な展開が異なる点も考慮）。
+   - 事例レコードは個人情報・案件情報が混ざる。**受講生向けAIに渡してよい要約**と**内部出典**を分離する。
+   - `core:true`（常時ロード哲学/原理）の肥大化を監視。
+</pre>
 </main>
 </body>
 </html>
