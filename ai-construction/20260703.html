@@ -15,6 +15,16 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
+.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
+        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0.2rem 0; line-height: 1.5; }
+.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
+.toc a { color: #333; text-decoration: none; }
+.toc a:hover { color: #0d6efd; text-decoration: underline; }
+h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -70,10 +80,10 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月28日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月28日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月28日</span> 運用_田中AIナレッジ日次同期</a>
 <a href="20260703.html" class="sidebar-item active"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
 <a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
 <a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
@@ -127,101 +137,206 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<pre># AI社員DB化・MCP移行設計と過去MD救済方針
-
-作成日: 2026-07-03
-
-## 結論
-
-今すぐDB化の設計に入る判断は妥当。
-
-ただし、いきなり「全データ参照MCP」を作るのではなく、既存のTanakaKnowledgeOSに「AI社員DB化モジュール」を足す形で進める。すでにTanakaKnowledgeOSにはSupabase、MCP、ナレッジ更新ループ、ナレッジ管理担当への引き渡しテーブルがあるため、別プロジェクトを新設すると認証、権限、ログ、ナレッジ候補、管理画面が二重化しやすい。
-
-今回の方針は次の通り。
-
-1. Markdownは捨てない。人間が読む原本・成果物・ナレッジ正本として残す。
-2. Supabaseは、原本索引、評価履歴、分類履歴、利用ログ、AI社員稼働ログ、権限管理の台帳にする。
-3. MCPは、AI社員がDBを安全に参照・記録する入口にする。
-4. 過去2週間から1か月のMD仕分けは、旧評価軸による初期分類データとして取り込む。
-
-## 過去MD作業は無駄ではない
-
-今回つらく感じている原因は、過去の分類作業を「最終分類」として扱っていたことにある。DB化後は、分類を上書きせず「評価軸ごとの履歴」として重ねる。
-
-つまり、今後は以下の考え方に変える。
-
-| これまで | DB化後 |
-|---|---|
-| 基準が変わるたびにMDを再仕分けする | 同じ原本に新しい評価軸の分類結果を追加する |
-| どれが最新判断か分かりにくい | rubric_versionで判断基準を明示する |
-| 以前の作業が消える | legacy分類として残り、比較・再評価に使える |
-| 手作業の結果がファイル構造に埋もれる | classification_runs / labelsとして検索できる |
-
-救済の要点は「過去MDを完成品として見る」のではなく、「旧評価軸で人間とAIが付けたラベル付きデータ」として見ること。
-
-## 過去作業の救済方法
-
-既存MDは、次の3層で取り込む。
-
-| 層 | 内容 | DB上の扱い |
-|---|---|---|
-| 原本 | Zoom、グルコン、個人コンサル、Chatwork、教材、LP、PDF、動画書き起こし | source_assets |
-| 分割本文 | 見出し、話題、時系列、発言単位などのチャンク | source_chunks |
-| 既存仕分け | すでに付けた評価、分類、格納先、メモ | classification_runs / classification_labels |
-
-過去の仕分けは `legacy_md_2026Q2` のような評価軸バージョンとして保存する。これにより、新しい評価軸が出ても「過去作業を消してやり直す」のではなく、「同じ原本に新しい評価結果を追加する」運用になる。
-
-## 最初に固定する4分類
-
-田中さんが挙げた4つは、今後のナレッジOSの中核分類にする。
-
-| 分類 | 意味 | 主な用途 |
-|---|---|---|
-| 判断基準・手順 | 再現性ある判断、手順、チェック項目 | rules / skills / agent手順へ昇格 |
-| 事例 | 実案件、実相談、成功例、適用例 | RAG検索、セールス分析、教材化 |
-| 失敗パターン | 誤解、失敗、事故、うまくいかなかった型 | QA、添削、リスク検知、教育 |
-| AI評価テスト | AIの出力精度を測るための入力、期待回答、NG例 | eval_cases / regression test |
-
-この4分類は排他的にしない。1つのチャンクが「事例」であり「失敗パターン」であり「AI評価テスト」になることもある。そのため、DBでは1チャンクに複数ラベルを付けられる構造にする。
-
-## Supabaseテーブル設計案
-
-### 1. 原本とチャンク
-
-| テーブル | 役割 |
-|---|---|
-| source_assets | 元データ単位。Zoom、グルコン、個人コンサル、Chatwork、PDF、LP、動画、教材など |
-| source_chunks | 原本を検索・評価しやすく分割した本文 |
-| source_asset_links | Google Drive、YouTube、Brain、GitHub、ローカルMDなど複数URLの紐付け |
-
-主要カラム案:
-
-| テーブル | カラム例 |
-|---|---|
-| source_assets | id, source_type, title, source_date, source_owner, privacy_level, md_path, raw_path, checksum, imported_at, status |
-| source_chunks | id, asset_id, chunk_index, heading, body, body_char_count, started_at, ended_at, speaker, metadata |
-| source_asset_links | id, asset_id, link_type, url, label, is_primary |
-
-### 2. 評価軸と分類履歴
-
-| テーブル | 役割 |
-|---|---|
-| classification_rubrics | 判断基準のバージョン管理 |
-| classification_runs | いつ、誰が、どの評価軸で分類したか |
-| classification_labels | チャンクや原本についた分類ラベル |
-
-主要カラム案:
-
-| テーブル | カラム例 |
-|---|---|
-| classification_rubrics | id, name, version, description, criteria_md_path, status, created_at |
-| classification_runs | id, rubric_id, target_type, target_id, executor_type, executor_name, model_name, status, created_at |
-| classification_labels | id, run_id, label_type, confidence, reason, evidence_quote, target_agent, target_skill, target_knowledge_path |
-
-ラベル種別の初期値:
-
-```text
-principle
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#結論">結論</a></li><li class="toc-main"><a href="#過去MD作業は無駄ではない">過去MD作業は無駄ではない</a></li><li class="toc-main"><a href="#過去作業の救済方法">過去作業の救済方法</a></li><li class="toc-main"><a href="#最初に固定する4分類">最初に固定する4分類</a></li><li class="toc-main"><a href="#Supabaseテーブル設計案">Supabaseテーブル設計案</a></li><li class="toc-sub"><a href="#1.-原本とチャンク">1. 原本とチャンク</a></li><li class="toc-sub"><a href="#2.-評価軸と分類履歴">2. 評価軸と分類履歴</a></li><li class="toc-sub"><a href="#3.-ナレッジ昇格キュー">3. ナレッジ昇格キュー</a></li><li class="toc-sub"><a href="#4.-AI社員台帳と稼働ログ">4. AI社員台帳と稼働ログ</a></li><li class="toc-sub"><a href="#5.-評価テスト">5. 評価テスト</a></li><li class="toc-main"><a href="#MCPの最小構成">MCPの最小構成</a></li><li class="toc-main"><a href="#新プロジェクトにするかどうか">新プロジェクトにするかどうか</a></li><li class="toc-main"><a href="#実装フェーズ">実装フェーズ</a></li><li class="toc-sub"><a href="#Phase-0:-棚卸しと評価軸固定">Phase 0: 棚卸しと評価軸固定</a></li><li class="toc-sub"><a href="#Phase-1:-過去MDのDB取り込み">Phase 1: 過去MDのDB取り込み</a></li><li class="toc-sub"><a href="#Phase-2:-新評価軸での再分類">Phase 2: 新評価軸での再分類</a></li><li class="toc-sub"><a href="#Phase-3:-AI社員稼働ログ">Phase 3: AI社員稼働ログ</a></li><li class="toc-sub"><a href="#Phase-4:-MCP最小実装">Phase 4: MCP最小実装</a></li><li class="toc-sub"><a href="#Phase-5:-ダッシュボード">Phase 5: ダッシュボード</a></li><li class="toc-main"><a href="#直近の具体タスク">直近の具体タスク</a></li><li class="toc-main"><a href="#今後の運用ルール">今後の運用ルール</a></li><li class="toc-main"><a href="#重要な設計思想">重要な設計思想</a></li></ul></nav><h1>AI社員DB化・MCP移行設計と過去MD救済方針</h1>
+<p>作成日: 2026-07-03</p>
+<h2 id="結論">結論</h2>
+<p>今すぐDB化の設計に入る判断は妥当。</p>
+<p>ただし、いきなり「全データ参照MCP」を作るのではなく、既存のTanakaKnowledgeOSに「AI社員DB化モジュール」を足す形で進める。すでにTanakaKnowledgeOSにはSupabase、MCP、ナレッジ更新ループ、ナレッジ管理担当への引き渡しテーブルがあるため、別プロジェクトを新設すると認証、権限、ログ、ナレッジ候補、管理画面が二重化しやすい。</p>
+<p>今回の方針は次の通り。</p>
+<ol>
+<li>Markdownは捨てない。人間が読む原本・成果物・ナレッジ正本として残す。</li>
+<li>Supabaseは、原本索引、評価履歴、分類履歴、利用ログ、AI社員稼働ログ、権限管理の台帳にする。</li>
+<li>MCPは、AI社員がDBを安全に参照・記録する入口にする。</li>
+<li>過去2週間から1か月のMD仕分けは、旧評価軸による初期分類データとして取り込む。</li>
+</ol>
+<h2 id="過去MD作業は無駄ではない">過去MD作業は無駄ではない</h2>
+<p>今回つらく感じている原因は、過去の分類作業を「最終分類」として扱っていたことにある。DB化後は、分類を上書きせず「評価軸ごとの履歴」として重ねる。</p>
+<p>つまり、今後は以下の考え方に変える。</p>
+<table>
+<thead>
+<tr>
+<th>これまで</th>
+<th>DB化後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基準が変わるたびにMDを再仕分けする</td>
+<td>同じ原本に新しい評価軸の分類結果を追加する</td>
+</tr>
+<tr>
+<td>どれが最新判断か分かりにくい</td>
+<td>rubric_versionで判断基準を明示する</td>
+</tr>
+<tr>
+<td>以前の作業が消える</td>
+<td>legacy分類として残り、比較・再評価に使える</td>
+</tr>
+<tr>
+<td>手作業の結果がファイル構造に埋もれる</td>
+<td>classification_runs / labelsとして検索できる</td>
+</tr>
+</tbody>
+</table>
+<p>救済の要点は「過去MDを完成品として見る」のではなく、「旧評価軸で人間とAIが付けたラベル付きデータ」として見ること。</p>
+<h2 id="過去作業の救済方法">過去作業の救済方法</h2>
+<p>既存MDは、次の3層で取り込む。</p>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>内容</th>
+<th>DB上の扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原本</td>
+<td>Zoom、グルコン、個人コンサル、Chatwork、教材、LP、PDF、動画書き起こし</td>
+<td>source_assets</td>
+</tr>
+<tr>
+<td>分割本文</td>
+<td>見出し、話題、時系列、発言単位などのチャンク</td>
+<td>source_chunks</td>
+</tr>
+<tr>
+<td>既存仕分け</td>
+<td>すでに付けた評価、分類、格納先、メモ</td>
+<td>classification_runs / classification_labels</td>
+</tr>
+</tbody>
+</table>
+<p>過去の仕分けは <code>legacy_md_2026Q2</code> のような評価軸バージョンとして保存する。これにより、新しい評価軸が出ても「過去作業を消してやり直す」のではなく、「同じ原本に新しい評価結果を追加する」運用になる。</p>
+<h2 id="最初に固定する4分類">最初に固定する4分類</h2>
+<p>田中さんが挙げた4つは、今後のナレッジOSの中核分類にする。</p>
+<table>
+<thead>
+<tr>
+<th>分類</th>
+<th>意味</th>
+<th>主な用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>判断基準・手順</td>
+<td>再現性ある判断、手順、チェック項目</td>
+<td>rules / skills / agent手順へ昇格</td>
+</tr>
+<tr>
+<td>事例</td>
+<td>実案件、実相談、成功例、適用例</td>
+<td>RAG検索、セールス分析、教材化</td>
+</tr>
+<tr>
+<td>失敗パターン</td>
+<td>誤解、失敗、事故、うまくいかなかった型</td>
+<td>QA、添削、リスク検知、教育</td>
+</tr>
+<tr>
+<td>AI評価テスト</td>
+<td>AIの出力精度を測るための入力、期待回答、NG例</td>
+<td>eval_cases / regression test</td>
+</tr>
+</tbody>
+</table>
+<p>この4分類は排他的にしない。1つのチャンクが「事例」であり「失敗パターン」であり「AI評価テスト」になることもある。そのため、DBでは1チャンクに複数ラベルを付けられる構造にする。</p>
+<h2 id="Supabaseテーブル設計案">Supabaseテーブル設計案</h2>
+<h3 id="1.-原本とチャンク">1. 原本とチャンク</h3>
+<table>
+<thead>
+<tr>
+<th>テーブル</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source_assets</td>
+<td>元データ単位。Zoom、グルコン、個人コンサル、Chatwork、PDF、LP、動画、教材など</td>
+</tr>
+<tr>
+<td>source_chunks</td>
+<td>原本を検索・評価しやすく分割した本文</td>
+</tr>
+<tr>
+<td>source_asset_links</td>
+<td>Google Drive、YouTube、Brain、GitHub、ローカルMDなど複数URLの紐付け</td>
+</tr>
+</tbody>
+</table>
+<p>主要カラム案:</p>
+<table>
+<thead>
+<tr>
+<th>テーブル</th>
+<th>カラム例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source_assets</td>
+<td>id, source_type, title, source_date, source_owner, privacy_level, md_path, raw_path, checksum, imported_at, status</td>
+</tr>
+<tr>
+<td>source_chunks</td>
+<td>id, asset_id, chunk_index, heading, body, body_char_count, started_at, ended_at, speaker, metadata</td>
+</tr>
+<tr>
+<td>source_asset_links</td>
+<td>id, asset_id, link_type, url, label, is_primary</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2.-評価軸と分類履歴">2. 評価軸と分類履歴</h3>
+<table>
+<thead>
+<tr>
+<th>テーブル</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>classification_rubrics</td>
+<td>判断基準のバージョン管理</td>
+</tr>
+<tr>
+<td>classification_runs</td>
+<td>いつ、誰が、どの評価軸で分類したか</td>
+</tr>
+<tr>
+<td>classification_labels</td>
+<td>チャンクや原本についた分類ラベル</td>
+</tr>
+</tbody>
+</table>
+<p>主要カラム案:</p>
+<table>
+<thead>
+<tr>
+<th>テーブル</th>
+<th>カラム例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>classification_rubrics</td>
+<td>id, name, version, description, criteria_md_path, status, created_at</td>
+</tr>
+<tr>
+<td>classification_runs</td>
+<td>id, rubric_id, target_type, target_id, executor_type, executor_name, model_name, status, created_at</td>
+</tr>
+<tr>
+<td>classification_labels</td>
+<td>id, run_id, label_type, confidence, reason, evidence_quote, target_agent, target_skill, target_knowledge_path</td>
+</tr>
+</tbody>
+</table>
+<p>ラベル種別の初期値:</p>
+<pre><code class="language-text">principle
 procedure
 case
 failure_pattern
@@ -230,22 +345,26 @@ knowledge_candidate
 skill_candidate
 agent_training_candidate
 do_not_publish
-```
-
-### 3. ナレッジ昇格キュー
-
-既存の `knowledge_candidates` と `knowledge_manager_handoffs` は残す。ただし、今後は原本チャンクから候補化できるように、分類ラベルと紐づける。
-
-追加候補:
-
-| テーブル | 役割 |
-|---|---|
-| knowledge_promotion_queue | DB上の分類ラベルを、rules / skills / knowledge / agentsへ昇格するための作業キュー |
-
-主要カラム案:
-
-```text
-id
+</code></pre>
+<h3 id="3.-ナレッジ昇格キュー">3. ナレッジ昇格キュー</h3>
+<p>既存の <code>knowledge_candidates</code> と <code>knowledge_manager_handoffs</code> は残す。ただし、今後は原本チャンクから候補化できるように、分類ラベルと紐づける。</p>
+<p>追加候補:</p>
+<table>
+<thead>
+<tr>
+<th>テーブル</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>knowledge_promotion_queue</td>
+<td>DB上の分類ラベルを、rules / skills / knowledge / agentsへ昇格するための作業キュー</td>
+</tr>
+</tbody>
+</table>
+<p>主要カラム案:</p>
+<pre><code class="language-text">id
 classification_label_id
 proposed_destination_type
 proposed_destination_path
@@ -255,181 +374,215 @@ decision
 decision_note
 reviewer
 decided_at
-```
-
-### 4. AI社員台帳と稼働ログ
-
-| テーブル | 役割 |
-|---|---|
-| ai_agents | AI社員の人材台帳 |
-| ai_agent_versions | 役割定義、プロンプト、参照スキルのバージョン |
-| ai_agent_runs | AI社員がいつ、誰に呼ばれ、何をしたか |
-| ai_agent_evaluations | 出力評価、採用可否、改善点 |
-| ai_agent_knowledge_usage | どのナレッジを使ったかの記録 |
-
-これにより、「AIを使いこなす社長」ではなく「AI社員が働き、評価され、育成される会社」に寄せられる。
-
-### 5. 評価テスト
-
-| テーブル | 役割 |
-|---|---|
-| eval_cases | AI評価に使う固定テストケース |
-| eval_runs | 評価実行履歴 |
-| eval_results | 各ケースの結果、スコア、差分、失敗理由 |
-
-過去のグルコン・個人コンサルから良いケースを抜き出し、「田中祐一AIならこう答えてほしい」という期待出力を作る。これが将来の品質保証になる。
-
-## MCPの最小構成
-
-最初から全機能をMCP化しない。まずはAI社員がDBを使うための最小ツールに絞る。
-
-| MCPツール | 役割 |
-|---|---|
-| search_source_assets | 原本、チャンク、分類ラベルを横断検索する |
-| get_source_asset | 原本メタ情報、URL、MDパス、チャンク一覧を取得する |
-| log_agent_run | AI社員の稼働ログを記録する |
-| submit_classification_label | 作業中に見つけた分類ラベルを候補として記録する |
-| submit_knowledge_promotion_candidate | ナレッジ化・スキル化・社員化候補を送る |
-| submit_eval_case | 評価テスト化すべきケースを登録する |
-
-この時点では、MCPから `knowledge/` を直接書き換えない。既存ルール通り、ナレッジ管理担当と田中祐一の確認を挟む。
-
-## 新プロジェクトにするかどうか
-
-現時点の推奨は、新しいSupabaseプロジェクトを作らず、TanakaKnowledgeOSに統合すること。
-
-理由:
-
-1. 既存の認証、アクセス権限、MCP、ナレッジ更新ループを使える。
-2. `mcp_tool_events` や `knowledge_manager_handoffs` と自然に接続できる。
-3. 田中祐一AI、添削、制作、QA、個人コンテキストが同じOS内でつながる。
-4. 別プロジェクト化すると、データ同期と権限管理の二重化が起きる。
-
-新プロジェクトを検討する条件:
-
-1. 外部企業向けに独立SaaSとして販売する。
-2. 田中祐一AIとは別の認証、課金、テナント管理が必要になる。
-3. 受講生データと社内AI社員育成データを物理的に分離したい。
-4. 現在のTanakaKnowledgeOSのRLSやテーブル設計では安全に共存できない。
-
-## 実装フェーズ
-
-### Phase 0: 棚卸しと評価軸固定
-
-やること:
-
-1. 既存MDのルート一覧を作る。
-2. `legacy_md_2026Q2` 評価軸を定義する。
-3. 新しい初期評価軸 `ai_employee_knowledge_v1` を定義する。
-4. 4分類のラベル定義を確定する。
-
-成果物:
-
-```text
-source_assets_import_manifest.jsonl
+</code></pre>
+<h3 id="4.-AI社員台帳と稼働ログ">4. AI社員台帳と稼働ログ</h3>
+<table>
+<thead>
+<tr>
+<th>テーブル</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ai_agents</td>
+<td>AI社員の人材台帳</td>
+</tr>
+<tr>
+<td>ai_agent_versions</td>
+<td>役割定義、プロンプト、参照スキルのバージョン</td>
+</tr>
+<tr>
+<td>ai_agent_runs</td>
+<td>AI社員がいつ、誰に呼ばれ、何をしたか</td>
+</tr>
+<tr>
+<td>ai_agent_evaluations</td>
+<td>出力評価、採用可否、改善点</td>
+</tr>
+<tr>
+<td>ai_agent_knowledge_usage</td>
+<td>どのナレッジを使ったかの記録</td>
+</tr>
+</tbody>
+</table>
+<p>これにより、「AIを使いこなす社長」ではなく「AI社員が働き、評価され、育成される会社」に寄せられる。</p>
+<h3 id="5.-評価テスト">5. 評価テスト</h3>
+<table>
+<thead>
+<tr>
+<th>テーブル</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eval_cases</td>
+<td>AI評価に使う固定テストケース</td>
+</tr>
+<tr>
+<td>eval_runs</td>
+<td>評価実行履歴</td>
+</tr>
+<tr>
+<td>eval_results</td>
+<td>各ケースの結果、スコア、差分、失敗理由</td>
+</tr>
+</tbody>
+</table>
+<p>過去のグルコン・個人コンサルから良いケースを抜き出し、「田中祐一AIならこう答えてほしい」という期待出力を作る。これが将来の品質保証になる。</p>
+<h2 id="MCPの最小構成">MCPの最小構成</h2>
+<p>最初から全機能をMCP化しない。まずはAI社員がDBを使うための最小ツールに絞る。</p>
+<table>
+<thead>
+<tr>
+<th>MCPツール</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>search_source_assets</td>
+<td>原本、チャンク、分類ラベルを横断検索する</td>
+</tr>
+<tr>
+<td>get_source_asset</td>
+<td>原本メタ情報、URL、MDパス、チャンク一覧を取得する</td>
+</tr>
+<tr>
+<td>log_agent_run</td>
+<td>AI社員の稼働ログを記録する</td>
+</tr>
+<tr>
+<td>submit_classification_label</td>
+<td>作業中に見つけた分類ラベルを候補として記録する</td>
+</tr>
+<tr>
+<td>submit_knowledge_promotion_candidate</td>
+<td>ナレッジ化・スキル化・社員化候補を送る</td>
+</tr>
+<tr>
+<td>submit_eval_case</td>
+<td>評価テスト化すべきケースを登録する</td>
+</tr>
+</tbody>
+</table>
+<p>この時点では、MCPから <code>knowledge/</code> を直接書き換えない。既存ルール通り、ナレッジ管理担当と田中祐一の確認を挟む。</p>
+<h2 id="新プロジェクトにするかどうか">新プロジェクトにするかどうか</h2>
+<p>現時点の推奨は、新しいSupabaseプロジェクトを作らず、TanakaKnowledgeOSに統合すること。</p>
+<p>理由:</p>
+<ol>
+<li>既存の認証、アクセス権限、MCP、ナレッジ更新ループを使える。</li>
+<li><code>mcp_tool_events</code> や <code>knowledge_manager_handoffs</code> と自然に接続できる。</li>
+<li>田中祐一AI、添削、制作、QA、個人コンテキストが同じOS内でつながる。</li>
+<li>別プロジェクト化すると、データ同期と権限管理の二重化が起きる。</li>
+</ol>
+<p>新プロジェクトを検討する条件:</p>
+<ol>
+<li>外部企業向けに独立SaaSとして販売する。</li>
+<li>田中祐一AIとは別の認証、課金、テナント管理が必要になる。</li>
+<li>受講生データと社内AI社員育成データを物理的に分離したい。</li>
+<li>現在のTanakaKnowledgeOSのRLSやテーブル設計では安全に共存できない。</li>
+</ol>
+<h2 id="実装フェーズ">実装フェーズ</h2>
+<h3 id="Phase-0:-棚卸しと評価軸固定">Phase 0: 棚卸しと評価軸固定</h3>
+<p>やること:</p>
+<ol>
+<li>既存MDのルート一覧を作る。</li>
+<li><code>legacy_md_2026Q2</code> 評価軸を定義する。</li>
+<li>新しい初期評価軸 <code>ai_employee_knowledge_v1</code> を定義する。</li>
+<li>4分類のラベル定義を確定する。</li>
+</ol>
+<p>成果物:</p>
+<pre><code class="language-text">source_assets_import_manifest.jsonl
 classification_rubrics
 classification_label_types
-```
-
-### Phase 1: 過去MDのDB取り込み
-
-やること:
-
-1. MDファイルを `source_assets` として登録する。
-2. 見出し単位または本文長単位で `source_chunks` に分割する。
-3. ファイルパス、Google Drive URL、YouTube URL、Brain URLを `source_asset_links` に保存する。
-4. 既存の仕分け結果を `legacy_md_2026Q2` の `classification_runs` として登録する。
-
-この段階では、再評価しない。まず過去作業を失わない台帳化を優先する。
-
-### Phase 2: 新評価軸での再分類
-
-やること:
-
-1. `ai_employee_knowledge_v1` でチャンクを再分類する。
-2. 判断基準、事例、失敗パターン、AI評価テストを複数ラベルで付与する。
-3. ナレッジ化・スキル化・社員化候補を `knowledge_promotion_queue` に送る。
-4. 田中祐一の確認が必要なものを週次レポート化する。
-
-### Phase 3: AI社員稼働ログ
-
-やること:
-
-1. 各AI社員を `ai_agents` に登録する。
-2. agent.mdの変更履歴を `ai_agent_versions` に保存する。
-3. 田中祐一AIや各担当AIが動いたら `ai_agent_runs` に記録する。
-4. 出力評価を `ai_agent_evaluations` に残す。
-
-### Phase 4: MCP最小実装
-
-やること:
-
-1. TanakaKnowledgeOSの既存MCPへ検索・記録ツールを追加する。
-2. Cursor、Claude Code、Codexから同じDB入口を使う。
-3. 利用ログを `mcp_tool_events` と `ai_agent_runs` に残す。
-4. RLSとservice roleの境界を確認する。
-
-### Phase 5: ダッシュボード
-
-やること:
-
-1. どのAI社員が使われたかを表示する。
-2. どのナレッジが使われたかを表示する。
-3. 未処理のナレッジ候補を表示する。
-4. 利用頻度が低いAI社員、統合候補、育成候補を出す。
-
-## 直近の具体タスク
-
-最優先:
-
-1. TanakaKnowledgeOSに追加するテーブル群のSQLドラフトを作る。
-2. 既存MDをDBへ入れるための `source_assets_import_manifest.jsonl` 仕様を作る。
-3. 過去仕分けを `legacy_md_2026Q2` として保存するルールを作る。
-4. 4分類ラベルの定義ファイルを作る。
-5. MCP最小ツールのI/O仕様を作る。
-
-次点:
-
-1. 既存MDを走査して、ファイルパス、文字数、見出し、推定source_typeを一覧化する。
-2. グルコン200件・個人コンサル70件を source_type と privacy_level で分ける。
-3. 既存の評価ログをどのrubricに紐づけるか確認する。
-4. AI社員台帳の初期登録を行う。
-
-## 今後の運用ルール
-
-今後は、作業終了時に毎回すべてを手作業で「スキル化・ナレッジ化・社員化」しない。代わりに、DBへ候補を投げる。
-
-作業後に残すもの:
-
-1. これは判断基準か。
-2. これは事例か。
-3. これは失敗パターンか。
-4. これはAI評価テストに使えるか。
-5. これは特定AI社員のスキル、ナレッジ、ルールに昇格すべきか。
-
-この5つを `classification_labels` と `knowledge_promotion_queue` に残せば、週次のナレッジマネージャーが判断できる。毎回その場で完璧に整理しきる必要はない。
-
-## 重要な設計思想
-
-DB化の目的は、Markdown整理を否定することではない。
-
-目的は、Markdownだけでは追えなかった以下を追えるようにすること。
-
-1. どの原本から来た知識か。
-2. どの評価軸で分類されたのか。
-3. 誰、またはどのAIが分類したのか。
-4. どのAI社員が使ったのか。
-5. 田中祐一が承認したのか。
-6. 後から評価軸が変わったとき、何を再分類すればよいのか。
-
-過去の仕分け作業は、DB化によって「消える」のではなく「比較できる履歴」になる。ここを先に設計しておけば、今後は評価軸が変わるたびにゼロからやり直す必要がなくなる。
-
-Produced by KATSUO MARKETING
-Version: 1.0 (2026-07-03)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: 95FCBB7D
-Generated by: 田中祐一
-</pre>
+</code></pre>
+<h3 id="Phase-1:-過去MDのDB取り込み">Phase 1: 過去MDのDB取り込み</h3>
+<p>やること:</p>
+<ol>
+<li>MDファイルを <code>source_assets</code> として登録する。</li>
+<li>見出し単位または本文長単位で <code>source_chunks</code> に分割する。</li>
+<li>ファイルパス、Google Drive URL、YouTube URL、Brain URLを <code>source_asset_links</code> に保存する。</li>
+<li>既存の仕分け結果を <code>legacy_md_2026Q2</code> の <code>classification_runs</code> として登録する。</li>
+</ol>
+<p>この段階では、再評価しない。まず過去作業を失わない台帳化を優先する。</p>
+<h3 id="Phase-2:-新評価軸での再分類">Phase 2: 新評価軸での再分類</h3>
+<p>やること:</p>
+<ol>
+<li><code>ai_employee_knowledge_v1</code> でチャンクを再分類する。</li>
+<li>判断基準、事例、失敗パターン、AI評価テストを複数ラベルで付与する。</li>
+<li>ナレッジ化・スキル化・社員化候補を <code>knowledge_promotion_queue</code> に送る。</li>
+<li>田中祐一の確認が必要なものを週次レポート化する。</li>
+</ol>
+<h3 id="Phase-3:-AI社員稼働ログ">Phase 3: AI社員稼働ログ</h3>
+<p>やること:</p>
+<ol>
+<li>各AI社員を <code>ai_agents</code> に登録する。</li>
+<li>agent.mdの変更履歴を <code>ai_agent_versions</code> に保存する。</li>
+<li>田中祐一AIや各担当AIが動いたら <code>ai_agent_runs</code> に記録する。</li>
+<li>出力評価を <code>ai_agent_evaluations</code> に残す。</li>
+</ol>
+<h3 id="Phase-4:-MCP最小実装">Phase 4: MCP最小実装</h3>
+<p>やること:</p>
+<ol>
+<li>TanakaKnowledgeOSの既存MCPへ検索・記録ツールを追加する。</li>
+<li>Cursor、Claude Code、Codexから同じDB入口を使う。</li>
+<li>利用ログを <code>mcp_tool_events</code> と <code>ai_agent_runs</code> に残す。</li>
+<li>RLSとservice roleの境界を確認する。</li>
+</ol>
+<h3 id="Phase-5:-ダッシュボード">Phase 5: ダッシュボード</h3>
+<p>やること:</p>
+<ol>
+<li>どのAI社員が使われたかを表示する。</li>
+<li>どのナレッジが使われたかを表示する。</li>
+<li>未処理のナレッジ候補を表示する。</li>
+<li>利用頻度が低いAI社員、統合候補、育成候補を出す。</li>
+</ol>
+<h2 id="直近の具体タスク">直近の具体タスク</h2>
+<p>最優先:</p>
+<ol>
+<li>TanakaKnowledgeOSに追加するテーブル群のSQLドラフトを作る。</li>
+<li>既存MDをDBへ入れるための <code>source_assets_import_manifest.jsonl</code> 仕様を作る。</li>
+<li>過去仕分けを <code>legacy_md_2026Q2</code> として保存するルールを作る。</li>
+<li>4分類ラベルの定義ファイルを作る。</li>
+<li>MCP最小ツールのI/O仕様を作る。</li>
+</ol>
+<p>次点:</p>
+<ol>
+<li>既存MDを走査して、ファイルパス、文字数、見出し、推定source_typeを一覧化する。</li>
+<li>グルコン200件・個人コンサル70件を source_type と privacy_level で分ける。</li>
+<li>既存の評価ログをどのrubricに紐づけるか確認する。</li>
+<li>AI社員台帳の初期登録を行う。</li>
+</ol>
+<h2 id="今後の運用ルール">今後の運用ルール</h2>
+<p>今後は、作業終了時に毎回すべてを手作業で「スキル化・ナレッジ化・社員化」しない。代わりに、DBへ候補を投げる。</p>
+<p>作業後に残すもの:</p>
+<ol>
+<li>これは判断基準か。</li>
+<li>これは事例か。</li>
+<li>これは失敗パターンか。</li>
+<li>これはAI評価テストに使えるか。</li>
+<li>これは特定AI社員のスキル、ナレッジ、ルールに昇格すべきか。</li>
+</ol>
+<p>この5つを <code>classification_labels</code> と <code>knowledge_promotion_queue</code> に残せば、週次のナレッジマネージャーが判断できる。毎回その場で完璧に整理しきる必要はない。</p>
+<h2 id="重要な設計思想">重要な設計思想</h2>
+<p>DB化の目的は、Markdown整理を否定することではない。</p>
+<p>目的は、Markdownだけでは追えなかった以下を追えるようにすること。</p>
+<ol>
+<li>どの原本から来た知識か。</li>
+<li>どの評価軸で分類されたのか。</li>
+<li>誰、またはどのAIが分類したのか。</li>
+<li>どのAI社員が使ったのか。</li>
+<li>田中祐一が承認したのか。</li>
+<li>後から評価軸が変わったとき、何を再分類すればよいのか。</li>
+</ol>
+<p>過去の仕分け作業は、DB化によって「消える」のではなく「比較できる履歴」になる。ここを先に設計しておけば、今後は評価軸が変わるたびにゼロからやり直す必要がなくなる。</p>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-07-03)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 95FCBB7D<br />
+Generated by: 田中祐一</p>
 </main>
 </body>
 </html>
