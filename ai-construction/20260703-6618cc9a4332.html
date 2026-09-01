@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI社員DB化 実装バックログ - AI社員化プロジェクト 設計方針</title>
+<title>20260703_AI社員DB化_実装バックログ - AI社員化プロジェクト 設計方針</title>
 <style>
 * { box-sizing: border-box; }
 html, body { overflow-x: hidden; }
@@ -15,16 +15,6 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
-.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
-        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
-.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
-.toc ul { list-style: none; margin: 0; padding: 0; }
-.toc li { margin: 0.2rem 0; line-height: 1.5; }
-.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
-.toc a { color: #333; text-decoration: none; }
-.toc a:hover { color: #0d6efd; text-decoration: underline; }
-h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -80,229 +70,290 @@ h2[id], h3[id] { scroll-margin-top: 1rem; }
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年09月01日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年09月01日</span> 田中AIナレッジ同期 最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年09月01日</span> 田中祐一AI インプット来歴一覧（正本）</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年09月01日</span> 運用: 田中AIナレッジ日次同期</a>
-<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
-<a href="20260703-6618cc9a4332.html" class="sidebar-item active"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
-<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
-<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
-<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
-<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
-<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
-<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
-<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
-<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
-<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
-<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
-<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
-<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
-<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
-<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
-<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
-<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
-<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
-<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
-<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
-<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
-<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
-<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
-<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
-<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
-<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
-<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
-<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
-<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
-<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
-<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
-<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
-<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
-<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
-<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
-<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
-<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
-<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
-<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
-<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
-<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
-<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
-<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
-<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item active"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ナレッジフィードバックループ_実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チーム_AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計_Zoom一括蒸留_StageB仕分けルール_20260703</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 一括蒸留_進捗台帳_20260702</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> 監査_20260619_knowledge格納構造_findings_共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
 <a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
-<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
-<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
-<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
-<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
-<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
 </nav>
 <main class="main">
-<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#結論">結論</a></li><li class="toc-main"><a href="#実装フェーズ">実装フェーズ</a></li><li class="toc-sub"><a href="#Phase-1:-DBスキーマ確定">Phase 1: DBスキーマ確定</a></li><li class="toc-sub"><a href="#Phase-2:-既存MDの救済取り込み">Phase 2: 既存MDの救済取り込み</a></li><li class="toc-sub"><a href="#Phase-3:-サンプルDB取り込み">Phase 3: サンプルDB取り込み</a></li><li class="toc-sub"><a href="#Phase-4:-MCP最小ツール">Phase 4: MCP最小ツール</a></li><li class="toc-sub"><a href="#Phase-5:-AI社員台帳の初期登録">Phase 5: AI社員台帳の初期登録</a></li><li class="toc-sub"><a href="#Phase-6:-稼働ログの接続">Phase 6: 稼働ログの接続</a></li><li class="toc-sub"><a href="#Phase-7:-週次ナレッジレビューとの統合">Phase 7: 週次ナレッジレビューとの統合</a></li><li class="toc-sub"><a href="#Phase-8:-ダッシュボード">Phase 8: ダッシュボード</a></li><li class="toc-main"><a href="#すぐ着手する実装">すぐ着手する実装</a></li><li class="toc-main"><a href="#まだ確認してから進める実装">まだ確認してから進める実装</a></li><li class="toc-main"><a href="#完了条件">完了条件</a></li><li class="toc-main"><a href="#重要メモ">重要メモ</a></li></ul></nav><h1>AI社員DB化 実装バックログ</h1>
-<p>作成日: 2026-07-03</p>
-<h2 id="結論">結論</h2>
-<p>実装に入ってよい。</p>
-<p>ただし、最初にやる実装は「本番DBへ即反映」ではなく、次の順番にする。</p>
-<ol>
-<li>Supabase migrationのレビューとローカル検証</li>
-<li>既存MDのサンプル20件マニフェスト生成</li>
-<li>サンプル20件のDB取り込みスクリプト</li>
-<li>MCP最小ツールの追加</li>
-<li>AI社員稼働ログの実運用接続</li>
-<li>ダッシュボード化</li>
-</ol>
-<h2 id="実装フェーズ">実装フェーズ</h2>
-<h3 id="Phase-1:-DBスキーマ確定">Phase 1: DBスキーマ確定</h3>
-<p>目的:</p>
-<p>AI社員DB化に必要なテーブルをTanakaKnowledgeOSへ追加する。</p>
-<p>対象:</p>
-<pre><code class="language-text">71_システム開発/TanakaKnowledgeOS/supabase/migrations/0030_ai_employee_knowledge_os.sql
-</code></pre>
-<p>残タスク:</p>
-<ol>
-<li>SQLレビュー</li>
-<li>RLS方針の確認</li>
-<li>既存テーブルとの重複確認</li>
-<li>ローカルまたはstaging Supabaseでmigration検証</li>
-<li>本番適用可否の判断</li>
-</ol>
-<p>判断:</p>
-<p>ここは実装に入ってよいが、本番DB適用はレビュー後にする。</p>
-<h3 id="Phase-2:-既存MDの救済取り込み">Phase 2: 既存MDの救済取り込み</h3>
-<p>目的:</p>
-<p>過去のMarkdown整理を、DBの初期データとして救済する。</p>
-<p>残タスク:</p>
-<ol>
-<li>既存MDを走査するスクリプトを作る。</li>
-<li><code>source_assets_import_manifest.jsonl</code> を生成する。</li>
-<li>まず20件だけサンプル出力する。</li>
-<li><code>source_type</code>、<code>privacy_level</code>、<code>legacy_labels</code> の推定精度を確認する。</li>
-<li>問題なければ対象範囲を広げる。</li>
-</ol>
-<p>最初の対象候補:</p>
-<pre><code class="language-text">13_データ原本保存庫/
+<pre># AI社員DB化 実装バックログ
+
+作成日: 2026-07-03
+
+## 結論
+
+実装に入ってよい。
+
+ただし、最初にやる実装は「本番DBへ即反映」ではなく、次の順番にする。
+
+1. Supabase migrationのレビューとローカル検証
+2. 既存MDのサンプル20件マニフェスト生成
+3. サンプル20件のDB取り込みスクリプト
+4. MCP最小ツールの追加
+5. AI社員稼働ログの実運用接続
+6. ダッシュボード化
+
+## 実装フェーズ
+
+### Phase 1: DBスキーマ確定
+
+目的:
+
+AI社員DB化に必要なテーブルをTanakaKnowledgeOSへ追加する。
+
+対象:
+
+```text
+71_システム開発/TanakaKnowledgeOS/supabase/migrations/0030_ai_employee_knowledge_os.sql
+```
+
+残タスク:
+
+1. SQLレビュー
+2. RLS方針の確認
+3. 既存テーブルとの重複確認
+4. ローカルまたはstaging Supabaseでmigration検証
+5. 本番適用可否の判断
+
+判断:
+
+ここは実装に入ってよいが、本番DB適用はレビュー後にする。
+
+### Phase 2: 既存MDの救済取り込み
+
+目的:
+
+過去のMarkdown整理を、DBの初期データとして救済する。
+
+残タスク:
+
+1. 既存MDを走査するスクリプトを作る。
+2. `source_assets_import_manifest.jsonl` を生成する。
+3. まず20件だけサンプル出力する。
+4. `source_type`、`privacy_level`、`legacy_labels` の推定精度を確認する。
+5. 問題なければ対象範囲を広げる。
+
+最初の対象候補:
+
+```text
+13_データ原本保存庫/
 97_ザ・リード事業/AI構築/
 41_リサーチ/購入教材/
-</code></pre>
-<p>判断:</p>
-<p>ここはすぐ実装に入ってよい。既存ファイルを壊さず、JSONLを生成するだけなので安全。</p>
-<h3 id="Phase-3:-サンプルDB取り込み">Phase 3: サンプルDB取り込み</h3>
-<p>目的:</p>
-<p>JSONLマニフェストからSupabaseへ登録できることを確認する。</p>
-<p>残タスク:</p>
-<ol>
-<li><code>source_assets</code> 登録</li>
-<li><code>source_asset_links</code> 登録</li>
-<li><code>source_chunks</code> 分割登録</li>
-<li><code>classification_rubrics</code> に <code>legacy_md_2026Q2</code> を登録</li>
-<li><code>classification_runs</code> / <code>classification_labels</code> 登録</li>
-</ol>
-<p>判断:</p>
-<p>stagingまたはlocal Supabaseで先に実行する。本番はまだ後。</p>
-<h3 id="Phase-4:-MCP最小ツール">Phase 4: MCP最小ツール</h3>
-<p>目的:</p>
-<p>田中祐一AIとAI社員がDBを参照・記録できる入口を作る。</p>
-<p>最初に作るツール:</p>
-<ol>
-<li><code>search_source_assets</code></li>
-<li><code>get_source_asset</code></li>
-<li><code>log_agent_run</code></li>
-<li><code>submit_classification_label</code></li>
-<li><code>submit_knowledge_promotion_candidate</code></li>
-<li><code>submit_eval_case</code></li>
-</ol>
-<p>判断:</p>
-<p>MCPの実装はDBスキーマ検証後に入る。先にI/Oの型だけ作るのは可能。</p>
-<h3 id="Phase-5:-AI社員台帳の初期登録">Phase 5: AI社員台帳の初期登録</h3>
-<p>目的:</p>
-<p>既存の <code>agents/</code> 配下にいるAI社員をDBへ登録する。</p>
-<p>残タスク:</p>
-<ol>
-<li>agent.mdを走査する。</li>
-<li>agent_slug、display_name、department、agent_pathを抽出する。</li>
-<li><code>ai_agents</code> に登録する。</li>
-<li>agent.mdのハッシュを取り、<code>ai_agent_versions</code> に登録する。</li>
-<li>変更履歴を追えるようにする。</li>
-</ol>
-<p>判断:</p>
-<p>ここもすぐ実装に入ってよい。最初はJSONL出力だけで安全に進める。</p>
-<h3 id="Phase-6:-稼働ログの接続">Phase 6: 稼働ログの接続</h3>
-<p>目的:</p>
-<p>「AI社員が働いた」という事実を残す。</p>
-<p>残タスク:</p>
-<ol>
-<li>田中祐一AI起点の作業に <code>agent_slug</code> を付ける。</li>
-<li>Codex / Claude / Cursor で呼び出したAI社員を <code>ai_agent_runs</code> に残す。</li>
-<li>どのナレッジを使ったかを <code>ai_agent_knowledge_usage</code> に残す。</li>
-<li>成果物パスを <code>output_path</code> に残す。</li>
-</ol>
-<p>判断:</p>
-<p>最初は手動ログ・MCPログの併用でよい。完全自動化は後でよい。</p>
-<h3 id="Phase-7:-週次ナレッジレビューとの統合">Phase 7: 週次ナレッジレビューとの統合</h3>
-<p>目的:</p>
-<p>毎回手動で「スキル化・ナレッジ化・社員化」を完了させる負担を減らす。</p>
-<p>残タスク:</p>
-<ol>
-<li><code>knowledge_promotion_queue</code> を週次レビュー対象にする。</li>
-<li>月曜レポートに、DB上の未処理候補を入れる。</li>
-<li>田中祐一が承認・保留・却下できる形式にする。</li>
-<li>承認されたものだけ <code>rules/</code>、<code>skills/</code>、<code>knowledge/</code>、<code>agents/</code> に反映する。</li>
-</ol>
-<p>判断:</p>
-<p>DB取り込み後に実装する。</p>
-<h3 id="Phase-8:-ダッシュボード">Phase 8: ダッシュボード</h3>
-<p>目的:</p>
-<p>AI社員が育っているか、使われているかを見える化する。</p>
-<p>表示項目:</p>
-<ol>
-<li>AI社員別の利用回数</li>
-<li>AI社員別の成果物数</li>
-<li>評価スコア</li>
-<li>使われたナレッジ</li>
-<li>未処理ナレッジ候補</li>
-<li>統合・停止候補のAI社員</li>
-<li>評価テストの合格率</li>
-</ol>
-<p>判断:</p>
-<p>MVP後に実装する。最初から作り込まない。</p>
-<h2 id="すぐ着手する実装">すぐ着手する実装</h2>
-<p>最初の実装順は以下。</p>
-<ol>
-<li>既存MD走査スクリプト</li>
-<li>サンプル20件の <code>source_assets_import_manifest.jsonl</code></li>
-<li>AI社員agent.md走査スクリプト</li>
-<li>AI社員台帳インポートJSONL</li>
-<li>SQL migrationのレビュー</li>
-</ol>
-<p>この5つは既存データを壊さないため、すぐ進めてよい。</p>
-<h2 id="まだ確認してから進める実装">まだ確認してから進める実装</h2>
-<p>以下は確認後に進める。</p>
-<ol>
-<li>Supabase本番DBへのmigration適用</li>
-<li>本番MCPへの新ツール追加</li>
-<li>受講生やスタッフが触れるUIへの表示</li>
-<li><code>restricted</code> / <code>tanaka_only</code> データの検索許可</li>
-<li>自動で <code>knowledge/</code> を書き換える処理</li>
-</ol>
-<h2 id="完了条件">完了条件</h2>
-<p>MVP完了条件:</p>
-<ol>
-<li>既存MD20件がDBへ取り込める。</li>
-<li>旧分類が <code>legacy_md_2026Q2</code> として残る。</li>
-<li>新分類 <code>ai_employee_knowledge_v1</code> を追加できる。</li>
-<li>AI社員1名以上の稼働ログを残せる。</li>
-<li><code>search_source_assets</code> で原本と分類ラベルを検索できる。</li>
-<li>ナレッジ化候補を週次レビューへ送れる。</li>
-</ol>
-<p>この状態になれば、「DB化した意味がある」と言える。</p>
-<h2 id="重要メモ">重要メモ</h2>
-<p>今回のDB化は、過去MD整理を否定するものではない。</p>
-<p>むしろ、過去MD整理で作った判断・分類・フォルダ分けを、DB上で再利用可能な履歴に変換する作業である。</p>
-<p>今後は、評価軸が変わっても原本を再仕分けし直すのではなく、新しい <code>classification_rubrics</code> と <code>classification_runs</code> を追加する。これにより、田中祐一AIとAI社員の進化履歴そのものが資産になる。</p>
-<p>Produced by KATSUO MARKETING<br />
-Version: 1.0 (2026-07-03)<br />
-Licensed to: KATSUO MARKETING Community Member<br />
-Security Trace ID: CF82B30C<br />
-Generated by: 田中祐一</p>
+```
+
+判断:
+
+ここはすぐ実装に入ってよい。既存ファイルを壊さず、JSONLを生成するだけなので安全。
+
+### Phase 3: サンプルDB取り込み
+
+目的:
+
+JSONLマニフェストからSupabaseへ登録できることを確認する。
+
+残タスク:
+
+1. `source_assets` 登録
+2. `source_asset_links` 登録
+3. `source_chunks` 分割登録
+4. `classification_rubrics` に `legacy_md_2026Q2` を登録
+5. `classification_runs` / `classification_labels` 登録
+
+判断:
+
+stagingまたはlocal Supabaseで先に実行する。本番はまだ後。
+
+### Phase 4: MCP最小ツール
+
+目的:
+
+田中祐一AIとAI社員がDBを参照・記録できる入口を作る。
+
+最初に作るツール:
+
+1. `search_source_assets`
+2. `get_source_asset`
+3. `log_agent_run`
+4. `submit_classification_label`
+5. `submit_knowledge_promotion_candidate`
+6. `submit_eval_case`
+
+判断:
+
+MCPの実装はDBスキーマ検証後に入る。先にI/Oの型だけ作るのは可能。
+
+### Phase 5: AI社員台帳の初期登録
+
+目的:
+
+既存の `agents/` 配下にいるAI社員をDBへ登録する。
+
+残タスク:
+
+1. agent.mdを走査する。
+2. agent_slug、display_name、department、agent_pathを抽出する。
+3. `ai_agents` に登録する。
+4. agent.mdのハッシュを取り、`ai_agent_versions` に登録する。
+5. 変更履歴を追えるようにする。
+
+判断:
+
+ここもすぐ実装に入ってよい。最初はJSONL出力だけで安全に進める。
+
+### Phase 6: 稼働ログの接続
+
+目的:
+
+「AI社員が働いた」という事実を残す。
+
+残タスク:
+
+1. 田中祐一AI起点の作業に `agent_slug` を付ける。
+2. Codex / Claude / Cursor で呼び出したAI社員を `ai_agent_runs` に残す。
+3. どのナレッジを使ったかを `ai_agent_knowledge_usage` に残す。
+4. 成果物パスを `output_path` に残す。
+
+判断:
+
+最初は手動ログ・MCPログの併用でよい。完全自動化は後でよい。
+
+### Phase 7: 週次ナレッジレビューとの統合
+
+目的:
+
+毎回手動で「スキル化・ナレッジ化・社員化」を完了させる負担を減らす。
+
+残タスク:
+
+1. `knowledge_promotion_queue` を週次レビュー対象にする。
+2. 月曜レポートに、DB上の未処理候補を入れる。
+3. 田中祐一が承認・保留・却下できる形式にする。
+4. 承認されたものだけ `rules/`、`skills/`、`knowledge/`、`agents/` に反映する。
+
+判断:
+
+DB取り込み後に実装する。
+
+### Phase 8: ダッシュボード
+
+目的:
+
+AI社員が育っているか、使われているかを見える化する。
+
+表示項目:
+
+1. AI社員別の利用回数
+2. AI社員別の成果物数
+3. 評価スコア
+4. 使われたナレッジ
+5. 未処理ナレッジ候補
+6. 統合・停止候補のAI社員
+7. 評価テストの合格率
+
+判断:
+
+MVP後に実装する。最初から作り込まない。
+
+## すぐ着手する実装
+
+最初の実装順は以下。
+
+1. 既存MD走査スクリプト
+2. サンプル20件の `source_assets_import_manifest.jsonl`
+3. AI社員agent.md走査スクリプト
+4. AI社員台帳インポートJSONL
+5. SQL migrationのレビュー
+
+この5つは既存データを壊さないため、すぐ進めてよい。
+
+## まだ確認してから進める実装
+
+以下は確認後に進める。
+
+1. Supabase本番DBへのmigration適用
+2. 本番MCPへの新ツール追加
+3. 受講生やスタッフが触れるUIへの表示
+4. `restricted` / `tanaka_only` データの検索許可
+5. 自動で `knowledge/` を書き換える処理
+
+## 完了条件
+
+MVP完了条件:
+
+1. 既存MD20件がDBへ取り込める。
+2. 旧分類が `legacy_md_2026Q2` として残る。
+3. 新分類 `ai_employee_knowledge_v1` を追加できる。
+4. AI社員1名以上の稼働ログを残せる。
+5. `search_source_assets` で原本と分類ラベルを検索できる。
+6. ナレッジ化候補を週次レビューへ送れる。
+
+この状態になれば、「DB化した意味がある」と言える。
+
+## 重要メモ
+
+今回のDB化は、過去MD整理を否定するものではない。
+
+むしろ、過去MD整理で作った判断・分類・フォルダ分けを、DB上で再利用可能な履歴に変換する作業である。
+
+今後は、評価軸が変わっても原本を再仕分けし直すのではなく、新しい `classification_rubrics` と `classification_runs` を追加する。これにより、田中祐一AIとAI社員の進化履歴そのものが資産になる。
+
+Produced by KATSUO MARKETING
+Version: 1.0 (2026-07-03)
+Licensed to: KATSUO MARKETING Community Member
+Security Trace ID: CF82B30C
+Generated by: 田中祐一
+</pre>
 </main>
 </body>
 </html>
