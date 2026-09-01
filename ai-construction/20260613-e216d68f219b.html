@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>実装_20260613_MCP統合クリーンアップ_ランブック - AI社員化プロジェクト 設計方針</title>
+<title>田中祐一AI MCP 統合クリーンアップ ランブック - AI社員化プロジェクト 設計方針</title>
 <style>
 * { box-sizing: border-box; }
 html, body { overflow-x: hidden; }
@@ -15,6 +15,16 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
+/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
+.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
+        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0.2rem 0; line-height: 1.5; }
+.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
+.toc a { color: #333; text-decoration: none; }
+.toc a:hover { color: #0d6efd; text-decoration: underline; }
+h2[id], h3[id] { scroll-margin-top: 1rem; }
 .main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
 .main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
 .main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
@@ -70,169 +80,250 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </div>
 <nav class="sidebar">
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
-<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
-<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
-<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
-<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ナレッジフィードバックループ_実装ログ</a>
-<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_初期実装ログ</a>
-<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_実装設計とタスク一覧</a>
-<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チーム_AI社員スケルトン実装ログ</a>
-<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_田中祐一AIとAI社員の連携設計メモ</a>
-<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
-<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計_Zoom一括蒸留_StageB仕分けルール_20260703</a>
-<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 一括蒸留_進捗台帳_20260702</a>
-<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
-<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
-<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> 監査_20260619_knowledge格納構造_findings_共有用</a>
-<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
-<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
-<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
-<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
-<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
-<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
-<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
-<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
-<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
-<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
-<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
-<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
-<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
-<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
-<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
-<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
-<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
-<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
-<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
-<a href="20260613-e216d68f219b.html" class="sidebar-item active"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
-<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
-<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
-<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
-<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
-<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
-<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
-<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
-<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
-<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
-<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
-<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年09月01日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年09月01日</span> 田中AIナレッジ同期 最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年09月01日</span> 田中祐一AI インプット来歴一覧（正本）</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年09月01日</span> 運用: 田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item active"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
 <a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
-<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
-<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
-<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
-<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
-<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a>
 </nav>
 <main class="main">
-<pre># 田中祐一AI MCP 統合クリーンアップ ランブック
-
-作成日: 2026-06-13
-目的: バラけた田中祐一AIのMCP接続を **1本（mcp.tanaka.app）に統合**し、Cursor/Codex/Claude どこから呼んでも同じMCPに繋がるようにする。
-実装担当: Cursor/技術担当（Vercelアクセスが要る手順あり）。設計: Claude。
-
-## 0. 確認済みの現状（2026-06-13 実査）
-
-- **正本アプリ = `apps/mcp`**（QAも内包・1アプリで完結）。Vercelプロジェクト `mcp`（team: promoter-crm スラッグ）にリンク。env `GITHUB_KNOWLEDGE_PATH=knowledge` ✅
-- **MCPエンドポイント = `/api/mcp/g/{grant_code}`**
-- 現在の接続バラつき:
-  | ツール | 現在の接続先 | 状態 |
-  |---|---|---|
-  | Cursor | `mcp-promoter-crm.vercel.app/api/mcp/g/{grant}` | 動作（`mcp`プロジェクトのURL） |
-  | Codex | `admin-psi-rose.vercel.app/api/mcp` | **壊れ**（adminに`/api/mcp`は無い） |
-  | Claude | （要確認） | 未確認 |
-- 「promoter-crm」= Vercelチームのスラッグ。全プロジェクト（mcp/admin/promoter-crm/…）がこの配下。PALMOプロジェクト名と衝突 → 全混乱の元
-
-## 1. ターゲット構成（あるべき姿）
-
-- **正規URL = `<a href="https://mcp.tanaka.app" target="_blank" rel="noopener noreferrer">https://mcp.tanaka.app</a>`**（Vercelプロジェクト `mcp` にエイリアス）
-- **全ツールの接続先を統一**: `https://mcp.tanaka.app/api/mcp/g/{grant_code}`
-- 余分なURL（mcp-jade-beta直叩き・admin/api/mcp誤り）は使わない
-- QA・添削・制作・相談は全て `apps/mcp`（=`mcp`プロジェクト）の中。別アプリ化しない
-
-## 2. 実装手順（順番厳守・順番を間違えると本番MCPが落ちる）
-
-### ⚠️ 順序の鉄則
-**先にドメインを用意してから接続先を切り替える**。逆をやると、Cursorで日常使用中のMCPが切れる。
-
-### Step 1【Vercelアクセス必須・技術担当/田中】mcp.tanaka.app を `mcp` プロジェクトに割当
-- Vercel管理画面 → `mcp` プロジェクト → Settings → Domains → `mcp.tanaka.app` を追加
-- 既に他プロジェクトに割当済みなら、`mcp` へ付け替え
-- 完了条件: `<a href="https://mcp.tanaka.app/api/mcp/g/test-plc-2026" target="_blank" rel="noopener noreferrer">https://mcp.tanaka.app/api/mcp/g/test-plc-2026</a>` が応答する
-
-### Step 2【Vercel・技術担当】最新コードを `mcp` プロジェクトへ本番デプロイ
-- 今日のバンドル修正（哲学/原理の型ベース包含）を含む最新を本番反映
-- 完了条件: 本番が最新コミットを指す
-
-### Step 3【Claude/Cursorが実施可・Step1完了後のみ】接続先を mcp.tanaka.app に統一
-- `~/.cursor/mcp.json`: url を `https://mcp.tanaka.app/api/mcp/g/{grant}` に変更
-- `~/.codex/config.toml`: 壊れた `admin-psi-rose.vercel.app/api/mcp` を `https://mcp.tanaka.app/api/mcp/g/{grant}` に修正
-- Claude（claude_desktop_config 等）にMCP接続があれば同様に統一
-- **Step1が未完了のうちは絶対に切り替えない**（落ちる）
-
-### Step 4【Vercel・技術担当】余分なURL/エイリアスの整理
-- `mcp-jade-beta` / `mcp-promoter-crm` の直叩きを段階的に廃止（リダイレクト or 非公開）
-- 急がず、Step3で全ツールが mcp.tanaka.app に移行したのを確認してから
-
-### Step 5【検証】3ツール全部が同じMCPを叩くか
-- Cursor / Codex / Claude それぞれで田中祐一AIのMCPを起動し、同じ `mcp.tanaka.app` に繋がること
-- 添削モードで哲学/原理（疑いのレベル・マーケ=教育）がロードされること（バンドル修正の本番反映確認）
-
-## 3. 役割分担
-
-| 手順 | 担当 | 理由 |
-|---|---|---|
-| Step1 ドメイン割当 | 技術担当/田中（Vercelアクセス） | 本番ドメイン操作・落とすリスク |
-| Step2 本番デプロイ | 技術担当/田中 | 同上 |
-| Step3 接続先統一 | Claude/Cursor（Step1後） | ローカル設定編集・差分は本ランブックで用意可 |
-| Step4 余分URL整理 | 技術担当 | Vercel操作 |
-| Step5 検証 | 田中＋Claude | 実使用確認 |
-
-## 4. 確定版リネーム計画（2026-06-13 田中確定・.vercel.app方式）
-
-**命名原則: 社長が見て機能が分かる名前にする**（dev用語の `admin`/`mcp` 単体は避ける。`mcp`は full名 `tanaka-knowledge-mcp` ならOK＝Cursor設定と対応が取れる）。
-
-| 旧プロジェクト名 | 中身 | 新プロジェクト名 | 新URL（想定） |
-|---|---|---|---|
-| `mcp` | 田中祐一AI本体（受講生/Cursorが繋ぐ） | **`tanaka-knowledge-mcp`** | tanaka-knowledge-mcp.vercel.app |
-| `admin` | 田中祐一AI 管理画面 | **`tanaka-knowledge-admin-view`** | tanaka-knowledge-admin-view.vercel.app |
-| `promoter-crm` | PALMO（顧客CRM） | **`palmo-crm`** | palmo-crm.vercel.app |
-
-- PALMOリネームの影響: 機能/データ/envは無事。URLのみ変化 → PALMO閲覧スタッフに新URL通知が必要。
-- チームスラッグ `promoter-crm`: リネーム後に新URLがまだ `-promoter-crm` 付きで汚れる場合のみ、スラッグ変更を検討（bare名が取れればスラッグ変更は不要）。
-
-## 5. 旧URLが埋まっている全箇所（リネームと同期更新）
-
-| 種別 | ファイル | 担当 |
-|---|---|---|
-| 受講生マニュアル | `static-pages/tanaka-os-manual/index.html`（10箇所）→再デプロイ | Claude更新→田中push |
-| スタッフマニュアル | `static-pages/tanaka-os-staff-manual/index.html`→再デプロイ | Claude更新→田中push |
-| 接続マニュアル等(内部) | TanakaKnowledgeOS/docs/接続マニュアル.md・スタッフテスト手順.md・QAボット系・開発引き継ぎノート.md | Claude |
-| ルール/識別doc | AGENTS.md・rules/システム識別・警告マーカー・CLAUDE.md | Claude |
-| 接続設定 | Cursor `~/.cursor/mcp.json`・Codex `~/.codex/config.toml`（admin誤り修正）・Claude | Claude（差分）／田中（確認） |
-| 受講生・スタッフ通知 | 新URLの案内 | 田中 |
-
-## 6. 実行順序（厳守）
-
-1. 【田中・Vercel】3プロジェクトをリネーム（STEP A・下記クリック手順）
-2. 【Claude】新URLを読み取りで確認
-3. 【Claude】マニュアル2本＋内部doc＋ルールのURLを一括更新→田中がpush/再デプロイ
-4. 【Claude→田中】Cursor/Codex/Claude の接続設定を新URLへ（Codexのadmin誤りも修正）
-5. 【田中】受講生・スタッフへ新URL通知
-6. 【田中/Claude】旧URL（mcp-jade-beta等）の整理・確認
-
-Produced by KATSUO MARKETING
-Generated by: 田中祐一AI設計チーム（Claude）
-
-## 7. 実行結果（2026-06-13 リネーム実施）
-
-- ✅ 3プロジェクトの表示名を変更: `mcp`→`tanaka-knowledge-mcp` / `admin`→`tanaka-knowledge-admin-view` / `promoter-crm`→`palmo-crm`
-- ✅ **重要: 本番URLは不変だった**（Vercelは表示名のみ変更、`.vercel.app`の本番URLは据え置き）。実測で mcp-jade-beta / mcp-promoter-crm / promoter-crm / admin-psi-rose は全て200/307で**生存**。
-- ➡️ 結果として **受講生通知・接続繋ぎ直し・マニュアルURL書き換えは不要**（既存URLが生きているため）。当初想定の「URL一斉変更」は発生せず。
-- 📝 残課題（任意）: ①Codex接続先 `admin-psi-rose/api/mcp` が壊れている→ `mcp-promoter-crm.vercel.app/api/mcp/g/{grant}` に直す ②綺麗なURL `mcp.tanaka.app` 化は別途ドメイン作業
-</pre>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#0.-確認済みの現状（2026-06-13-実査）">0. 確認済みの現状（2026-06-13 実査）</a></li><li class="toc-main"><a href="#1.-ターゲット構成（あるべき姿）">1. ターゲット構成（あるべき姿）</a></li><li class="toc-main"><a href="#2.-実装手順（順番厳守・順番を間違えると本番MCPが落ちる）">2. 実装手順（順番厳守・順番を間違えると本番MCPが落ちる）</a></li><li class="toc-sub"><a href="#⚠️-順序の鉄則">⚠️ 順序の鉄則</a></li><li class="toc-sub"><a href="#Step-1【Vercelアクセス必須・技術担当/田中】mcp.tanaka.app-を-mcp-プロジェクトに割当">Step 1【Vercelアクセス必須・技術担当/田中】mcp.tanaka.app を mcp プロジェクトに割当</a></li><li class="toc-sub"><a href="#Step-2【Vercel・技術担当】最新コードを-mcp-プロジェクトへ本番デプロイ">Step 2【Vercel・技術担当】最新コードを mcp プロジェクトへ本番デプロイ</a></li><li class="toc-sub"><a href="#Step-3【Claude/Cursorが実施可・Step1完了後のみ】接続先を-mcp.tanaka.app-に統一">Step 3【Claude/Cursorが実施可・Step1完了後のみ】接続先を mcp.tanaka.app に統一</a></li><li class="toc-sub"><a href="#Step-4【Vercel・技術担当】余分なURL/エイリアスの整理">Step 4【Vercel・技術担当】余分なURL/エイリアスの整理</a></li><li class="toc-sub"><a href="#Step-5【検証】3ツール全部が同じMCPを叩くか">Step 5【検証】3ツール全部が同じMCPを叩くか</a></li><li class="toc-main"><a href="#3.-役割分担">3. 役割分担</a></li><li class="toc-main"><a href="#4.-確定版リネーム計画（2026-06-13-田中確定・.vercel.app方式）">4. 確定版リネーム計画（2026-06-13 田中確定・.vercel.app方式）</a></li><li class="toc-main"><a href="#5.-旧URLが埋まっている全箇所（リネームと同期更新）">5. 旧URLが埋まっている全箇所（リネームと同期更新）</a></li><li class="toc-main"><a href="#6.-実行順序（厳守）">6. 実行順序（厳守）</a></li><li class="toc-main"><a href="#7.-実行結果（2026-06-13-リネーム実施）">7. 実行結果（2026-06-13 リネーム実施）</a></li></ul></nav><h1>田中祐一AI MCP 統合クリーンアップ ランブック</h1>
+<p>作成日: 2026-06-13<br />
+目的: バラけた田中祐一AIのMCP接続を <strong>1本（mcp.tanaka.app）に統合</strong>し、Cursor/Codex/Claude どこから呼んでも同じMCPに繋がるようにする。<br />
+実装担当: Cursor/技術担当（Vercelアクセスが要る手順あり）。設計: Claude。</p>
+<h2 id="0.-確認済みの現状（2026-06-13-実査）">0. 確認済みの現状（2026-06-13 実査）</h2>
+<ul>
+<li><strong>正本アプリ = <code>apps/mcp</code></strong>（QAも内包・1アプリで完結）。Vercelプロジェクト <code>mcp</code>（team: promoter-crm スラッグ）にリンク。env <code>GITHUB_KNOWLEDGE_PATH=knowledge</code> ✅</li>
+<li><strong>MCPエンドポイント = <code>/api/mcp/g/{grant_code}</code></strong></li>
+<li>現在の接続バラつき:<br />
+  | ツール | 現在の接続先 | 状態 |<br />
+  |---|---|---|<br />
+  | Cursor | <code>mcp-promoter-crm.vercel.app/api/mcp/g/{grant}</code> | 動作（<code>mcp</code>プロジェクトのURL） |<br />
+  | Codex | <code>admin-psi-rose.vercel.app/api/mcp</code> | <strong>壊れ</strong>（adminに<code>/api/mcp</code>は無い） |<br />
+  | Claude | （要確認） | 未確認 |</li>
+<li>「promoter-crm」= Vercelチームのスラッグ。全プロジェクト（mcp/admin/promoter-crm/…）がこの配下。PALMOプロジェクト名と衝突 → 全混乱の元</li>
+</ul>
+<h2 id="1.-ターゲット構成（あるべき姿）">1. ターゲット構成（あるべき姿）</h2>
+<ul>
+<li><strong>正規URL = <code><a href="https://mcp.tanaka.app" target="_blank" rel="noopener noreferrer">https://mcp.tanaka.app</a></code></strong>（Vercelプロジェクト <code>mcp</code> にエイリアス）</li>
+<li><strong>全ツールの接続先を統一</strong>: <code>https://mcp.tanaka.app/api/mcp/g/{grant_code}</code></li>
+<li>余分なURL（mcp-jade-beta直叩き・admin/api/mcp誤り）は使わない</li>
+<li>QA・添削・制作・相談は全て <code>apps/mcp</code>（=<code>mcp</code>プロジェクト）の中。別アプリ化しない</li>
+</ul>
+<h2 id="2.-実装手順（順番厳守・順番を間違えると本番MCPが落ちる）">2. 実装手順（順番厳守・順番を間違えると本番MCPが落ちる）</h2>
+<h3 id="⚠️-順序の鉄則">⚠️ 順序の鉄則</h3>
+<p><strong>先にドメインを用意してから接続先を切り替える</strong>。逆をやると、Cursorで日常使用中のMCPが切れる。</p>
+<h3 id="Step-1【Vercelアクセス必須・技術担当/田中】mcp.tanaka.app-を-mcp-プロジェクトに割当">Step 1【Vercelアクセス必須・技術担当/田中】mcp.tanaka.app を <code>mcp</code> プロジェクトに割当</h3>
+<ul>
+<li>Vercel管理画面 → <code>mcp</code> プロジェクト → Settings → Domains → <code>mcp.tanaka.app</code> を追加</li>
+<li>既に他プロジェクトに割当済みなら、<code>mcp</code> へ付け替え</li>
+<li>完了条件: <code><a href="https://mcp.tanaka.app/api/mcp/g/test-plc-2026" target="_blank" rel="noopener noreferrer">https://mcp.tanaka.app/api/mcp/g/test-plc-2026</a></code> が応答する</li>
+</ul>
+<h3 id="Step-2【Vercel・技術担当】最新コードを-mcp-プロジェクトへ本番デプロイ">Step 2【Vercel・技術担当】最新コードを <code>mcp</code> プロジェクトへ本番デプロイ</h3>
+<ul>
+<li>今日のバンドル修正（哲学/原理の型ベース包含）を含む最新を本番反映</li>
+<li>完了条件: 本番が最新コミットを指す</li>
+</ul>
+<h3 id="Step-3【Claude/Cursorが実施可・Step1完了後のみ】接続先を-mcp.tanaka.app-に統一">Step 3【Claude/Cursorが実施可・Step1完了後のみ】接続先を mcp.tanaka.app に統一</h3>
+<ul>
+<li><code>~/.cursor/mcp.json</code>: url を <code>https://mcp.tanaka.app/api/mcp/g/{grant}</code> に変更</li>
+<li><code>~/.codex/config.toml</code>: 壊れた <code>admin-psi-rose.vercel.app/api/mcp</code> を <code>https://mcp.tanaka.app/api/mcp/g/{grant}</code> に修正</li>
+<li>Claude（claude_desktop_config 等）にMCP接続があれば同様に統一</li>
+<li><strong>Step1が未完了のうちは絶対に切り替えない</strong>（落ちる）</li>
+</ul>
+<h3 id="Step-4【Vercel・技術担当】余分なURL/エイリアスの整理">Step 4【Vercel・技術担当】余分なURL/エイリアスの整理</h3>
+<ul>
+<li><code>mcp-jade-beta</code> / <code>mcp-promoter-crm</code> の直叩きを段階的に廃止（リダイレクト or 非公開）</li>
+<li>急がず、Step3で全ツールが mcp.tanaka.app に移行したのを確認してから</li>
+</ul>
+<h3 id="Step-5【検証】3ツール全部が同じMCPを叩くか">Step 5【検証】3ツール全部が同じMCPを叩くか</h3>
+<ul>
+<li>Cursor / Codex / Claude それぞれで田中祐一AIのMCPを起動し、同じ <code>mcp.tanaka.app</code> に繋がること</li>
+<li>添削モードで哲学/原理（疑いのレベル・マーケ=教育）がロードされること（バンドル修正の本番反映確認）</li>
+</ul>
+<h2 id="3.-役割分担">3. 役割分担</h2>
+<table>
+<thead>
+<tr>
+<th>手順</th>
+<th>担当</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Step1 ドメイン割当</td>
+<td>技術担当/田中（Vercelアクセス）</td>
+<td>本番ドメイン操作・落とすリスク</td>
+</tr>
+<tr>
+<td>Step2 本番デプロイ</td>
+<td>技術担当/田中</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>Step3 接続先統一</td>
+<td>Claude/Cursor（Step1後）</td>
+<td>ローカル設定編集・差分は本ランブックで用意可</td>
+</tr>
+<tr>
+<td>Step4 余分URL整理</td>
+<td>技術担当</td>
+<td>Vercel操作</td>
+</tr>
+<tr>
+<td>Step5 検証</td>
+<td>田中＋Claude</td>
+<td>実使用確認</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4.-確定版リネーム計画（2026-06-13-田中確定・.vercel.app方式）">4. 確定版リネーム計画（2026-06-13 田中確定・.vercel.app方式）</h2>
+<p><strong>命名原則: 社長が見て機能が分かる名前にする</strong>（dev用語の <code>admin</code>/<code>mcp</code> 単体は避ける。<code>mcp</code>は full名 <code>tanaka-knowledge-mcp</code> ならOK＝Cursor設定と対応が取れる）。</p>
+<table>
+<thead>
+<tr>
+<th>旧プロジェクト名</th>
+<th>中身</th>
+<th>新プロジェクト名</th>
+<th>新URL（想定）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mcp</code></td>
+<td>田中祐一AI本体（受講生/Cursorが繋ぐ）</td>
+<td><strong><code>tanaka-knowledge-mcp</code></strong></td>
+<td>tanaka-knowledge-mcp.vercel.app</td>
+</tr>
+<tr>
+<td><code>admin</code></td>
+<td>田中祐一AI 管理画面</td>
+<td><strong><code>tanaka-knowledge-admin-view</code></strong></td>
+<td>tanaka-knowledge-admin-view.vercel.app</td>
+</tr>
+<tr>
+<td><code>promoter-crm</code></td>
+<td>PALMO（顧客CRM）</td>
+<td><strong><code>palmo-crm</code></strong></td>
+<td>palmo-crm.vercel.app</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>PALMOリネームの影響: 機能/データ/envは無事。URLのみ変化 → PALMO閲覧スタッフに新URL通知が必要。</li>
+<li>チームスラッグ <code>promoter-crm</code>: リネーム後に新URLがまだ <code>-promoter-crm</code> 付きで汚れる場合のみ、スラッグ変更を検討（bare名が取れればスラッグ変更は不要）。</li>
+</ul>
+<h2 id="5.-旧URLが埋まっている全箇所（リネームと同期更新）">5. 旧URLが埋まっている全箇所（リネームと同期更新）</h2>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>ファイル</th>
+<th>担当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受講生マニュアル</td>
+<td><code>static-pages/tanaka-os-manual/index.html</code>（10箇所）→再デプロイ</td>
+<td>Claude更新→田中push</td>
+</tr>
+<tr>
+<td>スタッフマニュアル</td>
+<td><code>static-pages/tanaka-os-staff-manual/index.html</code>→再デプロイ</td>
+<td>Claude更新→田中push</td>
+</tr>
+<tr>
+<td>接続マニュアル等(内部)</td>
+<td>TanakaKnowledgeOS/docs/接続マニュアル.md・スタッフテスト手順.md・QAボット系・開発引き継ぎノート.md</td>
+<td>Claude</td>
+</tr>
+<tr>
+<td>ルール/識別doc</td>
+<td>AGENTS.md・rules/システム識別・警告マーカー・CLAUDE.md</td>
+<td>Claude</td>
+</tr>
+<tr>
+<td>接続設定</td>
+<td>Cursor <code>~/.cursor/mcp.json</code>・Codex <code>~/.codex/config.toml</code>（admin誤り修正）・Claude</td>
+<td>Claude（差分）／田中（確認）</td>
+</tr>
+<tr>
+<td>受講生・スタッフ通知</td>
+<td>新URLの案内</td>
+<td>田中</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6.-実行順序（厳守）">6. 実行順序（厳守）</h2>
+<ol>
+<li>【田中・Vercel】3プロジェクトをリネーム（STEP A・下記クリック手順）</li>
+<li>【Claude】新URLを読み取りで確認</li>
+<li>【Claude】マニュアル2本＋内部doc＋ルールのURLを一括更新→田中がpush/再デプロイ</li>
+<li>【Claude→田中】Cursor/Codex/Claude の接続設定を新URLへ（Codexのadmin誤りも修正）</li>
+<li>【田中】受講生・スタッフへ新URL通知</li>
+<li>【田中/Claude】旧URL（mcp-jade-beta等）の整理・確認</li>
+</ol>
+<p>Produced by KATSUO MARKETING<br />
+Generated by: 田中祐一AI設計チーム（Claude）</p>
+<h2 id="7.-実行結果（2026-06-13-リネーム実施）">7. 実行結果（2026-06-13 リネーム実施）</h2>
+<ul>
+<li>✅ 3プロジェクトの表示名を変更: <code>mcp</code>→<code>tanaka-knowledge-mcp</code> / <code>admin</code>→<code>tanaka-knowledge-admin-view</code> / <code>promoter-crm</code>→<code>palmo-crm</code></li>
+<li>✅ <strong>重要: 本番URLは不変だった</strong>（Vercelは表示名のみ変更、<code>.vercel.app</code>の本番URLは据え置き）。実測で mcp-jade-beta / mcp-promoter-crm / promoter-crm / admin-psi-rose は全て200/307で<strong>生存</strong>。</li>
+<li>➡️ 結果として <strong>受講生通知・接続繋ぎ直し・マニュアルURL書き換えは不要</strong>（既存URLが生きているため）。当初想定の「URL一斉変更」は発生せず。</li>
+<li>📝 残課題（任意）: ①Codex接続先 <code>admin-psi-rose/api/mcp</code> が壊れている→ <code>mcp-promoter-crm.vercel.app/api/mcp/g/{grant}</code> に直す ②綺麗なURL <code>mcp.tanaka.app</code> 化は別途ドメイン作業</li>
+</ul>
 </main>
 </body>
 </html>
