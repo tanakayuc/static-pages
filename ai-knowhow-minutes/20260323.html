@@ -3,42 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>20260323_AIノウハウMTG_議事録 - AIノウハウMTG議事録</title>
+<title>AIノウハウMTG 議事録 - AIノウハウMTG議事録</title>
 <style>
 * { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
 body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
 .sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
 .sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; }
+.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
 .sidebar-item:hover { background: #e9ecef; }
 .sidebar-item.active { background: #0d6efd; color: white; }
 .sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 1.8; overflow-y: auto; }
-.main h1 { font-size: 1.75rem; margin-top: 0; }
-.main h2 { font-size: 1.4rem; margin-top: 2rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 1.5rem; }
+/* 目次（2026-08-28 田中指摘: 長い議事録で下部のチャットログに辿り着けない問題の対策） */
+.toc { background: #f8f9fa; border: 1px solid #e0e0e0; border-left: 4px solid #0d6efd;
+        border-radius: 6px; padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.toc-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; color: #0d6efd; }
+.toc ul { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 0.2rem 0; line-height: 1.5; }
+.toc li.toc-sub { padding-left: 1.2rem; font-size: 0.9rem; }
+.toc a { color: #333; text-decoration: none; }
+.toc a:hover { color: #0d6efd; text-decoration: underline; }
+h2[id], h3[id] { scroll-margin-top: 1rem; }
+.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
+.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
+.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
+.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+.main p { margin: 1.25rem 0; }
 .main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
 .main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
 .main pre code { background: none; padding: 0; }
 .main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
 .main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
 .main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; }
-.main li { margin: 0.3rem 0; }
-.main a { color: #0d6efd; text-decoration: none; }
+.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
+.main li { margin: 0.5rem 0; }
+.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
 .main a:hover { text-decoration: underline; }
 .main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+
+.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
+.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
+.mobile-nav-btn:hover { background: #0b5ed7; }
+
+/* タブレット・スマートフォン対応 */
+@media (max-width: 768px) {
+    body { flex-direction: column; }
+    .sidebar { display: none; }
+    .mobile-nav { display: block; }
+    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
+    .main h1 { font-size: 1.3rem; }
+    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
+    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
+    .main p { font-size: 0.95rem; line-height: 1.7; }
+    .main a { word-wrap: break-word; overflow-wrap: break-word; }
+    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+}
+
+/* 極小画面対応 */
+@media (max-width: 480px) {
+    .main { padding: 0.75rem; }
+    .main h1 { font-size: 1.15rem; }
+    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
+    .main h3 { font-size: 0.95rem; }
+    .main p { font-size: 0.9rem; }
+    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
+    .main table { font-size: 0.8rem; }
+    .main th, .main td { padding: 0.25rem; }
+}
 </style>
 </head>
 <body>
+<div class="mobile-nav">
+<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
+</div>
 <nav class="sidebar">
 <h3>AIノウハウMTG議事録</h3>
-<a href="20260323.html" class="sidebar-item active"><span class="date">2026年03月23日</span> 20260323_AIノウハウMTG_議事録</a>
+<a href="20260323.html" class="sidebar-item active"><span class="date">2026年03月23日</span> AIノウハウMTG 議事録</a>
 </nav>
 <main class="main">
 <h1>AIノウハウMTG 議事録</h1>
-<h2>概要</h2>
+<h2 id="サマリー">サマリー</h2>
+<p>この回では「カーソル vs クロードコード」「デザイン・スライド制作」を中心に扱いました。<br />
+主な論点は「スキルズについて」「AIで組織を作る？」です。<br />
+持ち帰りとして、IPと企画力: AI時代に残る最後の武器。「何を作るか」を決める力</p>
+<h2 id="概要">概要</h2>
 <ul>
 <li>日付: 2026年3月23日</li>
 <li>参加者: 田中祐一、北島正幸、ウダ</li>
@@ -47,8 +97,8 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <li>データ原本: 0_データ原本/2026年/3月/23日/Zoom/</li>
 </ul>
 <hr />
-<h2>議論の流れ</h2>
-<h3>1. カーソル vs クロードコード</h3>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ">議論の流れ</a></li><li class="toc-sub"><a href="#1.-カーソル-vs-クロードコード">1. カーソル vs クロードコード</a></li><li class="toc-sub"><a href="#2.-デザイン・スライド制作">2. デザイン・スライド制作</a></li><li class="toc-sub"><a href="#3.-スキルズについて">3. スキルズについて</a></li><li class="toc-sub"><a href="#4.-AIで組織を作る？">4. AIで組織を作る？</a></li><li class="toc-sub"><a href="#5.-非属人チャンネルの可能性">5. 非属人チャンネルの可能性</a></li><li class="toc-sub"><a href="#6.-若者の課題：集客できるけど売れない">6. 若者の課題：集客できるけど売れない</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-main"><a href="#ノウハウ・ツール一覧">ノウハウ・ツール一覧</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-main"><a href="#検討中・方針">検討中・方針</a></li></ul></nav><h2 id="議論の流れ">議論の流れ</h2>
+<h3 id="1.-カーソル-vs-クロードコード">1. カーソル vs クロードコード</h3>
 <p><strong>ウダの解説</strong></p>
 <p>＝＝＝クロードコードでできること＝＝＝<br />
 - カーソルでできることは全部クロードコードでできる<br />
@@ -69,7 +119,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 - 対策：カーソル60ドル（プロプラス）+ クロードコード100〜200ドルの組み合わせ<br />
 - ChatGPTのコーデックス（20ドル）も開発には優秀、制限なし</p>
 <hr />
-<h3>2. デザイン・スライド制作</h3>
+<h3 id="2.-デザイン・スライド制作">2. デザイン・スライド制作</h3>
 <p><strong>ツール比較</strong></p>
 <table>
 <thead>
@@ -111,7 +161,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 - ジェンスパークはマナスに乗り換えた方が良さそう<br />
 - ラパートはファーストビューには向かないが、サムネ・LINE画像には強い</p>
 <hr />
-<h3>3. スキルズについて</h3>
+<h3 id="3.-スキルズについて">3. スキルズについて</h3>
 <p><strong>スキルズとは</strong><br />
 - 再現性の担保<br />
 - フォルダ指定＋指示を毎回やる代わりに、スラッシュコマンドで全部自動実行<br />
@@ -127,7 +177,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 - ミーティング内容を反映して素材を全部修正<br />
 - 「あと頑張れ」で終わる</p>
 <hr />
-<h3>4. AIで組織を作る？</h3>
+<h3 id="4.-AIで組織を作る？">4. AIで組織を作る？</h3>
 <p><strong>ウダの見解</strong><br />
 - 結論、難しい<br />
 - AIを完全に信用できない<br />
@@ -141,7 +191,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 - 正しくAIを浸透できる組織なら、人を増やした方がいい<br />
 - 1担当あたり20社 → 50社持てるなら人を増やす意味がある</p>
 <hr />
-<h3>5. 非属人チャンネルの可能性</h3>
+<h3 id="5.-非属人チャンネルの可能性">5. 非属人チャンネルの可能性</h3>
 <p><strong>最新事例</strong></p>
 <p>＝＝＝ラム三さん（毒舌ばあちゃん）＝＝＝<br />
 - 完全AIで作ったおばあちゃんキャラ<br />
@@ -181,7 +231,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 - 相互紹介、アフィリエイトも可能<br />
 - 「田中祐一のお弟子さんです」で20人ぐらい作る構想</p>
 <hr />
-<h3>6. 若者の課題：集客できるけど売れない</h3>
+<h3 id="6.-若者の課題：集客できるけど売れない">6. 若者の課題：集客できるけど売れない</h3>
 <p><strong>ウダの指摘</strong><br />
 - AIによってオーガニック集客がめちゃめちゃ楽になっている<br />
 - 20代がゴリゴリ非属人でやっている<br />
@@ -200,7 +250,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 - マーケティング力のある人がAIを使えば勝てる<br />
 - 「IPと企画力」が生き残る武器</p>
 <hr />
-<h2>考え方・マインドセット</h2>
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
 <ul>
 <li><strong>IPと企画力</strong>: AI時代に残る最後の武器。「何を作るか」を決める力</li>
 <li><strong>コンセプト設計をやってきた人は生き残っている</strong></li>
@@ -209,7 +259,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 <li><strong>非属人の可能性</strong>: ホルダー依存からの脱却、資産として持てる</li>
 </ul>
 <hr />
-<h2>ノウハウ・ツール一覧</h2>
+<h2 id="ノウハウ・ツール一覧">ノウハウ・ツール一覧</h2>
 <table>
 <thead>
 <tr>
@@ -262,7 +312,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tbody>
 </table>
 <hr />
-<h2>やること</h2>
+<h2 id="やること">やること</h2>
 <table>
 <thead>
 <tr>
@@ -286,7 +336,7 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </tbody>
 </table>
 <hr />
-<h2>検討中・方針</h2>
+<h2 id="検討中・方針">検討中・方針</h2>
 <ul>
 <li>非属人チャンネルの構築（ジャンル×キャラでマトリックス展開）</li>
 <li>スキルズを講座のプロセスに組み込む</li>
@@ -294,10 +344,10 @@ body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "H
 </ul>
 <hr />
 <p>Produced by KATSUO MARKETING<br />
-Version: 1.0 (2026-03-24)<br />
+Version: 1.1 (2026-09-01)<br />
 Licensed to: KATSUO MARKETING Community Member<br />
 Security Trace ID: 9D4F6B8C<br />
-Generated by: 田中祐一</p>
+Generated by: 田中祐一（Codex）</p>
 <hr />
 </main>
 </body>
