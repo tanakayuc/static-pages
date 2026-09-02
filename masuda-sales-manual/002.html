@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>個別説明会 セールス成功例・改善点マニュアル（W3ビジネスマイラー） - 増田 W3EV セールスレポート</title><style>
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>セールス担当別 傾向とクセ（W3ビジネスマイラー） - 増田 W3EV セールスレポート</title><style>
 :root {
   --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
   --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
@@ -56,6 +56,24 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 .article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
 .article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
 .article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
 .toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
 .toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
 .toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
@@ -71,24 +89,34 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 .sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
 .sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
 .content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
 .mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
 .mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
-@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
 @media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
-<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">REPORT</div><h3>増田 W3EV セールスレポート</h3><a class="sidebar-item sidebar-item--cross" href="../masuda-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../masuda-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年09月02日</span> セールス担当別 傾向とクセ（W3ビジネスマイラー）</a>
-<a href="002.html" class="sidebar-item active"><span class="date">2026年09月02日</span> 個別説明会 セールス成功例・改善点マニュアル（W3ビジネスマイラー）</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年09月02日</span> 全体レポート（増田 W3ビジネスマイラー）</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年09月02日</span> 来場者ペルソナ分析 / セールスデータ集約（W3ビジネスマイラー）</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年09月02日</span> 質疑応答の理想回答集（W3ビジネスマイラー）</a></nav>
-<main class="content"><article class="article"><h1>個別説明会 セールス成功例・改善点マニュアル（W3ビジネスマイラー）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#現在のセールスデータ概況（2026-05-26時点）">現在のセールスデータ概況（2026-05-26時点）</a></li><li class="toc-sub"><a href="#担当別KPI（管理シートCSV全件ベース・2024/10〜2026/05）">担当別KPI（管理シートCSV全件ベース・2024/10〜2026/05）</a></li><li class="toc-sub"><a href="#来場者ペルソナ（8タイプ）">来場者ペルソナ（8タイプ）</a></li><li class="toc-sub"><a href="#書き起こし状況">書き起こし状況</a></li><li class="toc-main"><a href="#使い方">使い方</a></li><li class="toc-main"><a href="#成功例（これは良かった）">成功例（これは良かった）</a></li><li class="toc-sub"><a href="#法定書面・申込手続きの丁寧さ">法定書面・申込手続きの丁寧さ</a></li><li class="toc-sub"><a href="#早期不合判定・押し売りしない見送り">早期不合判定・押し売りしない見送り</a></li><li class="toc-sub"><a href="#実売上・実物リストの画面デモ">実売上・実物リストの画面デモ</a></li><li class="toc-sub"><a href="#BC先行＋FC差額パス">BC先行＋FC差額パス</a></li><li class="toc-sub"><a href="#物販経験者・高目標層へのFC即決">物販経験者・高目標層へのFC即決</a></li><li class="toc-sub"><a href="#広告不信・未経験者の冒頭30秒">広告不信・未経験者の冒頭30秒</a></li><li class="toc-sub"><a href="#保留時のフォロー設計">保留時のフォロー設計</a></li><li class="toc-sub"><a href="#開始時期の柔軟提案による障壁低下">開始時期の柔軟提案による障壁低下</a></li><li class="toc-sub"><a href="#2026-05-27-追記<span class="src-cite">（出典:-20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span>">2026-05-27 追記<span class="src-cite">（出典: 20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span></a></li><li class="toc-main"><a href="#改善点（次回活かす）">改善点（次回活かす）</a></li><li class="toc-sub"><a href="#経済状況の確認タイミング">経済状況の確認タイミング</a></li><li class="toc-sub"><a href="#長尺セッションの構造化">長尺セッションの構造化</a></li><li class="toc-sub"><a href="#実績数字の見せ方（物販経験者・信頼不安過去の失敗経験層）">実績数字の見せ方（物販経験者・信頼不安過去の失敗経験層）</a></li><li class="toc-sub"><a href="#自己開示・説明尺の圧縮">自己開示・説明尺の圧縮</a></li><li class="toc-sub"><a href="#成約後の事務連携">成約後の事務連携</a></li><li class="toc-sub"><a href="#2026-05-25-追記<span class="src-cite">（出典:-20241212_井上覚_田畑_分析.md-ほか9件＋20241220_山崎努_田畑_分析.md）</span>">2026-05-25 追記<span class="src-cite">（出典: 20241212_井上覚_田畑_分析.md ほか9件＋20241220_山崎努_田畑_分析.md）</span></a></li><li class="toc-sub"><a href="#2026-05-25-追記<span class="src-cite">（出典:-20250225_林咲重_田畑_分析.md、20250226_古屋佳子_田畑_分析.md、20250302_今田麻美_田畑_分析.md、20250307_松嶋邦子_田畑_分析.md、20250308_尾崎寿輝_田畑_分析.md、20250309_竹原芳彦_田畑_分析.md、20250310_佐藤豪_田畑_分析.md）</span>">2026-05-25 追記<span class="src-cite">（出典: 20250225_林咲重_田畑_分析.md、20250226_古屋佳子_田畑_分析.md、20250302_今田麻美_田畑_分析.md、20250307_松嶋邦子_田畑_分析.md、20250308_尾崎寿輝_田畑_分析.md、20250309_竹原芳彦_田畑_分析.md、20250310_佐藤豪_田畑_分析.md）</span></a></li><li class="toc-sub"><a href="#2026-05-26-追記<span class="src-cite">（出典:-一括分析113件-2024/12〜2026/05）</span>">2026-05-26 追記<span class="src-cite">（出典: 一括分析113件 2024/12〜2026/05）</span></a></li><li class="toc-sub"><a href="#2026-05-27-追記<span class="src-cite">（出典:-20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span>-1">2026-05-27 追記<span class="src-cite">（出典: 20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span></a></li><li class="toc-sub"><a href="#2026-05-27-追記<span class="src-cite">（出典:-20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span>">2026-05-27 追記<span class="src-cite">（出典: 20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span></a></li><li class="toc-main"><a href="#更新履歴">更新履歴</a></li></ul></nav>
-<p>本マニュアルは、増田案件の個別説明会セールス原本・セールス分析を横断し、「これは良かった」「これは改善点だ」を抽出した共通指針である。新しい分析が溜まるたびに成功例・改善点を追記し、チーム共通値として組み立てる。</p>
-<p>参照：<code>セールス分析/</code> 配下の各 <code>*_分析.md</code>／<a class="ref-link" href="005.html">質疑応答の理想回答集.md</a>／<a class="ref-link" href="001.html">セールス担当別_傾向とクセ.md</a>／<code>セールス原本/</code>（命名は <code>命名ルール.md</code>）</p>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">REPORT</div><h3>増田 W3EV セールスレポート</h3><a class="sidebar-item sidebar-item--cross" href="../masuda-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../masuda-sales-analysis/">個別セールス分析（顧客別）</a><a href="20260902.html" class="sidebar-item"><span class="date">2026年09月02日</span> W3EVビジネスマイラー複業 ファネル変更前後 比較分析レポート</a>
+<a href="002.html" class="sidebar-item active"><span class="date">2026年09月02日</span> セールス担当別 傾向とクセ（W3ビジネスマイラー）</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年09月02日</span> 個別説明会 セールス成功例・改善点マニュアル（W3ビジネスマイラー）</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年09月02日</span> 全体レポート（増田 W3ビジネスマイラー）</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年09月02日</span> 来場者ペルソナ分析 / セールスデータ集約（W3ビジネスマイラー）</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年09月02日</span> 質疑応答の理想回答集（W3ビジネスマイラー）</a></nav>
+<main class="content"><article class="article"><h1>セールス担当別 傾向とクセ（W3ビジネスマイラー）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#このファイルの位置づけ">このファイルの位置づけ</a></li><li class="toc-main"><a href="#現在のセールスデータ概況（2026-05-26時点）">現在のセールスデータ概況（2026-05-26時点）</a></li><li class="toc-sub"><a href="#担当別KPI（管理シートCSV全件ベース・2024/10〜2026/05）">担当別KPI（管理シートCSV全件ベース・2024/10〜2026/05）</a></li><li class="toc-sub"><a href="#来場者ペルソナ（8タイプ）">来場者ペルソナ（8タイプ）</a></li><li class="toc-sub"><a href="#書き起こし状況">書き起こし状況</a></li><li class="toc-main"><a href="#田畑">田畑</a></li><li class="toc-sub"><a href="#傾向・強み">傾向・強み</a></li><li class="toc-sub"><a href="#クセ・分析で繰り返し出る改善点">クセ・分析で繰り返し出る改善点</a></li><li class="toc-sub"><a href="#2026-05-25-追記<span class="src-cite">（出典:-バッチ2・10件）</span>">2026-05-25 追記<span class="src-cite">（出典: バッチ2・10件）</span></a></li><li class="toc-sub"><a href="#2026-05-25-追記<span class="src-cite">（出典:-20250225_林咲重_田畑_分析.md、20250226_古屋佳子_田畑_分析.md、20250302_今田麻美_田畑_分析.md、20250307_松嶋邦子_田畑_分析.md、20250308_尾崎寿輝_田畑_分析.md、20250309_竹原芳彦_田畑_分析.md、20250310_佐藤豪_田畑_分析.md）</span>">2026-05-25 追記<span class="src-cite">（出典: 20250225_林咲重_田畑_分析.md、20250226_古屋佳子_田畑_分析.md、20250302_今田麻美_田畑_分析.md、20250307_松嶋邦子_田畑_分析.md、20250308_尾崎寿輝_田畑_分析.md、20250309_竹原芳彦_田畑_分析.md、20250310_佐藤豪_田畑_分析.md）</span></a></li><li class="toc-sub"><a href="#参照しやすい分析ファイル">参照しやすい分析ファイル</a></li><li class="toc-main"><a href="#永吉">永吉</a></li><li class="toc-sub"><a href="#傾向・強み-1">傾向・強み</a></li><li class="toc-sub"><a href="#クセ・分析で繰り返し出る改善点-1">クセ・分析で繰り返し出る改善点</a></li><li class="toc-sub"><a href="#2026-05-27-追記<span class="src-cite">（出典:-20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span>">2026-05-27 追記<span class="src-cite">（出典: 20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span></a></li><li class="toc-sub"><a href="#2026-05-27-追記<span class="src-cite">（出典:-20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span>">2026-05-27 追記<span class="src-cite">（出典: 20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span></a></li><li class="toc-sub"><a href="#参照しやすい分析ファイル-1">参照しやすい分析ファイル</a></li><li class="toc-main"><a href="#古田">古田</a></li><li class="toc-main"><a href="#山岡">山岡</a></li><li class="toc-main"><a href="#吉田">吉田</a></li><li class="toc-sub"><a href="#2026-05-26-追記<span class="src-cite">（出典:-一括分析113件-2024/12〜2026/05）</span>">2026-05-26 追記<span class="src-cite">（出典: 一括分析113件 2024/12〜2026/05）</span></a></li><li class="toc-main"><a href="#更新履歴">更新履歴</a></li></ul></nav>
+<h2 id="このファイルの位置づけ">このファイルの位置づけ</h2>
+<ul>
+<li>インプット：<code>セールス原本/</code>・<code>セールス分析/</code> の個別案件蓄積から横断抽出したメモ</li>
+<li>用途：担当ごとの「再現できている強み」と「複数案件で繰り返す注意点」の一覧化</li>
+<li>更新方針：同じ指摘や褒めどころが3件前後で重なったら追記する。出典分析ファイル名を必ず付ける</li>
+</ul>
 <hr />
 <h2 id="現在のセールスデータ概況（2026-05-26時点）">現在のセールスデータ概況（2026-05-26時点）</h2>
 <blockquote class="callout-box">
-<p>詳細は <a class="ref-link" href="004.html">来場者ペルソナ分析_セールスデータ集約.md</a> / <code>担当者別_全体マップ.md</code> を参照。</p>
+<p>詳細は <a class="ref-link" href="005.html">来場者ペルソナ分析_セールスデータ集約.md</a> / <code>担当者別_全体マップ.md</code> を参照。</p>
 </blockquote>
 <h3 id="担当別KPI（管理シートCSV全件ベース・2024/10〜2026/05）">担当別KPI（管理シートCSV全件ベース・2024/10〜2026/05）</h3>
 <p>全体成約率: 29.84%（CSV記載値）／売上総額: ¥57,000,000／FC61件・BC55件</p>
@@ -183,145 +211,245 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <h3 id="書き起こし状況">書き起こし状況</h3>
 <p>195件中151件書き起こし完了（77.4%）。残44件はVimeo側の動画削除/ハッシュなしURL。</p>
 <hr />
-<h2 id="使い方">使い方</h2>
+<h2 id="田畑">田畑</h2>
+<h3 id="傾向・強み">傾向・強み</h3>
 <ul>
-<li>個別説明会の準備・振り返り時に、成功例を意識してトークに活かす</li>
-<li>改善点は次回の言い換え・質問例の参考にする</li>
-<li>新しい分析が追加されたら、本マニュアルに「〇〇さんの回で〜」と出典付きで追記する</li>
+<li>書き出し完了18件（2024年10月〜12月）すべて田畑担当。法定書面・申込フォーム・振込期限まで同席で進める事務〜クロージングの伴走が一貫している。</li>
+<li>クーリングオフ書面の読み合わせを省略せず、高単価講座としての信頼形成に使えている<span class="src-cite">（出典: 20241024_中川昇_田畑_分析.md ほか成約多数）</span>。</li>
+<li>一括66万拒否層に対し、BC先行＋FC差額パス＋具体保留日の段階設計が再現性高い<span class="src-cite">（出典: 20241130_鈴木謙介_田畑_分析.md、20241209_市丸清志_田畑_分析.md）</span>。</li>
+<li>ミスマッチが早い段階で見える案件では、価格提示前の見送り判断ができている<span class="src-cite">（出典: 20241031_笠井克彦_田畑_分析.md、20241105_新井登志彰_田畑_分析.md）</span>。</li>
+<li>広告不信・未経験層に対し、冒頭で実数・画面を見せる真面目さが信頼を取る<span class="src-cite">（出典: 20241111_工藤みゆき_田畑_分析.md）</span>。</li>
+<li>保留時の事務局価格ロック＋LINEフォロー約束が、否決を保留資産に変える<span class="src-cite">（出典: 20241128_大橋悦子_田畑_分析.md）</span>。</li>
 </ul>
-<hr />
-<h2 id="成功例（これは良かった）">成功例（これは良かった）</h2>
-<h3 id="法定書面・申込手続きの丁寧さ">法定書面・申込手続きの丁寧さ</h3>
+<h3 id="クセ・分析で繰り返し出る改善点">クセ・分析で繰り返し出る改善点</h3>
 <ul>
-<li>成約直前のクーリングオフ書面読み合わせを、画面共有しながら項目ごとに確認する進め方は、高単価ビジネス講座として信頼の土台になる。顧客が「理解したうえで振込む」状態を作れている<span class="src-cite">（出典: 20241024_中川昇_田畑_分析.md、20241102_阿部恭子_田畑_分析.md ほか成約多数）</span>。</li>
-<li>アーカイブ①＝契約手続き、②＝本編カウンセリングの2本構成でも、①を省略せず進めると②の説得負荷が下がる<span class="src-cite">（出典: 20241024_中川昇_田畑_分析.md）</span>。</li>
+<li>経済状況（カード枠・CIC・ボーナス時期・振込可否）の確認が、オファー後〜決済手続き寄りに偏りがち。冒頭5分で一文ずつ確認する<span class="src-cite">（出典: 20241128_大橋悦子_田畑_分析.md、20241024_中川昇_田畑_分析.md）</span>。</li>
+<li>2本アーカイブ・90分超の長尺では、中間整理と自己開示尺の圧縮が必要<span class="src-cite">（出典: 20241025_渡部宏紀_田畑_分析.md、20241114_高橋三晴_田畑_分析.md）</span>。</li>
+<li>物販経験者・信頼不安過去の失敗経験層に、大きな実績数字を一方的に出すと不信が蓄積する。相手の規模を先に聞く<span class="src-cite">（出典: 20241203_堀田尚美_田畑_分析.md）</span>。</li>
+<li>BC先行成約後のFC追加タイミングを、事務・講師へ自動共有する運用が未固定<span class="src-cite">（出典: 20241130_鈴木謙介_田畑_分析.md）</span>。</li>
 </ul>
-<h3 id="早期不合判定・押し売りしない見送り">早期不合判定・押し売りしない見送り</h3>
+<h3 id="2026-05-25-追記<span class="src-cite">（出典:-バッチ2・10件）</span>">2026-05-25 追記<span class="src-cite">（出典: バッチ2・10件）</span></h3>
 <ul>
-<li>上位マイル層・外注探索期待・物販実績と講座設計のミスマッチが早い段階で見えた場合、価格提示前に「講座案内前終了」とする判断はブランド保全になる<span class="src-cite">（出典: 20241031_笠井克彦_田畑_分析.md、20241105_新井登志彰_田畑_分析.md）</span>。</li>
-<li>短時間枠（30分）では、シミュレーションを圧縮し「合う／合わない」を早めに切る<span class="src-cite">（出典: 20241105_新井登志彰_田畑_分析.md）</span>。</li>
+<li>429発生時: 分析を止めず暫定版→48時間以内再トランスクリプト<span class="src-cite">（出典: 20241212_井上覚、20250112_山﨑雄造）</span>。</li>
+<li>長尺FC（約1:45）: 40分ごと中間整理＋法定書面同席<span class="src-cite">（出典: 20250114_濱岡佐知子）</span>。</li>
+<li>FC希望→3日LINE→BC段階: 鈴木謙介型の再現<span class="src-cite">（出典: 20250127_鈴木みほこ（腰越美保子）</span>）。</li>
+<li>公務員: 35:00グレーゾーン整理は良いが、人事確認否決時の48時間再Zoom不足<span class="src-cite">（出典: 20250205_和田朋子）</span>。</li>
+<li>起業家: 価格提示前エスカレーション必須<span class="src-cite">（出典: 20241220_山崎努）</span>。</li>
+<li>還暦事務員・ニアクローズ: 振込手続き前の一点決め<span class="src-cite">（出典: 20250208_勝股真由美）</span>。</li>
+<li>資金なし: 冒頭5分経済確認。55:00価格提示は遅い<span class="src-cite">（出典: 20250209_西野智香）</span>。</li>
+<li>原本運用: Vimeo URL二重チェック・同一URLアラート<span class="src-cite">（出典: 20250211_松田美喜子）</span>。</li>
+<li>比較検討層: 00:00合意＋50:00前BC33万先出し<span class="src-cite">（出典: 20250211_近藤美穂）</span>。</li>
 </ul>
-<h3 id="実売上・実物リストの画面デモ">実売上・実物リストの画面デモ</h3>
-<ul>
-<li>「本当かな」層に対し、新品リスト・実売上画面を見せると、口頭説明より不安が下がる<span class="src-cite">（出典: 20241024_中川昇_田畑_分析.md、20241102_阿部恭子_田畑_分析.md・55:00付近）</span>。</li>
-</ul>
-<h3 id="BC先行＋FC差額パス">BC先行＋FC差額パス</h3>
-<ul>
-<li>一括66万拒否時に、ビジネスクラス33万先行＋差額44万（77万ではなくプラス44万）で段階成約するパターンが再現性高い<span class="src-cite">（出典: 20241130_鈴木謙介_田畑_分析.md、20241209_市丸清志_田畑_分析.md）</span>。</li>
-<li>ボーナス待ち10日保留を具体日で合意し、事務局価格ロックとセットにすると離脱が減る<span class="src-cite">（出典: 20241130_鈴木謙介_田畑_分析.md）</span>。</li>
-</ul>
-<h3 id="物販経験者・高目標層へのFC即決">物販経験者・高目標層へのFC即決</h3>
-<ul>
-<li>退職後ブリッジ・物販経験あり・年200万以上目標の顧客には、最初からファーストクラスを提案する筋が通りやすい<span class="src-cite">（出典: 20241209_市丸清志_田畑_分析.md）</span>。</li>
-<li>外注挫折経験者には「GF（グループフォロー）で一人にしない」安心材料が効く<span class="src-cite">（出典: 20241102_阿部恭子_田畑_分析.md・25:00付近）</span>。</li>
-</ul>
-<h3 id="広告不信・未経験者の冒頭30秒">広告不信・未経験者の冒頭30秒</h3>
-<ul>
-<li>広告不信層には、冒頭30秒で「真面目に数字を見せる」画面（実績・在庫・売上の扱い）に切り替えると信頼が取りやすい<span class="src-cite">（出典: 20241111_工藤みゆき_田畑_分析.md）</span>。</li>
-</ul>
-<h3 id="保留時のフォロー設計">保留時のフォロー設計</h3>
-<ul>
-<li>CIC・カード新規不可などで当日成約できない場合でも、応援価格を事務局で抑える約束＋LINEフォロー日を明示すると、否決ではなく保留資産になる<span class="src-cite">（出典: 20241128_大橋悦子_田畑_分析.md）</span>。</li>
-</ul>
-<h3 id="開始時期の柔軟提案による障壁低下">開始時期の柔軟提案による障壁低下</h3>
-<ul>
-<li>「5月忙しい→6月開始」のように、顧客の本業スケジュールに合わせた開始時期の柔軟提案が「考えたい」からの即日申込転換を生んだ。5月特別期間＋6月本講座スタートの構成は、「今日じゃなくてもいい」の安心と「今やった方がお得」の二面を両立させる<span class="src-cite">（出典: 20260429_植田太_永吉_分析.md）</span>。2026-05-27 追記。</li>
-</ul>
-<h3 id="2026-05-27-追記<span class="src-cite">（出典:-20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span>">2026-05-27 追記<span class="src-cite">（出典: 20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span></h3>
-<ul>
-<li>顧客の出産・育児エピソードへの自然な共感から深い信頼を構築し、短時間でBC成約に至った例。助産師の顧客に対し「それってすごく大変だったでしょう」と自然に入れたことで心理的距離が一気に縮まった。職業や人生経験に対する本物の共感は、テクニックより強い<span class="src-cite">（出典: 20260225_加藤美香_永吉_分析.md）</span>。</li>
-<li>旅行動機が明確な顧客（結婚式・ハネムーン等）には、具体的な旅程でマイル数を試算して見せると成約率が高い。黒川さんのオーストラリア挙式では具体的渡航先が出ていたにもかかわらず数値化しなかった点が惜しい<span class="src-cite">（出典: 20260207_黒川あかね_永吉_分析.md）</span>。</li>
-<li>押し売りしない姿勢が「顧客自身の決断」を引き出す成功パターンとして永吉に定着。ただしこれは覚悟確認ステップの代替にはならない。「売り込まない」と「覚悟を確認しない」は別の概念<span class="src-cite">（出典: 全5件共通）</span>。</li>
-</ul>
-<hr />
-<h2 id="改善点（次回活かす）">改善点（次回活かす）</h2>
-<h3 id="経済状況の確認タイミング">経済状況の確認タイミング</h3>
-<ul>
-<li>法定書面・決済手続きに入ってから「支払い方法の制約」「カード枠」「CIC」が判明すると手戻りが大きい。オファー提示前に、一括／分割／カード枠／ボーナス時期を一文ずつ確認する<span class="src-cite">（出典: 20241128_大橋悦子_田畑_分析.md、20241024_中川昇_田畑_分析.md）</span>。</li>
-</ul>
-<h3 id="長尺セッションの構造化">長尺セッションの構造化</h3>
-<ul>
-<li>2本連続アーカイブや90分超の面談では、中間で「ここまでの整理」を挟むと、顧客の覚悟確認が取りやすい<span class="src-cite">（出典: 20241025_渡部宏紀_田畑_分析.md、20241114_高橋三晴_田畑_分析.md）</span>。</li>
-</ul>
-<h3 id="実績数字の見せ方（物販経験者・信頼不安過去の失敗経験層）">実績数字の見せ方（物販経験者・信頼不安過去の失敗経験層）</h3>
-<ul>
-<li>月30万・在庫1000万など大きな数字を、顧客の経験値と比較せずに出すと「物販スクールか」と不信が蓄積する。相手の売上規模を先に聞き、差分だけを説明する<span class="src-cite">（出典: 20241203_堀田尚美_田畑_分析.md）</span>。</li>
-<li>カメラ講座を他社で受講済みの顧客には、冒頭で「本日の目的（マイル／物販／両方）」を先出しし、重複説明を避ける。</li>
-</ul>
-<h3 id="自己開示・説明尺の圧縮">自己開示・説明尺の圧縮</h3>
-<ul>
-<li>教育パート中の担当・講師の実績話が長いと、高齢・初見層の集中が切れる。1テーマ90秒〜2分、同一回の自伝は最大2つまで<span class="src-cite">（出典: 20241024_中川昇_田畑_分析.md、20241114_高橋三晴_田畑_分析.md）</span>。</li>
-</ul>
-<h3 id="成約後の事務連携">成約後の事務連携</h3>
-<ul>
-<li>BC先行成約後は「FC追加タイミング（例: 新品2ヶ月目）」を事務・講師に1通で共有する運用を固定化する<span class="src-cite">（出典: 20241130_鈴木謙介_田畑_分析.md）</span>。</li>
-</ul>
-<h3 id="2026-05-25-追記<span class="src-cite">（出典:-20241212_井上覚_田畑_分析.md-ほか9件＋20241220_山崎努_田畑_分析.md）</span>">2026-05-25 追記<span class="src-cite">（出典: 20241212_井上覚_田畑_分析.md ほか9件＋20241220_山崎努_田畑_分析.md）</span></h3>
-<ul>
-<li>429書き起こし失敗時も、管理シート＋横断パターンで暫定分析を先行公開し、48時間以内に再トランスクリプトで更新する<span class="src-cite">（出典: 20241212_井上覚、20250112_山﨑雄造、20241210_西田仁勇型）</span>。</li>
-<li>12月・1月BC成約: 即スタート訴求＋BC33万／振込30万＋旅行1回分ROI説明<span class="src-cite">（出典: 20241212_井上覚、20250112_山﨑雄造）</span>。</li>
-<li>長尺FC成約: 約1時間45分でも法定書面読み合わせ→66万カード決済まで同席<span class="src-cite">（出典: 20250114_濱岡佐知子）</span>。</li>
-<li>FC66万希望→資金捻出→3日LINEフォロー→BC33万段階着地<span class="src-cite">（出典: 20250127_鈴木みほこ（腰越美保子）</span>）。</li>
-<li>公務員×新品物販のみ×利益調整: 35:00でグレーゾーン論点を整理できても、人事確認で否決<span class="src-cite">（出典: 20250205_和田朋子・45:00）</span>。</li>
-<li>起業家・物販経験者: 保証・マイル出口を価格提示前にエスカレーションしないと講師返答待ち→否決<span class="src-cite">（出典: 20241220_山崎努・35:00）</span>。</li>
-<li>ニアクローズ（振込手続き近接）でも管理シート否決は否決として記録。一点決め・48時間再Zoom不足<span class="src-cite">（出典: 20250208_勝股真由美）</span>。</li>
-<li>資金なし層: 00:00で示唆があるのに55:00まで価格提示が遅れると1時間非効率→否決<span class="src-cite">（出典: 20250209_西野智香・55:00〜1:00:00）</span>。</li>
-<li>Vimeo URL・書き起こし紐付け誤り: 同一URL検出時は分析断定を止め、原本修正を最優先<span class="src-cite">（出典: 20250211_松田美喜子）</span>。</li>
-<li>比較検討層: 50:00「検討」は金額・時間が決定打。比較表＋48時間再Zoomなしは否決<span class="src-cite">（出典: 20250211_近藤美穂・50:00）</span>。</li>
-</ul>
-<hr />
 <h3 id="2026-05-25-追記<span class="src-cite">（出典:-20250225_林咲重_田畑_分析.md、20250226_古屋佳子_田畑_分析.md、20250302_今田麻美_田畑_分析.md、20250307_松嶋邦子_田畑_分析.md、20250308_尾崎寿輝_田畑_分析.md、20250309_竹原芳彦_田畑_分析.md、20250310_佐藤豪_田畑_分析.md）</span>">2026-05-25 追記<span class="src-cite">（出典: 20250225_林咲重_田畑_分析.md、20250226_古屋佳子_田畑_分析.md、20250302_今田麻美_田畑_分析.md、20250307_松嶋邦子_田畑_分析.md、20250308_尾崎寿輝_田畑_分析.md、20250309_竹原芳彦_田畑_分析.md、20250310_佐藤豪_田畑_分析.md）</span></h3>
 <ul>
-<li>決済ステージのカード審査・分割上限: アメックス中心や分割プルダウンで実数エラーになりやすい。オファー前にブランド可否・別カード・振込30万分岐まで一言で決めると申込後キャンセルを減らせる<span class="src-cite">（出典: 林咲重・約1:30、佐藤豪）</span>。</li>
-<li>広告経由×副業過去の失敗経験: 説明への納得は進んでも当日決済は崩れやすい。55:00帯リストデモは強いので、その直後に保留設計（比較表・再Zoom日時・期限付きLINE）まで載せないと「持ち返り」が否決に落ちる<span class="src-cite">（出典: 古屋佳子・55:00〜終了）</span>。</li>
-<li>講座案内前終了の再現価値: 4月在学・転職優先で時間が物理的に重なる層は、価格提示前に丁寧に終えるとブランド温度が上がる<span class="src-cite">（出典: 今田麻美・20:00前後）</span>。</li>
-<li>冷静型クロージング: 「頭を冷やす」を拒まず、その代わり返事期限と公平性（価格条件）・LINE手続きをセットにすると翌日級でもBC振込着地になりうる<span class="src-cite">（出典: 松嶋邦子・45:00〜50:00および終盤）</span>。</li>
-<li>PayPal／分割説明のみでは資金の確定日が読めない比較層では、説明全体が長くても参加に至らない。いつ入学金／一括が揃うかの一文が早い時間帯に必要<span class="src-cite">（出典: 尾崎寿輝・1:35〜1:40）</span>。</li>
-<li>書き起こしが途中で終わっても管理シート成約と突合し、セッション外での意思決定・フォローを成功例として切り離して記録する<span class="src-cite">（出典: 竹原芳彦）</span>。</li>
+<li>決済インフラ先出し: アメックス中心・分割上限・決済代行相性をオファー前に一言で確定。長尺説明のあとにエラーが出ると申込後キャンセルに近づく（林咲重・佐藤豪）。</li>
+<li>リストデモの直後に保留設計: 広告・過去の失敗経験層はデモで安心しても当日締めが難しい。比較表・再Zoom・期限付きLINEを同じブロックに入れる（古屋佳子）。</li>
+<li>早期見送りの型: 在学与講座のカレンダー衝突が明文化されたら価格に進まない判断も再現資産（今田麻美）。</li>
+<li>冷静型: 冷却OK＋返事期限＋公平性の三点セットで翌日決済に繋げた例あり（松嶋邦子）。</li>
+<li>比較・資金曖昧: PayPal含め分割説明が丁寧でも「いつ払えるか」が読めないと長尺のまま否決になりうる（尾崎寿輝）。</li>
+<li>慎重型FC: Zoom尺が途切れても意思と事務フォローでセッション外決済に落とした例を、録画品質と切り離して評価する（竹原芳彦）。</li>
+</ul>
+<h3 id="参照しやすい分析ファイル">参照しやすい分析ファイル</h3>
+<ul>
+<li>20241024_中川昇_田畑_分析.md（2本構成・振込30万・実物デモ）</li>
+<li>20241031_笠井克彦_田畑_分析.md（早期見送り・ミスマッチ判定）</li>
+<li>20241102_阿部恭子_田畑_分析.md（FC成約・外注挫折→GF）</li>
+<li>20241111_工藤みゆき_田畑_分析.md（広告不信→BC・ANAカード）</li>
+<li>20241128_大橋悦子_田畑_分析.md（否決・CIC・保留価格ロック）</li>
+<li>20241130_鈴木謙介_田畑_分析.md（BC先行・ボーナス10日保留）</li>
+<li>20241203_堀田尚美_田畑_分析.md（講座案内前終了・実績数字の見せ方）</li>
+<li>20241209_市丸清志_田畑_分析.md（物販経験者FC即決）</li>
+<li>20241212_井上覚_田畑_分析.md（429暫定・12月BC）</li>
+<li>20241220_山崎努_田畑_分析.md（起業家・講師返答待ち→否決）</li>
+<li>20250114_濱岡佐知子_田畑_分析.md（長尺FC・66万カード）</li>
+<li>20250127_鈴木みほこ（腰越美保子）_田畑_分析.md（3日LINE・段階成約）</li>
+<li>20250205_和田朋子_田畑_分析.md（公務員・人事確認→否決）</li>
+<li>20250209_西野智香_田畑_分析.md（資金なし・55:00）</li>
+<li>20250211_近藤美穂_田畑_分析.md（比較検討・50:00）</li>
+<li>20250225_林咲重_田畑_分析.md（決済エラー・申込後キャンセル）</li>
+<li>20250226_古屋佳子_田畑_分析.md（広告・過去の失敗経験・持ち返り）</li>
+<li>20250302_今田麻美_田畑_分析.md（講座案内前終了・早期見送り）</li>
+<li>20250307_松嶋邦子_田畑_分析.md（頭冷やし・翌日BC）</li>
+<li>20250308_尾崎寿輝_田畑_分析.md（比較・資金曖昧・PayPal）</li>
+<li>20250309_竹原芳彦_田畑_分析.md（慎重型FC・セッション外決済）</li>
+<li>20250310_佐藤豪_田畑_分析.md（事業者・複数アメックス・申込後キャンセル）</li>
+</ul>
+<p>（全件は <code>セールス分析/</code> フォルダを参照）</p>
+<hr />
+<h2 id="永吉">永吉</h2>
+<h3 id="傾向・強み-1">傾向・強み</h3>
+<ul>
+<li>カメラ物販と新品物販の比較説明が丁寧で、顧客の関心領域に寄り添える。植田太さんのカメラへの関心に合わせ、型番リスト・エクササイズ・リサーチ学習の段階を具体的に説明できている<span class="src-cite">（出典: 20260429_植田太_永吉_分析.md）</span>。</li>
+<li>自身の実体験ベースのトークに自然な説得力がある。節税・カードステータス・ポイント活用を自分ごととして語れる。</li>
+<li>売り込みのプレッシャーが低く、顧客が自分で決断するスペースを作れる。植田さんの「考えたい」に対して引いた結果、顧客自ら申込意思を表明する展開を生んだ。</li>
+<li>法定書面の読み合わせ・クーリングオフ説明を田畑型で正しく踏襲できている。</li>
+</ul>
+<h3 id="クセ・分析で繰り返し出る改善点-1">クセ・分析で繰り返し出る改善点</h3>
+<ul>
+<li>カウンセリング前半（ステップ1-7）の密度が薄い。理想像・覚悟確認の言語化が抜けがち。「月いくら」「どこに行きたい」等の数値質問を入れる<span class="src-cite">（出典: 20260429_植田太_永吉_分析.md）</span>。</li>
+<li>自己紹介に実績・権威付けが不足。冒頭で自身の経験を1-2文加える型を作る。</li>
+<li>顧客の質問に応答する形で時間が進み、主導権を握る場面が少ない。マイル・ポイントの雑談が5分以上に伸びる傾向あり。</li>
+<li>価格提示前のROI教育ステップが弱い。事業者顧客にはシミュレーション提示が必要。</li>
+</ul>
+<h3 id="2026-05-27-追記<span class="src-cite">（出典:-20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span>">2026-05-27 追記<span class="src-cite">（出典: 20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span></h3>
+<p>傾向・強みの追加:</p>
+<ul>
+<li>顧客の人生経験（出産・育児・旅行・転職等）に対する共感力が高い。加藤さん（助産師）との出産エピソード共有で心理的距離を一気に縮めた例が顕著。テクニックではなく本物の関心から来る共感であり、永吉の最大の武器<span class="src-cite">（出典: 20260225_加藤美香_永吉_分析.md）</span>。</li>
+<li>無理に押し込まない姿勢が一貫しており、顧客の自主的な決断を引き出せる。植田太・黒川・加藤の成約3件はいずれも「顧客が自ら申し込む」展開<span class="src-cite">（出典: 成約3件共通）</span>。</li>
+<li>商品不在の場合にフェアに情報提供する誠実さ。大島さんへの「まだできてもいないと思うので」は正直で信頼を壊さない対応<span class="src-cite">（出典: 20260421_大島覚_永吉_分析.md）</span>。</li>
+</ul>
+<p>クセ・改善点の追加:</p>
+<ul>
+<li>自己紹介での実績の伝え方を増やす余地がある。6件とも冒頭は「担当になりました永吉です」のみ。冒頭30秒で「累計サポート○名」「自身のマイル実績○万マイル」等を入れる型を最優先で作る。特に医師・歯科医師など社会的地位の高い顧客には、実績の提示が信頼につながりやすい<span class="src-cite">（出典: 全6件共通）</span>。</li>
+<li>覚悟確認（Step 9）を加える余地がある。6件とも、また成約した3件でもこの確認を挟まずに進んでおり、FCアップセルにつながる場面を取りやすくなる。「本気で取り組む覚悟はありますか」の一言を意識的に入れる<span class="src-cite">（出典: 全6件共通）</span>。</li>
+<li>カウンセリング前半（Step 1-7）の質問密度が薄い。特に「探索型」「条件探索型」顧客に対して、掘り下げ質問が2-3個で止まる傾向。真崎さん（方向性未定の元教員）、大島さん（投資高額被害の医師）では、もっと多くの質問で状況を把握すべきだった<span class="src-cite">（出典: 20260126_真崎雅大、20260421_大島覚）</span>。</li>
+<li>顧客の状況変化に応じた面談設計の柔軟性が不足。大島さんの投資への信頼不安開示、野口さんのリピーター来場など、通常のスライド進行を変更すべき場面でもテンプレ通りに進めてしまう。「この情報が出たら面談の方向を変える」判断基準を事前に整理する<span class="src-cite">（出典: 20260421_大島覚、20260407_野口政親）</span>。</li>
+<li>マイル・ポイントの雑談が5分以上に伸びる傾向が継続（植田太で指摘済み）。黒川さん（旅行動機明確）でもマイル雑談に時間を使い、具体的な数値シミュレーション（オーストラリア往復○マイル＝○円相当）に変換しなかった<span class="src-cite">（出典: 20260207_黒川あかね）</span>。</li>
+<li>否決時に次回接点を残す余地がある。真崎（家族相談で否決）、大島（商品不在で否決）の2件とも、次回接点を設けずに終了。連絡許可・LINE交換・再面談日程を設定する場面を増やす<span class="src-cite">（出典: 20260126_真崎雅大、20260421_大島覚）</span>。</li>
+<li>ROI・投資回収シミュレーションの提示が一貫して弱い。旅行動機の黒川さんにはマイル数の試算、物販経験者の野口さんには月収シミュレーション、医師の大島さんにはカード最適化の試算など、数字で見せる場面が全件で不足<span class="src-cite">（出典: 全5件共通）</span>。</li>
+</ul>
+<h3 id="2026-05-27-追記<span class="src-cite">（出典:-20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span>">2026-05-27 追記<span class="src-cite">（出典: 20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span></h3>
+<p>傾向・強みの追加:</p>
+<ul>
+<li>永吉の過去の経歴（一人親で子供3人、朝昼晩3つの仕事、新聞配達、47歳から副業開始）は最大の差別化ポイントである。小管さんとの面談終盤で開示したところ、同じ境遇の顧客との距離が一気に縮まった。ステップ2の自己紹介に固定で組み込むべき武器<span class="src-cite">（出典: 20260411_小管亜希_永吉_分析.md）</span>。</li>
+</ul>
+<p>クセ・改善点の追加:</p>
+<ul>
+<li>話好きの顧客に対して傾聴が長くなりすぎる傾向。齊藤さんの特許話10分超、瀬戸さんのディズニー話10分超、岡田さんの分割シミュレーション20分超と、顧客の自己開示や質問に応じ続けて時間を消費するパターンが繰り返し確認される。「3-5分で切り上げ、講座への接続に使う」型の確立が必要<span class="src-cite">（出典: 20260214_齊藤弘、20260307_瀬戸訓子、20260324_岡田みつよ）</span>。</li>
+<li>経済的に厳しい顧客に対して、励ましの言葉（「未来を見ないと」「何も始められない」）で応じる場面がある。岡田さんの「老後のお金」発言には、数字での安心材料を添えると不安を解消しやすい。経済不安には「計算」で安心材料を提供する型を確立する<span class="src-cite">（出典: 20260324_岡田みつよ_永吉_分析.md）</span>。</li>
+<li>分割パターンを顧客に言われるまま計算する場面がある。岡田さんの回で3回・5回・10回・12回・24回と全パターンを計算した結果、選択肢が増えて決断しづらくなった。推奨を1つに絞って提示する余地がある<span class="src-cite">（出典: 20260324_岡田みつよ_永吉_分析.md）</span>。</li>
+<li>決済インフラ確認の後回しが継続。齊藤さんの楽天カード未開通、小管さんの楽天カード未保有がいずれも面談後半で判明。冒頭5分で「楽天カードはお持ちですか」を確認するルールが定着していない<span class="src-cite">（出典: 20260214_齊藤弘、20260411_小管亜希）</span>。</li>
+<li>旅行の夢のマイル数値化が複数回の欠落。瀬戸さんの「ファーストクラスでオーランド」、岡田さんの「マイルでオーランド」に対して必要マイル数・達成期間を計算して見せるステップが抜けている。旅行動機顧客への標準トーク型として数値化を固める<span class="src-cite">（出典: 20260307_瀬戸訓子、20260324_岡田みつよ）</span>。</li>
+</ul>
+<p>永吉の成績サマリ（書き起こし分析12件ベース）:</p>
+<table>
+<thead>
+<tr>
+<th>日付</th>
+<th>顧客</th>
+<th>結果</th>
+<th>評価</th>
+<th>特記</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-04-29</td>
+<td>植田太</td>
+<td>成約FC 60万</td>
+<td><span class="grade" style="background:#3E8CC0">B</span></td>
+<td>歯科医師。初分析。押し込まない姿勢が奏功</td>
+</tr>
+<tr>
+<td>2026-01-26</td>
+<td>真崎雅大</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td><span class="grade" style="background:#E0973E">C</span></td>
+<td>元教員。探索型。カウンセリング密度不足</td>
+</tr>
+<tr>
+<td>2026-02-07</td>
+<td>黒川あかね</td>
+<td>成約FC 60万</td>
+<td><span class="grade" style="background:#3E8CC0">B</span></td>
+<td>旅行動機明確。マイル試算未提示が惜しい</td>
+</tr>
+<tr>
+<td>2026-02-14</td>
+<td>齊藤弘</td>
+<td>c1(応答なし)</td>
+<td><span class="grade" style="background:#E0973E">C</span></td>
+<td>74歳。特許事業化が真目的。決済インフラ確認遅れ</td>
+</tr>
+<tr>
+<td>2026-02-25</td>
+<td>加藤美香</td>
+<td>成約BC 33万</td>
+<td><span class="grade" style="background:#3E8CC0">B</span></td>
+<td>助産師。共感力が光る。FC差額提案の機会逸失</td>
+</tr>
+<tr>
+<td>2026-03-07</td>
+<td>瀬戸訓子</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td><span class="grade" style="background:#E0973E">C</span></td>
+<td>英語講師。ディズニー共感◎だが数値化欠如</td>
+</tr>
+<tr>
+<td>2026-03-24</td>
+<td>岡田みつよ</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td><span class="grade" style="background:#E0973E">C</span></td>
+<td>USJ勤務。経済フィット判定遅れ+分割迷走</td>
+</tr>
+<tr>
+<td>2026-04-07</td>
+<td>野口政親</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td>C+</td>
+<td>リピーター。ニアクローズからの逆転否決</td>
+</tr>
+<tr>
+<td>2026-04-11</td>
+<td>小管亜希</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td>B-</td>
+<td>北海道母。面談品質高い。自己開示の武器確認</td>
+</tr>
+<tr>
+<td>2026-04-21</td>
+<td>大島覚</td>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td><span class="grade" style="background:#E0973E">C</span></td>
+<td>医師・投資高額被害。商品不在+対応力不足</td>
+</tr>
+</tbody>
+</table>
+<h3 id="参照しやすい分析ファイル-1">参照しやすい分析ファイル</h3>
+<ul>
+<li>20260429_植田太_永吉_分析.md（歯科医師・カメラ興味・FC即日成約・永吉初分析）</li>
+<li>20260126_真崎雅大_永吉_分析.md（元教員・方向性未定・探索型・否決）</li>
+<li>20260207_黒川あかね_永吉_分析.md（旅行動機・オーストラリア挙式・FC成約）</li>
+<li>20260214_齊藤弘_永吉_分析.md（74歳肉屋職人・特許事業化目的・c1応答なし）</li>
+<li>20260225_加藤美香_永吉_分析.md（助産師・共感力・BC成約）</li>
+<li>20260307_瀬戸訓子_永吉_分析.md（英語講師・ディズニー好き・妹の韓国物販で否決）</li>
+<li>20260324_岡田みつよ_永吉_分析.md（USJ勤務・経済制約・分割迷走・否決）</li>
+<li>20260407_野口政親_永吉_分析.md（リピーター・ニアクローズ→否決）</li>
+<li>20260411_小管亜希_永吉_分析.md（北海道母・ピアニスト息子・自己開示の武器確認・否決）</li>
+<li>20260421_大島覚_永吉_分析.md（医師・投資高額被害・商品不在・否決）</li>
+</ul>
+<hr />
+<h2 id="古田">古田</h2>
+<ul>
+<li>管理シート上151件は動画URL未登録。書き出し・分析対象は現時点ゼロ。</li>
+</ul>
+<hr />
+<h2 id="山岡">山岡</h2>
+<ul>
+<li>URLあり2件は取得不可。書き出し完了分なし。</li>
+</ul>
+<hr />
+<h2 id="吉田">吉田</h2>
+<ul>
+<li>URL未登録7件。書き出し完了分なし。</li>
 </ul>
 <hr />
 <h3 id="2026-05-26-追記<span class="src-cite">（出典:-一括分析113件-2024/12〜2026/05）</span>">2026-05-26 追記<span class="src-cite">（出典: 一括分析113件 2024/12〜2026/05）</span></h3>
 <ul>
-<li>債務整理中FC66万成約: 海外積立解約＋1ヶ月後決済＋BC差額段階設計の三段構え。経済確認がオファー後になると支払い設計に尺を取られる<span class="src-cite">（出典: 20241217_川上尚美）</span>。</li>
-<li>FX・投資経験者の否決: サービス説明が網羅的になりROI計算を見せずに35分でクロージングに入れない。投資経験者には15分でROI→20分でサービス要点→25分で価格の構成<span class="src-cite">（出典: 20241025_徳丸裕二）</span>。</li>
-<li>息子との家族受講: 17歳息子のメルカリ経験を活用し、家族受講権利がFC選択の後押しに<span class="src-cite">（出典: 20241219_守屋真紀子）</span>。</li>
-<li>申込後キャンセル多発（5件）: 張替崇光・鈴木飛鳥・山田浩二・中山みどり・土屋幸枝。共通点は決済インフラ確認の遅れとセッション外フォローの不足。申込後24時間以内のフォロー連絡を標準化。</li>
-<li>長尺FC成約のパターン拡大: 渡邉賢二・宮拓・細川典行・柏木義弘・川久保孝等で60分超のFC成約が継続。40分ごとの中間整理が定着しつつある。</li>
-<li>保留資産の設計: 岩垂潤・吉田佳裕の保留2件。保留期限とLINEフォロー日を具体化すれば成約転換の余地あり。</li>
-<li>2025年後半の否決率上昇: 9月以降の否決率がやや上昇。広告経由の冷静層・比較検討層の増加が要因と推定。比較表＋48時間再Zoom＋BC33万先出しの組み合わせを標準化。</li>
+<li>書き出し完了149件中分析完了149件。全書き起こし成功分の分析が完了。</li>
+<li>長尺FC成約（60分超）の再現パターンが10件以上で確認。40分ごとの中間整理が定着。</li>
+<li>経済確認の前倒し: 依然としてオファー後に経済制約が判明するケースが散見。冒頭5分での確認を標準化（川上尚美・守屋真紀子型）。</li>
+<li>申込後キャンセル5件: 決済インフラ確認の遅れ＋セッション外フォロー不足が共通原因。申込後24時間以内フォローを追加。</li>
+<li>投資経験者（FX・不動産）: ROI計算の先出しが効く。サービス網羅説明より「結論→根拠→事例1つ」の構成（徳丸裕二型）。</li>
+<li>2025年後半の否決率上昇傾向: 広告経由の冷静・比較検討層への比較表＋48時間再Zoom＋BC33万先出しの三点セット。</li>
 </ul>
-<hr />
-<h3 id="2026-05-27-追記<span class="src-cite">（出典:-20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span>-1">2026-05-27 追記<span class="src-cite">（出典: 20260126_真崎雅大_永吉_分析.md、20260207_黒川あかね_永吉_分析.md、20260225_加藤美香_永吉_分析.md、20260407_野口政親_永吉_分析.md、20260421_大島覚_永吉_分析.md）</span></h3>
-<ul>
-<li>自己紹介に権威付けがない問題: 永吉6件連続で「担当になりました永吉です」の一文のみ。冒頭30秒で「累計サポート○名」「自身のマイル実績」等を含める型を作る<span class="src-cite">（出典: 全5件+植田太の計6件共通）</span>。</li>
-<li>覚悟確認（Step 9）の一貫した欠如: 6件すべてで覚悟確認が未実施。成約した黒川・加藤の2件でも覚悟確認なしで進んでおり、FCアップセルの機会を逃している可能性がある<span class="src-cite">（出典: 全5件共通）</span>。</li>
-<li>「探索型」顧客へのカウンセリング密度不足: 真崎さん（元教員・方向性未定）のような「何をやりたいか分からない」顧客に対して、カウンセリング前半の質問数が少なすぎる。こうした顧客ほどStep 2-7を丁寧に行い、真因（Step 8）に到達する必要がある<span class="src-cite">（出典: 20260126_真崎雅大_永吉_分析.md）</span>。</li>
-<li>リピーター顧客の扱い: 野口さん（1年前にも来場）のような再来場者に対し、前回との差分確認・変化のヒアリングが不足。「前回はどこまで検討されましたか」から入るべき<span class="src-cite">（出典: 20260407_野口政親_永吉_分析.md）</span>。</li>
-<li>申込フォームの即時記入: 野口さんのように口頭で「やります」と言った後にフォーム記入を後回しにすると、面談終了後に気持ちが変わる。口頭承諾が出た瞬間に画面共有でフォームを一緒に記入する<span class="src-cite">（出典: 20260407_野口政親_永吉_分析.md）</span>。</li>
-<li>経済的困難を抱える顧客への対応: 過去の高額投資経験やカード利用制約があり、経済状況が厳しい顧客が冒頭で開示した場合、通常のスライド説明に入る前に経済状況の棚卸しを優先する。価格提示前に「投資に回せる予算感」を確認する<span class="src-cite">（出典: 20260421_大島覚_永吉_分析.md）</span>。</li>
-<li>商品不在・ニーズ不一致時のリード維持: 大島さんのように既存プランに合わない顧客でも、連絡許可取得・LINE交換・増田先生への橋渡しなど、次の接点を設計して終了すべき。「また追ってください」で終わらせるとリードがロストする<span class="src-cite">（出典: 20260421_大島覚_永吉_分析.md）</span>。</li>
-<li>BC成約時のFCアップセル提案: 加藤さん（BC 33万）のように金額面で迷いがある場合、「まずBCで始めて、成果が出たらFCへの差額アップグレードも可能」と伝えるだけで将来の追加売上につながる<span class="src-cite">（出典: 20260225_加藤美香_永吉_分析.md）</span>。</li>
-</ul>
-<hr />
-<h3 id="2026-05-27-追記<span class="src-cite">（出典:-20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span>">2026-05-27 追記<span class="src-cite">（出典: 20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span></h3>
-<ul>
-<li>決済インフラ確認の後回し: 齊藤さんは楽天カード審査中が面談終盤で発覚し、申込手続きが物理的に不可能になった。小管さんも楽天カード未保有。Step 3（現状確認）で「お支払い方法は何がありますか」を定型質問に組み込む<span class="src-cite">（出典: 20260214_齊藤弘_永吉_分析.md、20260411_小管亜希_永吉_分析.md）</span>。</li>
-<li>分割シミュレーションの迷走（計算機モード）: 岡田さんとの面談で5パターンの分割計算を約20分間行い、計算するほど「どれも高い」という印象が強化された。分割提示は2パターンまでに絞り、3パターン目に入りそうになったら「一番現実的なのはどれですか」で収束させる<span class="src-cite">（出典: 20260324_岡田みつよ_永吉_分析.md）</span>。</li>
-<li>旅行夢のマイル数値化欠如: 瀬戸さん（ファーストクラスでオーランド）、岡田さん（マイルでオーランド）とも、夢の旅行先が具体的に出ているのにマイル換算を提示していない。「オーランド往復ファーストは○万マイル、BCで年間○万マイル貯まるので○年で実現」の一文があれば投資対効果が可視化できた<span class="src-cite">（出典: 20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md）</span>。</li>
-<li>顧客の長い自己開示への制御不足: 齊藤さんの特許・蕎麦屋話10分超、瀬戸さんのディズニー・家族旅行話10分超、岡田さんの分割計算繰り返し20分超。永吉は傾聴力が高い反面、軌道修正のタイミングを逃しやすい。5分を超えたら「素晴らしいですね、その経験が活きるポイントがあって」と自然にサービス説明へ橋渡しする<span class="src-cite">（出典: 20260214_齊藤弘_永吉_分析.md、20260307_瀬戸訓子_永吉_分析.md、20260324_岡田みつよ_永吉_分析.md）</span>。</li>
-<li>自己開示の武器化（最有効施策）: 小管さんとの面談で永吉が「自分も一人親で子供3人、パート3つ掛け持ち、47歳で始めた」と開示した瞬間、顧客の声色が変わった。6件中で最も効果的な場面だったが、面談後半（Step 14付近）で初めて出た。Step 2（自己紹介）に「実は私も○○で」と組み込めば、序盤から信頼関係が格段に深まる<span class="src-cite">（出典: 20260411_小管亜希_永吉_分析.md）</span>。</li>
-<li>「今は無理だが将来やりたい」顧客への出口設計: 小管さんは奨学金結果待ち・息子のコンクール時期と重なり「今は無理」が明確だった。こうした顧客には無理に押さず、「結果が出たらご連絡ください」ではなく「○月にこちらからご連絡してよいですか」と具体的再接触日を設定する。永吉の判断（押さない）は正しかったが、次の接点設計が欠けていた<span class="src-cite">（出典: 20260411_小管亜希_永吉_分析.md）</span>。</li>
-<li>c1（音信不通）の予兆: 齊藤さんはカード未開通+別事業への資金転用意図があり、面談中の「やります」は社交辞令だった可能性が高い。申込意思表示後に「では今画面共有でフォームを一緒に」と即時行動に移さないと、セッション外で気持ちが変わる<span class="src-cite">（出典: 20260214_齊藤弘_永吉_分析.md）</span>。</li>
-</ul>
-<hr />
 <h2 id="更新履歴">更新履歴</h2>
 <ul>
-<li>2026-05-27: 永吉担当4件（齊藤・瀬戸・岡田・小管）から成功・改善パターンを追記。Version 1.5。</li>
-<li>2026-05-27: 永吉担当5件（真崎・黒川・加藤・野口・大島）から成功・改善パターンを追記。Version 1.4。</li>
-<li>2026-05-26: 一括分析113件（2024/12〜2026/05）から横断パターンを追記。Version 1.3。</li>
-<li>2026-05-25: バッチ3（2〜3月セールス7件: 林咲重〜佐藤豪）から成功・改善パターンを追記。Version 1.2。</li>
-<li>2026-05-25: 書き出し完了18件の分析から横断パターンを初回還流。</li>
-<li>2026-05-25: バッチ2（10件: 井上覚〜近藤美穂＋山崎努）から成功失敗パターン追記。</li>
+<li>2026-05-27: 永吉担当11件（植田太+真崎・黒川・加藤・野口・大島+齊藤・瀬戸・岡田・小管）から永吉欄を大幅拡充。Version 1.5。</li>
+<li>2026-05-26: 一括分析113件（2024/12〜2026/05）から田畑欄追記。Version 1.3。</li>
+<li>2026-05-25: バッチ3（セールス分析7件: 林咲重〜佐藤豪）から田畑欄追記。Version 1.2。</li>
+<li>2026-05-25: 田畑18件分析から強み・改善点を初回還流。</li>
+<li>2026-05-25: バッチ2（10件）から田畑欄追記。</li>
 </ul>
 <hr />
 <p>Produced by KATSUO MARKETING<br />
