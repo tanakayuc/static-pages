@@ -1,143 +1,121 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>個別誘導LP_改善評価_20260601 - 増田 W3EV 5日チャレ ファネル分析</title>
-<style>
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>5日チャレ｜改善評価｜個別誘導LP - 増田 W3EV 5日チャレ ファネル分析</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
 * { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
-
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { display: none; }
-    .mobile-nav { display: block; }
-    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.95rem; line-height: 1.7; }
-    .main a { word-wrap: break-word; overflow-wrap: break-word; }
-    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
 }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .main { padding: 0.75rem; }
-    .main h1 { font-size: 1.15rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.9rem; }
-    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
-    .main table { font-size: 0.8rem; }
-    .main th, .main td { padding: 0.25rem; }
-}
-</style>
-</head>
-<body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
-<nav class="sidebar">
-<h3>増田 W3EV 5日チャレ ファネル分析</h3>
-<a href="20260608.html" class="sidebar-item"><span class="date">2026年06月08日</span> 00_全体_経営前提_評価軸_20260608</a>
-<a href="20260608-6af9eb9a88f2.html" class="sidebar-item"><span class="date">2026年06月08日</span> ライブDAY1_改善評価_20260608</a>
-<a href="20260608-950b8eda0514.html" class="sidebar-item"><span class="date">2026年06月08日</span> ライブDAY2_改善評価_20260608</a>
-<a href="20260608-f9e86d79bab3.html" class="sidebar-item"><span class="date">2026年06月08日</span> ライブDAY3_改善評価_20260608</a>
-<a href="20260608-81d62cdab49b.html" class="sidebar-item"><span class="date">2026年06月08日</span> ライブDAY4_改善評価_20260608</a>
-<a href="20260608-5197d3ad4b4a.html" class="sidebar-item"><span class="date">2026年06月08日</span> ライブDAY5_改善評価_20260608</a>
-<a href="20260608-6226ce734a1e.html" class="sidebar-item"><span class="date">2026年06月08日</span> 田中祐一_静的テキストレポート_ファネル全体_20260608</a>
-<a href="20260601.html" class="sidebar-item"><span class="date">2026年06月01日</span> 00_全体_経営前提_評価軸_20260601</a>
-<a href="20260601-425bce0b532d.html" class="sidebar-item"><span class="date">2026年06月01日</span> オプチャ_改善評価_20260601</a>
-<a href="20260601-49934857e401.html" class="sidebar-item"><span class="date">2026年06月01日</span> オプトLP_改善評価_20260601</a>
-<a href="20260601-8840f7ec6e9a.html" class="sidebar-item"><span class="date">2026年06月01日</span> サンクス_改善評価_20260601</a>
-<a href="20260601-dd8dcd60f230.html" class="sidebar-item"><span class="date">2026年06月01日</span> ステップ配信_改善評価_20260601</a>
-<a href="20260601-4edf4334f8b5.html" class="sidebar-item"><span class="date">2026年06月01日</span> 体験セミナー誘導LP_改善評価_20260601</a>
-<a href="20260601-acc933245181.html" class="sidebar-item active"><span class="date">2026年06月01日</span> 個別誘導LP_改善評価_20260601</a>
-</nav>
-<main class="main">
-<pre># 5日チャレ｜改善評価｜個別誘導LP
-
-対応素材: `../ファネル/個別誘導LP_画面テキスト全文.md`
-
-## 個別誘導LPの全体感
-
-### 全体感の1
-
-フライトプラン＋3柱＋月30-50万実績。物販サポート（外注・通知・Zoom）が具体的。セールス現場の強みと整合。
-
-### 全体感の2
-
-講座価格非開示。クレカ必須は注意書きのみで、タイプ1の枠不足は申込後に判明しうる。FAQは初心者向けだが投資対効果の数字が薄い。
-
-## 影響度が大きい修正事項
-
-### 個別誘導LPの修正事項1｜投資レンジの期待値1行
-
-根拠: BC40万/FC60万が画面に無い。
-
-見込みの本音: 説明会行ったら高額だった。聞くまで分からないのが不安。
-
-改善の方向: 「実践講座は数十万円台（分割相談可）。説明会でフライトプランと合わせてご案内」。
-
-### 個別誘導LPの修正事項2｜枠・クレカの事前チェック
-
-根拠: L86「新規カードが作れない方は参加不可」。
-
-改善の方向: 申込フォームにショッピング枠の目安選択肢。説明会の無駄打ち削減。
-
-### 個別誘導LPの修正事項3｜タイプ2向け「物販＝マイル加速」の再定義
-
-根拠: 3柱説明は詳しいが、マイル趣味層への入口文が弱い。
-
-改善の方向: ファーストビュー下「旅行好きの方こそ、決済設計でマイルが桁変わりする」1段落。
-
-## 影響度が中程度の修正事項
-
-### 個別誘導LPの修正事項4｜認定パートナー担当の信頼補強
-
-根拠: FAQ「認定パートナーが担当」。増田直接ではない期待調整。
-
-改善の方向: 増田監修・フライトプラン共同作成の位置づけを1文。
-
----
-
-Produced by KATSUO MARKETING
-Version: 1.0 (2026-06-01)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: 8NW4QK3R
-Generated by: 田中祐一
-</pre>
-</main>
-</body>
-</html>
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">REPORT</div><h3>増田 W3EV 5日チャレ ファネル分析</h3><a href="20260608.html" class="sidebar-item"><span class="date">2026年06月08日</span> 5日チャレ｜改善評価｜全体・経営前提・評価軸（インデックス）</a>
+<a href="20260608-6af9eb9a88f2.html" class="sidebar-item"><span class="date">2026年06月08日</span> 5日チャレ｜改善評価｜ライブ DAY1</a>
+<a href="20260608-950b8eda0514.html" class="sidebar-item"><span class="date">2026年06月08日</span> 5日チャレ｜改善評価｜ライブ DAY2</a>
+<a href="20260608-f9e86d79bab3.html" class="sidebar-item"><span class="date">2026年06月08日</span> 5日チャレ｜改善評価｜ライブ DAY3</a>
+<a href="20260608-81d62cdab49b.html" class="sidebar-item"><span class="date">2026年06月08日</span> 5日チャレ｜改善評価｜ライブ DAY4</a>
+<a href="20260608-5197d3ad4b4a.html" class="sidebar-item"><span class="date">2026年06月08日</span> 5日チャレ｜改善評価｜ライブ DAY5</a>
+<a href="20260608-6226ce734a1e.html" class="sidebar-item"><span class="date">2026年06月08日</span> 増田・ビジネスマイラー複業｜5日チャレファネル｜静的テキストレポート</a>
+<a href="20260601.html" class="sidebar-item"><span class="date">2026年06月01日</span> 5日チャレ｜改善評価｜全体・経営前提・評価軸（インデックス）</a>
+<a href="20260601-425bce0b532d.html" class="sidebar-item"><span class="date">2026年06月01日</span> 5日チャレ｜改善評価｜オープンチャット</a>
+<a href="20260601-49934857e401.html" class="sidebar-item"><span class="date">2026年06月01日</span> 5日チャレ｜改善評価｜オプトLP</a>
+<a href="20260601-8840f7ec6e9a.html" class="sidebar-item"><span class="date">2026年06月01日</span> 5日チャレ｜改善評価｜サンクス（オプチャ誘導）</a>
+<a href="20260601-dd8dcd60f230.html" class="sidebar-item"><span class="date">2026年06月01日</span> 5日チャレ｜改善評価｜ステップ配信（LINE・メール）</a>
+<a href="20260601-4edf4334f8b5.html" class="sidebar-item"><span class="date">2026年06月01日</span> 5日チャレ｜改善評価｜体験セミナー誘導LP（締切後再オファー）</a>
+<a href="20260601-acc933245181.html" class="sidebar-item active"><span class="date">2026年06月01日</span> 5日チャレ｜改善評価｜個別誘導LP</a></nav>
+<main class="content"><article class="article"><h1>5日チャレ｜改善評価｜個別誘導LP</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#個別誘導LPの全体感">個別誘導LPの全体感</a></li><li class="toc-sub"><a href="#全体感の1">全体感の1</a></li><li class="toc-sub"><a href="#全体感の2">全体感の2</a></li><li class="toc-main"><a href="#影響度が大きい修正事項">影響度が大きい修正事項</a></li><li class="toc-sub"><a href="#個別誘導LPの修正事項1｜投資レンジの期待値1行">個別誘導LPの修正事項1｜投資レンジの期待値1行</a></li><li class="toc-sub"><a href="#個別誘導LPの修正事項2｜枠・クレカの事前チェック">個別誘導LPの修正事項2｜枠・クレカの事前チェック</a></li><li class="toc-sub"><a href="#個別誘導LPの修正事項3｜タイプ2向け「物販＝マイル加速」の再定義">個別誘導LPの修正事項3｜タイプ2向け「物販＝マイル加速」の再定義</a></li><li class="toc-main"><a href="#影響度が中程度の修正事項">影響度が中程度の修正事項</a></li><li class="toc-sub"><a href="#個別誘導LPの修正事項4｜認定パートナー担当の信頼補強">個別誘導LPの修正事項4｜認定パートナー担当の信頼補強</a></li></ul></nav>
+<p>対応素材: <code>../ファネル/個別誘導LP_画面テキスト全文.md</code></p>
+<h2 id="個別誘導LPの全体感">個別誘導LPの全体感</h2>
+<h3 id="全体感の1">全体感の1</h3>
+<p>フライトプラン＋3柱＋月30-50万実績。物販サポート（外注・通知・Zoom）が具体的。セールス現場の強みと整合。</p>
+<h3 id="全体感の2">全体感の2</h3>
+<p>講座価格非開示。クレカ必須は注意書きのみで、タイプ1の枠不足は申込後に判明しうる。FAQは初心者向けだが投資対効果の数字が薄い。</p>
+<h2 id="影響度が大きい修正事項">影響度が大きい修正事項</h2>
+<h3 id="個別誘導LPの修正事項1｜投資レンジの期待値1行">個別誘導LPの修正事項1｜投資レンジの期待値1行</h3>
+<p>根拠: BC40万/FC60万が画面に無い。</p>
+<p>見込みの本音: 説明会行ったら高額だった。聞くまで分からないのが不安。</p>
+<p>改善の方向: 「実践講座は数十万円台（分割相談可）。説明会でフライトプランと合わせてご案内」。</p>
+<h3 id="個別誘導LPの修正事項2｜枠・クレカの事前チェック">個別誘導LPの修正事項2｜枠・クレカの事前チェック</h3>
+<p>根拠: L86「新規カードが作れない方は参加不可」。</p>
+<p>改善の方向: 申込フォームにショッピング枠の目安選択肢。説明会の無駄打ち削減。</p>
+<h3 id="個別誘導LPの修正事項3｜タイプ2向け「物販＝マイル加速」の再定義">個別誘導LPの修正事項3｜タイプ2向け「物販＝マイル加速」の再定義</h3>
+<p>根拠: 3柱説明は詳しいが、マイル趣味層への入口文が弱い。</p>
+<p>改善の方向: ファーストビュー下「旅行好きの方こそ、決済設計でマイルが桁変わりする」1段落。</p>
+<h2 id="影響度が中程度の修正事項">影響度が中程度の修正事項</h2>
+<h3 id="個別誘導LPの修正事項4｜認定パートナー担当の信頼補強">個別誘導LPの修正事項4｜認定パートナー担当の信頼補強</h3>
+<p>根拠: FAQ「認定パートナーが担当」。増田直接ではない期待調整。</p>
+<p>改善の方向: 増田監修・フライトプラン共同作成の位置づけを1文。</p>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-01)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 8NW4QK3R<br />
+Generated by: 田中祐一</p></article></main></div></body></html>
