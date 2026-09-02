@@ -1,0 +1,965 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>購入教材チェックポイント取り込み設計（第1号: 南幅一刀『1日で億稼ぐClaudeCodeローンチ制作の教科書』） - AI社員化プロジェクト 設計方針</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">THE LEAD DOCUMENT</div><h3>AI社員化プロジェクト 設計方針</h3><a href="024.html" class="sidebar-item"><span class="date">2026年09月02日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中AIナレッジ同期 最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中祐一AI インプット来歴一覧（正本）</a>
+<a href="20260902.html" class="sidebar-item active"><span class="date">2026年09月02日</span> 購入教材チェックポイント取り込み設計（第1号: 南幅一刀『1日で億稼ぐClaudeCodeローンチ制作の教科書』）</a>
+<a href="056.html" class="sidebar-item"><span class="date">2026年09月02日</span> 運用: 田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a></nav>
+<main class="content"><article class="article"><h1>購入教材チェックポイント取り込み設計（第1号: 南幅一刀『1日で億稼ぐClaudeCodeローンチ制作の教科書』）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#0.-結論">0. 結論</a></li><li class="toc-main"><a href="#1.-着手宣言（新規着手プリフライト）">1. 着手宣言（新規着手プリフライト）</a></li><li class="toc-main"><a href="#2.-何を取り込み、何を取り込まないか">2. 何を取り込み、何を取り込まないか</a></li><li class="toc-main"><a href="#3.-取り込みの唯一の経路:-田中の採用裁定">3. 取り込みの唯一の経路: 田中の採用裁定</a></li><li class="toc-sub"><a href="#3-1.-なぜ自動格納できないか">3-1. なぜ自動格納できないか</a></li><li class="toc-sub"><a href="#3-2.-裁定の4択と行き先">3-2. 裁定の4択と行き先</a></li><li class="toc-sub"><a href="#3-3.-帰属の出し方">3-3. 帰属の出し方</a></li><li class="toc-main"><a href="#4.-置き場と形（4要素モデル）">4. 置き場と形（4要素モデル）</a></li><li class="toc-sub"><a href="#4-1.-ゲート（正本。gates/プロモーション/）">4-1. ゲート（正本。gates/プロモーション/）</a></li><li class="toc-sub"><a href="#4-2.-ナレッジ（田中祐一AIが読む。knowledge/スキル別/）">4-2. ナレッジ（田中祐一AIが読む。knowledge/スキル別/）</a></li><li class="toc-sub"><a href="#4-3.-スキル（ゲートを参照する1行を足す。数値は書き写さない）">4-3. スキル（ゲートを参照する1行を足す。数値は書き写さない）</a></li><li class="toc-sub"><a href="#4-4.-ルール（新設:-rules/購入教材の取り込み.md）">4-4. ルール（新設: rules/購入教材の取り込み.md）</a></li><li class="toc-sub"><a href="#4-5.-田中祐一AI（MCP）側">4-5. 田中祐一AI（MCP）側</a></li><li class="toc-main"><a href="#5.-全数を見せないための機械トリアージ">5. 全数を見せないための機械トリアージ</a></li><li class="toc-sub"><a href="#5-1.-棚卸しの結果（2026-09-02）">5-1. 棚卸しの結果（2026-09-02）</a></li><li class="toc-sub"><a href="#5-2.-4分類と行き先">5-2. 4分類と行き先</a></li><li class="toc-sub"><a href="#5-3.-突合結果（2026-09-02-実施。表の実体は-チェックポイント棚卸し/triage_A.md・triage_B.md）">5-3. 突合結果（2026-09-02 実施。表の実体は チェックポイント棚卸し/triage_A.md・triage_B.md）</a></li><li class="toc-main"><a href="#6.-第1バッチ（矛盾テーマ-T1〜T5・全文提示）">6. 第1バッチ（矛盾テーマ T1〜T5・全文提示）</a></li><li class="toc-sub"><a href="#A【T1・文体と記号のNGリスト】種別:-束ね（約24行）">A【T1・文体と記号のNGリスト】種別: 束ね（約24行）</a></li><li class="toc-sub"><a href="#B【T2・ターゲットの切り方と入口の層】種別:-矛盾（1-21・1-28・1-36）">B【T2・ターゲットの切り方と入口の層】種別: 矛盾（1-21・1-28・1-36）</a></li><li class="toc-sub"><a href="#C【T3・一次情報の取り方】種別:-矛盾（1-46・1-52）">C【T3・一次情報の取り方】種別: 矛盾（1-46・1-52）</a></li><li class="toc-sub"><a href="#D【T4・配信運用の4点】種別:-矛盾（8-15・8-14・7-19・7-36）">D【T4・配信運用の4点】種別: 矛盾（8-15・8-14・7-19・7-36）</a></li><li class="toc-sub"><a href="#E【T5・期待値と不安の扱い】種別:-矛盾（6-09・5-18／6-10・6-07）">E【T5・期待値と不安の扱い】種別: 矛盾（6-09・5-18／6-10・6-07）</a></li><li class="toc-main"><a href="#7.-工程と完了チェック（仕組み化デフォルト）">7. 工程と完了チェック（仕組み化デフォルト）</a></li><li class="toc-main"><a href="#8.-機械チェックに落とせる候補">8. 機械チェックに落とせる候補</a></li><li class="toc-main"><a href="#9.-田中さんへの確認事項">9. 田中さんへの確認事項</a></li><li class="toc-main"><a href="#10.-今回やらないこと">10. 今回やらないこと</a></li></ul></nav>
+<p>作成日: 2026-09-02<br />
+状態: 設計案（田中裁定待ち）。実装はこの設計の承認後<br />
+対象教材: <code>41_リサーチ/購入教材/南幅一刀_1日で億稼ぐClaudeCodeローンチ制作の教科書/</code>（記事本文・教材本体16ファイル・動画2本の書き起こし。格納済み）</p>
+<h2 id="0.-結論">0. 結論</h2>
+<ol>
+<li>取り込むのは「こうなってあるべき／これはNG／相場は○○」という<strong>チェックポイントだけ</strong>。ワークフロー手順・貼り付け用プロンプト・コンセプトの作り方の思想は取り込まない。</li>
+<li>置き場は4要素モデルの<strong>ゲート</strong>（<code>gates/</code>）。ただし田中祐一AIが読むのは <code>knowledge/</code> のバンドルだけなので、<strong>ゲート正本＋ナレッジ側の判断基準レコード</strong>の対で持つ（プッシュメッセージゲート＋メルマガ共通ルールと同じ先例）。</li>
+<li>外部由来の基準は、そのままでは固有性関門で C（門前払い）。<strong>唯一の正規ルートは田中の採用裁定</strong>（OK／修正／却下／保留）。採用された基準は「田中が採用した基準」として入り、出所は frontmatter と本文に明記する。</li>
+<li>裁定そのもの、特に<strong>却下理由と修正内容が田中固有のナレッジ</strong>になる。教材と田中の考えが一致しない部分は、捨てるのではなく「田中はこう違う」として残す。</li>
+<li>全数（棚卸し366行）を田中に見せない。既存ナレッジと機械突合して<strong>一致（事後報告のみ）／補強（提示）／矛盾（最優先提示）／対象外</strong>に分け、矛盾から5件ずつ提示する。</li>
+<li>今後も教材を買うので、この経路を <code>rules/購入教材の取り込み.md</code> として固定する（クリュウ・いちさん・迫さんの教材にも同じ経路を使う）。</li>
+</ol>
+<h2 id="1.-着手宣言（新規着手プリフライト）">1. 着手宣言（新規着手プリフライト）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>着手対象プロジェクト</td>
+<td>theleadpromotion（knowledge / gates / skills / rules の正本管理。<code>rules/プロジェクト責務分担表.md</code> 判定フロー1）</td>
+</tr>
+<tr>
+<td>他AI進行中作業の台帳</td>
+<td><code>docs/AI進行中作業台帳.md</code> の3件（静的成果物の共通デザイン基盤／AIポータル閲覧MVP／PLCポータル議事録移行のロールバック）はいずれも本件と無関係。<strong>田中確認待ち</strong>（§9）</td>
+</tr>
+<tr>
+<td>依拠する正本</td>
+<td><code>knowledge/ナレッジ取捨選択基準.md</code> §0・§7・§8／<code>gates/ナレッジ/ナレッジ候補ティアゲート.md</code>／<code>gates/README.md</code>（4要素モデル）／<code>rules/仕組み化デフォルト_ステップ分解と実行チェック.md</code>／<code>rules/ナレッジフィードバックループ.md</code>（2点セット）／<code>knowledge/_inbox/README.md</code>・<code>frontmatterスキーマ定義.md</code>／<code>knowledge/_inbox/_承認基準メモ.md</code> 基準010／<code>knowledge/共通/帰属の明示と他者尊重_声の根幹.md</code>／<code>rules/承認依頼の出し方.md</code>／<code>rules/スキル新設時の自己添削.md</code></td>
+</tr>
+<tr>
+<td>既存資産の確認</td>
+<td>購入教材を田中祐一AIへ取り込んだ先例は無い（<code>知識/</code>・<code>rules/</code>・<code>agents/</code> に「購入教材」「外部教材」の扱いは未定義）。外部由来の知識を採用した先例は <code>knowledge/共通/三人称思考_石原明_飛躍の法則.md</code>（田中のバイブルとして採用、source に書籍名を明記）と <code>心理トリガー16選.md</code>。重複先は §5 の突合表</td>
+</tr>
+<tr>
+<td>途中で見つかった不整合</td>
+<td><code>knowledge/スキル別/LP添削/チェックリスト.md</code> は 2026-06-12 に承認済みの <code>_inbox/提案_WP-B6_LP添削チェックリスト.md</code> が正本へ反映されておらず、スタブのまま（「ここに項目を追記していく」）。今回の誘導LPチェックポイントと同時に反映する</td>
+</tr>
+<tr>
+<td>これから作るもの</td>
+<td>§4 の一覧（ゲート4新設＋2追記、ナレッジレコード6、スキル参照追記6、ルール1新設、却下ログ1）</td>
+</tr>
+<tr>
+<td>配置先</td>
+<td><code>gates/プロモーション/</code>、<code>knowledge/スキル別/</code>、<code>skills/*/SKILL.md</code>、<code>rules/</code>、<code>agents/ナレッジ管理担当/却下ログ/</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2.-何を取り込み、何を取り込まないか">2. 何を取り込み、何を取り込まないか</h2>
+<p>教材は「ワークフロー（手順とプロンプト）」「修正ガイド（症状→直し方の指示文）」「ナレッジ集（判断基準カード）」「原典ライブラリ」の4層でできている。</p>
+<table>
+<thead>
+<tr>
+<th>教材の層</th>
+<th>扱い</th>
+<th>根拠</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ワークフロー（手順1〜9・貼り付け用プロンプト文面）</td>
+<td><strong>取り込まない</strong></td>
+<td>田中祐一AIには制作モードの工程表（65ステップ・全体設計スターター・6工程の質問リスト）が既にある。手順を混ぜると2系統の工程表になる。<code>knowledge/README.md</code>「ナレッジは結論として何を採用するか」</td>
+</tr>
+<tr>
+<td>修正ガイドの「指示文」</td>
+<td>取り込まない</td>
+<td>同上。ただし「症状」（＝NG状態の記述）はチェックポイントとして抽出する</td>
+</tr>
+<tr>
+<td>ナレッジ集・原典ライブラリの判断基準</td>
+<td><strong>チェックポイントに変換して採用裁定へ</strong></td>
+<td>「あるべき／NG／閾値・相場／検査項目」の形に揃える。原文の思想の説明文は持ち込まない</td>
+</tr>
+<tr>
+<td>コンセプト（制作室2＋原典の該当カード）</td>
+<td><strong>原則除外</strong>（田中指示「考え方が一致しない部分がある」）</td>
+<td>「足切り3→主要2→修飾1の順で評価する」など検査項目だけは1バッチにまとめて田中に要否を聞く（§9）</td>
+</tr>
+<tr>
+<td>事前準備（案件ナレッジシート）</td>
+<td>取り込まない</td>
+<td>制作モードは案件定数・confirmedペルソナ・6工程の質問で同等の関所を持つ。「事実の欄に願望を書かない」だけ候補に残す</td>
+</tr>
+<tr>
+<td>共通部品（AI臭さ除去・媒体別整形・口調温度・立場保全・見出し・ノイズ設計・参考例の借り方）</td>
+<td>採用裁定へ。<strong>田中の文体正本（<code>configs/田中祐一/言葉遣い.md</code>・<code>人格.md</code>）と矛盾するものが多い領域</strong>なので、矛盾として最優先提示</td>
+<td>機械チェック化しやすい（記号・語尾・指示語・構文の連続）</td>
+</tr>
+<tr>
+<td>動画2本（第0章・第1章）の書き起こし</td>
+<td>取り込まない</td>
+<td>内容は記事本文の読み上げ。参照資料として <code>41_リサーチ/</code> に置くだけ</td>
+</tr>
+</tbody>
+</table>
+<p>原本（教材本体・記事本文・書き起こし）は <code>41_リサーチ/購入教材/</code> に置いたまま <code>knowledge/</code> へは入れない（<code>knowledge/README.md</code> レベル3＝参照資料）。</p>
+<h2 id="3.-取り込みの唯一の経路:-田中の採用裁定">3. 取り込みの唯一の経路: 田中の採用裁定</h2>
+<h3 id="3-1.-なぜ自動格納できないか">3-1. なぜ自動格納できないか</h3>
+<ul>
+<li>取捨選択基準 §7 の固有性関門: 「有名書籍・他者からの借り物」は④田中固有性0点＝上限C＝提示せず却下。</li>
+<li>承認基準メモ 基準010: 田中が主催した場でも発話主が他者なら入れない。「田中祐一AIは『田中だったらどう考えるか』の再現であって、マーケ業界の汎用知識の百科事典ではない」。</li>
+<li><code>knowledge/README.md</code>: 「『kenさんはこう言った』は情報であってナレッジではない。ナレッジは『結論として何を採用するか』だけ」。</li>
+</ul>
+<p>したがって、この教材の基準を田中祐一AIに入れてよいのは、<strong>田中が「僕もそう判断する」と採用した時だけ</strong>。三人称思考（石原明）と同じ扱いになる。</p>
+<h3 id="3-2.-裁定の4択と行き先">3-2. 裁定の4択と行き先</h3>
+<table>
+<thead>
+<tr>
+<th>裁定</th>
+<th>意味</th>
+<th>行き先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OK</td>
+<td>田中も同じ判断をする</td>
+<td>ゲートに1行追加（出所＝教材ID＋田中裁定日）。ナレッジレコードに反映</td>
+</tr>
+<tr>
+<td>修正</td>
+<td>判断は採用するが、閾値・言い方・条件を田中の基準に直す</td>
+<td>修正後の文言で採用。修正差分は「田中はここが違う」として同じレコードの本文に残す</td>
+</tr>
+<tr>
+<td>却下</td>
+<td>田中はそう考えない</td>
+<td><code>agents/ナレッジ管理担当/却下ログ/202609_購入教材_南幅一刀.md</code> に理由付きで記録。<strong>理由に田中の対案があれば、その対案を新規ナレッジ候補（S/A）として自動格納候補に回す</strong></td>
+</tr>
+<tr>
+<td>保留</td>
+<td>今は決めない</td>
+<td>確認キューに残す（既存運用）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-3.-帰属の出し方">3-3. 帰属の出し方</h3>
+<ul>
+<li>frontmatter に <code>provenance: 外部採用（南幅一刀『ローンチ制作の教科書』2026-09 田中採用）</code> を持たせ、<code>source:</code> に教材ファイルのパスと行番号、裁定日を書く。</li>
+<li>本文冒頭に「出所」節を置く。田中祐一AIがこの基準を語るときは、帰属の明示ルールに従い「これは僕も採用している基準ですが、元はけんさん（南幅一刀さん）の教材にあった考え方です」の前置きを付けられるようにする（前置きの要否は §9 で田中裁定）。</li>
+<li>教材の原文を長く引用しない。チェックポイントは1〜2文の要旨、閾値は数値のみ。</li>
+</ul>
+<h2 id="4.-置き場と形（4要素モデル）">4. 置き場と形（4要素モデル）</h2>
+<h3 id="4-1.-ゲート（正本。gates/プロモーション/）">4-1. ゲート（正本。<code>gates/プロモーション/</code>）</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>ゲート</th>
+<th>新設／追記</th>
+<th>対応する制作物</th>
+<th>教材側の元</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td><code>誘導LP.md</code></td>
+<td>新設</td>
+<td>オプトインLP・企画登録ページ</td>
+<td>制作室5（9要素・上3要素・ページ執筆の判断基準）</td>
+</tr>
+<tr>
+<td>G2</td>
+<td><code>セミナー台本.md</code></td>
+<td>新設</td>
+<td>体験セミナー・ウェビナー台本</td>
+<td>制作室4（冒頭1〜2分・需要構築6ステップ・証拠→主張）</td>
+</tr>
+<tr>
+<td>G3</td>
+<td><code>誘導動画台本.md</code></td>
+<td>新設</td>
+<td>募集動画・挨拶動画</td>
+<td>制作室6（10要素・破局演出NG・尺）</td>
+</tr>
+<tr>
+<td>G4</td>
+<td><code>ファネル実施設計.md</code></td>
+<td>新設</td>
+<td>スケジュール・動線・発注台帳・開始前チェック</td>
+<td>制作室3＋8（実施日逆算・集客期間・締切二段・各チャネル責任1つ・受け皿使い回し・値引き温存・動線を実際に1回通す）</td>
+</tr>
+<tr>
+<td>G5</td>
+<td><code>プッシュメッセージ.md</code></td>
+<td>追記</td>
+<td>LINE・メール配信</td>
+<td>制作室7（役割分離・時系列・主語・期限表現は締切近い1〜2通・500文字・絵文字2〜3個）。既存の22字/4行/気づき欄と突合して差分だけ</td>
+</tr>
+<tr>
+<td>G6</td>
+<td><code>文章仕上げ_AI臭さ.md</code></td>
+<td>新設</td>
+<td>全制作物の最終整形</td>
+<td>共通部品（決め台詞・構造実況・指示語・ダブルクォート・罫線囲み・同構文3連続・相対日時・Markdown混入）。<code>言葉遣い.md</code> §12（ダッシュ禁止）と統合</td>
+</tr>
+</tbody>
+</table>
+<p>各ゲートは <code>gates/README.md</code> の5節構成（対象／完了契約／機械検証／人間検品／未達時）。完了契約の各行に <code>出所: 教材&lt;ID&gt;／田中裁定 YYYY-MM-DD（OK|修正）</code> を持たせる。教材の思想の説明文は書かない（基準行だけ）。</p>
+<h3 id="4-2.-ナレッジ（田中祐一AIが読む。knowledge/スキル別/）">4-2. ナレッジ（田中祐一AIが読む。<code>knowledge/スキル別/</code>）</h3>
+<p>ゲート1本につき判断基準レコード1本。<code>統合添削_bundle.py</code> は <code>knowledge/</code> しか集約しないので、ここに無い基準は田中祐一AIに届かない。</p>
+<table>
+<thead>
+<tr>
+<th>ゲート</th>
+<th>レコード</th>
+<th>既存との関係</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td><code>LP添削/チェックリスト.md</code>（WP-B6承認版を正本反映した上で、誘導LPの採用行を追記）</td>
+<td>既存ファイルの置換＋追記</td>
+</tr>
+<tr>
+<td>G2</td>
+<td><code>セールス/セミナーセールス/セミナー台本の判断基準.md</code></td>
+<td>新規（既存の <code>体験セミナーのオープニング5分の設計基準.md</code> 等と related で結ぶ）</td>
+</tr>
+<tr>
+<td>G3</td>
+<td><code>シナリオ作成/誘導動画の判断基準.md</code></td>
+<td>新規（<code>挨拶動画ナレッジ.md</code> と related）</td>
+</tr>
+<tr>
+<td>G4</td>
+<td><code>セットアップ/実施設計の判断基準.md</code></td>
+<td>新規（<code>集客期間は2週間以内に絞る.md</code> と related。一致分はそのファイルの source に同旨追記）</td>
+</tr>
+<tr>
+<td>G5</td>
+<td><code>メルマガ作成/メルマガ共通ルール.md</code> に追記</td>
+<td>既存追記</td>
+</tr>
+<tr>
+<td>G6</td>
+<td><code>コピーライティング/AI臭さ除去の判断基準.md</code></td>
+<td>新規（<code>configs/田中祐一/言葉遣い.md</code> §12 と related）</td>
+</tr>
+</tbody>
+</table>
+<p>レコードの形（統一レコード形式 §8）:</p>
+<pre><code class="language-yaml">---
+type: 判断基準
+tier: A            # 田中裁定OK＝A。田中が「なぜ僕もそう思うか」を補足した行はS
+tags: [誘導LP, 判断基準, ゲート, 外部採用]
+genre: LP添削
+status: 本文
+version: 1
+last_updated: 2026-09-XX
+source: &quot;41_リサーチ/購入教材/南幅一刀_.../教材本体/07_制作室5_誘導LPを作る.md（該当行）＋ 田中採用裁定 2026-09-XX&quot;
+provenance: 外部採用（南幅一刀『ローンチ制作の教科書』）
+related:
+  - gates/プロモーション/誘導LP.md
+  - knowledge/スキル別/LP添削/原則.md
+used_by: [MCP:添削モード, MCP:制作モード, skills/LP作成, skills/LP添削]
+---
+# 誘導LPの判断基準（採用分）
+
+## 想定質問
+- Q: 企画登録用のLPで、登録率を決める要素はどこか？
+- Q: 誘導LPにデザインはどこまで投資すべきか？
+
+## 出所
+（教材名・採用日・田中の一言）
+
+## 判断基準（正本は gates/プロモーション/誘導LP.md）
+（採用行の一覧。閾値は数値のみ）
+
+## 田中はここが違う（修正・却下の記録）
+（修正差分と却下理由。ここが田中固有性の核）
+</code></pre>
+<p>本文にチェック行を持つのは、バンドルが <code>knowledge/</code> しか読まないための複製。長期的には <code>統合添削_bundle.py</code> に <code>gates/プロモーション/*.md</code> を <code>type: ゲート</code> として包含する小改修（Codex・30分）で複製を無くせる（§9 で要否を聞く）。</p>
+<h3 id="4-3.-スキル（ゲートを参照する1行を足す。数値は書き写さない）">4-3. スキル（ゲートを参照する1行を足す。数値は書き写さない）</h3>
+<table>
+<thead>
+<tr>
+<th>スキル</th>
+<th>追記先</th>
+<th>参照させるゲート</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skills/LP作成</code></td>
+<td>「実行前に読むもの」</td>
+<td>G1・G6</td>
+</tr>
+<tr>
+<td><code>skills/LP添削</code></td>
+<td>「実行前に読むもの」（既に <code>LP添削/チェックリスト.md</code> を読む）</td>
+<td>G1</td>
+</tr>
+<tr>
+<td><code>skills/プッシュメッセージ設計</code></td>
+<td>既にG5参照済み</td>
+<td>差分なし</td>
+</tr>
+<tr>
+<td><code>skills/セールススライド生成</code>（セミナー台本を扱う場合）</td>
+<td>「gate:」行</td>
+<td>G2</td>
+</tr>
+<tr>
+<td><code>skills/動画視聴型ファネル構築</code>・<code>skills/オートウェビナー構築</code></td>
+<td>「参照実装」の前</td>
+<td>G4</td>
+</tr>
+<tr>
+<td><code>skills/田中祐一の言葉</code></td>
+<td>「参照する必須ファイル」</td>
+<td>G6</td>
+</tr>
+<tr>
+<td><code>skills/プロモーション構築</code></td>
+<td>各工程の「参照ナレッジ」</td>
+<td>G1〜G6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-4.-ルール（新設:-rules/購入教材の取り込み.md）">4-4. ルール（新設: <code>rules/購入教材の取り込み.md</code>）</h3>
+<p>骨子:</p>
+<ol>
+<li>原本は <code>41_リサーチ/購入教材/&lt;著者&gt;_&lt;教材名&gt;/</code> に全文保存する（記事本文・教材本体・動画書き起こし・構造リサーチ）。<code>knowledge/</code> には入れない</li>
+<li>取り込むのはチェックポイント（あるべき／NG／閾値／検査項目）だけ。ワークフロー・プロンプト文面・思想の説明文は取り込まない</li>
+<li>抽出→既存突合（一致／補強／矛盾／対象外）→矛盾から5件ずつ田中裁定→採用分だけゲート＋ナレッジへ。一致は既存レコードの source に同旨追記のみ</li>
+<li>採用分は <code>provenance: 外部採用</code> と source（教材パス＋行＋裁定日）を必ず持つ。田中祐一AIは帰属の明示ルールに従って前置きできる</li>
+<li>却下理由は却下ログに残す。理由に田中の対案があれば新規ナレッジ候補として扱う</li>
+<li>機械チェック可能な基準は既存リント（<code>プッシュメッセージ_リント.py</code> 等）へ追加し、わざと壊して落ちることを確認する</li>
+<li>完了は 2点セット（<code>agents/ナレッジ管理担当/YYYYMMDD_購入教材_ナレッジ候補.md</code> ＋ <code>knowledge/_inbox/</code> ＋ <code>99_作業エリア/YYYYMMDD_田中祐一AI_ナレッジ追加指示書.md</code>）で引き渡す</li>
+</ol>
+<h3 id="4-5.-田中祐一AI（MCP）側">4-5. 田中祐一AI（MCP）側</h3>
+<p>変更不要。ナレッジレコードがバンドルに入れば添削・制作・相談モードに届く。任意で bundle に <code>gates/</code> を包含する改修のみ（§9）。</p>
+<h2 id="5.-全数を見せないための機械トリアージ">5. 全数を見せないための機械トリアージ</h2>
+<h3 id="5-1.-棚卸しの結果（2026-09-02）">5-1. 棚卸しの結果（2026-09-02）</h3>
+<table>
+<thead>
+<tr>
+<th>領域</th>
+<th>抽出行数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>事前準備</td>
+<td>24</td>
+</tr>
+<tr>
+<td>制作室1（訴求の芯）</td>
+<td>57</td>
+</tr>
+<tr>
+<td>制作室2（コンセプト）</td>
+<td>37（原則除外）</td>
+</tr>
+<tr>
+<td>制作室3（ファネル設計図）</td>
+<td>30</td>
+</tr>
+<tr>
+<td>制作室4（セミナー）</td>
+<td>44</td>
+</tr>
+<tr>
+<td>制作室5（誘導LP）</td>
+<td>45</td>
+</tr>
+<tr>
+<td>制作室6（誘導動画）</td>
+<td>26</td>
+</tr>
+<tr>
+<td>制作室7（LINE配信）</td>
+<td>44</td>
+</tr>
+<tr>
+<td>制作室8（実施設計）</td>
+<td>24</td>
+</tr>
+<tr>
+<td>お悩み別索引</td>
+<td>9</td>
+</tr>
+<tr>
+<td>AI臭さ除去（共通部品）</td>
+<td>26</td>
+</tr>
+<tr>
+<td>合計</td>
+<td>366</td>
+</tr>
+</tbody>
+</table>
+<p>棚卸し表と突合表の実体: <code>41_リサーチ/購入教材/南幅一刀_1日で億稼ぐClaudeCodeローンチ制作の教科書/チェックポイント棚卸し/</code>（inventory_A・B、triage_A・B）。</p>
+<h3 id="5-2.-4分類と行き先">5-2. 4分類と行き先</h3>
+<table>
+<thead>
+<tr>
+<th>分類</th>
+<th>定義</th>
+<th>行き先</th>
+<th>田中の関与</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一致</td>
+<td>既存ナレッジが同じ判断を持つ</td>
+<td>既存レコードの source に「南幅一刀教材でも同旨（ID）」を追記</td>
+<td>事後報告のみ</td>
+</tr>
+<tr>
+<td>補強</td>
+<td>近い領域はあるが角度・閾値・NG例が無い</td>
+<td>採用裁定バッチ（機械チェック可を優先）</td>
+<td>5件/バッチで裁定</td>
+</tr>
+<tr>
+<td>矛盾</td>
+<td>田中の判断・文体・基準値と食い違う</td>
+<td>採用裁定バッチ（最優先）</td>
+<td>5件/バッチで裁定。却下理由が資産</td>
+</tr>
+<tr>
+<td>対象外</td>
+<td>教材の運用手順・AI操作・教材固有UI</td>
+<td>棚卸し表に残すだけ</td>
+<td>なし</td>
+</tr>
+</tbody>
+</table>
+<p>突合の結果（件数）は §5-3 の通り。</p>
+<h3 id="5-3.-突合結果（2026-09-02-実施。表の実体は-チェックポイント棚卸し/triage_A.md・triage_B.md）">5-3. 突合結果（2026-09-02 実施。表の実体は <code>チェックポイント棚卸し/triage_A.md</code>・<code>triage_B.md</code>）</h3>
+<table>
+<thead>
+<tr>
+<th>領域</th>
+<th style="text-align: right;">一致</th>
+<th style="text-align: right;">補強</th>
+<th style="text-align: right;">矛盾</th>
+<th style="text-align: right;">対象外</th>
+<th style="text-align: right;">計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>事前準備</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr>
+<td>制作室1（訴求の芯）</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">57</td>
+</tr>
+<tr>
+<td>制作室2（コンセプト）</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">37</td>
+</tr>
+<tr>
+<td>制作室3（ファネル設計図）</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr>
+<td>制作室4（セミナー）</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">44</td>
+</tr>
+<tr>
+<td>制作室5（誘導LP）</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr>
+<td>制作室6（誘導動画）</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr>
+<td>制作室7（LINE配信）</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">44</td>
+</tr>
+<tr>
+<td>制作室8（実施設計）</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr>
+<td>お悩み別索引</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr>
+<td>AI臭さ除去</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr>
+<td>合計</td>
+<td style="text-align: right;">127</td>
+<td style="text-align: right;">112</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">366</td>
+</tr>
+</tbody>
+</table>
+<p>機械チェック可（lintで判定できる）: 92行。</p>
+<p>読み方:</p>
+<ul>
+<li>一致 127: 田中祐一AIの回答は変わらない。既存レコードの source に「南幅一刀教材でも同旨（ID）」を追記するだけで、田中には事後報告。教材の最重要主張（一次情報至上・創作しない・原文のまま・実績は数字で）はほぼここに入る</li>
+<li>矛盾 55: 共通ブロックの再掲を除いた実体は約45件。テーマで束ねると8テーマになり、うち文体系（約20件）は1つの裁定で片付く。<strong>ここだけ田中裁定が要る</strong></li>
+<li>補強 112: 5件ずつだと23バッチ。矛盾の裁定で田中の軸がはっきりしてから、機械チェック可（46件）を優先して出す</li>
+<li>対象外 72: 教材固有のUI・AI操作手順（再開ガイド・3問まで質問・HTMLの色コード等）。棚卸し表に残すだけ</li>
+</ul>
+<p>矛盾の8テーマ（田中側の正本が既にあるので、裁定はほぼ「田中の既存判断を維持するか」の確認になる）:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>テーマ</th>
+<th>該当ID</th>
+<th>田中側の正本</th>
+<th>提示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>文体・記号のNGリスト（決め台詞締め・指示語・ダブルクォート・「〜かなと」・「あなた」・名乗り・同構文3並べ・羅針盤の比喩）</td>
+<td>X-02/04/05/06/07/10/13/14/15/16/17、4-39/4-40/4-24、5-19/5-38、7-33、7-22/7-23/7-34/7-35（LINEの整形はルール化せずサンプルから／絵文字2〜3個）</td>
+<td><code>configs/田中祐一/言葉遣い.md</code> §2・§4・§10、<code>人格.md</code> 12、<code>gates/プロモーション/プッシュメッセージ.md</code> 2-3</td>
+<td>第1バッチ A</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>ターゲットの切り方（温度感 vs 動く人＝予算感・行動履歴）と入口の層（浅い層 vs 今すぐ客）</td>
+<td>1-21/1-28/1-36</td>
+<td><code>knowledge/共通/田中祐一メソッド/03_ターゲットと動く人判定.md</code>、<code>マーケティング原則.md</code></td>
+<td>第1バッチ B</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>一次情報の取り方（AI予測＞インタビュー／数百件をAIに一括読み）</td>
+<td>1-46/1-52</td>
+<td><code>knowledge/共通/仕事術/セールス動画を一件ずつ見ることの重要性.md</code>（tier S）</td>
+<td>第1バッチ C</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>配信運用（申込後に誘導配信を止める／視聴10分で分岐／期限表現は1〜2通／差し込み変数を使わない）</td>
+<td>8-15/8-14/7-19/7-36</td>
+<td><code>skills/オートウェビナー構築/SKILL.md</code>（田中裁定: 止めない・分岐しない・差し込みタグ必須）、<code>セミナー前リマインド_構成ナレッジ.md</code></td>
+<td>第1バッチ D</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>期待値と不安の扱い（盛らない／不安の代弁は決済直前まで出さない／恐怖訴求NG）</td>
+<td>6-09/5-18/6-10/6-07</td>
+<td><code>knowledge/_inbox/原理_控えめなポジショニングは商品価値を下げる.md</code>、<code>人格.md</code> 12、<code>添削11観点/05_信憑性・証拠.md</code>、Zoom蒸留「脅しのトリガー」</td>
+<td>第1バッチ E</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>誘導LPの機構（デザインはほぼ影響しない／要素順序とCTA回数／共感チェックリスト）</td>
+<td>5-02/5-04/5-19</td>
+<td>承認基準005〜008、<code>添削11観点/05</code>・<code>08</code>、<code>LP作成/制作手順.md</code></td>
+<td>第2バッチ</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>実績者・失敗談の見せ方（マイナス属性の人／格好悪い失敗ほど価値）</td>
+<td>4-21/5-16/P-10</td>
+<td><code>田中の基準値集_セールスと集客.md</code>（どん底2割・変化後8割）、Zoom蒸留「可愛い失敗を選ぶ」</td>
+<td>第2バッチ</td>
+</tr>
+<tr>
+<td>T8</td>
+<td>セミナーの尺・完了判定・「秘密」の語彙・所要時間の言及・返金率の扱い・決め方の軸</td>
+<td>4-04/4-34/4-23/6-02/2-21/2-15</td>
+<td><code>体験セミナーは削って改善する.md</code>、<code>gates/README.md</code>、<code>ハウス統合ステップメール_全体構成.md</code>、<code>挨拶動画ナレッジ.md</code>、<code>事業設計の哲学.md</code></td>
+<td>第2〜3バッチ</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6.-第1バッチ（矛盾テーマ-T1〜T5・全文提示）">6. 第1バッチ（矛盾テーマ T1〜T5・全文提示）</h2>
+<p><code>rules/承認依頼の出し方.md</code> の形式。判定は OK（教材側を採用）／修正（条件付きで採用）／却下（田中の既存判断を維持）／保留。田中側の正本が既にあるため、<strong>却下＝現状維持で、その理由がそのまま「田中はここが違う」の記録になる</strong>。</p>
+<h3 id="A【T1・文体と記号のNGリスト】種別:-束ね（約24行）">A【T1・文体と記号のNGリスト】種別: 束ね（約24行）</h3>
+<ul>
+<li>教材側の主張: LINEの改行・文字数はルール化せず過去配信15通から真似る／絵文字は1通2〜3個／「ここが大事です」型の決め台詞で締めない／指示語（これ・それ・こういう）を排除／ダブルクォート強調はNG／「〜んじゃないかなと」の曖昧な止め方はNG／共感の主語は「あなた」でなく属性／冒頭の名乗り・あいさつはNG／同じ構文の3連続はNG／「羅針盤」「地図」の比喩はNG。</li>
+<li>田中側の正本（原文）:</li>
+<li><code>言葉遣い.md</code> §2「〜かなと。｜柔らかい断定｜『王道かなと。』」「〜なのです。｜断定・説明｜『これが現実なのです。』」</li>
+<li><code>言葉遣い.md</code> §10「<strong>""</strong> - 概念的なワード（"今"、"悩む時間"）」</li>
+<li><code>言葉遣い.md</code> §1「『あなた』で統一」、<code>人格.md</code> 12「相手の本音をそのまま代弁し、『下手で田中でも変われたんだから』と同じ目線で背中を押す」</li>
+<li><code>gates/プロモーション/プッシュメッセージ.md</code> 2-3「メールは名乗り（肩書き＋名前）で始まる。あいさつ1行は名乗りの前に置いてよい」／2-2「1行は22文字まで」「文章のかたまりは4行まで」「LINE本文は400〜500文字」、<code>言葉遣い.md</code> §10「使う絵文字 ^^ 締めの笑顔（控えめ）」</li>
+<li><code>知識/共通/全員で勝つ.md</code>「手法の前にある『正しい考え方／羅針盤』」</li>
+<li>影響: 田中祐一AIが田中名義の文章（メルマガ・LINE・LP）を書く／添削するとき、田中の口癖と記号ルールを「AI臭」として直してしまう。文体系では最も回答が変わる論点。</li>
+<li>機械チェック: 可（記号・語尾・指示語）。ただし田中の口癖を許容リストに入れないと、田中のメルマガ見本が全部NGになる。</li>
+<li>推奨: <strong>却下（田中の文体正本を維持）</strong>。採用するのは田中側に規定が無い3点だけ（話の構造を実況しない X-03／文語接続「〜であるが」 X-08／Markdown記法のプレーンテキスト混入）。</li>
+<li>判定: OK ／ 修正 ／ 却下 ／ 保留</li>
+</ul>
+<h3 id="B【T2・ターゲットの切り方と入口の層】種別:-矛盾（1-21・1-28・1-36）">B【T2・ターゲットの切り方と入口の層】種別: 矛盾（1-21・1-28・1-36）</h3>
+<ul>
+<li>教材側の主張: 業種・規模・リスト数は「状況条件」であってターゲットではない。本当の線引きは温度感（頭の中のつぶやき）。入口は教育で届く一番浅い層に置き、共感が強い層は成約率が高いだけの少数派なので入口にしない。</li>
+<li>田中側の正本（原文）: <code>03_ターゲットと動く人判定.md</code>「この人にはお金を払う余裕があるか（年収・職業・経済状況）」「過去に類似商品にお金を使った実績があるか（行動履歴）」「3つともYESなら『動く人』」「『はじめの一歩の人』をターゲットにすると LPの登録率は高い → でもバックエンドが売れない」。<code>マーケティング原則.md</code>「まず『今すぐ客』から取る。上の層に広げるのはその後」。Zoom蒸留「しょぼいやつ誘導しても売れねえからな」。</li>
+<li>影響: 相談モード・制作モードのターゲット設計で、田中AIが「浅い層を広く入口に」と答えるか「動く人・今すぐ客を先に絞る」と答えるかが逆になる。</li>
+<li>機械チェック: 不可（判断）。</li>
+<li>推奨: <strong>却下（動く人判定を維持）</strong>。ただし「温度感を一人称のつぶやきまで書く」（1-29）は既存の「本音を代弁する」と一致なので補強として採用。</li>
+<li>判定: OK ／ 修正 ／ 却下 ／ 保留</li>
+</ul>
+<h3 id="C【T3・一次情報の取り方】種別:-矛盾（1-46・1-52）">C【T3・一次情報の取り方】種別: 矛盾（1-46・1-52）</h3>
+<ul>
+<li>教材側の主張: 情報量の優先順位は ①成約失注データ ②AI予測 ③インタビュー（人は本音を言わない）。面談記録は数百件でも分割せず一気にAIに読ませ、先に自分で目を通さない（思い込みが混ざる）。</li>
+<li>田中側の正本（原文）: <code>仕事術/セールス動画を一件ずつ見ることの重要性.md</code>（tier S）「プロデューサー・添削担当が最もレベルアップできる作業は、セールスの動画を一件ずつ見ることである」「だからエーアイと会話すんじゃなくて、お客様と会話して作ってくっていうのが一番強くて」。Zoom蒸留「N=1インタビューに勝ることはない・サボってはいけないポイント」。</li>
+<li>影響: 相談モードで「リサーチはどう進めるか」に対する回答の骨格が変わる（AIに一括で読ませる vs 一件ずつ人が見る）。田中の思考OS（具体⇄抽象ループ）の入口に関わる。</li>
+<li>機械チェック: 不可。</li>
+<li>推奨: <strong>却下（一件ずつ見る・N=1最優先を維持）</strong>。「成約と失注を分けて差分を出す」（1-07）は補強として採用。</li>
+<li>判定: OK ／ 修正 ／ 却下 ／ 保留</li>
+</ul>
+<h3 id="D【T4・配信運用の4点】種別:-矛盾（8-15・8-14・7-19・7-36）">D【T4・配信運用の4点】種別: 矛盾（8-15・8-14・7-19・7-36）</h3>
+<ul>
+<li>教材側の主張: ①個別相談の申込が発生したら以降の誘導配信を即停止する ②視聴分岐は「10分以上視聴」のような機械的閾値で定義する ③「あと◯日」の期限表現は締切に近い1〜2通に絞る ④名前・日時の自動差し込み変数は使わない。</li>
+<li>田中側の正本（原文）: <code>skills/オートウェビナー構築/SKILL.md</code>「<strong>個別説明会に申し込んでも、日程選択後の配信（ライン1）を止めない</strong>」「<strong>視聴/未視聴で配信を分岐しない</strong>。実機保証がなく運用テストが倍になる」「本文の締切表記は必ず受信者ごとの差し込みタグにする」（動画視聴型ファネル構築）。<code>セミナー前リマインド_構成ナレッジ.md</code> 件名例「【あと5日】【あと2日】【いよいよ明日】【あと1時間】」。氏名差し込み禁止（ゲート 2-4）は一致。</li>
+<li>影響: UTAGE設定・配信設計の相談で、田中AIの固定回答（止めない・分岐しない・日時はタグ）が揺れる。2026-08の たかみずAW 裁定と直接ぶつかる。</li>
+<li>機械チェック: ①②は設計判断、③はリントの WARN（数字だけ違う書き出し）で既に検知、④は差し込み変数の有無で可。</li>
+<li>推奨: <strong>①②④は却下（AW裁定を維持）、③は修正</strong>（田中側も「最終日だけカウントダウン」の型があるので、件名のカウントダウンは可・本文の期限連呼は締切近くに絞る、で採用）。</li>
+<li>判定: OK ／ 修正 ／ 却下 ／ 保留</li>
+</ul>
+<h3 id="E【T5・期待値と不安の扱い】種別:-矛盾（6-09・5-18／6-10・6-07）">E【T5・期待値と不安の扱い】種別: 矛盾（6-09・5-18／6-10・6-07）</h3>
+<ul>
+<li>教材側の主張: 期待値を上げてよいのはコンセプトで約束した範囲まで（範囲を超えて盛るのは前借り）。「本当に自分にできるか」の不安の代弁は決済直前まで出さない（先出しすると不安を植え付ける）。「このままだと大変なことに」の破局演出は脅しとして防御が立つので、機会損失の自認までにとどめる。</li>
+<li>田中側の正本（原文）: <code>_inbox/原理_控えめなポジショニングは商品価値を下げる.md</code>「読み手はその表現の高さで商品の格を判断する」「『もっとすごいんだよ』ということを強調しないとダメ」。<code>人格.md</code> 12「『実績も自信もない私でもできるのだろうか』という相手の本音をそのまま代弁し」。<code>添削11観点/05_信憑性・証拠.md</code>「見込み客は常に『私にもできるのか』…先回りして答えを置くのが信憑性の役割」。Zoom蒸留「『放置するともっと悪くなる』型の脅しトリガーが効いていると解釈する→他案件にもWhy now訴求として応用」。</li>
+<li>影響: LP・動画台本の添削で、田中AIが「盛りすぎ」「不安の先出し」「脅し」を指摘するか、逆に「もっと高く語れ」「先回りして不安に答えろ」と指摘するかが反転する。添削モードで最も頻度が高い論点の一つ。</li>
+<li>機械チェック: 不可。</li>
+<li>推奨: <strong>却下寄りの修正</strong>。田中の軸（到達点は高く語る・不安には先回りする・脅しは道具として持つ）を維持しつつ、教材の「約束できる上限（誇張なしの実力ライン）を先に決める」（P-06。田中側と一致）と「機会損失の自認」を、盛る時の下限側のチェックとして採用。</li>
+<li>判定: OK ／ 修正 ／ 却下 ／ 保留</li>
+</ul>
+<p>第2バッチ以降の予告: T6（誘導LPの機構）・T7（実績者・失敗談の見せ方）・T8（セミナー尺・完了判定・語彙）。その後、補強112件のうち機械チェック可46件から。</p>
+<h2 id="7.-工程と完了チェック（仕組み化デフォルト）">7. 工程と完了チェック（仕組み化デフォルト）</h2>
+<pre><code>## タスク: 購入教材（南幅一刀）チェックポイントの田中祐一AI取り込み
+## ゴール: 田中が採用したチェックポイントだけが gates/ と knowledge/ に入り、田中祐一AIの添削・制作・相談モードの回答が変わる。教材の原文・手順・思想は入らない
+## 呼ぶ正本: §1 の一覧
+[1] 棚卸し        使う:教材本体16ファイル  する:あるべき/NG/閾値/検査項目を1行1件で抽出  完了条件:[x] 366行・ID付き・出典行付き
+[2] 既存突合      使う:knowledge/ configs/ gates/  する:一致/補強/矛盾/対象外に分類・既存側の原文引用  完了条件:[x] 全366行に分類と根拠がある（一致127/補強112/矛盾55/対象外72）
+[3] バッチ作成    使う:承認依頼の出し方  する:矛盾→補強の順に5件ずつ全文提示  完了条件:[x] 第1バッチ（§6）。第2バッチ以降は裁定後
+[4] 田中裁定      する:OK/修正/却下/保留  完了条件:[ ] 全バッチに裁定がある（保留は確認キューへ）
+[5] ゲート生成    する:採用行をG1〜G6へ（5節構成・出所行付き）  完了条件:[ ] 各ゲートに完了契約・機械検証・人間検品・未達時がある
+[6] ナレッジ生成  する:レコード6本＋WP-B6の正本反映＋一致分のsource追記  完了条件:[ ] frontmatterリンター --strict-unified 合格・想定質問あり・provenanceあり
+[7] スキル参照    する:§4-3の追記  完了条件:[ ] 数値の書き写しが無い（grepで確認）
+[8] 却下ログ      する:却下理由と対案を記録  完了条件:[ ] 却下件数＝ログ行数
+[9] 機械チェック  する:リント拡張（記号・語尾・指示語・同構文連続・相対日時・要素順）  完了条件:[ ] わざと壊して落ちる
+[10] 反映         する:bundle再生成・リンクチェッカー・連動度レポート・commit・push  完了条件:[ ] 3スクリプト合格・push済み
+[11] 2点セット    する:ナレッジ候補md＋_inbox＋指示書  完了条件:[ ] 3ファイル存在
+[12] 自己添削     使う:スキル新設時の自己添削  する:正本照合・実データ照合・機械チェック  完了条件:[ ] 完了契約6項目✓。ルール新設なのでCodex検証も通す
+## 完了契約: 全[ ]が✓になるまで completed にしない。未達は項目と場所を報告
+</code></pre>
+<h2 id="8.-機械チェックに落とせる候補">8. 機械チェックに落とせる候補</h2>
+<table>
+<thead>
+<tr>
+<th>基準</th>
+<th>既存リント</th>
+<th>扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1行の文字数（教材15〜25字 vs 田中22字）</td>
+<td><code>プッシュメッセージ_リント.py</code>（22字）</td>
+<td>田中の22字を正。教材側は一致扱い</td>
+</tr>
+<tr>
+<td>絵文字2〜3個/通・500文字以下</td>
+<td>同（LINE 400〜500文字）</td>
+<td>絵文字数は追加候補</td>
+</tr>
+<tr>
+<td>ダブルクォート強調・罫線囲み・チェックボックス装飾</td>
+<td>なし</td>
+<td>G6 の機械検証として新設</td>
+</tr>
+<tr>
+<td>指示語（これ・それ・こういう）の密度</td>
+<td>なし</td>
+<td>冒頭・見出しに限定して検査</td>
+</tr>
+<tr>
+<td>同じ構文の3連続</td>
+<td>なし</td>
+<td>検出のみ（誤検知が多いので警告扱い）</td>
+</tr>
+<tr>
+<td>相対日時（「本日23:59まで」）と絶対日時の混在</td>
+<td>なし</td>
+<td>G5 に追加</td>
+</tr>
+<tr>
+<td>Markdown記法のプレーンテキスト混入</td>
+<td>なし</td>
+<td>G5・G6 に追加</td>
+</tr>
+<tr>
+<td>誘導LPの9要素の存在と順序</td>
+<td>なし</td>
+<td>G1 の機械検証（見出し検出）</td>
+</tr>
+<tr>
+<td>ダッシュ「——」「—」</td>
+<td><code>言葉遣い.md</code> §12 で禁止済み</td>
+<td>既存方針。G6 に統合</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9.-田中さんへの確認事項">9. 田中さんへの確認事項</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>確認</th>
+<th>推奨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>台帳の3件と本件は無関係、という認識で合っているか（プリフライト Step 1.5）</td>
+<td>合っていれば台帳に本件を追記して着手</td>
+</tr>
+<tr>
+<td>2</td>
+<td>制作室2（コンセプト）は丸ごと除外でよいか。評価の検査項目（足切り3→主要2→修飾1、点数で決めない）だけ1バッチ見るか</td>
+<td>1バッチだけ見る</td>
+</tr>
+<tr>
+<td>3</td>
+<td>裁定の経路: Chatworkナレッジ専用ルーム（既存の判定UX）か、このスレッドか</td>
+<td>Chatworkルーム（台帳・message_id が残る）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>帰属の前置き: 採用基準を田中祐一AIが語るとき「元はけんさんの教材」と前置きするか、採用した時点で自分の基準として語るか</td>
+<td>前置きする（帰属の明示ルールと三人称思考の先例に揃える）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>bundle に <code>gates/</code> を包含する改修（Codex・小）をやるか、ナレッジ側に基準行を複製する運用でいくか</td>
+<td>改修する（複製は必ずずれる）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10.-今回やらないこと">10. 今回やらないこと</h2>
+<ul>
+<li><code>knowledge/</code>・<code>gates/</code>・<code>skills/</code>・<code>rules/</code> への書き込み（設計承認前）</li>
+<li>教材のワークフロー・プロンプト文面のスキル化</li>
+<li>動画書き起こしのナレッジ化</li>
+<li>田中祐一AI（MCP）のコード変更</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-09-02)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 3MAERKUT<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
