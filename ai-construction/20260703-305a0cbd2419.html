@@ -3,220 +3,447 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>20260703_田中祐一AIとAI社員の連携設計メモ - AI社員化プロジェクト 設計方針</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>田中祐一AIとAI社員の連携設計メモ - AI社員化プロジェクト 設計方針</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  color: var(--ink);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { display: none; }
-    .mobile-nav { display: block; }
-    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.95rem; line-height: 1.7; }
-    .main a { word-wrap: break-word; overflow-wrap: break-word; }
-    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
+  border: 1px solid var(--line);
+  font-size: 1.03rem;
 }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .main { padding: 0.75rem; }
-    .main h1 { font-size: 1.15rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.9rem; }
-    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
-    .main table { font-size: 0.8rem; }
-    .main th, .main td { padding: 0.25rem; }
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  position: relative;
 }
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient);
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(135deg, var(--sub), var(--deep));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar {
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
+  border-right: 1px solid var(--line);
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
+}
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active {
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
+}
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 860px) {
+  .layout { display: block; }
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
-<nav class="sidebar">
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar" aria-label="AI社員化プロジェクト 設計方針">
+<div class="brand">THE LEAD DOCUMENT</div>
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
-<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
-<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
-<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
-<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ナレッジフィードバックループ_実装ログ</a>
-<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_初期実装ログ</a>
-<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_実装設計とタスク一覧</a>
-<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チーム_AI社員スケルトン実装ログ</a>
-<a href="20260703-305a0cbd2419.html" class="sidebar-item active"><span class="date">2026年07月03日</span> 20260703_田中祐一AIとAI社員の連携設計メモ</a>
-<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
-<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計_Zoom一括蒸留_StageB仕分けルール_20260703</a>
-<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 一括蒸留_進捗台帳_20260702</a>
-<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
-<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
-<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> 監査_20260619_knowledge格納構造_findings_共有用</a>
-<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
-<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
-<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
-<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
-<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
-<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
-<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
-<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
-<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
-<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
-<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
-<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
-<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
-<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
-<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
-<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
-<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
-<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
-<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
-<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
-<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
-<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
-<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
-<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
-<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
-<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
-<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
-<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
-<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
-<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
-<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年09月02日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中AIナレッジ同期 最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中祐一AI インプット来歴一覧（正本）</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年09月02日</span> 運用: 田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item active"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
 <a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
-<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
-<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
-<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
-<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
-<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a>
 </nav>
-<main class="main">
-<pre># 田中祐一AIとAI社員の連携設計メモ
-
-作成日: 2026-07-03
-
-## 1. 先に結論
-
-田中祐一AIとAI社員は、絡ませた方がよい。
-
-ただし、ユーザーに「どのエージェントを呼びますか」と毎回選ばせるのではなく、田中祐一AIを総合窓口兼PMとして置き、内部で必要なAI社員を呼び分ける構造がよい。
-
-田中祐一AIは「田中祐一の脳を再現する本体」。
-AI社員は「その脳の中にある専門部署・専門担当」。
-スキルは「担当者が行う作業手順」。
-ナレッジは「担当者が参照する判断材料」。
-outputは「担当者が残す成果物と検証ログ」。
-
-この関係にすると、田中祐一AIの出力は次の3点で強くなる。
-
-1. 精度: 必要なナレッジだけを専門担当が読むため、判断が薄まりにくい
-2. 独自性: 田中祐一メソッド、発話、添削、事例を担当別に蒸留できる
-3. 再現性: 毎回同じ工程、同じ確認ゲート、同じ成果物形式で動かせる
-
-## 2. 現在地の整理
-
-既存の `agents/` には、すでに以下のような担当がある。
-
-- 議事録担当
-- セールスフィードバック担当
-- ナレッジ管理担当
-- ファネル分析担当
-- LP添削担当
-- LP作成担当
-- コンテンツライティング担当
-- 経理担当
-- 採用担当
-
-これはかなり良い初期設計。
-
-一方で、現在の課題は、エージェントが「部署」ではなく「個別担当の平置き」に近いこと。
-
-そのため、マーケティングのような広い仕事では、結局田中さん本人がPM、設計者、コンセプター、ライター、レビュー担当を兼ねてしまう。
-
-教材の考え方に寄せるなら、次のように変える。
-
-```text
-田中祐一AI
+<main class="content">
+<article class="article">
+<h1>田中祐一AIとAI社員の連携設計メモ</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#1.-先に結論">1. 先に結論</a></li><li class="toc-main"><a href="#2.-現在地の整理">2. 現在地の整理</a></li><li class="toc-main"><a href="#3.-田中祐一AIの役割">3. 田中祐一AIの役割</a></li><li class="toc-sub"><a href="#3-1.-総合窓口">3-1. 総合窓口</a></li><li class="toc-sub"><a href="#3-2.-ルーター">3-2. ルーター</a></li><li class="toc-sub"><a href="#3-3.-PM">3-3. PM</a></li><li class="toc-sub"><a href="#3-4.-最終編集者">3-4. 最終編集者</a></li><li class="toc-main"><a href="#4.-AI社員を細分化する基準">4. AI社員を細分化する基準</a></li><li class="toc-main"><a href="#5.-マーケティング部署の推奨構造">5. マーケティング部署の推奨構造</a></li><li class="toc-sub"><a href="#cmo">cmo</a></li><li class="toc-sub"><a href="#business-design-strategist">business-design-strategist</a></li><li class="toc-sub"><a href="#funnel-architect">funnel-architect</a></li><li class="toc-sub"><a href="#concept-maker">concept-maker</a></li><li class="toc-sub"><a href="#offer-architect">offer-architect</a></li><li class="toc-sub"><a href="#scenario-planner">scenario-planner</a></li><li class="toc-sub"><a href="#lp-architect">lp-architect</a></li><li class="toc-sub"><a href="#stepmail-writer">stepmail-writer</a></li><li class="toc-sub"><a href="#proof-objection-researcher">proof-objection-researcher</a></li><li class="toc-sub"><a href="#marketing-copywriter">marketing-copywriter</a></li><li class="toc-sub"><a href="#marketing-qa-reviewer">marketing-qa-reviewer</a></li><li class="toc-main"><a href="#6.-既存エージェントとの対応">6. 既存エージェントとの対応</a></li><li class="toc-main"><a href="#7.-田中祐一AIの3つの利用モード">7. 田中祐一AIの3つの利用モード</a></li><li class="toc-sub"><a href="#7-1.-Private-Mode">7-1. Private Mode</a></li><li class="toc-sub"><a href="#7-2.-Staff-Mode">7-2. Staff Mode</a></li><li class="toc-sub"><a href="#7-3.-Student-Mode">7-3. Student Mode</a></li><li class="toc-main"><a href="#8.-精度・独自性・再現性が上がる条件">8. 精度・独自性・再現性が上がる条件</a></li><li class="toc-main"><a href="#9.-まず実装する最小セット">9. まず実装する最小セット</a></li><li class="toc-main"><a href="#10.-設計上の重要判断">10. 設計上の重要判断</a></li><li class="toc-sub"><a href="#判断1:-田中祐一AIはAI社員を呼ぶべきか">判断1: 田中祐一AIはAI社員を呼ぶべきか</a></li><li class="toc-sub"><a href="#判断2:-エージェントを細分化すべきか">判断2: エージェントを細分化すべきか</a></li><li class="toc-sub"><a href="#判断3:-フォルダは業務部署で括るべきか">判断3: フォルダは業務部署で括るべきか</a></li><li class="toc-sub"><a href="#判断4:-田中祐一AIの価値訴求に使えるか">判断4: 田中祐一AIの価値訴求に使えるか</a></li><li class="toc-main"><a href="#11.-次に決めること">11. 次に決めること</a></li></ul></nav>
+<p>作成日: 2026-07-03</p>
+<h2 id="1.-先に結論">1. 先に結論</h2>
+<p>田中祐一AIとAI社員は、絡ませた方がよい。</p>
+<p>ただし、ユーザーに「どのエージェントを呼びますか」と毎回選ばせるのではなく、田中祐一AIを総合窓口兼PMとして置き、内部で必要なAI社員を呼び分ける構造がよい。</p>
+<p>田中祐一AIは「田中祐一の脳を再現する本体」。<br />
+AI社員は「その脳の中にある専門部署・専門担当」。<br />
+スキルは「担当者が行う作業手順」。<br />
+ナレッジは「担当者が参照する判断材料」。<br />
+outputは「担当者が残す成果物と検証ログ」。</p>
+<p>この関係にすると、田中祐一AIの出力は次の3点で強くなる。</p>
+<ol>
+<li>精度: 必要なナレッジだけを専門担当が読むため、判断が薄まりにくい</li>
+<li>独自性: 田中祐一メソッド、発話、添削、事例を担当別に蒸留できる</li>
+<li>再現性: 毎回同じ工程、同じ確認ゲート、同じ成果物形式で動かせる</li>
+</ol>
+<h2 id="2.-現在地の整理">2. 現在地の整理</h2>
+<p>既存の <code>agents/</code> には、すでに以下のような担当がある。</p>
+<ul>
+<li>議事録担当</li>
+<li>セールスフィードバック担当</li>
+<li>ナレッジ管理担当</li>
+<li>ファネル分析担当</li>
+<li>LP添削担当</li>
+<li>LP作成担当</li>
+<li>コンテンツライティング担当</li>
+<li>経理担当</li>
+<li>採用担当</li>
+</ul>
+<p>これはかなり良い初期設計。</p>
+<p>一方で、現在の課題は、エージェントが「部署」ではなく「個別担当の平置き」に近いこと。</p>
+<p>そのため、マーケティングのような広い仕事では、結局田中さん本人がPM、設計者、コンセプター、ライター、レビュー担当を兼ねてしまう。</p>
+<p>教材の考え方に寄せるなら、次のように変える。</p>
+<pre><code class="language-text">田中祐一AI
   └── AI部署
         └── AI社員
               └── skill
                     └── knowledge / output
-```
-
-## 3. 田中祐一AIの役割
-
-田中祐一AIは、単体の万能回答AIではなく、以下の役割を持つ。
-
-### 3-1. 総合窓口
-
-ユーザーの依頼を受ける。
-
-例:
-
-- コンセプトを作りたい
-- LPを添削してほしい
-- ステップメールを書きたい
-- ファネル全体を見直したい
-- 受講生向けに説明してほしい
-
-### 3-2. ルーター
-
-依頼内容を見て、どの部署、どの社員、どのスキルを使うか決める。
-
-例:
-
-```text
-「LPを作りたい」
+</code></pre>
+<h2 id="3.-田中祐一AIの役割">3. 田中祐一AIの役割</h2>
+<p>田中祐一AIは、単体の万能回答AIではなく、以下の役割を持つ。</p>
+<h3 id="3-1.-総合窓口">3-1. 総合窓口</h3>
+<p>ユーザーの依頼を受ける。</p>
+<p>例:</p>
+<ul>
+<li>コンセプトを作りたい</li>
+<li>LPを添削してほしい</li>
+<li>ステップメールを書きたい</li>
+<li>ファネル全体を見直したい</li>
+<li>受講生向けに説明してほしい</li>
+</ul>
+<h3 id="3-2.-ルーター">3-2. ルーター</h3>
+<p>依頼内容を見て、どの部署、どの社員、どのスキルを使うか決める。</p>
+<p>例:</p>
+<pre><code class="language-text">「LPを作りたい」
   → Marketing Department
   → lp-architect
   → 01-lp-structure-design
   → 必要なら proof-researcher / copywriter / qa-reviewer へ回す
-```
-
-### 3-3. PM
-
-複数のAI社員を順番に動かす。
-
-同時にたくさん呼ぶのではなく、工程に沿って回す。
-
-```text
-ビジネス設計
+</code></pre>
+<h3 id="3-3.-PM">3-3. PM</h3>
+<p>複数のAI社員を順番に動かす。</p>
+<p>同時にたくさん呼ぶのではなく、工程に沿って回す。</p>
+<pre><code class="language-text">ビジネス設計
   → ファネル設計
   → コンセプト
   → オファー
@@ -225,45 +452,33 @@ outputは「担当者が残す成果物と検証ログ」。
   → ステップメール
   → セールス
   → QA
-```
-
-### 3-4. 最終編集者
-
-AI社員が出した成果物を、田中祐一AIとして統合する。
-
-担当者ごとの出力をそのままユーザーに出すのではなく、最後に田中祐一AIが、文体、判断、温度感、説明順を整える。
-
-## 4. AI社員を細分化する基準
-
-細分化はした方がよい。
-
-ただし、増やせば増やすほど良いわけではない。
-
-新しいAI社員として独立させる条件は、次の5つ。
-
-1. その作業が何度も発生する
-2. 入力と出力が明確に分けられる
-3. 参照するナレッジが他の担当と違う
-4. 品質基準やレビュー観点が違う
-5. スタッフや受講生にも将来渡せる
-
-この5つを満たすなら社員化する。
-満たさないなら、既存社員の `skills/` に入れる。
-
-例:
-
-- LP作成担当をいきなり10人に分ける必要はない
-- まずは LP作成担当の中に複数skillを持たせる
-- 何度も独立して使うようになったら、LP構造設計担当、LPコピー担当、LPデザイン担当に分ける
-
-## 5. マーケティング部署の推奨構造
-
-最初に作るべき部署は、Marketing Department。
-
-田中さんが自分で巻き取ってしまいやすい領域なので、ここを社員化すると効果が大きい。
-
-```text
-Marketing Department/
+</code></pre>
+<h3 id="3-4.-最終編集者">3-4. 最終編集者</h3>
+<p>AI社員が出した成果物を、田中祐一AIとして統合する。</p>
+<p>担当者ごとの出力をそのままユーザーに出すのではなく、最後に田中祐一AIが、文体、判断、温度感、説明順を整える。</p>
+<h2 id="4.-AI社員を細分化する基準">4. AI社員を細分化する基準</h2>
+<p>細分化はした方がよい。</p>
+<p>ただし、増やせば増やすほど良いわけではない。</p>
+<p>新しいAI社員として独立させる条件は、次の5つ。</p>
+<ol>
+<li>その作業が何度も発生する</li>
+<li>入力と出力が明確に分けられる</li>
+<li>参照するナレッジが他の担当と違う</li>
+<li>品質基準やレビュー観点が違う</li>
+<li>スタッフや受講生にも将来渡せる</li>
+</ol>
+<p>この5つを満たすなら社員化する。<br />
+満たさないなら、既存社員の <code>skills/</code> に入れる。</p>
+<p>例:</p>
+<ul>
+<li>LP作成担当をいきなり10人に分ける必要はない</li>
+<li>まずは LP作成担当の中に複数skillを持たせる</li>
+<li>何度も独立して使うようになったら、LP構造設計担当、LPコピー担当、LPデザイン担当に分ける</li>
+</ul>
+<h2 id="5.-マーケティング部署の推奨構造">5. マーケティング部署の推奨構造</h2>
+<p>最初に作るべき部署は、Marketing Department。</p>
+<p>田中さんが自分で巻き取ってしまいやすい領域なので、ここを社員化すると効果が大きい。</p>
+<pre><code class="language-text">Marketing Department/
 ├── _RULE.md
 ├── cmo/
 │   ├── _RULE.md
@@ -279,64 +494,35 @@ Marketing Department/
 ├── proof-objection-researcher/
 ├── marketing-copywriter/
 └── marketing-qa-reviewer/
-```
-
-### cmo
-
-マーケティング依頼の受付、担当振り分け、工程管理を行う。
-
-田中祐一AI本体から最初に呼ばれる部署内PM。
-
-### business-design-strategist
-
-単発ファネルではなく、事業全体、商品群、プロモーション順序、年間導線を見る。
-
-### funnel-architect
-
-1つのプロモーション内のファネルを設計する。
-
-チャレンジ、動画、ウェビナー、個別相談、説明会、直売りなどの組み合わせを判断する。
-
-### concept-maker
-
-3C、上位概念、共通の敵、切り口、入口コンセプトを作る。
-
-### offer-architect
-
-商品設計、特典、価格、保証、限定性、比較軸を作る。
-
-### scenario-planner
-
-動画、セミナー、価値提供、教育コンテンツの流れを作る。
-
-### lp-architect
-
-LPの構造、見出し、セクション順、CTA、証拠配置を設計する。
-
-### stepmail-writer
-
-ステップメール、LINE配信、価値提供メッセージを作る。
-
-### proof-objection-researcher
-
-お客様の声、実績、反論、不安、FAQ、信頼材料を整理する。
-
-### marketing-copywriter
-
-見出し、本文、メルマガ、広告文、SNS投稿などのコピーを作る。
-
-### marketing-qa-reviewer
-
-田中祐一メソッドとして成立しているか、ファネルの矛盾がないか、訴求がズレていないかを確認する。
-
-## 6. 既存エージェントとの対応
-
-既存のエージェントは捨てない。
-
-Marketing Departmentの中に位置づけを与える。
-
-```text
-既存: ファネル分析担当
+</code></pre>
+<h3 id="cmo">cmo</h3>
+<p>マーケティング依頼の受付、担当振り分け、工程管理を行う。</p>
+<p>田中祐一AI本体から最初に呼ばれる部署内PM。</p>
+<h3 id="business-design-strategist">business-design-strategist</h3>
+<p>単発ファネルではなく、事業全体、商品群、プロモーション順序、年間導線を見る。</p>
+<h3 id="funnel-architect">funnel-architect</h3>
+<p>1つのプロモーション内のファネルを設計する。</p>
+<p>チャレンジ、動画、ウェビナー、個別相談、説明会、直売りなどの組み合わせを判断する。</p>
+<h3 id="concept-maker">concept-maker</h3>
+<p>3C、上位概念、共通の敵、切り口、入口コンセプトを作る。</p>
+<h3 id="offer-architect">offer-architect</h3>
+<p>商品設計、特典、価格、保証、限定性、比較軸を作る。</p>
+<h3 id="scenario-planner">scenario-planner</h3>
+<p>動画、セミナー、価値提供、教育コンテンツの流れを作る。</p>
+<h3 id="lp-architect">lp-architect</h3>
+<p>LPの構造、見出し、セクション順、CTA、証拠配置を設計する。</p>
+<h3 id="stepmail-writer">stepmail-writer</h3>
+<p>ステップメール、LINE配信、価値提供メッセージを作る。</p>
+<h3 id="proof-objection-researcher">proof-objection-researcher</h3>
+<p>お客様の声、実績、反論、不安、FAQ、信頼材料を整理する。</p>
+<h3 id="marketing-copywriter">marketing-copywriter</h3>
+<p>見出し、本文、メルマガ、広告文、SNS投稿などのコピーを作る。</p>
+<h3 id="marketing-qa-reviewer">marketing-qa-reviewer</h3>
+<p>田中祐一メソッドとして成立しているか、ファネルの矛盾がないか、訴求がズレていないかを確認する。</p>
+<h2 id="6.-既存エージェントとの対応">6. 既存エージェントとの対応</h2>
+<p>既存のエージェントは捨てない。</p>
+<p>Marketing Departmentの中に位置づけを与える。</p>
+<pre><code class="language-text">既存: ファネル分析担当
   → Marketing Department/funnel-architect または funnel-analyst
 
 既存: LP作成担当
@@ -350,63 +536,48 @@ Marketing Departmentの中に位置づけを与える。
 
 既存: ナレッジ管理担当
   → 横断部署 Knowledge Management Department
-```
-
-当面は物理的に移動しなくてもよい。
-まずは `agents/README.md` や部署INDEXで「どの部署の社員か」を明示するだけでもよい。
-
-## 7. 田中祐一AIの3つの利用モード
-
-田中祐一AIは、使う人によって権限と出力を分ける。
-
-### 7-1. Private Mode
-
-田中さん本人用。
-
-読める範囲が最も広い。
-
-- 原本データ
-- 内部メモ
-- 未整理ナレッジ
-- スタッフ向け資料
-- 受講生には見せない判断
-- 事業戦略
-
-### 7-2. Staff Mode
-
-スタッフ用。
-
-業務実行に必要な範囲だけを読ませる。
-
-- 確定済みナレッジ
-- 業務マニュアル
-- 案件情報
-- 出力テンプレート
-- 禁止事項
-- エスカレーション条件
-
-### 7-3. Student Mode
-
-受講生用。
-
-社内情報を見せず、教材化・抽象化済みのナレッジだけを使う。
-
-- 公開してよいメソッド
-- 受講生向けテンプレート
-- セルフチェック
-- 例題
-- 添削結果の一般化パターン
-
-この3モードを分けることで、田中祐一AIの価値を外部提供しながら、社内の情報管理も守れる。
-
-## 8. 精度・独自性・再現性が上がる条件
-
-AI社員を作っただけでは精度は上がらない。
-
-精度が上がる条件は、次の循環があること。
-
-```text
-原本
+</code></pre>
+<p>当面は物理的に移動しなくてもよい。<br />
+まずは <code>agents/README.md</code> や部署INDEXで「どの部署の社員か」を明示するだけでもよい。</p>
+<h2 id="7.-田中祐一AIの3つの利用モード">7. 田中祐一AIの3つの利用モード</h2>
+<p>田中祐一AIは、使う人によって権限と出力を分ける。</p>
+<h3 id="7-1.-Private-Mode">7-1. Private Mode</h3>
+<p>田中さん本人用。</p>
+<p>読める範囲が最も広い。</p>
+<ul>
+<li>原本データ</li>
+<li>内部メモ</li>
+<li>未整理ナレッジ</li>
+<li>スタッフ向け資料</li>
+<li>受講生には見せない判断</li>
+<li>事業戦略</li>
+</ul>
+<h3 id="7-2.-Staff-Mode">7-2. Staff Mode</h3>
+<p>スタッフ用。</p>
+<p>業務実行に必要な範囲だけを読ませる。</p>
+<ul>
+<li>確定済みナレッジ</li>
+<li>業務マニュアル</li>
+<li>案件情報</li>
+<li>出力テンプレート</li>
+<li>禁止事項</li>
+<li>エスカレーション条件</li>
+</ul>
+<h3 id="7-3.-Student-Mode">7-3. Student Mode</h3>
+<p>受講生用。</p>
+<p>社内情報を見せず、教材化・抽象化済みのナレッジだけを使う。</p>
+<ul>
+<li>公開してよいメソッド</li>
+<li>受講生向けテンプレート</li>
+<li>セルフチェック</li>
+<li>例題</li>
+<li>添削結果の一般化パターン</li>
+</ul>
+<p>この3モードを分けることで、田中祐一AIの価値を外部提供しながら、社内の情報管理も守れる。</p>
+<h2 id="8.-精度・独自性・再現性が上がる条件">8. 精度・独自性・再現性が上がる条件</h2>
+<p>AI社員を作っただけでは精度は上がらない。</p>
+<p>精度が上がる条件は、次の循環があること。</p>
+<pre><code class="language-text">原本
   → ナレッジ候補
   → 田中さん承認
   → knowledgeへ格納
@@ -414,98 +585,71 @@ AI社員を作っただけでは精度は上がらない。
   → output生成
   → QA
   → 良い判断だけknowledge / SKILLへ還流
-```
-
-独自性は「田中さんの判断」を分解して保存したときに生まれる。
-
-再現性は「毎回同じ工程と確認ゲート」を通すことで生まれる。
-
-したがって、重要なのはエージェント数ではなく、各AI社員に以下が揃っていること。
-
-- 役割定義
-- 入力
-- 出力
-- 参照ナレッジ
-- 手順
-- 品質基準
-- 保存先
-- QA
-- 改善ログ
-
-## 9. まず実装する最小セット
-
-最初から全部署を完成させない。
-
-最初の実装はこれでよい。
-
-```text
-Marketing Department/
+</code></pre>
+<p>独自性は「田中さんの判断」を分解して保存したときに生まれる。</p>
+<p>再現性は「毎回同じ工程と確認ゲート」を通すことで生まれる。</p>
+<p>したがって、重要なのはエージェント数ではなく、各AI社員に以下が揃っていること。</p>
+<ul>
+<li>役割定義</li>
+<li>入力</li>
+<li>出力</li>
+<li>参照ナレッジ</li>
+<li>手順</li>
+<li>品質基準</li>
+<li>保存先</li>
+<li>QA</li>
+<li>改善ログ</li>
+</ul>
+<h2 id="9.-まず実装する最小セット">9. まず実装する最小セット</h2>
+<p>最初から全部署を完成させない。</p>
+<p>最初の実装はこれでよい。</p>
+<pre><code class="language-text">Marketing Department/
 ├── cmo/
 ├── concept-maker/
 ├── offer-architect/
 ├── lp-architect/
 ├── stepmail-writer/
 └── marketing-qa-reviewer/
-```
-
-最初に作るskillは、次の5つ。
-
-1. マーケティング依頼ルーティング
-2. コンセプト構築
-3. オファー構築
-4. LP構造設計
-5. ステップメール設計
-
-その後、必要に応じてシナリオ、広告、SNS、セールス、講座運営へ広げる。
-
-## 10. 設計上の重要判断
-
-### 判断1: 田中祐一AIはAI社員を呼ぶべきか
-
-呼ぶべき。
-
-ただし、ユーザーに複雑な選択をさせない。
-
-田中祐一AIが内部で呼び分ける。
-
-### 判断2: エージェントを細分化すべきか
-
-すべき。
-
-ただし、部署、社員、skillの3層に分ける。
-
-何でも社員にせず、まずskillとして持たせる。
-
-### 判断3: フォルダは業務部署で括るべきか
-
-括るべき。
-
-今後エージェントが増えるほど、部署単位のINDEXと_RULEが必要になる。
-
-### 判断4: 田中祐一AIの価値訴求に使えるか
-
-使える。
-
-「田中祐一AIを使える」よりも、「田中祐一のプロモーション設計チームを使える」という訴求にできる。
-
-ただし、受講生に内部構造を全部見せる必要はない。
-
-表側ではシンプルに見せ、裏側で社員群が動く構造がよい。
-
-## 11. 次に決めること
-
-次に決めるべきは、Marketing Departmentの最初の社員とskillのI/O。
-
-具体的には以下。
-
-1. `cmo` は何を入力にして、誰に振り分けるか
-2. `concept-maker` は何を読んで、何を出すか
-3. `offer-architect` はコンセプト確定前に動くのか、後に動くのか
-4. `lp-architect` は本文まで書くのか、構造だけ作るのか
-5. `marketing-qa-reviewer` はどの段階で止める権限を持つか
-
-この5つが決まると、田中祐一AIとAI社員の関係はかなり明確になる。
-</pre>
+</code></pre>
+<p>最初に作るskillは、次の5つ。</p>
+<ol>
+<li>マーケティング依頼ルーティング</li>
+<li>コンセプト構築</li>
+<li>オファー構築</li>
+<li>LP構造設計</li>
+<li>ステップメール設計</li>
+</ol>
+<p>その後、必要に応じてシナリオ、広告、SNS、セールス、講座運営へ広げる。</p>
+<h2 id="10.-設計上の重要判断">10. 設計上の重要判断</h2>
+<h3 id="判断1:-田中祐一AIはAI社員を呼ぶべきか">判断1: 田中祐一AIはAI社員を呼ぶべきか</h3>
+<p>呼ぶべき。</p>
+<p>ただし、ユーザーに複雑な選択をさせない。</p>
+<p>田中祐一AIが内部で呼び分ける。</p>
+<h3 id="判断2:-エージェントを細分化すべきか">判断2: エージェントを細分化すべきか</h3>
+<p>すべき。</p>
+<p>ただし、部署、社員、skillの3層に分ける。</p>
+<p>何でも社員にせず、まずskillとして持たせる。</p>
+<h3 id="判断3:-フォルダは業務部署で括るべきか">判断3: フォルダは業務部署で括るべきか</h3>
+<p>括るべき。</p>
+<p>今後エージェントが増えるほど、部署単位のINDEXと_RULEが必要になる。</p>
+<h3 id="判断4:-田中祐一AIの価値訴求に使えるか">判断4: 田中祐一AIの価値訴求に使えるか</h3>
+<p>使える。</p>
+<p>「田中祐一AIを使える」よりも、「田中祐一のプロモーション設計チームを使える」という訴求にできる。</p>
+<p>ただし、受講生に内部構造を全部見せる必要はない。</p>
+<p>表側ではシンプルに見せ、裏側で社員群が動く構造がよい。</p>
+<h2 id="11.-次に決めること">11. 次に決めること</h2>
+<p>次に決めるべきは、Marketing Departmentの最初の社員とskillのI/O。</p>
+<p>具体的には以下。</p>
+<ol>
+<li><code>cmo</code> は何を入力にして、誰に振り分けるか</li>
+<li><code>concept-maker</code> は何を読んで、何を出すか</li>
+<li><code>offer-architect</code> はコンセプト確定前に動くのか、後に動くのか</li>
+<li><code>lp-architect</code> は本文まで書くのか、構造だけ作るのか</li>
+<li><code>marketing-qa-reviewer</code> はどの段階で止める権限を持つか</li>
+</ol>
+<p>この5つが決まると、田中祐一AIとAI社員の関係はかなり明確になる。</p>
+</article>
 </main>
+</div>
 </body>
 </html>

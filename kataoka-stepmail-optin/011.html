@@ -3,294 +3,510 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F0FAF8">
 <title>11_5日後20-00_型を持つ未来.md - 片岡守 AIコンサル養成講座 opt-in後ステップメール</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  color: var(--ink);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { display: none; }
-    .mobile-nav { display: block; }
-    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.95rem; line-height: 1.7; }
-    .main a { word-wrap: break-word; overflow-wrap: break-word; }
-    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
+  border: 1px solid var(--line);
+  font-size: 1.03rem;
 }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .main { padding: 0.75rem; }
-    .main h1 { font-size: 1.15rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.9rem; }
-    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
-    .main table { font-size: 0.8rem; }
-    .main th, .main td { padding: 0.25rem; }
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  position: relative;
 }
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient);
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(135deg, var(--sub), var(--deep));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar {
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
+  border-right: 1px solid var(--line);
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
+}
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active {
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
+}
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 860px) {
+  .layout { display: block; }
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
-<nav class="sidebar">
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar" aria-label="片岡守 AIコンサル養成講座 opt-in後ステップメール">
+<div class="brand">THE LEAD DOCUMENT</div>
 <h3>片岡守 AIコンサル養成講座 opt-in後ステップメール</h3>
-<a href="001.html" class="sidebar-item"><span class="date">2026年08月27日</span> 01_即時_参加ありがとう.md</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年08月27日</span> 02_1日後7-00_動画見た.md</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年08月27日</span> 03_1日後19-00_片岡さんの凄さ.md</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年08月27日</span> 04_2日後7-00_体験セミナーの価値.md</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年08月27日</span> 05_2日後21-00_最終プッシュ.md</a>
-<a href="006.html" class="sidebar-item"><span class="date">2026年08月27日</span> 06_3日後8-00_6つの販路.md</a>
-<a href="007.html" class="sidebar-item"><span class="date">2026年08月27日</span> 07_3日後20-00_AI迷子の経営者.md</a>
-<a href="008.html" class="sidebar-item"><span class="date">2026年08月27日</span> 08_4日後8-00_AI社員デモ.md</a>
-<a href="009.html" class="sidebar-item"><span class="date">2026年08月27日</span> 09_4日後20-00_Claudeなぜ違う.md</a>
-<a href="010.html" class="sidebar-item"><span class="date">2026年08月27日</span> 10_5日後8-00_7ステップ.md</a>
-<a href="011.html" class="sidebar-item active"><span class="date">2026年08月27日</span> 11_5日後20-00_型を持つ未来.md</a>
-<a href="012.html" class="sidebar-item"><span class="date">2026年08月27日</span> 12_6日後8-00_地域枠とコミュニティ.md</a>
-<a href="013.html" class="sidebar-item"><span class="date">2026年08月27日</span> 13_6日後20-00_本業との相乗効果.md</a>
-<a href="014.html" class="sidebar-item"><span class="date">2026年08月27日</span> 14_7日後8-00_二段階審査.md</a>
-<a href="015.html" class="sidebar-item"><span class="date">2026年08月27日</span> 15_7日後20-00_地域枠リマインド.md</a>
+<a href="001.html" class="sidebar-item"><span class="date">2026年09月02日</span> 01_即時_参加ありがとう.md</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年09月02日</span> 02_1日後7-00_動画見た.md</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年09月02日</span> 03_1日後19-00_片岡さんの凄さ.md</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年09月02日</span> 04_2日後7-00_体験セミナーの価値.md</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年09月02日</span> 05_2日後21-00_最終プッシュ.md</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年09月02日</span> 06_3日後8-00_6つの販路.md</a>
+<a href="007.html" class="sidebar-item"><span class="date">2026年09月02日</span> 07_3日後20-00_AI迷子の経営者.md</a>
+<a href="008.html" class="sidebar-item"><span class="date">2026年09月02日</span> 08_4日後8-00_AI社員デモ.md</a>
+<a href="009.html" class="sidebar-item"><span class="date">2026年09月02日</span> 09_4日後20-00_Claudeなぜ違う.md</a>
+<a href="010.html" class="sidebar-item"><span class="date">2026年09月02日</span> 10_5日後8-00_7ステップ.md</a>
+<a href="011.html" class="sidebar-item active"><span class="date">2026年09月02日</span> 11_5日後20-00_型を持つ未来.md</a>
+<a href="012.html" class="sidebar-item"><span class="date">2026年09月02日</span> 12_6日後8-00_地域枠とコミュニティ.md</a>
+<a href="013.html" class="sidebar-item"><span class="date">2026年09月02日</span> 13_6日後20-00_本業との相乗効果.md</a>
+<a href="014.html" class="sidebar-item"><span class="date">2026年09月02日</span> 14_7日後8-00_二段階審査.md</a>
+<a href="015.html" class="sidebar-item"><span class="date">2026年09月02日</span> 15_7日後20-00_地域枠リマインド.md</a>
 </nav>
-<main class="main">
-<pre># ステップメール
-
-| No | 配信日 | 配信時刻 | 差出人 | 内容 |
-|----|--------|---------|--------|------|
-| 11 | 5日後 20:00 | 田中祐一 | 【AIコンサル】「型」を持って6ヶ月後に立っている自分を想像してみてください |
-
----
-
-# 📢 【AIコンサル】「型」を持って6ヶ月後に立っている自分を想像してみてください
-
-Claude特化型AIコンサルタント
-ナビゲーターの田中祐一です。
-
-今朝の片岡さんのメール、
-読んでくださったでしょうか。
-
-7ステップ。
-
-これを全部「自分の言葉」で
-語れるようになると、
-何が変わるのか。
-
-今夜は、その「変化の絵」を
-ご一緒に描きたいと思います。
-
-「片岡さんが9年で1.8億円を作った方法」
-動画で直接聞けます。
-
-🔗 [動画ページURL]
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【6ヶ月で起きる、典型的な変化】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-僕がこれまで70業種以上の
-プロモを支援してきて、
-
-「型を渡された人」が
-6ヶ月で辿る道筋は、
-意外なほど似ています。
-
-【1ヶ月目】
-　名刺と自己紹介トークを準備。
-　地元の交流会に1〜2回出る。
-　まだ商談ゼロ。でも怖くなくなる。
-
-【2ヶ月目】
-　最初の商談が湧いてくる。
-　「もう少し詳しく聞かせて」と
-　次のアポが入り始める。
-
-【3ヶ月目】
-　最初の契約。
-　50万円〜100万円のラインで決まる。
-　ここで一気に景色が変わる。
-
-【4ヶ月目】
-　紹介で次の商談が入る。
-　「うちの取引先にも紹介していい？」
-　という声が来始める。
-
-【5〜6ヶ月目】
-　月の固定収入が積み上がる。
-　月50万円ラインを超える。
-
-　「会いに行ける範囲」だけで
-　仕事が回り始める。
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【「型がある人」と「ない人」の差】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-ここで、
-ひとつ書き換えていただきたい
-パラダイムがあります。
-
-「成果は、努力量で決まる」
-
-違います。
-
-成果は、
-型に乗った時間で決まる。
-
-✔ 型がない努力10時間
-　= ほぼ何も残らない
-
-✔ 型に乗った努力10時間
-　= 商談が1件、契約に近づく
-
-同じ10時間でも、
-半年後の場所が
-まったく違います。
-
-そして、
-本講座でお渡しするものは
-全部「型」です。
-
-✔ 名刺の型
-✔ 自己紹介トークの型
-✔ ヒアリングの型
-✔ AI社員デモの型
-✔ 提案書の型
-✔ 契約書の型
-✔ 反論への切り返しの型
-
-「自分でゼロから考えなくていい」
-
-ここに、
-最大の時短があります。
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【本業との相乗効果】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-今このメールを読んでくださっている方の中には、
-すでに本業をお持ちの方が
-多いはずです。
-
-✔ 社労士として顧問先がある
-✔ キャッシュフローコーチとして契約がある
-✔ 経営コンサルとして契約がある
-
-そういう方にとって、
-このAIコンサルタントは
-「副業」ではありません。
-
-「本業の単価を引き上げる入口」
-です。
-
-例えば社労士なら、
-「AI社員で勤怠を仕組みに変えませんか」
-という入口から、
-
-就業規則・労務相談まで
-連動して取れる。
-
-ここの設計図は、
-体験セミナーで
-具体的にお見せします。
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【動線はオープンチャットだけ】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-体験セミナーの日程公開も、
-申込フォームの配布も、
-特典の受け取りも、
-
-質問への回答も、
-全部LINEオープンチャットの中だけで
-動かしています。
-
-✔ 各都道府県3名までの地域枠
-✔ 開催枠は数日中に埋まり始めます
-
-メルマガだけで読んでいる方は、
-そもそも申込フォームに到達できません。
-
-オープンチャットに入っている方は、
-枠を確認しながら、
-その場で申し込めます。
-
-数分の差ですが、
-6ヶ月後の場所が変わります。
-
-まだ動画を見ていない方は、
-今夜のうちに10分だけ。
-動画を見終わった先で、
-オープンチャットへの案内が待っています。
-
-🔗 [動画ページURL]
-
-PS
-僕は12年、ネット側で見てきました。
-
-ネットで「型」を持っていない人ほど、
-時間を浪費しています。
-
-対面側に来る方こそ、
-型を持って走り出してください。
-そこに僕らの仕事があります。
-
-◆------------------------------------◆
-Claude特化型AIコンサルタント 事務局
-◆------------------------------------◆
-・運営者：
-株式会社ザ・リード 代表取締役 邑﨑恵理
-田中 祐一
---------------------------------------
-窓口：[メールアドレス]
-（営業時間：平日10時から18時）
-
-＊頂いたお問い合わせには3営業日以内に
-お答えさせて頂いております。
-
-住所：〒107-0062
-東京都港区南青山2丁目2番15号 ウィン青山1302
---------------------------------------
-メールアドレスの変更はこちら
-%link_change_email_register%
-
-メールの配信停止はこちら
-%link_unsubscribe_mail%
-</pre>
+<main class="content">
+<article class="article">
+<h1>ステップメール</h1>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>配信日</th>
+<th>配信時刻</th>
+<th>差出人</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11</td>
+<td>5日後 20:00</td>
+<td>田中祐一</td>
+<td>【AIコンサル】「型」を持って6ヶ月後に立っている自分を想像してみてください</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>📢 【AIコンサル】「型」を持って6ヶ月後に立っている自分を想像してみてください</h1>
+<p>Claude特化型AIコンサルタント<br />
+ナビゲーターの田中祐一です。</p>
+<p>今朝の片岡さんのメール、<br />
+読んでくださったでしょうか。</p>
+<p>7ステップ。</p>
+<p>これを全部「自分の言葉」で<br />
+語れるようになると、<br />
+何が変わるのか。</p>
+<p>今夜は、その「変化の絵」を<br />
+ご一緒に描きたいと思います。</p>
+<p>「片岡さんが9年で1.8億円を作った方法」<br />
+動画で直接聞けます。</p>
+<p>🔗 [動画ページURL]</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【6ヶ月で起きる、典型的な変化】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>僕がこれまで70業種以上の<br />
+プロモを支援してきて、</p>
+<p>「型を渡された人」が<br />
+6ヶ月で辿る道筋は、<br />
+意外なほど似ています。</p>
+<p>【1ヶ月目】<br />
+　名刺と自己紹介トークを準備。<br />
+　地元の交流会に1〜2回出る。<br />
+　まだ商談ゼロ。でも怖くなくなる。</p>
+<p>【2ヶ月目】<br />
+　最初の商談が湧いてくる。<br />
+　「もう少し詳しく聞かせて」と<br />
+　次のアポが入り始める。</p>
+<p>【3ヶ月目】<br />
+　最初の契約。<br />
+　50万円〜100万円のラインで決まる。<br />
+　ここで一気に景色が変わる。</p>
+<p>【4ヶ月目】<br />
+　紹介で次の商談が入る。<br />
+　「うちの取引先にも紹介していい？」<br />
+　という声が来始める。</p>
+<p>【5〜6ヶ月目】<br />
+　月の固定収入が積み上がる。<br />
+　月50万円ラインを超える。</p>
+<p>「会いに行ける範囲」だけで<br />
+　仕事が回り始める。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【「型がある人」と「ない人」の差】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>ここで、<br />
+ひとつ書き換えていただきたい<br />
+パラダイムがあります。</p>
+<p>「成果は、努力量で決まる」</p>
+<p>違います。</p>
+<p>成果は、<br />
+型に乗った時間で決まる。</p>
+<p>✔ 型がない努力10時間<br />
+　= ほぼ何も残らない</p>
+<p>✔ 型に乗った努力10時間<br />
+　= 商談が1件、契約に近づく</p>
+<p>同じ10時間でも、<br />
+半年後の場所が<br />
+まったく違います。</p>
+<p>そして、<br />
+本講座でお渡しするものは<br />
+全部「型」です。</p>
+<p>✔ 名刺の型<br />
+✔ 自己紹介トークの型<br />
+✔ ヒアリングの型<br />
+✔ AI社員デモの型<br />
+✔ 提案書の型<br />
+✔ 契約書の型<br />
+✔ 反論への切り返しの型</p>
+<p>「自分でゼロから考えなくていい」</p>
+<p>ここに、<br />
+最大の時短があります。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【本業との相乗効果】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>今このメールを読んでくださっている方の中には、<br />
+すでに本業をお持ちの方が<br />
+多いはずです。</p>
+<p>✔ 社労士として顧問先がある<br />
+✔ キャッシュフローコーチとして契約がある<br />
+✔ 経営コンサルとして契約がある</p>
+<p>そういう方にとって、<br />
+このAIコンサルタントは<br />
+「副業」ではありません。</p>
+<p>「本業の単価を引き上げる入口」<br />
+です。</p>
+<p>例えば社労士なら、<br />
+「AI社員で勤怠を仕組みに変えませんか」<br />
+という入口から、</p>
+<p>就業規則・労務相談まで<br />
+連動して取れる。</p>
+<p>ここの設計図は、<br />
+体験セミナーで<br />
+具体的にお見せします。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【動線はオープンチャットだけ】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>体験セミナーの日程公開も、<br />
+申込フォームの配布も、<br />
+特典の受け取りも、</p>
+<p>質問への回答も、<br />
+全部LINEオープンチャットの中だけで<br />
+動かしています。</p>
+<p>✔ 各都道府県3名までの地域枠<br />
+✔ 開催枠は数日中に埋まり始めます</p>
+<p>メルマガだけで読んでいる方は、<br />
+そもそも申込フォームに到達できません。</p>
+<p>オープンチャットに入っている方は、<br />
+枠を確認しながら、<br />
+その場で申し込めます。</p>
+<p>数分の差ですが、<br />
+6ヶ月後の場所が変わります。</p>
+<p>まだ動画を見ていない方は、<br />
+今夜のうちに10分だけ。<br />
+動画を見終わった先で、<br />
+オープンチャットへの案内が待っています。</p>
+<p>🔗 [動画ページURL]</p>
+<p>PS<br />
+僕は12年、ネット側で見てきました。</p>
+<p>ネットで「型」を持っていない人ほど、<br />
+時間を浪費しています。</p>
+<p>対面側に来る方こそ、<br />
+型を持って走り出してください。<br />
+そこに僕らの仕事があります。</p>
+<p>◆------------------------------------◆<br />
+Claude特化型AIコンサルタント 事務局<br />
+◆------------------------------------◆<br />
+・運営者：<br />
+株式会社ザ・リード 代表取締役 邑﨑恵理<br />
+田中 祐一</p>
+<hr />
+<p>窓口：[メールアドレス]<br />
+（営業時間：平日10時から18時）</p>
+<p>＊頂いたお問い合わせには3営業日以内に<br />
+お答えさせて頂いております。</p>
+<p>住所：〒107-0062<br />
+東京都港区南青山2丁目2番15号 ウィン青山1302</p>
+<hr />
+<p>メールアドレスの変更はこちら<br />
+%link_change_email_register%</p>
+<p>メールの配信停止はこちら<br />
+%link_unsubscribe_mail%</p>
+</article>
 </main>
+</div>
 </body>
 </html>

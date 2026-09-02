@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>質疑応答の理想回答集 - ピグマリオン IQ200さんすう脳 セールスレポート</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>ピグマリオン IQ200さんすう脳 質疑応答の理想回答集 - ピグマリオン IQ200さんすう脳 セールスレポート</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,32 +247,49 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
 .sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
   border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
 }
 .sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
 }
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
 .sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
 }
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
 .sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
 }
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
 /* ===== スマホ：サイドバー非表示・本文全幅 ===== */
 .mobile-back {
   display: none;
@@ -271,99 +303,82 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 .mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  .layout { display: block; }
   .sidebar { display: none; }
   .mobile-back { display: block; }
   .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.4rem; }
   .article h2 { font-size: 1.15rem; }
   .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
 <div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
 <div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
+<nav class="sidebar" aria-label="ピグマリオン IQ200さんすう脳 セールスレポート">
+<div class="brand">REPORT</div>
 <h3>ピグマリオン IQ200さんすう脳 セールスレポート</h3>
-<a class="sidebar-item sidebar-item--cross" href="../pigmarion-iq200-sansu-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年08月27日</span> 個別説明会_セールス成功失敗マニュアル</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年08月27日</span> 全体レポート</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年08月27日</span> 来場者ペルソナ分析_セールスデータ集約</a>
-<a href="004.html" class="sidebar-item active"><span class="date">2026年08月27日</span> 質疑応答の理想回答集</a>
+<a class="sidebar-item sidebar-item--cross" href="../pigmarion-iq200-sansu-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年09月02日</span> ピグマリオン IQ200さんすう脳 個別説明会 成功失敗マニュアル</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年09月02日</span> ピグマリオン IQ200さんすう脳 全体レポート（個別説明会・成約/失注構造の総括）</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年09月02日</span> ピグマリオン IQ200さんすう脳 成約者・否決者の傾向（誰が決めて、誰が決めなかったか）</a>
+<a href="004.html" class="sidebar-item active"><span class="date">2026年09月02日</span> ピグマリオン IQ200さんすう脳 質疑応答の理想回答集</a>
 </nav>
 <main class="content">
 <article class="article">
-<pre># ピグマリオン IQ200さんすう脳 質疑応答の理想回答集
-
-&gt; 本案件は個別のセールスマニュアルがないため、田中祐一式の17ステップマニュアルを適用する。
-
-作成: 2026-07-27／根拠: 書き起こしを取得できた個別説明会4件（成約1＝小野寺／否決2＝上條・佐藤／保留1＝伊藤）で実際に出た顧客の懸念を、勝ち回の受け答えを軸に理想化した。
-※母数4件。網羅した想定問答ではなく、この4件で実際に起きた反論・不安への対応集。
-
----
-
-## Q1「日程が合わない（講座本編が子の習い事と重なる）」← 否決の主因
-
-**避けたい対応（否決回で起きたこと）**：日程の壁を前半で拾えず、説明の途中で露見。締切割引を活かせず、売り手が「全然やらないでもいいので」と自ら引いた。
-
-**理想回答**：
-「その曜日・時間、お子さんの◯◯と重なりますよね。実は本編はアーカイブ（録画）が残るので、当日ライブに出られなくても、別の時間に見て進められます。加えて、つまずいたところを別枠でフォローする復習会もあります。“毎週その時間に必ず通う”前提ではないので、生活のリズムは崩さずにいけます。」
-
-**運用**：この壁は前半のヒアリングで「お子さんの固定の予定・習い事」を聞いて先回りし、露見する前に回避策を先出しする。
-
-## Q2「夫（決裁者）に相談してから決めたい」← この案件で最も高くつく否決要因（佐藤さん）
-
-**実際に落ちた対応（佐藤さん・否決）**：価値・価格・日程・温度がすべて良好だったのに、**価格提示の直後に「夫にも相談したい」で持ち帰り**、担当が「旦那様の意見を聞いてくださいね」と受け入れて当日クローズに至らなかった。同じ担当が、これを価格前に畳んだ小野寺さんでは成約している。
-
-**理想回答（勝ち回の順序）**：価格を出す"前"に、
-「ご主人は今日のこと、ご存知ですか？ 決めるとき、ご主人の同意は要りますか？ どのあたりが気になりそうでしょう。」
-と先に確認して、夫の想定反論をその場で一緒に整理しておく。価格提示時には持ち帰る材料が残っていない状態にする。
-**もし持ち帰りになったら**：そこで引かず、「ご主人にはこの1枚（費用対効果・分割の数字）をお見せください。ご一緒の場で15分だけお話しできる日を決めましょう」と、夫同席の再面談を握ってから終える。連絡待ちにしない。
-※ベビー案件も、さんすう脳の佐藤さんも、ここを価格の"後"に回して失注している。順序を絶対に守る。
-
-## Q3「支払いが不安・金額が大きい」
-
-**理想回答**：
-「分割も相談できます。無理のない形にできるので、“今月まるごと”で考えなくて大丈夫です。」
-圧をかけず、現実的な支払い像を先に見せる。これも価格提示の前段で価値観教育（投資と回収の考え方）を済ませておくと効く。
-
-## Q4「うちの子、ついていけるか不安／私のやり方が悪かったのかも」（自責）
-
-**理想回答（勝ち回の受け止め）**：
-「すごくわかります。でも、あなたが悪いんじゃないですよ。環境と、伴走してくれる人がいなかっただけです。」
-正論で返さず、まず共感で受ける。原因を本人でなく「環境・伴走の不足」に切り分け、味方の位置に立つ。
-
-## Q5「今じゃなくてもいい？ もう少し様子を見たい」
-
-**理想回答**：
-「今がちょうど伸びる時期なんです。ここを逃すと後から取り返すのに時間がかかります。」
-危機感（今がギリギリ）は価格提示の前に置く。ただし押し切らず、締切（3日以内割引）は“回避策・分割の数字”とセットで渡し、最後は相手に決めさせる。
-
-## Q6「他の教材／英語講座も受けている。かぶらないか」
-
-**理想回答**：
-「むしろ相性がいいです。◯◯で伸ばしている力と、算数脳で育てる思考の土台は別ものなので、重なって邪魔にはなりません。今の学びを活かす形で組み込めます。」
-※否決回の相手は英語講座を一括受講中で高額耐性あり。競合でなく“併走できる”と位置づけると前に進む。
-
----
-
-## この案件のQ&amp;A運用ルール
-
-- 価格・支払い・決裁者は必ず**価格提示の前**に触れておく（勝ち回の核心）。
-- 日程の壁は**前半で先回り**して回避策を先出しする（否決の核心）。
-- 自責は**断罪せず共感**で受ける。
-- 締切は**単体で振りかざさず**、回避策・分割とセットにする。売り手からブレーキを踏まない。
-
----
-Produced by KATSUO MARKETING
-Version: 1.1 (2026-07-27)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: WU3USIM9
-Generated by: 田中祐一（Claude Code）
----
-</pre><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+<h1>ピグマリオン IQ200さんすう脳 質疑応答の理想回答集</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#Q1「日程が合わない（講座本編が子の習い事と重なる）」←-否決の主因">Q1「日程が合わない（講座本編が子の習い事と重なる）」← 否決の主因</a></li><li class="toc-main"><a href="#Q2「夫（決裁者）に相談してから決めたい」←-この案件で最も高くつく否決要因（佐藤さん）">Q2「夫（決裁者）に相談してから決めたい」← この案件で最も高くつく否決要因（佐藤さん）</a></li><li class="toc-main"><a href="#Q3「支払いが不安・金額が大きい」">Q3「支払いが不安・金額が大きい」</a></li><li class="toc-main"><a href="#Q4「うちの子、ついていけるか不安／私のやり方が悪かったのかも」（自責）">Q4「うちの子、ついていけるか不安／私のやり方が悪かったのかも」（自責）</a></li><li class="toc-main"><a href="#Q5「今じゃなくてもいい？-もう少し様子を見たい」">Q5「今じゃなくてもいい？ もう少し様子を見たい」</a></li><li class="toc-main"><a href="#Q6「他の教材／英語講座も受けている。かぶらないか」">Q6「他の教材／英語講座も受けている。かぶらないか」</a></li><li class="toc-main"><a href="#この案件のQamp;A運用ルール">この案件のQ&amp;A運用ルール</a></li></ul></nav>
+<blockquote class="callout-box">
+<p>本案件は個別のセールスマニュアルがないため、田中祐一式の17ステップマニュアルを適用する。</p>
+</blockquote>
+<p>作成: 2026-07-27／根拠: 書き起こしを取得できた個別説明会4件（成約1＝小野寺／否決2＝上條・佐藤／保留1＝伊藤）で実際に出た顧客の懸念を、勝ち回の受け答えを軸に理想化した。<br />
+※母数4件。網羅した想定問答ではなく、この4件で実際に起きた反論・不安への対応集。</p>
+<hr />
+<h2 id="Q1「日程が合わない（講座本編が子の習い事と重なる）」←-否決の主因">Q1「日程が合わない（講座本編が子の習い事と重なる）」← 否決の主因</h2>
+<p><strong>避けたい対応（否決回で起きたこと）</strong>：日程の壁を前半で拾えず、説明の途中で露見。締切割引を活かせず、売り手が「全然やらないでもいいので」と自ら引いた。</p>
+<p><strong>理想回答</strong>：<br />
+「その曜日・時間、お子さんの◯◯と重なりますよね。実は本編はアーカイブ（録画）が残るので、当日ライブに出られなくても、別の時間に見て進められます。加えて、つまずいたところを別枠でフォローする復習会もあります。“毎週その時間に必ず通う”前提ではないので、生活のリズムは崩さずにいけます。」</p>
+<p><strong>運用</strong>：この壁は前半のヒアリングで「お子さんの固定の予定・習い事」を聞いて先回りし、露見する前に回避策を先出しする。</p>
+<h2 id="Q2「夫（決裁者）に相談してから決めたい」←-この案件で最も高くつく否決要因（佐藤さん）">Q2「夫（決裁者）に相談してから決めたい」← この案件で最も高くつく否決要因（佐藤さん）</h2>
+<p><strong>実際に落ちた対応（佐藤さん・否決）</strong>：価値・価格・日程・温度がすべて良好だったのに、<strong>価格提示の直後に「夫にも相談したい」で持ち帰り</strong>、担当が「旦那様の意見を聞いてくださいね」と受け入れて当日クローズに至らなかった。同じ担当が、これを価格前に畳んだ小野寺さんでは成約している。</p>
+<p><strong>理想回答（勝ち回の順序）</strong>：価格を出す"前"に、<br />
+「ご主人は今日のこと、ご存知ですか？ 決めるとき、ご主人の同意は要りますか？ どのあたりが気になりそうでしょう。」<br />
+と先に確認して、夫の想定反論をその場で一緒に整理しておく。価格提示時には持ち帰る材料が残っていない状態にする。<br />
+<strong>もし持ち帰りになったら</strong>：そこで引かず、「ご主人にはこの1枚（費用対効果・分割の数字）をお見せください。ご一緒の場で15分だけお話しできる日を決めましょう」と、夫同席の再面談を握ってから終える。連絡待ちにしない。<br />
+※ベビー案件も、さんすう脳の佐藤さんも、ここを価格の"後"に回して失注している。順序を絶対に守る。</p>
+<h2 id="Q3「支払いが不安・金額が大きい」">Q3「支払いが不安・金額が大きい」</h2>
+<p><strong>理想回答</strong>：<br />
+「分割も相談できます。無理のない形にできるので、“今月まるごと”で考えなくて大丈夫です。」<br />
+圧をかけず、現実的な支払い像を先に見せる。これも価格提示の前段で価値観教育（投資と回収の考え方）を済ませておくと効く。</p>
+<h2 id="Q4「うちの子、ついていけるか不安／私のやり方が悪かったのかも」（自責）">Q4「うちの子、ついていけるか不安／私のやり方が悪かったのかも」（自責）</h2>
+<p><strong>理想回答（勝ち回の受け止め）</strong>：<br />
+「すごくわかります。でも、あなたが悪いんじゃないですよ。環境と、伴走してくれる人がいなかっただけです。」<br />
+正論で返さず、まず共感で受ける。原因を本人でなく「環境・伴走の不足」に切り分け、味方の位置に立つ。</p>
+<h2 id="Q5「今じゃなくてもいい？-もう少し様子を見たい」">Q5「今じゃなくてもいい？ もう少し様子を見たい」</h2>
+<p><strong>理想回答</strong>：<br />
+「今がちょうど伸びる時期なんです。ここを逃すと後から取り返すのに時間がかかります。」<br />
+危機感（今がギリギリ）は価格提示の前に置く。ただし押し切らず、締切（3日以内割引）は“回避策・分割の数字”とセットで渡し、最後は相手に決めさせる。</p>
+<h2 id="Q6「他の教材／英語講座も受けている。かぶらないか」">Q6「他の教材／英語講座も受けている。かぶらないか」</h2>
+<p><strong>理想回答</strong>：<br />
+「むしろ相性がいいです。◯◯で伸ばしている力と、算数脳で育てる思考の土台は別ものなので、重なって邪魔にはなりません。今の学びを活かす形で組み込めます。」<br />
+※否決回の相手は英語講座を一括受講中で高額耐性あり。競合でなく“併走できる”と位置づけると前に進む。</p>
+<hr />
+<h2 id="この案件のQamp;A運用ルール">この案件のQ&amp;A運用ルール</h2>
+<ul>
+<li>価格・支払い・決裁者は必ず<strong>価格提示の前</strong>に触れておく（勝ち回の核心）。</li>
+<li>日程の壁は<strong>前半で先回り</strong>して回避策を先出しする（否決の核心）。</li>
+<li>自責は<strong>断罪せず共感</strong>で受ける。</li>
+<li>締切は<strong>単体で振りかざさず</strong>、回避策・分割とセットにする。売り手からブレーキを踏まない。</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-07-27)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: WU3USIM9<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>

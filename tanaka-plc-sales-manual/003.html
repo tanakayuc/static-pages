@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>全体レポート - 田中祐一 PLC セールスレポート</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>全体レポート（田中祐一 PLC） - 田中祐一 PLC セールスレポート</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,32 +247,49 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
 .sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
   border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
 }
 .sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
 }
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
 .sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
 }
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
 .sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
 }
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
 /* ===== スマホ：サイドバー非表示・本文全幅 ===== */
 .mobile-back {
   display: none;
@@ -271,109 +303,181 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 .mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  .layout { display: block; }
   .sidebar { display: none; }
   .mobile-back { display: block; }
   .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.4rem; }
   .article h2 { font-size: 1.15rem; }
   .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
 <div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
 <div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
+<nav class="sidebar" aria-label="田中祐一 PLC セールスレポート">
+<div class="brand">REPORT</div>
 <h3>田中祐一 PLC セールスレポート</h3>
-<a class="sidebar-item sidebar-item--cross" href="../tanaka-plc-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年08月27日</span> セールス担当別_傾向とクセ</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年08月27日</span> 個別説明会_セールス成功失敗マニュアル</a>
-<a href="003.html" class="sidebar-item active"><span class="date">2026年08月27日</span> 全体レポート</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年08月27日</span> 来場者ペルソナ分析_セールスデータ集約</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年08月27日</span> 質疑応答の理想回答集</a>
+<a class="sidebar-item sidebar-item--cross" href="../tanaka-plc-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中祐一 PLC セールス担当 傾向とクセマニュアル</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中祐一 PLC 個別説明会 セールス成功失敗マニュアル</a>
+<a href="003.html" class="sidebar-item active"><span class="date">2026年09月02日</span> 全体レポート（田中祐一 PLC）</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年09月02日</span> 来場者ペルソナ分析 / セールスデータ集約（田中祐一個人案件・PLC）</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中祐一 PLC 質疑応答の理想回答集</a>
 </nav>
 <main class="content">
 <article class="article">
-<pre># 全体レポート（田中祐一 PLC）
-
-&gt; 本案件は個別のセールスマニュアルがないため、田中祐一式の17ステップマニュアルを適用する。
-
-田中祐一フォーマットによる通期統合ビュー。電話報告66件（Chatwork「報告のみ」ログ抽出、2025年7月〜2026年5月）とZoom個別セールス書き起こし37件（全件精読・2026-07-06実施）を統合したデータに基づく。
-
-最終更新: 2026-07-06
-データソース: `セールス/セールス原本/書き起こし/電話報告データ/電話報告データ.md`、`セールス/セールス原本/書き起こし/01〜37_個別セールス書き起こし_XX.md`
-生成: 手動精読（電話報告66件・Zoom書き起こし37件を全件Read）
-
-確定分成約率 = 成約 ÷（成約＋否決）。保留・不明・進行中は確定分から除外。
-
----
-
-## 通期累計（電話フェーズ）
-
-| 指標 | 値 |
-|---|---|
-| 電話報告 総件数 | 66件（重複人物を名寄せ後、実質60件弱） |
-| 個別（Zoom）へ移行 | 約25件 |
-| 電話で終了 | 約30件 |
-| 保留・様子見 | 約6件 |
-
-&gt; 電話終了理由の最頻出: ①資金不足（約12件）②toB/toC型ノウハウのミスマッチ（約6件）③既存契約との並行検討（約5件）④コミュニケーション面の懸念（2件）⑤特典目的のみで温度が低い（3件以上）⑥ビジネス実態が薄い（数件）。詳細は`来場者ペルソナ分析_セールスデータ集約.md`第1部。
-
----
-
-## 通期累計（Zoom個別フェーズ・37件全件精読）
-
-| 区分 | 件数 | 該当ファイル |
-|---|---:|---|
-| 成約 | 8件 | 12, 19, 23, 25, 27, 29, 30, 35 |
-| 否決 | 9件 | 09, 16, 17, 21, 26, 28, 32, 33, 34 |
-| 不明・保留・進行中 | 20件 | 01〜08, 10, 11, 13〜15, 18, 20, 22, 24, 31, 36, 37 |
-| **確定分成約率** | | **47.1%**（8 / 17） |
-
-&gt; 「不明・保留・進行中」が最多層（20/37）である最大の理由は、書き起こし自体が決済手続きの途中・コンセプト相談の途中で終了しているケースが多いこと。録画終了のタイミングの問題であり、必ずしも成約率の低さを意味しない。
-
----
-
-## 担当別実績（2026-07-06 再判定）
-
-Zoom個別説明会37件を本文の名乗り・顧客からの呼びかけを根拠に再判定した結果、**松下・秋山・石田明の3名**が担当していることを確認した（5件は本文に担当者名の言及がなく不明）。
-
-| 担当 | 件数 | 成約 | 否決 | 不明・保留 | 確定分成約率 |
-|---|---:|---:|---:|---:|---:|
-| 松下 | 21件 | 6 | 7 | 8 | 46.2% |
-| 秋山 | 4件 | 1 | 1 | 2 | 50.0%（母数極小） |
-| 石田明 | 7件 | 0 | 0 | 7 | 算定不可（母数の範囲で成約/否決確認ケースなし） |
-| 不明 | 5件 | 1 | 1 | 3 | 50.0%（母数極小） |
-
-&gt; 詳細な強み・伸びしろは`セールス担当別_傾向とクセ.md`を参照。
-
----
-
-## 所感・アラート
-
-- **確定分成約率47.1%は高水準**だが、母数17件（成約8+否決9）と小さく、不明20件の内実（実際は成約に近い保留か、単なる録画途切れか）次第で実質値は変動する。
-- **資金不足が電話・Zoom個別の両フェーズで共通する最頻出の否決理由**。電話スクリーニングは一定機能しているが、完全な濾過はできていない。
-- **決済トラブル（カードエラー）が37件中4件（19,23,24,36）で発生**。決済手段の事前確認を電話段階で行うことで機会損失を減らせる可能性がある。
-- **高単価（121万円/138万円/150万円）への懐疑が否決理由の一角を占める**（26番）。同業種の成功事例ストックの活用が改善レバーになりうる。
-
----
-
-## データ仕様・分類ルール
-
-- 母集団: 電話報告データ66件（担当者=田中祐一・石田明・秋山直寛らのChatwork報告）、Zoom個別セールス書き起こし37件（実発話）。
-- **成約**: 書き起こし本文に決済完了・登録完了の記述があるもの。
-- **否決**: 書き起こし本文に明確な見送り発言があるもの。
-- **不明・保留・進行中**: 書き起こし範囲内で決済完了・見送りいずれも確認できないもの（多くは録画終了のタイミングによる）。
-- 確定分成約率 = 成約 ÷（成約＋否決）。不明・保留は分母から除外。
-
-## 月次推移について（現時点で提供不可）
-
-37件のZoom書き起こしのうち、実際の商談日が明確に特定できるのは6件（01,02,04,05,06番の動画URL添付情報）と37番（録画日: 2023-11-24）のみで、残り30件は書き起こしファイル内に実施日の記載がない（34〜36番の「処理日」は書き起こし処理日であり商談日ではない）。したがって現時点では**信頼できる月次推移データを作成できない**。月次レポートを整備する場合は、Chatworkログまたは元Zoom録画ファイルのタイムスタンプから実施日を復元する追加作業が必要。
-
-Produced by KATSUO MARKETING
-</pre><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+<h1>全体レポート（田中祐一 PLC）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#通期累計（電話フェーズ）">通期累計（電話フェーズ）</a></li><li class="toc-main"><a href="#通期累計（Zoom個別フェーズ・37件全件精読）">通期累計（Zoom個別フェーズ・37件全件精読）</a></li><li class="toc-main"><a href="#担当別実績（2026-07-06-再判定）">担当別実績（2026-07-06 再判定）</a></li><li class="toc-main"><a href="#所感・アラート">所感・アラート</a></li><li class="toc-main"><a href="#データ仕様・分類ルール">データ仕様・分類ルール</a></li><li class="toc-main"><a href="#月次推移について（現時点で提供不可）">月次推移について（現時点で提供不可）</a></li></ul></nav>
+<blockquote class="callout-box">
+<p>本案件は個別のセールスマニュアルがないため、田中祐一式の17ステップマニュアルを適用する。</p>
+</blockquote>
+<p>田中祐一フォーマットによる通期統合ビュー。電話報告66件（Chatwork「報告のみ」ログ抽出、2025年7月〜2026年5月）とZoom個別セールス書き起こし37件（全件精読・2026-07-06実施）を統合したデータに基づく。</p>
+<p>最終更新: 2026-07-06<br />
+データソース: <code>セールス/セールス原本/書き起こし/電話報告データ/電話報告データ.md</code>、<code>セールス/セールス原本/書き起こし/01〜37_個別セールス書き起こし_XX.md</code><br />
+生成: 手動精読（電話報告66件・Zoom書き起こし37件を全件Read）</p>
+<p>確定分成約率 = 成約 ÷（成約＋否決）。保留・不明・進行中は確定分から除外。</p>
+<hr />
+<h2 id="通期累計（電話フェーズ）">通期累計（電話フェーズ）</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>電話報告 総件数</td>
+<td>66件（重複人物を名寄せ後、実質60件弱）</td>
+</tr>
+<tr>
+<td>個別（Zoom）へ移行</td>
+<td>約25件</td>
+</tr>
+<tr>
+<td>電話で終了</td>
+<td>約30件</td>
+</tr>
+<tr>
+<td>保留・様子見</td>
+<td>約6件</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout-box">
+<p>電話終了理由の最頻出: ①資金不足（約12件）②toB/toC型ノウハウのミスマッチ（約6件）③既存契約との並行検討（約5件）④コミュニケーション面の懸念（2件）⑤特典目的のみで温度が低い（3件以上）⑥ビジネス実態が薄い（数件）。詳細は<a class="ref-link" href="004.html">来場者ペルソナ分析_セールスデータ集約.md</a>第1部。</p>
+</blockquote>
+<hr />
+<h2 id="通期累計（Zoom個別フェーズ・37件全件精読）">通期累計（Zoom個別フェーズ・37件全件精読）</h2>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th style="text-align: right;">件数</th>
+<th>該当ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge" style="background:#2CB596;color:#FFFFFF">成約</span></td>
+<td style="text-align: right;">8件</td>
+<td>12, 19, 23, 25, 27, 29, 30, 35</td>
+</tr>
+<tr>
+<td><span class="badge" style="background:#F3D7D7;color:#A23B3B">否決</span></td>
+<td style="text-align: right;">9件</td>
+<td>09, 16, 17, 21, 26, 28, 32, 33, 34</td>
+</tr>
+<tr>
+<td>不明・保留・進行中</td>
+<td style="text-align: right;">20件</td>
+<td>01〜08, 10, 11, 13〜15, 18, 20, 22, 24, 31, 36, 37</td>
+</tr>
+<tr>
+<td><strong>確定分成約率</strong></td>
+<td style="text-align: right;"></td>
+<td><strong>47.1%</strong>（8 / 17）</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout-box">
+<p>「不明・保留・進行中」が最多層（20/37）である最大の理由は、書き起こし自体が決済手続きの途中・コンセプト相談の途中で終了しているケースが多いこと。録画終了のタイミングの問題であり、必ずしも成約率の低さを意味しない。</p>
+</blockquote>
+<hr />
+<h2 id="担当別実績（2026-07-06-再判定）">担当別実績（2026-07-06 再判定）</h2>
+<p>Zoom個別説明会37件を本文の名乗り・顧客からの呼びかけを根拠に再判定した結果、<strong>松下・秋山・石田明の3名</strong>が担当していることを確認した（5件は本文に担当者名の言及がなく不明）。</p>
+<table>
+<thead>
+<tr>
+<th>担当</th>
+<th style="text-align: right;">件数</th>
+<th style="text-align: right;">成約</th>
+<th style="text-align: right;">否決</th>
+<th style="text-align: right;">不明・保留</th>
+<th style="text-align: right;">確定分成約率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>松下</td>
+<td style="text-align: right;">21件</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">46.2%</td>
+</tr>
+<tr>
+<td>秋山</td>
+<td style="text-align: right;">4件</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">50.0%（母数極小）</td>
+</tr>
+<tr>
+<td>石田明</td>
+<td style="text-align: right;">7件</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">算定不可（母数の範囲で成約/否決確認ケースなし）</td>
+</tr>
+<tr>
+<td>不明</td>
+<td style="text-align: right;">5件</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">50.0%（母数極小）</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout-box">
+<p>詳細な強み・伸びしろは<a class="ref-link" href="001.html">セールス担当別_傾向とクセ.md</a>を参照。</p>
+</blockquote>
+<hr />
+<h2 id="所感・アラート">所感・アラート</h2>
+<ul>
+<li><strong>確定分成約率47.1%は高水準</strong>だが、母数17件（成約8+否決9）と小さく、不明20件の内実（実際は成約に近い保留か、単なる録画途切れか）次第で実質値は変動する。</li>
+<li><strong>資金不足が電話・Zoom個別の両フェーズで共通する最頻出の否決理由</strong>。電話スクリーニングは一定機能しているが、完全な濾過はできていない。</li>
+<li><strong>決済トラブル（カードエラー）が37件中4件（19,23,24,36）で発生</strong>。決済手段の事前確認を電話段階で行うことで機会損失を減らせる可能性がある。</li>
+<li><strong>高単価（121万円/138万円/150万円）への懐疑が否決理由の一角を占める</strong>（26番）。同業種の成功事例ストックの活用が改善レバーになりうる。</li>
+</ul>
+<hr />
+<h2 id="データ仕様・分類ルール">データ仕様・分類ルール</h2>
+<ul>
+<li>母集団: 電話報告データ66件（担当者=田中祐一・石田明・秋山直寛らのChatwork報告）、Zoom個別セールス書き起こし37件（実発話）。</li>
+<li><strong>成約</strong>: 書き起こし本文に決済完了・登録完了の記述があるもの。</li>
+<li><strong>否決</strong>: 書き起こし本文に明確な見送り発言があるもの。</li>
+<li><strong>不明・保留・進行中</strong>: 書き起こし範囲内で決済完了・見送りいずれも確認できないもの（多くは録画終了のタイミングによる）。</li>
+<li>確定分成約率 = 成約 ÷（成約＋否決）。不明・保留は分母から除外。</li>
+</ul>
+<h2 id="月次推移について（現時点で提供不可）">月次推移について（現時点で提供不可）</h2>
+<p>37件のZoom書き起こしのうち、実際の商談日が明確に特定できるのは6件（01,02,04,05,06番の動画URL添付情報）と37番（録画日: 2023-11-24）のみで、残り30件は書き起こしファイル内に実施日の記載がない（34〜36番の「処理日」は書き起こし処理日であり商談日ではない）。したがって現時点では<strong>信頼できる月次推移データを作成できない</strong>。月次レポートを整備する場合は、Chatworkログまたは元Zoom録画ファイルのタイムスタンプから実施日を復元する追加作業が必要。</p>
+<p>Produced by KATSUO MARKETING</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>

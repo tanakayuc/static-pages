@@ -3,191 +3,453 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>田中AIナレッジ同期_最新状況 - AI社員化プロジェクト 設計方針</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>田中AIナレッジ同期 最新状況 - AI社員化プロジェクト 設計方針</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  color: var(--ink);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { display: none; }
-    .mobile-nav { display: block; }
-    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.95rem; line-height: 1.7; }
-    .main a { word-wrap: break-word; overflow-wrap: break-word; }
-    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
+  border: 1px solid var(--line);
+  font-size: 1.03rem;
 }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .main { padding: 0.75rem; }
-    .main h1 { font-size: 1.15rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.9rem; }
-    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
-    .main table { font-size: 0.8rem; }
-    .main th, .main td { padding: 0.25rem; }
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  position: relative;
 }
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient);
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(135deg, var(--sub), var(--deep));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar {
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
+  border-right: 1px solid var(--line);
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
+}
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active {
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
+}
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 860px) {
+  .layout { display: block; }
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
-<nav class="sidebar">
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar" aria-label="AI社員化プロジェクト 設計方針">
+<div class="brand">THE LEAD DOCUMENT</div>
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item active"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
-<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
-<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
-<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
-<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ナレッジフィードバックループ_実装ログ</a>
-<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_初期実装ログ</a>
-<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_実装設計とタスク一覧</a>
-<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チーム_AI社員スケルトン実装ログ</a>
-<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_田中祐一AIとAI社員の連携設計メモ</a>
-<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
-<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計_Zoom一括蒸留_StageB仕分けルール_20260703</a>
-<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 一括蒸留_進捗台帳_20260702</a>
-<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
-<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
-<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> 監査_20260619_knowledge格納構造_findings_共有用</a>
-<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
-<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
-<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
-<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
-<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
-<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
-<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
-<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
-<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
-<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
-<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
-<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
-<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
-<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
-<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
-<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
-<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
-<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
-<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
-<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
-<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
-<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
-<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
-<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
-<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
-<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
-<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
-<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
-<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
-<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
-<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年09月02日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
+<a href="040.html" class="sidebar-item active"><span class="date">2026年09月02日</span> 田中AIナレッジ同期 最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中祐一AI インプット来歴一覧（正本）</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年09月02日</span> 運用: 田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
 <a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
-<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
-<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
-<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
-<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
-<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a>
 </nav>
-<main class="main">
-<pre># 田中AIナレッジ同期 最新状況
-
-- 生成日時: 2026-08-22T12:32:21
-- 生成物同期: OK
-- bundle md5: `4e41adb34c938b982fed2ca9b1f12d33`
-- index md5一致: True
-- embeddings md5一致: True
-- Stage B生成: 実行（zoom_yaml_changed）
-- knowledge source更新: 0件
-- Zoom YAML総数: 411件（個コン372 / グルコン39）
-- knowledge統合済み最大値: 411件
-- knowledge内YAML参照数: 411件
-- Stage B未統合推定: 0件
-
-## 次アクション
-
-- knowledge正本から生成物への反映は同期済み。
-- Zoom YAMLのStage B未統合は検知なし。
-
-## Zoom統合済み検出元
-
-- `knowledge/ファネル型/共通/Zoom一括蒸留_原理_全件統合.md`: 411件
-- `knowledge/事例/Zoom一括蒸留_持ちネタ事例_全件統合.md`: 411件
-- `knowledge/共通/Zoom一括蒸留_判断基準_全件統合.md`: 411件
-- `knowledge/共通/Zoom一括蒸留_哲学と世界観_全件統合.md`: 411件
-- `knowledge/共通/Zoom一括蒸留_基準値_全件統合.md`: 411件
-- `knowledge/共通/Zoom一括蒸留_実験宣言と採用見解_全件統合.md`: 411件
-- `knowledge/共通/Zoom一括蒸留_用語と話法_全件統合.md`: 411件
-- `knowledge/スキル別/セールス/セールスと集客の横断判断基準.md`: 53件
-- `knowledge/ファネル型/共通/広告とファネル検証の原理.md`: 53件
-- `knowledge/事例/田中の持ちネタ事例集_引用される実例.md`: 53件
-- `knowledge/共通/事業設計の哲学_ライフスタイルと健全性.md`: 53件
-- `knowledge/共通/田中の基準値集_セールスと集客.md`: 53件
-
-## Stage B未統合候補サンプル
-
-- 検出なし
-
-## 新しいYAMLサンプル
-
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251117_5c21e7d02528.yaml` (2026-07-08T21:56:59, 6970 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20260105_d0f804307a57.yaml` (2026-07-03T15:50:59, 10997 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20260105_b50b7e2b641a.yaml` (2026-07-03T15:50:59, 14951 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251224_e0998aa64544.yaml` (2026-07-03T15:50:59, 13308 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251226_468abbbd7374.yaml` (2026-07-03T15:50:04, 12061 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251224_8937e05a7053.yaml` (2026-07-03T15:45:28, 8772 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251223_296e7048bf1e.yaml` (2026-07-03T15:45:28, 15230 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251223_2697e785fd0c.yaml` (2026-07-03T15:44:53, 14611 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251223_81758befcbeb.yaml` (2026-07-03T15:44:53, 11305 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251222_02e68a254108.yaml` (2026-07-03T14:28:27, 19766 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251222_613c626652cc.yaml` (2026-07-03T14:28:27, 9769 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251222_d341dd735ff4.yaml` (2026-07-03T14:28:27, 11001 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251222_19a74e8f31f3.yaml` (2026-07-03T14:28:27, 14333 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251220_5955954ee003.yaml` (2026-07-03T14:28:27, 11368 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251219_68ebdd3efb99.yaml` (2026-07-03T14:28:27, 13771 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251219_b81bfc1d536a.yaml` (2026-07-03T14:28:27, 12869 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251219_b6de43e2660c.yaml` (2026-07-03T14:28:27, 10995 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251218_422d05a5dd27.yaml` (2026-07-03T13:10:50, 8019 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251218_e36193f7556d.yaml` (2026-07-03T13:10:50, 9856 bytes)
-- `13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251217_f4015975c39f.yaml` (2026-07-03T13:10:50, 11221 bytes)
-</pre>
+<main class="content">
+<article class="article">
+<h1>田中AIナレッジ同期 最新状況</h1>
+<ul>
+<li>生成日時: 2026-09-02T12:31:55</li>
+<li>生成物同期: OK</li>
+<li>bundle md5: <code>118dbd2bbcf11ce4d59728c5b6959ad6</code></li>
+<li>index md5一致: True</li>
+<li>embeddings md5一致: True</li>
+<li>Stage B生成: 実行（zoom_yaml_changed）</li>
+<li>knowledge source更新: 0件</li>
+<li>Zoom YAML総数: 411件（個コン372 / グルコン39）</li>
+<li>knowledge統合済み最大値: 411件</li>
+<li>knowledge内YAML参照数: 411件</li>
+<li>Stage B未統合推定: 0件</li>
+</ul>
+<h2>次アクション</h2>
+<ul>
+<li>knowledge正本から生成物への反映は同期済み。</li>
+<li>Zoom YAMLのStage B未統合は検知なし。</li>
+</ul>
+<h2>Zoom統合済み検出元</h2>
+<ul>
+<li><code>knowledge/ファネル型/共通/Zoom一括蒸留_原理_全件統合.md</code>: 411件</li>
+<li><code>knowledge/事例/Zoom一括蒸留_持ちネタ事例_全件統合.md</code>: 411件</li>
+<li><code>knowledge/共通/Zoom一括蒸留_判断基準_全件統合.md</code>: 411件</li>
+<li><code>knowledge/共通/Zoom一括蒸留_哲学と世界観_全件統合.md</code>: 411件</li>
+<li><code>knowledge/共通/Zoom一括蒸留_基準値_全件統合.md</code>: 411件</li>
+<li><code>knowledge/共通/Zoom一括蒸留_実験宣言と採用見解_全件統合.md</code>: 411件</li>
+<li><code>knowledge/共通/Zoom一括蒸留_用語と話法_全件統合.md</code>: 411件</li>
+<li><code>knowledge/スキル別/セールス/セールスと集客の横断判断基準.md</code>: 53件</li>
+<li><code>knowledge/ファネル型/共通/広告とファネル検証の原理.md</code>: 53件</li>
+<li><code>knowledge/事例/田中の持ちネタ事例集_引用される実例.md</code>: 53件</li>
+<li><code>knowledge/共通/事業設計の哲学_ライフスタイルと健全性.md</code>: 53件</li>
+<li><code>knowledge/共通/田中の基準値集_セールスと集客.md</code>: 53件</li>
+</ul>
+<h2>Stage B未統合候補サンプル</h2>
+<ul>
+<li>検出なし</li>
+</ul>
+<h2>新しいYAMLサンプル</h2>
+<ul>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251117_5c21e7d02528.yaml</code> (2026-07-08T21:56:59, 6970 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20260105_d0f804307a57.yaml</code> (2026-07-03T15:50:59, 10997 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20260105_b50b7e2b641a.yaml</code> (2026-07-03T15:50:59, 14951 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251224_e0998aa64544.yaml</code> (2026-07-03T15:50:59, 13308 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251226_468abbbd7374.yaml</code> (2026-07-03T15:50:04, 12061 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251224_8937e05a7053.yaml</code> (2026-07-03T15:45:28, 8772 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251223_296e7048bf1e.yaml</code> (2026-07-03T15:45:28, 15230 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251223_2697e785fd0c.yaml</code> (2026-07-03T15:44:53, 14611 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251223_81758befcbeb.yaml</code> (2026-07-03T15:44:53, 11305 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251222_02e68a254108.yaml</code> (2026-07-03T14:28:27, 19766 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251222_613c626652cc.yaml</code> (2026-07-03T14:28:27, 9769 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251222_d341dd735ff4.yaml</code> (2026-07-03T14:28:27, 11001 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251222_19a74e8f31f3.yaml</code> (2026-07-03T14:28:27, 14333 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251220_5955954ee003.yaml</code> (2026-07-03T14:28:27, 11368 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251219_68ebdd3efb99.yaml</code> (2026-07-03T14:28:27, 13771 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251219_b81bfc1d536a.yaml</code> (2026-07-03T14:28:27, 12869 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251219_b6de43e2660c.yaml</code> (2026-07-03T14:28:27, 10995 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251218_422d05a5dd27.yaml</code> (2026-07-03T13:10:50, 8019 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251218_e36193f7556d.yaml</code> (2026-07-03T13:10:50, 9856 bytes)</li>
+<li><code>13_データ原本保存庫/zoom個人コンサルデータ/_抽出/personal_20251217_f4015975c39f.yaml</code> (2026-07-03T13:10:50, 11221 bytes)</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-09-02)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 4QIFGBDW<br />
+Generated by: 田中祐一（Codex）</p>
+<hr />
+</article>
 </main>
+</div>
 </body>
 </html>

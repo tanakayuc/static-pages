@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>行動していない人の不満に応えない_定量的にあぶり出す仕組み - 勝ち隊マニュアル</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>行動していない人の不満に応えない（定量的にあぶり出す仕組み） - 勝ち隊マニュアル</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,32 +247,49 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
 .sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
   border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
 }
 .sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
 }
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
 .sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
 }
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
 .sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
 }
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
 /* ===== スマホ：サイドバー非表示・本文全幅 ===== */
 .mobile-back {
   display: none;
@@ -271,94 +303,87 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 .mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  .layout { display: block; }
   .sidebar { display: none; }
   .mobile-back { display: block; }
   .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.4rem; }
   .article h2 { font-size: 1.15rem; }
   .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
 <div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
 <div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
+<nav class="sidebar" aria-label="勝ち隊マニュアル">
+<div class="brand">THE LEAD DOCUMENT</div>
 <h3>勝ち隊マニュアル</h3>
-<a href="015.html" class="sidebar-item"><span class="date">2026年08月27日</span> グラデーション理論_中間層の役割</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年08月27日</span> コミュニティ_価値観浸透の原理</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年08月27日</span> コミュニティファースト_哲学</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年08月27日</span> コミュニティ内の商品プッシュは事務局が制限する</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年08月27日</span> コンサルとコミュニティ運営の二極化</a>
-<a href="005-d660b0c934ae.html" class="sidebar-item"><span class="date">2026年08月27日</span> マインドセットプログラムを最優先_感想ゲートで受講強制</a>
-<a href="006.html" class="sidebar-item"><span class="date">2026年08月27日</span> マニフェスト_価値観言語化</a>
-<a href="007.html" class="sidebar-item"><span class="date">2026年08月27日</span> リーダーシップ_失敗開示の原則</a>
-<a href="008.html" class="sidebar-item"><span class="date">2026年08月27日</span> リーダーシップ_方向性委譲不可の原則</a>
-<a href="009.html" class="sidebar-item"><span class="date">2026年08月27日</span> 入口管理_価値観マッチングの原則</a>
-<a href="011.html" class="sidebar-item"><span class="date">2026年08月27日</span> 客層分割_居場所型と結果型</a>
-<a href="011-21239b198a82.html" class="sidebar-item"><span class="date">2026年08月27日</span> 心理的安全性_失敗開示の文化</a>
-<a href="012.html" class="sidebar-item"><span class="date">2026年08月27日</span> 知識は動画に任せKPIシートで行動を強制する</a>
-<a href="013.html" class="sidebar-item"><span class="date">2026年08月27日</span> 結果責任と仕組み責任の切り分け_行動させる仕組みを作る</a>
-<a href="014.html" class="sidebar-item active"><span class="date">2026年08月27日</span> 行動していない人の不満に応えない_定量的にあぶり出す仕組み</a>
+<a href="015.html" class="sidebar-item"><span class="date">2026年09月02日</span> グラデーション理論 — 中間層の役割</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年09月02日</span> コミュニティ — 価値観浸透の原理</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年09月02日</span> コミュニティファースト — 哲学</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年09月02日</span> コミュニティ内の商品プッシュは事務局が制限する</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年09月02日</span> コンサルとコミュニティ運営の二極化</a>
+<a href="005-d660b0c934ae.html" class="sidebar-item"><span class="date">2026年09月02日</span> マインドセットプログラムを最優先（感想ゲートで受講強制）</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年09月02日</span> マニフェスト — 価値観言語化の判断基準</a>
+<a href="007.html" class="sidebar-item"><span class="date">2026年09月02日</span> リーダーシップ — 失敗開示の原則</a>
+<a href="008.html" class="sidebar-item"><span class="date">2026年09月02日</span> リーダーシップ — 方向性委譲不可の原則</a>
+<a href="009.html" class="sidebar-item"><span class="date">2026年09月02日</span> 入口管理 — 価値観マッチングの原則</a>
+<a href="011.html" class="sidebar-item"><span class="date">2026年09月02日</span> 客層分割：居場所型と結果型</a>
+<a href="011-21239b198a82.html" class="sidebar-item"><span class="date">2026年09月02日</span> 心理的安全性 — 失敗開示の文化</a>
+<a href="012.html" class="sidebar-item"><span class="date">2026年09月02日</span> 知識は動画に任せ、KPIシートで行動を強制する</a>
+<a href="013.html" class="sidebar-item"><span class="date">2026年09月02日</span> 結果責任と仕組み責任の切り分け（行動させる仕組みを作る）</a>
+<a href="014.html" class="sidebar-item active"><span class="date">2026年09月02日</span> 行動していない人の不満に応えない（定量的にあぶり出す仕組み）</a>
 </nav>
 <main class="content">
 <article class="article">
-<pre>---
-type: 判断基準
-tier: S
-tags: [コミュニティ運営, クレーム対応, 講座運営, チェックシート, 行動管理, 可視化]
-genre: 講座運営
-perspective: 共通
-status: 採用
-version: 1.0
-last_updated: 2026-07-16
-source: "片岡守MTG 2026-07-03（田中祐一発言）+ 2026-07-16 田中補足（昇格質問への回答）"
-related:
-  - knowledge/スキル別/講座運営/知識は動画に任せKPIシートで行動を強制する.md
-  - knowledge/スキル別/講座運営/結果責任と仕組み責任の切り分け_行動させる仕組みを作る.md
-  - knowledge/スキル別/講座運営/マインドセットプログラムを最優先_感想ゲートで受講強制.md
-used_by:
-  - MCP:相談モード
-立場:
-  - プロデューサー
-  - コンテンツホルダー
-活用シーン:
-  - 行動していない受講生からのクレーム対応
-  - コミュニティ運営で誰の声を拾うかの判断
-  - 講座の行動管理・可視化の設計
-リフレーム: 「全員の声に応える」のは優しさではなく、講座運営を不健全にする。行動していない人に応えないのは冷たく見えて、合理的に健全な運営を保つ判断。
----
-
-# 行動していない人の不満に応えない（定量的にあぶり出す仕組み）
-
-## 想定質問
-
-- Q: 行動していない受講生からのクレームにはどう対応すべきですか？
-- Q: 「行動していない」をどう判定すればいいですか？
-- Q: コミュニティ運営で誰の声を優先して拾うべきですか？
-
-## 判断基準：応えない方が健全
-
-やってもいないのに文句を言われても応えない。**行動しない人からの不満にいちいち答えないのは冷たいようだが、答えない方が合理的に健全な講座運営ができる。**
-
-一方、**やった上で悩んでいる人は全力で応援する**。ここが線引き。
-
-## 「行動していない」の判定基準＝仕組みで定量的にあぶり出す
-
-主観で判定しない。**チェックシートを埋めないとコンサル・フィードバックを受けられない**仕組みにする。そして埋めてもらうためにコーチング・プッシュを行う。
-
-## 講座設計をレビューするときの2つの観点
-
-田中がフィードバックするなら、この2点を重視する。
-
-1. **行動していない人が定量的にあぶり出される仕組みを持っているか**
-2. **「やるべきことシート」等を各担当・参加者に共有し、可視化されているか**
-
-**「これをやらないとフィードバックできない」と可視化することで、言い訳ができない状態を作る**ことが大事。判定を運営者の感覚に委ねず、仕組みが自動的に線を引くようにする。
-</pre><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+<hr />
+<p>type: 判断基準<br />
+tier: S<br />
+tags: [コミュニティ運営, クレーム対応, 講座運営, チェックシート, 行動管理, 可視化]<br />
+genre: 講座運営<br />
+perspective: 共通<br />
+status: 採用<br />
+version: 1.0<br />
+last_updated: 2026-07-16<br />
+source: "片岡守MTG 2026-07-03（田中祐一発言）+ 2026-07-16 田中補足（昇格質問への回答）"<br />
+related:<br />
+  - knowledge/スキル別/講座運営/知識は動画に任せKPIシートで行動を強制する.md<br />
+  - knowledge/スキル別/講座運営/結果責任と仕組み責任の切り分け_行動させる仕組みを作る.md<br />
+  - knowledge/スキル別/講座運営/マインドセットプログラムを最優先_感想ゲートで受講強制.md<br />
+used_by:<br />
+  - MCP:相談モード<br />
+立場:<br />
+  - プロデューサー<br />
+  - コンテンツホルダー<br />
+活用シーン:<br />
+  - 行動していない受講生からのクレーム対応<br />
+  - コミュニティ運営で誰の声を拾うかの判断<br />
+  - 講座の行動管理・可視化の設計<br />
+リフレーム: 「全員の声に応える」のは優しさではなく、講座運営を不健全にする。行動していない人に応えないのは冷たく見えて、合理的に健全な運営を保つ判断。</p>
+<hr />
+<h1>行動していない人の不満に応えない（定量的にあぶり出す仕組み）</h1>
+<h2>想定質問</h2>
+<ul>
+<li>Q: 行動していない受講生からのクレームにはどう対応すべきですか？</li>
+<li>Q: 「行動していない」をどう判定すればいいですか？</li>
+<li>Q: コミュニティ運営で誰の声を優先して拾うべきですか？</li>
+</ul>
+<h2>判断基準：応えない方が健全</h2>
+<p>やってもいないのに文句を言われても応えない。<strong>行動しない人からの不満にいちいち答えないのは冷たいようだが、答えない方が合理的に健全な講座運営ができる。</strong></p>
+<p>一方、<strong>やった上で悩んでいる人は全力で応援する</strong>。ここが線引き。</p>
+<h2>「行動していない」の判定基準＝仕組みで定量的にあぶり出す</h2>
+<p>主観で判定しない。<strong>チェックシートを埋めないとコンサル・フィードバックを受けられない</strong>仕組みにする。そして埋めてもらうためにコーチング・プッシュを行う。</p>
+<h2>講座設計をレビューするときの2つの観点</h2>
+<p>田中がフィードバックするなら、この2点を重視する。</p>
+<ol>
+<li><strong>行動していない人が定量的にあぶり出される仕組みを持っているか</strong></li>
+<li><strong>「やるべきことシート」等を各担当・参加者に共有し、可視化されているか</strong></li>
+</ol>
+<p><strong>「これをやらないとフィードバックできない」と可視化することで、言い訳ができない状態を作る</strong>ことが大事。判定を運営者の感覚に委ねず、仕組みが自動的に線を引くようにする。</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>

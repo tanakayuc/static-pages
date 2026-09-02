@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>20250315_zoom_ref04_分析 - 田中祐一 PLC セールス分析（電話・Zoom個別）</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>20250315 ref04 セールス分析（Zoom 個別） - 田中祐一 PLC セールス分析（電話・Zoom個別）</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,32 +247,49 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
 .sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
   border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
 }
 .sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
 }
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
 .sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
 }
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
 .sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
 }
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
 /* ===== スマホ：サイドバー非表示・本文全幅 ===== */
 .mobile-back {
   display: none;
@@ -271,125 +303,170 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 .mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  .layout { display: block; }
   .sidebar { display: none; }
   .mobile-back { display: block; }
   .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.4rem; }
   .article h2 { font-size: 1.15rem; }
   .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
 <div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
 <div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
+<nav class="sidebar" aria-label="田中祐一 PLC セールス分析（電話・Zoom個別）">
+<div class="brand">REPORT</div>
 <h3>田中祐一 PLC セールス分析（電話・Zoom個別）</h3>
-<a class="sidebar-item sidebar-item--cross" href="../tanaka-plc-sales-manual/">セールスレポート（トップ）</a><a href="20260312.html" class="sidebar-item"><span class="date">2026年03月12日</span> 20260312_zoom_ref01_分析</a>
-<a href="20260222.html" class="sidebar-item"><span class="date">2026年02月22日</span> 20260222_zoom_ref06_分析</a>
-<a href="20250801.html" class="sidebar-item"><span class="date">2025年08月01日</span> 20250801_zoom_ref10_分析</a>
-<a href="20250714.html" class="sidebar-item"><span class="date">2025年07月14日</span> 20250714_zoom_ref08_分析</a>
-<a href="20250601.html" class="sidebar-item"><span class="date">2025年06月01日</span> 20250601_zoom_ref09_分析</a>
-<a href="20250501.html" class="sidebar-item"><span class="date">2025年05月01日</span> 20250501_zoom_ref07_分析</a>
-<a href="20250315.html" class="sidebar-item active"><span class="date">2025年03月15日</span> 20250315_zoom_ref04_分析</a>
-<a href="20250312.html" class="sidebar-item"><span class="date">2025年03月12日</span> 20250312_zoom_ref03_分析</a>
-<a href="20250308.html" class="sidebar-item"><span class="date">2025年03月08日</span> 20250308_zoom_ref02_分析</a>
-<a href="20250225.html" class="sidebar-item"><span class="date">2025年02月25日</span> 20250225_zoom_ref05_分析</a>
+<a class="sidebar-item sidebar-item--cross" href="../tanaka-plc-sales-manual/">セールスレポート（トップ）</a><a href="20260312.html" class="sidebar-item"><span class="date">2026年03月12日</span> 20260312 ref01 セールス分析（Zoom 個別）</a>
+<a href="20260222.html" class="sidebar-item"><span class="date">2026年02月22日</span> 20260222 ref06 セールス分析（Zoom 個別）</a>
+<a href="20250801.html" class="sidebar-item"><span class="date">2025年08月01日</span> 20250801 ref10 セールス分析（Zoom 個別）</a>
+<a href="20250714.html" class="sidebar-item"><span class="date">2025年07月14日</span> 20250714 ref08 セールス分析（Zoom 個別）</a>
+<a href="20250601.html" class="sidebar-item"><span class="date">2025年06月01日</span> 20250601 ref09 セールス分析（Zoom 個別）</a>
+<a href="20250501.html" class="sidebar-item"><span class="date">2025年05月01日</span> 20250501 ref07 セールス分析（Zoom 個別）</a>
+<a href="20250315.html" class="sidebar-item active"><span class="date">2025年03月15日</span> 20250315 ref04 セールス分析（Zoom 個別）</a>
+<a href="20250312.html" class="sidebar-item"><span class="date">2025年03月12日</span> 20250312 ref03 セールス分析（Zoom 個別）</a>
+<a href="20250308.html" class="sidebar-item"><span class="date">2025年03月08日</span> 20250308 ref02 セールス分析（Zoom 個別）</a>
+<a href="20250225.html" class="sidebar-item"><span class="date">2025年02月25日</span> 20250225 ref05 セールス分析（Zoom 個別）</a>
 </nav>
 <main class="content">
 <article class="article">
-<pre># 20250315 ref04 セールス分析（Zoom 個別）
-
-原本は `21_プロジェクト一覧/田中祐一/セールス情報/セールス/セールス原本/書き起こし/04_個別セールス書き起こし_04.md`。
-
-**2026-07-06改訂**: 旧版は未記入テンプレートのまま公開されていた。書き起こし全文を精読し全面的に書き直した。
-
----
-
-## 基本情報
-
-| 項目 | 内容 |
-|------|------|
-| 顧客（共有用表記） | 受講生ref04（漆原様ご夫婦） |
-| フェーズ | Zoom個別説明会 |
-| 実施日 | 2025-03-15 |
-| セールス担当 | 石田明（顧客から「ちなみに石田さんは...今の状態になられる前にこのPLCの中でプロデューサーとして入られたっていうことですか?」と名前で質問されている） |
-| 結果 | 不明（本ファイル範囲では料金提示・決済の場面まで到達せず終了） |
-| 支払・決済 | 記述なし |
-| 特記 | 骨董品・美術品の鑑定・買取業を50年営む老舗の店主（57歳）ご夫妻同席 |
-
-### 書き起こしからの引用（根拠）
-
-- 「単純に200万もあれば、ま、今よりは全然こういろんなことが逆にできるようになると思ってます」（L24）— 必要な追加利益目標（月200万円の粗利）を顧客自身が言語化した箇所。
-- 「なんか奥様のシェアしていただいて...そこが伝わればその、その骨董品自体にも興味持ってもらえるってこと」（L31）— 奥様の懸念（広告文言への共感経緯）を丁寧に拾っている箇所。
-
----
-
-## 顧客像・所感
-
-漆原様は業界全体の価格崩壊（相場が最盛期の1/10程度）という構造的課題を抱え、知識・鑑定スキルを教える教育コンテンツ化に強い意欲があるが、時間的余裕のなさを奥様が懸念。担当は「同業者向け講座」と「個人向け骨董購入導線の講座」の2方向性を整理し、負担軽減のためのシステム化（メンバーサイト・グループチャットでのレバレッジ、AI活用）を提案している。
-
----
-
-## 1. 良かった点
-
-- 夫婦それぞれの懸念（ご主人＝収益性、奥様＝時間的負担）を個別に丁寧にヒアリングし、両者の合意形成を進めた対応。
-- 必要な追加利益目標（月200万円の粗利があれば十分）を具体的に引き出せている。
-- 奥様が「顧客の心を掴む」という広告文言に惹かれて田中を知ったという経緯を丁寧に聞き、好意的な反応を引き出している。
-
----
-
-## 2. 改善点・今後の伸びしろ
-
-- 具体的な料金提示・クロージングの場面が本ファイル範囲に含まれておらず、着地の検証ができない。AI活用の話題が続く途中で終了しており、時間配分の課題が推察される。
-
----
-
-## 3. マニュアルとの照合（概要）
-
-| 観点 | メモ |
-|------|------|
-| 現状ヒアリング | 夫婦それぞれの懸念を個別に丁寧に引き出せている（好事例） |
-| PLC環境との接続 | 2方向性（同業者向け／個人向け）の整理は具体的 |
-
-### 新しいパターン（マニュアル追記候補）
-
-夫婦同席の商談で、双方の異なる懸念（収益性・時間負担）を分けてヒアリングする手法は成功パターンとして追記の価値がある。
-
----
-
-## 4. 総合評価
-
-| 項目 | 評価 |
-|------|------|
-| ラポール構築 | ◎（夫婦双方との信頼構築が丁寧） |
-| 課題の明確化 | ○ |
-| 解決策の提示・PLCとのマッチ | ○ |
-| クロージング・着地 | 評価不可（本ファイル範囲で料金提示・決済場面に未到達） |
-| 総合 | B+ |
-
-### 所見
-
-夫婦同席という難易度の高い商談を、双方の懸念を分けて丁寧に扱うことで前向きな雰囲気を作れている。着地の検証ができない点は今後の課題。
-
----
-
-## 参照
-
-- `PLC_評価チェックリスト_叩き台.md`
-- `../セールスマニュアル/セールス担当別_傾向とクセ.md`
-
----
-Produced by KATSUO MARKETING
-Version: 2.0 (2026-07-06 全面書き直し・実発話ベース)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: UJV6OH9S
-Generated by: Claude（書き起こし精読済み）
----
-</pre><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+<h1>20250315 ref04 セールス分析（Zoom 個別）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#基本情報">基本情報</a></li><li class="toc-sub"><a href="#書き起こしからの引用（根拠）">書き起こしからの引用（根拠）</a></li><li class="toc-main"><a href="#顧客像・所感">顧客像・所感</a></li><li class="toc-main"><a href="#1.-良かった点">1. 良かった点</a></li><li class="toc-main"><a href="#2.-改善点・今後の伸びしろ">2. 改善点・今後の伸びしろ</a></li><li class="toc-main"><a href="#3.-マニュアルとの照合（概要）">3. マニュアルとの照合（概要）</a></li><li class="toc-sub"><a href="#新しいパターン（マニュアル追記候補）">新しいパターン（マニュアル追記候補）</a></li><li class="toc-main"><a href="#4.-総合評価">4. 総合評価</a></li><li class="toc-sub"><a href="#所見">所見</a></li><li class="toc-main"><a href="#参照">参照</a></li></ul></nav>
+<p>原本は <code>21_プロジェクト一覧/田中祐一/セールス情報/セールス/セールス原本/書き起こし/04_個別セールス書き起こし_04.md</code>。</p>
+<p><strong>2026-07-06改訂</strong>: 旧版は未記入テンプレートのまま公開されていた。書き起こし全文を精読し全面的に書き直した。</p>
+<hr />
+<h2 id="基本情報">基本情報</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客（共有用表記）</td>
+<td>受講生ref04（漆原様ご夫婦）</td>
+</tr>
+<tr>
+<td>フェーズ</td>
+<td>Zoom個別説明会</td>
+</tr>
+<tr>
+<td>実施日</td>
+<td>2025-03-15</td>
+</tr>
+<tr>
+<td>セールス担当</td>
+<td>石田明（顧客から「ちなみに石田さんは...今の状態になられる前にこのPLCの中でプロデューサーとして入られたっていうことですか?」と名前で質問されている）</td>
+</tr>
+<tr>
+<td>結果</td>
+<td>不明（本ファイル範囲では料金提示・決済の場面まで到達せず終了）</td>
+</tr>
+<tr>
+<td>支払・決済</td>
+<td>記述なし</td>
+</tr>
+<tr>
+<td>特記</td>
+<td>骨董品・美術品の鑑定・買取業を50年営む老舗の店主（57歳）ご夫妻同席</td>
+</tr>
+</tbody>
+</table>
+<h3 id="書き起こしからの引用（根拠）">書き起こしからの引用（根拠）</h3>
+<ul>
+<li>「単純に200万もあれば、ま、今よりは全然こういろんなことが逆にできるようになると思ってます」（L24）— 必要な追加利益目標（月200万円の粗利）を顧客自身が言語化した箇所。</li>
+<li>「なんか奥様のシェアしていただいて...そこが伝わればその、その骨董品自体にも興味持ってもらえるってこと」（L31）— 奥様の懸念（広告文言への共感経緯）を丁寧に拾っている箇所。</li>
+</ul>
+<hr />
+<h2 id="顧客像・所感">顧客像・所感</h2>
+<p>漆原様は業界全体の価格崩壊（相場が最盛期の1/10程度）という構造的課題を抱え、知識・鑑定スキルを教える教育コンテンツ化に強い意欲があるが、時間的余裕のなさを奥様が懸念。担当は「同業者向け講座」と「個人向け骨董購入導線の講座」の2方向性を整理し、負担軽減のためのシステム化（メンバーサイト・グループチャットでのレバレッジ、AI活用）を提案している。</p>
+<hr />
+<h2 id="1.-良かった点">1. 良かった点</h2>
+<ul>
+<li>夫婦それぞれの懸念（ご主人＝収益性、奥様＝時間的負担）を個別に丁寧にヒアリングし、両者の合意形成を進めた対応。</li>
+<li>必要な追加利益目標（月200万円の粗利があれば十分）を具体的に引き出せている。</li>
+<li>奥様が「顧客の心を掴む」という広告文言に惹かれて田中を知ったという経緯を丁寧に聞き、好意的な反応を引き出している。</li>
+</ul>
+<hr />
+<h2 id="2.-改善点・今後の伸びしろ">2. 改善点・今後の伸びしろ</h2>
+<ul>
+<li>具体的な料金提示・クロージングの場面が本ファイル範囲に含まれておらず、着地の検証ができない。AI活用の話題が続く途中で終了しており、時間配分の課題が推察される。</li>
+</ul>
+<hr />
+<h2 id="3.-マニュアルとの照合（概要）">3. マニュアルとの照合（概要）</h2>
+<table>
+<thead>
+<tr>
+<th>観点</th>
+<th>メモ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>現状ヒアリング</td>
+<td>夫婦それぞれの懸念を個別に丁寧に引き出せている（好事例）</td>
+</tr>
+<tr>
+<td>PLC環境との接続</td>
+<td>2方向性（同業者向け／個人向け）の整理は具体的</td>
+</tr>
+</tbody>
+</table>
+<h3 id="新しいパターン（マニュアル追記候補）">新しいパターン（マニュアル追記候補）</h3>
+<p>夫婦同席の商談で、双方の異なる懸念（収益性・時間負担）を分けてヒアリングする手法は成功パターンとして追記の価値がある。</p>
+<hr />
+<h2 id="4.-総合評価">4. 総合評価</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ラポール構築</td>
+<td>◎（夫婦双方との信頼構築が丁寧）</td>
+</tr>
+<tr>
+<td>課題の明確化</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>解決策の提示・PLCとのマッチ</td>
+<td><span class="eval eval-ok">○</span></td>
+</tr>
+<tr>
+<td>クロージング・着地</td>
+<td>評価不可（本ファイル範囲で料金提示・決済場面に未到達）</td>
+</tr>
+<tr>
+<td>総合</td>
+<td>B+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="所見">所見</h3>
+<p>夫婦同席という難易度の高い商談を、双方の懸念を分けて丁寧に扱うことで前向きな雰囲気を作れている。着地の検証ができない点は今後の課題。</p>
+<hr />
+<h2 id="参照">参照</h2>
+<ul>
+<li><code>PLC_評価チェックリスト_叩き台.md</code></li>
+<li><code>../セールスマニュアル/セールス担当別_傾向とクセ.md</code></li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 2.0 (2026-07-06 全面書き直し・実発話ベース)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: UJV6OH9S<br />
+Generated by: Claude（書き起こし精読済み）</p>
+<hr /><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>

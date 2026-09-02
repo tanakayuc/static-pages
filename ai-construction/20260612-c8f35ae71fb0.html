@@ -3,290 +3,673 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F0FAF8">
 <title>調査_20260612_ワンソウルメルマガ再編成計画 - AI社員化プロジェクト 設計方針</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  color: var(--ink);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { display: none; }
-    .mobile-nav { display: block; }
-    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.95rem; line-height: 1.7; }
-    .main a { word-wrap: break-word; overflow-wrap: break-word; }
-    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
+  border: 1px solid var(--line);
+  font-size: 1.03rem;
 }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .main { padding: 0.75rem; }
-    .main h1 { font-size: 1.15rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.9rem; }
-    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
-    .main table { font-size: 0.8rem; }
-    .main th, .main td { padding: 0.25rem; }
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  position: relative;
 }
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient);
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(135deg, var(--sub), var(--deep));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar {
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
+  border-right: 1px solid var(--line);
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
+}
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active {
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
+}
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 860px) {
+  .layout { display: block; }
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
-<nav class="sidebar">
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar" aria-label="AI社員化プロジェクト 設計方針">
+<div class="brand">THE LEAD DOCUMENT</div>
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
-<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
-<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
-<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
-<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ナレッジフィードバックループ_実装ログ</a>
-<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_初期実装ログ</a>
-<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_実装設計とタスク一覧</a>
-<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チーム_AI社員スケルトン実装ログ</a>
-<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_田中祐一AIとAI社員の連携設計メモ</a>
-<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
-<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計_Zoom一括蒸留_StageB仕分けルール_20260703</a>
-<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 一括蒸留_進捗台帳_20260702</a>
-<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
-<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
-<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> 監査_20260619_knowledge格納構造_findings_共有用</a>
-<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
-<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
-<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
-<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
-<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
-<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
-<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
-<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
-<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
-<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
-<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
-<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
-<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
-<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
-<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
-<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
-<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
-<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
-<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
-<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
-<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
-<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
-<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
-<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
-<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
-<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
-<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
-<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
-<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
-<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
-<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年09月02日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中AIナレッジ同期 最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中祐一AI インプット来歴一覧（正本）</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年09月02日</span> 運用: 田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
 <a href="20260612-c8f35ae71fb0.html" class="sidebar-item active"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
-<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
-<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
-<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
-<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
-<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a>
 </nav>
-<main class="main">
-<pre># 調査_20260612_ワンソウルメルマガ再編成計画
-
-作成日: 2026-06-12
-対象: `21_プロジェクト一覧/伊藤直美/ワンソウル4期/04_デイリーメルマガ/`
-正本: 【ワンソウル4期】ディレクトリ一覧（スプレッドシート ID: `1veVSnkH7eENrA-h2-4BLoE8bBjnUjtCH_xboBVkZ9Ps`）
-ステータス: **診断のみ完了。ファイルの移動・削除・リネームは未実施**
-
----
-
-## 1. 結論（正しい通数）
-
-正本スプレッドシートの「デイリーメルマガ」「デイリーLINE＠」2シートを列ブロック単位でパースした確定値:
-
-| 区分 | 4期 | 3期 | 2期 | 計 |
-| --- | --- | --- | --- | --- |
-| デイリーメール | **94通** | **92通** | **85通** | 271通 |
-| デイリーLINE | **92通** | **57通** | （独立原稿なし※） | 149通 |
-| 合計（ユニークDoc） | 186 | 149 | 85 | **420通** |
-
-- ※ 2期: 「デイリーLINE＠」シートの2期列ブロックは「デイリーメルマガ」シートの2期列と**85本すべて同一のGoogle Doc**。2期に独立したLINE原稿は存在しない。
-- シート行数と通数の差分（同一Docを複数行から参照しているケース）:
-  - メール3期: 94行中2組が重複（行88/89 = osdm3-2-41 を2タイトルで使用、行95/97 = osdm3-2-43 の完全重複行）→ ユニーク92
-  - LINE4期: 93行中、31日目/32日目（行33/34）が同一Doc → ユニーク92
-  - LINE3期: 58行中、行20/21が同一Doc → ユニーク57
-- 過去の「435通」という計上は誤り。ローカルの重複除去後ユニークDoc数441（= 正本420 + 誤配置の「購入者未購入者メール」21）に由来する、**期・媒体・別シートの混在合算**だった。
-
-### 正本シートの列構造（再取り込み時の注意）
-
-「デイリーメルマガ」シート（A1:K120、ヘッダー行3、データ行4〜120）:
-
-| 列 | A | B | C | D | E | F | G | H | I | J | K |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 内容 | No(4期/3期共通) | 4期配信日時 | 4期タイトル | 4期原稿URL | 3期配信日時 | 3期タイトル | 3期原稿URL | No(2期) | 2期配信日時 | 2期タイトル | 2期原稿URL |
-
-「デイリーLINE＠」シート（ヘッダー行2、データ行3〜）: A=No(4期) B-D=4期[配信日時/時間/原稿URL]、E=No(3期) F-H=3期[同]、I=No(2期) J-L=2期[配信日時/タイトル/原稿URL]。
-
-- **1行 = 1通ではなく、1行に最大3期分（メルマガシートは3通分）が横並び**。過去の取り込みはここを誤認した。
-- A1「3期」・A2「osdm3-2-37_...」・J2「第2期」はヘッダー外のメモ書き（osdm3-2-37本体は3期列内に存在、取り込み対象外でよい）。
-- 隣接シート構成（全15シート）: ディレクトリ一覧 / 継続決済フォーム / 自動返信文一覧 / 動画一覧 / **デイリーメルマガ** / **デイリーLINE＠** / 購入者未購入者メール / スケジュール / 特典一覧 / 説明会スケジュール / 説明会会場一覧 / MTG動画一覧 / アフィリ通信配信履歴 / 疎通Wチェックリスト / 案件終了時チェックリスト
-- ローカルの `21_プロジェクト一覧/伊藤直美/【ワンソウル4期】ディレクトリ一覧.xlsx` は全15シートを含む正本ミラーとして利用可能（本診断はこれとDownloadsのCSVエクスポートの両方で突合し一致確認済み）。
-
----
-
-## 2. ローカル汚染状況サマリー
-
-`04_デイリーメルマガ/` 配下の .md 887ファイルを全件走査（Doc ID抽出＋本文MD5ハッシュ）した結果:
-
-### 2-1. フォルダ別内訳
-
-| 場所 | 件数 | 実態 |
-| --- | --- | --- |
-| 直下 | 462 | **全件が不要**（下記2-2参照）。正本由来408 + 誤配置42 + ゴミ断片12 |
-| `デイリーメール/` | 95 | **4期メール94通の完全ミラー**（正本と過不足ゼロ）+ INDEX.md |
-| `デイリーライン/` | 96 | **4期LINE92通の完全ミラー**（93ファイル: 31日目/32日目が同一Doc）+ INDEX.md・対応表.md・移行手順.md |
-| `_デイリーメール重複/` | 177 | 名前に反して重複ではなく、**3期メール92通＋2期メール85通の完全ミラー**（正本と過不足ゼロ） |
-| `_デイリーライン重複/` | 57 | 同じく、**3期LINE57通の完全ミラー**（正本と過不足ゼロ） |
-
-→ **4つのサブフォルダだけで正本420通が100%揃っている**。`_〜重複/` という命名が「3期・2期の正規コンテンツ」を重複ゴミに見せていたのが、認識汚染の最大要因。
-
-### 2-2. 直下462ファイルの内訳（期混在の実態）
-
-| 分類 | 件数 |
-| --- | --- |
-| 4期メール（サブフォルダと同一内容の重複コピー） | 94 |
-| 3期メール（同上） | 92 |
-| 2期メール（同上） | 85 |
-| 4期LINE（同上・ただし82〜93日目の12本は直下に無くサブフォルダのみ） | 80 |
-| 3期LINE（同上） | 57 |
-| 「購入者未購入者メール」シート由来の誤配置（21Doc×2コピー） | 42 |
-| 「特典一覧」「疎通Wチェックリスト」由来の断片ゴミ（本文18〜65字・URLなし） | 12 |
-
-### 2-3. 重複・品質指標
-
-- 重複率: 429 Doc が2〜3コピー存在（428 Doc×2 + 1 Doc×3）。887ファイル中、**残すべき実体は420通＋README類のみ → 約53%が冗長**
-- 重複コピーの本文ハッシュは428/429組で完全一致（安全に1本へ集約可能）。唯一の差分は LINE4期 31日目/32日目（同一Docの取得時期違い、833字 vs 848字 → 848字の方を採用）
-- 「3重複」に見えていたのは: 直下ダンプ＋サブフォルダ整理版＋（メール/LINE間の2期共有）の合算
-- **タイトル誤記（重要）**: メール271ファイル中**138ファイルでH1タイトルが正本と不一致**。原因は過去取り込みが「同じ行の4期タイトル」を3期/2期のURLに付けたため（例: `_デイリーメール重複/「正直、アヤシイのですが」と言われました.md` は H1=osdm4-2-11 だが実体は osdm3-2-12_じつは残り96％の脳も使えている？）。**Doc IDと本文は正しい**ので、リネームは必ず「Doc ID→正本タイトル」で機械的に引き直す。ローカルのH1・ファイル名は信用しない
-- 空・断片ファイル: 本文0字4件（INDEX.md×2・対応表.md・移行手順.md = メタ文書）、本文100字未満16件（特典断片12・取得失敗プレースホルダ4）
-
-### 2-4. 不足本文（Docs再取得が必要なもの）
-
-取得時にタイムアウトし本文が「取得失敗:」プレースホルダのままのDoc。**2本のみ**（各2コピーとも失敗）:
-
-| 期 | osdm番号 | タイトル | Doc ID |
-| --- | --- | --- | --- |
-| 3期メール | osdm3-2-12 | じつは残り96％の脳も使えている？ | `1TMLtURvVYwmojhSE29Fqv-VogDPL_aX1AsbH7tb_9Ic` |
-| 4期メール | osdm4-2-50 | 「愛」と「成長」の波動 | `1WkbHMVhJqbAnCk0NGcVfLqAd5_Dxt_3OYilgzvyFzHo` |
-
-上記2本を除く418通は本文がローカルに存在する（Docsリンクのみで本文未取得のものはゼロ）。
-
----
-
-## 3. 新フォルダ構成案
-
-正本（スプレッドシート）が4期のディレクトリ一覧の中で2期・3期を併記管理しているため、ローカルも **`ワンソウル4期/04_デイリーメルマガ/` 配下で期別に分離**して一元管理する（推奨）。
-
-```
-ワンソウル4期/04_デイリーメルマガ/
+<main class="content">
+<article class="article">
+<h1>調査_20260612_ワンソウルメルマガ再編成計画</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#1.-結論（正しい通数）">1. 結論（正しい通数）</a></li><li class="toc-sub"><a href="#正本シートの列構造（再取り込み時の注意）">正本シートの列構造（再取り込み時の注意）</a></li><li class="toc-main"><a href="#2.-ローカル汚染状況サマリー">2. ローカル汚染状況サマリー</a></li><li class="toc-sub"><a href="#2-1.-フォルダ別内訳">2-1. フォルダ別内訳</a></li><li class="toc-sub"><a href="#2-2.-直下462ファイルの内訳（期混在の実態）">2-2. 直下462ファイルの内訳（期混在の実態）</a></li><li class="toc-sub"><a href="#2-3.-重複・品質指標">2-3. 重複・品質指標</a></li><li class="toc-sub"><a href="#2-4.-不足本文（Docs再取得が必要なもの）">2-4. 不足本文（Docs再取得が必要なもの）</a></li><li class="toc-main"><a href="#3.-新フォルダ構成案">3. 新フォルダ構成案</a></li><li class="toc-main"><a href="#4.-ファイル命名規約案">4. ファイル命名規約案</a></li><li class="toc-main"><a href="#5.-移行手順（git-mv-で履歴保持）">5. 移行手順（git mv で履歴保持）</a></li><li class="toc-main"><a href="#6.-所要見積もり">6. 所要見積もり</a></li><li class="toc-main"><a href="#7.-補足（スコープ外の気づき）">7. 補足（スコープ外の気づき）</a></li></ul></nav>
+<p>作成日: 2026-06-12<br />
+対象: <code>21_プロジェクト一覧/伊藤直美/ワンソウル4期/04_デイリーメルマガ/</code><br />
+正本: 【ワンソウル4期】ディレクトリ一覧（スプレッドシート ID: <code>1veVSnkH7eENrA-h2-4BLoE8bBjnUjtCH_xboBVkZ9Ps</code>）<br />
+ステータス: <strong>診断のみ完了。ファイルの移動・削除・リネームは未実施</strong></p>
+<hr />
+<h2 id="1.-結論（正しい通数）">1. 結論（正しい通数）</h2>
+<p>正本スプレッドシートの「デイリーメルマガ」「デイリーLINE＠」2シートを列ブロック単位でパースした確定値:</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>4期</th>
+<th>3期</th>
+<th>2期</th>
+<th>計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>デイリーメール</td>
+<td><strong>94通</strong></td>
+<td><strong>92通</strong></td>
+<td><strong>85通</strong></td>
+<td>271通</td>
+</tr>
+<tr>
+<td>デイリーLINE</td>
+<td><strong>92通</strong></td>
+<td><strong>57通</strong></td>
+<td>（独立原稿なし※）</td>
+<td>149通</td>
+</tr>
+<tr>
+<td>合計（ユニークDoc）</td>
+<td>186</td>
+<td>149</td>
+<td>85</td>
+<td><strong>420通</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>※ 2期: 「デイリーLINE＠」シートの2期列ブロックは「デイリーメルマガ」シートの2期列と<strong>85本すべて同一のGoogle Doc</strong>。2期に独立したLINE原稿は存在しない。</li>
+<li>シート行数と通数の差分（同一Docを複数行から参照しているケース）:</li>
+<li>メール3期: 94行中2組が重複（行88/89 = osdm3-2-41 を2タイトルで使用、行95/97 = osdm3-2-43 の完全重複行）→ ユニーク92</li>
+<li>LINE4期: 93行中、31日目/32日目（行33/34）が同一Doc → ユニーク92</li>
+<li>LINE3期: 58行中、行20/21が同一Doc → ユニーク57</li>
+<li>過去の「435通」という計上は誤り。ローカルの重複除去後ユニークDoc数441（= 正本420 + 誤配置の「購入者未購入者メール」21）に由来する、<strong>期・媒体・別シートの混在合算</strong>だった。</li>
+</ul>
+<h3 id="正本シートの列構造（再取り込み時の注意）">正本シートの列構造（再取り込み時の注意）</h3>
+<p>「デイリーメルマガ」シート（A1:K120、ヘッダー行3、データ行4〜120）:</p>
+<table>
+<thead>
+<tr>
+<th>列</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+<th>I</th>
+<th>J</th>
+<th>K</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内容</td>
+<td>No(4期/3期共通)</td>
+<td>4期配信日時</td>
+<td>4期タイトル</td>
+<td>4期原稿URL</td>
+<td>3期配信日時</td>
+<td>3期タイトル</td>
+<td>3期原稿URL</td>
+<td>No(2期)</td>
+<td>2期配信日時</td>
+<td>2期タイトル</td>
+<td>2期原稿URL</td>
+</tr>
+</tbody>
+</table>
+<p>「デイリーLINE＠」シート（ヘッダー行2、データ行3〜）: A=No(4期) B-D=4期[配信日時/時間/原稿URL]、E=No(3期) F-H=3期[同]、I=No(2期) J-L=2期[配信日時/タイトル/原稿URL]。</p>
+<ul>
+<li><strong>1行 = 1通ではなく、1行に最大3期分（メルマガシートは3通分）が横並び</strong>。過去の取り込みはここを誤認した。</li>
+<li>A1「3期」・A2「osdm3-2-37_...」・J2「第2期」はヘッダー外のメモ書き（osdm3-2-37本体は3期列内に存在、取り込み対象外でよい）。</li>
+<li>隣接シート構成（全15シート）: ディレクトリ一覧 / 継続決済フォーム / 自動返信文一覧 / 動画一覧 / <strong>デイリーメルマガ</strong> / <strong>デイリーLINE＠</strong> / 購入者未購入者メール / スケジュール / 特典一覧 / 説明会スケジュール / 説明会会場一覧 / MTG動画一覧 / アフィリ通信配信履歴 / 疎通Wチェックリスト / 案件終了時チェックリスト</li>
+<li>ローカルの <code>21_プロジェクト一覧/伊藤直美/【ワンソウル4期】ディレクトリ一覧.xlsx</code> は全15シートを含む正本ミラーとして利用可能（本診断はこれとDownloadsのCSVエクスポートの両方で突合し一致確認済み）。</li>
+</ul>
+<hr />
+<h2 id="2.-ローカル汚染状況サマリー">2. ローカル汚染状況サマリー</h2>
+<p><code>04_デイリーメルマガ/</code> 配下の .md 887ファイルを全件走査（Doc ID抽出＋本文MD5ハッシュ）した結果:</p>
+<h3 id="2-1.-フォルダ別内訳">2-1. フォルダ別内訳</h3>
+<table>
+<thead>
+<tr>
+<th>場所</th>
+<th>件数</th>
+<th>実態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直下</td>
+<td>462</td>
+<td><strong>全件が不要</strong>（下記2-2参照）。正本由来408 + 誤配置42 + ゴミ断片12</td>
+</tr>
+<tr>
+<td><code>デイリーメール/</code></td>
+<td>95</td>
+<td><strong>4期メール94通の完全ミラー</strong>（正本と過不足ゼロ）+ INDEX.md</td>
+</tr>
+<tr>
+<td><code>デイリーライン/</code></td>
+<td>96</td>
+<td><strong>4期LINE92通の完全ミラー</strong>（93ファイル: 31日目/32日目が同一Doc）+ INDEX.md・対応表.md・移行手順.md</td>
+</tr>
+<tr>
+<td><code>_デイリーメール重複/</code></td>
+<td>177</td>
+<td>名前に反して重複ではなく、<strong>3期メール92通＋2期メール85通の完全ミラー</strong>（正本と過不足ゼロ）</td>
+</tr>
+<tr>
+<td><code>_デイリーライン重複/</code></td>
+<td>57</td>
+<td>同じく、<strong>3期LINE57通の完全ミラー</strong>（正本と過不足ゼロ）</td>
+</tr>
+</tbody>
+</table>
+<p>→ <strong>4つのサブフォルダだけで正本420通が100%揃っている</strong>。<code>_〜重複/</code> という命名が「3期・2期の正規コンテンツ」を重複ゴミに見せていたのが、認識汚染の最大要因。</p>
+<h3 id="2-2.-直下462ファイルの内訳（期混在の実態）">2-2. 直下462ファイルの内訳（期混在の実態）</h3>
+<table>
+<thead>
+<tr>
+<th>分類</th>
+<th>件数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4期メール（サブフォルダと同一内容の重複コピー）</td>
+<td>94</td>
+</tr>
+<tr>
+<td>3期メール（同上）</td>
+<td>92</td>
+</tr>
+<tr>
+<td>2期メール（同上）</td>
+<td>85</td>
+</tr>
+<tr>
+<td>4期LINE（同上・ただし82〜93日目の12本は直下に無くサブフォルダのみ）</td>
+<td>80</td>
+</tr>
+<tr>
+<td>3期LINE（同上）</td>
+<td>57</td>
+</tr>
+<tr>
+<td>「購入者未購入者メール」シート由来の誤配置（21Doc×2コピー）</td>
+<td>42</td>
+</tr>
+<tr>
+<td>「特典一覧」「疎通Wチェックリスト」由来の断片ゴミ（本文18〜65字・URLなし）</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-3.-重複・品質指標">2-3. 重複・品質指標</h3>
+<ul>
+<li>重複率: 429 Doc が2〜3コピー存在（428 Doc×2 + 1 Doc×3）。887ファイル中、<strong>残すべき実体は420通＋README類のみ → 約53%が冗長</strong></li>
+<li>重複コピーの本文ハッシュは428/429組で完全一致（安全に1本へ集約可能）。唯一の差分は LINE4期 31日目/32日目（同一Docの取得時期違い、833字 vs 848字 → 848字の方を採用）</li>
+<li>「3重複」に見えていたのは: 直下ダンプ＋サブフォルダ整理版＋（メール/LINE間の2期共有）の合算</li>
+<li><strong>タイトル誤記（重要）</strong>: メール271ファイル中<strong>138ファイルでH1タイトルが正本と不一致</strong>。原因は過去取り込みが「同じ行の4期タイトル」を3期/2期のURLに付けたため（例: <code>_デイリーメール重複/「正直、アヤシイのですが」と言われました.md</code> は H1=osdm4-2-11 だが実体は osdm3-2-12_じつは残り96％の脳も使えている？）。<strong>Doc IDと本文は正しい</strong>ので、リネームは必ず「Doc ID→正本タイトル」で機械的に引き直す。ローカルのH1・ファイル名は信用しない</li>
+<li>空・断片ファイル: 本文0字4件（INDEX.md×2・対応表.md・移行手順.md = メタ文書）、本文100字未満16件（特典断片12・取得失敗プレースホルダ4）</li>
+</ul>
+<h3 id="2-4.-不足本文（Docs再取得が必要なもの）">2-4. 不足本文（Docs再取得が必要なもの）</h3>
+<p>取得時にタイムアウトし本文が「取得失敗:」プレースホルダのままのDoc。<strong>2本のみ</strong>（各2コピーとも失敗）:</p>
+<table>
+<thead>
+<tr>
+<th>期</th>
+<th>osdm番号</th>
+<th>タイトル</th>
+<th>Doc ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3期メール</td>
+<td>osdm3-2-12</td>
+<td>じつは残り96％の脳も使えている？</td>
+<td><code>1TMLtURvVYwmojhSE29Fqv-VogDPL_aX1AsbH7tb_9Ic</code></td>
+</tr>
+<tr>
+<td>4期メール</td>
+<td>osdm4-2-50</td>
+<td>「愛」と「成長」の波動</td>
+<td><code>1WkbHMVhJqbAnCk0NGcVfLqAd5_Dxt_3OYilgzvyFzHo</code></td>
+</tr>
+</tbody>
+</table>
+<p>上記2本を除く418通は本文がローカルに存在する（Docsリンクのみで本文未取得のものはゼロ）。</p>
+<hr />
+<h2 id="3.-新フォルダ構成案">3. 新フォルダ構成案</h2>
+<p>正本（スプレッドシート）が4期のディレクトリ一覧の中で2期・3期を併記管理しているため、ローカルも <strong><code>ワンソウル4期/04_デイリーメルマガ/</code> 配下で期別に分離</strong>して一元管理する（推奨）。</p>
+<pre><code>ワンソウル4期/04_デイリーメルマガ/
 ├── README.md                 ← 正本シートURL・列構造・通数・本計画へのリンクを記載
 ├── 4期メール/                 94通
 ├── 4期LINE/                   92通
 ├── 3期メール/                 92通
 ├── 3期LINE/                   57通
 └── 2期メール/                 85通（2期LINEはメールと同一原稿のため作らない。READMEに明記）
-```
-
-- `ワンソウル3期/` フォルダとの関係: 3期メルマガは**移さない**。`ワンソウル3期/INDEX.md` に「デイリーメルマガ・LINEは `../ワンソウル4期/04_デイリーメルマガ/3期メール/ ほか` を参照（正本シートが4期ディレクトリ一覧で3世代を併記管理しているため）」の参照リンクを追記するのみ。
-- 誤配置の「購入者未購入者メール」21通は新設 `ワンソウル4期/08_購入者未購入者メール/` へ移動（04_デイリーメルマガの管轄外のため）。
-
-## 4. ファイル命名規約案
-
-```
-NNN_osdm番号_タイトル.md        （メール）   例: 001_osdm4-1_【集合意識の秘密】公開スタートです♪.md
+</code></pre>
+<ul>
+<li><code>ワンソウル3期/</code> フォルダとの関係: 3期メルマガは<strong>移さない</strong>。<code>ワンソウル3期/INDEX.md</code> に「デイリーメルマガ・LINEは <code>../ワンソウル4期/04_デイリーメルマガ/3期メール/ ほか</code> を参照（正本シートが4期ディレクトリ一覧で3世代を併記管理しているため）」の参照リンクを追記するのみ。</li>
+<li>誤配置の「購入者未購入者メール」21通は新設 <code>ワンソウル4期/08_購入者未購入者メール/</code> へ移動（04_デイリーメルマガの管轄外のため）。</li>
+</ul>
+<h2 id="4.-ファイル命名規約案">4. ファイル命名規約案</h2>
+<pre><code>NNN_osdm番号_タイトル.md        （メール）   例: 001_osdm4-1_【集合意識の秘密】公開スタートです♪.md
 NNN_LINE○日目_配信MMDD.md      （LINE）    例: 001_LINE1日目_配信0413.md
-```
-
-- `NNN` = シート行順の3桁連番（期内で1始まり）
-- タイトルは**Doc IDで正本シートから引き直したもの**を使用（ローカルH1は138件誤記のため使用禁止）
-- Windows非互換文字 `\/:*?"&lt;&gt;|` を除去・全体80文字以内（超過時はタイトル末尾を切り詰め）
-- LINEはシートにタイトル列が無いため「日目＋配信日」で命名
-- ファイル内のH1も正本タイトルに修正し、メタ情報（Doc URL・配信日時・シート行番号・期）は現行フォーマットを踏襲
-
-## 5. 移行手順（git mv で履歴保持）
-
-事前: 本診断のパース結果を再生成（xlsxの列構造は §1 の通り。Doc ID→期×No×タイトルの対応表を作るスクリプトを `ワンソウル4期/tools/` に置く）。
-
-1. **Phase 1 — サブフォルダのリネーム・分割**（正規コンテンツの移動。すべて git mv）
-   - `デイリーメール/` → `4期メール/`（94ファイル、命名規約に沿ってリネーム）
-   - `デイリーライン/` → `4期LINE/`（93→92ファイル。31日目/32日目は同一Docのため848字版1本に集約し、メタに「31・32日目の2回配信」と記載）
-   - `_デイリーメール重複/` → Doc IDで期判定し `3期メール/`（92）と `2期メール/`（85）へ分割 git mv＋リネーム（**ファイル名・H1は正本タイトルで引き直し**）
-   - `_デイリーライン重複/` → `3期LINE/`（57ファイル）
-2. **Phase 2 — 誤配置の救出**
-   - 直下の「購入者未購入者メール」由来42ファイル → 重複除去して21本を新設 `08_購入者未購入者メール/` へ git mv（命名整備は同シートの列構造確認後）
-3. **Phase 3 — 直下の重複・ゴミ処分**
-   - 直下の正本由来408ファイル: サブフォルダ版と本文ハッシュ一致を機械確認済みのため**削除**（ハッシュ再確認スクリプトを通してから `git rm`）。心理的安全を取るなら一時的に `_旧データ_20260612/` へ隔離→次コミットで削除でも可（推奨は即削除。Git履歴に残るため復元可能）
-   - 特典・疎通断片12ファイル（本文18〜65字・URLなし）: 削除
-   - `INDEX.md`×2・`対応表.md`・`移行手順.md`: 新README.mdに要点を統合して削除
-4. **Phase 4 — 不足本文の取得**
-   - §2-4の2本をGoogle Docsから再取得し、該当ファイルの本文を差し替え
-5. **Phase 5 — 検証とコミット**
-   - 検証: 各フォルダ件数 = 94/92/92/57/85、全ファイルのDoc IDが正本と1:1対応、重複Docゼロ、本文100字未満ゼロ（READMEを除く）
-   - 状態台帳・進捗JSONに件数を反映（「435通」の記載があれば修正）
-   - コミット → 即push（main直接、ブランチ禁止ルール遵守）
-
-## 6. 所要見積もり
-
-| 作業 | 規模 |
-| --- | --- |
-| Docs再取得 | **2本のみ**（osdm3-2-12 / osdm4-2-50） |
-| git mv（リネーム・分割） | 326ファイル（94+92+92+57+85 ＋ LINE集約-1 ＋ 購入者21） |
-| git rm（重複・ゴミ） | 約441ファイル（直下408＋購入者重複21＋断片12）＋ メタ文書4 |
-| スクリプト | Doc ID対応表生成＋mv/rm計画生成＋検証の3本（本診断のロジック流用で小規模） |
-
-API依存はDocs取得2本のみで、残りは全てローカルGit操作。1セッションで完了可能な規模。
-
-## 7. 補足（スコープ外の気づき）
-
-- `ワンソウル4期/07_LINE関連/` にも同内容の重複（line-qr/line-url系が新旧命名で2〜4重）が24ファイルあり、同様の整理候補。
-- メール本文中で参照される価値提供ブログ等のリンク切れ確認は本計画の対象外。
-</pre>
+</code></pre>
+<ul>
+<li><code>NNN</code> = シート行順の3桁連番（期内で1始まり）</li>
+<li>タイトルは<strong>Doc IDで正本シートから引き直したもの</strong>を使用（ローカルH1は138件誤記のため使用禁止）</li>
+<li>Windows非互換文字 <code>\/:*?"&lt;&gt;|</code> を除去・全体80文字以内（超過時はタイトル末尾を切り詰め）</li>
+<li>LINEはシートにタイトル列が無いため「日目＋配信日」で命名</li>
+<li>ファイル内のH1も正本タイトルに修正し、メタ情報（Doc URL・配信日時・シート行番号・期）は現行フォーマットを踏襲</li>
+</ul>
+<h2 id="5.-移行手順（git-mv-で履歴保持）">5. 移行手順（git mv で履歴保持）</h2>
+<p>事前: 本診断のパース結果を再生成（xlsxの列構造は §1 の通り。Doc ID→期×No×タイトルの対応表を作るスクリプトを <code>ワンソウル4期/tools/</code> に置く）。</p>
+<ol>
+<li><strong>Phase 1 — サブフォルダのリネーム・分割</strong>（正規コンテンツの移動。すべて git mv）</li>
+<li><code>デイリーメール/</code> → <code>4期メール/</code>（94ファイル、命名規約に沿ってリネーム）</li>
+<li><code>デイリーライン/</code> → <code>4期LINE/</code>（93→92ファイル。31日目/32日目は同一Docのため848字版1本に集約し、メタに「31・32日目の2回配信」と記載）</li>
+<li><code>_デイリーメール重複/</code> → Doc IDで期判定し <code>3期メール/</code>（92）と <code>2期メール/</code>（85）へ分割 git mv＋リネーム（<strong>ファイル名・H1は正本タイトルで引き直し</strong>）</li>
+<li><code>_デイリーライン重複/</code> → <code>3期LINE/</code>（57ファイル）</li>
+<li><strong>Phase 2 — 誤配置の救出</strong></li>
+<li>直下の「購入者未購入者メール」由来42ファイル → 重複除去して21本を新設 <code>08_購入者未購入者メール/</code> へ git mv（命名整備は同シートの列構造確認後）</li>
+<li><strong>Phase 3 — 直下の重複・ゴミ処分</strong></li>
+<li>直下の正本由来408ファイル: サブフォルダ版と本文ハッシュ一致を機械確認済みのため<strong>削除</strong>（ハッシュ再確認スクリプトを通してから <code>git rm</code>）。心理的安全を取るなら一時的に <code>_旧データ_20260612/</code> へ隔離→次コミットで削除でも可（推奨は即削除。Git履歴に残るため復元可能）</li>
+<li>特典・疎通断片12ファイル（本文18〜65字・URLなし）: 削除</li>
+<li><code>INDEX.md</code>×2・<code>対応表.md</code>・<code>移行手順.md</code>: 新README.mdに要点を統合して削除</li>
+<li><strong>Phase 4 — 不足本文の取得</strong></li>
+<li>§2-4の2本をGoogle Docsから再取得し、該当ファイルの本文を差し替え</li>
+<li><strong>Phase 5 — 検証とコミット</strong></li>
+<li>検証: 各フォルダ件数 = 94/92/92/57/85、全ファイルのDoc IDが正本と1:1対応、重複Docゼロ、本文100字未満ゼロ（READMEを除く）</li>
+<li>状態台帳・進捗JSONに件数を反映（「435通」の記載があれば修正）</li>
+<li>コミット → 即push（main直接、ブランチ禁止ルール遵守）</li>
+</ol>
+<h2 id="6.-所要見積もり">6. 所要見積もり</h2>
+<table>
+<thead>
+<tr>
+<th>作業</th>
+<th>規模</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docs再取得</td>
+<td><strong>2本のみ</strong>（osdm3-2-12 / osdm4-2-50）</td>
+</tr>
+<tr>
+<td>git mv（リネーム・分割）</td>
+<td>326ファイル（94+92+92+57+85 ＋ LINE集約-1 ＋ 購入者21）</td>
+</tr>
+<tr>
+<td>git rm（重複・ゴミ）</td>
+<td>約441ファイル（直下408＋購入者重複21＋断片12）＋ メタ文書4</td>
+</tr>
+<tr>
+<td>スクリプト</td>
+<td>Doc ID対応表生成＋mv/rm計画生成＋検証の3本（本診断のロジック流用で小規模）</td>
+</tr>
+</tbody>
+</table>
+<p>API依存はDocs取得2本のみで、残りは全てローカルGit操作。1セッションで完了可能な規模。</p>
+<h2 id="7.-補足（スコープ外の気づき）">7. 補足（スコープ外の気づき）</h2>
+<ul>
+<li><code>ワンソウル4期/07_LINE関連/</code> にも同内容の重複（line-qr/line-url系が新旧命名で2〜4重）が24ファイルあり、同様の整理候補。</li>
+<li>メール本文中で参照される価値提供ブログ等のリンク切れ確認は本計画の対象外。</li>
+</ul>
+</article>
 </main>
+</div>
 </body>
 </html>

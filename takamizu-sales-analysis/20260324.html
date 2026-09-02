@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>20260324_大坂忍_澤田亜美_分析 - たかみず セールス分析</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>20260324 大坂忍さん セールス分析（担当者向けフィードバック） - たかみず セールス分析</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,32 +247,49 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
 .sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
   border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
 }
 .sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
 }
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
 .sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
 }
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
 .sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
 }
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
 /* ===== スマホ：サイドバー非表示・本文全幅 ===== */
 .mobile-back {
   display: none;
@@ -271,298 +303,290 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 .mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  .layout { display: block; }
   .sidebar { display: none; }
   .mobile-back { display: block; }
   .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.4rem; }
   .article h2 { font-size: 1.15rem; }
   .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
 <div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
 <div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
+<nav class="sidebar" aria-label="たかみず セールス分析">
+<div class="brand">REPORT</div>
 <h3>たかみず セールス分析</h3>
-<a class="sidebar-item sidebar-item--cross" href="../takamizu-sales-manual/">セールスレポート（トップ）</a><a class="sidebar-item sidebar-item--cross" href="../takamizu-monthly/">月次レポート</a><a href="071.html" class="sidebar-item"><span class="date">2026年08月27日</span> フィードバック一覧</a>
-<a href="20260524.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_市川真由美_三浦美幸_分析</a>
-<a href="20260523.html" class="sidebar-item"><span class="date">2026年05月23日</span> 20260523_笹倉志穂_三浦美幸_分析</a>
-<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_名取聖_五ヶ山昌代_分析</a>
-<a href="20260522-ab85df4e4a97.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_宮崎えりこ_三浦美幸_分析</a>
-<a href="20260522-59fefd306d51.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_戸間敦子_澤田亜美_分析</a>
-<a href="20260521.html" class="sidebar-item"><span class="date">2026年05月21日</span> 20260521_山田佳代子_三浦美幸_分析</a>
-<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> 20260520_甲斐千夏_三浦美幸_分析</a>
-<a href="20260519.html" class="sidebar-item"><span class="date">2026年05月19日</span> 20260519_浜田ちか乃_五ヶ山昌代_分析</a>
-<a href="20260519-d71ec1748db7.html" class="sidebar-item"><span class="date">2026年05月19日</span> 20260519_竹内貴代子_澤田亜美_分析</a>
-<a href="20260518.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518_古田彩_五ヶ山昌代_分析</a>
-<a href="20260518-14726d40cec7.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518_小林愛_澤田亜美_分析</a>
-<a href="20260518-b3e90149603c.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518_高見青龍_澤田亜美_再ZOOM_分析</a>
-<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_曽我篤_三浦美幸_分析</a>
-<a href="20260513.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_佐藤美智瑠_五ヶ山昌代_分析</a>
-<a href="20260513-8f97cbadd8d4.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_小松亜矢子_澤田亜美_分析</a>
-<a href="20260513-a80e380b449d.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_田代昌好_五ヶ山昌代_分析</a>
-<a href="20260512.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512_宮内聡依_澤田亜美_分析</a>
-<a href="20260512-fb22eda2d192.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512_長山千晴_五ヶ山昌代_分析</a>
-<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> 20260511_橋本裕子_五ヶ山昌代_分析</a>
-<a href="20260506.html" class="sidebar-item"><span class="date">2026年05月06日</span> 20260506_東あきら_五ヶ山昌代_分析</a>
-<a href="20260502.html" class="sidebar-item"><span class="date">2026年05月02日</span> 20260502_高見青龍_澤田亜美_分析</a>
-<a href="20260501.html" class="sidebar-item"><span class="date">2026年05月01日</span> 20260501_西本貴与香_五ヶ山昌代_分析</a>
-<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428_富井陽子_三浦美幸_分析</a>
-<a href="20260428-eba8bbabbc08.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428_福井太一_五ヶ山昌代_分析</a>
-<a href="20260427.html" class="sidebar-item"><span class="date">2026年04月27日</span> 20260427_柳田渉_澤田亜美_分析</a>
-<a href="20260426.html" class="sidebar-item"><span class="date">2026年04月26日</span> 20260426_國井智早子_五ヶ山昌代_分析</a>
-<a href="20260426-c79366cb22a9.html" class="sidebar-item"><span class="date">2026年04月26日</span> 20260426_森下里美_澤田亜美_分析</a>
-<a href="20260424.html" class="sidebar-item"><span class="date">2026年04月24日</span> 20260424_山田由里子_五ヶ山昌代_分析</a>
-<a href="20260423.html" class="sidebar-item"><span class="date">2026年04月23日</span> 20260423_瀧本恵子_澤田亜美_分析</a>
-<a href="20260422.html" class="sidebar-item"><span class="date">2026年04月22日</span> 20260422_磯和なつ_五ヶ山昌代_分析</a>
-<a href="20260417.html" class="sidebar-item"><span class="date">2026年04月17日</span> 20260417_佐々木恵美_澤田亜美_分析</a>
-<a href="20260416.html" class="sidebar-item"><span class="date">2026年04月16日</span> 20260416_永石陽子_五ヶ山昌代_分析</a>
-<a href="20260404.html" class="sidebar-item"><span class="date">2026年04月04日</span> 20260404_宮崎みちこ_澤田亜美_分析</a>
-<a href="20260403.html" class="sidebar-item"><span class="date">2026年04月03日</span> 20260403_大野真規子_五ヶ山昌代_分析</a>
-<a href="20260403-114ccd94745b.html" class="sidebar-item"><span class="date">2026年04月03日</span> 20260403_平田美知子_三浦美幸_分析</a>
-<a href="20260330.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330_大原千里_三浦美幸_分析</a>
-<a href="20260330-fe29d34805cb.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330_小川健司_三浦美幸_分析</a>
-<a href="20260327.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_福山道子_澤田亜美_分析</a>
-<a href="20260326.html" class="sidebar-item"><span class="date">2026年03月26日</span> 20260326_作本美香_三浦美幸_分析</a>
-<a href="20260326-60cd4f22ce49.html" class="sidebar-item"><span class="date">2026年03月26日</span> 20260326_西村貴仁_五ヶ山昌代_分析</a>
-<a href="20260325.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325_たかみず通期バッチ_集約_分析</a>
-<a href="20260325-6eaac80ce702.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325_朝月希光_五ヶ山昌代_分析</a>
-<a href="20260325-dfb2334e1fff.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325_柏木肇_五ヶ山昌代_分析</a>
-<a href="20260324.html" class="sidebar-item active"><span class="date">2026年03月24日</span> 20260324_大坂忍_澤田亜美_分析</a>
-<a href="20260324-063edc0f6e4a.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_福井良子_澤田亜美_分析</a>
-<a href="20260324-ad350ac12a67.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_野口由美子_五ヶ山昌代_分析</a>
-<a href="20260324-9f85f1ba50dc.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_鮫島京子_澤田亜美_分析</a>
-<a href="20260320.html" class="sidebar-item"><span class="date">2026年03月20日</span> 20260320_大澤理香_澤田亜美_分析</a>
-<a href="20260318.html" class="sidebar-item"><span class="date">2026年03月18日</span> 20260318_中村恵子_澤田亜美_分析</a>
-<a href="20260317.html" class="sidebar-item"><span class="date">2026年03月17日</span> 20260317_佐野恵子_五ヶ山昌代_分析</a>
-<a href="20260317-47f83e1e7617.html" class="sidebar-item"><span class="date">2026年03月17日</span> 20260317_高橋由美子_和田めぐみ_分析</a>
-<a href="20260316.html" class="sidebar-item"><span class="date">2026年03月16日</span> 20260316_池田記代_三浦美幸_分析</a>
-<a href="20260314.html" class="sidebar-item"><span class="date">2026年03月14日</span> 20260314_高田里恵子_和田めぐみ_分析</a>
-<a href="20260313.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_佐野恵子_濱野りん_分析</a>
-<a href="20260313-f480d6e498e1.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_吉岡拓也_五ヶ山昌代_分析</a>
-<a href="20260313-e2fd7b73c818.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_吉田雅子_和田めぐみ_分析</a>
-<a href="20260313-c70c50978b57.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_宮野ゆういち_澤田亜美_分析</a>
-<a href="20260313-5d933d043e63.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_本庄まゆこ_澤田亜美_分析</a>
-<a href="20260313-f130a4546c36.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_杉山敦子_五ヶ山昌代_分析</a>
-<a href="20260313-2ad67dc8ff65.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_森下美枝子_和田めぐみ_分析</a>
-<a href="20260312.html" class="sidebar-item"><span class="date">2026年03月12日</span> 20260312_瀧川ゆりあ_澤田亜美_分析</a>
-<a href="20260310.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_出雲光_五ヶ山昌代_分析</a>
-<a href="20260310-f9079e315b7a.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_市村睦美_三浦美幸_分析</a>
-<a href="20260310-2fa0cf58b7d7.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_村上智香_澤田亜美_分析</a>
-<a href="20260310-f3fc11ef8cfc.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_酒井佑佳_五ヶ山昌代_分析</a>
-<a href="20260310-9d2868f68e23.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_高橋章子_澤田亜美_分析</a>
-<a href="20260306.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306_吉岡理恵_五ヶ山昌代_分析</a>
-<a href="20260306-697c250e7c66.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306_森芙美子_五ヶ山昌代_分析</a>
-<a href="20260304.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304_柴田慶子_濱野りん_分析</a>
-<a href="20260304-379d95cfbb36.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304_石井和美_五ヶ山昌代_分析</a>
+<a class="sidebar-item sidebar-item--cross" href="../takamizu-sales-manual/">セールスレポート（トップ）</a><a class="sidebar-item sidebar-item--cross" href="../takamizu-monthly/">月次レポート</a><a href="071.html" class="sidebar-item"><span class="date">2026年09月02日</span> たかみず案件 セールス分析 フィードバック一覧</a>
+<a href="20260524.html" class="sidebar-item"><span class="date">2026年05月24日</span> 2026-05-24 市川真由美さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260523.html" class="sidebar-item"><span class="date">2026年05月23日</span> 2026-05-23 笹倉志穂さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 2026-05-22 名取聖さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260522-ab85df4e4a97.html" class="sidebar-item"><span class="date">2026年05月22日</span> 2026-05-22 宮崎えりこさん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260522-59fefd306d51.html" class="sidebar-item"><span class="date">2026年05月22日</span> 2026-05-22 戸間敦子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260521.html" class="sidebar-item"><span class="date">2026年05月21日</span> 2026-05-21 山田佳代子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> 2026-05-20 甲斐千夏さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260519.html" class="sidebar-item"><span class="date">2026年05月19日</span> 2026-05-19 浜田ちか乃さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260519-d71ec1748db7.html" class="sidebar-item"><span class="date">2026年05月19日</span> 2026-05-19 竹内貴代子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260518.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518 古田彩さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260518-14726d40cec7.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518 小林愛さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260518-b3e90149603c.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518 高見青龍さん 個別相談 — セールス分析（担当者向け）（再ZOOM）</a>
+<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515 曽我篤さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260513.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513 佐藤美智瑠さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260513-8f97cbadd8d4.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513 小松亜矢子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260513-a80e380b449d.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513 田代昌好さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260512.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512 宮内聡依さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260512-fb22eda2d192.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512 長山千晴さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> 20260511 橋本裕子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260506.html" class="sidebar-item"><span class="date">2026年05月06日</span> 20260506 東あきら 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260502.html" class="sidebar-item"><span class="date">2026年05月02日</span> 20260502 高見青龍 澤田亜美 セールス分析（担当者向けフィードバック）</a>
+<a href="20260501.html" class="sidebar-item"><span class="date">2026年05月01日</span> 20260501 西本貴与香 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428 富井陽子 三浦美幸 セールス分析（担当者向けフィードバック）</a>
+<a href="20260428-eba8bbabbc08.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428 福井太一 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260427.html" class="sidebar-item"><span class="date">2026年04月27日</span> 20260427 柳田渉 澤田亜美 セールス分析（担当者向けフィードバック）</a>
+<a href="20260426.html" class="sidebar-item"><span class="date">2026年04月26日</span> 20260426 國井智早子 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260426-c79366cb22a9.html" class="sidebar-item"><span class="date">2026年04月26日</span> 20260426 森下里美 澤田亜美 セールス分析（担当者向けフィードバック）</a>
+<a href="20260424.html" class="sidebar-item"><span class="date">2026年04月24日</span> 20260424 山田由里子 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260423.html" class="sidebar-item"><span class="date">2026年04月23日</span> 20260423 瀧本恵子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260422.html" class="sidebar-item"><span class="date">2026年04月22日</span> 20260422 磯和なつさん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260417.html" class="sidebar-item"><span class="date">2026年04月17日</span> 20260417 佐々木恵美さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260416.html" class="sidebar-item"><span class="date">2026年04月16日</span> 20260416 永石陽子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260404.html" class="sidebar-item"><span class="date">2026年04月04日</span> 20260404 宮崎みちこさん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260403.html" class="sidebar-item"><span class="date">2026年04月03日</span> 20260403 大野真規子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260403-114ccd94745b.html" class="sidebar-item"><span class="date">2026年04月03日</span> 20260403 平田美知子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260330.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330 大原千里さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260330-fe29d34805cb.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330 小川健司さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260327.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327 福山道子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260326.html" class="sidebar-item"><span class="date">2026年03月26日</span> 20260326 作本美香さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260326-60cd4f22ce49.html" class="sidebar-item"><span class="date">2026年03月26日</span> 20260326 西村貴仁さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260325.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325 たかみず通期セールスバッチ 集約分析</a>
+<a href="20260325-6eaac80ce702.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325 朝月希光さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260325-dfb2334e1fff.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325 柏木肇さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260324.html" class="sidebar-item active"><span class="date">2026年03月24日</span> 20260324 大坂忍さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260324-063edc0f6e4a.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324 福井良子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260324-ad350ac12a67.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324 野口由美子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260324-9f85f1ba50dc.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324 鮫島京子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260320.html" class="sidebar-item"><span class="date">2026年03月20日</span> 20260320 大澤理香さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260318.html" class="sidebar-item"><span class="date">2026年03月18日</span> 20260318 中村恵子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260317.html" class="sidebar-item"><span class="date">2026年03月17日</span> 20260317 佐野恵子さん セールス分析（担当者向けフィードバック）〔耳ツボ／ダイエット軸〕</a>
+<a href="20260317-47f83e1e7617.html" class="sidebar-item"><span class="date">2026年03月17日</span> 20260317 高橋由美子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260316.html" class="sidebar-item"><span class="date">2026年03月16日</span> 20260316 池田記代（のりよ）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260314.html" class="sidebar-item"><span class="date">2026年03月14日</span> 20260314 高田里恵子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 佐野恵子（あやこ）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-f480d6e498e1.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 吉岡拓也さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-e2fd7b73c818.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 吉田雅子（まさ子）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-c70c50978b57.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 宮野ゆういちさん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-5d933d043e63.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 本庄まゆこさん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-f130a4546c36.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 杉山敦子（あ子）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-2ad67dc8ff65.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 森下美枝子（恵／みえこ）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260312.html" class="sidebar-item"><span class="date">2026年03月12日</span> 20260312 瀧川ゆりあさん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 出雲光さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310-f9079e315b7a.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 市村睦美さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310-2fa0cf58b7d7.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 村上智香さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310-f3fc11ef8cfc.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 酒井佑佳さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310-9d2868f68e23.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 高橋章子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260306.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306 吉岡理恵さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260306-697c250e7c66.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306 森芙美子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260304.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304 柴田慶子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260304-379d95cfbb36.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304 石井和美さん セールス分析（担当者向けフィードバック）</a>
 </nav>
 <main class="content">
 <article class="article">
-<pre># 20260324 大坂忍さん セールス分析（担当者向けフィードバック）
-
-## 共通：二軸照合と手本
-
-本ファイルは他 `_分析.md` の手本の一つ。二軸の定義・移行ルールは `セールス分析_共通_二軸照合と手本リンク.md` を参照。教材軸は本講座セールス基本編の4ステップと7マインド。チームマニュアル軸は成功失敗マニュアル・質疑応答集・担当癖マニュアルとの照合である。
-
-## このファイルの位置づけ
-
-この文書は、20260324の個別相談（大坂忍さん・澤田亜美担当・成約（プラチナ12分割））について、セールス担当が次回以降の面談で自分のトークを編集するためのフィードバックである。成約・不成約のラベルより、「どこが再現資産で、どこがたかみず式の基準に対して甘いか」を分ける。
-
-前回シルバー提案→本気で戻りプラチナ。ダイエットNW・保険・飲食店貢献。
-
-本ファイルはセールス原本・書き起こし・通期報告を根拠に、確定版に近い分析として作成した。
-
-## 参照マニュアル一覧
-
-- `セールスノウハウ/本講座/本講座セールス基本編2025.7.md`（たかみず式4ステップ・クロージング7マインド）
-- `セールスマニュアル/個別相談会_セールス成功失敗マニュアル.md`
-- `セールスマニュアル/セールス担当_癖と傾向マニュアル.md`（澤田亜美欄）
-- `セールスマニュアル/質疑応答の理想回答集.md`
-- `セールスマニュアル/照合運用_本講座教材とチームマニュアル.md`
-- `セールス分析/セールス分析_共通_二軸照合と手本リンク.md`
-
-## 基本情報
-
-| 項目 | 内容 |
-|-----|-----|
-| 顧客名 | 大坂忍 |
-| 個別相談（セールス）実施日 | 2026年03月24日 |
-| セールス担当 | 澤田亜美 |
-| 結果 | 成約（プラチナ12分割） |
-| 支払い | プラチナ12回分割 |
-| 特記 | 前回シルバー提案→本気でプラチナ |
-| アーカイブ | <a href="https://youtu.be/BfdPqwRWXLs" target="_blank" rel="noopener noreferrer">https://youtu.be/BfdPqwRWXLs</a> |
-
-## まず読むべき結論（澤田さんへの一行）
-
-戻ってきたのは本気。痩せるだけじゃない人生預かる覚悟。12分割成約。
-
-また戻ってきたのは本気、商品がいい・社会貢献、決め手文案◎。シルバー→プラチナのアップセル好例。
-
-## 教材軸とチームマニュアル軸の二軸照合
-
-教材軸（たかみず式）では、表ダイエット売上・真ニーズ関わった人の人生を最後までサポート。
-
-チームマニュアル軸では、自転車操業から本気へ。NW商品を定価販売・コーチング資格間近。
-
-二軸の評価：二軸良好。カードエラー後12分割伴走は再現資産。
-
-## たかみず式4ステップでの点検（本講座セールス基本編との照合）
-
-### ステップ1：関係構築（好感度・真のニーズ）
-
-良かった点
-
-前回シルバーからの再入室理由を確認。本気でやる宣言。
-
-足りなかった点・たかみず基準での指摘
-
-自転車操業の数字・月次必要額を冒頭で一枚絵化。
-
-### ステップ2：アプローチ（フロント）
-
-体験会済み。半年やらなければ変わらない、を伝えた。
-
-### ステップ3：セールストーク（ベネフィット・購買意欲120%）
-
-良かった点
-
-飲食店貢献・地元起業・健康届ける社会貢献ベネフィット。
-
-たかみずに厳しく見られたくないために直したい点
-
-カード通らず時間かかったが12分割着地。枠確認2問は次回改善。
-
-### ステップ4：クロージング（7マインド・テクニック）
-
-プラチナ12分割決済伴走。諦めない合格。
-
-## クロージング7マインドとの照合
-
-        1. 先入観を持たない：NW・スナック・保険に偏見なく。
-2. 断りは不安：カード枠・コース迷い。
-3. クロージングはギフト：社会貢献・健康届け。
-4. このお客様に必要：ダイエット+人生サポート直結。
-5. 伴走の決意：12分割決済まで伴走。
-6. 値段提示後に共感しすぎない：覚悟後は決断へ。
-7. 諦めない：カードエラー後も着地。合格。
-
-## シーン別・具体的フィードバック
-
-        ### 前回シルバーからの再入室
-
-前回シルバー提案だったが、本気で戻った。中途半端にやらない。
-
-コーチング資格間近・モニター開始・自転車操業は変わらず。
-
-### プラチナ決断
-
-商品がいい・痩せるだけじゃない・人生預かる覚悟。通期決め手全文。
-
-NW商品を簡易登録ではなく定価仕入れ販売。
-
-### 決済・12分割
-
-コース迷い・カード通らず時間かかったが12分割成約。
-
-改善：値段表前枠確認2問。柴田・瀧川型と同じSOP。
-
-### 通期決め手の再利用
-
-戻ってきたのは本気・人生預かる覚悟・社会貢献。全文を成功失敗マニュアルへ。
-
-再入室型は戻った理由を冒頭5分で必ず引き出す。
-
-### アップセル設計
-
-前回シルバー→プラチナは澤田さんの予測設計どおり。
-
-半年やらなければ変わらない、を伝えた予測も再現ポイント。
-
-### 再入室型チェック
-
-戻った理由・本気宣言・自転車操業の数字を冒頭15分で確認。
-
-ダイエットNW定価販売の覚悟を本人の口から復唱させる。
-
-12分割着地まで伴走。決済SOPは瀧川・村上型と共通。
-
-## たかみず先生がレビューしたら言われそうなこと（シミュレーション）
-
-        ※実際の発言ではなく、教材・基本編の論理からのプレッシャーとして読むこと。
-
-        - 「戻ったなら本気だ。」
-- 「覚悟を価格に反映しろ。」
-- 「12分割も伴走完遂。」
-- 「再入室理由を冒頭で聞け。」
-- 「社会貢献フレームを維持。」
-- 「飲食店貢献ベネフィット活用。」
-- 「自転車操業数字を先に。」
-- 「シルバー→プラチナを記録。」
-- 「半年不変なら本気と言え。」
-
-## 澤田さん用・次回からのチェックリスト（そのまま印刷可）
-
-        - 再入室理由を確認したか
-- 自転車操業を数字で一枚絵にしたか
-- 社会貢献フレームを維持したか
-- カードエラー後12分割を提示したか
-- 値段表前枠確認2問を入れたか
-- 定価NW販売の覚悟を復唱させたか
-- 成約後初動日程を握ったか
-
-## マニュアルへの還流提案（チーム作業）
-
-        - `個別相談会_セールス成功失敗マニュアル.md`：シルバー→プラチナ再入室
-- `セールス担当_癖と傾向マニュアル.md` 澤田欄：NW+コーチング型
-- `質疑応答の理想回答集.md`：再入室アップセル
-
-## 総合（分析としての評価）
-
-| 観点 | コメント |
-|-----|-----|
-| 顧客理解 | 覚悟理解。 |
-| 構造 | アップセル成功。 |
-| クロージング | 12分割伴走。 |
-| 再現性 | 再入室型再現。 |
-
-所見：NW+コーチング型。
-
-## 案件固有の深掘りメモ
-
-大坂忍さん回は、前回シルバー→本気で戻りプラチナ12分割という再入室型の好例。決め手文案（戻ってきたのは本気・人生預かる覚悟・社会貢献）はそのまま成功失敗マニュアルへ。ダイエットNWを定価販売する覚悟と、保険・飲食店貢献のベネフィットが一本化されている。
-
-カード通らず時間がかかった点は、瀧川・村上回と同型。値段表前の枠確認2問を入れれば短く勝てる。12分割着地まで伴走した諦めないは合格。半年やらなければ変わらない、という予測設計も再現ポイント。
-
-チーム還流：シルバー提案後に戻ってプラチナに上げた流れを、澤田欄の「再入室アップセル」節に追記。
-
-前回シルバー→本気で戻りプラチナ12分割は、再入室アップセル型の好例。決め手（人生預かる覚悟・社会貢献）全文を成功失敗マニュアルへ。
-
-自転車操業から本気へ、という予測設計（半年やらなければ変わらない）は再現ポイント。NW商品を定価仕入れ販売する覚悟と、保険・飲食店貢献ベネフィットが一本化。
-
-カード通らず時間がかかった点は瀧川・村上回と同型。値段表前枠確認2問を入れれば、同じ熱量で短く勝てる。
-
-飲食店を若い人を雇い人生を勉強できる場に、地元起業のハブに、というベネフィットは忍さん固有。ダイエットNWを健康届けの社会貢献へ接続した設計◎。
-
-コーチング資格間近・モニター開始・自転車操業継続、という現状整理から本気宣言へ。再入室型は戻った理由を必ず冒頭5分で本人の口から引き出す。
-
-## 参照
-
-- セールス原本: `20260324_大坂忍_澤田亜美.md`
-- 通期報告: `0_データ原本/2026年/3月/28日/Chatwork/たかみず 通期・セールス報告/20260328_Chatwork_たかみず 通期・セールス報告_ログ.md`（14:45付近）
-- `セールスノウハウ/本講座/本講座セールス基本編2025.7.md`
-- `セールスマニュアル/個別相談会_セールス成功失敗マニュアル.md`
-
-Produced by KATSUO MARKETING
-Version: 1.0 (2026-05-25)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: 3EE40557
-Generated by: 田中祐一
-</pre><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+<h1>20260324 大坂忍さん セールス分析（担当者向けフィードバック）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#共通：二軸照合と手本">共通：二軸照合と手本</a></li><li class="toc-main"><a href="#このファイルの位置づけ">このファイルの位置づけ</a></li><li class="toc-main"><a href="#参照マニュアル一覧">参照マニュアル一覧</a></li><li class="toc-main"><a href="#基本情報">基本情報</a></li><li class="toc-main"><a href="#まず読むべき結論（澤田さんへの一行）">まず読むべき結論（澤田さんへの一行）</a></li><li class="toc-main"><a href="#教材軸とチームマニュアル軸の二軸照合">教材軸とチームマニュアル軸の二軸照合</a></li><li class="toc-main"><a href="#たかみず式4ステップでの点検（本講座セールス基本編との照合）">たかみず式4ステップでの点検（本講座セールス基本編との照合）</a></li><li class="toc-sub"><a href="#ステップ1：関係構築（好感度・真のニーズ）">ステップ1：関係構築（好感度・真のニーズ）</a></li><li class="toc-sub"><a href="#ステップ2：アプローチ（フロント）">ステップ2：アプローチ（フロント）</a></li><li class="toc-sub"><a href="#ステップ3：セールストーク（ベネフィット・購買意欲120%）">ステップ3：セールストーク（ベネフィット・購買意欲120%）</a></li><li class="toc-sub"><a href="#ステップ4：クロージング（7マインド・テクニック）">ステップ4：クロージング（7マインド・テクニック）</a></li><li class="toc-main"><a href="#クロージング7マインドとの照合">クロージング7マインドとの照合</a></li><li class="toc-main"><a href="#シーン別・具体的フィードバック">シーン別・具体的フィードバック</a></li><li class="toc-sub"><a href="#プラチナ決断">プラチナ決断</a></li><li class="toc-sub"><a href="#決済・12分割">決済・12分割</a></li><li class="toc-sub"><a href="#通期決め手の再利用">通期決め手の再利用</a></li><li class="toc-sub"><a href="#アップセル設計">アップセル設計</a></li><li class="toc-sub"><a href="#再入室型チェック">再入室型チェック</a></li><li class="toc-main"><a href="#たかみず先生がレビューしたら言われそうなこと（シミュレーション）">たかみず先生がレビューしたら言われそうなこと（シミュレーション）</a></li><li class="toc-main"><a href="#澤田さん用・次回からのチェックリスト（そのまま印刷可）">澤田さん用・次回からのチェックリスト（そのまま印刷可）</a></li><li class="toc-main"><a href="#マニュアルへの還流提案（チーム作業）">マニュアルへの還流提案（チーム作業）</a></li><li class="toc-main"><a href="#総合（分析としての評価）">総合（分析としての評価）</a></li><li class="toc-main"><a href="#案件固有の深掘りメモ">案件固有の深掘りメモ</a></li><li class="toc-main"><a href="#参照">参照</a></li></ul></nav>
+<h2 id="共通：二軸照合と手本">共通：二軸照合と手本</h2>
+<p>本ファイルは他 <code>_分析.md</code> の手本の一つ。二軸の定義・移行ルールは <code>セールス分析_共通_二軸照合と手本リンク.md</code> を参照。教材軸は本講座セールス基本編の4ステップと7マインド。チームマニュアル軸は成功失敗マニュアル・質疑応答集・担当癖マニュアルとの照合である。</p>
+<h2 id="このファイルの位置づけ">このファイルの位置づけ</h2>
+<p>この文書は、20260324の個別相談（大坂忍さん・澤田亜美担当・成約（プラチナ12分割））について、セールス担当が次回以降の面談で自分のトークを編集するためのフィードバックである。成約・不成約のラベルより、「どこが再現資産で、どこがたかみず式の基準に対して甘いか」を分ける。</p>
+<p>前回シルバー提案→本気で戻りプラチナ。ダイエットNW・保険・飲食店貢献。</p>
+<p>本ファイルはセールス原本・書き起こし・通期報告を根拠に、確定版に近い分析として作成した。</p>
+<h2 id="参照マニュアル一覧">参照マニュアル一覧</h2>
+<ul>
+<li><code>セールスノウハウ/本講座/本講座セールス基本編2025.7.md</code>（たかみず式4ステップ・クロージング7マインド）</li>
+<li><code>セールスマニュアル/個別相談会_セールス成功失敗マニュアル.md</code></li>
+<li><code>セールスマニュアル/セールス担当_癖と傾向マニュアル.md</code>（澤田亜美欄）</li>
+<li><code>セールスマニュアル/質疑応答の理想回答集.md</code></li>
+<li><code>セールスマニュアル/照合運用_本講座教材とチームマニュアル.md</code></li>
+<li><code>セールス分析/セールス分析_共通_二軸照合と手本リンク.md</code></li>
+</ul>
+<h2 id="基本情報">基本情報</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客名</td>
+<td>大坂忍</td>
+</tr>
+<tr>
+<td>個別相談（セールス）実施日</td>
+<td>2026年03月24日</td>
+</tr>
+<tr>
+<td>セールス担当</td>
+<td>澤田亜美</td>
+</tr>
+<tr>
+<td>結果</td>
+<td>成約（プラチナ12分割）</td>
+</tr>
+<tr>
+<td>支払い</td>
+<td>プラチナ12回分割</td>
+</tr>
+<tr>
+<td>特記</td>
+<td>前回シルバー提案→本気でプラチナ</td>
+</tr>
+<tr>
+<td>アーカイブ</td>
+<td><a href="https://youtu.be/BfdPqwRWXLs" target="_blank" rel="noopener noreferrer">https://youtu.be/BfdPqwRWXLs</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="まず読むべき結論（澤田さんへの一行）">まず読むべき結論（澤田さんへの一行）</h2>
+<p>戻ってきたのは本気。痩せるだけじゃない人生預かる覚悟。12分割成約。</p>
+<p>また戻ってきたのは本気、商品がいい・社会貢献、決め手文案◎。シルバー→プラチナのアップセル好例。</p>
+<h2 id="教材軸とチームマニュアル軸の二軸照合">教材軸とチームマニュアル軸の二軸照合</h2>
+<p>教材軸（たかみず式）では、表ダイエット売上・真ニーズ関わった人の人生を最後までサポート。</p>
+<p>チームマニュアル軸では、自転車操業から本気へ。NW商品を定価販売・コーチング資格間近。</p>
+<p>二軸の評価：二軸良好。カードエラー後12分割伴走は再現資産。</p>
+<h2 id="たかみず式4ステップでの点検（本講座セールス基本編との照合）">たかみず式4ステップでの点検（本講座セールス基本編との照合）</h2>
+<h3 id="ステップ1：関係構築（好感度・真のニーズ）">ステップ1：関係構築（好感度・真のニーズ）</h3>
+<p>良かった点</p>
+<p>前回シルバーからの再入室理由を確認。本気でやる宣言。</p>
+<p>足りなかった点・たかみず基準での指摘</p>
+<p>自転車操業の数字・月次必要額を冒頭で一枚絵化。</p>
+<h3 id="ステップ2：アプローチ（フロント）">ステップ2：アプローチ（フロント）</h3>
+<p>体験会済み。半年やらなければ変わらない、を伝えた。</p>
+<h3 id="ステップ3：セールストーク（ベネフィット・購買意欲120%）">ステップ3：セールストーク（ベネフィット・購買意欲120%）</h3>
+<p>良かった点</p>
+<p>飲食店貢献・地元起業・健康届ける社会貢献ベネフィット。</p>
+<p>たかみずに厳しく見られたくないために直したい点</p>
+<p>カード通らず時間かかったが12分割着地。枠確認2問は次回改善。</p>
+<h3 id="ステップ4：クロージング（7マインド・テクニック）">ステップ4：クロージング（7マインド・テクニック）</h3>
+<p>プラチナ12分割決済伴走。諦めない合格。</p>
+<h2 id="クロージング7マインドとの照合">クロージング7マインドとの照合</h2>
+<pre><code>    1. 先入観を持たない：NW・スナック・保険に偏見なく。
+</code></pre>
+<ol>
+<li>断りは不安：カード枠・コース迷い。</li>
+<li>クロージングはギフト：社会貢献・健康届け。</li>
+<li>このお客様に必要：ダイエット+人生サポート直結。</li>
+<li>伴走の決意：12分割決済まで伴走。</li>
+<li>値段提示後に共感しすぎない：覚悟後は決断へ。</li>
+<li>諦めない：カードエラー後も着地。合格。</li>
+</ol>
+<h2 id="シーン別・具体的フィードバック">シーン別・具体的フィードバック</h2>
+<pre><code>    ### 前回シルバーからの再入室
+</code></pre>
+<p>前回シルバー提案だったが、本気で戻った。中途半端にやらない。</p>
+<p>コーチング資格間近・モニター開始・自転車操業は変わらず。</p>
+<h3 id="プラチナ決断">プラチナ決断</h3>
+<p>商品がいい・痩せるだけじゃない・人生預かる覚悟。通期決め手全文。</p>
+<p>NW商品を簡易登録ではなく定価仕入れ販売。</p>
+<h3 id="決済・12分割">決済・12分割</h3>
+<p>コース迷い・カード通らず時間かかったが12分割成約。</p>
+<p>改善：値段表前枠確認2問。柴田・瀧川型と同じSOP。</p>
+<h3 id="通期決め手の再利用">通期決め手の再利用</h3>
+<p>戻ってきたのは本気・人生預かる覚悟・社会貢献。全文を成功失敗マニュアルへ。</p>
+<p>再入室型は戻った理由を冒頭5分で必ず引き出す。</p>
+<h3 id="アップセル設計">アップセル設計</h3>
+<p>前回シルバー→プラチナは澤田さんの予測設計どおり。</p>
+<p>半年やらなければ変わらない、を伝えた予測も再現ポイント。</p>
+<h3 id="再入室型チェック">再入室型チェック</h3>
+<p>戻った理由・本気宣言・自転車操業の数字を冒頭15分で確認。</p>
+<p>ダイエットNW定価販売の覚悟を本人の口から復唱させる。</p>
+<p>12分割着地まで伴走。決済SOPは瀧川・村上型と共通。</p>
+<h2 id="たかみず先生がレビューしたら言われそうなこと（シミュレーション）">たかみず先生がレビューしたら言われそうなこと（シミュレーション）</h2>
+<pre><code>    ※実際の発言ではなく、教材・基本編の論理からのプレッシャーとして読むこと。
+
+    - 「戻ったなら本気だ。」
+</code></pre>
+<ul>
+<li>「覚悟を価格に反映しろ。」</li>
+<li>「12分割も伴走完遂。」</li>
+<li>「再入室理由を冒頭で聞け。」</li>
+<li>「社会貢献フレームを維持。」</li>
+<li>「飲食店貢献ベネフィット活用。」</li>
+<li>「自転車操業数字を先に。」</li>
+<li>「シルバー→プラチナを記録。」</li>
+<li>「半年不変なら本気と言え。」</li>
+</ul>
+<h2 id="澤田さん用・次回からのチェックリスト（そのまま印刷可）">澤田さん用・次回からのチェックリスト（そのまま印刷可）</h2>
+<pre><code>    - 再入室理由を確認したか
+</code></pre>
+<ul>
+<li>自転車操業を数字で一枚絵にしたか</li>
+<li>社会貢献フレームを維持したか</li>
+<li>カードエラー後12分割を提示したか</li>
+<li>値段表前枠確認2問を入れたか</li>
+<li>定価NW販売の覚悟を復唱させたか</li>
+<li>成約後初動日程を握ったか</li>
+</ul>
+<h2 id="マニュアルへの還流提案（チーム作業）">マニュアルへの還流提案（チーム作業）</h2>
+<pre><code>    - `個別相談会_セールス成功失敗マニュアル.md`：シルバー→プラチナ再入室
+</code></pre>
+<ul>
+<li><code>セールス担当_癖と傾向マニュアル.md</code> 澤田欄：NW+コーチング型</li>
+<li><code>質疑応答の理想回答集.md</code>：再入室アップセル</li>
+</ul>
+<h2 id="総合（分析としての評価）">総合（分析としての評価）</h2>
+<table>
+<thead>
+<tr>
+<th>観点</th>
+<th>コメント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客理解</td>
+<td>覚悟理解。</td>
+</tr>
+<tr>
+<td>構造</td>
+<td>アップセル成功。</td>
+</tr>
+<tr>
+<td>クロージング</td>
+<td>12分割伴走。</td>
+</tr>
+<tr>
+<td>再現性</td>
+<td>再入室型再現。</td>
+</tr>
+</tbody>
+</table>
+<p>所見：NW+コーチング型。</p>
+<h2 id="案件固有の深掘りメモ">案件固有の深掘りメモ</h2>
+<p>大坂忍さん回は、前回シルバー→本気で戻りプラチナ12分割という再入室型の好例。決め手文案（戻ってきたのは本気・人生預かる覚悟・社会貢献）はそのまま成功失敗マニュアルへ。ダイエットNWを定価販売する覚悟と、保険・飲食店貢献のベネフィットが一本化されている。</p>
+<p>カード通らず時間がかかった点は、瀧川・村上回と同型。値段表前の枠確認2問を入れれば短く勝てる。12分割着地まで伴走した諦めないは合格。半年やらなければ変わらない、という予測設計も再現ポイント。</p>
+<p>チーム還流：シルバー提案後に戻ってプラチナに上げた流れを、澤田欄の「再入室アップセル」節に追記。</p>
+<p>前回シルバー→本気で戻りプラチナ12分割は、再入室アップセル型の好例。決め手（人生預かる覚悟・社会貢献）全文を成功失敗マニュアルへ。</p>
+<p>自転車操業から本気へ、という予測設計（半年やらなければ変わらない）は再現ポイント。NW商品を定価仕入れ販売する覚悟と、保険・飲食店貢献ベネフィットが一本化。</p>
+<p>カード通らず時間がかかった点は瀧川・村上回と同型。値段表前枠確認2問を入れれば、同じ熱量で短く勝てる。</p>
+<p>飲食店を若い人を雇い人生を勉強できる場に、地元起業のハブに、というベネフィットは忍さん固有。ダイエットNWを健康届けの社会貢献へ接続した設計◎。</p>
+<p>コーチング資格間近・モニター開始・自転車操業継続、という現状整理から本気宣言へ。再入室型は戻った理由を必ず冒頭5分で本人の口から引き出す。</p>
+<h2 id="参照">参照</h2>
+<ul>
+<li>セールス原本: <code>20260324_大坂忍_澤田亜美.md</code></li>
+<li>通期報告: <code>0_データ原本/2026年/3月/28日/Chatwork/たかみず 通期・セールス報告/20260328_Chatwork_たかみず 通期・セールス報告_ログ.md</code>（14:45付近）</li>
+<li><code>セールスノウハウ/本講座/本講座セールス基本編2025.7.md</code></li>
+<li><code>セールスマニュアル/個別相談会_セールス成功失敗マニュアル.md</code></li>
+</ul>
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-05-25)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 3EE40557<br />
+Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>

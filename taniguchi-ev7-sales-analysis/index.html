@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F0FAF8">
 <title>谷口 EV7 セールス分析</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,25 +247,47 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（単一カラム型） ===== */
-.content { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.3rem 4rem; overflow-wrap: anywhere; }
-@media (max-width: 720px) {
+.content { max-width: 860px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3.2rem) 1.2rem 4rem; overflow-wrap: anywhere; }
+@media (max-width: 860px) {
   .content { padding: 1.2rem; }
-  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article { padding: 1.55rem 1.2rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.5rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
 
-.idx-list { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+.idx-list { list-style: none; padding: 0; margin: 1.6rem 0 0; max-width: none; }
 .idx-list li { margin: 0; }
 .idx-list a {
-  display: flex; align-items: baseline; gap: 0.9rem;
-  padding: 1rem 1.1rem; margin-bottom: 0.6rem;
-  background: #fff; border: 1px solid var(--line); border-radius: 12px;
-  color: var(--ink); box-shadow: 0 2px 8px rgba(24,155,125,0.05);
+  display: grid; grid-template-columns: minmax(7.5rem, auto) minmax(0, 1fr);
+  align-items: baseline; gap: 1rem;
+  padding: 1rem 1.1rem; margin-bottom: 0.65rem;
+  background: rgba(255,255,255,0.9); border: 1px solid var(--line); border-radius: 14px;
+  color: var(--ink); box-shadow: 0 4px 14px rgba(21,102,83,0.045);
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
 }
-.idx-list a:hover { border-color: var(--main); text-decoration: none; transform: translateY(-1px); transition: .15s; }
-.idx-list .date { flex: 0 0 auto; font-size: 0.85rem; color: var(--main); font-weight: 700; }
-.idx-list .ttl { flex: 1 1 auto; font-weight: 600; }
+.idx-list a:hover { border-color: rgba(44,181,150,0.7); text-decoration: none; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(21,102,83,0.08); }
+.idx-list .date { font-size: 0.78rem; color: var(--sub); font-weight: 800; letter-spacing: 0.01em; }
+.idx-list .ttl { min-width: 0; font-weight: 650; overflow-wrap: anywhere; }
+@media (max-width: 620px) {
+  .idx-list a { display: block; }
+  .idx-list .date { display: block; margin-bottom: 0.25rem; }
+}
+@media (prefers-reduced-motion: reduce) { .idx-list a { transition: none; } }
 </style>
 </head>
 <body>
@@ -259,46 +296,46 @@ a:hover { text-decoration: underline; }
 <h1>谷口 EV7 セールス分析</h1>
 <ul class="idx-list">
 <li><a href="../taniguchi-ev7-sales-manual/"><span class="date">全体レポート・マニュアルへ</span><span class="ttl">セールスレポート（トップ）</span></a></li>
-<li><a href="20260527.html"><span class="date">2026年05月27日</span><span class="ttl">20260527_武田美恵子_田畑_分析</span></a></li>
-<li><a href="20260527-26c55bb13de8.html"><span class="date">2026年05月27日</span><span class="ttl">20260527_田中理恵_田畑_分析</span></a></li>
-<li><a href="20260525.html"><span class="date">2026年05月25日</span><span class="ttl">20260525_ふじもとまり_田畑_分析</span></a></li>
-<li><a href="20260525-43cd1d6e3e0e.html"><span class="date">2026年05月25日</span><span class="ttl">20260525_田中多喜子_永吉_分析</span></a></li>
-<li><a href="20260524.html"><span class="date">2026年05月24日</span><span class="ttl">20260524_前道朱里_永吉_分析</span></a></li>
-<li><a href="20260524-1631c2176910.html"><span class="date">2026年05月24日</span><span class="ttl">20260524_味村和美_永吉_分析</span></a></li>
-<li><a href="20260523.html"><span class="date">2026年05月23日</span><span class="ttl">20260523_岡村愛弓_永吉_分析</span></a></li>
-<li><a href="20260522.html"><span class="date">2026年05月22日</span><span class="ttl">20260522_中原佳子_永吉_分析</span></a></li>
-<li><a href="20260520.html"><span class="date">2026年05月20日</span><span class="ttl">20260520_大山貴義_田畑_分析</span></a></li>
-<li><a href="20260520-341ec31d44f3.html"><span class="date">2026年05月20日</span><span class="ttl">20260520_淺田香奈_田畑_分析</span></a></li>
-<li><a href="20260517.html"><span class="date">2026年05月17日</span><span class="ttl">20260517_田中眞紀子_田畑_分析</span></a></li>
-<li><a href="20260517-3089d4227655.html"><span class="date">2026年05月17日</span><span class="ttl">20260517_秋宗希久子_田畑_分析</span></a></li>
-<li><a href="20260517-c32bc4a0664b.html"><span class="date">2026年05月17日</span><span class="ttl">20260517_藤原礼奈_永吉_分析</span></a></li>
-<li><a href="20260516.html"><span class="date">2026年05月16日</span><span class="ttl">20260516_中山ふみえ_田畑_分析</span></a></li>
-<li><a href="20260516-3c3088624977.html"><span class="date">2026年05月16日</span><span class="ttl">20260516_吉川綾美_田畑_分析</span></a></li>
-<li><a href="20260515.html"><span class="date">2026年05月15日</span><span class="ttl">20260515_本橋弘美_田畑_分析</span></a></li>
-<li><a href="20260515-31d67e069bd0.html"><span class="date">2026年05月15日</span><span class="ttl">20260515_本田真希子_田畑_分析</span></a></li>
-<li><a href="20260511.html"><span class="date">2026年05月11日</span><span class="ttl">20260511_三原えり_田畑_分析</span></a></li>
-<li><a href="20260509.html"><span class="date">2026年05月09日</span><span class="ttl">20260509_尾畑沙希_田畑_分析</span></a></li>
-<li><a href="20260428.html"><span class="date">2026年04月28日</span><span class="ttl">20260428_櫻井香菜子_田畑_分析</span></a></li>
-<li><a href="20260424.html"><span class="date">2026年04月24日</span><span class="ttl">20260424_矢野はる_田畑_分析</span></a></li>
-<li><a href="20260423.html"><span class="date">2026年04月23日</span><span class="ttl">20260423_長洲樹里_田畑_分析</span></a></li>
-<li><a href="20260420.html"><span class="date">2026年04月20日</span><span class="ttl">20260420_仲宗根まゆ_田畑_分析</span></a></li>
-<li><a href="20260419.html"><span class="date">2026年04月19日</span><span class="ttl">20260419_山本美紀_田畑_分析</span></a></li>
-<li><a href="20260416.html"><span class="date">2026年04月16日</span><span class="ttl">20260416_橋岡千春_田畑_分析</span></a></li>
-<li><a href="20260409.html"><span class="date">2026年04月09日</span><span class="ttl">20260409_辻沙耶花_田畑_分析</span></a></li>
-<li><a href="20260408.html"><span class="date">2026年04月08日</span><span class="ttl">20260408_奥原陽子_田畑_分析</span></a></li>
-<li><a href="20260407.html"><span class="date">2026年04月07日</span><span class="ttl">20260407_川西未乘_田畑_分析</span></a></li>
-<li><a href="20260401.html"><span class="date">2026年04月01日</span><span class="ttl">20260401_佐藤香織_永吉_分析</span></a></li>
-<li><a href="20260401-79d337f6b930.html"><span class="date">2026年04月01日</span><span class="ttl">20260401_川口桂子_田畑_分析</span></a></li>
-<li><a href="20260330.html"><span class="date">2026年03月30日</span><span class="ttl">20260330_臼井エリ_田畑_分析</span></a></li>
-<li><a href="20260328.html"><span class="date">2026年03月28日</span><span class="ttl">20260328_加藤恵美_田畑_分析</span></a></li>
-<li><a href="20260328-7a659661b752.html"><span class="date">2026年03月28日</span><span class="ttl">20260328_大保美紀江_田畑_分析</span></a></li>
-<li><a href="20260327.html"><span class="date">2026年03月27日</span><span class="ttl">20260327_吉田裕子_田畑_分析</span></a></li>
-<li><a href="20260327-52297797b6ad.html"><span class="date">2026年03月27日</span><span class="ttl">20260327_谷川絵理_田畑_分析</span></a></li>
-<li><a href="20260324.html"><span class="date">2026年03月24日</span><span class="ttl">20260324_金氏美緒_田畑_分析</span></a></li>
-<li><a href="20260323.html"><span class="date">2026年03月23日</span><span class="ttl">20260323_吉川美穂_永吉_分析</span></a></li>
-<li><a href="20260323-370db0264ee5.html"><span class="date">2026年03月23日</span><span class="ttl">20260323_田村悦子_永吉_分析</span></a></li>
-<li><a href="20260322.html"><span class="date">2026年03月22日</span><span class="ttl">20260322_大久保やよい_田畑_分析</span></a></li>
-<li><a href="20260315.html"><span class="date">2026年03月15日</span><span class="ttl">20260315_松永聖子_田畑_分析</span></a></li>
+<li><a href="20260527.html"><span class="date">2026年05月27日</span><span class="ttl">セールス分析: 2026-05-27 武田美恵子さん（田畑担当）</span></a></li>
+<li><a href="20260527-26c55bb13de8.html"><span class="date">2026年05月27日</span><span class="ttl">セールス分析: 2026-05-27 田中理恵さん（田畑担当）</span></a></li>
+<li><a href="20260525.html"><span class="date">2026年05月25日</span><span class="ttl">セールス分析: 2026-05-25 ふじもとまりさん（田畑担当）</span></a></li>
+<li><a href="20260525-43cd1d6e3e0e.html"><span class="date">2026年05月25日</span><span class="ttl">セールス分析: 2026-05-25 田中多喜子さん（永吉担当）</span></a></li>
+<li><a href="20260524.html"><span class="date">2026年05月24日</span><span class="ttl">セールス分析: 2026-05-24 前道朱里さん（永吉担当）</span></a></li>
+<li><a href="20260524-1631c2176910.html"><span class="date">2026年05月24日</span><span class="ttl">セールス分析: 2026-05-24 味村和美さん（永吉担当）</span></a></li>
+<li><a href="20260523.html"><span class="date">2026年05月23日</span><span class="ttl">セールス分析: 2026-05-23 岡村愛弓さん（永吉担当）</span></a></li>
+<li><a href="20260522.html"><span class="date">2026年05月22日</span><span class="ttl">セールス分析: 2026-05-22 中原佳子さん（永吉担当）</span></a></li>
+<li><a href="20260520.html"><span class="date">2026年05月20日</span><span class="ttl">セールス分析: 2026-05-20 大山貴義さん（田畑担当）</span></a></li>
+<li><a href="20260520-341ec31d44f3.html"><span class="date">2026年05月20日</span><span class="ttl">セールス分析: 2026-05-20 淺田香奈さん（田畑担当）</span></a></li>
+<li><a href="20260517.html"><span class="date">2026年05月17日</span><span class="ttl">セールス分析: 2026-05-17 田中眞紀子さん（田畑担当）</span></a></li>
+<li><a href="20260517-3089d4227655.html"><span class="date">2026年05月17日</span><span class="ttl">セールス分析: 2026-05-17 秋宗希久子さん（田畑担当）</span></a></li>
+<li><a href="20260517-c32bc4a0664b.html"><span class="date">2026年05月17日</span><span class="ttl">セールス分析: 2026-05-17 藤原礼奈さん（永吉担当）</span></a></li>
+<li><a href="20260516.html"><span class="date">2026年05月16日</span><span class="ttl">セールス分析: 2026-05-16 中山ふみえさん（田畑担当）</span></a></li>
+<li><a href="20260516-3c3088624977.html"><span class="date">2026年05月16日</span><span class="ttl">セールス分析: 2026-05-16 吉川綾美さん（田畑担当）</span></a></li>
+<li><a href="20260515.html"><span class="date">2026年05月15日</span><span class="ttl">セールス分析: 2026-05-15 本橋弘美さん（田畑担当）</span></a></li>
+<li><a href="20260515-31d67e069bd0.html"><span class="date">2026年05月15日</span><span class="ttl">セールス分析: 2026-05-15 本田真希子さん（田畑担当）</span></a></li>
+<li><a href="20260511.html"><span class="date">2026年05月11日</span><span class="ttl">セールス分析: 2026-05-11 三原えりさん（田畑担当）</span></a></li>
+<li><a href="20260509.html"><span class="date">2026年05月09日</span><span class="ttl">セールス分析: 2026-05-09 尾畑沙希さん（田畑担当）</span></a></li>
+<li><a href="20260428.html"><span class="date">2026年04月28日</span><span class="ttl">セールス分析: 2026-04-28 櫻井香菜子さん（田畑担当）</span></a></li>
+<li><a href="20260424.html"><span class="date">2026年04月24日</span><span class="ttl">セールス分析: 2026-04-24 矢野はるさん（田畑担当）</span></a></li>
+<li><a href="20260423.html"><span class="date">2026年04月23日</span><span class="ttl">セールス分析: 2026-04-23 長洲樹里さん（田畑担当）</span></a></li>
+<li><a href="20260420.html"><span class="date">2026年04月20日</span><span class="ttl">セールス分析: 2026-04-20 仲宗根まゆさん（田畑担当）</span></a></li>
+<li><a href="20260419.html"><span class="date">2026年04月19日</span><span class="ttl">セールス分析: 2026-04-19 山本美紀さん（田畑担当）</span></a></li>
+<li><a href="20260416.html"><span class="date">2026年04月16日</span><span class="ttl">セールス分析: 2026-04-16 橋岡千春さん（田畑担当）</span></a></li>
+<li><a href="20260409.html"><span class="date">2026年04月09日</span><span class="ttl">セールス分析: 2026-04-09 辻沙耶花さん（田畑担当）</span></a></li>
+<li><a href="20260408.html"><span class="date">2026年04月08日</span><span class="ttl">セールス分析: 2026-04-08 奥原陽子さん（田畑担当）</span></a></li>
+<li><a href="20260407.html"><span class="date">2026年04月07日</span><span class="ttl">セールス分析: 2026-04-07 川西未乘さん（田畑担当）</span></a></li>
+<li><a href="20260401.html"><span class="date">2026年04月01日</span><span class="ttl">セールス分析: 2026-04-01 佐藤香織さん（永吉担当）</span></a></li>
+<li><a href="20260401-79d337f6b930.html"><span class="date">2026年04月01日</span><span class="ttl">セールス分析: 2026-04-01 川口桂子さん（田畑担当）</span></a></li>
+<li><a href="20260330.html"><span class="date">2026年03月30日</span><span class="ttl">セールス分析: 2026-03-30 臼井エリさん（田畑担当）</span></a></li>
+<li><a href="20260328.html"><span class="date">2026年03月28日</span><span class="ttl">セールス分析: 2026-03-28 加藤恵美さん（田畑担当）</span></a></li>
+<li><a href="20260328-7a659661b752.html"><span class="date">2026年03月28日</span><span class="ttl">セールス分析: 2026-03-28 大保美紀江さん（田畑担当）</span></a></li>
+<li><a href="20260327.html"><span class="date">2026年03月27日</span><span class="ttl">セールス分析: 2026-03-27 吉田裕子さん（田畑担当）</span></a></li>
+<li><a href="20260327-52297797b6ad.html"><span class="date">2026年03月27日</span><span class="ttl">セールス分析: 2026-03-27 谷川絵理さん（田畑担当）</span></a></li>
+<li><a href="20260324.html"><span class="date">2026年03月24日</span><span class="ttl">セールス分析: 2026-03-24 金氏美緒さん（田畑担当）</span></a></li>
+<li><a href="20260323.html"><span class="date">2026年03月23日</span><span class="ttl">セールス分析: 20260323 吉川美穂さん（永吉担当）</span></a></li>
+<li><a href="20260323-370db0264ee5.html"><span class="date">2026年03月23日</span><span class="ttl">セールス分析: 2026-03-23 田村悦子さん（永吉担当）</span></a></li>
+<li><a href="20260322.html"><span class="date">2026年03月22日</span><span class="ttl">セールス分析: 2026-03-22 大久保やよいさん（田畑担当）</span></a></li>
+<li><a href="20260315.html"><span class="date">2026年03月15日</span><span class="ttl">セールス分析: 2026-03-15 松永聖子さん（田畑担当）</span></a></li>
 </ul>
 </article>
 </main>

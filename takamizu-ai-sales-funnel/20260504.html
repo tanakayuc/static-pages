@@ -3,476 +3,628 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>20260504_オプトインページ構成ライティングデザイン指示書 - たかみず 次世代型AIセールス ファネル指示書</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>次世代型AIセールス オプトインページ 構成ライティングデザイン指示書 - たかみず 次世代型AIセールス ファネル指示書</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  color: var(--ink);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { display: none; }
-    .mobile-nav { display: block; }
-    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.95rem; line-height: 1.7; }
-    .main a { word-wrap: break-word; overflow-wrap: break-word; }
-    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
+  border: 1px solid var(--line);
+  font-size: 1.03rem;
 }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .main { padding: 0.75rem; }
-    .main h1 { font-size: 1.15rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.9rem; }
-    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
-    .main table { font-size: 0.8rem; }
-    .main th, .main td { padding: 0.25rem; }
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  position: relative;
 }
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient);
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(135deg, var(--sub), var(--deep));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar {
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
+  border-right: 1px solid var(--line);
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
+}
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active {
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
+}
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 860px) {
+  .layout { display: block; }
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
-<nav class="sidebar">
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar" aria-label="たかみず 次世代型AIセールス ファネル指示書">
+<div class="brand">REPORT</div>
 <h3>たかみず 次世代型AIセールス ファネル指示書</h3>
-<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> 20260511_FV画像_広告用差し替え指示書</a>
-<a href="20260504.html" class="sidebar-item active"><span class="date">2026年05月04日</span> 20260504_オプトインページ構成ライティングデザイン指示書</a>
-<a href="20260504-385179c20db2.html" class="sidebar-item"><span class="date">2026年05月04日</span> 20260504_オプトインページ構成ライティングデザイン指示書_広告用</a>
-<a href="20260504-0eaf477f72ae.html" class="sidebar-item"><span class="date">2026年05月04日</span> 20260504_サンキューページライティング案</a>
-<a href="20260504-19b9c544cdee.html" class="sidebar-item"><span class="date">2026年05月04日</span> 20260504_体験セミナーページ構成ライティングデザイン指示書</a>
+<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> FV画像 広告用差し替え指示書</a>
+<a href="20260504.html" class="sidebar-item active"><span class="date">2026年05月04日</span> 次世代型AIセールス オプトインページ 構成ライティングデザイン指示書</a>
+<a href="20260504-385179c20db2.html" class="sidebar-item"><span class="date">2026年05月04日</span> 実践型AIセールス オプトインページ 構成ライティングデザイン指示書【広告用】</a>
+<a href="20260504-0eaf477f72ae.html" class="sidebar-item"><span class="date">2026年05月04日</span> 次世代型AIセールス サンキューページライティング案</a>
+<a href="20260504-19b9c544cdee.html" class="sidebar-item"><span class="date">2026年05月04日</span> 次世代型AIセールス 体験セミナーページ構成ライティングデザイン指示書</a>
 </nav>
-<main class="main">
-<pre># 次世代型AIセールス オプトインページ 構成ライティングデザイン指示書
-
-目的: 広告流入者からメールアドレスを取得し、サンキューページの動画視聴とLINEオープンチャット参加へつなげる。
-
-対象: セールスに苦手意識がある、または売上を伸ばしたい40代〜50代の女性起業家。集客や発信を頑張っているのに、個別相談や説明会で決めきれない層。
-
-参照素材:
-- `プロモ動画/20260429_次世代型AIセールス_プロモ動画台本_約5分.md`
-- `セミナー台本/20260412_次世代型AIセールス_スライド本文.md`
-- `ファネル設計_全体像.md`
-- `お客様の声.md`
-- `41_リサーチ/購入教材/おさるさん/広告ファネル/01_オプトインページ解析.md`（参考LP解析）
-
-参考画像:
-- 旧プロフィール系ヘッダー: `/Users/tanakayuichi/.cursor/projects/Users-tanakayuichi-Projects-theleadpromotion/assets/image-2b8e65e0-6597-4b84-9666-a34df5563302.png`
-- 新FV方向性: `/Users/tanakayuichi/.cursor/projects/Users-tanakayuichi-Projects-theleadpromotion/assets/FV1__4___3_-d69e1413-db38-4206-ba6b-1a82e49d0b55.png`
-
-## ページ全体の役割
-
-このページでは、詳しく説明しすぎない。読者に「セールスが変われば売上が変わる」「集客より先に見るべきセンターピンはセールスだ」と気づかせ、次のページで動画を見る動機を作る。
-
-ファーストビューで強い約束を置き、その下にプロフィール、実績、受講生サムネを並べて「この人は本物だ」と短時間で判断させる。
-
-フォームはメールアドレス取得を基本にする。電話番号や希望日は体験セミナーページ側で取る設計にすると、広告流入の最初の登録ハードルを下げられる。
-
-## 1. ファーストビュー
-
-プレヘッダー:
-セールスが苦手な女性起業家へ
-
-メインコピー:
-わずか10分で
-あなたを「売れる人」に変える
-AI共鳴覚醒シナリオを読み上げるだけで
-成約率8割へ
-
-サブコピー:
-集客を増やす前に、まず整えるべきなのはセールスです。34年の接客販売経験とAIの再現性を掛け合わせた「次世代型セールス」の無料勉強会を期間限定で公開します。
-
-CTA上の一言:
-無料で今すぐ次世代型セールスの秘密を受け取る！
-
-フォーム:
-メールアドレス入力欄
-ボタン文言: 無料で今すぐ次世代型セールスの秘密を受け取る！
-
-補足文:
-登録後すぐに特典をご案内します。
-
-ボタン下の注意書き:
-※登録されたメールアドレスは、個人情報保護方針に従い大切に保管します。
-※登録者様に弊社の商品やサービスのご案内をさせていただくことがあります。
-※本サービスは配信解除URLから簡単に配信を解除できます。
-※本サービスは成果や利益の保証を行うものではありません。
-※5分以内にメールが届かない場合は、メールアドレスの誤記入、もしくは迷惑メールボックスに届いている恐れがございます。
-※PCメールのアドレスをお勧めします。iCloudメールは届かない場合があるため、お控えください。
-
-## 2. 問題提起
-
-見出し:
-集客ができない原因は、セールスにあります
-
-本文:
-SNS投稿、広告、LINE配信、無料相談。どれだけ入口を増やしても、最後のセールスでお客様の心が動かなければ売上にはつながりません。
-
-「集客が苦手」「商品が作れない」と思っている方ほど、実は入口の問題ではなく、セールスの順番と型が整っていないことが多いです。
-
-セミナー台本の核:
-売上が上がらない起業家の原因トップ3は、継続、集客、そして1位がセールス。ビジネスのセンターピンはセールス。
-
-## 3. 解決策の提示
-
-見出し:
-お客様の決断が自然に起きる「次世代型セールス」
-
-本文:
-次世代型セールスは、ただのトークテンプレートではありません。
-
-お客様がすでに感じている痛みや願いを言葉にして安心を作る「共鳴」と、目を背けてきた本音に光を当てて解決モードへ切り替える「覚醒」。この2つをAIでシナリオ化し、あなたの商品やお客様に合わせて使えるようにしたものです。
-
-訴求する変化:
-- セールスへのストレスと不安がゼロに近づく
-- 迷い・手応えのなさが消える
-- 少ない集客でも売上を作れる状態に近づく
-- 商品価値や発信の軸まで明確になる
-
-## 4. 実績とプロフィール
-
-見出し:
-たかみず保江 プロフィール
-
-実績バッジ候補:
-- 日本一の百貨店で8年連続売上1位
-- 販売員時代、新宿伊勢丹の婦人服売り場で年間1億円を売り上げる
-- 20万人以上の女性客への接客販売経験
-- 6万人以上の人材育成経験
-- 女性起業家1700人以上を現場でサポート
-- 単価200万円商品のオンラインセールスで成約率100%実績
-- 1000人以上に「魔法の45分セールス」を提供
-- 特徴は最速クロージング
-
-本文:
-たかみず保江は、百貨店の販売現場で20万人以上のお客様と向き合い、年間1億円を売る世界を経験してきました。オンラインでは女性起業家を1700人以上サポートし、売れない理由を「セールスの順番」と「お客様の心の動き」から見抜いてきました。
-
-## 5. お客様の声・実績サムネイル
-
-見出し:
-セールスが変わると、売上は最短で変わります
-
-サムネイルにする実績候補:
-- クロージング未経験から3週間で66万円
-- 売れずに拗ねていた女性起業家が3ヶ月で約200万円
-- 月数万円で停滞していた薬剤師が1ヶ月で月商7桁
-- 店舗販売の教えが評価され、店代表に選出
-- 販売をやめようか迷っていた方が店長に昇進
-- 月商0円から売上106万円
-- 月商3万円から売上127万円
-- 月商0円から売上705万円
-- 月商20万円から売上372万円
-- 年商410万円から売上2800万円
-- 年商800万円から売上1730万円
-
-表示方針:
-2列グリッドでサムネイルを大量に並べる。上から順番に実績が積み上がって見えるよう、左上から右下へ視線が流れる配置にする。1枚ごとに「ジャンル」「Before」「After」「期間」を短く入れる。
-
-## 6. 勉強会で学べること
-
-見出し:
-無料勉強会でお伝えすること
-
-項目:
-- なぜ集客よりセールスがビジネスのセンターピンなのか
-- 成約率2割と8割で、売上と必要集客数がどれだけ変わるのか
-- お客様の防御を外す「共鳴」の作り方
-- お客様が自分から決断したくなる「覚醒」の起こし方
-- 34年のセールス経験をAIに移植した共鳴覚醒シナリオの使い方
-- あなたの商品に置き換えたとき、どんな提案導線になるのか
-
-## 7. CTA
-
-見出し:
-まずは無料で、次世代型セールスの入口を受け取ってください
-
-本文:
-セールスは、才能ではありません。お客様の心が動く順番を知り、その順番通りに言葉を届けられるかどうかです。
-
-今のうちに、AIを使った次世代型のセールスを体験しておいてください。
-
-ボタン:
-無料で今すぐ次世代型セールスの秘密を受け取る！
-
-注意書き:
-※登録されたメールアドレスは、個人情報保護方針に従い大切に保管します。
-※登録者様に弊社の商品やサービスのご案内をさせていただくことがあります。
-※本サービスは配信解除URLから簡単に配信を解除できます。
-※本サービスは成果や利益の保証を行うものではありません。
-※5分以内にメールが届かない場合は、メールアドレスの誤記入、もしくは迷惑メールボックスに届いている恐れがございます。
-※PCメールのアドレスをお勧めします。iCloudメールは届かない場合があるため、お控えください。
-
-## 8. デザイン指示
-
-### 全体コンセプト
-
-「女性起業家のための、次世代型セールスの招待状」。
-
-かわいい・親しみやすいLPではなく、赤・黒・金を基調にした高級感、覚悟、強さを出す。たかみず保江さんの「売上を上げさせる専門家」「最速クロージング」「覇王感」を前面に出す。
-
-ただし、40代〜50代女性起業家が対象なので、男性的に重すぎる黒金デザインにはしない。赤の情熱、金の実績、黒の重厚感、白の読みやすさをバランスよく使う。
-
-### カラーパレット
-
-メインカラー:
-- 深い赤: #8B0000 〜 #B00000
-- 黒: #050505 〜 #111111
-- ゴールド: #D6B15A 〜 #F3D37A
-
-サブカラー:
-- 白: #FFFFFF
-- アイボリー: #FFF8EA
-- ダークブラウン: #2A1608
-
-使用ルール:
-- FVは赤×黒×金で強く見せる
-- 本文セクションは白またはアイボリー背景で読みやすくする
-- 実績数字、成約率8割、無料、期間限定はゴールドで強調する
-- CTAボタンは金グラデーションまたは赤ボタンに金縁。緑ボタンは今回は使わない
-
-### タイポグラフィ
-
-フォント:
-- 日本語: Noto Sans JP もしくは游ゴシック系。Bold/Boldより上を見出しに、Regular/Mediumを本文に使う
-- 数字・英字: Montserrat または Bodoni 系のセリフ体を金色見出しに使用すると高級感が出る
-
-サイズ目安（スマホ基準）:
-- セクション大見出し: 28〜34px / 行間1.4
-- セクション小見出し: 20〜24px / 行間1.5
-- 本文: 16〜18px / 行間1.8
-- 強調語句（カッコ書き）: 18〜22px / 行間1.5
-- CTAボタン: 18〜22px / 太字
-
-PCでは大見出しを40〜52pxに拡大し、本文は18px固定、最大幅は本文部分で680〜760pxに収める。
-
-文字色:
-- 黒背景: 白（#FFFFFF）またはアイボリー（#FFF8EA）
-- 白／アイボリー背景: 黒（#111111）またはダークブラウン（#2A1608）
-- 強調語句はゴールド（#E9C46A 前後）またはディープレッド（#A11212 前後）
-
-### レスポンシブ・スペーシング
-
-ブレイクポイント:
-- スマホ: 〜767px（最優先）
-- タブレット: 768〜1023px
-- PC: 1024px〜
-
-スマホでの基本余白:
-- セクション間の上下マージン: 64〜80px
-- セクション内の小ブロック間: 24〜32px
-- 本文ブロック左右余白: 20〜24px
-
-PCでの基本余白:
-- セクション間の上下マージン: 96〜120px
-- 本文最大幅: 760pxセンタリング
-- 2カラムレイアウト時はカラム間ギャップ40〜48px
-
-### FV
-
-レイアウト:
-- 左側にコピー、右側にたかみず保江さんの人物写真
-- 背景は赤黒グラデーション。下部に黒サテンや金の光を入れてリッチ感を出す
-- ゴールドの光、金粉、斜めのラインを少量入れる
-- スマホでは人物写真を上または背景に大きく置き、コピーを中央寄せにする
-
-表示テキスト:
-- 小見出し: セールスが苦手な女性起業家へ
-- メイン: AI共鳴覚醒シナリオを読み上げるだけで 成約率8割へ
-- 補足: わずか10分で、あなたを「売れる人」に変える次世代型セールス無料勉強会
-- CTA: 無料で今すぐ次世代型セールスの秘密を受け取る！
-
-雰囲気:
-高級セミナー、招待状、VIP感。安っぽい情報商材感は避ける。
-
-### 問題提起
-
-白背景。見出しは「集客ができない原因は、セールスにあります」。弱い可能性表現ではなく、言い切りで読者の前提をひっくり返す。
-
-レイアウト:
-- 左に文章、右に「集客」「商品」「セールス」の図解
-- 「セールス」だけを金色で強調する
-- スマホでは図解を上、文章を下に配置
-
-### 解決策
-
-黒背景に金のライン。共鳴と覚醒を2カラムで表示する。
-
-- 共鳴: 痛み・違和感・願望を言葉にする
-- 覚醒: 弱点・本音・未来を見せ、解決モードに切り替える
-
-カラム間に金色の中央線を入れ、2つのプロセスを対等に見せる。
-
-### プロフィール
-
-旧プロフィール画像の要素を新デザインへ統合する。顔写真、たかみず保江の名前、実績バッジを縦に並べる。
-
-実績バッジ:
-- チェックマーク付きのリストにする
-- チェックはピンクではなくゴールドにする
-- 1項目ごとに16〜18pxの本文、項目間は8〜12pxの余白
-
-写真:
-赤黒金の世界観で再撮影または再加工。ピンク・水色・白の旧プロフィール風は使わない。
-
-### お客様の声・実績サムネイル
-
-レイアウト:
-- PC・スマホとも基本は2列グリッド（参考LPと同じ密度感）
-- カード間ギャップ: 12〜16px（詰め気味で物量感を出す）
-- 同じ高さのカードを整然と並べる
-
-サムネ1枚の構成:
-- ジャンル名（白16px）
-- Before / After を1行ずつ。数字部分はゴールド大きめ（22〜28px）
-- 期間と短い一言
-- 背景は黒または深赤、カード枠は金1px
-
-意図:
-上から順番に実績が積み上がって見えるよう、左上から右下へ視線が流れる配置にする。「こんなに実績がある」と物量で信頼させる。
-
-### 勉強会で学べること
-
-アイボリー背景。カード6枚で表示。
-
-カード化する6項目:
-- 集客よりセールス
-- 成約率の差
-- 共鳴
-- 覚醒
-- AI台本
-- あなたの商品への置き換え
-
-カード構成:
-- アイコン（ゴールド）
-- 見出し（黒太字）
-- 1〜2行の説明（黒）
-- カード背景は白、枠は薄いゴールド
-
-### 最終CTA
-
-FVより少し落ち着いた赤黒背景。中央にフォームとCTA。
-
-ボタン:
-- 文言: 無料で今すぐ次世代型セールスの秘密を受け取る！
-- 色: 金グラデーション、または赤背景に金縁
-- 形状: 角丸8〜12pxの長方形
-- 右に金色の小さな矢印アイコン
-
-### フォームデザイン
-
-入力項目:
-- メールアドレス
-
-任意で後から追加できる項目:
-- お名前
-- 携帯番号
-- 参加希望日
-
-今回の初期設計では、オプトインページはメールアドレスのみを推奨。サンキューページで動画とLINEオープンチャットへ誘導し、体験セミナーページで日程選択を取る。
-
-CTAボタン下:
-登録後すぐに特典をご案内します
-
-注意書き:
-※登録されたメールアドレスは、個人情報保護方針に従い大切に保管します。
-※登録者様に弊社の商品やサービスのご案内をさせていただくことがあります。
-※本サービスは配信解除URLから簡単に配信を解除できます。
-※本サービスは成果や利益の保証を行うものではありません。
-※5分以内にメールが届かない場合は、メールアドレスの誤記入、もしくは迷惑メールボックスに届いている恐れがございます。
-※PCメールのアドレスをお勧めします。iCloudメールは届かない場合があるため、お控えください。
-
-### 画像生成・素材指示
-
-ヘッダー画像:
-赤黒グラデーション背景、金の光、黒サテン風の布、右側にたかみず保江さん。高級セミナーの告知画像として成立する構図。
-
-プロフィール画像:
-白背景のプロフィール要素を、赤黒金の世界観に作り直す。昔のピンク・水色・白の雰囲気は使わない。
-
-実績サムネイル:
-大量に並べたときに統一感が出るよう、同じテンプレートで作る。背景は深赤または黒、数字は金、ジャンルは白文字。女性起業家向けなので、硬すぎるビジネス素材よりも、上品で力強い印象にする。
-
-### 避けるデザイン
-
-- ピンク、水色、白中心の旧プロフィールLP風
-- 緑CTA中心の参考LP風配色
-- AIツール感が強い青紫のサイバー系
-- 文字が小さく、40代〜50代がスマホで読みにくいデザイン
-- 金色を使いすぎて安っぽく見える装飾
-- 過度な煽り、ギラギラしすぎる投資系デザイン
-
-### スマホ最適化
-
-最優先はスマホ表示。FVのメインコピーは3〜5行以内で読めるようにする。CTAはファーストビュー内に1つ、実績サムネ後に1つ、最終CTAに1つ配置。
-
-実績サムネイルはスマホで長くなってもよい。2列で順番通りに貼り、「こんなに実績がある」と物量で信頼させることが目的。
-
-### 仕上がりイメージ
-
-参考にした構造（紺・白・緑、動画＋実績で信頼を作るタイプのオプトインLP）を骨格として借りつつ、見た目は完全に別物にする。
-
-本ページ: 赤・黒・金、強い約束＋プロフィール実績＋お客様の声の物量で、セールスに悩む女性起業家を「この人から学びたい」と思わせるページ。
-
-## 9. 実装時の注意
-
-- フォームはメールアドレスのみを推奨。電話番号や希望日はサンキュー以降で取る
-- 注意書き（iCloud不可、配信解除可能、成果保証なし等）はFV直下のフォームと最終CTAの2か所に同じ内容を必ず添える
-- 実績サムネは2列グリッドで、PC・スマホとも同じ枚数を表示する
-- 「世界初」「成約率100%」などの誇大表現は使わない（成約率100%実績はプロフィール内のバッジ表記のみで使用）
-- 競合・参考LPの固有名（人名・商品名）は本文・指示書のいずれにも書かない
-- メインコピーは3〜5行以内、サブコピーは2〜3行以内に必ず収める
-- 画像生成は別AIで行う前提で、配色・構図・雰囲気の言語化を厚めにする
-
-## 10. ページ構成まとめ
-
-1. FV（メインコピー＋人物写真＋フォーム）
-2. 問題提起（集客ではなくセールスが原因）
-3. 解決策の提示（共鳴と覚醒）
-4. 実績とプロフィール（たかみず保江）
-5. お客様の声・実績サムネイル（2列グリッド）
-6. 勉強会で学べること（カード6枚）
-7. 最終CTA（フォーム＋ボタン＋注意書き）
-
-Produced by KATSUO MARKETING
-Version: 2.0 (2026-05-04)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: M3K8P2QL
-Generated by: 田中祐一
-</pre>
+<main class="content">
+<article class="article">
+<h1>次世代型AIセールス オプトインページ 構成ライティングデザイン指示書</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#ページ全体の役割">ページ全体の役割</a></li><li class="toc-main"><a href="#1.-ファーストビュー">1. ファーストビュー</a></li><li class="toc-main"><a href="#2.-問題提起">2. 問題提起</a></li><li class="toc-main"><a href="#3.-解決策の提示">3. 解決策の提示</a></li><li class="toc-main"><a href="#4.-実績とプロフィール">4. 実績とプロフィール</a></li><li class="toc-main"><a href="#5.-お客様の声・実績サムネイル">5. お客様の声・実績サムネイル</a></li><li class="toc-main"><a href="#6.-勉強会で学べること">6. 勉強会で学べること</a></li><li class="toc-main"><a href="#7.-CTA">7. CTA</a></li><li class="toc-main"><a href="#8.-デザイン指示">8. デザイン指示</a></li><li class="toc-sub"><a href="#全体コンセプト">全体コンセプト</a></li><li class="toc-sub"><a href="#カラーパレット">カラーパレット</a></li><li class="toc-sub"><a href="#タイポグラフィ">タイポグラフィ</a></li><li class="toc-sub"><a href="#レスポンシブ・スペーシング">レスポンシブ・スペーシング</a></li><li class="toc-sub"><a href="#FV">FV</a></li><li class="toc-sub"><a href="#問題提起">問題提起</a></li><li class="toc-sub"><a href="#解決策">解決策</a></li><li class="toc-sub"><a href="#プロフィール">プロフィール</a></li><li class="toc-sub"><a href="#お客様の声・実績サムネイル">お客様の声・実績サムネイル</a></li><li class="toc-sub"><a href="#勉強会で学べること">勉強会で学べること</a></li><li class="toc-sub"><a href="#最終CTA">最終CTA</a></li><li class="toc-sub"><a href="#フォームデザイン">フォームデザイン</a></li><li class="toc-sub"><a href="#画像生成・素材指示">画像生成・素材指示</a></li><li class="toc-sub"><a href="#避けるデザイン">避けるデザイン</a></li><li class="toc-sub"><a href="#スマホ最適化">スマホ最適化</a></li><li class="toc-sub"><a href="#仕上がりイメージ">仕上がりイメージ</a></li><li class="toc-main"><a href="#9.-実装時の注意">9. 実装時の注意</a></li><li class="toc-main"><a href="#10.-ページ構成まとめ">10. ページ構成まとめ</a></li></ul></nav>
+<p>目的: 広告流入者からメールアドレスを取得し、サンキューページの動画視聴とLINEオープンチャット参加へつなげる。</p>
+<p>対象: セールスに苦手意識がある、または売上を伸ばしたい40代〜50代の女性起業家。集客や発信を頑張っているのに、個別相談や説明会で決めきれない層。</p>
+<p>参照素材:<br />
+- <code>プロモ動画/20260429_次世代型AIセールス_プロモ動画台本_約5分.md</code><br />
+- <code>セミナー台本/20260412_次世代型AIセールス_スライド本文.md</code><br />
+- <code>ファネル設計_全体像.md</code><br />
+- <code>お客様の声.md</code><br />
+- <code>41_リサーチ/購入教材/おさるさん/広告ファネル/01_オプトインページ解析.md</code>（参考LP解析）</p>
+<p>参考画像:<br />
+- 旧プロフィール系ヘッダー: <code>/Users/tanakayuichi/.cursor/projects/Users-tanakayuichi-Projects-theleadpromotion/assets/image-2b8e65e0-6597-4b84-9666-a34df5563302.png</code><br />
+- 新FV方向性: <code>/Users/tanakayuichi/.cursor/projects/Users-tanakayuichi-Projects-theleadpromotion/assets/FV1__4___3_-d69e1413-db38-4206-ba6b-1a82e49d0b55.png</code></p>
+<h2 id="ページ全体の役割">ページ全体の役割</h2>
+<p>このページでは、詳しく説明しすぎない。読者に「セールスが変われば売上が変わる」「集客より先に見るべきセンターピンはセールスだ」と気づかせ、次のページで動画を見る動機を作る。</p>
+<p>ファーストビューで強い約束を置き、その下にプロフィール、実績、受講生サムネを並べて「この人は本物だ」と短時間で判断させる。</p>
+<p>フォームはメールアドレス取得を基本にする。電話番号や希望日は体験セミナーページ側で取る設計にすると、広告流入の最初の登録ハードルを下げられる。</p>
+<h2 id="1.-ファーストビュー">1. ファーストビュー</h2>
+<p>プレヘッダー:<br />
+セールスが苦手な女性起業家へ</p>
+<p>メインコピー:<br />
+わずか10分で<br />
+あなたを「売れる人」に変える<br />
+AI共鳴覚醒シナリオを読み上げるだけで<br />
+成約率8割へ</p>
+<p>サブコピー:<br />
+集客を増やす前に、まず整えるべきなのはセールスです。34年の接客販売経験とAIの再現性を掛け合わせた「次世代型セールス」の無料勉強会を期間限定で公開します。</p>
+<p>CTA上の一言:<br />
+無料で今すぐ次世代型セールスの秘密を受け取る！</p>
+<p>フォーム:<br />
+メールアドレス入力欄<br />
+ボタン文言: 無料で今すぐ次世代型セールスの秘密を受け取る！</p>
+<p>補足文:<br />
+登録後すぐに特典をご案内します。</p>
+<p>ボタン下の注意書き:<br />
+※登録されたメールアドレスは、個人情報保護方針に従い大切に保管します。<br />
+※登録者様に弊社の商品やサービスのご案内をさせていただくことがあります。<br />
+※本サービスは配信解除URLから簡単に配信を解除できます。<br />
+※本サービスは成果や利益の保証を行うものではありません。<br />
+※5分以内にメールが届かない場合は、メールアドレスの誤記入、もしくは迷惑メールボックスに届いている恐れがございます。<br />
+※PCメールのアドレスをお勧めします。iCloudメールは届かない場合があるため、お控えください。</p>
+<h2 id="2.-問題提起">2. 問題提起</h2>
+<p>見出し:<br />
+集客ができない原因は、セールスにあります</p>
+<p>本文:<br />
+SNS投稿、広告、LINE配信、無料相談。どれだけ入口を増やしても、最後のセールスでお客様の心が動かなければ売上にはつながりません。</p>
+<p>「集客が苦手」「商品が作れない」と思っている方ほど、実は入口の問題ではなく、セールスの順番と型が整っていないことが多いです。</p>
+<p>セミナー台本の核:<br />
+売上が上がらない起業家の原因トップ3は、継続、集客、そして1位がセールス。ビジネスのセンターピンはセールス。</p>
+<h2 id="3.-解決策の提示">3. 解決策の提示</h2>
+<p>見出し:<br />
+お客様の決断が自然に起きる「次世代型セールス」</p>
+<p>本文:<br />
+次世代型セールスは、ただのトークテンプレートではありません。</p>
+<p>お客様がすでに感じている痛みや願いを言葉にして安心を作る「共鳴」と、目を背けてきた本音に光を当てて解決モードへ切り替える「覚醒」。この2つをAIでシナリオ化し、あなたの商品やお客様に合わせて使えるようにしたものです。</p>
+<p>訴求する変化:<br />
+- セールスへのストレスと不安がゼロに近づく<br />
+- 迷い・手応えのなさが消える<br />
+- 少ない集客でも売上を作れる状態に近づく<br />
+- 商品価値や発信の軸まで明確になる</p>
+<h2 id="4.-実績とプロフィール">4. 実績とプロフィール</h2>
+<p>見出し:<br />
+たかみず保江 プロフィール</p>
+<p>実績バッジ候補:<br />
+- 日本一の百貨店で8年連続売上1位<br />
+- 販売員時代、新宿伊勢丹の婦人服売り場で年間1億円を売り上げる<br />
+- 20万人以上の女性客への接客販売経験<br />
+- 6万人以上の人材育成経験<br />
+- 女性起業家1700人以上を現場でサポート<br />
+- 単価200万円商品のオンラインセールスで成約率100%実績<br />
+- 1000人以上に「魔法の45分セールス」を提供<br />
+- 特徴は最速クロージング</p>
+<p>本文:<br />
+たかみず保江は、百貨店の販売現場で20万人以上のお客様と向き合い、年間1億円を売る世界を経験してきました。オンラインでは女性起業家を1700人以上サポートし、売れない理由を「セールスの順番」と「お客様の心の動き」から見抜いてきました。</p>
+<h2 id="5.-お客様の声・実績サムネイル">5. お客様の声・実績サムネイル</h2>
+<p>見出し:<br />
+セールスが変わると、売上は最短で変わります</p>
+<p>サムネイルにする実績候補:<br />
+- クロージング未経験から3週間で66万円<br />
+- 売れずに拗ねていた女性起業家が3ヶ月で約200万円<br />
+- 月数万円で停滞していた薬剤師が1ヶ月で月商7桁<br />
+- 店舗販売の教えが評価され、店代表に選出<br />
+- 販売をやめようか迷っていた方が店長に昇進<br />
+- 月商0円から売上106万円<br />
+- 月商3万円から売上127万円<br />
+- 月商0円から売上705万円<br />
+- 月商20万円から売上372万円<br />
+- 年商410万円から売上2800万円<br />
+- 年商800万円から売上1730万円</p>
+<p>表示方針:<br />
+2列グリッドでサムネイルを大量に並べる。上から順番に実績が積み上がって見えるよう、左上から右下へ視線が流れる配置にする。1枚ごとに「ジャンル」「Before」「After」「期間」を短く入れる。</p>
+<h2 id="6.-勉強会で学べること">6. 勉強会で学べること</h2>
+<p>見出し:<br />
+無料勉強会でお伝えすること</p>
+<p>項目:<br />
+- なぜ集客よりセールスがビジネスのセンターピンなのか<br />
+- 成約率2割と8割で、売上と必要集客数がどれだけ変わるのか<br />
+- お客様の防御を外す「共鳴」の作り方<br />
+- お客様が自分から決断したくなる「覚醒」の起こし方<br />
+- 34年のセールス経験をAIに移植した共鳴覚醒シナリオの使い方<br />
+- あなたの商品に置き換えたとき、どんな提案導線になるのか</p>
+<h2 id="7.-CTA">7. CTA</h2>
+<p>見出し:<br />
+まずは無料で、次世代型セールスの入口を受け取ってください</p>
+<p>本文:<br />
+セールスは、才能ではありません。お客様の心が動く順番を知り、その順番通りに言葉を届けられるかどうかです。</p>
+<p>今のうちに、AIを使った次世代型のセールスを体験しておいてください。</p>
+<p>ボタン:<br />
+無料で今すぐ次世代型セールスの秘密を受け取る！</p>
+<p>注意書き:<br />
+※登録されたメールアドレスは、個人情報保護方針に従い大切に保管します。<br />
+※登録者様に弊社の商品やサービスのご案内をさせていただくことがあります。<br />
+※本サービスは配信解除URLから簡単に配信を解除できます。<br />
+※本サービスは成果や利益の保証を行うものではありません。<br />
+※5分以内にメールが届かない場合は、メールアドレスの誤記入、もしくは迷惑メールボックスに届いている恐れがございます。<br />
+※PCメールのアドレスをお勧めします。iCloudメールは届かない場合があるため、お控えください。</p>
+<h2 id="8.-デザイン指示">8. デザイン指示</h2>
+<h3 id="全体コンセプト">全体コンセプト</h3>
+<p>「女性起業家のための、次世代型セールスの招待状」。</p>
+<p>かわいい・親しみやすいLPではなく、赤・黒・金を基調にした高級感、覚悟、強さを出す。たかみず保江さんの「売上を上げさせる専門家」「最速クロージング」「覇王感」を前面に出す。</p>
+<p>ただし、40代〜50代女性起業家が対象なので、男性的に重すぎる黒金デザインにはしない。赤の情熱、金の実績、黒の重厚感、白の読みやすさをバランスよく使う。</p>
+<h3 id="カラーパレット">カラーパレット</h3>
+<p>メインカラー:<br />
+- 深い赤: #8B0000 〜 #B00000<br />
+- 黒: #050505 〜 #111111<br />
+- ゴールド: #D6B15A 〜 #F3D37A</p>
+<p>サブカラー:<br />
+- 白: #FFFFFF<br />
+- アイボリー: #FFF8EA<br />
+- ダークブラウン: #2A1608</p>
+<p>使用ルール:<br />
+- FVは赤×黒×金で強く見せる<br />
+- 本文セクションは白またはアイボリー背景で読みやすくする<br />
+- 実績数字、成約率8割、無料、期間限定はゴールドで強調する<br />
+- CTAボタンは金グラデーションまたは赤ボタンに金縁。緑ボタンは今回は使わない</p>
+<h3 id="タイポグラフィ">タイポグラフィ</h3>
+<p>フォント:<br />
+- 日本語: Noto Sans JP もしくは游ゴシック系。Bold/Boldより上を見出しに、Regular/Mediumを本文に使う<br />
+- 数字・英字: Montserrat または Bodoni 系のセリフ体を金色見出しに使用すると高級感が出る</p>
+<p>サイズ目安（スマホ基準）:<br />
+- セクション大見出し: 28〜34px / 行間1.4<br />
+- セクション小見出し: 20〜24px / 行間1.5<br />
+- 本文: 16〜18px / 行間1.8<br />
+- 強調語句（カッコ書き）: 18〜22px / 行間1.5<br />
+- CTAボタン: 18〜22px / 太字</p>
+<p>PCでは大見出しを40〜52pxに拡大し、本文は18px固定、最大幅は本文部分で680〜760pxに収める。</p>
+<p>文字色:<br />
+- 黒背景: 白（#FFFFFF）またはアイボリー（#FFF8EA）<br />
+- 白／アイボリー背景: 黒（#111111）またはダークブラウン（#2A1608）<br />
+- 強調語句はゴールド（#E9C46A 前後）またはディープレッド（#A11212 前後）</p>
+<h3 id="レスポンシブ・スペーシング">レスポンシブ・スペーシング</h3>
+<p>ブレイクポイント:<br />
+- スマホ: 〜767px（最優先）<br />
+- タブレット: 768〜1023px<br />
+- PC: 1024px〜</p>
+<p>スマホでの基本余白:<br />
+- セクション間の上下マージン: 64〜80px<br />
+- セクション内の小ブロック間: 24〜32px<br />
+- 本文ブロック左右余白: 20〜24px</p>
+<p>PCでの基本余白:<br />
+- セクション間の上下マージン: 96〜120px<br />
+- 本文最大幅: 760pxセンタリング<br />
+- 2カラムレイアウト時はカラム間ギャップ40〜48px</p>
+<h3 id="FV">FV</h3>
+<p>レイアウト:<br />
+- 左側にコピー、右側にたかみず保江さんの人物写真<br />
+- 背景は赤黒グラデーション。下部に黒サテンや金の光を入れてリッチ感を出す<br />
+- ゴールドの光、金粉、斜めのラインを少量入れる<br />
+- スマホでは人物写真を上または背景に大きく置き、コピーを中央寄せにする</p>
+<p>表示テキスト:<br />
+- 小見出し: セールスが苦手な女性起業家へ<br />
+- メイン: AI共鳴覚醒シナリオを読み上げるだけで 成約率8割へ<br />
+- 補足: わずか10分で、あなたを「売れる人」に変える次世代型セールス無料勉強会<br />
+- CTA: 無料で今すぐ次世代型セールスの秘密を受け取る！</p>
+<p>雰囲気:<br />
+高級セミナー、招待状、VIP感。安っぽい情報商材感は避ける。</p>
+<h3 id="問題提起">問題提起</h3>
+<p>白背景。見出しは「集客ができない原因は、セールスにあります」。弱い可能性表現ではなく、言い切りで読者の前提をひっくり返す。</p>
+<p>レイアウト:<br />
+- 左に文章、右に「集客」「商品」「セールス」の図解<br />
+- 「セールス」だけを金色で強調する<br />
+- スマホでは図解を上、文章を下に配置</p>
+<h3 id="解決策">解決策</h3>
+<p>黒背景に金のライン。共鳴と覚醒を2カラムで表示する。</p>
+<ul>
+<li>共鳴: 痛み・違和感・願望を言葉にする</li>
+<li>覚醒: 弱点・本音・未来を見せ、解決モードに切り替える</li>
+</ul>
+<p>カラム間に金色の中央線を入れ、2つのプロセスを対等に見せる。</p>
+<h3 id="プロフィール">プロフィール</h3>
+<p>旧プロフィール画像の要素を新デザインへ統合する。顔写真、たかみず保江の名前、実績バッジを縦に並べる。</p>
+<p>実績バッジ:<br />
+- チェックマーク付きのリストにする<br />
+- チェックはピンクではなくゴールドにする<br />
+- 1項目ごとに16〜18pxの本文、項目間は8〜12pxの余白</p>
+<p>写真:<br />
+赤黒金の世界観で再撮影または再加工。ピンク・水色・白の旧プロフィール風は使わない。</p>
+<h3 id="お客様の声・実績サムネイル">お客様の声・実績サムネイル</h3>
+<p>レイアウト:<br />
+- PC・スマホとも基本は2列グリッド（参考LPと同じ密度感）<br />
+- カード間ギャップ: 12〜16px（詰め気味で物量感を出す）<br />
+- 同じ高さのカードを整然と並べる</p>
+<p>サムネ1枚の構成:<br />
+- ジャンル名（白16px）<br />
+- Before / After を1行ずつ。数字部分はゴールド大きめ（22〜28px）<br />
+- 期間と短い一言<br />
+- 背景は黒または深赤、カード枠は金1px</p>
+<p>意図:<br />
+上から順番に実績が積み上がって見えるよう、左上から右下へ視線が流れる配置にする。「こんなに実績がある」と物量で信頼させる。</p>
+<h3 id="勉強会で学べること">勉強会で学べること</h3>
+<p>アイボリー背景。カード6枚で表示。</p>
+<p>カード化する6項目:<br />
+- 集客よりセールス<br />
+- 成約率の差<br />
+- 共鳴<br />
+- 覚醒<br />
+- AI台本<br />
+- あなたの商品への置き換え</p>
+<p>カード構成:<br />
+- アイコン（ゴールド）<br />
+- 見出し（黒太字）<br />
+- 1〜2行の説明（黒）<br />
+- カード背景は白、枠は薄いゴールド</p>
+<h3 id="最終CTA">最終CTA</h3>
+<p>FVより少し落ち着いた赤黒背景。中央にフォームとCTA。</p>
+<p>ボタン:<br />
+- 文言: 無料で今すぐ次世代型セールスの秘密を受け取る！<br />
+- 色: 金グラデーション、または赤背景に金縁<br />
+- 形状: 角丸8〜12pxの長方形<br />
+- 右に金色の小さな矢印アイコン</p>
+<h3 id="フォームデザイン">フォームデザイン</h3>
+<p>入力項目:<br />
+- メールアドレス</p>
+<p>任意で後から追加できる項目:<br />
+- お名前<br />
+- 携帯番号<br />
+- 参加希望日</p>
+<p>今回の初期設計では、オプトインページはメールアドレスのみを推奨。サンキューページで動画とLINEオープンチャットへ誘導し、体験セミナーページで日程選択を取る。</p>
+<p>CTAボタン下:<br />
+登録後すぐに特典をご案内します</p>
+<p>注意書き:<br />
+※登録されたメールアドレスは、個人情報保護方針に従い大切に保管します。<br />
+※登録者様に弊社の商品やサービスのご案内をさせていただくことがあります。<br />
+※本サービスは配信解除URLから簡単に配信を解除できます。<br />
+※本サービスは成果や利益の保証を行うものではありません。<br />
+※5分以内にメールが届かない場合は、メールアドレスの誤記入、もしくは迷惑メールボックスに届いている恐れがございます。<br />
+※PCメールのアドレスをお勧めします。iCloudメールは届かない場合があるため、お控えください。</p>
+<h3 id="画像生成・素材指示">画像生成・素材指示</h3>
+<p>ヘッダー画像:<br />
+赤黒グラデーション背景、金の光、黒サテン風の布、右側にたかみず保江さん。高級セミナーの告知画像として成立する構図。</p>
+<p>プロフィール画像:<br />
+白背景のプロフィール要素を、赤黒金の世界観に作り直す。昔のピンク・水色・白の雰囲気は使わない。</p>
+<p>実績サムネイル:<br />
+大量に並べたときに統一感が出るよう、同じテンプレートで作る。背景は深赤または黒、数字は金、ジャンルは白文字。女性起業家向けなので、硬すぎるビジネス素材よりも、上品で力強い印象にする。</p>
+<h3 id="避けるデザイン">避けるデザイン</h3>
+<ul>
+<li>ピンク、水色、白中心の旧プロフィールLP風</li>
+<li>緑CTA中心の参考LP風配色</li>
+<li>AIツール感が強い青紫のサイバー系</li>
+<li>文字が小さく、40代〜50代がスマホで読みにくいデザイン</li>
+<li>金色を使いすぎて安っぽく見える装飾</li>
+<li>過度な煽り、ギラギラしすぎる投資系デザイン</li>
+</ul>
+<h3 id="スマホ最適化">スマホ最適化</h3>
+<p>最優先はスマホ表示。FVのメインコピーは3〜5行以内で読めるようにする。CTAはファーストビュー内に1つ、実績サムネ後に1つ、最終CTAに1つ配置。</p>
+<p>実績サムネイルはスマホで長くなってもよい。2列で順番通りに貼り、「こんなに実績がある」と物量で信頼させることが目的。</p>
+<h3 id="仕上がりイメージ">仕上がりイメージ</h3>
+<p>参考にした構造（紺・白・緑、動画＋実績で信頼を作るタイプのオプトインLP）を骨格として借りつつ、見た目は完全に別物にする。</p>
+<p>本ページ: 赤・黒・金、強い約束＋プロフィール実績＋お客様の声の物量で、セールスに悩む女性起業家を「この人から学びたい」と思わせるページ。</p>
+<h2 id="9.-実装時の注意">9. 実装時の注意</h2>
+<ul>
+<li>フォームはメールアドレスのみを推奨。電話番号や希望日はサンキュー以降で取る</li>
+<li>注意書き（iCloud不可、配信解除可能、成果保証なし等）はFV直下のフォームと最終CTAの2か所に同じ内容を必ず添える</li>
+<li>実績サムネは2列グリッドで、PC・スマホとも同じ枚数を表示する</li>
+<li>「世界初」「成約率100%」などの誇大表現は使わない（成約率100%実績はプロフィール内のバッジ表記のみで使用）</li>
+<li>競合・参考LPの固有名（人名・商品名）は本文・指示書のいずれにも書かない</li>
+<li>メインコピーは3〜5行以内、サブコピーは2〜3行以内に必ず収める</li>
+<li>画像生成は別AIで行う前提で、配色・構図・雰囲気の言語化を厚めにする</li>
+</ul>
+<h2 id="10.-ページ構成まとめ">10. ページ構成まとめ</h2>
+<ol>
+<li>FV（メインコピー＋人物写真＋フォーム）</li>
+<li>問題提起（集客ではなくセールスが原因）</li>
+<li>解決策の提示（共鳴と覚醒）</li>
+<li>実績とプロフィール（たかみず保江）</li>
+<li>お客様の声・実績サムネイル（2列グリッド）</li>
+<li>勉強会で学べること（カード6枚）</li>
+<li>最終CTA（フォーム＋ボタン＋注意書き）</li>
+</ol>
+<p>Produced by KATSUO MARKETING<br />
+Version: 2.0 (2026-05-04)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: M3K8P2QL<br />
+Generated by: 田中祐一</p>
+</article>
 </main>
+</div>
 </body>
 </html>

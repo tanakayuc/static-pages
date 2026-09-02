@@ -3,227 +3,590 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>サンプル_紐付きマトリックス_5件_20260615 - AI社員化プロジェクト 設計方針</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>サンプル：紐付きマトリックス 5件（2026-06-15） - AI社員化プロジェクト 設計方針</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  color: var(--ink);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { display: none; }
-    .mobile-nav { display: block; }
-    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.95rem; line-height: 1.7; }
-    .main a { word-wrap: break-word; overflow-wrap: break-word; }
-    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
+  border: 1px solid var(--line);
+  font-size: 1.03rem;
 }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .main { padding: 0.75rem; }
-    .main h1 { font-size: 1.15rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.9rem; }
-    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
-    .main table { font-size: 0.8rem; }
-    .main th, .main td { padding: 0.25rem; }
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  position: relative;
 }
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient);
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(135deg, var(--sub), var(--deep));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar {
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
+  border-right: 1px solid var(--line);
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
+}
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active {
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
+}
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 860px) {
+  .layout { display: block; }
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
-<nav class="sidebar">
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar" aria-label="AI社員化プロジェクト 設計方針">
+<div class="brand">THE LEAD DOCUMENT</div>
 <h3>AI社員化プロジェクト 設計方針</h3>
-<a href="024.html" class="sidebar-item"><span class="date">2026年08月27日</span> Zoom一括蒸留_StageB全件統合_最新統計</a>
-<a href="040.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中AIナレッジ同期_最新状況</a>
-<a href="041.html" class="sidebar-item"><span class="date">2026年08月27日</span> 田中祐一AI_インプット来歴一覧</a>
-<a href="055.html" class="sidebar-item"><span class="date">2026年08月27日</span> 運用_田中AIナレッジ日次同期</a>
-<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_MCP移行設計_過去MD救済方針</a>
-<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_AI社員DB化_実装バックログ</a>
-<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ClaudeCode引き継ぎ_田中祐一AI_AI社員DB化</a>
-<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_ナレッジフィードバックループ_実装ログ</a>
-<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_初期実装ログ</a>
-<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チームAI社員_実装設計とタスク一覧</a>
-<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_プロモーション設計チーム_AI社員スケルトン実装ログ</a>
-<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 20260703_田中祐一AIとAI社員の連携設計メモ</a>
-<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ_Zoom一括蒸留_20260703</a>
-<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計_Zoom一括蒸留_StageB仕分けルール_20260703</a>
-<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 一括蒸留_進捗台帳_20260702</a>
-<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ_質問10件_20260619</a>
-<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ回答_raw_20260619</a>
-<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> 監査_20260619_knowledge格納構造_findings_共有用</a>
-<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A反映案_20260616</a>
-<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A回答_raw_20260616</a>
-<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ_質問15件_20260616</a>
-<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ_質問10件_20260616</a>
-<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ反映案_20260616</a>
-<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ回答_raw_20260616</a>
-<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> golden_query_baseline_20260616</a>
-<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト_メイン講義_ナレッジ化点検_20260616</a>
-<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト抽出候補_章7-8-11-12_20260616</a>
-<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_会員サイト背骨の格納と取得_オーバーフロー回避_20260616</a>
-<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計_構造化レコード＋embedding＋Q&amp;Aループ_20260616</a>
-<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補_batch5_20260615</a>
-<a href="20260615-42e6d16d312b.html" class="sidebar-item active"><span class="date">2026年06月15日</span> サンプル_紐付きマトリックス_5件_20260615</a>
-<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 再設計_20260615_3モード脳アーキテクチャ</a>
-<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂_マトリックス紐付け_20260615</a>
-<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 進捗_20260615_大型ブラッシュアップ_チェックポイント</a>
-<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 実装_20260614_MCPデプロイをmain_git連携へ移行_ランブック</a>
-<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> 設計_20260614_B4_哲学を本番AIへ常時ロード</a>
-<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> レビュー_20260613_Codex独立レビュー</a>
-<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 実装_20260613_MCP統合クリーンアップ_ランブック</a>
-<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ01_レビューシート_20260613</a>
-<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定_20260613_v2取りこぼし率</a>
-<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_PALMO×田中祐一AI_データ経済圏</a>
-<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 設計_20260613_ナレッジ検索アーキテクチャ_v1</a>
-<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI定義書_v1</a>
-<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 20260612_田中祐一AI詳細設計書_v1_Codex実行仕様</a>
-<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_かず先生プロモ解説_構造化</a>
-<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_ゆう先生3チャレ解説_構造化</a>
-<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析_20260612_プロモ解説_一般化原則集ドラフト</a>
-<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_スナイパーローンチ重複検証レポート</a>
-<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ローンチ型所在レポート</a>
+<a href="024.html" class="sidebar-item"><span class="date">2026年09月02日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
+<a href="040.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中AIナレッジ同期 最新状況</a>
+<a href="041.html" class="sidebar-item"><span class="date">2026年09月02日</span> 田中祐一AI インプット来歴一覧（正本）</a>
+<a href="055.html" class="sidebar-item"><span class="date">2026年09月02日</span> 運用: 田中AIナレッジ日次同期</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item active"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
 <a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
-<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_実案件プロモ型マッピング</a>
-<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> 20260429_AI運用全体構造レジュメ</a>
-<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 20260415_ナレッジ抽出プロセスの実例と学び</a>
-<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> 20260414_AI社員化プロジェクト_作業背景と現状</a>
-<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> 20260413_AI社員化プロジェクト_設計方針まとめ</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a>
 </nav>
-<main class="main">
-<pre># サンプル：紐付きマトリックス 5件（2026-06-15）
-
-作成目的: 6カラム＋差別化ゲートの記述精度確認サンプル。`97_ザ・リード事業/AI構築/知識構造改訂_マトリックス紐付け_20260615.md` の構造定義に厳密に従う。
-
-knowledge/ 本体は一切変更しない。
-
----
-
-## 項目1: 商業出版のコスト感 ＝「400-500万を無料で勝ち取る」立場の認識
-
-| カラム | 内容 |
-|---|---|
-| **主張** | 商業出版は著者1人あたり400-500万円の価値（旧説「300万」は紙代が安かった時代の数字。田中の自費出版実績＝3,000部で450-500万／2022年・2025年）。 |
-| **上位の哲学・原理** | プロデュース＝相手に価値を出させる前に、自分が相手に何を「負担させているか」を正確に認識する。 |
-| **立場** | 出版を狙うコンテンツホルダー／プロデューサー。 |
-| **活用シーン** | 出版企画を編集者（プロモーター）に持ち込む準備時。「どれだけのコストを先方に持ってもらうか」の費用妥当性を判断する局面。 |
-| **紐付く事例** | 田中祐一の自費出版2冊（3,000部・450-500万）。出典: `97_ザ・リード事業/AI構築/知識構造改訂_マトリックス紐付け_20260615.md` §1（田中の訂正として明示）。事例ファイルとしての単独格納はなし（田中自身の体験のため事例md形式には存在しない）。 |
-| **田中リフレーム** | 商業出版は「本が出る」ではなく「**本来出版社が負う400-500万のコストを、相手（編集者）に持ってもらうお願い**」。だから口説く前提に立つ。この認識なしに「出してもらえてありがたい」と思うと、足元を見られる交渉になる。 |
-
-差別化ゲート判定: **採用。** 田中自身の自費出版（3,000部・450-500万）という実数値に紐付き、かつ「お願い」というリフレームは一般論の逆転。事例ファイルは単独md未作成だが、訂正原本（構造doc §1）が一次ソース。
-
----
-
-## 項目2: オープンカート前のセットアップ期間 ＝「匂わせ続ける」が幹
-
-| カラム | 内容 |
-|---|---|
-| **主張** | プロモーションのセットアップ（カートオープン前の期待値醸成）は通常7日間、長ければ14日間で設計する。急ぎの場合は5日間（「うちの受講生は五日間の方が売り上げが高い」）。 |
-| **上位の哲学・原理** | 期待値は当日に作れない。事前の助走で積む。「素材があるからこれ、というだけだと弱い」（personal_20251222_8c113da220b0.yaml, line 238）。 |
-| **立場** | プロモーター／事業者（ローンチを設計・実行する側）。 |
-| **活用シーン** | ローンチの着手日程を決める時。「何日前から動くか」を受講生に助言する時。 |
-| **紐付く事例** | 事例ファイル内に「セットアップ期間の違いで数値が変わった」完結事例は未発見。基準値出典: personal_20251205_68ce80cf9ad9.yaml（line 174）「何かをオープンカート販売する前にま、七日間とかま、長いと14日間とかしっかりこう。実はこんなの用意しているんですよ。みたいな。もうすぐリリースされますよ。みたいな楽しみになってくださいね。って期待値を高める」。5日間出典: personal_20250812_dc20c061b408.yaml（line 248 付近）「うちの受講生は、あの僕が全体を見てる限り五日間の方が売り上げが高いです」。 |
-| **田中リフレーム** | 期間（7日・14日）は「枝」。幹は「**プロモーション期間に限らず、普段からずっと匂わせ続ける**（こんなの準備してますよ、を仕込み続ける）」こと。期間を決める前に、日常的な仕込みの習慣があるかを問うべき。（出典: 構造doc §2 田中訂正より。YAML内の直接verbatimは未発見のため構造docを一次ソースとして使用。） |
-
-差別化ゲート判定: **採用（基準値は事例なし・原理として格納）。** 7日/14日の数値はYAML出典あり。「匂わせ常態化が幹」のリフレームは構造doc記載（田中訂正）が一次ソース。事例ファイルへの紐付きは未発見のため「基準値＋原理」として格納し、事例欄を補強する取材が今後必要。
-
----
-
-## 項目3: 審査制にすると個別相談の成約率が6-8%→3%に落ちる
-
-| カラム | 内容 |
-|---|---|
-| **主張** | 個別面談（個別メン）を「審査制」にすると、通常6〜8%出る申し込み率が約3%程度に落ちる（半分以下）。 |
-| **上位の哲学・原理** | 審査というハードルは「来る人の質を上げる」が、母数を絞るコストがある。売りたい相手に来てもらいながら、質も担保するバランス設計が要る。 |
-| **立場** | 高単価スクール・プログラムをセールスする事業者。審査制の導入可否を判断する立場。 |
-| **活用シーン** | 個別面談ファネルを設計する時。「審査制にして質を上げたい」という受講生への助言時。成約率・CPAの目標設定時。 |
-| **紐付く事例** | 出典: personal_20260202_91cc6db08735.yaml（session_id: personal_20260202_91cc6db08735, line 343）。verbatim: 「やっぱり、まあ審査にすることによって申し込み率自体がだいたいなんか普通の個別メンだと六パーセンから八パーセン出るのが3%ぐらいになるんですよ。イメージでいうと、」。コンテキスト: もりたにさんへのセッション（PLC広告不調・LPヘッダー転換が議題）の中で、個別面談設計を議論する文脈での発話。成果数値まで揃う完結事例ファイルは未発見。 |
-| **田中リフレーム** | 審査制は「選ばれた感で成約率が上がる」という期待で語られがちだが、田中の観察では「申し込み（エントリー）自体が半分以下になる」。入口の総数が下がることを前提に、全体の設計（リスト数・広告費・成約後の単価）を組み直す必要がある。 |
-
-差別化ゲート判定: **採用（基準値として格納）。** verbatimがYAMLに実在し、数値（6-8%→3%）と原因（審査制）の組み合わせが田中の直接観察値。一般論では「審査制で質が上がる」止まりだが、田中は母数減少というコスト側を数値で示している点が差別化。完結事例ファイルへの紐付けは未発見のため「取材追加対象」と注記。
-
----
-
-## 項目4: 受講生の変化・成果を聞くことが最大のセールス
-
-| カラム | 内容 |
-|---|---|
-| **主張** | 受講生がどう変わったか・成長したか・成果が出たかを「聞くこと」が、最大のセールスになる。 |
-| **上位の哲学・原理** | この業界は「入会後に顧客が成果を出さなきゃいけない市場」（personal_20251026_0677ab6f2912.yaml, line 190）。だから売った後を見届けた人間だけが語れる言葉がある。事実ベースの証言が一番強い。 |
-| **立場** | コミュニティオーナー／プロデューサー。受講生とのリレーション自体をセールス資産として運用する立場。 |
-| **活用シーン** | セールス会社・セールス担当者の評価基準を設計する時。インタビュー事例収集の目的を定義する時。コミュニティ文化を語る時。 |
-| **紐付く事例** | verbatim出典: personal_20251026_0677ab6f2912.yaml（session_id: personal_20251026_0677ab6f2912, line 234）。「けど、なんか先生がなんかイベントあったらなんか応援したいしとか、なんか、それが実際受講生がこんなふうに変わったんですよ。すごい成長してるんですよ。すごい成果が出てるんですよ。っていう風に聞くことが最大のセールスやと思っているので。」。事例ファイル紐付け: 以下の2本が最も相性が良い。(1) `knowledge/事例/篠瀬みゆき_PLC_チャレンジローンチを改善して2120万円.md` — チャレンジローンチを改善して2,120万円。コミュニティ内の事例・先輩の実践が判断材料になった点が明記されており、「聞くことで信頼が積まれる」流れの実例になる。(2) `knowledge/事例/たかみず保江_PLC_4回のローンチで2億4000万円.md` — 4回のローンチで2億4,000万円。役割分担・コミュニティ内の事例共有が効いたと明記。受講生の変化を「聞く」文化がコミュニティ単位で機能している実例。 |
-| **田中リフレーム** | 「事例コンテンツはセールスの素材」ではなく「受講生の変化に触れること自体がセールス行為」。作ってから使うではなく、聞く・接するプロセスがすでにセールスになっている、という順序の逆転。 |
-
-差別化ゲート判定: **採用。** verbatimがYAMLに実在（personal_20251026_0677ab6f2912, line 234）し、knowledge/事例/の成果事例2本（篠瀬みゆき・たかみず保江）と紐付く。上位の原理（入会後に成果を出さなきゃいけない市場）も同セッションで確認済み。リフレーム（聞く行為＝セールス行為）が一般論の「事例活用」と差別化される。
-
----
-
-## 項目5: 980円入口→段階引き上げ ＝ トリップワイヤーファネル
-
-| カラム | 内容 |
-|---|---|
-| **主張** | 低額（980円等）を入口に段階的に引き上げ（9,800円→さらに上）、広告費を段階的に回収するファネル設計。田中はこれを「トリップワイヤーファネル」と位置付けている。日本では例外的なアプローチ（海外では流行）。 |
-| **上位の哲学・原理** | 日本のコンテンツビジネス市場は「高単価から入るのが主流」。ポンポン段階的に買わせる文化は薄い。田中の観察では「一つのファネルで長く訴求するのはビジネスジャンルとして難しい」（personal_20260126_6b73e02c231e.yaml, line 98）。 |
-| **立場** | 自社プロダクトを広告で販売する事業者（コンテンツホルダー側）。 |
-| **活用シーン** | 低額コンテンツ×広告で費用対効果を検証したい時。「チャレンジローンチではなく別の入口を試したい」場面での設計議論。 |
-| **紐付く事例** | 田中自身の検討・言及として以下の2つが確認された。(1) personal_20260108_150bf19eb711.yaml（date: 2026-01-08, line 75）: 「だから980円の教材シリーズをめっちゃ乱発して、それをフロントエンドとしてブレインにもアップしながら、あの自社でも広告で売ってくっていう感じでやってみようかなと思ってる。のがまー。今回のaiこちらが終わった後の3月。春から」。(2) personal_20260108_150bf19eb711.yaml（同セッション, line 78）: 「感じで持っています。と、ま。要はコンセプト構築プログラム980円とか商品構築プログラム契約は20円とか。動画台本シナリオプログラム契約が20円とか、それは全部購入した人に対して次は9800円のあ。今回」。(3) personal_20260126_6b73e02c231e.yaml（date: 2026-01-26, line 101）: 「やっていこうかなと思っててええと、コンセプトシークレットみたいなのとかオファーシークレットみたいなのとか。動画台本作成シークレットみたいなのとかセールス台本シークレットみたいな感じとかで。まあ980円シリーズを乱立させてなんか一つ一つのパネルの予算を落とすしかないのかなってのはちょっと思っていてはい。」。以上3つはすべて「検討・構想段階」の発話。2026年3月以降の実施・結果数値を示すYAMLは未発見。knowledge/事例/ 配下にトリップワイヤーファネルの実施事例は未発見。 |
-| **田中リフレーム** | 「980円入口は日本では定石ではなく例外的チャレンジ」。田中自身が「今年チャレンジしたい」と言っている＝まだ検証中の仮説であり、受講生への一般推奨ではない。また「980円と10万円の間にもう一個ぐらい商品が必要な気もする」（personal_20260126_6b73e02c231e.yaml, line 130）と構造上の課題も自覚している。超プロ向けには「ぽちっと買える価格（3〜5万円）」の方が機能する、という別の判断基準も並走中（personal_20260331_608b69c576fb.yaml, line 157-160）。 |
-
-差別化ゲート判定: **保留（事例待ち）。** 田中自身の発話・構想はYAMLで3本確認済み。ただし「結果数値」「検証結果（回収率・ROI）」が現時点で未発生のため、田中ナレッジとして採用できる事例がない。構想・仮説として「田中が日本市場での例外的チャレンジと位置付けて試験中」という記述は可能。実施完了・数値確認後に事例と紐付けて本採用する。
-
----
-
-## 5件を通じた構造上の気づき（3行）
-
-1. **YAMLから出典を引ける項目は見つかりやすい。** 田中の「数値＋原因の組み合わせ」発話（項目3の審査制6-8%→3%、項目2の7日/14日等）はYAMLのbenchmark_utterancesに整理されており、session_id＋lineで追跡できる。逆に「哲学的なリフレーム」部分は philosophy_utterances に入っているが文脈が抽象的で、どの判断シーンに使うかの「活用シーン」カラムを埋めるには追加判断が要る。
-
-2. **knowledge/事例/ との紐付けは「セールス・受講生成果」テーマに集中する。** 事例ファイルは「状況→施策→効いた→転用ポイント」の型で書かれており、「この受講生がPLCで変わった」という証拠資料として機能する。項目4（受講生の変化が最大のセールス）のように「事例全体の存在自体が主張を裏打ちする」ケースは紐付けやすいが、項目3（審査制の成約率変化）や項目5（980円ファネル）のように「特定のファネル設計の検証結果」を示す事例は存在しない（あるいは未格納）ため、未発見・事例待ちになりやすい。
-
-3. **田中が「まだ検証中」と言っている項目は構造的に差別化ゲートを通過しない。** 項目5のトリップワイヤーファネルは3つのYAML発話が確認されているにもかかわらず「保留」にせざるを得ない。これは逆に言えば「田中が実証した判断知」と「田中が探索中の仮説」を、紐付きマトリックスが自然に分離してくれることを意味する。フラット抽出ではこの分離ができず、仮説と実証知が同列になる。
-
----
-
-作成日: 2026-06-15
-作成者: ナレッジ管理担当サブエージェント
-参照正本: `97_ザ・リード事業/AI構築/知識構造改訂_マトリックス紐付け_20260615.md`
-</pre>
+<main class="content">
+<article class="article">
+<h1>サンプル：紐付きマトリックス 5件（2026-06-15）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#項目1:-商業出版のコスト感-＝「400-500万を無料で勝ち取る」立場の認識">項目1: 商業出版のコスト感 ＝「400-500万を無料で勝ち取る」立場の認識</a></li><li class="toc-main"><a href="#項目2:-オープンカート前のセットアップ期間-＝「匂わせ続ける」が幹">項目2: オープンカート前のセットアップ期間 ＝「匂わせ続ける」が幹</a></li><li class="toc-main"><a href="#項目3:-審査制にすると個別相談の成約率が6-8%→3%に落ちる">項目3: 審査制にすると個別相談の成約率が6-8%→3%に落ちる</a></li><li class="toc-main"><a href="#項目4:-受講生の変化・成果を聞くことが最大のセールス">項目4: 受講生の変化・成果を聞くことが最大のセールス</a></li><li class="toc-main"><a href="#項目5:-980円入口→段階引き上げ-＝-トリップワイヤーファネル">項目5: 980円入口→段階引き上げ ＝ トリップワイヤーファネル</a></li><li class="toc-main"><a href="#5件を通じた構造上の気づき（3行）">5件を通じた構造上の気づき（3行）</a></li></ul></nav>
+<p>作成目的: 6カラム＋差別化ゲートの記述精度確認サンプル。<code>97_ザ・リード事業/AI構築/知識構造改訂_マトリックス紐付け_20260615.md</code> の構造定義に厳密に従う。</p>
+<p>knowledge/ 本体は一切変更しない。</p>
+<hr />
+<h2 id="項目1:-商業出版のコスト感-＝「400-500万を無料で勝ち取る」立場の認識">項目1: 商業出版のコスト感 ＝「400-500万を無料で勝ち取る」立場の認識</h2>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>主張</strong></td>
+<td>商業出版は著者1人あたり400-500万円の価値（旧説「300万」は紙代が安かった時代の数字。田中の自費出版実績＝3,000部で450-500万／2022年・2025年）。</td>
+</tr>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>プロデュース＝相手に価値を出させる前に、自分が相手に何を「負担させているか」を正確に認識する。</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>出版を狙うコンテンツホルダー／プロデューサー。</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>出版企画を編集者（プロモーター）に持ち込む準備時。「どれだけのコストを先方に持ってもらうか」の費用妥当性を判断する局面。</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>田中祐一の自費出版2冊（3,000部・450-500万）。出典: <code>97_ザ・リード事業/AI構築/知識構造改訂_マトリックス紐付け_20260615.md</code> §1（田中の訂正として明示）。事例ファイルとしての単独格納はなし（田中自身の体験のため事例md形式には存在しない）。</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>商業出版は「本が出る」ではなく「<strong>本来出版社が負う400-500万のコストを、相手（編集者）に持ってもらうお願い</strong>」。だから口説く前提に立つ。この認識なしに「出してもらえてありがたい」と思うと、足元を見られる交渉になる。</td>
+</tr>
+</tbody>
+</table>
+<p>差別化ゲート判定: <strong>採用。</strong> 田中自身の自費出版（3,000部・450-500万）という実数値に紐付き、かつ「お願い」というリフレームは一般論の逆転。事例ファイルは単独md未作成だが、訂正原本（構造doc §1）が一次ソース。</p>
+<hr />
+<h2 id="項目2:-オープンカート前のセットアップ期間-＝「匂わせ続ける」が幹">項目2: オープンカート前のセットアップ期間 ＝「匂わせ続ける」が幹</h2>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>主張</strong></td>
+<td>プロモーションのセットアップ（カートオープン前の期待値醸成）は通常7日間、長ければ14日間で設計する。急ぎの場合は5日間（「うちの受講生は五日間の方が売り上げが高い」）。</td>
+</tr>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>期待値は当日に作れない。事前の助走で積む。「素材があるからこれ、というだけだと弱い」（personal_20251222_8c113da220b0.yaml, line 238）。</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>プロモーター／事業者（ローンチを設計・実行する側）。</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>ローンチの着手日程を決める時。「何日前から動くか」を受講生に助言する時。</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>事例ファイル内に「セットアップ期間の違いで数値が変わった」完結事例は未発見。基準値出典: personal_20251205_68ce80cf9ad9.yaml（line 174）「何かをオープンカート販売する前にま、七日間とかま、長いと14日間とかしっかりこう。実はこんなの用意しているんですよ。みたいな。もうすぐリリースされますよ。みたいな楽しみになってくださいね。って期待値を高める」。5日間出典: personal_20250812_dc20c061b408.yaml（line 248 付近）「うちの受講生は、あの僕が全体を見てる限り五日間の方が売り上げが高いです」。</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>期間（7日・14日）は「枝」。幹は「<strong>プロモーション期間に限らず、普段からずっと匂わせ続ける</strong>（こんなの準備してますよ、を仕込み続ける）」こと。期間を決める前に、日常的な仕込みの習慣があるかを問うべき。（出典: 構造doc §2 田中訂正より。YAML内の直接verbatimは未発見のため構造docを一次ソースとして使用。）</td>
+</tr>
+</tbody>
+</table>
+<p>差別化ゲート判定: <strong>採用（基準値は事例なし・原理として格納）。</strong> 7日/14日の数値はYAML出典あり。「匂わせ常態化が幹」のリフレームは構造doc記載（田中訂正）が一次ソース。事例ファイルへの紐付きは未発見のため「基準値＋原理」として格納し、事例欄を補強する取材が今後必要。</p>
+<hr />
+<h2 id="項目3:-審査制にすると個別相談の成約率が6-8%→3%に落ちる">項目3: 審査制にすると個別相談の成約率が6-8%→3%に落ちる</h2>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>主張</strong></td>
+<td>個別面談（個別メン）を「審査制」にすると、通常6〜8%出る申し込み率が約3%程度に落ちる（半分以下）。</td>
+</tr>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>審査というハードルは「来る人の質を上げる」が、母数を絞るコストがある。売りたい相手に来てもらいながら、質も担保するバランス設計が要る。</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>高単価スクール・プログラムをセールスする事業者。審査制の導入可否を判断する立場。</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>個別面談ファネルを設計する時。「審査制にして質を上げたい」という受講生への助言時。成約率・CPAの目標設定時。</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>出典: personal_20260202_91cc6db08735.yaml（session_id: personal_20260202_91cc6db08735, line 343）。verbatim: 「やっぱり、まあ審査にすることによって申し込み率自体がだいたいなんか普通の個別メンだと六パーセンから八パーセン出るのが3%ぐらいになるんですよ。イメージでいうと、」。コンテキスト: もりたにさんへのセッション（PLC広告不調・LPヘッダー転換が議題）の中で、個別面談設計を議論する文脈での発話。成果数値まで揃う完結事例ファイルは未発見。</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>審査制は「選ばれた感で成約率が上がる」という期待で語られがちだが、田中の観察では「申し込み（エントリー）自体が半分以下になる」。入口の総数が下がることを前提に、全体の設計（リスト数・広告費・成約後の単価）を組み直す必要がある。</td>
+</tr>
+</tbody>
+</table>
+<p>差別化ゲート判定: <strong>採用（基準値として格納）。</strong> verbatimがYAMLに実在し、数値（6-8%→3%）と原因（審査制）の組み合わせが田中の直接観察値。一般論では「審査制で質が上がる」止まりだが、田中は母数減少というコスト側を数値で示している点が差別化。完結事例ファイルへの紐付けは未発見のため「取材追加対象」と注記。</p>
+<hr />
+<h2 id="項目4:-受講生の変化・成果を聞くことが最大のセールス">項目4: 受講生の変化・成果を聞くことが最大のセールス</h2>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>主張</strong></td>
+<td>受講生がどう変わったか・成長したか・成果が出たかを「聞くこと」が、最大のセールスになる。</td>
+</tr>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>この業界は「入会後に顧客が成果を出さなきゃいけない市場」（personal_20251026_0677ab6f2912.yaml, line 190）。だから売った後を見届けた人間だけが語れる言葉がある。事実ベースの証言が一番強い。</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>コミュニティオーナー／プロデューサー。受講生とのリレーション自体をセールス資産として運用する立場。</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>セールス会社・セールス担当者の評価基準を設計する時。インタビュー事例収集の目的を定義する時。コミュニティ文化を語る時。</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>verbatim出典: personal_20251026_0677ab6f2912.yaml（session_id: personal_20251026_0677ab6f2912, line 234）。「けど、なんか先生がなんかイベントあったらなんか応援したいしとか、なんか、それが実際受講生がこんなふうに変わったんですよ。すごい成長してるんですよ。すごい成果が出てるんですよ。っていう風に聞くことが最大のセールスやと思っているので。」。事例ファイル紐付け: 以下の2本が最も相性が良い。(1) <code>knowledge/事例/篠瀬みゆき_PLC_チャレンジローンチを改善して2120万円.md</code> — チャレンジローンチを改善して2,120万円。コミュニティ内の事例・先輩の実践が判断材料になった点が明記されており、「聞くことで信頼が積まれる」流れの実例になる。(2) <code>knowledge/事例/たかみず保江_PLC_4回のローンチで2億4000万円.md</code> — 4回のローンチで2億4,000万円。役割分担・コミュニティ内の事例共有が効いたと明記。受講生の変化を「聞く」文化がコミュニティ単位で機能している実例。</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「事例コンテンツはセールスの素材」ではなく「受講生の変化に触れること自体がセールス行為」。作ってから使うではなく、聞く・接するプロセスがすでにセールスになっている、という順序の逆転。</td>
+</tr>
+</tbody>
+</table>
+<p>差別化ゲート判定: <strong>採用。</strong> verbatimがYAMLに実在（personal_20251026_0677ab6f2912, line 234）し、knowledge/事例/の成果事例2本（篠瀬みゆき・たかみず保江）と紐付く。上位の原理（入会後に成果を出さなきゃいけない市場）も同セッションで確認済み。リフレーム（聞く行為＝セールス行為）が一般論の「事例活用」と差別化される。</p>
+<hr />
+<h2 id="項目5:-980円入口→段階引き上げ-＝-トリップワイヤーファネル">項目5: 980円入口→段階引き上げ ＝ トリップワイヤーファネル</h2>
+<table>
+<thead>
+<tr>
+<th>カラム</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>主張</strong></td>
+<td>低額（980円等）を入口に段階的に引き上げ（9,800円→さらに上）、広告費を段階的に回収するファネル設計。田中はこれを「トリップワイヤーファネル」と位置付けている。日本では例外的なアプローチ（海外では流行）。</td>
+</tr>
+<tr>
+<td><strong>上位の哲学・原理</strong></td>
+<td>日本のコンテンツビジネス市場は「高単価から入るのが主流」。ポンポン段階的に買わせる文化は薄い。田中の観察では「一つのファネルで長く訴求するのはビジネスジャンルとして難しい」（personal_20260126_6b73e02c231e.yaml, line 98）。</td>
+</tr>
+<tr>
+<td><strong>立場</strong></td>
+<td>自社プロダクトを広告で販売する事業者（コンテンツホルダー側）。</td>
+</tr>
+<tr>
+<td><strong>活用シーン</strong></td>
+<td>低額コンテンツ×広告で費用対効果を検証したい時。「チャレンジローンチではなく別の入口を試したい」場面での設計議論。</td>
+</tr>
+<tr>
+<td><strong>紐付く事例</strong></td>
+<td>田中自身の検討・言及として以下の2つが確認された。(1) personal_20260108_150bf19eb711.yaml（date: 2026-01-08, line 75）: 「だから980円の教材シリーズをめっちゃ乱発して、それをフロントエンドとしてブレインにもアップしながら、あの自社でも広告で売ってくっていう感じでやってみようかなと思ってる。のがまー。今回のaiこちらが終わった後の3月。春から」。(2) personal_20260108_150bf19eb711.yaml（同セッション, line 78）: 「感じで持っています。と、ま。要はコンセプト構築プログラム980円とか商品構築プログラム契約は20円とか。動画台本シナリオプログラム契約が20円とか、それは全部購入した人に対して次は9800円のあ。今回」。(3) personal_20260126_6b73e02c231e.yaml（date: 2026-01-26, line 101）: 「やっていこうかなと思っててええと、コンセプトシークレットみたいなのとかオファーシークレットみたいなのとか。動画台本作成シークレットみたいなのとかセールス台本シークレットみたいな感じとかで。まあ980円シリーズを乱立させてなんか一つ一つのパネルの予算を落とすしかないのかなってのはちょっと思っていてはい。」。以上3つはすべて「検討・構想段階」の発話。2026年3月以降の実施・結果数値を示すYAMLは未発見。knowledge/事例/ 配下にトリップワイヤーファネルの実施事例は未発見。</td>
+</tr>
+<tr>
+<td><strong>田中リフレーム</strong></td>
+<td>「980円入口は日本では定石ではなく例外的チャレンジ」。田中自身が「今年チャレンジしたい」と言っている＝まだ検証中の仮説であり、受講生への一般推奨ではない。また「980円と10万円の間にもう一個ぐらい商品が必要な気もする」（personal_20260126_6b73e02c231e.yaml, line 130）と構造上の課題も自覚している。超プロ向けには「ぽちっと買える価格（3〜5万円）」の方が機能する、という別の判断基準も並走中（personal_20260331_608b69c576fb.yaml, line 157-160）。</td>
+</tr>
+</tbody>
+</table>
+<p>差別化ゲート判定: <strong>保留（事例待ち）。</strong> 田中自身の発話・構想はYAMLで3本確認済み。ただし「結果数値」「検証結果（回収率・ROI）」が現時点で未発生のため、田中ナレッジとして採用できる事例がない。構想・仮説として「田中が日本市場での例外的チャレンジと位置付けて試験中」という記述は可能。実施完了・数値確認後に事例と紐付けて本採用する。</p>
+<hr />
+<h2 id="5件を通じた構造上の気づき（3行）">5件を通じた構造上の気づき（3行）</h2>
+<ol>
+<li>
+<p><strong>YAMLから出典を引ける項目は見つかりやすい。</strong> 田中の「数値＋原因の組み合わせ」発話（項目3の審査制6-8%→3%、項目2の7日/14日等）はYAMLのbenchmark_utterancesに整理されており、session_id＋lineで追跡できる。逆に「哲学的なリフレーム」部分は philosophy_utterances に入っているが文脈が抽象的で、どの判断シーンに使うかの「活用シーン」カラムを埋めるには追加判断が要る。</p>
+</li>
+<li>
+<p><strong>knowledge/事例/ との紐付けは「セールス・受講生成果」テーマに集中する。</strong> 事例ファイルは「状況→施策→効いた→転用ポイント」の型で書かれており、「この受講生がPLCで変わった」という証拠資料として機能する。項目4（受講生の変化が最大のセールス）のように「事例全体の存在自体が主張を裏打ちする」ケースは紐付けやすいが、項目3（審査制の成約率変化）や項目5（980円ファネル）のように「特定のファネル設計の検証結果」を示す事例は存在しない（あるいは未格納）ため、未発見・事例待ちになりやすい。</p>
+</li>
+<li>
+<p><strong>田中が「まだ検証中」と言っている項目は構造的に差別化ゲートを通過しない。</strong> 項目5のトリップワイヤーファネルは3つのYAML発話が確認されているにもかかわらず「保留」にせざるを得ない。これは逆に言えば「田中が実証した判断知」と「田中が探索中の仮説」を、紐付きマトリックスが自然に分離してくれることを意味する。フラット抽出ではこの分離ができず、仮説と実証知が同列になる。</p>
+</li>
+</ol>
+<hr />
+<p>作成日: 2026-06-15<br />
+作成者: ナレッジ管理担当サブエージェント<br />
+参照正本: <code>97_ザ・リード事業/AI構築/知識構造改訂_マトリックス紐付け_20260615.md</code></p>
+</article>
 </main>
+</div>
 </body>
 </html>

@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>全体レポート - 谷口 セールスレポート</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>全体レポート（谷口案件・EV7つの覚醒風水学） - 谷口 セールスレポート</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,32 +247,49 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
 .sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
   border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
 }
 .sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
 }
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
 .sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
 }
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
 .sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
 }
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
 /* ===== スマホ：サイドバー非表示・本文全幅 ===== */
 .mobile-back {
   display: none;
@@ -271,84 +303,133 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 .mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  .layout { display: block; }
   .sidebar { display: none; }
   .mobile-back { display: block; }
   .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.4rem; }
   .article h2 { font-size: 1.15rem; }
   .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
 <div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
 <div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
+<nav class="sidebar" aria-label="谷口 セールスレポート">
+<div class="brand">REPORT</div>
 <h3>谷口 セールスレポート</h3>
-<a class="sidebar-item sidebar-item--cross" href="../taniguchi-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../taniguchi-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年08月27日</span> セールス担当別_傾向とクセ</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年08月27日</span> 個別説明会_セールス成功失敗マニュアル</a>
-<a href="003.html" class="sidebar-item active"><span class="date">2026年08月27日</span> 全体レポート</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年08月27日</span> 来場者ペルソナ分析_セールスデータ集約</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年08月27日</span> 質疑応答の理想回答集</a>
+<a class="sidebar-item sidebar-item--cross" href="../taniguchi-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../taniguchi-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年09月02日</span> セールス担当別 傾向とクセ（EV7つの覚醒風水学）</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年09月02日</span> 個別説明会 セールス成功失敗マニュアル（EV7つの覚醒風水学）</a>
+<a href="003.html" class="sidebar-item active"><span class="date">2026年09月02日</span> 全体レポート（谷口案件・EV7つの覚醒風水学）</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年09月02日</span> 来場者ペルソナ分析 セールスデータ集約（EV7つの覚醒風水学）</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年09月02日</span> 質疑応答の理想回答集（EV7つの覚醒風水学）</a>
 </nav>
 <main class="content">
 <article class="article">
-<pre># 全体レポート（谷口案件・EV7つの覚醒風水学）
+<h1>全体レポート（谷口案件・EV7つの覚醒風水学）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#通期累計（3月〜5月末ベースライン）">通期累計（3月〜5月末ベースライン）</a></li><li class="toc-main"><a href="#月別推移（3〜5月の3ヶ月）">月別推移（3〜5月の3ヶ月）</a></li><li class="toc-main"><a href="#グラフ:-月別-実施数・成約数">グラフ: 月別 実施数・成約数</a></li><li class="toc-main"><a href="#グラフ:-月別-成約率（確定分）推移">グラフ: 月別 成約率（確定分）推移</a></li><li class="toc-main"><a href="#担当別-通期実績">担当別 通期実績</a></li><li class="toc-main"><a href="#直近のアラート">直近のアラート</a></li><li class="toc-sub"><a href="#🔴-通期トレンド最重要アラート">🔴 通期トレンド最重要アラート</a></li><li class="toc-sub"><a href="#通期所感">通期所感</a></li><li class="toc-main"><a href="#更新履歴">更新履歴</a></li></ul></nav>
+<p>過去すべてを統合したトータルの流れ。通期累計・月別推移・グラフ・アラートを集約する。<br />
+「今月だけ」の話は月次レポート（<code>月次総評/</code> 配下の各月ファイル）を参照。</p>
+<p>最終更新: 2026-06-05<br />
+データソース: 管理シートCSV <code>管理シート/個別プランニングシート_BASE.csv</code>／<code>担当者別_KPI集計.md</code>／<code>担当者別_全体マップ.md</code>／<code>コース別_成約内訳.md</code><br />
+役割: 全体レポート（通期統合ビュー）</p>
+<p>谷口案件は2026年3月のローンチで開始（3月より前の実績なし）。本レポートは3〜5月の3ヶ月を通期とみなす。</p>
+<hr />
+<h2 id="通期累計（3月〜5月末ベースライン）">通期累計（3月〜5月末ベースライン）</h2>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全期間セールス実施数</td>
+<td>82件</td>
+</tr>
+<tr>
+<td>全期間成約数</td>
+<td>38件</td>
+</tr>
+<tr>
+<td>全期間否決数</td>
+<td>40件</td>
+</tr>
+<tr>
+<td>全期間保留数</td>
+<td>4件</td>
+</tr>
+<tr>
+<td>全期間成約率（確定分）</td>
+<td>48.7%（38 / (38+40)）</td>
+</tr>
+<tr>
+<td>全期間売上総額（申込ベース・税込）</td>
+<td>¥22,477,000</td>
+</tr>
+</tbody>
+</table>
+<p>成約率（確定分）= 成約 / (成約 + 否決)。保留は確定分から除外。<br />
+通期成約率48.7%はKATSUO管理6案件中トップ水準。</p>
+<p>注: 6月以降を含むKPI集計（<code>担当者別_KPI集計.md</code>・6/5時点）は実施99件・成約41件・確定成約率47.7%で、本レポート（3〜5月確定分）とは集計時点・対象期間が異なる。</p>
+<hr />
+<h2 id="月別推移（3〜5月の3ヶ月）">月別推移（3〜5月の3ヶ月）</h2>
+<table>
+<thead>
+<tr>
+<th>月</th>
+<th style="text-align: right;">実施</th>
+<th style="text-align: right;">成約</th>
+<th style="text-align: right;">否決</th>
+<th style="text-align: right;">保留</th>
+<th style="text-align: right;">成約率(確定分)</th>
+<th style="text-align: right;">当月売上(税込)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-03</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">55.3%</td>
+<td style="text-align: right;">¥11,167,000</td>
+</tr>
+<tr>
+<td>2026-04</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">44.4%</td>
+<td style="text-align: right;">¥5,550,000</td>
+</tr>
+<tr>
+<td>2026-05</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">36.4%</td>
+<td style="text-align: right;">¥5,760,000</td>
+</tr>
+</tbody>
+</table>
+<p>3月のローンチピーク以降、確定成約率は55.3% → 44.4% → 36.4% と段階的に低下している。</p>
+<hr />
+<h2 id="グラフ:-月別-実施数・成約数">グラフ: 月別 実施数・成約数</h2>
+<canvas id="volumeChart" width="800" height="380"></canvas>
 
-過去すべてを統合したトータルの流れ。通期累計・月別推移・グラフ・アラートを集約する。
-「今月だけ」の話は月次レポート（`月次総評/` 配下の各月ファイル）を参照。
+<h2 id="グラフ:-月別-成約率（確定分）推移">グラフ: 月別 成約率（確定分）推移</h2>
+<canvas id="rateChart" width="800" height="380"></canvas>
 
-最終更新: 2026-06-05
-データソース: 管理シートCSV `管理シート/個別プランニングシート_BASE.csv`／`担当者別_KPI集計.md`／`担当者別_全体マップ.md`／`コース別_成約内訳.md`
-役割: 全体レポート（通期統合ビュー）
-
-谷口案件は2026年3月のローンチで開始（3月より前の実績なし）。本レポートは3〜5月の3ヶ月を通期とみなす。
-
----
-
-## 通期累計（3月〜5月末ベースライン）
-
-| 指標 | 値 |
-|---|---|
-| 全期間セールス実施数 | 82件 |
-| 全期間成約数 | 38件 |
-| 全期間否決数 | 40件 |
-| 全期間保留数 | 4件 |
-| 全期間成約率（確定分） | 48.7%（38 / (38+40)） |
-| 全期間売上総額（申込ベース・税込） | ¥22,477,000 |
-
-成約率（確定分）= 成約 / (成約 + 否決)。保留は確定分から除外。
-通期成約率48.7%はKATSUO管理6案件中トップ水準。
-
-注: 6月以降を含むKPI集計（`担当者別_KPI集計.md`・6/5時点）は実施99件・成約41件・確定成約率47.7%で、本レポート（3〜5月確定分）とは集計時点・対象期間が異なる。
-
----
-
-## 月別推移（3〜5月の3ヶ月）
-
-| 月 | 実施 | 成約 | 否決 | 保留 | 成約率(確定分) | 当月売上(税込) |
-|---|---:|---:|---:|---:|---:|---:|
-| 2026-03 | 38 | 21 | 17 | 0 | 55.3% | ¥11,167,000 |
-| 2026-04 | 18 | 8 | 10 | 0 | 44.4% | ¥5,550,000 |
-| 2026-05 | 26 | 8 | 14 | 4 | 36.4% | ¥5,760,000 |
-
-3月のローンチピーク以降、確定成約率は55.3% → 44.4% → 36.4% と段階的に低下している。
-
----
-
-## グラフ: 月別 実施数・成約数
-
-&lt;canvas id="volumeChart" width="800" height="380"&gt;&lt;/canvas&gt;
-
-## グラフ: 月別 成約率（確定分）推移
-
-&lt;canvas id="rateChart" width="800" height="380"&gt;&lt;/canvas&gt;
-
-&lt;script src="https://cdn.jsdelivr.net/npm/chart.js@4"&gt;&lt;/script&gt;
-&lt;script&gt;
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
 (function() {
   const labels = ['2026-03','2026-04','2026-05'];
   const jisshi = [38, 18, 26];
@@ -394,52 +475,76 @@ a:hover { text-decoration: underline; }
   }
   draw();
 })();
-&lt;/script&gt;
+</script>
 
-注: 5月は保留4件が確定待ちのため、確定後に5月成約率が動く可能性がある。
-
----
-
-## 担当別 通期実績
-
-| 担当 | 通期実施 | 通期成約 | 通期否決 | 通期成約率(確定分) | 通期売上(税込) |
-|---|---:|---:|---:|---:|---:|
-| 田畑 | 44 | 21 | 23 | 47.7%（21/44） | ¥13,837,000 |
-| 永吉 | 34 | 17 | 17 | 50.0%（17/34） | ¥8,640,000 |
-| 合計 | 78 | 38 | 40 | 48.7%（38/78） | ¥22,477,000 |
-
-3〜5月の確定分ベース。田畑が母数・売上ともに主力、永吉は確定成約率でわずかに上回る。
-コース構成: プラチナ6・ゴールド15・マスター20（`コース別_成約内訳.md`）。
-担当別の傾向・クセは `セールス担当別_傾向とクセ.md` を参照。
-
----
-
-## 直近のアラート
-
-### 🔴 通期トレンド最重要アラート
-
-1. 確定成約率の段階低下 ── 3月55.3% → 4月44.4% → 5月36.4%。3ヶ月連続で約9ポイントずつ下落しており、ローンチ反動だけでは説明しきれない構造低下の可能性
-2. 永吉のクロージング成約率低下 ── 月次で66.7%（3月推定）→ 50.0%（4月）→ 37.5%（5月確定分）。5月は保留3件（水谷・岡村・味村）が発生
-3. 保留の発生 ── 5月で初めて保留4件が目立つ水準に。価格提示後〜入金前のフォロー導線が未整備
-
-### 通期所感
-
-- 通期成約率48.7%は6案件中トップで、商品力・トーク力のベースは強い
-- 一方で月を追うごとに成約率が落ちており、3月の好調が「ローンチ需要の食い潰し」だった疑いがある
-- プラチナ受注は通期6件（うち5月2件）。上位コース提案率の引き上げが単価・売上の伸びしろ
-
----
-
-## 更新履歴
-
-- 2026-06-05: 初版作成。月次総評から「通期・推移・グラフ」を分離して全体レポートとして独立。Chart.jsで月別推移をグラフ化。
-
----
-Produced by KATSUO MARKETING
-Version: 1.0 (2026-06-05)
-Licensed to: KATSUO MARKETING Community Member
-Generated by: 田中祐一
-</pre><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+<p>注: 5月は保留4件が確定待ちのため、確定後に5月成約率が動く可能性がある。</p>
+<hr />
+<h2 id="担当別-通期実績">担当別 通期実績</h2>
+<table>
+<thead>
+<tr>
+<th>担当</th>
+<th style="text-align: right;">通期実施</th>
+<th style="text-align: right;">通期成約</th>
+<th style="text-align: right;">通期否決</th>
+<th style="text-align: right;">通期成約率(確定分)</th>
+<th style="text-align: right;">通期売上(税込)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>田畑</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">47.7%（21/44）</td>
+<td style="text-align: right;">¥13,837,000</td>
+</tr>
+<tr>
+<td>永吉</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">50.0%（17/34）</td>
+<td style="text-align: right;">¥8,640,000</td>
+</tr>
+<tr>
+<td>合計</td>
+<td style="text-align: right;">78</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">48.7%（38/78）</td>
+<td style="text-align: right;">¥22,477,000</td>
+</tr>
+</tbody>
+</table>
+<p>3〜5月の確定分ベース。田畑が母数・売上ともに主力、永吉は確定成約率でわずかに上回る。<br />
+コース構成: プラチナ6・ゴールド15・マスター20（<code>コース別_成約内訳.md</code>）。<br />
+担当別の傾向・クセは <a class="ref-link" href="001.html">セールス担当別_傾向とクセ.md</a> を参照。</p>
+<hr />
+<h2 id="直近のアラート">直近のアラート</h2>
+<h3 id="🔴-通期トレンド最重要アラート">🔴 通期トレンド最重要アラート</h3>
+<ol>
+<li>確定成約率の段階低下 ── 3月55.3% → 4月44.4% → 5月36.4%。3ヶ月連続で約9ポイントずつ下落しており、ローンチ反動だけでは説明しきれない構造低下の可能性</li>
+<li>永吉のクロージング成約率低下 ── 月次で66.7%（3月推定）→ 50.0%（4月）→ 37.5%（5月確定分）。5月は保留3件（水谷・岡村・味村）が発生</li>
+<li>保留の発生 ── 5月で初めて保留4件が目立つ水準に。価格提示後〜入金前のフォロー導線が未整備</li>
+</ol>
+<h3 id="通期所感">通期所感</h3>
+<ul>
+<li>通期成約率48.7%は6案件中トップで、商品力・トーク力のベースは強い</li>
+<li>一方で月を追うごとに成約率が落ちており、3月の好調が「ローンチ需要の食い潰し」だった疑いがある</li>
+<li>プラチナ受注は通期6件（うち5月2件）。上位コース提案率の引き上げが単価・売上の伸びしろ</li>
+</ul>
+<hr />
+<h2 id="更新履歴">更新履歴</h2>
+<ul>
+<li>2026-06-05: 初版作成。月次総評から「通期・推移・グラフ」を分離して全体レポートとして独立。Chart.jsで月別推移をグラフ化。</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-06-05)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>

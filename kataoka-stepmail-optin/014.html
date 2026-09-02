@@ -3,348 +3,549 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F0FAF8">
 <title>14_7日後8-00_二段階審査.md - 片岡守 AIコンサル養成講座 opt-in後ステップメール</title>
 <style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
+  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
+}
 * { box-sizing: border-box; }
+/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
+   各要素は rem 指定なので全体が比例して拡大する。 */
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", sans-serif; display: flex; min-height: 100vh; }
-.sidebar { width: 280px; min-width: 280px; background: #f8f9fa; padding: 1rem; border-right: 1px solid #e9ecef; overflow-y: auto; }
-.sidebar h3 { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-.sidebar-item { display: block; padding: 0.6rem 0.75rem; color: #333; text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 0.9rem; word-break: break-all; }
-.sidebar-item:hover { background: #e9ecef; }
-.sidebar-item.active { background: #0d6efd; color: white; }
-.sidebar .date { font-size: 0.75rem; color: #6c757d; margin-right: 0.5rem; display: block; }
-.sidebar-item.active .date { color: rgba(255,255,255,0.8); }
-.main { flex: 1; padding: 2rem 3rem; max-width: 900px; line-height: 2.05; overflow-y: auto; overflow-wrap: anywhere; word-break: normal; }
-.main h1 { font-size: 1.75rem; margin-top: 0; overflow-wrap: anywhere; }
-.main h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 1px solid #e9ecef; padding-bottom: 0.5rem; }
-.main h3 { font-size: 1.15rem; margin-top: 2rem; margin-bottom: 0.75rem; }
-.main p { margin: 1.25rem 0; }
-.main pre { overflow-x: auto; background: #f5f5f5; padding: 1rem; border-radius: 6px; font-size: 0.9rem; }
-.main code { background: #f0f0f0; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
-.main pre code { background: none; padding: 0; }
-.main table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
-.main th, .main td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-.main th { background: #f8f9fa; }
-.main ul, .main ol { padding-left: 1.5rem; margin: 1rem 0; }
-.main li { margin: 0.5rem 0; }
-.main a { color: #0d6efd; text-decoration: none; word-break: break-all; }
-.main a:hover { text-decoration: underline; }
-.main a[target="_blank"]::after { content: " ↗"; font-size: 0.8em; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  color: var(--ink);
+  line-height: 1.9;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.01em;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
-.mobile-nav { display: none; background: #f8f9fa; padding: 0.5rem 1rem; border-bottom: 1px solid #e9ecef; position: sticky; top: 0; z-index: 100; }
-.mobile-nav-btn { background: #0d6efd; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; cursor: pointer; }
-.mobile-nav-btn:hover { background: #0b5ed7; }
-
-/* タブレット・スマートフォン対応 */
-@media (max-width: 768px) {
-    body { flex-direction: column; }
-    .sidebar { display: none; }
-    .mobile-nav { display: block; }
-    .main { padding: 1rem; max-width: 100%; width: 100%; box-sizing: border-box; }
-    .main h1 { font-size: 1.3rem; }
-    .main h2 { font-size: 1.15rem; margin-top: 1rem; }
-    .main h3 { font-size: 1rem; margin-top: 0.8rem; }
-    .main p { font-size: 0.95rem; line-height: 1.7; }
-    .main a { word-wrap: break-word; overflow-wrap: break-word; }
-    .main table { font-size: 0.85rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .main th, .main td { padding: 0.35rem; white-space: nowrap; }
+/* ===== 記事カード ===== */
+.article {
+  background: var(--card);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
+  border: 1px solid var(--line);
+  font-size: 1.03rem;
 }
 
-/* 極小画面対応 */
-@media (max-width: 480px) {
-    .main { padding: 0.75rem; }
-    .main h1 { font-size: 1.15rem; }
-    .main h2 { font-size: 1rem; padding-bottom: 0.3rem; }
-    .main h3 { font-size: 0.95rem; }
-    .main p { font-size: 0.9rem; }
-    .main pre { font-size: 0.8rem; padding: 0.5rem; overflow-x: auto; }
-    .main table { font-size: 0.8rem; }
-    .main th, .main td { padding: 0.25rem; }
+/* ===== 見出し ===== */
+.article h1 {
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 0 0 2rem;
+  padding: 0 0 1.2rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  position: relative;
 }
+.article h1::before {
+  content: "";
+  display: inline-block;
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
+  border-radius: 6px;
+  position: absolute; left: 0; bottom: -4.5px;
+}
+.article h2 {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--sub);
+  margin: 2.8rem 0 1.1rem;
+  padding: 0.55rem 0 0.55rem 1rem;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
+}
+.article h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.7rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--line);
+}
+/* キーワード検出された H3（注意・結論・強み等） */
+.article h3.callout-h {
+  border-left: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex; align-items: center; gap: 0.5rem;
+  box-shadow: inset 5px 0 0 var(--bar);
+  background: var(--bg);
+}
+.article h3.callout-h { background: var(--bg); }
+.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
+
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+
+/* ===== 本文 ===== */
+/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; }
+.article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+/* 章/小見出し直後の段落をリード文として少し強調 */
+.article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
+
+/* ===== ステップバー（17ステップ照合などの構造化） ===== */
+.step {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
+}
+.step-no {
+  flex: 0 0 auto;
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent-gradient);
+  color: #fff; font-weight: 800; font-size: 0.95rem;
+  border-radius: 9px;
+}
+.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
+.eval {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
+  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
+}
+.eval-ok { background: #E0F4EE; color: #1B8F70; }
+.eval-warn { background: #FCF0D9; color: #B07A14; }
+.eval-ng { background: #F7DEDB; color: #B0463B; }
+/* ステップバー直後の本文を少しインデントして従属関係を見せる */
+.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
+
+/* ===== 成績バッジ（A/B/C/D） ===== */
+.grade {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; border-radius: 9px;
+  color: #fff; font-weight: 800; font-size: 1rem;
+}
+
+/* ===== テーブル ===== */
+.article table {
+  border-collapse: separate; border-spacing: 0;
+  width: 100%; margin: 1.3rem 0;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  font-size: 0.95rem;
+}
+.article thead th {
+  background: linear-gradient(135deg, var(--sub), var(--deep));
+  color: #fff; font-weight: 700; text-align: left;
+  padding: 0.8rem 0.95rem; border: none;
+}
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.article tbody tr:hover { background: rgba(44,181,150,0.10); }
+
+/* ===== バッジ（結果ラベル） ===== */
+.badge {
+  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+}
+
+/* ===== 注意枠カード（blockquote） ===== */
+.callout-box {
+  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
+  background: #FCF3E6; border-left: 5px solid #E0973E;
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.callout-box p { margin: 0.4rem 0; }
+
+/* ===== コード ===== */
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
+
+/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
+/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
+   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
+.sidebar-item--cross {
+  margin-top: 0.4rem;
+  border-left: 3px solid var(--line);
+}
+.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
+
+/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
+.article a.ref-link {
+  background: #E6F6F1; color: var(--sub);
+  padding: 0.1rem 0.5rem; border-radius: 6px;
+  font-size: 0.92em; font-weight: 600;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
+}
+.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
+
+/* ===== 用語集（折りたたみ） ===== */
+.article .glossary {
+  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
+  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
+}
+.article .glossary summary {
+  cursor: pointer; font-weight: 700; color: var(--sub);
+  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
+}
+.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
+.article .glossary dl { margin: 0.3rem 0 0.8rem; }
+.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
+.article .verdict {
+  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
+}
+.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
+.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
+.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
+.article .verdict.is-good { border-left: 6px solid #2CB596; }
+.article .verdict.is-watch { border-left: 6px solid #E0973E; }
+.article .verdict.is-bad { border-left: 6px solid #C0584E; }
+
+/* ===== 出典表記（文字壁の緩和） ===== */
+/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
+   情報としては残すが視覚的な主役は本文に戻す。 */
+.article .src-cite {
+  font-size: 0.72em;
+  color: #9FB1AB;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+/* ===== レイアウト（サイドバー型） ===== */
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar {
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
+  border-right: 1px solid var(--line);
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
+}
+.sidebar .brand {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
+}
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
+.sidebar-item {
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active {
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
+}
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
+.mobile-back {
+  display: none;
+  position: sticky; top: 0; z-index: 200;
+  background: var(--card); border-bottom: 1px solid var(--line);
+  padding: 0.6rem 1rem;
+}
+.mobile-back a {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9rem; font-weight: 700; color: var(--sub);
+  text-decoration: none;
+}
+.mobile-back a:hover { text-decoration: underline; }
+@media (max-width: 860px) {
+  .layout { display: block; }
+  .sidebar { display: none; }
+  .mobile-back { display: block; }
+  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
+  .article h1 { font-size: 1.4rem; }
+  .article h2 { font-size: 1.15rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
-<div class="mobile-nav">
-<button class="mobile-nav-btn" onclick="window.location.href='index.html'">← 一覧に戻る</button>
-</div>
-<nav class="sidebar">
+<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout">
+<nav class="sidebar" aria-label="片岡守 AIコンサル養成講座 opt-in後ステップメール">
+<div class="brand">THE LEAD DOCUMENT</div>
 <h3>片岡守 AIコンサル養成講座 opt-in後ステップメール</h3>
-<a href="001.html" class="sidebar-item"><span class="date">2026年08月27日</span> 01_即時_参加ありがとう.md</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年08月27日</span> 02_1日後7-00_動画見た.md</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年08月27日</span> 03_1日後19-00_片岡さんの凄さ.md</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年08月27日</span> 04_2日後7-00_体験セミナーの価値.md</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年08月27日</span> 05_2日後21-00_最終プッシュ.md</a>
-<a href="006.html" class="sidebar-item"><span class="date">2026年08月27日</span> 06_3日後8-00_6つの販路.md</a>
-<a href="007.html" class="sidebar-item"><span class="date">2026年08月27日</span> 07_3日後20-00_AI迷子の経営者.md</a>
-<a href="008.html" class="sidebar-item"><span class="date">2026年08月27日</span> 08_4日後8-00_AI社員デモ.md</a>
-<a href="009.html" class="sidebar-item"><span class="date">2026年08月27日</span> 09_4日後20-00_Claudeなぜ違う.md</a>
-<a href="010.html" class="sidebar-item"><span class="date">2026年08月27日</span> 10_5日後8-00_7ステップ.md</a>
-<a href="011.html" class="sidebar-item"><span class="date">2026年08月27日</span> 11_5日後20-00_型を持つ未来.md</a>
-<a href="012.html" class="sidebar-item"><span class="date">2026年08月27日</span> 12_6日後8-00_地域枠とコミュニティ.md</a>
-<a href="013.html" class="sidebar-item"><span class="date">2026年08月27日</span> 13_6日後20-00_本業との相乗効果.md</a>
-<a href="014.html" class="sidebar-item active"><span class="date">2026年08月27日</span> 14_7日後8-00_二段階審査.md</a>
-<a href="015.html" class="sidebar-item"><span class="date">2026年08月27日</span> 15_7日後20-00_地域枠リマインド.md</a>
+<a href="001.html" class="sidebar-item"><span class="date">2026年09月02日</span> 01_即時_参加ありがとう.md</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年09月02日</span> 02_1日後7-00_動画見た.md</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年09月02日</span> 03_1日後19-00_片岡さんの凄さ.md</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年09月02日</span> 04_2日後7-00_体験セミナーの価値.md</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年09月02日</span> 05_2日後21-00_最終プッシュ.md</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年09月02日</span> 06_3日後8-00_6つの販路.md</a>
+<a href="007.html" class="sidebar-item"><span class="date">2026年09月02日</span> 07_3日後20-00_AI迷子の経営者.md</a>
+<a href="008.html" class="sidebar-item"><span class="date">2026年09月02日</span> 08_4日後8-00_AI社員デモ.md</a>
+<a href="009.html" class="sidebar-item"><span class="date">2026年09月02日</span> 09_4日後20-00_Claudeなぜ違う.md</a>
+<a href="010.html" class="sidebar-item"><span class="date">2026年09月02日</span> 10_5日後8-00_7ステップ.md</a>
+<a href="011.html" class="sidebar-item"><span class="date">2026年09月02日</span> 11_5日後20-00_型を持つ未来.md</a>
+<a href="012.html" class="sidebar-item"><span class="date">2026年09月02日</span> 12_6日後8-00_地域枠とコミュニティ.md</a>
+<a href="013.html" class="sidebar-item"><span class="date">2026年09月02日</span> 13_6日後20-00_本業との相乗効果.md</a>
+<a href="014.html" class="sidebar-item active"><span class="date">2026年09月02日</span> 14_7日後8-00_二段階審査.md</a>
+<a href="015.html" class="sidebar-item"><span class="date">2026年09月02日</span> 15_7日後20-00_地域枠リマインド.md</a>
 </nav>
-<main class="main">
-<pre># ステップメール
-
-| No | 配信日 | 配信時刻 | 差出人 | 内容 |
-|----|--------|---------|--------|------|
-| 14 | 7日後 8:00 | 片岡守 | 【AIコンサル】最初の一歩は、体験セミナーへの「リアルタイム参加」です |
-
----
-
-# 📢 【AIコンサル】最初の一歩は、体験セミナーへの「リアルタイム参加」です
-
-おはようございます。
-片岡守です。
-
-7日目の朝です。
-
-ここまでお付き合いいただき、
-ありがとうございました。
-
-今日と今夜の2通で、
-大事なことをお伝えします。
-
-「なぜ動画ではなく、
-　リアルタイム参加にこだわるのか」
-
-その理由を動画でも話しています。
-
-🔗 [動画ページURL]
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【最初の一歩は、体験セミナーへの参加です】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-最初に、はっきり
-お伝えしておきます。
-
-「AIコンサルタント養成講座」への
-参加を検討するためには、
-まず体験セミナーに
-リアルタイムで参加してください。
-
-これが、必須条件です。
-
-体験セミナーに参加せずに、
-いきなり養成講座へ申し込む、
-という流れは取っていません。
-
-ここが、入り口です。
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【アーカイブは、ありません】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-そしてもうひとつ、
-これは早めにお伝えしたいのですが、
-
-体験セミナーは
-「リアルタイム参加のみ」です。
-
-✔ 録画の後日配信
-✔ アーカイブ視聴
-✔ ダイジェストの共有
-
-これらは一切ありません。
-
-理由はシンプルで、
-当日その場で質問してくださる方に、
-僕が全力で答える形にしているからです。
-
-録画を残してしまうと、
-「あとで見ればいい」となって、
-当日の集中度が下がります。
-
-その場の温度と、
-その場でしか出ない質問・答えを
-丸ごと持ち帰っていただきたいので、
-リアルタイム参加でお願いしています。
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【だからこそ、時間を確保してください】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-率直に書かせてください。
-
-このAIの波に
-本気で乗ろうと思うなら、
-
-何としてでも、
-体験セミナーの時間を
-確保してほしいんです。
-
-✔ 仕事のスケジュールを動かす
-✔ 家族に1時間半お願いする
-✔ 移動の予定を調整する
-
-このくらいの動き方は、
-していただきたいと思っています。
-
-なぜかというと、
-これから1〜2年で
-「対面 × Claude × 経営者」
-というポジションは、
-
-取れる人と取れない人で
-はっきり分かれていくからです。
-
-その入口の1時間半を、
-他の予定と同列に置いてしまうと、
-本気度がそのまま行動に
-出てしまいます。
-
-体験セミナーに
-リアルタイムで参加できる、
-という最初の一歩こそが、
-この先の半年を決めます。
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【その先に、二段階審査があります】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-参考までに、
-体験セミナー後の流れも
-書いておきます。
-
-本講座は、
-「申し込んだら入れる」
-講座ではなく、
-「二段階審査制」にしています。
-
-(a) 第一次審査：フォーム
-(b) 第二次審査：15分の面談
-(c) 両者が合意したら、決済
-(d) 入金確認後、Chatworkグループに参加
-
-体験セミナーの翌日から
-最大3日（72時間）の間に、
-第一次審査フォームを
-お送りいただきます。
-
-審査制にしているのは、
-本気の方だけが集まる場を
-守りたいからです。
-
-「お互いに本気で、
-一緒にやっていける相手か」を
-確認するための仕組みです。
-
-ふるい落とすための制度では
-ありません。
-
-僕からあなたを審査するだけでなく、
-あなたからも僕を審査してください。
-
-合わないと感じたら、
-遠慮なく辞退していただいて
-構いません。
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【オープンチャットでの動き】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-LINEオープンチャットでは、
-今日のうちに、
-
-✔ 体験セミナーの直近の開催枠
-✔ 第一次審査フォームの中身
-✔ よくある質問への回答
-
-をまとめて投下します。
-
-体験セミナーに参加する前に、
-✔ 自分の県の地域枠の状況
-✔ 申込の流れの全体像
-
-これらを頭に入れておきたい方は、
-今のうちにオープンチャットへ。
-
-参考までに、
-体験セミナーへの申込URLも、
-特典の受け渡しも、
-僕への質問・回答も、
-
-すべてオープンチャットの中だけで
-動かしています。
-
-メルマガからは申し込みも質問もできません。
-オープンチャットに入っていない時点で、
-体験セミナーの申込フォームすら
-手元に届かない仕組みです。
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【午前のうちに、動いておきたい方へ】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-✔ 動画はもう見た
-✔ オープンチャットには参加した
-✔ 体験セミナーの枠を押さえたい
-
-ここまで来てくださっている方は、
-今日のうちに「枠の確保」だけは
-済ませてしまうことを
-おすすめします。
-
-体験セミナーは、無料です。
-
-ただし、地域枠の関係で、
-体験セミナーの段階で
-すでに枠が埋まっていることも
-あり得ます。
-
-枠が空いているうちに、
-最初の判断だけは
-午前中のうちに。
-
-夜に、もう1通お送りします。
-
-🔗 [動画ページURL]
-
-PS
-体験セミナーに
-リアルタイムで参加する。
-
-たったこれだけのことが、
-半年後・1年後の景色を
-大きく変えます。
-
-「予定が…」と
-受け流してしまった人と、
-「何としても時間を取る」と
-動いた人。
-
-ここから先の1〜2年で、
-全く違う場所に立っています。
-
-予定の調整、
-今日のうちに始めてください。
-
-◆------------------------------------◆
-Claude特化型AIコンサルタント 事務局
-◆------------------------------------◆
-・運営者：
-株式会社ザ・リード 代表取締役 邑﨑恵理
-田中 祐一
---------------------------------------
-窓口：[メールアドレス]
-（営業時間：平日10時から18時）
-
-＊頂いたお問い合わせには3営業日以内に
-お答えさせて頂いております。
-
-住所：〒107-0062
-東京都港区南青山2丁目2番15号 ウィン青山1302
---------------------------------------
-メールアドレスの変更はこちら
-%link_change_email_register%
-
-メールの配信停止はこちら
-%link_unsubscribe_mail%
-</pre>
+<main class="content">
+<article class="article">
+<h1>ステップメール</h1>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>配信日</th>
+<th>配信時刻</th>
+<th>差出人</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td>7日後 8:00</td>
+<td>片岡守</td>
+<td>【AIコンサル】最初の一歩は、体験セミナーへの「リアルタイム参加」です</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1>📢 【AIコンサル】最初の一歩は、体験セミナーへの「リアルタイム参加」です</h1>
+<p>おはようございます。<br />
+片岡守です。</p>
+<p>7日目の朝です。</p>
+<p>ここまでお付き合いいただき、<br />
+ありがとうございました。</p>
+<p>今日と今夜の2通で、<br />
+大事なことをお伝えします。</p>
+<p>「なぜ動画ではなく、<br />
+　リアルタイム参加にこだわるのか」</p>
+<p>その理由を動画でも話しています。</p>
+<p>🔗 [動画ページURL]</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【最初の一歩は、体験セミナーへの参加です】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>最初に、はっきり<br />
+お伝えしておきます。</p>
+<p>「AIコンサルタント養成講座」への<br />
+参加を検討するためには、<br />
+まず体験セミナーに<br />
+リアルタイムで参加してください。</p>
+<p>これが、必須条件です。</p>
+<p>体験セミナーに参加せずに、<br />
+いきなり養成講座へ申し込む、<br />
+という流れは取っていません。</p>
+<p>ここが、入り口です。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【アーカイブは、ありません】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>そしてもうひとつ、<br />
+これは早めにお伝えしたいのですが、</p>
+<p>体験セミナーは<br />
+「リアルタイム参加のみ」です。</p>
+<p>✔ 録画の後日配信<br />
+✔ アーカイブ視聴<br />
+✔ ダイジェストの共有</p>
+<p>これらは一切ありません。</p>
+<p>理由はシンプルで、<br />
+当日その場で質問してくださる方に、<br />
+僕が全力で答える形にしているからです。</p>
+<p>録画を残してしまうと、<br />
+「あとで見ればいい」となって、<br />
+当日の集中度が下がります。</p>
+<p>その場の温度と、<br />
+その場でしか出ない質問・答えを<br />
+丸ごと持ち帰っていただきたいので、<br />
+リアルタイム参加でお願いしています。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【だからこそ、時間を確保してください】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>率直に書かせてください。</p>
+<p>このAIの波に<br />
+本気で乗ろうと思うなら、</p>
+<p>何としてでも、<br />
+体験セミナーの時間を<br />
+確保してほしいんです。</p>
+<p>✔ 仕事のスケジュールを動かす<br />
+✔ 家族に1時間半お願いする<br />
+✔ 移動の予定を調整する</p>
+<p>このくらいの動き方は、<br />
+していただきたいと思っています。</p>
+<p>なぜかというと、<br />
+これから1〜2年で<br />
+「対面 × Claude × 経営者」<br />
+というポジションは、</p>
+<p>取れる人と取れない人で<br />
+はっきり分かれていくからです。</p>
+<p>その入口の1時間半を、<br />
+他の予定と同列に置いてしまうと、<br />
+本気度がそのまま行動に<br />
+出てしまいます。</p>
+<p>体験セミナーに<br />
+リアルタイムで参加できる、<br />
+という最初の一歩こそが、<br />
+この先の半年を決めます。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【その先に、二段階審査があります】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>参考までに、<br />
+体験セミナー後の流れも<br />
+書いておきます。</p>
+<p>本講座は、<br />
+「申し込んだら入れる」<br />
+講座ではなく、<br />
+「二段階審査制」にしています。</p>
+<p>(a) 第一次審査：フォーム<br />
+(b) 第二次審査：15分の面談<br />
+(c) 両者が合意したら、決済<br />
+(d) 入金確認後、Chatworkグループに参加</p>
+<p>体験セミナーの翌日から<br />
+最大3日（72時間）の間に、<br />
+第一次審査フォームを<br />
+お送りいただきます。</p>
+<p>審査制にしているのは、<br />
+本気の方だけが集まる場を<br />
+守りたいからです。</p>
+<p>「お互いに本気で、<br />
+一緒にやっていける相手か」を<br />
+確認するための仕組みです。</p>
+<p>ふるい落とすための制度では<br />
+ありません。</p>
+<p>僕からあなたを審査するだけでなく、<br />
+あなたからも僕を審査してください。</p>
+<p>合わないと感じたら、<br />
+遠慮なく辞退していただいて<br />
+構いません。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【オープンチャットでの動き】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>LINEオープンチャットでは、<br />
+今日のうちに、</p>
+<p>✔ 体験セミナーの直近の開催枠<br />
+✔ 第一次審査フォームの中身<br />
+✔ よくある質問への回答</p>
+<p>をまとめて投下します。</p>
+<p>体験セミナーに参加する前に、<br />
+✔ 自分の県の地域枠の状況<br />
+✔ 申込の流れの全体像</p>
+<p>これらを頭に入れておきたい方は、<br />
+今のうちにオープンチャットへ。</p>
+<p>参考までに、<br />
+体験セミナーへの申込URLも、<br />
+特典の受け渡しも、<br />
+僕への質問・回答も、</p>
+<p>すべてオープンチャットの中だけで<br />
+動かしています。</p>
+<p>メルマガからは申し込みも質問もできません。<br />
+オープンチャットに入っていない時点で、<br />
+体験セミナーの申込フォームすら<br />
+手元に届かない仕組みです。</p>
+<p>＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br />
+【午前のうちに、動いておきたい方へ】<br />
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝</p>
+<p>✔ 動画はもう見た<br />
+✔ オープンチャットには参加した<br />
+✔ 体験セミナーの枠を押さえたい</p>
+<p>ここまで来てくださっている方は、<br />
+今日のうちに「枠の確保」だけは<br />
+済ませてしまうことを<br />
+おすすめします。</p>
+<p>体験セミナーは、無料です。</p>
+<p>ただし、地域枠の関係で、<br />
+体験セミナーの段階で<br />
+すでに枠が埋まっていることも<br />
+あり得ます。</p>
+<p>枠が空いているうちに、<br />
+最初の判断だけは<br />
+午前中のうちに。</p>
+<p>夜に、もう1通お送りします。</p>
+<p>🔗 [動画ページURL]</p>
+<p>PS<br />
+体験セミナーに<br />
+リアルタイムで参加する。</p>
+<p>たったこれだけのことが、<br />
+半年後・1年後の景色を<br />
+大きく変えます。</p>
+<p>「予定が…」と<br />
+受け流してしまった人と、<br />
+「何としても時間を取る」と<br />
+動いた人。</p>
+<p>ここから先の1〜2年で、<br />
+全く違う場所に立っています。</p>
+<p>予定の調整、<br />
+今日のうちに始めてください。</p>
+<p>◆------------------------------------◆<br />
+Claude特化型AIコンサルタント 事務局<br />
+◆------------------------------------◆<br />
+・運営者：<br />
+株式会社ザ・リード 代表取締役 邑﨑恵理<br />
+田中 祐一</p>
+<hr />
+<p>窓口：[メールアドレス]<br />
+（営業時間：平日10時から18時）</p>
+<p>＊頂いたお問い合わせには3営業日以内に<br />
+お答えさせて頂いております。</p>
+<p>住所：〒107-0062<br />
+東京都港区南青山2丁目2番15号 ウィン青山1302</p>
+<hr />
+<p>メールアドレスの変更はこちら<br />
+%link_change_email_register%</p>
+<p>メールの配信停止はこちら<br />
+%link_unsubscribe_mail%</p>
+</article>
 </main>
+</div>
 </body>
 </html>

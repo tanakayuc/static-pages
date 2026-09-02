@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>20260422_磯和なつ_五ヶ山昌代_分析 - たかみず セールス分析</title>
+<meta name="theme-color" content="#F0FAF8">
+<title>20260422 磯和なつさん 個別相談 — セールス分析（担当者向け） - たかみず セールス分析</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,32 +247,49 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
 .sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
+  width: 264px; min-width: 0; height: 100vh;
+  position: sticky; top: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90));
+  backdrop-filter: blur(18px);
   border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
+  padding: 1.65rem 1rem 2rem; overflow-y: auto;
 }
 .sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em;
+  color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem;
 }
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); font-weight: 800; }
 .sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
+  display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px;
+  color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55;
+  border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere;
+  transition: background-color .16s ease, border-color .16s ease, transform .16s ease;
 }
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
 .sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
+  background: var(--accent-gradient);
+  color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23);
 }
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; letter-spacing: 0.02em; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
 /* ===== スマホ：サイドバー非表示・本文全幅 ===== */
 .mobile-back {
   display: none;
@@ -271,345 +303,345 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 .mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  .layout { display: block; }
   .sidebar { display: none; }
   .mobile-back { display: block; }
   .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
+  .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.4rem; }
   .article h2 { font-size: 1.15rem; }
   .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
 </style>
 </head>
 <body>
 <div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
 <div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
+<nav class="sidebar" aria-label="たかみず セールス分析">
+<div class="brand">REPORT</div>
 <h3>たかみず セールス分析</h3>
-<a class="sidebar-item sidebar-item--cross" href="../takamizu-sales-manual/">セールスレポート（トップ）</a><a class="sidebar-item sidebar-item--cross" href="../takamizu-monthly/">月次レポート</a><a href="071.html" class="sidebar-item"><span class="date">2026年08月27日</span> フィードバック一覧</a>
-<a href="20260524.html" class="sidebar-item"><span class="date">2026年05月24日</span> 20260524_市川真由美_三浦美幸_分析</a>
-<a href="20260523.html" class="sidebar-item"><span class="date">2026年05月23日</span> 20260523_笹倉志穂_三浦美幸_分析</a>
-<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_名取聖_五ヶ山昌代_分析</a>
-<a href="20260522-ab85df4e4a97.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_宮崎えりこ_三浦美幸_分析</a>
-<a href="20260522-59fefd306d51.html" class="sidebar-item"><span class="date">2026年05月22日</span> 20260522_戸間敦子_澤田亜美_分析</a>
-<a href="20260521.html" class="sidebar-item"><span class="date">2026年05月21日</span> 20260521_山田佳代子_三浦美幸_分析</a>
-<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> 20260520_甲斐千夏_三浦美幸_分析</a>
-<a href="20260519.html" class="sidebar-item"><span class="date">2026年05月19日</span> 20260519_浜田ちか乃_五ヶ山昌代_分析</a>
-<a href="20260519-d71ec1748db7.html" class="sidebar-item"><span class="date">2026年05月19日</span> 20260519_竹内貴代子_澤田亜美_分析</a>
-<a href="20260518.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518_古田彩_五ヶ山昌代_分析</a>
-<a href="20260518-14726d40cec7.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518_小林愛_澤田亜美_分析</a>
-<a href="20260518-b3e90149603c.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518_高見青龍_澤田亜美_再ZOOM_分析</a>
-<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515_曽我篤_三浦美幸_分析</a>
-<a href="20260513.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_佐藤美智瑠_五ヶ山昌代_分析</a>
-<a href="20260513-8f97cbadd8d4.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_小松亜矢子_澤田亜美_分析</a>
-<a href="20260513-a80e380b449d.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513_田代昌好_五ヶ山昌代_分析</a>
-<a href="20260512.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512_宮内聡依_澤田亜美_分析</a>
-<a href="20260512-fb22eda2d192.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512_長山千晴_五ヶ山昌代_分析</a>
-<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> 20260511_橋本裕子_五ヶ山昌代_分析</a>
-<a href="20260506.html" class="sidebar-item"><span class="date">2026年05月06日</span> 20260506_東あきら_五ヶ山昌代_分析</a>
-<a href="20260502.html" class="sidebar-item"><span class="date">2026年05月02日</span> 20260502_高見青龍_澤田亜美_分析</a>
-<a href="20260501.html" class="sidebar-item"><span class="date">2026年05月01日</span> 20260501_西本貴与香_五ヶ山昌代_分析</a>
-<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428_富井陽子_三浦美幸_分析</a>
-<a href="20260428-eba8bbabbc08.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428_福井太一_五ヶ山昌代_分析</a>
-<a href="20260427.html" class="sidebar-item"><span class="date">2026年04月27日</span> 20260427_柳田渉_澤田亜美_分析</a>
-<a href="20260426.html" class="sidebar-item"><span class="date">2026年04月26日</span> 20260426_國井智早子_五ヶ山昌代_分析</a>
-<a href="20260426-c79366cb22a9.html" class="sidebar-item"><span class="date">2026年04月26日</span> 20260426_森下里美_澤田亜美_分析</a>
-<a href="20260424.html" class="sidebar-item"><span class="date">2026年04月24日</span> 20260424_山田由里子_五ヶ山昌代_分析</a>
-<a href="20260423.html" class="sidebar-item"><span class="date">2026年04月23日</span> 20260423_瀧本恵子_澤田亜美_分析</a>
-<a href="20260422.html" class="sidebar-item active"><span class="date">2026年04月22日</span> 20260422_磯和なつ_五ヶ山昌代_分析</a>
-<a href="20260417.html" class="sidebar-item"><span class="date">2026年04月17日</span> 20260417_佐々木恵美_澤田亜美_分析</a>
-<a href="20260416.html" class="sidebar-item"><span class="date">2026年04月16日</span> 20260416_永石陽子_五ヶ山昌代_分析</a>
-<a href="20260404.html" class="sidebar-item"><span class="date">2026年04月04日</span> 20260404_宮崎みちこ_澤田亜美_分析</a>
-<a href="20260403.html" class="sidebar-item"><span class="date">2026年04月03日</span> 20260403_大野真規子_五ヶ山昌代_分析</a>
-<a href="20260403-114ccd94745b.html" class="sidebar-item"><span class="date">2026年04月03日</span> 20260403_平田美知子_三浦美幸_分析</a>
-<a href="20260330.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330_大原千里_三浦美幸_分析</a>
-<a href="20260330-fe29d34805cb.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330_小川健司_三浦美幸_分析</a>
-<a href="20260327.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327_福山道子_澤田亜美_分析</a>
-<a href="20260326.html" class="sidebar-item"><span class="date">2026年03月26日</span> 20260326_作本美香_三浦美幸_分析</a>
-<a href="20260326-60cd4f22ce49.html" class="sidebar-item"><span class="date">2026年03月26日</span> 20260326_西村貴仁_五ヶ山昌代_分析</a>
-<a href="20260325.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325_たかみず通期バッチ_集約_分析</a>
-<a href="20260325-6eaac80ce702.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325_朝月希光_五ヶ山昌代_分析</a>
-<a href="20260325-dfb2334e1fff.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325_柏木肇_五ヶ山昌代_分析</a>
-<a href="20260324.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_大坂忍_澤田亜美_分析</a>
-<a href="20260324-063edc0f6e4a.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_福井良子_澤田亜美_分析</a>
-<a href="20260324-ad350ac12a67.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_野口由美子_五ヶ山昌代_分析</a>
-<a href="20260324-9f85f1ba50dc.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324_鮫島京子_澤田亜美_分析</a>
-<a href="20260320.html" class="sidebar-item"><span class="date">2026年03月20日</span> 20260320_大澤理香_澤田亜美_分析</a>
-<a href="20260318.html" class="sidebar-item"><span class="date">2026年03月18日</span> 20260318_中村恵子_澤田亜美_分析</a>
-<a href="20260317.html" class="sidebar-item"><span class="date">2026年03月17日</span> 20260317_佐野恵子_五ヶ山昌代_分析</a>
-<a href="20260317-47f83e1e7617.html" class="sidebar-item"><span class="date">2026年03月17日</span> 20260317_高橋由美子_和田めぐみ_分析</a>
-<a href="20260316.html" class="sidebar-item"><span class="date">2026年03月16日</span> 20260316_池田記代_三浦美幸_分析</a>
-<a href="20260314.html" class="sidebar-item"><span class="date">2026年03月14日</span> 20260314_高田里恵子_和田めぐみ_分析</a>
-<a href="20260313.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_佐野恵子_濱野りん_分析</a>
-<a href="20260313-f480d6e498e1.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_吉岡拓也_五ヶ山昌代_分析</a>
-<a href="20260313-e2fd7b73c818.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_吉田雅子_和田めぐみ_分析</a>
-<a href="20260313-c70c50978b57.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_宮野ゆういち_澤田亜美_分析</a>
-<a href="20260313-5d933d043e63.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_本庄まゆこ_澤田亜美_分析</a>
-<a href="20260313-f130a4546c36.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_杉山敦子_五ヶ山昌代_分析</a>
-<a href="20260313-2ad67dc8ff65.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313_森下美枝子_和田めぐみ_分析</a>
-<a href="20260312.html" class="sidebar-item"><span class="date">2026年03月12日</span> 20260312_瀧川ゆりあ_澤田亜美_分析</a>
-<a href="20260310.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_出雲光_五ヶ山昌代_分析</a>
-<a href="20260310-f9079e315b7a.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_市村睦美_三浦美幸_分析</a>
-<a href="20260310-2fa0cf58b7d7.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_村上智香_澤田亜美_分析</a>
-<a href="20260310-f3fc11ef8cfc.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_酒井佑佳_五ヶ山昌代_分析</a>
-<a href="20260310-9d2868f68e23.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310_高橋章子_澤田亜美_分析</a>
-<a href="20260306.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306_吉岡理恵_五ヶ山昌代_分析</a>
-<a href="20260306-697c250e7c66.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306_森芙美子_五ヶ山昌代_分析</a>
-<a href="20260304.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304_柴田慶子_濱野りん_分析</a>
-<a href="20260304-379d95cfbb36.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304_石井和美_五ヶ山昌代_分析</a>
+<a class="sidebar-item sidebar-item--cross" href="../takamizu-sales-manual/">セールスレポート（トップ）</a><a class="sidebar-item sidebar-item--cross" href="../takamizu-monthly/">月次レポート</a><a href="071.html" class="sidebar-item"><span class="date">2026年09月02日</span> たかみず案件 セールス分析 フィードバック一覧</a>
+<a href="20260524.html" class="sidebar-item"><span class="date">2026年05月24日</span> 2026-05-24 市川真由美さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260523.html" class="sidebar-item"><span class="date">2026年05月23日</span> 2026-05-23 笹倉志穂さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 2026-05-22 名取聖さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260522-ab85df4e4a97.html" class="sidebar-item"><span class="date">2026年05月22日</span> 2026-05-22 宮崎えりこさん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260522-59fefd306d51.html" class="sidebar-item"><span class="date">2026年05月22日</span> 2026-05-22 戸間敦子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260521.html" class="sidebar-item"><span class="date">2026年05月21日</span> 2026-05-21 山田佳代子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> 2026-05-20 甲斐千夏さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260519.html" class="sidebar-item"><span class="date">2026年05月19日</span> 2026-05-19 浜田ちか乃さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260519-d71ec1748db7.html" class="sidebar-item"><span class="date">2026年05月19日</span> 2026-05-19 竹内貴代子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260518.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518 古田彩さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260518-14726d40cec7.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518 小林愛さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260518-b3e90149603c.html" class="sidebar-item"><span class="date">2026年05月18日</span> 20260518 高見青龍さん 個別相談 — セールス分析（担当者向け）（再ZOOM）</a>
+<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> 20260515 曽我篤さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260513.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513 佐藤美智瑠さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260513-8f97cbadd8d4.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513 小松亜矢子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260513-a80e380b449d.html" class="sidebar-item"><span class="date">2026年05月13日</span> 20260513 田代昌好さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260512.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512 宮内聡依さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260512-fb22eda2d192.html" class="sidebar-item"><span class="date">2026年05月12日</span> 20260512 長山千晴さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260511.html" class="sidebar-item"><span class="date">2026年05月11日</span> 20260511 橋本裕子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260506.html" class="sidebar-item"><span class="date">2026年05月06日</span> 20260506 東あきら 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260502.html" class="sidebar-item"><span class="date">2026年05月02日</span> 20260502 高見青龍 澤田亜美 セールス分析（担当者向けフィードバック）</a>
+<a href="20260501.html" class="sidebar-item"><span class="date">2026年05月01日</span> 20260501 西本貴与香 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428 富井陽子 三浦美幸 セールス分析（担当者向けフィードバック）</a>
+<a href="20260428-eba8bbabbc08.html" class="sidebar-item"><span class="date">2026年04月28日</span> 20260428 福井太一 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260427.html" class="sidebar-item"><span class="date">2026年04月27日</span> 20260427 柳田渉 澤田亜美 セールス分析（担当者向けフィードバック）</a>
+<a href="20260426.html" class="sidebar-item"><span class="date">2026年04月26日</span> 20260426 國井智早子 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260426-c79366cb22a9.html" class="sidebar-item"><span class="date">2026年04月26日</span> 20260426 森下里美 澤田亜美 セールス分析（担当者向けフィードバック）</a>
+<a href="20260424.html" class="sidebar-item"><span class="date">2026年04月24日</span> 20260424 山田由里子 五ヶ山昌代 セールス分析（担当者向けフィードバック）</a>
+<a href="20260423.html" class="sidebar-item"><span class="date">2026年04月23日</span> 20260423 瀧本恵子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260422.html" class="sidebar-item active"><span class="date">2026年04月22日</span> 20260422 磯和なつさん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260417.html" class="sidebar-item"><span class="date">2026年04月17日</span> 20260417 佐々木恵美さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260416.html" class="sidebar-item"><span class="date">2026年04月16日</span> 20260416 永石陽子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260404.html" class="sidebar-item"><span class="date">2026年04月04日</span> 20260404 宮崎みちこさん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260403.html" class="sidebar-item"><span class="date">2026年04月03日</span> 20260403 大野真規子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260403-114ccd94745b.html" class="sidebar-item"><span class="date">2026年04月03日</span> 20260403 平田美知子さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260330.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330 大原千里さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260330-fe29d34805cb.html" class="sidebar-item"><span class="date">2026年03月30日</span> 20260330 小川健司さん 個別相談 — セールス分析（担当者向け）</a>
+<a href="20260327.html" class="sidebar-item"><span class="date">2026年03月27日</span> 20260327 福山道子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260326.html" class="sidebar-item"><span class="date">2026年03月26日</span> 20260326 作本美香さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260326-60cd4f22ce49.html" class="sidebar-item"><span class="date">2026年03月26日</span> 20260326 西村貴仁さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260325.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325 たかみず通期セールスバッチ 集約分析</a>
+<a href="20260325-6eaac80ce702.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325 朝月希光さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260325-dfb2334e1fff.html" class="sidebar-item"><span class="date">2026年03月25日</span> 20260325 柏木肇さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260324.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324 大坂忍さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260324-063edc0f6e4a.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324 福井良子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260324-ad350ac12a67.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324 野口由美子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260324-9f85f1ba50dc.html" class="sidebar-item"><span class="date">2026年03月24日</span> 20260324 鮫島京子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260320.html" class="sidebar-item"><span class="date">2026年03月20日</span> 20260320 大澤理香さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260318.html" class="sidebar-item"><span class="date">2026年03月18日</span> 20260318 中村恵子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260317.html" class="sidebar-item"><span class="date">2026年03月17日</span> 20260317 佐野恵子さん セールス分析（担当者向けフィードバック）〔耳ツボ／ダイエット軸〕</a>
+<a href="20260317-47f83e1e7617.html" class="sidebar-item"><span class="date">2026年03月17日</span> 20260317 高橋由美子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260316.html" class="sidebar-item"><span class="date">2026年03月16日</span> 20260316 池田記代（のりよ）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260314.html" class="sidebar-item"><span class="date">2026年03月14日</span> 20260314 高田里恵子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 佐野恵子（あやこ）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-f480d6e498e1.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 吉岡拓也さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-e2fd7b73c818.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 吉田雅子（まさ子）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-c70c50978b57.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 宮野ゆういちさん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-5d933d043e63.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 本庄まゆこさん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-f130a4546c36.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 杉山敦子（あ子）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260313-2ad67dc8ff65.html" class="sidebar-item"><span class="date">2026年03月13日</span> 20260313 森下美枝子（恵／みえこ）さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260312.html" class="sidebar-item"><span class="date">2026年03月12日</span> 20260312 瀧川ゆりあさん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 出雲光さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310-f9079e315b7a.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 市村睦美さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310-2fa0cf58b7d7.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 村上智香さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310-f3fc11ef8cfc.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 酒井佑佳さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260310-9d2868f68e23.html" class="sidebar-item"><span class="date">2026年03月10日</span> 20260310 高橋章子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260306.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306 吉岡理恵さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260306-697c250e7c66.html" class="sidebar-item"><span class="date">2026年03月06日</span> 20260306 森芙美子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260304.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304 柴田慶子さん セールス分析（担当者向けフィードバック）</a>
+<a href="20260304-379d95cfbb36.html" class="sidebar-item"><span class="date">2026年03月04日</span> 20260304 石井和美さん セールス分析（担当者向けフィードバック）</a>
 </nav>
 <main class="content">
 <article class="article">
-<pre># 20260422 磯和なつさん 個別相談 — セールス分析（担当者向け）
-
-## このファイルの位置づけ
-
-五ヶ山昌代さん向けの振り返りフィードバックです。82歳・息子に事業を譲渡済・残りの人生を「ピンピンキラリ」で生きたいというニーズ特性の顧客に対し、AIシナリオで一度集中を引き戻せたものの、最終的に息子への相談が必要となり即決できなかった案件。通期では「不成約」表記ですが実態は「当日20:00返答期限の息子相談待ち＝家族決裁による保留」です。高齢・家族決裁の複合ケース固有の論点を整理する。
-
-基本情報・お客様像・良かった点・改善点・マニュアル照合・新しいパターン・担当者へのフィードバック・次のアクションの8観点を埋めます。
-
-## 参照マニュアル一覧（照合に用いたパス）
-
-- `21_プロジェクト一覧/たかみず/セールスノウハウ/本講座/本講座セールス基本編2025.7.md`
-- `21_プロジェクト一覧/たかみず/セールス/セールスマニュアル/個別相談会_セールス成功失敗マニュアル.md`
-- `21_プロジェクト一覧/たかみず/セールス/セールスマニュアル/セールス担当_癖と傾向マニュアル.md`
-- `21_プロジェクト一覧/たかみず/セールス/セールスマニュアル/質疑応答の理想回答集.md`
-- `21_プロジェクト一覧/たかみず/セールス/セールスマニュアル/たかみずセールス統合マニュアル_原本フィードバック用.md`
-- `21_プロジェクト一覧/たかみず/セールス/セールス分析/セールス分析_共通_二軸照合と手本リンク.md`
-
-## 1. 基本情報（家族構成・仕事・住まい・過去の受講歴・感情の流れ）
-
-| 項目 | 内容 |
-|-----|-----|
-| 顧客 | 磯和なつさん（82歳） |
-| 実施日 | 2026-04-22（通期投稿日 2026-04-22 19:19） |
-| 担当 | 五ヶ山昌代 |
-| 結果 | 保留／当日20:00返答期限の息子相談待ち（通期は「不成約」表記、実態は家族決裁による保留） |
-| アーカイブ | `<a href="https://youtu.be/Ag8cIfjJuXQ" target="_blank" rel="noopener noreferrer">https://youtu.be/Ag8cIfjJuXQ</a>` |
-
-家族構成・生活状況
-
-- 82歳。高齢者の個別相談案件の中でも上位の年齢層。
-- 事業は息子に既に譲渡済。自分名義の会社はない。経営者としての現役性は卒業済の状態。
-- ただし本人の意識は引退していない。「残りの人生を自由にやりたい」「本物の価値を伝えたい」という発話が明確に出ている。
-- 決裁権は自分にあるが、家計・家族関係上、大きな支出には息子の了解を事実上必要とする構造。
-- 同居か別居かは原本から断定困難。当日20:00までに息子へ連絡する前提なので、電話またはLINEで連絡可能な距離感。
-
-過去の受講歴・接点
-
-- 具体的な過去のたかみず講座受講歴は原本からの明示なし。セミナー参加がどの時点でなされたかは特定不可。
-- セミナーに集中しきれていない状態でスタートしている点から、情報接触は浅めと推測。
-
-当日の感情の流れ
-
-- 冒頭：セミナーに集中していない、上の空の状態。画面越しでも担当が「今日は乗っていない」と感じた時間帯。
-- シナリオ投入：核心ワードで一度真剣モードに戻る。担当が手応えを感じた最大のハイライト。
-- 中盤：集中が再低下。話題を変える対応を担当が取る。
-- 金額提示：一人で今払える金額ではないと率直な反応。
-- クロージング：息子に相談してから返答という流れに。当日20:00期限で保留。
-
-## 2. お客様像・所感の要点
-
-- 82歳という年齢を考えると、身体的な衰えよりも「集中の維持」が商談の主戦場。セミナー中に意識が散るのは年齢要因。
-- 「ピンピンキラリ」という表現は、本人の人生観を凝縮したキーワード。ピンピンコロリ（突然死で迷惑をかけたくない）と、キラリ（光る何かを残したい）の掛け合わせ。本人の使命と恐怖を同時に含む。
-- 事業を息子に譲渡したあとの「個としての自分」の立ち位置を探している段階。これは高齢起業層に共通の心理。
-- 決裁権は本人にあるものの、家計判断が家族単位で動く日本的な構造に置かれている。家族決裁は単なる障害ではなく、本人の安心装置でもある。
-- 「本物の価値を伝えたい」という使命のフレーズが強い。年齢ではなく、人生の通算体験から来る実感の言葉。
-
-## 3. 良かった点
-
-### (1) シナリオ投入で集中を引き戻した
-
-なぜ効いたか：セミナーに集中していない相手に対し、シナリオの核心ワードで一度真剣モードに引き戻した。高齢で集中が切れやすい相手において、この「引き戻し成功体験」自体が大きな成果。年齢を理由に諦めず、核心ワードで勝負した判断が正しい。
-
-### (2) 「ピンピンキラリ」を本人の言葉のまま返した
-
-なぜ効いたか：本人が口にした「ピンピンキラリ」を、担当は自分の言葉に翻訳せずそのまま使った。82歳の顧客が自分の言葉を返してもらうことで、「聞いてもらえている」感覚が強まる。高齢顧客の信頼構築として模範的。
-
-### (3) サポート重視の方向で一度判断が揃った
-
-なぜ効いたか：シナリオ投入後に「サポートが多い方がいい」と本人の判断が揃う瞬間があった。シナリオの効き目が出ていた証拠。プラチナ方向への押し上げ余地は十分にあった。
-
-### (4) 緩急・テンポで集中維持を試みた
-
-なぜ効いたか：五ヶ山欄の癖マニュアルに記載されている「緩急・テンポで集中維持」の運用を、本件でも実行できていた。高齢顧客へのアプローチとしては予測通りの動き。集中が切れた時に話題を変える柔軟さも含め、年齢への配慮ができている。
-
-### (5) 即決を追わなかった判断
-
-なぜ効いたか：一人で今払える金額ではないという本人の反応に対し、担当は即決を強引に追わなかった。82歳で独断決済を迫ると、本人・家族双方に禍根が残る。即決を手放す判断は誠実。
-
-## 4. 改善点
-
-### (1) シナリオで響いた瞬間に「いまのどこが？」を返せなかった
-
-どの場面で：シナリオ投入で真剣モードに戻った瞬間。
-
-何が起きて：担当は手応えを感じたが、「今の一文でいちばん響いたのはどこですか？」を一問返せなかった。本人の自覚が言語化されないまま場面が進み、その後の集中再低下時に戻る足場が弱くなった。
-
-本来どうすべきだったか：核心ワードが効いた瞬間に「今のどの言葉がいちばん響きました？」と返す。本人の口から具体フレーズが出ると、後で集中が切れた時に同じフレーズで復帰させられる（復帰動線になる）。
-
-### (2) 「息子さんに今日なんて伝えますか？」を問わなかった
-
-どの場面で：家族決裁が必要と分かった場面。
-
-何が起きて：担当は「ご家族に相談されますね」と受け止めたが、本人が息子にどう説明するかを一緒に作る時間を取らなかった。結果として、家族側の反射的NOに対する備えがない状態で保留に移行。
-
-本来どうすべきだったか：「息子さんに今日なんて伝えますか？本人の言葉でやってみましょう」と一緒に原稿を作る。本人が自分の言葉で説明する準備ができていると、家族側も「お母さんが本気だ」と判断しやすい。
-
-### (3) 「何がクリアになれば家族もOKと言いそうか」を特定しなかった
-
-どの場面で：保留移行の段階。
-
-何が起きて：家族への相談事項が漠然としたまま、保留になった。家族が具体的に何を不安視するかが未整理のため、本人も答えにくい状態。
-
-本来どうすべきだったか：「息子さんが反対するとしたら、何を気にすると思いますか？」と1つだけ予想させる。お金・体力・詐欺リスクの3つから選ばせる程度でも、家族との会話の焦点が定まる。
-
-### (4) 集中再低下時の復帰動線が準備されていなかった
-
-どの場面で：中盤の集中再低下。
-
-何が起きて：話題を変える対応は正しかったが、「本人のピンピンキラリ発言を引用して戻す」等の復帰動線が事前に用意されていなかった。戻せたかもしれないチャンスを1回逃した。
-
-本来どうすべきだったか：シナリオ投入時に本人が出した強いワード（ピンピンキラリ、本物の価値）を、復帰動線として担当側で「覚えておく」。集中が切れたら「さっきの『ピンピンキラリ』の話、もう一度聞かせてください」で戻す。
-
-### (5) 「即決させられず申し訳ございません」の自己評価が方向違い
-
-どの場面で：担当の所感コメント。
-
-何が起きて：即決できなかったことを担当が謝罪的に捉えていた。しかし82歳・一人で高額決済という条件では、即決の強制は禁忌に近い。
-
-本来どうすべきだったか：即決の有無ではなく、「保留の質」を評価指標に切り替える。家族トークまで作り切れたか、返答期限が明瞭か、復帰動線があるか、で自己評価する方向に。
-
-## 5. マニュアルとの照合
-
-### 沿った箇所
-
-- `セールス担当_癖と傾向マニュアル.md`五ヶ山欄「緩急・テンポで集中維持」：本件の高齢顧客への運用と合致。
-- `個別相談会_セールス成功失敗マニュアル.md`「家族決裁が絡む案件は本人の覚悟＋家族用の一文をセットで作る」類型：本件は類型通りの案件。
-- `本講座セールス基本編2025.7.md`「真のニーズ」章：息子に事業は渡したが自分個人として残りの人生を自由にやりたい、という真のニーズは年齢を超えて明確に抽出できている。
-
-### 外れた箇所（本件で教材から微妙にズレた点）
-
-- 4ステップの「ニーズ深堀り」〜「真のニーズ」までは成立したが、「ベネフィット」で生活の具体像まで降りる前に集中が切れた。教材通りの4ステップ完走が未達。
-- `質疑応答の理想回答集.md`：「高齢顧客が家族に相談すると言った時の返し方」のテンプレが未整備。本件で必要だったのはまさにこの項目。
-- 「即決できなかった時の自己評価の切替え方」が、マニュアル上指針として明文化されていない。担当が過剰に自責する構造を放置してしまう。
-
-## 6. 新しいパターン（還流候補）
-
-### (A) 「高齢・家族決裁・事業譲渡済」の複合類型
-
-既存マニュアルに単独類型としては未整備。特徴：
-
-- 本人の決断力は十分ある
-- 家計判断は家族単位で動く
-- 集中の維持が商談の主戦場
-- 「ピンピンキラリ」的な人生観のキーワードが必ずある
-
-対応の基本：覚悟より家族トーク、即決より保留の質、核心ワードの反復、復帰動線の準備。
-
-### (B) 「核心ワード＋復帰動線」パターン
-
-シナリオで響いた瞬間の本人発言を、復帰動線として担当が意識的に覚えておく運用。集中が切れたら同じワードで戻す。高齢顧客だけでなく集中の波が大きい相手全般に応用可能。
-
-### (C) 「家族トーク共作」パターン
-
-家族決裁が見えた時点で、本人と一緒に家族説明原稿を作る運用。「今日なんて伝えますか？」「何を気にすると思いますか？」の2問で原稿の骨格ができる。
-
-### (D) 「保留の質」指標
-
-即決できなかった案件を「失注未満・成約未満」で評価する代わりに、保留の質を次の4点で測る：
-
-1. 返答期限が明瞭か
-2. 家族トークの原稿が本人の中にあるか
-3. 家族側の反対予想が1つでも特定されているか
-4. 復帰動線（次の電話で使える核心ワード）があるか
-
-## 7. 担当者（五ヶ山昌代）へのフィードバック
-
-### 強み
-
-- 高齢顧客への緩急・テンポ運用が安定。年齢を理由に諦めず、集中を引き戻す努力ができる。
-- 本人の言葉をそのまま返す感覚が良い。「ピンピンキラリ」を翻訳せず使えた。
-- 即決を強引に追わない誠実さ。家族決裁案件で大事な資質。
-
-### 癖（改善方向）
-
-- シナリオで響いた瞬間の「今のどの言葉？」返しが抜ける傾向（永石案件でも類似の指摘あり）。担当共通の改善ポイント。
-- 家族決裁が見えた時に、家族トーク共作まで踏み込めない。受け止めて終わる傾向。
-- 即決できなかった案件を過剰に自責する傾向。保留の質という軸を持ってほしい。
-
-### 次回の改善点
-
-- 核心ワードが響いた瞬間に「今のどの言葉？」を必ず1問返すルーチン化。
-- 家族決裁が見えたら「息子さんに今日なんて伝えますか？」を必ず問う。
-- 自己評価の軸を「即決の有無」から「保留の質」に切り替える。
-
-## 8. 次のアクション（再連絡日時・打ち出し・予備の返し）
-
-### 当日20:00期限対応
-
-- 20:00までに本人から連絡がなければ、担当から「お加減いかがですか？ご相談進みましたか？」と一報。押さず、状況確認の距離感。
-- 期限内に連絡があれば、その場で次のアクションを決める（成約なら決済方法、保留継続なら期限再設定）。
-
-### 即日〜翌日
-
-- 息子さんへの説明がうまくいったかをヒアリング。うまくいっていなければ、担当から「お母様のお気持ちを息子さんに直接お伝えする機会をいただけませんか」と提案（ただし本人の意向確認が必須）。
-- 家族同席の再ZOOMを選択肢として提示。高齢家族決裁案件の王道運用。
-
-### 短期（3日以内）
-
-- 3日経っても反応なしの場合、担当から「体調お変わりありませんか」と体調面の声掛け。高齢顧客に急かすのは禁忌なので、健康気遣いの形で接点を維持。
-- 予備の返し：もし「やはり今回は見送る」と言われた場合、「いま伺ったお気持ちで『ピンピンキラリ』の一歩を始めるなら、何ができそうですか？」と1問返す。完全な失注にせず、次の接点を残す。
-
-### トーク打ち出し例
-
-- 初動：「息子さんとのお話し、何が一番気になっておられましたか？」
-- 家族同席提案：「一度息子さんも含めて30分、お話しする機会をいただけませんか。私からも直接ご説明させてください」
-- 予備の返し（見送り時）：「『ピンピンキラリ』の一歩、何から始められそうですか？」
-
-### 中期（1週間以上）
-
-- 実態が「家族決裁による保留」であるにもかかわらず通期上「不成約」扱いとなっているズレを事務局と共有。
-- 高齢顧客向けの連絡頻度は週1以下に抑える。過剰接触は逆効果。
-
-## 二軸照合（参考）
-
-| 軸 | 本件での当てはまり |
-|----|------------------|
-| 教材 | 真のニーズ（息子に事業は渡したが自分個人として残りの人生を自由にやりたい）と、ベネフィット（ピンピンキラリで生き、本物の価値を伝えたい）は年齢を超えた強さ。4ステップ自体は成立しうる土台があった。 |
-| チームマニュアル | 成功失敗マニュアル「家族決裁が絡む案件は本人の覚悟＋家族用の一文をセットで作る」類型に該当。五ヶ山欄「緩急・テンポで集中を維持」は本件の予測と合致。 |
-
-## たかみず先生レビュー予想
-
-「高齢顧客は覚悟よりも家族トークで決まる」。本人がどれだけ覚悟しても、家族決裁の壁を越える一文を本人が持っていなければ通らない、という趣旨。シナリオで引き戻せた手応えは評価しつつ、最後の一問の設計が勝負、というレビューになりやすい。加えて、「即決できなかった＝失敗」と担当が受け取る癖を、「保留の質」という新指標で捉え直すようにフィードバックが入る可能性が高い。通期表記のズレ（保留を不成約と表示）についても、現場の士気に影響するので改善を検討するよう指摘されやすい。
-
-## 担当者用チェックリスト（次回・高齢／家族決裁案件）
-
-- [ ] シナリオで響いた瞬間に「いまのどの言葉？」を必ず一問返す
-- [ ] 響いたワードを復帰動線として担当側で覚えておく
-- [ ] 家族決裁が見えたら「◯◯さんに今日なんて伝えますか？」を本人に言わせる
-- [ ] 家族反対の予想を1つだけ特定する（お金・体力・詐欺リスクから選ばせる）
-- [ ] 集中が切れた時の復帰動線（本人発言の引用）で戻す
-- [ ] 即決できない案件の「保留の質」を、返答期限・家族トーク・反対予想・復帰動線で測る
-- [ ] 家族同席の再ZOOMを選択肢として手元に持っておく
-
-## 総合評価（簡易）
-
-| 観点 | メモ |
-|-----|-----|
-| 再現性 | シナリオで集中を戻す手応えは再現可能。復帰動線の準備が次回ポイント。 |
-| 構造 | 真のニーズとベネフィットの強度は十分。家族決裁の壁を超える設計が欠けた。 |
-| クロージング | 即決を追いすぎず、保留の質を上げる方向に切り替えたい案件。 |
-
----
-Produced by KATSUO MARKETING
-Version: 2.0 (2026-04-23)
-Licensed to: KATSUO MARKETING Community Member
-Security Trace ID: P5JR8L4W
-Generated by: 田中祐一
-</pre><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
+<h1>20260422 磯和なつさん 個別相談 — セールス分析（担当者向け）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#このファイルの位置づけ">このファイルの位置づけ</a></li><li class="toc-main"><a href="#参照マニュアル一覧（照合に用いたパス）">参照マニュアル一覧（照合に用いたパス）</a></li><li class="toc-main"><a href="#1.-基本情報（家族構成・仕事・住まい・過去の受講歴・感情の流れ）">1. 基本情報（家族構成・仕事・住まい・過去の受講歴・感情の流れ）</a></li><li class="toc-main"><a href="#2.-お客様像・所感の要点">2. お客様像・所感の要点</a></li><li class="toc-main"><a href="#3.-良かった点">3. 良かった点</a></li><li class="toc-sub"><a href="#(1)-シナリオ投入で集中を引き戻した">(1) シナリオ投入で集中を引き戻した</a></li><li class="toc-sub"><a href="#(2)-「ピンピンキラリ」を本人の言葉のまま返した">(2) 「ピンピンキラリ」を本人の言葉のまま返した</a></li><li class="toc-sub"><a href="#(3)-サポート重視の方向で一度判断が揃った">(3) サポート重視の方向で一度判断が揃った</a></li><li class="toc-sub"><a href="#(4)-緩急・テンポで集中維持を試みた">(4) 緩急・テンポで集中維持を試みた</a></li><li class="toc-sub"><a href="#(5)-即決を追わなかった判断">(5) 即決を追わなかった判断</a></li><li class="toc-main"><a href="#4.-改善点">4. 改善点</a></li><li class="toc-sub"><a href="#(1)-シナリオで響いた瞬間に「いまのどこが？」を返せなかった">(1) シナリオで響いた瞬間に「いまのどこが？」を返せなかった</a></li><li class="toc-sub"><a href="#(2)-「息子さんに今日なんて伝えますか？」を問わなかった">(2) 「息子さんに今日なんて伝えますか？」を問わなかった</a></li><li class="toc-sub"><a href="#(3)-「何がクリアになれば家族もOKと言いそうか」を特定しなかった">(3) 「何がクリアになれば家族もOKと言いそうか」を特定しなかった</a></li><li class="toc-sub"><a href="#(4)-集中再低下時の復帰動線が準備されていなかった">(4) 集中再低下時の復帰動線が準備されていなかった</a></li><li class="toc-sub"><a href="#(5)-「即決させられず申し訳ございません」の自己評価が方向違い">(5) 「即決させられず申し訳ございません」の自己評価が方向違い</a></li><li class="toc-main"><a href="#5.-マニュアルとの照合">5. マニュアルとの照合</a></li><li class="toc-sub"><a href="#沿った箇所">沿った箇所</a></li><li class="toc-sub"><a href="#外れた箇所（本件で教材から微妙にズレた点）">外れた箇所（本件で教材から微妙にズレた点）</a></li><li class="toc-main"><a href="#6.-新しいパターン（還流候補）">6. 新しいパターン（還流候補）</a></li><li class="toc-sub"><a href="#(A)-「高齢・家族決裁・事業譲渡済」の複合類型">(A) 「高齢・家族決裁・事業譲渡済」の複合類型</a></li><li class="toc-sub"><a href="#(B)-「核心ワード＋復帰動線」パターン">(B) 「核心ワード＋復帰動線」パターン</a></li><li class="toc-sub"><a href="#(C)-「家族トーク共作」パターン">(C) 「家族トーク共作」パターン</a></li><li class="toc-sub"><a href="#(D)-「保留の質」指標">(D) 「保留の質」指標</a></li><li class="toc-main"><a href="#7.-担当者（五ヶ山昌代）へのフィードバック">7. 担当者（五ヶ山昌代）へのフィードバック</a></li><li class="toc-sub"><a href="#強み">強み</a></li><li class="toc-sub"><a href="#癖（改善方向）">癖（改善方向）</a></li><li class="toc-sub"><a href="#次回の改善点">次回の改善点</a></li><li class="toc-main"><a href="#8.-次のアクション（再連絡日時・打ち出し・予備の返し）">8. 次のアクション（再連絡日時・打ち出し・予備の返し）</a></li><li class="toc-sub"><a href="#当日20:00期限対応">当日20:00期限対応</a></li><li class="toc-sub"><a href="#即日〜翌日">即日〜翌日</a></li><li class="toc-sub"><a href="#短期（3日以内）">短期（3日以内）</a></li><li class="toc-sub"><a href="#トーク打ち出し例">トーク打ち出し例</a></li><li class="toc-sub"><a href="#中期（1週間以上）">中期（1週間以上）</a></li><li class="toc-main"><a href="#二軸照合（参考）">二軸照合（参考）</a></li><li class="toc-main"><a href="#たかみず先生レビュー予想">たかみず先生レビュー予想</a></li><li class="toc-main"><a href="#担当者用チェックリスト（次回・高齢／家族決裁案件）">担当者用チェックリスト（次回・高齢／家族決裁案件）</a></li><li class="toc-main"><a href="#総合評価（簡易）">総合評価（簡易）</a></li></ul></nav>
+<h2 id="このファイルの位置づけ">このファイルの位置づけ</h2>
+<p>五ヶ山昌代さん向けの振り返りフィードバックです。82歳・息子に事業を譲渡済・残りの人生を「ピンピンキラリ」で生きたいというニーズ特性の顧客に対し、AIシナリオで一度集中を引き戻せたものの、最終的に息子への相談が必要となり即決できなかった案件。通期では「不成約」表記ですが実態は「当日20:00返答期限の息子相談待ち＝家族決裁による保留」です。高齢・家族決裁の複合ケース固有の論点を整理する。</p>
+<p>基本情報・お客様像・良かった点・改善点・マニュアル照合・新しいパターン・担当者へのフィードバック・次のアクションの8観点を埋めます。</p>
+<h2 id="参照マニュアル一覧（照合に用いたパス）">参照マニュアル一覧（照合に用いたパス）</h2>
+<ul>
+<li><code>21_プロジェクト一覧/たかみず/セールスノウハウ/本講座/本講座セールス基本編2025.7.md</code></li>
+<li><code>21_プロジェクト一覧/たかみず/セールス/セールスマニュアル/個別相談会_セールス成功失敗マニュアル.md</code></li>
+<li><code>21_プロジェクト一覧/たかみず/セールス/セールスマニュアル/セールス担当_癖と傾向マニュアル.md</code></li>
+<li><code>21_プロジェクト一覧/たかみず/セールス/セールスマニュアル/質疑応答の理想回答集.md</code></li>
+<li><code>21_プロジェクト一覧/たかみず/セールス/セールスマニュアル/たかみずセールス統合マニュアル_原本フィードバック用.md</code></li>
+<li><code>21_プロジェクト一覧/たかみず/セールス/セールス分析/セールス分析_共通_二軸照合と手本リンク.md</code></li>
+</ul>
+<h2 id="1.-基本情報（家族構成・仕事・住まい・過去の受講歴・感情の流れ）">1. 基本情報（家族構成・仕事・住まい・過去の受講歴・感情の流れ）</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顧客</td>
+<td>磯和なつさん（82歳）</td>
+</tr>
+<tr>
+<td>実施日</td>
+<td>2026-04-22（通期投稿日 2026-04-22 19:19）</td>
+</tr>
+<tr>
+<td>担当</td>
+<td>五ヶ山昌代</td>
+</tr>
+<tr>
+<td>結果</td>
+<td>保留／当日20:00返答期限の息子相談待ち（通期は「不成約」表記、実態は家族決裁による保留）</td>
+</tr>
+<tr>
+<td>アーカイブ</td>
+<td><code><a href="https://youtu.be/Ag8cIfjJuXQ" target="_blank" rel="noopener noreferrer">https://youtu.be/Ag8cIfjJuXQ</a></code></td>
+</tr>
+</tbody>
+</table>
+<p>家族構成・生活状況</p>
+<ul>
+<li>82歳。高齢者の個別相談案件の中でも上位の年齢層。</li>
+<li>事業は息子に既に譲渡済。自分名義の会社はない。経営者としての現役性は卒業済の状態。</li>
+<li>ただし本人の意識は引退していない。「残りの人生を自由にやりたい」「本物の価値を伝えたい」という発話が明確に出ている。</li>
+<li>決裁権は自分にあるが、家計・家族関係上、大きな支出には息子の了解を事実上必要とする構造。</li>
+<li>同居か別居かは原本から断定困難。当日20:00までに息子へ連絡する前提なので、電話またはLINEで連絡可能な距離感。</li>
+</ul>
+<p>過去の受講歴・接点</p>
+<ul>
+<li>具体的な過去のたかみず講座受講歴は原本からの明示なし。セミナー参加がどの時点でなされたかは特定不可。</li>
+<li>セミナーに集中しきれていない状態でスタートしている点から、情報接触は浅めと推測。</li>
+</ul>
+<p>当日の感情の流れ</p>
+<ul>
+<li>冒頭：セミナーに集中していない、上の空の状態。画面越しでも担当が「今日は乗っていない」と感じた時間帯。</li>
+<li>シナリオ投入：核心ワードで一度真剣モードに戻る。担当が手応えを感じた最大のハイライト。</li>
+<li>中盤：集中が再低下。話題を変える対応を担当が取る。</li>
+<li>金額提示：一人で今払える金額ではないと率直な反応。</li>
+<li>クロージング：息子に相談してから返答という流れに。当日20:00期限で保留。</li>
+</ul>
+<h2 id="2.-お客様像・所感の要点">2. お客様像・所感の要点</h2>
+<ul>
+<li>82歳という年齢を考えると、身体的な衰えよりも「集中の維持」が商談の主戦場。セミナー中に意識が散るのは年齢要因。</li>
+<li>「ピンピンキラリ」という表現は、本人の人生観を凝縮したキーワード。ピンピンコロリ（突然死で迷惑をかけたくない）と、キラリ（光る何かを残したい）の掛け合わせ。本人の使命と恐怖を同時に含む。</li>
+<li>事業を息子に譲渡したあとの「個としての自分」の立ち位置を探している段階。これは高齢起業層に共通の心理。</li>
+<li>決裁権は本人にあるものの、家計判断が家族単位で動く日本的な構造に置かれている。家族決裁は単なる障害ではなく、本人の安心装置でもある。</li>
+<li>「本物の価値を伝えたい」という使命のフレーズが強い。年齢ではなく、人生の通算体験から来る実感の言葉。</li>
+</ul>
+<h2 id="3.-良かった点">3. 良かった点</h2>
+<h3 id="(1)-シナリオ投入で集中を引き戻した">(1) シナリオ投入で集中を引き戻した</h3>
+<p>なぜ効いたか：セミナーに集中していない相手に対し、シナリオの核心ワードで一度真剣モードに引き戻した。高齢で集中が切れやすい相手において、この「引き戻し成功体験」自体が大きな成果。年齢を理由に諦めず、核心ワードで勝負した判断が正しい。</p>
+<h3 id="(2)-「ピンピンキラリ」を本人の言葉のまま返した">(2) 「ピンピンキラリ」を本人の言葉のまま返した</h3>
+<p>なぜ効いたか：本人が口にした「ピンピンキラリ」を、担当は自分の言葉に翻訳せずそのまま使った。82歳の顧客が自分の言葉を返してもらうことで、「聞いてもらえている」感覚が強まる。高齢顧客の信頼構築として模範的。</p>
+<h3 id="(3)-サポート重視の方向で一度判断が揃った">(3) サポート重視の方向で一度判断が揃った</h3>
+<p>なぜ効いたか：シナリオ投入後に「サポートが多い方がいい」と本人の判断が揃う瞬間があった。シナリオの効き目が出ていた証拠。プラチナ方向への押し上げ余地は十分にあった。</p>
+<h3 id="(4)-緩急・テンポで集中維持を試みた">(4) 緩急・テンポで集中維持を試みた</h3>
+<p>なぜ効いたか：五ヶ山欄の癖マニュアルに記載されている「緩急・テンポで集中維持」の運用を、本件でも実行できていた。高齢顧客へのアプローチとしては予測通りの動き。集中が切れた時に話題を変える柔軟さも含め、年齢への配慮ができている。</p>
+<h3 id="(5)-即決を追わなかった判断">(5) 即決を追わなかった判断</h3>
+<p>なぜ効いたか：一人で今払える金額ではないという本人の反応に対し、担当は即決を強引に追わなかった。82歳で独断決済を迫ると、本人・家族双方に禍根が残る。即決を手放す判断は誠実。</p>
+<h2 id="4.-改善点">4. 改善点</h2>
+<h3 id="(1)-シナリオで響いた瞬間に「いまのどこが？」を返せなかった">(1) シナリオで響いた瞬間に「いまのどこが？」を返せなかった</h3>
+<p>どの場面で：シナリオ投入で真剣モードに戻った瞬間。</p>
+<p>何が起きて：担当は手応えを感じたが、「今の一文でいちばん響いたのはどこですか？」を一問返せなかった。本人の自覚が言語化されないまま場面が進み、その後の集中再低下時に戻る足場が弱くなった。</p>
+<p>本来どうすべきだったか：核心ワードが効いた瞬間に「今のどの言葉がいちばん響きました？」と返す。本人の口から具体フレーズが出ると、後で集中が切れた時に同じフレーズで復帰させられる（復帰動線になる）。</p>
+<h3 id="(2)-「息子さんに今日なんて伝えますか？」を問わなかった">(2) 「息子さんに今日なんて伝えますか？」を問わなかった</h3>
+<p>どの場面で：家族決裁が必要と分かった場面。</p>
+<p>何が起きて：担当は「ご家族に相談されますね」と受け止めたが、本人が息子にどう説明するかを一緒に作る時間を取らなかった。結果として、家族側の反射的NOに対する備えがない状態で保留に移行。</p>
+<p>本来どうすべきだったか：「息子さんに今日なんて伝えますか？本人の言葉でやってみましょう」と一緒に原稿を作る。本人が自分の言葉で説明する準備ができていると、家族側も「お母さんが本気だ」と判断しやすい。</p>
+<h3 id="(3)-「何がクリアになれば家族もOKと言いそうか」を特定しなかった">(3) 「何がクリアになれば家族もOKと言いそうか」を特定しなかった</h3>
+<p>どの場面で：保留移行の段階。</p>
+<p>何が起きて：家族への相談事項が漠然としたまま、保留になった。家族が具体的に何を不安視するかが未整理のため、本人も答えにくい状態。</p>
+<p>本来どうすべきだったか：「息子さんが反対するとしたら、何を気にすると思いますか？」と1つだけ予想させる。お金・体力・詐欺リスクの3つから選ばせる程度でも、家族との会話の焦点が定まる。</p>
+<h3 id="(4)-集中再低下時の復帰動線が準備されていなかった">(4) 集中再低下時の復帰動線が準備されていなかった</h3>
+<p>どの場面で：中盤の集中再低下。</p>
+<p>何が起きて：話題を変える対応は正しかったが、「本人のピンピンキラリ発言を引用して戻す」等の復帰動線が事前に用意されていなかった。戻せたかもしれないチャンスを1回逃した。</p>
+<p>本来どうすべきだったか：シナリオ投入時に本人が出した強いワード（ピンピンキラリ、本物の価値）を、復帰動線として担当側で「覚えておく」。集中が切れたら「さっきの『ピンピンキラリ』の話、もう一度聞かせてください」で戻す。</p>
+<h3 id="(5)-「即決させられず申し訳ございません」の自己評価が方向違い">(5) 「即決させられず申し訳ございません」の自己評価が方向違い</h3>
+<p>どの場面で：担当の所感コメント。</p>
+<p>何が起きて：即決できなかったことを担当が謝罪的に捉えていた。しかし82歳・一人で高額決済という条件では、即決の強制は禁忌に近い。</p>
+<p>本来どうすべきだったか：即決の有無ではなく、「保留の質」を評価指標に切り替える。家族トークまで作り切れたか、返答期限が明瞭か、復帰動線があるか、で自己評価する方向に。</p>
+<h2 id="5.-マニュアルとの照合">5. マニュアルとの照合</h2>
+<h3 id="沿った箇所">沿った箇所</h3>
+<ul>
+<li><code>セールス担当_癖と傾向マニュアル.md</code>五ヶ山欄「緩急・テンポで集中維持」：本件の高齢顧客への運用と合致。</li>
+<li><code>個別相談会_セールス成功失敗マニュアル.md</code>「家族決裁が絡む案件は本人の覚悟＋家族用の一文をセットで作る」類型：本件は類型通りの案件。</li>
+<li><code>本講座セールス基本編2025.7.md</code>「真のニーズ」章：息子に事業は渡したが自分個人として残りの人生を自由にやりたい、という真のニーズは年齢を超えて明確に抽出できている。</li>
+</ul>
+<h3 id="外れた箇所（本件で教材から微妙にズレた点）">外れた箇所（本件で教材から微妙にズレた点）</h3>
+<ul>
+<li>4ステップの「ニーズ深堀り」〜「真のニーズ」までは成立したが、「ベネフィット」で生活の具体像まで降りる前に集中が切れた。教材通りの4ステップ完走が未達。</li>
+<li><code>質疑応答の理想回答集.md</code>：「高齢顧客が家族に相談すると言った時の返し方」のテンプレが未整備。本件で必要だったのはまさにこの項目。</li>
+<li>「即決できなかった時の自己評価の切替え方」が、マニュアル上指針として明文化されていない。担当が過剰に自責する構造を放置してしまう。</li>
+</ul>
+<h2 id="6.-新しいパターン（還流候補）">6. 新しいパターン（還流候補）</h2>
+<h3 id="(A)-「高齢・家族決裁・事業譲渡済」の複合類型">(A) 「高齢・家族決裁・事業譲渡済」の複合類型</h3>
+<p>既存マニュアルに単独類型としては未整備。特徴：</p>
+<ul>
+<li>本人の決断力は十分ある</li>
+<li>家計判断は家族単位で動く</li>
+<li>集中の維持が商談の主戦場</li>
+<li>「ピンピンキラリ」的な人生観のキーワードが必ずある</li>
+</ul>
+<p>対応の基本：覚悟より家族トーク、即決より保留の質、核心ワードの反復、復帰動線の準備。</p>
+<h3 id="(B)-「核心ワード＋復帰動線」パターン">(B) 「核心ワード＋復帰動線」パターン</h3>
+<p>シナリオで響いた瞬間の本人発言を、復帰動線として担当が意識的に覚えておく運用。集中が切れたら同じワードで戻す。高齢顧客だけでなく集中の波が大きい相手全般に応用可能。</p>
+<h3 id="(C)-「家族トーク共作」パターン">(C) 「家族トーク共作」パターン</h3>
+<p>家族決裁が見えた時点で、本人と一緒に家族説明原稿を作る運用。「今日なんて伝えますか？」「何を気にすると思いますか？」の2問で原稿の骨格ができる。</p>
+<h3 id="(D)-「保留の質」指標">(D) 「保留の質」指標</h3>
+<p>即決できなかった案件を「失注未満・成約未満」で評価する代わりに、保留の質を次の4点で測る：</p>
+<ol>
+<li>返答期限が明瞭か</li>
+<li>家族トークの原稿が本人の中にあるか</li>
+<li>家族側の反対予想が1つでも特定されているか</li>
+<li>復帰動線（次の電話で使える核心ワード）があるか</li>
+</ol>
+<h2 id="7.-担当者（五ヶ山昌代）へのフィードバック">7. 担当者（五ヶ山昌代）へのフィードバック</h2>
+<h3 id="強み">強み</h3>
+<ul>
+<li>高齢顧客への緩急・テンポ運用が安定。年齢を理由に諦めず、集中を引き戻す努力ができる。</li>
+<li>本人の言葉をそのまま返す感覚が良い。「ピンピンキラリ」を翻訳せず使えた。</li>
+<li>即決を強引に追わない誠実さ。家族決裁案件で大事な資質。</li>
+</ul>
+<h3 id="癖（改善方向）">癖（改善方向）</h3>
+<ul>
+<li>シナリオで響いた瞬間の「今のどの言葉？」返しが抜ける傾向（永石案件でも類似の指摘あり）。担当共通の改善ポイント。</li>
+<li>家族決裁が見えた時に、家族トーク共作まで踏み込めない。受け止めて終わる傾向。</li>
+<li>即決できなかった案件を過剰に自責する傾向。保留の質という軸を持ってほしい。</li>
+</ul>
+<h3 id="次回の改善点">次回の改善点</h3>
+<ul>
+<li>核心ワードが響いた瞬間に「今のどの言葉？」を必ず1問返すルーチン化。</li>
+<li>家族決裁が見えたら「息子さんに今日なんて伝えますか？」を必ず問う。</li>
+<li>自己評価の軸を「即決の有無」から「保留の質」に切り替える。</li>
+</ul>
+<h2 id="8.-次のアクション（再連絡日時・打ち出し・予備の返し）">8. 次のアクション（再連絡日時・打ち出し・予備の返し）</h2>
+<h3 id="当日20:00期限対応">当日20:00期限対応</h3>
+<ul>
+<li>20:00までに本人から連絡がなければ、担当から「お加減いかがですか？ご相談進みましたか？」と一報。押さず、状況確認の距離感。</li>
+<li>期限内に連絡があれば、その場で次のアクションを決める（成約なら決済方法、保留継続なら期限再設定）。</li>
+</ul>
+<h3 id="即日〜翌日">即日〜翌日</h3>
+<ul>
+<li>息子さんへの説明がうまくいったかをヒアリング。うまくいっていなければ、担当から「お母様のお気持ちを息子さんに直接お伝えする機会をいただけませんか」と提案（ただし本人の意向確認が必須）。</li>
+<li>家族同席の再ZOOMを選択肢として提示。高齢家族決裁案件の王道運用。</li>
+</ul>
+<h3 id="短期（3日以内）">短期（3日以内）</h3>
+<ul>
+<li>3日経っても反応なしの場合、担当から「体調お変わりありませんか」と体調面の声掛け。高齢顧客に急かすのは禁忌なので、健康気遣いの形で接点を維持。</li>
+<li>予備の返し：もし「やはり今回は見送る」と言われた場合、「いま伺ったお気持ちで『ピンピンキラリ』の一歩を始めるなら、何ができそうですか？」と1問返す。完全な失注にせず、次の接点を残す。</li>
+</ul>
+<h3 id="トーク打ち出し例">トーク打ち出し例</h3>
+<ul>
+<li>初動：「息子さんとのお話し、何が一番気になっておられましたか？」</li>
+<li>家族同席提案：「一度息子さんも含めて30分、お話しする機会をいただけませんか。私からも直接ご説明させてください」</li>
+<li>予備の返し（見送り時）：「『ピンピンキラリ』の一歩、何から始められそうですか？」</li>
+</ul>
+<h3 id="中期（1週間以上）">中期（1週間以上）</h3>
+<ul>
+<li>実態が「家族決裁による保留」であるにもかかわらず通期上「不成約」扱いとなっているズレを事務局と共有。</li>
+<li>高齢顧客向けの連絡頻度は週1以下に抑える。過剰接触は逆効果。</li>
+</ul>
+<h2 id="二軸照合（参考）">二軸照合（参考）</h2>
+<table>
+<thead>
+<tr>
+<th>軸</th>
+<th>本件での当てはまり</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>教材</td>
+<td>真のニーズ（息子に事業は渡したが自分個人として残りの人生を自由にやりたい）と、ベネフィット（ピンピンキラリで生き、本物の価値を伝えたい）は年齢を超えた強さ。4ステップ自体は成立しうる土台があった。</td>
+</tr>
+<tr>
+<td>チームマニュアル</td>
+<td>成功失敗マニュアル「家族決裁が絡む案件は本人の覚悟＋家族用の一文をセットで作る」類型に該当。五ヶ山欄「緩急・テンポで集中を維持」は本件の予測と合致。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="たかみず先生レビュー予想">たかみず先生レビュー予想</h2>
+<p>「高齢顧客は覚悟よりも家族トークで決まる」。本人がどれだけ覚悟しても、家族決裁の壁を越える一文を本人が持っていなければ通らない、という趣旨。シナリオで引き戻せた手応えは評価しつつ、最後の一問の設計が勝負、というレビューになりやすい。加えて、「即決できなかった＝失敗」と担当が受け取る癖を、「保留の質」という新指標で捉え直すようにフィードバックが入る可能性が高い。通期表記のズレ（保留を不成約と表示）についても、現場の士気に影響するので改善を検討するよう指摘されやすい。</p>
+<h2 id="担当者用チェックリスト（次回・高齢／家族決裁案件）">担当者用チェックリスト（次回・高齢／家族決裁案件）</h2>
+<ul>
+<li>[ ] シナリオで響いた瞬間に「いまのどの言葉？」を必ず一問返す</li>
+<li>[ ] 響いたワードを復帰動線として担当側で覚えておく</li>
+<li>[ ] 家族決裁が見えたら「◯◯さんに今日なんて伝えますか？」を本人に言わせる</li>
+<li>[ ] 家族反対の予想を1つだけ特定する（お金・体力・詐欺リスクから選ばせる）</li>
+<li>[ ] 集中が切れた時の復帰動線（本人発言の引用）で戻す</li>
+<li>[ ] 即決できない案件の「保留の質」を、返答期限・家族トーク・反対予想・復帰動線で測る</li>
+<li>[ ] 家族同席の再ZOOMを選択肢として手元に持っておく</li>
+</ul>
+<h2 id="総合評価（簡易）">総合評価（簡易）</h2>
+<table>
+<thead>
+<tr>
+<th>観点</th>
+<th>メモ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>再現性</td>
+<td>シナリオで集中を戻す手応えは再現可能。復帰動線の準備が次回ポイント。</td>
+</tr>
+<tr>
+<td>構造</td>
+<td>真のニーズとベネフィットの強度は十分。家族決裁の壁を超える設計が欠けた。</td>
+</tr>
+<tr>
+<td>クロージング</td>
+<td>即決を追いすぎず、保留の質を上げる方向に切り替えたい案件。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 2.0 (2026-04-23)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: P5JR8L4W<br />
+Generated by: 田中祐一</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
 </article>
 </main>
 </div>

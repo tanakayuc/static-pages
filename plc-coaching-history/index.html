@@ -3,11 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F0FAF8">
 <title>PLC コーチング履歴（書き起こし・ナレッジ）</title>
 <style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564; --accent: #49D7B4;
+  --bg: #F0FAF8; --bg-top: #F9FCFB; --mint-soft: #E8F7F3;
   --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09);
+  --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
 /* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
@@ -19,41 +24,44 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   color: var(--ink);
-  line-height: 1.95;
+  line-height: 1.9;
   -webkit-font-smoothing: antialiased;
   letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
 
 /* ===== 記事カード ===== */
 .article {
   background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
+  border-radius: var(--surface-radius);
+  padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem;
+  box-shadow: var(--surface-shadow);
   border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
+  font-size: 1.03rem;
 }
 
 /* ===== 見出し ===== */
 .article h1 {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 2.3vw, 1.9rem);
   font-weight: 800;
   line-height: 1.5;
   margin: 0 0 2rem;
   padding: 0 0 1.2rem;
   color: var(--ink);
-  border-bottom: 3px solid var(--main);
+  border-bottom: 1px solid var(--line);
   position: relative;
 }
 .article h1::before {
   content: "";
   display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
+  width: 64px; height: 5px;
+  background: var(--accent-gradient);
   border-radius: 6px;
   position: absolute; left: 0; bottom: -4.5px;
 }
@@ -63,9 +71,9 @@ a:hover { text-decoration: underline; }
   color: var(--sub);
   margin: 2.8rem 0 1.1rem;
   padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--main);
+  background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0));
+  border-radius: 0 12px 12px 0;
 }
 .article h3 {
   font-size: 1.1rem;
@@ -101,6 +109,13 @@ a:hover { text-decoration: underline; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
 /* 章/小見出し直後の段落をリード文として少し強調 */
 .article h2 + p, .article h3 + p { color: var(--ink); }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote {
+  margin: 1.4rem 0; padding: 1rem 1.2rem;
+  background: #F7FBFA; border-left: 4px solid var(--main);
+  border-radius: 0 12px 12px 0; color: var(--ink);
+}
+.article blockquote p { margin: 0.4rem 0; }
 
 /* ===== ステップバー（17ステップ照合などの構造化） ===== */
 .step {
@@ -116,7 +131,7 @@ a:hover { text-decoration: underline; }
   flex: 0 0 auto;
   width: 30px; height: 30px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
+  background: var(--accent-gradient);
   color: #fff; font-weight: 800; font-size: 0.95rem;
   border-radius: 9px;
 }
@@ -148,7 +163,7 @@ a:hover { text-decoration: underline; }
   font-size: 0.95rem;
 }
 .article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
+  background: linear-gradient(135deg, var(--sub), var(--deep));
   color: #fff; font-weight: 700; text-align: left;
   padding: 0.8rem 0.95rem; border: none;
 }
@@ -190,7 +205,7 @@ a:hover { text-decoration: underline; }
   background: #E6F6F1; color: var(--sub);
   padding: 0.1rem 0.5rem; border-radius: 6px;
   font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
+  border-bottom: 1px solid var(--main); word-break: normal; overflow-wrap: anywhere;
 }
 .article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
 
@@ -232,25 +247,47 @@ a:hover { text-decoration: underline; }
   line-height: 1.5;
 }
 
+/* ===== 目次（議事録・長文資料の共通ナビ） ===== */
+.toc {
+  margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem;
+  background: linear-gradient(135deg, #F7FCFA, #EEF9F6);
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; }
+.toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); text-decoration: none; }
+.toc a:hover { color: var(--sub); text-decoration: none; }
+h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
 /* ===== レイアウト（単一カラム型） ===== */
-.content { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.3rem 4rem; overflow-wrap: anywhere; }
-@media (max-width: 720px) {
+.content { max-width: 860px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3.2rem) 1.2rem 4rem; overflow-wrap: anywhere; }
+@media (max-width: 860px) {
   .content { padding: 1.2rem; }
-  .article { padding: 1.6rem 1.3rem 2rem; border-radius: 14px; }
+  .article { padding: 1.55rem 1.2rem 2.2rem; border-radius: 18px; }
   .article h1 { font-size: 1.5rem; }
+  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
 
-.idx-list { list-style: none; padding: 0; margin: 1.5rem 0 0; }
+.idx-list { list-style: none; padding: 0; margin: 1.6rem 0 0; max-width: none; }
 .idx-list li { margin: 0; }
 .idx-list a {
-  display: flex; align-items: baseline; gap: 0.9rem;
-  padding: 1rem 1.1rem; margin-bottom: 0.6rem;
-  background: #fff; border: 1px solid var(--line); border-radius: 12px;
-  color: var(--ink); box-shadow: 0 2px 8px rgba(24,155,125,0.05);
+  display: grid; grid-template-columns: minmax(7.5rem, auto) minmax(0, 1fr);
+  align-items: baseline; gap: 1rem;
+  padding: 1rem 1.1rem; margin-bottom: 0.65rem;
+  background: rgba(255,255,255,0.9); border: 1px solid var(--line); border-radius: 14px;
+  color: var(--ink); box-shadow: 0 4px 14px rgba(21,102,83,0.045);
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
 }
-.idx-list a:hover { border-color: var(--main); text-decoration: none; transform: translateY(-1px); transition: .15s; }
-.idx-list .date { flex: 0 0 auto; font-size: 0.85rem; color: var(--main); font-weight: 700; }
-.idx-list .ttl { flex: 1 1 auto; font-weight: 600; }
+.idx-list a:hover { border-color: rgba(44,181,150,0.7); text-decoration: none; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(21,102,83,0.08); }
+.idx-list .date { font-size: 0.78rem; color: var(--sub); font-weight: 800; letter-spacing: 0.01em; }
+.idx-list .ttl { min-width: 0; font-weight: 650; overflow-wrap: anywhere; }
+@media (max-width: 620px) {
+  .idx-list a { display: block; }
+  .idx-list .date { display: block; margin-bottom: 0.25rem; }
+}
+@media (prefers-reduced-motion: reduce) { .idx-list a { transition: none; } }
 </style>
 </head>
 <body>
@@ -258,47 +295,47 @@ a:hover { text-decoration: underline; }
 <article class="article">
 <h1>PLC コーチング履歴（書き起こし・ナレッジ）</h1>
 <ul class="idx-list">
-<li><a href="002.html"><span class="date">2026年08月27日</span><span class="ttl">かじかわなつみ/ナレッジ/かじかわなつみ_1回目_原田コーチ.md</span></a></li>
-<li><a href="003.html"><span class="date">2026年08月27日</span><span class="ttl">マンディス理恵/ナレッジ/マンディス理恵_1回目_大脇コーチ.md</span></a></li>
-<li><a href="004.html"><span class="date">2026年08月27日</span><span class="ttl">久保田くうき/ナレッジ/久保田くうき_1回目_原田コーチ.md</span></a></li>
-<li><a href="005.html"><span class="date">2026年08月27日</span><span class="ttl">伴多洋美/ナレッジ/伴多洋美_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="006.html"><span class="date">2026年08月27日</span><span class="ttl">副島真澄/ナレッジ/副島真澄_1回目_大脇コーチ.md</span></a></li>
-<li><a href="007.html"><span class="date">2026年08月27日</span><span class="ttl">及川徳子/ナレッジ/及川徳子_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="008.html"><span class="date">2026年08月27日</span><span class="ttl">吉岡みかた/ナレッジ/吉岡みかた_1回目_原田コーチ.md</span></a></li>
-<li><a href="009.html"><span class="date">2026年08月27日</span><span class="ttl">坂井宏爾/ナレッジ/坂井宏爾_1回目_大脇コーチ.md</span></a></li>
-<li><a href="010.html"><span class="date">2026年08月27日</span><span class="ttl">坂本登/ナレッジ/坂本登_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="011.html"><span class="date">2026年08月27日</span><span class="ttl">大平和幸/ナレッジ/大平和幸_3回目_大脇コーチ.md</span></a></li>
-<li><a href="012.html"><span class="date">2026年08月27日</span><span class="ttl">大澤恵美(救済)/ナレッジ/大澤恵美(救済)_2回目_石田コーチ.md</span></a></li>
-<li><a href="013.html"><span class="date">2026年08月27日</span><span class="ttl">小林雅美/ナレッジ/小林雅美_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="014.html"><span class="date">2026年08月27日</span><span class="ttl">山口真導/ナレッジ/山口真導_1回目_大脇コーチ.md</span></a></li>
-<li><a href="015.html"><span class="date">2026年08月27日</span><span class="ttl">山口真導/ナレッジ/山口真導_2回目_大脇コーチ.md</span></a></li>
-<li><a href="016.html"><span class="date">2026年08月27日</span><span class="ttl">山本大(救済)/ナレッジ/山本大(救済)_2回目_原田コーチ.md</span></a></li>
-<li><a href="017.html"><span class="date">2026年08月27日</span><span class="ttl">山田さをり/ナレッジ/山田さをり_1回目_大脇コーチ.md</span></a></li>
-<li><a href="018.html"><span class="date">2026年08月27日</span><span class="ttl">岩田妙/ナレッジ/岩田妙_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="019.html"><span class="date">2026年08月27日</span><span class="ttl">島田旬志/ナレッジ/島田旬志_4回目_渡邉コーチ.md</span></a></li>
-<li><a href="020.html"><span class="date">2026年08月27日</span><span class="ttl">嶺島華蓮/ナレッジ/嶺島華蓮_1回目_原田コーチ.md</span></a></li>
-<li><a href="021.html"><span class="date">2026年08月27日</span><span class="ttl">川越恵/ナレッジ/川越恵_1回目_大脇コーチ.md</span></a></li>
-<li><a href="022.html"><span class="date">2026年08月27日</span><span class="ttl">平尾玲奈/ナレッジ/平尾玲奈_3回目_石田コーチ.md</span></a></li>
-<li><a href="023.html"><span class="date">2026年08月27日</span><span class="ttl">星野潤/ナレッジ/星野潤_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="024.html"><span class="date">2026年08月27日</span><span class="ttl">木下亮雄/ナレッジ/木下亮雄_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="025.html"><span class="date">2026年08月27日</span><span class="ttl">松井延子/ナレッジ/松井延子_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="026.html"><span class="date">2026年08月27日</span><span class="ttl">柳下郁子/ナレッジ/柳下郁子_1回目_吉岡コーチ.md</span></a></li>
-<li><a href="027.html"><span class="date">2026年08月27日</span><span class="ttl">柴川桂子/ナレッジ/柴川桂子_1回目_大脇コーチ.md</span></a></li>
-<li><a href="028.html"><span class="date">2026年08月27日</span><span class="ttl">神田亜希/ナレッジ/神田亜希_1回目_渡邉コーチ.md</span></a></li>
-<li><a href="029.html"><span class="date">2026年08月27日</span><span class="ttl">秋山直寛/ナレッジ/秋山直寛_1回目_大脇コーチ.md</span></a></li>
-<li><a href="030.html"><span class="date">2026年08月27日</span><span class="ttl">船引/ナレッジ/船引_2回目_渡邉コーチ.md</span></a></li>
-<li><a href="031.html"><span class="date">2026年08月27日</span><span class="ttl">草薙 彬人(救済)/ナレッジ/草薙 彬人(救済)_1回目_原田コーチ.md</span></a></li>
-<li><a href="032.html"><span class="date">2026年08月27日</span><span class="ttl">華崎雅子/ナレッジ/華崎雅子_1回目_原田コーチ.md</span></a></li>
-<li><a href="033.html"><span class="date">2026年08月27日</span><span class="ttl">藤田かこ/ナレッジ/藤田かこ_1回目_原田コーチ.md</span></a></li>
-<li><a href="034.html"><span class="date">2026年08月27日</span><span class="ttl">雲野和哉/ナレッジ/雲野和哉_1回目_大脇コーチ.md</span></a></li>
-<li><a href="035.html"><span class="date">2026年08月27日</span><span class="ttl">首藤淳/ナレッジ/首藤淳_1回目_原田コーチ.md</span></a></li>
-<li><a href="036.html"><span class="date">2026年08月27日</span><span class="ttl">高山翔伍/ナレッジ/高山翔伍_1回目_原田コーチ.md</span></a></li>
-<li><a href="037.html"><span class="date">2026年08月27日</span><span class="ttl">高本栄子/ナレッジ/高本栄子_2回目_吉岡コーチ.md</span></a></li>
-<li><a href="038.html"><span class="date">2026年08月27日</span><span class="ttl">高本栄子/ナレッジ/高本栄子_3回目_吉岡コーチ.md</span></a></li>
-<li><a href="039.html"><span class="date">2026年08月27日</span><span class="ttl">高本栄子/ナレッジ/高本栄子_4回目_吉岡コーチ.md</span></a></li>
-<li><a href="040.html"><span class="date">2026年08月27日</span><span class="ttl">高野浩/ナレッジ/高野浩_1回目_大脇コーチ.md</span></a></li>
-<li><a href="041.html"><span class="date">2026年08月27日</span><span class="ttl">高野浩/ナレッジ/高野浩_4回目_大脇コーチ.md</span></a></li>
-<li><a href="042.html"><span class="date">2026年08月27日</span><span class="ttl">鴇田真弥/ナレッジ/鴇田真弥_3回目_石田コーチ.md</span></a></li>
+<li><a href="002.html"><span class="date">2026年09月02日</span><span class="ttl">かじかわなつみ/ナレッジ/かじかわなつみ_1回目_原田コーチ.md</span></a></li>
+<li><a href="003.html"><span class="date">2026年09月02日</span><span class="ttl">マンディス理恵/ナレッジ/マンディス理恵_1回目_大脇コーチ.md</span></a></li>
+<li><a href="004.html"><span class="date">2026年09月02日</span><span class="ttl">久保田くうき/ナレッジ/久保田くうき_1回目_原田コーチ.md</span></a></li>
+<li><a href="005.html"><span class="date">2026年09月02日</span><span class="ttl">伴多洋美/ナレッジ/伴多洋美_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="006.html"><span class="date">2026年09月02日</span><span class="ttl">副島真澄/ナレッジ/副島真澄_1回目_大脇コーチ.md</span></a></li>
+<li><a href="007.html"><span class="date">2026年09月02日</span><span class="ttl">及川徳子/ナレッジ/及川徳子_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="008.html"><span class="date">2026年09月02日</span><span class="ttl">吉岡みかた/ナレッジ/吉岡みかた_1回目_原田コーチ.md</span></a></li>
+<li><a href="009.html"><span class="date">2026年09月02日</span><span class="ttl">坂井宏爾/ナレッジ/坂井宏爾_1回目_大脇コーチ.md</span></a></li>
+<li><a href="010.html"><span class="date">2026年09月02日</span><span class="ttl">坂本登/ナレッジ/坂本登_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="011.html"><span class="date">2026年09月02日</span><span class="ttl">大平和幸/ナレッジ/大平和幸_3回目_大脇コーチ.md</span></a></li>
+<li><a href="012.html"><span class="date">2026年09月02日</span><span class="ttl">大澤恵美(救済)/ナレッジ/大澤恵美(救済)_2回目_石田コーチ.md</span></a></li>
+<li><a href="013.html"><span class="date">2026年09月02日</span><span class="ttl">小林雅美/ナレッジ/小林雅美_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="014.html"><span class="date">2026年09月02日</span><span class="ttl">山口真導/ナレッジ/山口真導_1回目_大脇コーチ.md</span></a></li>
+<li><a href="015.html"><span class="date">2026年09月02日</span><span class="ttl">山口真導/ナレッジ/山口真導_2回目_大脇コーチ.md</span></a></li>
+<li><a href="016.html"><span class="date">2026年09月02日</span><span class="ttl">山本大(救済)/ナレッジ/山本大(救済)_2回目_原田コーチ.md</span></a></li>
+<li><a href="017.html"><span class="date">2026年09月02日</span><span class="ttl">山田さをり/ナレッジ/山田さをり_1回目_大脇コーチ.md</span></a></li>
+<li><a href="018.html"><span class="date">2026年09月02日</span><span class="ttl">岩田妙/ナレッジ/岩田妙_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="019.html"><span class="date">2026年09月02日</span><span class="ttl">島田旬志/ナレッジ/島田旬志_4回目_渡邉コーチ.md</span></a></li>
+<li><a href="020.html"><span class="date">2026年09月02日</span><span class="ttl">嶺島華蓮/ナレッジ/嶺島華蓮_1回目_原田コーチ.md</span></a></li>
+<li><a href="021.html"><span class="date">2026年09月02日</span><span class="ttl">川越恵/ナレッジ/川越恵_1回目_大脇コーチ.md</span></a></li>
+<li><a href="022.html"><span class="date">2026年09月02日</span><span class="ttl">平尾玲奈/ナレッジ/平尾玲奈_3回目_石田コーチ.md</span></a></li>
+<li><a href="023.html"><span class="date">2026年09月02日</span><span class="ttl">星野潤/ナレッジ/星野潤_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="024.html"><span class="date">2026年09月02日</span><span class="ttl">木下亮雄/ナレッジ/木下亮雄_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="025.html"><span class="date">2026年09月02日</span><span class="ttl">松井延子/ナレッジ/松井延子_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="026.html"><span class="date">2026年09月02日</span><span class="ttl">柳下郁子/ナレッジ/柳下郁子_1回目_吉岡コーチ.md</span></a></li>
+<li><a href="027.html"><span class="date">2026年09月02日</span><span class="ttl">柴川桂子/ナレッジ/柴川桂子_1回目_大脇コーチ.md</span></a></li>
+<li><a href="028.html"><span class="date">2026年09月02日</span><span class="ttl">神田亜希/ナレッジ/神田亜希_1回目_渡邉コーチ.md</span></a></li>
+<li><a href="029.html"><span class="date">2026年09月02日</span><span class="ttl">秋山直寛/ナレッジ/秋山直寛_1回目_大脇コーチ.md</span></a></li>
+<li><a href="030.html"><span class="date">2026年09月02日</span><span class="ttl">船引/ナレッジ/船引_2回目_渡邉コーチ.md</span></a></li>
+<li><a href="031.html"><span class="date">2026年09月02日</span><span class="ttl">草薙 彬人(救済)/ナレッジ/草薙 彬人(救済)_1回目_原田コーチ.md</span></a></li>
+<li><a href="032.html"><span class="date">2026年09月02日</span><span class="ttl">華崎雅子/ナレッジ/華崎雅子_1回目_原田コーチ.md</span></a></li>
+<li><a href="033.html"><span class="date">2026年09月02日</span><span class="ttl">藤田かこ/ナレッジ/藤田かこ_1回目_原田コーチ.md</span></a></li>
+<li><a href="034.html"><span class="date">2026年09月02日</span><span class="ttl">雲野和哉/ナレッジ/雲野和哉_1回目_大脇コーチ.md</span></a></li>
+<li><a href="035.html"><span class="date">2026年09月02日</span><span class="ttl">首藤淳/ナレッジ/首藤淳_1回目_原田コーチ.md</span></a></li>
+<li><a href="036.html"><span class="date">2026年09月02日</span><span class="ttl">高山翔伍/ナレッジ/高山翔伍_1回目_原田コーチ.md</span></a></li>
+<li><a href="037.html"><span class="date">2026年09月02日</span><span class="ttl">高本栄子/ナレッジ/高本栄子_2回目_吉岡コーチ.md</span></a></li>
+<li><a href="038.html"><span class="date">2026年09月02日</span><span class="ttl">高本栄子/ナレッジ/高本栄子_3回目_吉岡コーチ.md</span></a></li>
+<li><a href="039.html"><span class="date">2026年09月02日</span><span class="ttl">高本栄子/ナレッジ/高本栄子_4回目_吉岡コーチ.md</span></a></li>
+<li><a href="040.html"><span class="date">2026年09月02日</span><span class="ttl">高野浩/ナレッジ/高野浩_1回目_大脇コーチ.md</span></a></li>
+<li><a href="041.html"><span class="date">2026年09月02日</span><span class="ttl">高野浩/ナレッジ/高野浩_4回目_大脇コーチ.md</span></a></li>
+<li><a href="042.html"><span class="date">2026年09月02日</span><span class="ttl">鴇田真弥/ナレッジ/鴇田真弥_3回目_石田コーチ.md</span></a></li>
 <li><a href="20260604.html"><span class="date">2026年06月04日</span><span class="ttl">20260604_コーチング横断分析.md</span></a></li>
 </ul>
 </article>
