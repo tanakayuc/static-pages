@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PLCワークショップ（2026-09-02）2027年に向けた仕込み解説と個別コーチング - PLCワークショップ議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>PLCワークショップ議事録</h3><a href="20260902.html" class="sidebar-item active"><span class="date">2026年09月02日</span> PLCワークショップ（2026-09-02）2027年に向けた仕込み解説と個別コーチング</a>
+<a href="20260822.html" class="sidebar-item"><span class="date">2026年08月22日</span> 2026年8月22日 PLCワークショップ 議事録</a>
+<a href="20260805.html" class="sidebar-item"><span class="date">2026年08月05日</span> 2026年8月5日 PLCワークショップ 議事録</a>
+<a href="20260718.html" class="sidebar-item"><span class="date">2026年07月18日</span> 2026年7月18日 PLCワークショップ 議事録</a>
+<a href="20260620.html" class="sidebar-item"><span class="date">2026年06月20日</span> 2026年6月20日 PLCワークショップ 議事録</a>
+<a href="20260516.html" class="sidebar-item"><span class="date">2026年05月16日</span> PLCワークショップ（2026-05-16）リアル×オンラインAI作業会・田中祐一OS実演</a>
+<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> PLCワークショップ（2026-04-28）AI活用と事業課題もくもく作業会</a>
+<a href="20260418.html" class="sidebar-item"><span class="date">2026年04月18日</span> PLCワークショップ（2026-04-18）Cursorアプリ開発&amp;skills作成</a>
+<a href="20260321.html" class="sidebar-item"><span class="date">2026年03月21日</span> 2026年3月21日 PLCワークショップ 議事録</a>
+<a href="20260304.html" class="sidebar-item"><span class="date">2026年03月04日</span> PLCワークショップ（2026-03-04）CursorとGeminiを使ったLP作成実践＆もくもく作業会</a>
+<a href="20260221.html" class="sidebar-item"><span class="date">2026年02月21日</span> PLCワークショップ（2026-02-21）Cursorセミナーセットアップ＆もくもく作業会</a>
+<a href="20260117.html" class="sidebar-item"><span class="date">2026年01月17日</span> PLCワークショップ（2026-01-17）プロモ9工程とAI時代プロデューサー・SNSと広告の成約の違い</a>
+<a href="20251219.html" class="sidebar-item"><span class="date">2025年12月19日</span> PLCワークショップ（2025-12-19）ローンチ台本作成AI</a></nav>
+<main class="content"><article class="article"><h1>PLCワークショップ（2026-09-02）2027年に向けた仕込み解説と個別コーチング</h1>
+<h2 id="サマリー">サマリー</h2>
+<p>開会時、田中は前月アナウンスした「夜開催」と事務局案内の「昼開催」が食い違ったことを参加者に謝罪し、次回9月第3土曜のリアル情報共有会（東京・大阪）と10月第3土曜のハロウィンパーティ・感謝祭の構想を共有した。<br />
+本編では、2027年に向けて田中が仕込む2つの実験を解説した。1つ目はコンテンツホルダー向けに、ミドル価格商品にコーチングと短期集中プログラムを組み合わせてバックエンド商品への引き上げ率を検証する施策で、39,800円商品・広告費60,000円1本・引き上げ率25%という具体的な数値モデルを示した。<br />
+2つ目はプロデューサー向けに、PLCメンバー共同で複数のテーマ別YouTubeチャンネル（被属人チャンネル）を運営し、育ったリストをコンテンツホルダーへJV型で送客する構想で、予算1,000万円規模で仕込みを始めていることを共有した。<br />
+あわせて、稼ぐ系など高単価ジャンルの反応悪化やROASの低下（400〜500%から200〜300%へ）、PLC内でのJV・相互送客の重要性についても言及した。<br />
+後半は各参加者が田中と10分間の個別コーチングを行う時間に充て、通常の添削では拾いきれない難易度の高い戦略相談の場として位置づけた。</p>
+<h2 id="基本情報">基本情報</h2>
+<ul>
+<li>日時: 2026年9月2日（Zoom開始 2026-09-02T05:02:15Z／日本時間14:02〜 約3時間0分）</li>
+<li>Zoomトピック: 【ローンチ講座】グループコンサル（田中は本文で「今日のワークショップは」「PLCのワークショップはこんな感じで終わりにしたいと思います」と発言しており、実質は第1水曜開催のPLCワークショップとして扱う）</li>
+<li>テーマ: 2027年に向けた田中の仕込み構想解説（コンテンツホルダー向けミドルエンド×コーチング施策／プロデューサー向け被属人チャンネル構想）＋参加者ごとの個別10分コーチング</li>
+<li>録画URL: <a href="https://us02web.zoom.us/rec/share/S48omPuHSJpwBm-MeLEebrECWc2wRgz6oK34i-lZvcqfA--6to65gFwhDGUhTb0D.Z3cgKNafVsWUdDLP" target="_blank" rel="noopener noreferrer">https://us02web.zoom.us/rec/share/S48omPuHSJpwBm-MeLEebrECWc2wRgz6oK34i-lZvcqfA--6to65gFwhDGUhTb0D.Z3cgKNafVsWUdDLP</a></li>
+<li>書き起こし原本: <code>22_コミュニティサポート/PLCコミュニティ/MTG履歴/ワークショップ/20260902_PLCワークショップ_書き起こし原本.md</code></li>
+<li>Zoomチャットログ | <a href="20260902-chat.txt">20260902-chat.txt をダウンロード</a>（田中が共有した振り返り用スプレッドシートURL・個別コーチング枠に関する質問あり）</li>
+<li>参加者（発言者メタ記載＋チャットでの発言）: 田中祐一（講師）、Kazuhiro Owaki（認定講師・ブレイクアウトルーム運営補助）、ツルタシゲタカ、NORIE、FUJIKO、Mayumi、やなぎしたいくこ、本多由美子（チャットのみ発言）</li>
+</ul>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#基本情報">基本情報</a></li><li class="toc-main"><a href="#開催の背景・位置づけ">開催の背景・位置づけ</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1.-市場動向の変化とPLC内でのJV・相互送客の重要性">1. 市場動向の変化とPLC内でのJV・相互送客の重要性</a></li><li class="toc-sub"><a href="#2.-コンテンツホルダー向け実験（1）：ミドルエンド×コーチング×短期集中プログラムによるバックエンド引き上げ">2. コンテンツホルダー向け実験（1）：ミドルエンド×コーチング×短期集中プログラムによるバックエンド引き上げ</a></li><li class="toc-sub"><a href="#3.-プロデューサー向け実験（2）：被属人チャンネル構想">3. プロデューサー向け実験（2）：被属人チャンネル構想</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-sub"><a href="#非合理的でも「面白そう」「知りたい」という動機でチャレンジする">非合理的でも「面白そう」「知りたい」という動機でチャレンジする</a></li><li class="toc-sub"><a href="#反応が悪くても叩き続けるマインドセット">反応が悪くても叩き続けるマインドセット</a></li><li class="toc-sub"><a href="#事業の価値の中心は「良いリストを持ってこられる人」">事業の価値の中心は「良いリストを持ってこられる人」</a></li><li class="toc-sub"><a href="#自分が売れるのではなく、みんなが売れる座組を考える">自分が売れるのではなく、みんなが売れる座組を考える</a></li><li class="toc-sub"><a href="#前向きな実践者だけと向き合う方がメンタルが安定する">前向きな実践者だけと向き合う方がメンタルが安定する</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中祐一">田中祐一</a></li><li class="toc-sub"><a href="#参加者（全体）">参加者（全体）</a></li><li class="toc-main"><a href="#検討中・方針">検討中・方針</a></li><li class="toc-main"><a href="#個別フィードバックについて（人物同定ゲート・要確認）">個別フィードバックについて（人物同定ゲート・要確認）</a></li><li class="toc-main"><a href="#Zoomチャットログ">Zoomチャットログ</a></li><li class="toc-sub"><a href="#共有されたリンク">共有されたリンク</a></li><li class="toc-sub"><a href="#発言ログ">発言ログ</a></li></ul></nav><h2 id="開催の背景・位置づけ">開催の背景・位置づけ</h2>
+<p>田中は冒頭、咳がまだ2〜3週間止まらない体調不良を明かしつつ開始。前月に「ワークショップを夜開催にしたい」と発言したものの、事務局内の周知が追いつかず、案内はすべて昼開催で出てしまったため、夜開催だと思っていた参加者との間で認識のズレが発生していたことを謝罪した。この行き違いは認定講師との間でも意思疎通できていなかったと説明した。</p>
+<p>続けて今後のイベント予定を共有した。9月第3土曜日はリアル会場での「情報共有会」を東京・大阪の両方で募集する予定であること、10月第3土曜日は東京で大型リアルイベント「感謝祭」を開催する構想であることを紹介した。2年前に実施したクルージング＋ハロウィンパーティは会場設営の稼働負荷が大きかったため、今回はイベント会場をレンタルしてのハロウィンパーティ形式に変更する意向を示した。参加者からかねてより「頑張ったらご褒美がほしい」「ドバイ旅行がほしい」という声があったことに触れつつ、ドバイ旅行はチケット代が高額すぎるため現実的でないと述べ、代わりに仮装して参加した人への店側（ザ・リード）からのご馳走や、PLCチャットの活用度合いなどコミュニティ活性化への貢献度を振り返って表彰する企画を検討していると説明した。</p>
+<p>本編は、田中自身が「2027年に向けて何を仕込んでいくか」について約30分間話す構成。まだ着手・検証段階であるため確実な結果は分からないが、半年後などに結果として改めてシェアする前提で、あえて宣言することで自分を追い込みながら進めたいと述べた。合理的な施策だけでなく「面白そうだから」「花開いたら何が起こるか知りたいから」という非合理的な動機によるチャレンジも含めて共有する方針を示した。</p>
+<hr />
+<h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1.-市場動向の変化とPLC内でのJV・相互送客の重要性">1. 市場動向の変化とPLC内でのJV・相互送客の重要性</h3>
+<p>田中は、直近の市場感として「コンテンツスクール」全体、特に「稼ぐ系」ジャンルの反応が悪化していると説明した。一方で非稼ぐ系のジャンルは堅調に伸びており、これまで高単価が売れやすいとされてきた「稼ぐ系」「サロンビジネス系」「恋愛系（婚活系を除くマイナーな夫婦・パートナーシップ系）」は市場規模が小さいか競合（YouTube等の発信力）が強いジャンルほど苦戦傾向にあると分析した。逆に競合の発信が弱いジャンルは広告のCPM・CPAが低く、高単価でも売りやすい状況が続いているとした。</p>
+<p>田中自身のビジネス系ジャンルについては「独自のブランドを作り、情報発信量を増やして圧勝していくしかない」と述べ、長山さんが反応の良し悪しに関わらずチャレンジローンチを継続していることを引き合いに「切れなくなった刀でも叩き続ければ効果が出る」という粘り強さの重要性を語った。個別の案件が一時的に赤字になっても、やり続ける人はトータルでプラスになるという考えを共有した。</p>
+<p>広告経由のROASが昔の400〜500%から現在は200〜300%程度まで落ちてきている現状を踏まえ、単純な広告の報酬配分だけに頼らず、PLC内でリストを活用した相互送客（JV）を推奨した。まず自分の獲得リストで自らセールスして収益を上げ、その後にJVをかけて他のコンテンツホルダーの商品を売るという順番を意識してほしいと述べた。例として、ピグマリオンさんが対談ライブ後に投資系案件へ送客した事例（7月に実施したPLC内JVセミナーと同様の流れ）を紹介した。</p>
+<h3 id="2.-コンテンツホルダー向け実験（1）：ミドルエンド×コーチング×短期集中プログラムによるバックエンド引き上げ">2. コンテンツホルダー向け実験（1）：ミドルエンド×コーチング×短期集中プログラムによるバックエンド引き上げ</h3>
+<p>田中は、動画3本のチャレンジローンチでバックエンドを売る従来型パネルの効果が、1〜2年前と比べて落ちてきていると感じていることを課題として挙げた。教材（ミドルエンド商品）を単体で売ってもバックエンドへの引き上げは起きにくいというのが業界の一般的な課題であるとし、「一番最初に高額商品を直接売る方が1リストあたりの利益は大きい」という原則は事実としてありつつも、CPAが年々高騰している（3,000円→5,000〜10,000円）現状では、初回接点で高額商品をいきなり売る難易度も上がっていると説明した。</p>
+<p>そこで今秋から検証したい施策として、「オプトイン→コーチング付きミドル価格教材（短期集中プログラム、21日間〜30日間想定）→購入後の実践コーチング→個別説明会（すでに1対1で話しているためオファー説明のみで済み、30分程度で完結する想定）→バックエンド」という流れを提示した。狙いは、教材購入によって1対1で話すチャンスを明確に作り、そこでの信頼関係構築がバックエンド成約につながるかを検証することだとした。</p>
+<p>具体的な数値モデルとして、39,800円の商品を5%の成約率で売る想定を示した。オプトインから1本売るのに広告費60,000円かかるとすると、1本あたり20,000円の赤字（10本売れば−200,000円）になる。ここでもし引き上げ率25%を達成できれば、10本のうち2本がバックエンド（500,000円商品と仮定）に引き上がり、売上1,000,000円からコスト200,000円を差し引いて粗利800,000円、ROAS換算で約400%になるという試算を紹介した。これは高額商品を最初から売るモデルではなかなか出せない数字だとしつつ、実現できれば1対1のセッションをした顧客がリストとして積み上がっていく点も価値だと述べた。</p>
+<p>比較として、コーチングなしで教材だけを売った場合の引き上げ率は5〜10%程度にとどまると予想し、その場合1件あたりの実質広告費は600,000円規模になり、ロアス的に成り立たなくなる可能性を指摘した。実例としてPLC自身の過去のオンラインコース（300,000円）が150本売れた際、バックエンドに引き上がったのはわずか3人だったという実績（ダウンセルで売っていた影響もあると補足）を紹介し、教材購入者の多くは「興味があるから買うだけ」で終わる傾向があると説明した。</p>
+<p>この施策のリスクとして、成約が増えるほどコーチング担当者の稼働負荷が高まる点を挙げ、物販業界で年商20億円規模の企業がコーチを50人雇用し短期的な成果を出させてからバックエンドを売る仕組みを参考に紹介した。短期間で分かりやすいビフォーアフターが出せるジャンルほどこの施策と相性が良いとし、例として「ランニングペースを21日間で改善する」といった明確なゴール設定の必要性を挙げた。</p>
+<p>参考事例として、インフルエンサー「カズ先生」の若返りアカデミーでは、30日間セルフケアプログラム（99,800円）が約20本売れ、コーチングなしの一斉オファーで400,000円のバックエンドが約2本（10%）売れているという実績を紹介した。うちの会社が関わっている案件だとした上で、フロントエンドからバックエンドへの引き上げ率自体はコーチングの有無に関わらずそこまで高くならない傾向があるとまとめた。バックエンドを直接売る方が効率は良いが、個別説明会での空振りが増えることによるコンテンツホルダーのメンタル負荷を懸念しており、前向きな実践者だけとセッション回数を増やす方が、実働時間が増えてもメンタル的に安定するのではという仮説を検証したいと述べた。</p>
+<h3 id="3.-プロデューサー向け実験（2）：被属人チャンネル構想">3. プロデューサー向け実験（2）：被属人チャンネル構想</h3>
+<p>田中は、プロモーションにおいて最も価値が高いのはコンテンツでもセールスでもパネルでもなく「良いリストを持ってこられる人」であり、集客できる人こそがビジネスの命を握っていると述べた。AIの台頭でパネル制作だけの価値は今後も下がり続けるとし、プロデューサーが「この人がいないとダメだ」と言われる存在であり続けるには、最も難しい「リストを持ってくること」を自ら解決できる必要があると説明した。</p>
+<p>この課題認識から、PLCプロデューサー陣が共同で複数のテーマ別YouTubeチャンネルを運営する「被属人チャンネル」構想を紹介した。具体的には「50代女性のためのスピリチュアルチャンネル」「50代女性のための健康チャンネル」「50代女性のためのお金のチャンネル」「50代女性のための人生再設計チャンネル」のように、ターゲットとジャンルで細分化したチャンネルを立ち上げる。声はナレーターが担当し、企画・台本はプロデューサー陣が作成、動画制作は自社で採用した動画編集スタッフが担当する分業体制を想定している。</p>
+<p>収益モデルとしては、チャンネルが一定登録者数まで育った段階でPLCのコンテンツホルダーをゲスト出演させ、視聴者をリストインさせた上で、JV型でバックエンド売上の一部（例: 500,000円の健康コンテンツなら30%＝150,000円）をチャンネル側が受け取る座組を想定している。現在は会社として予算1,000万円規模を確保し、まず自社の時給制スタッフのみで立ち上げを進めている段階であると説明した。プロデューサー陣（歩合の高いPB人材）への外注は稼働負荷の観点から慎重に進めており、実際にPP経由で募集した際は「実力がありすぎて依頼しづらい」という状況も発生したと明かした。</p>
+<p>過去の実績として、5年前に顔も名前も一切出さない「プロダクトローンチ書籍」系チャンネルをPLCメンバーと共同運営し、告知を一切せずに7,000チャンネル登録まで伸ばした経験を紹介した。当時はAIがなく収録も全て自分で行っていたため非常に大変だったが、続けていれば10万登録も狙えた感触があったと振り返った。参考にしているコンサル（月額300,000円）の教えとして「見込み客が好きなものだけで構成する」ことが鍵だと紹介し、好きな声・好きな映像・好きな台本の組み合わせを追求する方針を示した。全方位型ではなく単価の高い層を狙って細分化したチャンネル設計をしていく考えを述べた。</p>
+<p>一方でリスクとして、チャンネルで集めたリストで実際にバックエンドが売れるかは未知数だと率直に述べた。過去にインスタの属人スピリチュアル系インフルエンサーへ「波動占いの学校」のアフィリエイトを依頼した際、150オプトインに対し説明会参加者は5人、バックエンド成約は0件だったという失敗事例を紹介し、その先生の「ファン」ではないリストは成約しにくいと分析した。ただしPLC内で複数のコンテンツホルダーへ送客先を分散できれば、メディア全体としての売上が立つ確率は一定数高くなるはずだという見立てを示した。参考事例として、40代からの転職の裏側を暴露する系のチャンネル（時給スタッフのみでの運用検証中）にも言及し、専門知識のないスタッフでもチャンネルを伸ばせるかを検証していると紹介した。</p>
+<p>チャンネル名にはコンテンツホルダーの名前を出さない運用も想定しており、LINE登録後の個別送客の中で「実はすごい先生がいる」と紹介していく設計を描いていると説明した。まず1〜2チャンネルが立ち上がり業務フローが確立した段階で、PLC内でプロデューサー陣に向けて新チャンネルの管理者を募集する可能性があるとした。あわせて、AIだけで作った台本では面白みが出ないため、独自の経験・エピソードをどう織り交ぜるかが今後の課題であると述べた。</p>
+<hr />
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
+<h3 id="非合理的でも「面白そう」「知りたい」という動機でチャレンジする">非合理的でも「面白そう」「知りたい」という動機でチャレンジする</h3>
+<p>すべてを合理性だけで判断せず、「面白そうだから」「花開いたら何が起こるか知りたいから」という動機での挑戦も含めてシェアしていく方針。うまくいかなかった結果も「勉強会」として共有価値があるという姿勢。</p>
+<h3 id="反応が悪くても叩き続けるマインドセット">反応が悪くても叩き続けるマインドセット</h3>
+<p>長山さんの継続的なチャレンジローンチを例に、「切れなくなった刀でも叩き続ければ効果が出る」という粘り強さの重要性。個別のプロモーションが一時的に赤字でも、やり続ける人はトータルで見るとプラスになるという考え方。</p>
+<h3 id="事業の価値の中心は「良いリストを持ってこられる人」">事業の価値の中心は「良いリストを持ってこられる人」</h3>
+<p>プロモーションで最も価値が高いのはコンテンツでもセールスでもパネルでもなく集客力。プロデューサーが「この人じゃなきゃダメだ」と言われる立場であり続けるには、自らリストビルディングを解決できる必要があるという事業観。</p>
+<h3 id="自分が売れるのではなく、みんなが売れる座組を考える">自分が売れるのではなく、みんなが売れる座組を考える</h3>
+<p>被属人チャンネル構想の根底にある思想。個人の売上を伸ばすノウハウの提供ではなく、PLC全体で使えるリソース（メディア）を持つことがコミュニティとして生き残る道だという考え方。</p>
+<h3 id="前向きな実践者だけと向き合う方がメンタルが安定する">前向きな実践者だけと向き合う方がメンタルが安定する</h3>
+<p>バックエンドを直接売り続けると個別説明会での「空振り」が増え、単純な労働時間よりもメンタル的な消耗につながるという仮説。実働が増えても前向きな実践者とだけセッション回数を増やす方が持続可能ではないかという考え方。</p>
+<hr />
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<ul>
+<li>高単価ジャンルは「競合（YouTube等）の発信力」が強いかどうかで明暗が分かれる。競合が弱いジャンルはCPM・CPAが安く、高単価でも売りやすい</li>
+<li>広告経由のROASは昔の400〜500%から現在は200〜300%程度まで低下している市場感</li>
+<li>PLC内での相互送客（JV）は「まず自分のリストで自分が売る→その後に他者の商品もJVで売る」の順番が収益性を安定させる</li>
+<li>教材（ミドルエンド）単体販売のバックエンド引き上げ率は経験上5〜10%程度にとどまりやすい。PLC自身の過去実績でも300,000円の教材150本販売でバックエンド引き上げはわずか3人だった</li>
+<li>コーチング付き・短期集中プログラム（21〜30日間）にすることで、購入者と1対1で話す接点を作れ、それが信頼構築・引き上げ率向上につながるかを検証する価値がある</li>
+<li>短期間でビフォーアフターが分かりやすいジャンルほど、コーチング付き施策と相性が良い</li>
+<li>属人的でないファン化していないリストは、JV送客してもバックエンドが売れにくい（波動占いの学校の失敗事例: 150オプトイン→説明会5人→成約0件）</li>
+<li>CPAは年々高騰しており（3,000円→5,000〜10,000円）、広告一本足での高額商品直販は年々難しくなっている</li>
+</ul>
+<hr />
+<h2 id="決まったこと">決まったこと</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>9月第3土曜日はリアル会場での「情報共有会」を東京・大阪で募集する</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10月第3土曜日は東京でリアル大型イベント「感謝祭」を開催する（ハロウィンパーティ形式・仮装参加者へのご馳走企画等を検討）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>今秋、コンテンツホルダー向け実験（ミドルエンド×コーチング×短期集中プログラムでのバックエンド引き上げ）を、田中自身の案件＋もう1案件で開始する</td>
+</tr>
+<tr>
+<td>4</td>
+<td>被属人チャンネル構想を予算1,000万円規模で始動し、まず自社の時給制スタッフのみで検証を進める</td>
+</tr>
+<tr>
+<td>5</td>
+<td>本日のワークショップ後半（休憩後）は、参加者ごとの10分間個別コーチング枠＋2時間のフリータイム（ブレイクアウトの作業部屋・認定講師の壁打ち部屋）とする</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="やること">やること</h2>
+<h3 id="田中祐一">田中祐一</h3>
+<ul>
+<li>[ ] コンテンツホルダー向け実験（ミドルエンド×コーチング施策）を今秋実施し、結果を実況中継的にPLCへ共有する</li>
+<li>[ ] 被属人チャンネル構想の業務フローを確立し、確立後にPLC内でチャンネル管理者の募集を検討する</li>
+<li>[ ] 10月第3土曜「感謝祭」の詳細（表彰制度・招待範囲等）を詰めて案内する</li>
+</ul>
+<h3 id="参加者（全体）">参加者（全体）</h3>
+<ul>
+<li>[ ] スプレッドシートに壁打ち希望時間を記入し、田中との個別10分コーチングを予約する</li>
+<li>[ ] コーチング枠に入らない場合は、認定講師（大秋さん・渡辺さん）の壁打ち部屋を活用する</li>
+</ul>
+<hr />
+<h2 id="検討中・方針">検討中・方針</h2>
+<ul>
+<li>コンテンツホルダー向け実験の成否（短期集中プログラム＋コーチングによってバックエンド引き上げ率が実際に向上するかどうか）は今秋の検証結果を待つ</li>
+<li>被属人チャンネル構想は、まず1〜2チャンネルの立ち上げ・業務フロー確立を優先し、プロデューサー陣への募集タイミングは未定</li>
+<li>10月「感謝祭」の具体的な演出・表彰制度の内容は検討中</li>
+</ul>
+<hr />
+<h2 id="個別フィードバックについて（人物同定ゲート・要確認）">個別フィードバックについて（人物同定ゲート・要確認）</h2>
+<p>本会前半は田中による2027年に向けた構想解説の講義パートであり、受講生1人ずつが事業を発表・相談する構造ではなかった。発言のあった参加者（Kazuhiro Owaki氏・ツルタシゲタカ氏・NORIE氏・FUJIKO氏・Mayumi氏・やなぎしたいくこ氏）はいずれも進行・部屋移動に関する短い発言のみで、事業全体への個別フィードバックを構成できる内容ではなかった。</p>
+<p>後半の「参加者ごとの10分間個別コーチング」はブレイクアウトルーム（田中の個人部屋）で実施されており、<strong>メインルームの録画・書き起こしには収録されていない</strong>。このため、20260805・20260718・20260822の過去回と同様の判断により、<strong>本議事録では個別フィードバックを作成していない</strong>。個別のフォローが必要な場合は田中さんに確認の上、追加作成する。</p>
+<hr />
+<h2 id="Zoomチャットログ">Zoomチャットログ</h2>
+<p>当日Zoomのチャット欄でのやりとり。原本: <code>0_データ原本/2026年/9月/2日/Zoom/20260902_Zoom_【ローンチ講座】グループコンサル_1402_チャット.txt</code></p>
+<h3 id="共有されたリンク">共有されたリンク</h3>
+<ul>
+<li>田中が共有したスプレッドシート（振り返り用フォーマットと思われる）: <a href="https://docs.google.com/spreadsheets/d/1Fv5qWTa7Xf6-qj5x6B34OgT4j7AUg1Hq_TZEreEvUOM/edit?hl=ja&amp;gid=0#gid=0" target="_blank" rel="noopener noreferrer">https://docs.google.com/spreadsheets/d/1Fv5qWTa7Xf6-qj5x6B34OgT4j7AUg1Hq_TZEreEvUOM/edit?hl=ja&amp;gid=0#gid=0</a></li>
+</ul>
+<h3 id="発言ログ">発言ログ</h3>
+<table>
+<thead>
+<tr>
+<th>経過時間</th>
+<th>発言者</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00:00:35</td>
+<td>ツルタシゲタカ</td>
+<td>本日のワークショップは、時間変更のため、先約と被ってしまい、途中退室させてください。個別ワークに関してはグルコンなどで対応をお願いいたします。</td>
+</tr>
+<tr>
+<td>00:50:04</td>
+<td>田中 祐一</td>
+<td><a href="https://docs.google.com/spreadsheets/d/1Fv5qWTa7Xf6-qj5x6B34OgT4j7AUg1Hq_TZEreEvUOM/edit?hl=ja&amp;gid=0#gid=0" target="_blank" rel="noopener noreferrer">https://docs.google.com/spreadsheets/d/1Fv5qWTa7Xf6-qj5x6B34OgT4j7AUg1Hq_TZEreEvUOM/edit?hl=ja&amp;gid=0#gid=0</a></td>
+</tr>
+<tr>
+<td>00:56:00</td>
+<td>本多 由美子</td>
+<td>早めの時間に入れたつもりでしたが、うまく入らず多分一番最後になってしまいました。もしいったん退出したらもう一度時間前に入室しても大丈夫ですか？</td>
+</tr>
+<tr>
+<td>01:10:12</td>
+<td>ツルタシゲタカ</td>
+<td>本日はこれにて失礼致します。</td>
+</tr>
+<tr>
+<td>02:42:57</td>
+<td>本多 由美子</td>
+<td>一度退出して戻りましたが、今はどなたの番になってますか？私、一応16:50〜なんですが、時間になったらどこに入るとかありますか。</td>
+</tr>
+<tr>
+<td>02:44:00</td>
+<td>Mayumi</td>
+<td>（本多由美子への返信）時間になったらブレイクアウトルームの田中さんの部屋に入ればいいと思います。</td>
+</tr>
+<tr>
+<td>02:44:58</td>
+<td>本多 由美子</td>
+<td>（Mayumiへの返信）真弓さん、ありがとうございます。自分で入るのですね。</td>
+</tr>
+<tr>
+<td>02:45:09</td>
+<td>Mayumi</td>
+<td>（本多由美子への返信）はい、自分で移動します</td>
+</tr>
+<tr>
+<td>02:45:32</td>
+<td>本多 由美子</td>
+<td>（Mayumiへの返信）わかりました。ありがとうございます。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-09-03)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: PLCW0902<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
