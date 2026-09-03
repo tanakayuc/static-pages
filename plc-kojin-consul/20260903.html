@@ -1,0 +1,294 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PLC個人コンサル 議事録（2026年9月3日） - PLC個人コンサル記録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">THE LEAD DOCUMENT</div><h3>PLC個人コンサル記録</h3><a href="20260903.html" class="sidebar-item active"><span class="date">2026年09月03日</span> PLC個人コンサル 議事録（2026年9月3日）</a>
+<a href="20260903-f6fbf5b28dce.html" class="sidebar-item"><span class="date">2026年09月03日</span> PLC個人コンサル 議事録（2026年9月3日）</a>
+<a href="20260820.html" class="sidebar-item"><span class="date">2026年08月20日</span> PLC個人コンサル 議事録（2026年8月20日）</a>
+<a href="20260515.html" class="sidebar-item"><span class="date">2026年05月15日</span> PLC個人コンサル 議事録（2026年5月15日）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 2026年4月15日 PLCコミュニティ 個人コンサル — 島田旬志</a></nav>
+<main class="content"><article class="article"><h1>PLC個人コンサル 議事録（2026年9月3日）</h1>
+<h2 id="サマリー">サマリー</h2>
+<p>小林雅美さんが中田涼子さんとのJV対談ライブの設計と、フランチャイズ（お家サロン開業）のコンセプト整理を相談する回だった。<br />
+JV対談ライブは小林さんが主催してりょうこさんの「一秒収納メソッド」をインタビューする回と、りょうこさん側で小林さんの講座を紹介する回の双方向で実施し、クロージング先を既存のエバー導線に流す設計に固めた。<br />
+フランチャイズのターゲットは片付けが苦手な層というより忘れっぽく後回しにしがちなADHD気質に近い層であり、FC展開の候補は複数店舗を展開しスタッフを抱えるサロンオーナーという整理になった。<br />
+FC販売は三日間チャレンジ型ではなく、動画とPDFによるサービス説明会で個別面談へ誘導するシンプルな導線でよいという方針も確認した。<br />
+広告の不調を受けてJVを強化する方向性で合意し、コンセプトの表現は硬い比喩を避け「新集客術」という言葉に着地した。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年9月3日（木）17:00〜</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoom個人コンサル（PLCプラチナ会員）</td>
+</tr>
+<tr>
+<td>長さ</td>
+<td>1時間4分</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、小林雅美</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://us02web.zoom.us/rec/share/sN8IMgjlszmq0sMN8qDWFP8KYtlZGnwGoQXBdxmwsfk0utOX7y1KIzbqM_BeYWM.eajA44et_5GDV4bm" target="_blank" rel="noopener noreferrer">https://us02web.zoom.us/rec/share/sN8IMgjlszmq0sMN8qDWFP8KYtlZGnwGoQXBdxmwsfk0utOX7y1KIzbqM_BeYWM.eajA44et_5GDV4bm</a></td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td>0_データ原本/2026年/9月/3日/Zoom/20260903_Zoom_田中 祐一's Personal Meeting Room_1700.md</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#JV対談ライブの設計（中田涼子さんとの相互JV）">JV対談ライブの設計（中田涼子さんとの相互JV）</a></li><li class="toc-sub"><a href="#ライブのテーマ・構成案">ライブのテーマ・構成案</a></li><li class="toc-sub"><a href="#フランチャイズ（お家サロン開業）のターゲット再整理">フランチャイズ（お家サロン開業）のターゲット再整理</a></li><li class="toc-sub"><a href="#フランチャイズ（FC）展開のターゲットリスト選定">フランチャイズ（FC）展開のターゲットリスト選定</a></li><li class="toc-sub"><a href="#コンセプト表現のブラッシュアップ">コンセプト表現のブラッシュアップ</a></li><li class="toc-sub"><a href="#FC販売のファネル設計">FC販売のファネル設計</a></li><li class="toc-sub"><a href="#広告不調とJVへのシフト">広告不調とJVへのシフト</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#小林雅美">小林雅美</a></li><li class="toc-main"><a href="#検討中・方針">検討中・方針</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="JV対談ライブの設計（中田涼子さんとの相互JV）">JV対談ライブの設計（中田涼子さんとの相互JV）</h3>
+<ul>
+<li>小林さんは中田涼子さん（りょうこさん）とのJV対談ライブを控えており、日程は決まったが内容の作り方がわからず相談したいと切り出した</li>
+<li>JVは双方向で実施する構成：</li>
+<li>小林さんが自分のハウス（既存リスト）へ集客して対談ライブを主催、小林さんがホスト・りょうこさんがゲスト → りょうこさんの3チャレへ誘導</li>
+<li>その後小林さんがりょうこさん側で対談ライブに出演 → 小林さんの3チャレへ誘導</li>
+<li>それぞれ自分のところに出すLPを作り、シナリオも別々に用意する方針</li>
+<li>田中はまず「クロージングをどこに流すか」が設計の起点になると指摘。類似事例として、奥沢さんの成果報告インタビューライブが、ピグマリオンの小川さんが用意する体験セミナー（3回開催）への「興味付け動画」という位置づけだった例を紹介</li>
+<li>りょうこさん側のクロージング先について、単発の説明会をやるか既存のエバー（自動化された導線）に流すかの2択を提示。小林さんは「りょうこさんは既存のエバーの仕組みに流す」と回答</li>
+<li>田中の見立て：ライブ単体では購入までは至りにくいため、既存のエバー導線に興味付けとして流し、「3日間の動画を最後まで見たら個別説明会があります」という形でプッシュする設計が良い</li>
+</ul>
+<h3 id="ライブのテーマ・構成案">ライブのテーマ・構成案</h3>
+<ul>
+<li>テーマはりょうこさんのメインコンセプトをベースに設定する方針。田中がその場で見出し案を提示：「忘れっぽい後回しがとりあえず続く。本当は岩盤片付けは超めんどくさがり屋さんのための一秒収納メソッド体験ライブ」</li>
+<li>ヘッド画像は左に小林雅美さん（ナビゲーター／インタビュアー）、右に中田涼子さんを配置するデザイン案で進めることに</li>
+<li>画像はインスタ告知用に正方形、配色は淡いピンクと淡いグリーン（ティファニーグリーン系）で作成する方針。主催者の小林さんをピンク側・左に配置</li>
+<li>日程：10月5日（木）朝10時、所要時間は1時間で決定（45〜50分をインタビューに充て、残り時間をCTAに充てる構成）</li>
+<li>進行はインタビュー形式。小林さんがりょうこさんから聞いた「核となる質問」をあらかじめ用意し、それに沿って話を広げる。冒頭は「塾をやっている小林雅美です、ネイルサロン経由で活動しています」という自己紹介と、当日のテーマ紹介（「片付けできない女子がどうやったら片付けできるのか」）を行い、視聴者にも積極的な質問参加を促す構成イメージを田中がその場で読み上げて確認した</li>
+</ul>
+<h3 id="フランチャイズ（お家サロン開業）のターゲット再整理">フランチャイズ（お家サロン開業）のターゲット再整理</h3>
+<ul>
+<li>小林さんはフランチャイズ準備を進めており、当初は「受講生3人限定」で始める予定だったが、まずハウス（既存リスト）でテスト販売する方針に変更したことを共有</li>
+<li>ハウス層は「まだお片付けができていない人たち」であるため、どう切り口を作るかに悩みを共有</li>
+<li>田中はりょうこさん側のリストの状態について、「お片付けができていない」というより「私生活に乱れがある」「いろんなものに振り回されている」状態と捉え直すことを提案</li>
+<li>さらに、単純な「片付けが苦手」より「ADHD気質」（忘れっぽい、後回しにする、集中すると他のことが疎かになる）という顧客属性の方がイメージが湧きやすいと指摘。小林さん自身も「自分もADHDな気がする」と共感</li>
+<li>田中の提案：そうした特性を持つ人ほど「時間や場所に縛られない自宅サロン」に向いているという切り口。会社員やルールを守ることがしんどい人にとって、自由度の高い働き方の方が合っているという訴求</li>
+<li>小林さんも「お家サロンは自由度が高いのが売り。自分のペースで働ける、スケジュールを自分で決められる」という点に同意</li>
+<li>既存の3チャレ名「夢のおうちネイルサロン開業体験三日間体験プログラム」について、田中は「夢」という言葉にこだわらなくてもよく、「おうちでネイルサロン開業をするために必要なこと」「ロードマップライブ」のような、より現実的な打ち出し方でもよいとコメント</li>
+<li>ライブの質問例として、りょうこさんが視聴者代表として「私でもできるか」「ずぼらでもできるか」「お金はどれくらいかかるか」「どのくらいで身につくか」「ネイリスト経験がなくても開業できるか」「何歳から開業できるか」といった質問を投げる想定を確認。45分ほど経過した後、「講座に参加するのが一番おすすめだが、いきなり参加はハードルが高いので3日間の体験セミナーがある」という流れでリンクを案内する構成イメージを共有した</li>
+</ul>
+<h3 id="フランチャイズ（FC）展開のターゲットリスト選定">フランチャイズ（FC）展開のターゲットリスト選定</h3>
+<ul>
+<li>FC展開（本業側）はどのリストに向けて訴求するか未定という相談。小林さんは「すでにサロンをやっている人たち」を想定していたが、田中は「サロンをやっている一人オーナーはわざわざ導入しないと思う」と指摘</li>
+<li>田中の見立て：複数店舗を展開しているオーナー、特にスタッフを抱えている業種が有力候補。例として、複数業種・複数店舗（約40店舗）を展開する店舗コンサルタント（知人）のネットワークを挙げ、「二、三店舗持っているうちの一つでテスト導入」という文脈なら通りやすいと説明</li>
+<li>プラチナ会員内の候補として、風水鑑定を行う天野さんのクライアント層（複数店舗のピアノ教室・整体サロン等）が候補になり得ると提案</li>
+<li>議論の結果、「一店舗・一人オーナー」は意思決定のハードルが高く対象外という結論に。「一店舗でもスタッフがいる業種」または、南さんのクライアント層（ヨガスタジオ・ピラティス等の集客に強い一人サロン系）が現実的なターゲットという整理になった。まずは南さんのような一人サロン層から実績を作るのが最初の一歩として良さそうという流れになった</li>
+<li>ターゲットが定まらないと反応も見えないため、田中のメルマガ読者に業種業態アンケート付きで解説動画を投げて反応を見るというテスト案も出たが、「フリーランス・スクール主催者向けのリストなので微妙」という留保付きだった</li>
+</ul>
+<h3 id="コンセプト表現のブラッシュアップ">コンセプト表現のブラッシュアップ</h3>
+<ul>
+<li>田中がその場でコピーの言葉を書き出しながら検討。「壺（坪）」を使った比喩は表現として古臭く、女性ターゲットには合わないと判断</li>
+<li>「集客に困らない」「女性サロンのための集客革命」といった案から、「集客を整える新ルール」に近づけ、最終的に「新集客術」という抽象度・トーンで着地</li>
+<li>田中の考え方：小林さんの想定顧客は「ネイルそのものが好きで仕事にしたい」層とは違い、隙間時間・スペースを合理的に活用したい層。したがって「好きを仕事に」系の煽りよりも、合理的で落ち着いたトーンの訴求の方が合う</li>
+</ul>
+<h3 id="FC販売のファネル設計">FC販売のファネル設計</h3>
+<ul>
+<li>小林さんは当初「三チャレ（三日間チャレンジ）」形式を想定していたが、田中は「これは学んでチャレンジするものではなく、単純にサービス導入の説明を受けるもの」と指摘し、三チャレ形式は不要という見解</li>
+<li>田中の提案：動画1本（30分）とPDFによる「サービス説明会」を用意し、興味を持った人はオプトインして視聴、その後個別面談に進んでもらう導線。法人向けのホワイトペーパーマーケティング（資料ダウンロード型）に近いイメージ</li>
+<li>料金は事前に出さず、動画・PDFの説明内に含める方針で確認</li>
+<li>小林さんは初期導入費30万円を想定していると共有。田中は「頑張って引き上げようとしなくていい」「テンションを上げすぎず淡々と『ええやん』という反応の人を集めた方がトラブルも少ない」という考え方を共有</li>
+<li>雑談的な事例として、田中の知人が展開するキャバクラのフランチャイズ（加盟金500万円）が、怪しさのある動画と個別説明会だけで累計1億円以上売れている実例を紹介。フランチャイズの売り方は業態によって多様であることを共有した</li>
+</ul>
+<h3 id="広告不調とJVへのシフト">広告不調とJVへのシフト</h3>
+<ul>
+<li>小林さんはMeta広告の仕様変更以降（7〜8月）不調が続いており、9月も回復の兆しが弱いことを共有。「広告に頼りすぎていた」と反省し、JVをより強化していく方針に</li>
+<li>田中は「他の人が集めている広告リストをうまく借りて口説いていきましょう」とコメントし、JV強化の方向性に同意した</li>
+</ul>
+<hr />
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
+<ul>
+<li>クロージング設計はまず「どこに流すか」から逆算して組み立てる</li>
+<li>顧客属性は「できていないこと」でなく「本質的な特性」で言語化する方が読者にイメージが湧きやすい（片付けが苦手 → ADHD気質、のような言い換え）</li>
+<li>ターゲットが定まらない状態でコンセプトを固めることはできない。「誰に向かってやっていくか」が先に決まらないとコンセプトも決まらない</li>
+<li>フランチャイズ・サービス導入系のオファーは、頑張って引き上げるより、興味がある人が自然に問い合わせてくる淡々とした導線の方が合う。テンションを上げすぎて売った相手ほど実行力が伴わないことがある</li>
+</ul>
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<ul>
+<li>インタビュー形式のJVライブは「クロージングの受け皿」を明確にしてから内容設計に入る（単発説明会か、既存のエバー導線か）</li>
+<li>ヘッド画像は主催者を進行役側（左）に配置し、対象読者に合わせた配色（女性向けなら淡いピンク・淡いグリーン等）で作成する</li>
+<li>FC・サービス導入系のオファーは、三日間チャレンジのような「学び系」フォーマットではなく、動画＋PDFの「サービス説明会」型が向いている場合がある（法人のホワイトペーパーマーケティングに近い設計）</li>
+<li>ターゲットリストの候補が見えないときは、まず少数に投げてアンケート付きで反応を見るテストマーケティングが有効</li>
+<li>コピーの比喩表現はターゲット層の感性に合わせる（硬い言葉・古い比喩は避け、抽象度を上げた言葉に寄せる）</li>
+</ul>
+<h2 id="決まったこと">決まったこと</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>JV対談ライブは10月5日（木）朝10時から1時間、小林雅美さんが主催・進行、中田涼子さんがゲストで実施する</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ヘッド画像は小林さんを左（進行役）、中田涼子さんを右に配置し、正方形・淡いピンク×淡いグリーンの配色で作成する</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ライブは45〜50分のインタビュー＋残り時間でCTAという時間配分で進める</td>
+</tr>
+<tr>
+<td>4</td>
+<td>フランチャイズ（お家サロン開業）はまずハウスリストでテスト販売する</td>
+</tr>
+<tr>
+<td>5</td>
+<td>フランチャイズのターゲット訴求は「片付けが苦手」ではなく「ADHD気質・忘れっぽい・後回し」という顧客属性を軸にする</td>
+</tr>
+<tr>
+<td>6</td>
+<td>FC展開のターゲットは一人サロンオーナーではなく、複数店舗展開かつスタッフを抱える業種のオーナーを軸にする</td>
+</tr>
+<tr>
+<td>7</td>
+<td>FC販売の導線は三チャレ形式ではなく、動画（30分）＋PDFの「サービス説明会」で個別面談へ誘導する形にする</td>
+</tr>
+<tr>
+<td>8</td>
+<td>コンセプトのコピー表現は「新集客術」の方向性で進める</td>
+</tr>
+<tr>
+<td>9</td>
+<td>広告に頼りすぎない方針へ転換し、JVを強化していく</td>
+</tr>
+</tbody>
+</table>
+<h2 id="やること">やること</h2>
+<h3 id="小林雅美">小林雅美</h3>
+<ul>
+<li>[ ] JV対談ライブのヘッド画像（小林さん×中田涼子さん、正方形・淡いピンク×淡いグリーン）を作成する</li>
+<li>[ ] りょうこさんから聞いた「核となる質問」を整理し、インタビュー台本のたたき台を作る</li>
+<li>[ ] りょうこさん側で出演する回のLP・シナリオも別途用意する</li>
+<li>[ ] お家サロン開業の3チャレ（またはロードマップライブ）のコンセプト・タイトルを、ADHD気質を軸にした訴求で見直す</li>
+<li>[ ] FC展開のターゲットリスト（複数店舗展開・スタッフ在籍業種）の候補出しを進める。プラチナ会員内の天野さんのクライアント層等も検討する</li>
+<li>[ ] FC販売用の動画（30分）とPDF資料、個別面談への導線ページを作成する</li>
+<li>[ ] 作成済みのホームページを田中さんへチャットで共有する</li>
+</ul>
+<h2 id="検討中・方針">検討中・方針</h2>
+<ul>
+<li>FC展開の具体的なターゲットリストは未確定。まずは少数に解説動画とアンケートを投げて反応を見るテストマーケティングも選択肢として検討する</li>
+<li>FC加盟金の水準（現状想定30万円）は妥当か、田中からは特に否定的なコメントはなかったが確定額としては未決</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-09-03)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 8D2AF2DE<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
