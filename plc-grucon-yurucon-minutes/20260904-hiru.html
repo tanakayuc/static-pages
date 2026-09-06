@@ -1,0 +1,422 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PLCグルコン 議事録（2026年9月4日・昼の部） - PLCグルコン・ゆるコン議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>PLCグルコン・ゆるコン議事録</h3><a href="20260905.html" class="sidebar-item"><span class="date">2026年09月05日</span> PLCゆるコン 議事録（2026年9月5日）</a>
+<a href="20260904-yoru.html" class="sidebar-item"><span class="date">2026年09月04日</span> PLCグルコン 議事録（2026年9月4日・夜の部）</a>
+<a href="20260904-hiru.html" class="sidebar-item active"><span class="date">2026年09月04日</span> PLCグルコン 議事録（2026年9月4日・昼の部）</a>
+<a href="20260820-yoru.html" class="sidebar-item"><span class="date">2026年08月20日</span> PLCグルコン 議事録（2026年8月20日・夜の部）</a>
+<a href="20260820-hiru.html" class="sidebar-item"><span class="date">2026年08月20日</span> PLCグルコン 議事録（2026年8月20日・昼の部）</a>
+<a href="20260807.html" class="sidebar-item"><span class="date">2026年08月07日</span> PLCゆるコン 議事録（2026年8月7日）</a>
+<a href="20260806-yoru.html" class="sidebar-item"><span class="date">2026年08月06日</span> PLCグルコン 議事録（2026年8月6日・夜の部）</a>
+<a href="20260806-hiru.html" class="sidebar-item"><span class="date">2026年08月06日</span> PLCグルコン 議事録（2026年8月6日・昼の部）</a>
+<a href="20260730-yoru.html" class="sidebar-item"><span class="date">2026年07月30日</span> PLCグルコン 議事録（2026年7月30日・夜の部）</a>
+<a href="20260730-hiru.html" class="sidebar-item"><span class="date">2026年07月30日</span> PLCグルコン 議事録（2026年7月30日・昼の部）</a>
+<a href="20260725-yoru.html" class="sidebar-item"><span class="date">2026年07月25日</span> PLCグルコン 議事録（2026年7月25日・夜の部）</a>
+<a href="20260725-hiru.html" class="sidebar-item"><span class="date">2026年07月25日</span> PLCグルコン 議事録（2026年7月25日・昼の部）</a>
+<a href="20260715.html" class="sidebar-item"><span class="date">2026年07月15日</span> PLCグルコン 議事録（2026年7月15日・夜の部）</a>
+<a href="20260715-1004e1bc727e.html" class="sidebar-item"><span class="date">2026年07月15日</span> PLCグルコン 議事録（2026年7月15日・昼の部）</a>
+<a href="20260714.html" class="sidebar-item"><span class="date">2026年07月14日</span> PLCゆるコン 議事録（2026年7月14日）</a>
+<a href="20260708.html" class="sidebar-item"><span class="date">2026年07月08日</span> PLCゆるコン 議事録（2026年7月8日）</a>
+<a href="20260707.html" class="sidebar-item"><span class="date">2026年07月07日</span> PLCグルコン 議事録（2026年7月7日・夜の部）</a>
+<a href="20260707-5e9ed3b2209c.html" class="sidebar-item"><span class="date">2026年07月07日</span> PLCグルコン 議事録（2026年7月7日・昼の部）</a>
+<a href="20260701.html" class="sidebar-item"><span class="date">2026年07月01日</span> PLCグルコン 議事録（2026年7月1日・夜の部）</a>
+<a href="20260701-d3401ca6200f.html" class="sidebar-item"><span class="date">2026年07月01日</span> PLCグルコン 議事録（2026年7月1日・昼の部）</a>
+<a href="20260627.html" class="sidebar-item"><span class="date">2026年06月27日</span> PLCゆるコン 議事録（2026-06-27）</a>
+<a href="20260623.html" class="sidebar-item"><span class="date">2026年06月23日</span> PLCグルコン 議事録（2026年6月23日・昼の部）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> PLCゆるコン 議事録（2026年6月19日）</a>
+<a href="20260617.html" class="sidebar-item"><span class="date">2026年06月17日</span> PLCグルコン 議事録（2026年6月17日）</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> PLCグルコン（夜の部）議事録（2026年6月13日）</a>
+<a href="20260613-3a56945f0853.html" class="sidebar-item"><span class="date">2026年06月13日</span> PLCグルコン 議事録（2026年6月13日 昼の部）</a>
+<a href="20260610.html" class="sidebar-item"><span class="date">2026年06月10日</span> PLCグルコン 議事録（2026年6月10日）</a>
+<a href="20260602.html" class="sidebar-item"><span class="date">2026年06月02日</span> PLCグルコン（夜の部）議事録（2026年6月2日）</a>
+<a href="20260602-f13139568009.html" class="sidebar-item"><span class="date">2026年06月02日</span> PLCグルコン 議事録（2026年6月2日 昼の部）</a>
+<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> PLCグループコンサル 議事録（2026年5月20日 夜の部）</a>
+<a href="20260520-fc0051431603.html" class="sidebar-item"><span class="date">2026年05月20日</span> PLCグループコンサル 議事録（2026年5月20日 昼の部）</a>
+<a href="20260514.html" class="sidebar-item"><span class="date">2026年05月14日</span> PLCグループコンサル 議事録（2026年5月14日 夜の部）</a>
+<a href="20260514-74eed309bae9.html" class="sidebar-item"><span class="date">2026年05月14日</span> PLCグループコンサル 議事録（2026年5月14日 昼の部）</a>
+<a href="20260512.html" class="sidebar-item"><span class="date">2026年05月12日</span> PLCゆるコン 議事録（2026年5月12日）</a>
+<a href="20260509.html" class="sidebar-item"><span class="date">2026年05月09日</span> PLCグループコンサル 議事録（2026年5月9日 夜の部）</a>
+<a href="20260509-f734fb8aa984.html" class="sidebar-item"><span class="date">2026年05月09日</span> PLCグループコンサル 議事録（2026年5月9日 昼の部）</a>
+<a href="20260501.html" class="sidebar-item"><span class="date">2026年05月01日</span> PLCグルコン 夜の部 議事録（2026年5月1日）</a>
+<a href="20260501-e94556d71fc5.html" class="sidebar-item"><span class="date">2026年05月01日</span> PLCグルコン 昼の部 議事録（2026年5月1日）</a>
+<a href="20260421.html" class="sidebar-item"><span class="date">2026年04月21日</span> PLCグルコン 夜の部 議事録（2026年4月21日）</a>
+<a href="20260421-2f4a2537a433.html" class="sidebar-item"><span class="date">2026年04月21日</span> PLCグルコン 昼の部 議事録（2026年4月21日）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 2026年4月15日 PLCグルコン 夜の部 議事録</a>
+<a href="20260415-3f8a53ba3853.html" class="sidebar-item"><span class="date">2026年04月15日</span> 2026年4月15日 PLCグルコン 昼の部 議事録</a>
+<a href="20260411.html" class="sidebar-item"><span class="date">2026年04月11日</span> 2026年4月11日 PLCグルコン（夜）議事録</a>
+<a href="20260411-7398d86a7ace.html" class="sidebar-item"><span class="date">2026年04月11日</span> 2026年4月11日 PLCグルコン 議事録</a>
+<a href="20260407.html" class="sidebar-item"><span class="date">2026年04月07日</span> 2026年4月7日 PLCゆるコン 議事録</a>
+<a href="20260404.html" class="sidebar-item"><span class="date">2026年04月04日</span> 2026年4月4日 PLCゆるコン 議事録</a>
+<a href="20260402.html" class="sidebar-item"><span class="date">2026年04月02日</span> 2026年4月2日 PLCグルコン 議事録</a>
+<a href="20260402-df1b8e4cce50.html" class="sidebar-item"><span class="date">2026年04月02日</span> 2026年4月2日 PLCグルコン 議事録（夜の部）</a>
+<a href="20260329.html" class="sidebar-item"><span class="date">2026年03月29日</span> 2026年3月29日 PLCグルコン 議事録</a>
+<a href="20260329-f1b44c1f2add.html" class="sidebar-item"><span class="date">2026年03月29日</span> 2026年3月29日 PLCグルコン（夜の部） 議事録</a>
+<a href="20260323.html" class="sidebar-item"><span class="date">2026年03月23日</span> PLCゆるコン 議事録</a>
+<a href="20260320.html" class="sidebar-item"><span class="date">2026年03月20日</span> 2026年3月20日 PLCグルコン 議事録</a>
+<a href="20260228.html" class="sidebar-item"><span class="date">2026年02月28日</span> PLCグループコンサル 昼の部</a>
+<a href="20260227.html" class="sidebar-item"><span class="date">2026年02月27日</span> PLCゆるグルコン 議事録</a>
+<a href="20260224.html" class="sidebar-item"><span class="date">2026年02月24日</span> 20260224 PLCゆるグルコン 議事録</a>
+<a href="20260221.html" class="sidebar-item"><span class="date">2026年02月21日</span> 20260221 PLCゆるグルコン 議事録</a>
+<a href="20260221-06dd9b31fac0.html" class="sidebar-item"><span class="date">2026年02月21日</span> 20260221 PLCオンライン懇親会 議事録</a>
+<a href="20260213.html" class="sidebar-item"><span class="date">2026年02月13日</span> 2026年2月13日 PLCゆるグルコン 議事録</a>
+<a href="20260212.html" class="sidebar-item"><span class="date">2026年02月12日</span> 2026年2月12日 PLCグルコン夜の部 議事録</a>
+<a href="20260212-a13e77e229f6.html" class="sidebar-item"><span class="date">2026年02月12日</span> 2026年2月12日 PLCグルコン昼の部 議事録</a>
+<a href="20260207.html" class="sidebar-item"><span class="date">2026年02月07日</span> PLCゆるグルコン 議事録</a>
+<a href="20260206.html" class="sidebar-item"><span class="date">2026年02月06日</span> PLCグループコンサル 夜の部</a>
+<a href="20260206-c27e227335ca.html" class="sidebar-item"><span class="date">2026年02月06日</span> PLCグループコンサル 昼の部</a></nav>
+<main class="content"><article class="article"><h1>PLCグルコン 議事録（2026年9月4日・昼の部）</h1>
+<h2 id="サマリー">サマリー</h2>
+<p>今回はエントリー4件（吉岡みかた＝上位コースの再設計とLP・広告方針、堀之内友香＝ベビー向け講座のキャッチコピー、砂川陽輝＝ハウスリスト企画と広告代理店の使い分け、皆川文世＝算数系広告の反応改善）で構成された。<br />
+吉岡みかたの回では事務局きたやまが広告のCPA上昇とCVR低下を報告し、田中はLPと広告クリエイティブのターゲット層のズレを指摘した。<br />
+堀之内友香の回では恵美子ピグマリオンが同席し、ベビー向け商品のターゲット層を絞り込むために「二歳なのに五歳相当のことができる」という具体的な訴求軸を検討した。<br />
+砂川陽輝は広告費をかけずハウスリストのみで十日間チャレンジを実施する方針を固め、広告代理店2社の使い分けと動画LPの量産による検証方法を確認した。<br />
+皆川文世は算数系講座の広告について、画像訴求では教育要素が伝わりにくいため動画広告への切り替えを検討した。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年9月4日（金）16:00〜17:44（1時間43分）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoomグループコンサル（昼の部）</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一（講師）、吉岡みかた、事務局きたやま、堀之内友香、恵美子ピグマリオン、砂川陽輝(すなかわたかき)、北村こうき、皆川文世</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://us02web.zoom.us/rec/share/C75_39fhz0RPAnGI-NnNTdxPMGtyTRRLTOTMKMCBndAlt320yItz24YQN6rKb_th.V8-uS8HSpHIkk8UW" target="_blank" rel="noopener noreferrer">https://us02web.zoom.us/rec/share/C75_39fhz0RPAnGI-NnNTdxPMGtyTRRLTOTMKMCBndAlt320yItz24YQN6rKb_th.V8-uS8HSpHIkk8UW</a></td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td>0_データ原本/2026年/9月/4日/Zoom/20260904_Zoom_【ローンチ講座】グループコンサル_1600.md</td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td>22_コミュニティサポート/PLCコミュニティ/MTG履歴/グルコン&amp;ゆるコン/20260904_PLCグルコン_書き起こし原本_昼.md</td>
+</tr>
+<tr>
+<td>Zoomチャットログ</td>
+<td><a href="20260904-hiru-chat.txt">20260904-hiru-chat.txt をダウンロード</a>（吉岡みかたの新プログラム資料リンク・田中の育脳メソッドコピー案・皆川文世のLPリンクを含む）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>人物同定について</strong>: 書き起こし表示名「事務局きたやま」は、他セッション（2026年8月10日 星野潤さん1回目書き起こし内で「今は北山さんですね…3代目PMが北山さんという方で」との言及）および受講生用フォルダ <code>kit_北山和樹</code> との一致から、<strong>北山和樹さん（PLC事務局・吉岡みかた案件の広告担当PM）</strong>と判断した。「恵美子ピグマリオン」は受講生用フォルダ <code>pig_ピグマリオン恵美子</code>（IQ200グローバルキッズ講座ホルダー）と一致。「北村こうき」は本セッションでは田中からの一問一答（課題表示の不具合報告の有無）に一言answerしたのみで、独自の相談内容が無かったため個別フィードバック作成は対象外とした。</p>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・全体構成">議論の流れ・全体構成</a></li><li class="toc-main"><a href="#参加者ごとのセクション">参加者ごとのセクション</a></li><li class="toc-sub"><a href="#吉岡みかた（事務局きたやま-同席）：上位コースの再設計とLP・広告クリエイティブ相談">吉岡みかた（事務局きたやま 同席）：上位コースの再設計とLP・広告クリエイティブ相談</a></li><li class="toc-sub"><a href="#事務局きたやま（吉岡みかた案件・広告担当）：CPA上昇とCVR低下の要因整理">事務局きたやま（吉岡みかた案件・広告担当）：CPA上昇とCVR低下の要因整理</a></li><li class="toc-sub"><a href="#堀之内友香（恵美子ピグマリオン-同席）：ベビー向け講座のキャッチコピーとターゲット設計">堀之内友香（恵美子ピグマリオン 同席）：ベビー向け講座のキャッチコピーとターゲット設計</a></li><li class="toc-sub"><a href="#恵美子ピグマリオン：運動講座コンセプトへの初期反応">恵美子ピグマリオン：運動講座コンセプトへの初期反応</a></li><li class="toc-sub"><a href="#砂川陽輝(すなかわたかき)：ハウスリスト向け十日間チャレンジと広告代理店の使い分け">砂川陽輝(すなかわたかき)：ハウスリスト向け十日間チャレンジと広告代理店の使い分け</a></li><li class="toc-sub"><a href="#皆川文世：算数系講座のLP・広告反応の改善">皆川文世：算数系講座のLP・広告反応の改善</a></li><li class="toc-main"><a href="#Zoomチャットログ">Zoomチャットログ</a></li><li class="toc-sub"><a href="#共有されたリンク">共有されたリンク</a></li><li class="toc-sub"><a href="#発言ログ">発言ログ</a></li><li class="toc-main"><a href="#決まったこと（サマリ）">決まったこと（サマリ）</a></li></ul></nav><h2 id="議論の流れ・全体構成">議論の流れ・全体構成</h2>
+<p>今回はエントリー4件（吉岡みかた／堀之内友香＋恵美子ピグマリオン／砂川陽輝／皆川文世）で構成。全体を貫くテーマは「広告の反応が落ちたときは、LPと広告クリエイティブの整合性・ターゲット層のズレを疑う」「講座の上位コース・キャッチコピーは、期間の長さや抽象的なベネフィットではなく、他にはない具体的な体験・証明を売りにする」「画像広告では伝えきれない教育的なメッセージは動画に寄せる」の3つ。</p>
+<hr />
+<h2 id="参加者ごとのセクション">参加者ごとのセクション</h2>
+<hr />
+<h3 id="吉岡みかた（事務局きたやま-同席）：上位コースの再設計とLP・広告クリエイティブ相談">吉岡みかた（事務局きたやま 同席）：上位コースの再設計とLP・広告クリエイティブ相談</h3>
+<p><strong>相談内容</strong></p>
+<p>吉岡は、上位コースの内容がつまらず参加者が減っていたため、コース内容を全面的に組み替えたことを報告。従来は「新しい働き方」「自分らしく働ける」という個別サポート押しの訴求だったコースをメインに据える構成から、今までダウンセルだった一年コース（フルサポート寄り）をメインに、半年コースをダウンセルにする形へ変更した。あわせて、百万円以上の商品をフルローンチ（広告・LP・動画三本・セミナー）で売る場合、どの媒体で何を訴求し直すべきかを相談した。</p>
+<p><strong>田中のフィードバック：「何が売りなのか」を明確にする</strong></p>
+<p>田中は、まず「今までのトークの売りは何だったのか」を確認した上で、上位コースの差別化ポイントが期間の長さだけでは弱いと指摘。顧客は期間の長さでコースを選ぶのではなく、ゴールの差で選ぶという持論を共有し、コース名から「一年」「半年」という期間訴求を外す方向を提案した。</p>
+<blockquote>
+<p>「何があるから売れんのかと思って。ジョイコースのメリットが期間だけだったら多分あんまり売れないと思ってて。」<br />
+「客はその期間が長いから選ぶってわけじゃなくてゴールの差とかで選ぶと思っているので。」</p>
+</blockquote>
+<p><strong>上位コースの差別化：「現場体験」とクレジット</strong></p>
+<p>上位コースの一番の売りを掘り下げる中で、田中は「現場体験」（吉岡が実際に一冊本を作る過程のチャットに在籍できる、ミーティングを見られる）や、共同編集者としての「クレジット」付与を提案。仕事紹介は「稼げると約束したのに紹介が来ない」ことで炎上リスクが高いため避け、代わりに現場を疑似体験できる価値を打ち出すべきとした。</p>
+<blockquote>
+<p>「その上位コースに求めるものって何？なん？っていうときに俺は現場体験だと思ですよ。」<br />
+「懲戒系（お仕事紹介）は、僕はあの、基本的には炎上要素だと思ってます。」「一番最初のオーバーでお仕事紹介やるのは炎上確率50%ぐらいです。」</p>
+</blockquote>
+<p><strong>プレミアムコース設計の注意点：中途解約率とアドバンスコースの位置づけ</strong></p>
+<p>田中は、期間とコンサルの手厚さだけを売りにした高額・無制限サポート型のプレミアムコースは、自信のない人が申し込んで中途解約になりやすいという傾向があると説明。資格試験や仕事紹介といった要素は、初回オファーに盛り込むのではなく、購入後一年程度の継続段階で「アドバンスコース」としてオファーする構造にしている講座が多いと共有した。</p>
+<blockquote>
+<p>「あと自信のない人がプレミアムの。なんか中途解約率が高いんですよ。」<br />
+「大抵そういうのは本来購入後の一年後とかの継続の段階でアドバンスコースっていうのをオファーすることが多いです。うまくいってる講座は。」</p>
+</blockquote>
+<p><strong>セミナーでの教育要素</strong></p>
+<p>半年コースをダウンセルにする際の広告・LP方針について、田中は基本的には既存の流れのままでよいとしつつ、セミナーの終盤（セールス前）に「時間を買う価値」「早期に権威が付与されること」「商談の感覚をマスターすることの重要性」を教育しておくと、上位コースが売りやすくなると助言した。</p>
+<blockquote>
+<p>「早くそういう何かしら権威が付与されるとか。」「あと、じゃあ現実的な。は商談の感覚をマスターすることが重要だよ。みたいな教育とか。まあそういうのが入っていけば上位コースが売りやすくなるんじゃないですか？」</p>
+</blockquote>
+<p><strong>着地</strong></p>
+<ul>
+<li>コース名から期間訴求（一年／半年）を外し、「現場体験」「クレジット（共同編集者としての実績）」を差別化の軸にする</li>
+<li>仕事紹介・資格試験は初回オファーに入れず、購入後一年程度でのアドバンスコースとして設計する</li>
+<li>セミナー終盤で「時間を買う価値」「権威付与」「商談スキルの重要性」を教育し、上位コースへの流れを作る</li>
+<li>半年コースのダウンセル導線は現状の広告・LP方針を維持してよい</li>
+</ul>
+<hr />
+<h3 id="事務局きたやま（吉岡みかた案件・広告担当）：CPA上昇とCVR低下の要因整理">事務局きたやま（吉岡みかた案件・広告担当）：CPA上昇とCVR低下の要因整理</h3>
+<p><strong>相談内容</strong></p>
+<p>吉岡みかた案件の広告運用担当として、開始2週間の状況を報告。オプト単価（CPA）が高くコンバージョン率（CVR）が悪化している一方、クリック率（CTR）は良好という状態。個別相談のキャンセルも発生しており、広告経由の質の悪化が疑われるとして、改善の方向性を相談した。</p>
+<p><strong>田中のフィードバック：LP・クリエイティブと訴求のズレを疑う</strong></p>
+<p>田中は、前回のLP・クリエイティブと比べてCPAが約3,500円から大幅に悪化している点を確認した上で、パネル自体は変えていないのに数値だけが悪化している状況を「ターゲット層がリターゲットから外れて拡散し、薄いオーディエンスに広がっている可能性」として整理。広告セットを作り直す（切り直す）ことで改善する可能性があるとした。</p>
+<blockquote>
+<p>「なんかどんどん変なターゲットに出てって、なんか数字がずれてってるみたいな感じにもう見えなくはないですけどね。」「切り直すと意外と解決するのかもしれないし。」</p>
+</blockquote>
+<p><strong>クリエイティブの色・世界観と顧客の期待のズレ</strong></p>
+<p>現在主軸のアニメ調クリエイティブについて、田中は色合い（ワインレッド系）が吉岡のキャラクターと合っていない、共通ドメイン（宴）が評価を下げている可能性がある、と具体的に指摘。さらに、AI生成っぽさが伝わる画像は「ホームラン狙い」向きで、地味な裏方の仕事を集めたい今回の訴求とは合わないとし、実写・ライフハック系（カフェでパソコンを開く、紙に赤入れする等の演出）の動画の方が数値が良くなると提案した。</p>
+<blockquote>
+<p>「みかたさんはもうちょっと。ワインレッドではないと思うから、なんか顧客とフィットしてないっていうか。」<br />
+「こういう系の画像ってまあもろエーアイやからどうなんでしょうね？」「みかたさんがみかたさんの声で行くのが一番。まあリスト確か難しくなるかもしれないけど、多分後ろの数値は数値が良くなると思ですよね。」</p>
+</blockquote>
+<p><strong>着地</strong></p>
+<ul>
+<li>クリエイティブは実写・ライフハック系（吉岡本人の声・カフェでの作業風景等）へ寄せる方向で検証する</li>
+<li>共通ドメイン（宴）を使わない独自ドメインへの変更を検討する</li>
+<li>広告セットの作り直し（切り直し）でターゲットの拡散を改善できるか試す</li>
+</ul>
+<hr />
+<h3 id="堀之内友香（恵美子ピグマリオン-同席）：ベビー向け講座のキャッチコピーとターゲット設計">堀之内友香（恵美子ピグマリオン 同席）：ベビー向け講座のキャッチコピーとターゲット設計</h3>
+<p><strong>相談内容</strong></p>
+<p>キッズ向け（インターナショナル教育）に続くベビー向け講座のキャッチコピー・大枠の訴求が決めきれずにいることを相談。ベビーだけを購入する層のインサイトが明確でないという課題を共有した。</p>
+<p><strong>田中のフィードバック：ターゲットの偏りを意図的に作る</strong></p>
+<p>田中は、地域も購入理由もバラバラという現状のままでは訴求が定まらないため、意図的にターゲット層を絞り込む必要があると指摘。「子供の将来に不安を感じる瞬間」がどこで発生するかを掘り下げる中で、恵美子ピグマリオンから「ベビーパーク」（生後3ヶ月〜通える競合サービス、月額1.5〜2万円）や、幼児教育本市場（「3歳までの天才子育て」等）の情報が共有された。</p>
+<blockquote>
+<p>「そこ偏りを作らないと売れないんですよ。だから、まあ意図して偏らせたいわけですよね。」</p>
+</blockquote>
+<p><strong>訴求の方向性：「二歳なのに五歳相当のことができる」</strong></p>
+<p>田中は、IQ200のような測定基準はベビー向けには証明力が弱いとし、「脳を育てる」という表現の方が適切と整理。パズル（本来2歳児が6〜10ピース程度のところ、100〜200ピースに挑戦）という具体的な成果を使い、「二歳なのに五歳の子がやることができた」という比較構造をメインコピーに据えることを提案した。ネーミングは「ホームインターメソッド」「ベビー版ホームインター」など、キッズ向けの「ホームインター」に寄せる方向で合意した。</p>
+<blockquote>
+<p>「なんか二歳なのに五歳の何々ができちゃったみたいな。こうメインタイトルに入れたらいいんじゃないですか？」<br />
+「まあ、自宅であの世界最高の育農ができるベビーホーム。インターメットで別にいいんじゃない？」</p>
+</blockquote>
+<p>なお、実際にチャットで共有された田中案のコピーは「0〜2歳のお子様を持つママへ／2歳なのに5歳の子がチャレンジする100ピースパズルができた！／一流の才能を育てる ホーム育脳メソッド 体験プログラム」。</p>
+<p><strong>着地</strong></p>
+<ul>
+<li>メインコピーは「二歳なのに五歳相当のことができた」という比較構造を軸にする</li>
+<li>メソッド名は「ホームインター」系（例：ベビーホームインターメソッド）に寄せ、IQ200のような数値訴求は使わない</li>
+<li>キッズ向けとの広告の違いは対象年齢の差のみでよく、訴求自体は気にしすぎなくてよい</li>
+</ul>
+<hr />
+<h3 id="恵美子ピグマリオン：運動講座コンセプトへの初期反応">恵美子ピグマリオン：運動講座コンセプトへの初期反応</h3>
+<p><strong>相談内容</strong></p>
+<p>ベビー・キッズに続く新規ジャンルとして、運動を通じて脳を鍛える講座（世界最高のトップアスリートを目指す運動プログラム）の着地案について、田中の反応を確認した。</p>
+<p><strong>田中のフィードバック</strong></p>
+<p>田中は「トップアスリートを目指す」という打ち出しよりも、もっと一般的な訴求の方が良いのではという初期反応を示した。恵美内容としては同水準のコンテンツが既に用意できていることを説明したが、田中はキッズ・ベビーとは対象年齢が違うため広告訴求は別物として気にしなくてよいと整理した。</p>
+<blockquote>
+<p>「トップアスリートにするんですか？なんかもっと普通にしたらいいのに。」<br />
+「でもこれはキッズは広告は全然違うと思いれますよ。あの訴求は同じだとしても、対象年齢が違うから、そこは別に気にしてんくていいと思いれますけど、この案件については。」</p>
+</blockquote>
+<p><strong>着地</strong></p>
+<ul>
+<li>運動講座の「トップアスリート」訴求は再検討の余地ありという初期反応を持ち帰り、詳細は次回以降に持ち越し</li>
+<li>キッズ・ベビーと運動講座は対象年齢が異なるため、広告訴求が似通うことは気にしなくてよい</li>
+</ul>
+<hr />
+<h3 id="砂川陽輝(すなかわたかき)：ハウスリスト向け十日間チャレンジと広告代理店の使い分け">砂川陽輝(すなかわたかき)：ハウスリスト向け十日間チャレンジと広告代理店の使い分け</h3>
+<p><strong>相談内容</strong></p>
+<p>今月末から、昨年実施した「自宅をパワースポットにする」十日間チャレンジ（今回は風水寄りのコンセプト）をハウスリスト・未購入リスト向けに5,500円で再実施する予定があり、これを広告と同時に回してよいか相談。あわせて、現在回している広告コンセプトはCTRが良い一方CVRが伸びておらず、広告に寄せてLPを変えるべきか、LPに寄せて広告を変えるべきかの判断基準、および広告代理店2社（ライドさん・別会社）の使い分け方についても相談した。</p>
+<p><strong>田中のフィードバック：新規リストへの有料入り口は避ける</strong></p>
+<p>田中は、十日間チャレンジには広告を回さない方がよいと明言。過去に自ら広告対効果が悪く撤退した経緯があり、既存リストには反応が良くても新規リストにとって有料の入り口はハードルが高いという実感を共有した。</p>
+<blockquote>
+<p>「僕だったら広告は回さないですからね。」<br />
+「新規リストの反応はすごくやっぱ入り口有料は微妙。やったなっていう印象があるから、単純にやっぱあのハウスリストの掘り起こし企画だと思って方が僕はいいと思いれますけどね。」</p>
+</blockquote>
+<p><strong>LP・広告の整合性はCPOで判断する</strong></p>
+<p>広告とLPどちらに寄せるべきかという問いに対し、田中は「広告に合わせてLPを作る」のが王道だとした上で、最終的には作って数値（CPO）で判断すればよく、一貫性のなさそのものを事前に気にしすぎる必要はないという考え方を示した。動画LPのバリエーションを増やす（キャッチコピー系パネル・別パネルなど）ことがテスト量の確保につながるとし、あかまさんの事例（YouTube動画を大量に作り、都度LPを作ってテストする手法）を紹介した。</p>
+<blockquote>
+<p>「それはもうエルピオを作ってシーピオーで判断するから、あんまり僕は気にしない。」<br />
+「エルピーの数はテスト量だ。っていうふうに考えて、どんどんどんどんこう作るってのも一つ手ではないでしょうってい。」</p>
+</blockquote>
+<p><strong>広告代理店2社の使い分け</strong></p>
+<p>複数の代理店に同じ広告運用を任せると使うLPが被って使い分けの意味が薄れるという相談に対し、田中は自身の運用例（外部代理店には自由に検証させ、自社では自分のアイデアを実践する）や、手数料型（クリエイティブを作らない運用専門）と実践型（アイデアを実行する）の2社体制の例を紹介。使うLPに会社ごとの縛りを設けることでリスク分散になるとアドバイスした。</p>
+<blockquote>
+<p>「使うlpに縛りを課すとかなんか僕とかそういうのをやりますけど。ね。こっちの会社さんはlp123。こっちの会社ならlp345みたいなのとか。」</p>
+</blockquote>
+<p><strong>ネガティブ訴求と依存気質の顧客層</strong></p>
+<p>再生数が伸びやすい「仮想（バーチャル背景）」系・ネガティブ訴求のコンテンツは、依存気質の顧客層を集めやすく、広告的には数値が良くても質が伴わない可能性があるという懸念を共有。「努力不要」「頑張らなくても叶う」系の切り口は依存気質層を大量に呼び込むリスクが高いとした。</p>
+<blockquote>
+<p>「努力不要。頑張らなくても似合うだけでう。運が叶う秘密の仮想とかやったら多分すごく依存気質の人たくさん来ますよ。」</p>
+</blockquote>
+<p><strong>技術的な問い合わせ（動画の下部表示）</strong></p>
+<p>砂川から、10分視聴後に表示される案内（課題提出ボタン等）が端末によって表示されないという問い合わせがたまに来る件について相談。田中・北村こうきともに「そういった問い合わせはあまり来ていない印象」との回答にとどまり、原因は特定端末の表示仕様による可能性が高いという整理になった。</p>
+<p><strong>着地</strong></p>
+<ul>
+<li>十日間チャレンジは広告を回さず、ハウスリスト・未購入リストへの掘り起こし企画として実施する</li>
+<li>広告とLPの整合性は事前に気にしすぎず、作って数値（CPO）で判断する。動画LPのバリエーションを増やしてテスト量を確保する</li>
+<li>広告代理店2社は使うLPに縛りを設けて使い分け、リスク分散を図る</li>
+<li>ネガティブ訴求・「努力不要」系の切り口は依存気質層を呼びやすいため、行動しやすい層向けの訴求も並行して試す</li>
+</ul>
+<hr />
+<h3 id="皆川文世：算数系講座のLP・広告反応の改善">皆川文世：算数系講座のLP・広告反応の改善</h3>
+<p><strong>相談内容</strong></p>
+<p>ダブルスクール算数講座（対象を3〜6歳に変更、以前は8歳まで）のLP・広告（1月開始・3クール予定）について、初動が鈍いことを相談。以前も画像を軽くしただけで数値が改善した経緯があり、皆川自身がすぐに試せる改善点や、算数を強く出さない訴求方針の是非について相談した。</p>
+<p><strong>田中のフィードバック：算数を教育するフックが弱い</strong></p>
+<p>田中は、現行LPのリード文（「非認知能力の育て方」「習い事で夫との意見が合わない」等）が算数という商材と関係が薄く、算数の価値を教育する導線として弱いと指摘。「何歳までにこういうことができる子は何を勉強していたかご存知ですか？実はそれは算数です」のような、算数への納得を作るコピー構造を提案した。</p>
+<blockquote>
+<p>「算数に対してイメージ。非認知能力の育て方って言ったら多分広告で分かってる人しか反応しないわけじゃないですか。」<br />
+「なんか何歳までにこういうことができる子は何を勉強してたかご存知ですか？実はそれは算数です。のをきたことです。みたいな感じのコピーができたらいいんですけどね。」</p>
+</blockquote>
+<p><strong>AI時代の子育てという切り口</strong></p>
+<p>田中は、「AI時代の子育て」という切り口であれば、算数が重要である理由を自然に伝えられるのではないかと提案。「AI時代の子育てで絶対に見落としちゃいけないことってご存知ですか？」といったフックから、算数の重要性へ誘導する構成を共有した。</p>
+<blockquote>
+<p>「Ai時代の子育てで絶対に見落としちゃいけないことってご存知ですか？みたいな感じとかのフックとかだ。そういう感じの方がまだ近いのかなとか思ですよね。」</p>
+</blockquote>
+<p><strong>画像広告では教育が難しい＝動画への切り替え</strong></p>
+<p>前回のショート動画クリエイティブの反応が良かった実績を踏まえ、田中は画像広告では算数の価値を教育しきれないため、動画広告に切り替えるべきという結論を共有。実際に「自立して考える子が学んでいること」というリード文から算数へつなげる動画構成案を提示した。</p>
+<blockquote>
+<p>「情報量が多くても伝わんのは動画です。」<br />
+「だからこれとか単純に動画にしたら意外といけるかもしれないよね。」</p>
+</blockquote>
+<p><strong>着地</strong></p>
+<ul>
+<li>リード文を「AI時代の子育て」等、算数の価値へ自然につながる切り口に変更する</li>
+<li>「何歳までにできる子は何を学んでいたか＝算数です」という納得構造のコピーを検討する</li>
+<li>画像広告は算数の価値を教育しきれないため、動画広告への切り替えを優先する</li>
+</ul>
+<hr />
+<h2 id="Zoomチャットログ">Zoomチャットログ</h2>
+<p>原本: <code>0_データ原本/2026年/9月/4日/Zoom/20260904_Zoom_【ローンチ講座】グループコンサル_1600_チャット.txt</code></p>
+<h3 id="共有されたリンク">共有されたリンク</h3>
+<ul>
+<li>吉岡みかたが共有した新プログラム内容資料（Googleドキュメント・上位コースの再設計案）: <a href="https://docs.google.com/document/d/1_dzgJcsFlzCs1hAL0ui3m5GALJVQrlYQIibjZQ_PTZ0/edit?usp=sharing" target="_blank" rel="noopener noreferrer">https://docs.google.com/document/d/1_dzgJcsFlzCs1hAL0ui3m5GALJVQrlYQIibjZQ_PTZ0/edit?usp=sharing</a></li>
+<li>皆川文世が共有したLPリンク: <a href="https://tinyurl.com/28k6pruv" target="_blank" rel="noopener noreferrer">https://tinyurl.com/28k6pruv</a></li>
+</ul>
+<h3 id="発言ログ">発言ログ</h3>
+<table>
+<thead>
+<tr>
+<th>経過時間</th>
+<th>発言者</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00:05:50</td>
+<td>吉岡みかた</td>
+<td>旧：私の個別サポート押し／新：（上記Googleドキュメントリンク）</td>
+</tr>
+<tr>
+<td>01:04:45</td>
+<td>田中 祐一</td>
+<td>０〜２歳のお子様を持つママへ／２歳なのに５歳の子がチャレンジする100ピースパズルができた！／一流の才能を育てる ホーム育脳メソッド 体験プログラム</td>
+</tr>
+<tr>
+<td>01:26:55</td>
+<td>皆川 文世</td>
+<td>（上記LPリンク）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="決まったこと（サマリ）">決まったこと（サマリ）</h2>
+<ul>
+<li>吉岡みかた：コース名から期間訴求を外し、「現場体験」「クレジット」を差別化軸にする。仕事紹介・資格試験はアドバンスコース（購入後1年目）に回す</li>
+<li>事務局きたやま：クリエイティブを実写・ライフハック系へ寄せ、共通ドメインをやめ、広告セットの作り直しを検証する</li>
+<li>堀之内友香・恵美子ピグマリオン：ベビー訴求は「二歳なのに五歳相当のことができた」の比較構造＋「ホームインター」系ネーミングで統一。運動講座の「トップアスリート」訴求は再検討</li>
+<li>砂川陽輝：十日間チャレンジは広告を回さずハウスリスト限定で実施。LP・広告は数値（CPO）で判断し、動画LPのバリエーションを増やす</li>
+<li>皆川文世：算数講座のリード文を「AI時代の子育て」等の納得構造に変更し、画像広告から動画広告への切り替えを優先する</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-09-07)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: RQ76N7CW<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
