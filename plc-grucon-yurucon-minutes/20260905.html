@@ -1,0 +1,314 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PLCゆるコン 議事録（2026年9月5日） - PLCグルコン・ゆるコン議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>PLCグルコン・ゆるコン議事録</h3><a href="20260905.html" class="sidebar-item active"><span class="date">2026年09月05日</span> PLCゆるコン 議事録（2026年9月5日）</a>
+<a href="20260820-yoru.html" class="sidebar-item"><span class="date">2026年08月20日</span> PLCグルコン 議事録（2026年8月20日・夜の部）</a>
+<a href="20260820-hiru.html" class="sidebar-item"><span class="date">2026年08月20日</span> PLCグルコン 議事録（2026年8月20日・昼の部）</a>
+<a href="20260807.html" class="sidebar-item"><span class="date">2026年08月07日</span> PLCゆるコン 議事録（2026年8月7日）</a>
+<a href="20260806-yoru.html" class="sidebar-item"><span class="date">2026年08月06日</span> PLCグルコン 議事録（2026年8月6日・夜の部）</a>
+<a href="20260806-hiru.html" class="sidebar-item"><span class="date">2026年08月06日</span> PLCグルコン 議事録（2026年8月6日・昼の部）</a>
+<a href="20260730-yoru.html" class="sidebar-item"><span class="date">2026年07月30日</span> PLCグルコン 議事録（2026年7月30日・夜の部）</a>
+<a href="20260730-hiru.html" class="sidebar-item"><span class="date">2026年07月30日</span> PLCグルコン 議事録（2026年7月30日・昼の部）</a>
+<a href="20260725-yoru.html" class="sidebar-item"><span class="date">2026年07月25日</span> PLCグルコン 議事録（2026年7月25日・夜の部）</a>
+<a href="20260725-hiru.html" class="sidebar-item"><span class="date">2026年07月25日</span> PLCグルコン 議事録（2026年7月25日・昼の部）</a>
+<a href="20260715.html" class="sidebar-item"><span class="date">2026年07月15日</span> PLCグルコン 議事録（2026年7月15日・夜の部）</a>
+<a href="20260715-1004e1bc727e.html" class="sidebar-item"><span class="date">2026年07月15日</span> PLCグルコン 議事録（2026年7月15日・昼の部）</a>
+<a href="20260714.html" class="sidebar-item"><span class="date">2026年07月14日</span> PLCゆるコン 議事録（2026年7月14日）</a>
+<a href="20260708.html" class="sidebar-item"><span class="date">2026年07月08日</span> PLCゆるコン 議事録（2026年7月8日）</a>
+<a href="20260707.html" class="sidebar-item"><span class="date">2026年07月07日</span> PLCグルコン 議事録（2026年7月7日・夜の部）</a>
+<a href="20260707-5e9ed3b2209c.html" class="sidebar-item"><span class="date">2026年07月07日</span> PLCグルコン 議事録（2026年7月7日・昼の部）</a>
+<a href="20260701.html" class="sidebar-item"><span class="date">2026年07月01日</span> PLCグルコン 議事録（2026年7月1日・夜の部）</a>
+<a href="20260701-d3401ca6200f.html" class="sidebar-item"><span class="date">2026年07月01日</span> PLCグルコン 議事録（2026年7月1日・昼の部）</a>
+<a href="20260627.html" class="sidebar-item"><span class="date">2026年06月27日</span> PLCゆるコン 議事録（2026-06-27）</a>
+<a href="20260623.html" class="sidebar-item"><span class="date">2026年06月23日</span> PLCグルコン 議事録（2026年6月23日・昼の部）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> PLCゆるコン 議事録（2026年6月19日）</a>
+<a href="20260617.html" class="sidebar-item"><span class="date">2026年06月17日</span> PLCグルコン 議事録（2026年6月17日）</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> PLCグルコン（夜の部）議事録（2026年6月13日）</a>
+<a href="20260613-3a56945f0853.html" class="sidebar-item"><span class="date">2026年06月13日</span> PLCグルコン 議事録（2026年6月13日 昼の部）</a>
+<a href="20260610.html" class="sidebar-item"><span class="date">2026年06月10日</span> PLCグルコン 議事録（2026年6月10日）</a>
+<a href="20260602.html" class="sidebar-item"><span class="date">2026年06月02日</span> PLCグルコン（夜の部）議事録（2026年6月2日）</a>
+<a href="20260602-f13139568009.html" class="sidebar-item"><span class="date">2026年06月02日</span> PLCグルコン 議事録（2026年6月2日 昼の部）</a>
+<a href="20260520.html" class="sidebar-item"><span class="date">2026年05月20日</span> PLCグループコンサル 議事録（2026年5月20日 夜の部）</a>
+<a href="20260520-fc0051431603.html" class="sidebar-item"><span class="date">2026年05月20日</span> PLCグループコンサル 議事録（2026年5月20日 昼の部）</a>
+<a href="20260514.html" class="sidebar-item"><span class="date">2026年05月14日</span> PLCグループコンサル 議事録（2026年5月14日 夜の部）</a>
+<a href="20260514-74eed309bae9.html" class="sidebar-item"><span class="date">2026年05月14日</span> PLCグループコンサル 議事録（2026年5月14日 昼の部）</a>
+<a href="20260512.html" class="sidebar-item"><span class="date">2026年05月12日</span> PLCゆるコン 議事録（2026年5月12日）</a>
+<a href="20260509.html" class="sidebar-item"><span class="date">2026年05月09日</span> PLCグループコンサル 議事録（2026年5月9日 夜の部）</a>
+<a href="20260509-f734fb8aa984.html" class="sidebar-item"><span class="date">2026年05月09日</span> PLCグループコンサル 議事録（2026年5月9日 昼の部）</a>
+<a href="20260501.html" class="sidebar-item"><span class="date">2026年05月01日</span> PLCグルコン 夜の部 議事録（2026年5月1日）</a>
+<a href="20260501-e94556d71fc5.html" class="sidebar-item"><span class="date">2026年05月01日</span> PLCグルコン 昼の部 議事録（2026年5月1日）</a>
+<a href="20260421.html" class="sidebar-item"><span class="date">2026年04月21日</span> PLCグルコン 夜の部 議事録（2026年4月21日）</a>
+<a href="20260421-2f4a2537a433.html" class="sidebar-item"><span class="date">2026年04月21日</span> PLCグルコン 昼の部 議事録（2026年4月21日）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> 2026年4月15日 PLCグルコン 夜の部 議事録</a>
+<a href="20260415-3f8a53ba3853.html" class="sidebar-item"><span class="date">2026年04月15日</span> 2026年4月15日 PLCグルコン 昼の部 議事録</a>
+<a href="20260411.html" class="sidebar-item"><span class="date">2026年04月11日</span> 2026年4月11日 PLCグルコン（夜）議事録</a>
+<a href="20260411-7398d86a7ace.html" class="sidebar-item"><span class="date">2026年04月11日</span> 2026年4月11日 PLCグルコン 議事録</a>
+<a href="20260407.html" class="sidebar-item"><span class="date">2026年04月07日</span> 2026年4月7日 PLCゆるコン 議事録</a>
+<a href="20260404.html" class="sidebar-item"><span class="date">2026年04月04日</span> 2026年4月4日 PLCゆるコン 議事録</a>
+<a href="20260402.html" class="sidebar-item"><span class="date">2026年04月02日</span> 2026年4月2日 PLCグルコン 議事録</a>
+<a href="20260402-df1b8e4cce50.html" class="sidebar-item"><span class="date">2026年04月02日</span> 2026年4月2日 PLCグルコン 議事録（夜の部）</a>
+<a href="20260329.html" class="sidebar-item"><span class="date">2026年03月29日</span> 2026年3月29日 PLCグルコン 議事録</a>
+<a href="20260329-f1b44c1f2add.html" class="sidebar-item"><span class="date">2026年03月29日</span> 2026年3月29日 PLCグルコン（夜の部） 議事録</a>
+<a href="20260323.html" class="sidebar-item"><span class="date">2026年03月23日</span> PLCゆるコン 議事録</a>
+<a href="20260320.html" class="sidebar-item"><span class="date">2026年03月20日</span> 2026年3月20日 PLCグルコン 議事録</a>
+<a href="20260228.html" class="sidebar-item"><span class="date">2026年02月28日</span> PLCグループコンサル 昼の部</a>
+<a href="20260227.html" class="sidebar-item"><span class="date">2026年02月27日</span> PLCゆるグルコン 議事録</a>
+<a href="20260224.html" class="sidebar-item"><span class="date">2026年02月24日</span> 20260224 PLCゆるグルコン 議事録</a>
+<a href="20260221.html" class="sidebar-item"><span class="date">2026年02月21日</span> 20260221 PLCゆるグルコン 議事録</a>
+<a href="20260221-06dd9b31fac0.html" class="sidebar-item"><span class="date">2026年02月21日</span> 20260221 PLCオンライン懇親会 議事録</a>
+<a href="20260213.html" class="sidebar-item"><span class="date">2026年02月13日</span> 2026年2月13日 PLCゆるグルコン 議事録</a>
+<a href="20260212.html" class="sidebar-item"><span class="date">2026年02月12日</span> 2026年2月12日 PLCグルコン夜の部 議事録</a>
+<a href="20260212-a13e77e229f6.html" class="sidebar-item"><span class="date">2026年02月12日</span> 2026年2月12日 PLCグルコン昼の部 議事録</a>
+<a href="20260207.html" class="sidebar-item"><span class="date">2026年02月07日</span> PLCゆるグルコン 議事録</a>
+<a href="20260206.html" class="sidebar-item"><span class="date">2026年02月06日</span> PLCグループコンサル 夜の部</a>
+<a href="20260206-c27e227335ca.html" class="sidebar-item"><span class="date">2026年02月06日</span> PLCグループコンサル 昼の部</a></nav>
+<main class="content"><article class="article"><h1>PLCゆるコン 議事録（2026年9月5日）</h1>
+<h2 id="サマリー">サマリー</h2>
+<p>この回は田中祐一・事務局(林)・首藤淳の3名によるコンパクトな回です。<br />
+冒頭に事務局(林)から「田中祐一AI（MCP版）のトークン200が無くなったらどうなるのか」という運用上の質問があり、田中は「MCP版は通信費が無制限なので追加の心配は不要」と回答しました。<br />
+主な論点は首藤淳さんの相談「実店舗事業（沖縄で新規出店・6人採用予定）でAI導入を進めたいが、スタッフがアナログで自分だけでは回らない。外部コンサルを入れるべきか、相場感はどのくらいか」です。<br />
+田中は自身の実例（AI得意なスタッフを一人育て、そのスタッフが社内のアナログ層をフォローする体制、月額コーチングの相場感、片岡さんの講座つながりでの紹介案）を共有し、「実績のある人を高く使うか、これからの人を安く育てて実績作りにするかは戦略次第」という整理を提示しました。<br />
+後半は持続化補助金・IT導入補助金でAI費用を賄えないかという雑談的な検討と、「AIの最先端情報はもう出揃っており、実業の現場では技術的な最先端よりも社内でスキル化・ナレッジ化するPDCAの座組の方が重要」という田中の考え方の共有で締めくくられました。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年9月5日（土）13:02〜13:26（24分）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoomゆるコン（グループコンサル・壁打ち形式）</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一（講師）、林威見、首藤淳さん</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://us02web.zoom.us/rec/share/IJT_EV2s7GVOrkwxhWfvzQ_7S4vpTPhgHrYeCQnfnD75aFotXvHovHce6FI_OsJL.K9gdQ6U_BOe_l77W" target="_blank" rel="noopener noreferrer">https://us02web.zoom.us/rec/share/IJT_EV2s7GVOrkwxhWfvzQ_7S4vpTPhgHrYeCQnfnD75aFotXvHovHce6FI_OsJL.K9gdQ6U_BOe_l77W</a></td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td>0_データ原本/2026年/9月/5日/Zoom/20260905_Zoom_【ローンチ講座】グループコンサル_1302.md</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・全体構成">議論の流れ・全体構成</a></li><li class="toc-main"><a href="#参加者ごとのセクション">参加者ごとのセクション</a></li><li class="toc-sub"><a href="#林威見さん：田中祐一AI（MCP版）のトークン運用について">林威見さん：田中祐一AI（MCP版）のトークン運用について</a></li><li class="toc-sub"><a href="#首藤淳さん：実店舗事業のAI導入・社内展開と外部コンサルの相場感">首藤淳さん：実店舗事業のAI導入・社内展開と外部コンサルの相場感</a></li><li class="toc-sub"><a href="#補助金でAI費用を賄えるかの検討（首藤淳さん・田中の雑談的トピック）">補助金でAI費用を賄えるかの検討（首藤淳さん・田中の雑談的トピック）</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-sub"><a href="#MCP版の田中祐一AIは通信費無制限。トークン残数を気にする必要はない">MCP版の田中祐一AIは通信費無制限。トークン残数を気にする必要はない</a></li><li class="toc-sub"><a href="#実力のある人は高い。「安く育てて実績作りにする」か「高くても実績のある人を使う」かは戦略の分岐点">実力のある人は高い。「安く育てて実績作りにする」か「高くても実績のある人を使う」かは戦略の分岐点</a></li><li class="toc-sub"><a href="#社長個別サポートより「社内に展開できる人を一人育てる」座組の方が大事">社長個別サポートより「社内に展開できる人を一人育てる」座組の方が大事</a></li><li class="toc-sub"><a href="#最先端系（情報収集）と実務系（社内展開）は別物として切り分けて考える">最先端系（情報収集）と実務系（社内展開）は別物として切り分けて考える</a></li><li class="toc-sub"><a href="#AIの最先端情報はもう出揃っている。実業では「社内でスキル化・ナレッジ化するPDCAの座組」の方が価値が高い">AIの最先端情報はもう出揃っている。実業では「社内でスキル化・ナレッジ化するPDCAの座組」の方が価値が高い</a></li><li class="toc-sub"><a href="#IT導入補助金はパッケージ販売の登録が前提。単体ツールの導入費用には使いにくい">IT導入補助金はパッケージ販売の登録が前提。単体ツールの導入費用には使いにくい</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#首藤淳さん">首藤淳さん</a></li><li class="toc-sub"><a href="#田中祐一">田中祐一</a></li><li class="toc-main"><a href="#検討中・方針">検討中・方針</a></li></ul></nav><h2 id="議論の流れ・全体構成">議論の流れ・全体構成</h2>
+<p>冒頭、田中が「緩んでいきたいと思います。ぬるっと行こうと思います」と発言し、いつものグルコンより肩の力を抜いた「ゆるコン」であることを表明してスタート。</p>
+<ol>
+<li>林威見：田中祐一AI（MCP版）のトークン運用に関する質問（200トークンが無くなったらどうなるか）</li>
+<li>首藤淳さん：実店舗事業（沖縄の新規出店・6人採用予定）でのAI導入・社内効率化の壁打ち。外部コンサルの必要性と相場感</li>
+<li>補助金（持続化補助金・IT導入補助金・ものづくり補助金）でAI費用を賄えるかの雑談的な検討</li>
+<li>田中の総括：「AIの最先端情報はもう出揃っている」という実業向けの考え方の共有</li>
+</ol>
+<p>今回は壁打ち希望者が首藤淳さん1名のみで、全体を通して田中と首藤さんの1対1に近いやり取りが中心となった。</p>
+<hr />
+<h2 id="参加者ごとのセクション">参加者ごとのセクション</h2>
+<hr />
+<h3 id="林威見さん：田中祐一AI（MCP版）のトークン運用について">林威見さん：田中祐一AI（MCP版）のトークン運用について</h3>
+<p><strong>質問内容</strong></p>
+<p>田中祐一AIをガシガシ使っているが、200トークンが付いており、それがなくなったら追加できるのか、という運用上の確認。</p>
+<p><strong>田中の回答：「MCP版は通信費無制限なので追加の心配は不要」</strong></p>
+<p>田中は、追加する予定はない（できないというより、するつもりがない）と回答。理由として、以前のワークショップで話した通り、MCPが正しいバージョンでありブラウザ版は使えないため、ブラウザ版のトークンを気にする必要はないと説明した。林さんが「MCPはトークンと関係ない」のか確認したところ、田中は「通信費は無制限」であり、減っているように見えるのはAIとしてのトークン表示の話で、クラウド版（田中自身が契約・管理している方）は別扱いだと整理した。</p>
+<blockquote>
+<p>「エムシーピーが正しいバージョンだ。よって、以前のせつ、前回のワークショップの時に話をしてて、ブラウザバージョンはだから使えないので。特に追加する必要はないですっていう話」<br />
+「通信費は無制限」</p>
+</blockquote>
+<p>田中は「どんなナレッジが入っているのか探り出しても別にいい」くらいの気持ちだが、やりすぎると結局自分（田中）のトークンを食う形になるとも補足した。林さんは「安心して使い倒していい」と納得した。</p>
+<hr />
+<h3 id="首藤淳さん：実店舗事業のAI導入・社内展開と外部コンサルの相場感">首藤淳さん：実店舗事業のAI導入・社内展開と外部コンサルの相場感</h3>
+<p><strong>相談内容</strong></p>
+<p>首藤さんは実店舗事業がメインになってきており、沖縄で新規出店予定（6人程度を新規採用）。日々の業務をAIで効率化できる余地は大きいと感じているが、現在いるスタッフはほぼアナログな人ばかり。首藤さん自身が各スタッフの業務をヒアリングしてAI活用法を教える形で回してきたが、それをやっていると他の仕事ができなくなる。外部のコンサルを入れて、会社全体の業務をある程度把握した上で週1〜隔週ペースで定期的にスタッフと自分を交えて指導してもらう、という座組が必要ではないかという相談。あわせて、そうしたAI活用支援サービス・人がPLCメンバー等にいないか、という質問も添えられた。</p>
+<p><strong>田中の反応：「実力のある人は高い。バランス調整の問題」</strong></p>
+<p>田中はまず、実力のある人ほど単価が高くなるため、そこをどうバランス調整するかが論点になると整理。自身の実例として、自分の経費で毎月コンサルを受けつつ、AIが得意なスタッフを一人その受講に同席させ、そのスタッフが社内のアナログなメンバーと毎週ミーティングをする、という「社内展開の番組」を回していると共有した。</p>
+<blockquote>
+<p>「僕とかはあの、まあ、もちろん自分の経費にもなるからってのはあって、自分で毎月のコンサル頼んでて、それをスタッフが一人エーアイ得意なスタッフを一人入れて一緒に受けて、そのスタッフがアナログな人達と毎週ミーティングをするっていう番組をしてます」</p>
+</blockquote>
+<p><strong>金額感の整理：最先端系と実務系は切り分けて考える</strong></p>
+<p>田中は、自身のスタッフは固定20万円/月の業務内容に社内15人との面談等を全部盛り込んでいる一方、外部のコンサル登録（青ん坊さんのYouTube AIコンサル等）は月額30万円程度が相場だと共有。さらに「最先端系」と「実務系」は色合いが違うため切り分けて考える必要があると整理し、田中自身は最先端のネタは「おさるさんのAI講座」（買い切り30万円、契約上のサポート期間は2ヶ月だが実質ずっとチャットに入れる）で仕入れていると説明した。実務面はメンバーサイトでスタッフに見せられるが、AIが得意でないスタッフは見ないため、実質AI得意な一人だけが担当する形になっているとし、元PLCの小泉君にも同様の役割をやらせていたと補足した。</p>
+<blockquote>
+<p>「僕もやっぱなんかこう。まあエーアイを稼いでるトップ層の、例えばデプレさんっていう方とかも月300,000とかだったし、青森さんも月300,000だったし」</p>
+</blockquote>
+<p><strong>社内展開の実働単価：1セッション3,000〜5,000円で回せる</strong></p>
+<p>田中は、1セッションあたりの支払額さえ決めればコストは抑制できると説明。5,000円なら時給10,000円相当、3,000円でも時給6,000円相当になるとし、実績のある人（講座を持っている・法人コンサルをやっている等）に頼む必要はなく、「社内にクロードコードを入れて、何をしたいかヒアリングして、これをやりましょうと目標を決めて進める」役割であれば、これから実績を積む人にお願いする形でも十分機能すると助言した。</p>
+<blockquote>
+<p>「一回のセッションあたりにお支払いする金額さえ決めれば。コスト的には結構抑制できると」</p>
+</blockquote>
+<p><strong>社長個別支援より「社内に一人展開できる人を育てる」座組を優先すべき</strong></p>
+<p>田中は自身の考えとして、社長が社員全員に直接教えるのは現実的でなく、「全体が機能する座組を考えるのは好きだが、個別サポートはしたくない」と明言。自社の例（経理担当がクロードコードを使えるようになり、フルAI経理に近づいた背景に3ヶ月間のマンツーマンコーチング＋コーチが毎回状況を確認する体制があったこと）を紹介し、多くの外部コンサルは「社長ができるようにする」支援しか意識しておらず、「社員まで仕上げます」まで踏み込むと金額が跳ね上がると指摘。田中自身は社長コーチングを自分ともう一人で受けて、そこから社内に流し込むという構造を取っており、コーチング自体は月10万円程度でも成立するはずだと見立てを共有した。</p>
+<blockquote>
+<p>「社長もaiできるようにします。よっていうサポートをほとんどの人たちが提供していて、社員まで仕上げますっていうのになると金額が跳ね上がると思っているんですよ」<br />
+「コーチング系とか十万とかだったらできるはずなんで」</p>
+</blockquote>
+<p><strong>戦略の分岐：実績のある人を高く使うか、これからの人を安く育てて実績作りにするか</strong></p>
+<p>首藤さんが「片岡さんがやっていたような社長向けAI講座のイメージか」と確認したのに対し、田中は「そうですね」と同意しつつ、実力のある人（月30万円クラス）を使うか、これから実績を積む人を実績作りとして安価に迎え入れるかは戦略次第だと整理。首藤さんは「今回はめちゃくちゃ難しいことをやろうとしているわけではないので、実績作り・これからガチでやっていく人に頼むぐらいでよさそう」と方向性を定めた。田中はPLCの「なんでも募集チャット」での募集や、片岡さんつながりで直接紹介してもらう案（PLCのダブルワークをやっている橋本さんという女性を経由するルート）も提示。ただし片岡さんの講座は年齢層が高めで、ちょうどよい人が見つからない可能性もあると補足した。</p>
+<hr />
+<h3 id="補助金でAI費用を賄えるかの検討（首藤淳さん・田中の雑談的トピック）">補助金でAI費用を賄えるかの検討（首藤淳さん・田中の雑談的トピック）</h3>
+<p><strong>話題の内容</strong></p>
+<p>首藤さんが沖縄の補助金（狙っていたものが申請前に満額到達してしまい、別の形であらためて相談予定）に触れたのを受け、田中は「スタッフにAIを使わせると地味に費用が積み重なる」問題を挙げ、その費用を補助金（持続化補助金・IT導入補助金）でまかなえないか調べようとしていたことを共有した。</p>
+<p><strong>IT導入補助金は使いづらそう。パッケージ販売の登録が必要</strong></p>
+<p>田中は、持続化補助金であれば200万円程度引っ張ってこられそうだが、広告枠に使える金額は30万円程度が上限で、システム開発などに組み込まないと大きな金額は引っ張れないと整理。IT導入補助金についても、自社（ザ・リード）が「IT導入支援業者」として国に登録し、特定のパッケージをクライアントに販売する形でないと補助対象にならなそうだという理解を共有し、「クロード単体」を補助対象にするのは難しそうだと結論づけた。PLCパッケージ（20万円＋マーケティングコンサル込み）を補助対象にできないか一瞬検討したが、「構造は補助金対象にならないと書いてある」ことを確認し、この日は試すだけに留まった。</p>
+<p>首藤さんは「ものづくり補助金」で機材・資材購入（500万〜1,000万円規模）を狙っていく方向で検討していると共有した。</p>
+<hr />
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
+<h3 id="MCP版の田中祐一AIは通信費無制限。トークン残数を気にする必要はない">MCP版の田中祐一AIは通信費無制限。トークン残数を気にする必要はない</h3>
+<p>田中祐一AI（MCP版）は通信費が無制限であり、ブラウザ版のトークン表示を気にする必要はない。MCPが正しいバージョンで、ブラウザ版は使えない前提のため、トークンの追加購入をする予定もない。</p>
+<h3 id="実力のある人は高い。「安く育てて実績作りにする」か「高くても実績のある人を使う」かは戦略の分岐点">実力のある人は高い。「安く育てて実績作りにする」か「高くても実績のある人を使う」かは戦略の分岐点</h3>
+<p>外部のAIコンサル・支援者は実力に応じて単価が上がる。会社の状況（何を求めているか）によって、実績のある人を高い単価で使うか、これから実績を積みたい人を安く迎えて実績作りの機会を提供するかを選ぶべきという整理。</p>
+<blockquote>
+<p>「僕はそうだと思ってたんで。一回のセッションあたりにお支払いする金額さえ決めれば。コスト的には結構抑制できると」</p>
+</blockquote>
+<h3 id="社長個別サポートより「社内に展開できる人を一人育てる」座組の方が大事">社長個別サポートより「社内に展開できる人を一人育てる」座組の方が大事</h3>
+<p>社長本人がAIを使えるようになる支援は多くのコンサルが提供しているが、「社員まで仕上げる」支援は金額が跳ね上がる。田中自身は社長コーチングを受けつつ、社内のAI得意なスタッフ一人に同席させ、そのスタッフが他のアナログなスタッフに展開する構造を取っている。</p>
+<blockquote>
+<p>「なんで全体が機能する座組を考えるのはいいけど、個別サポートはしたくないわけですよ」</p>
+</blockquote>
+<h3 id="最先端系（情報収集）と実務系（社内展開）は別物として切り分けて考える">最先端系（情報収集）と実務系（社内展開）は別物として切り分けて考える</h3>
+<p>AIの最先端情報を仕入れるための投資（講座・コミュニティ）と、社内の業務効率化を実際に回すための投資（コーチング・展開役の育成）は性質が異なるため、別物として予算・相場感を考えるべきという整理。</p>
+<h3 id="AIの最先端情報はもう出揃っている。実業では「社内でスキル化・ナレッジ化するPDCAの座組」の方が価値が高い">AIの最先端情報はもう出揃っている。実業では「社内でスキル化・ナレッジ化するPDCAの座組」の方が価値が高い</h3>
+<p>田中は、SNS上の「驚き屋」が発信する最先端ネタは実業の業務改善にはほとんど必要なく、実業事業者にとって重要なのは「誰かがやっていることをスキル化・ナレッジ化して社内で共有し、PDCAサイクルを回す座組」を作ることだと明言。実業は最先端から二段三段遅れていい業界であり、技術的な観点の追いかけっこよりも、日常的にAIを使う習慣化と社内共有の仕組みづくりの方がよほど大事だという考えを共有した。</p>
+<blockquote>
+<p>「実業で使う仕組みか。やったら普通にもう情報要らないと思いれますけど」<br />
+「結局誰かがやってることをスキル化する。とか、そのナレッジに入れるとかいうのをどうなんかこう社内で共有してPDCAサイクル回すのかっていう座組さえ組めれれば、もうあの要らなくないすか？とか思うわけですよ」</p>
+</blockquote>
+<h3 id="IT導入補助金はパッケージ販売の登録が前提。単体ツールの導入費用には使いにくい">IT導入補助金はパッケージ販売の登録が前提。単体ツールの導入費用には使いにくい</h3>
+<p>IT導入補助金は「導入支援業者」として国に登録し、特定のパッケージをクライアントに販売する形でないと補助対象になりにくい。クロードコード単体の利用費用のような形では旨味が薄く、システム開発など大きな枠に組み込む必要がある。広告枠だけの活用は上限が低い（30万円程度）。</p>
+<hr />
+<h2 id="決まったこと">決まったこと</h2>
+<ul>
+<li>林威見さん：田中祐一AI（MCP版）は通信費無制限のため、トークンの追加購入を心配せず使ってよいことを確認</li>
+<li>首藤淳さん：外部のAIコンサルは「実績作り・これからガチでやっていく人」に依頼する方向で検討する。PLCの「なんでも募集チャット」での募集、または片岡さん経由（橋本さんへの相談）で人を探す</li>
+</ul>
+<hr />
+<h2 id="やること">やること</h2>
+<h3 id="首藤淳さん">首藤淳さん</h3>
+<ul>
+<li>[ ] PLCの「なんでも募集チャット」でAI導入支援ができる人を募集してみる</li>
+<li>[ ] 橋本さん（片岡さんの講座つながり）に直接紹介可能な人がいないか相談する</li>
+<li>[ ] 新規採用予定の6人のうち、IT予備知識がありAI活用に前向きな人を1人選び、社内展開役として育てる方向で検討する</li>
+<li>[ ] ものづくり補助金（機材・資材購入、500万〜1,000万円規模）の申請準備を進める</li>
+</ul>
+<h3 id="田中祐一">田中祐一</h3>
+<ul>
+<li>[ ] IT導入補助金・持続化補助金でAI費用（クロードコード等）を対象にできるか、ザ・リードの補助金申請の一環であらためて確認する</li>
+</ul>
+<hr />
+<h2 id="検討中・方針">検討中・方針</h2>
+<ul>
+<li>首藤さんの社内AI展開：外部コンサルを「実績のある高単価な人」にするか「これからの人を安く育てて実績作りにする」かは未確定。まずは実績作り系での募集を試す方針</li>
+<li>ザ・リードのIT導入補助金活用：自社を「IT導入支援業者」として登録し、パッケージ販売型にすれば補助対象になり得るという仮説はあるが、現時点では構造上「補助金対象にならない」との理解にとどまり、具体的な申請には至っていない</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-09-07)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: ZK69VKNV<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
