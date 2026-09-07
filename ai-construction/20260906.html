@@ -1,0 +1,586 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>広告担当AI社員と購入教材（内容調査＋設計） - AI社員化プロジェクト 設計方針</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">THE LEAD DOCUMENT</div><h3>AI社員化プロジェクト 設計方針</h3><a href="024.html" class="sidebar-item"><span class="date">2026年09月07日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
+<a href="20260907.html" class="sidebar-item"><span class="date">2026年09月07日</span> クリュウ教材を、LEADの複数案件で使うには</a>
+<a href="20260907-3b155c23d1a9.html" class="sidebar-item"><span class="date">2026年09月07日</span> 広告担当AIの実装範囲と完了条件</a>
+<a href="042.html" class="sidebar-item"><span class="date">2026年09月07日</span> 田中AIナレッジ同期 最新状況</a>
+<a href="043.html" class="sidebar-item"><span class="date">2026年09月07日</span> 田中祐一AI インプット来歴一覧（正本）</a>
+<a href="058.html" class="sidebar-item"><span class="date">2026年09月07日</span> 広告担当AIをLEADで動かす置き方（オーナー・広告担当向け）</a>
+<a href="060.html" class="sidebar-item"><span class="date">2026年09月07日</span> 運用: 田中AIナレッジ日次同期</a>
+<a href="20260906.html" class="sidebar-item active"><span class="date">2026年09月06日</span> 広告担当AI社員と購入教材（内容調査＋設計）</a>
+<a href="20260902.html" class="sidebar-item"><span class="date">2026年09月02日</span> 購入教材チェックポイント取り込み設計（第1号: 南幅一刀『1日で億稼ぐClaudeCodeローンチ制作の教科書』）</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a></nav>
+<main class="content"><article class="article"><h1>広告担当AI社員と購入教材（内容調査＋設計）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#1.-今回の目的と前提">1. 今回の目的と前提</a></li><li class="toc-main"><a href="#2.-田中さんの発言との対応">2. 田中さんの発言との対応</a></li><li class="toc-main"><a href="#3.-旧文書・直前の会話から変える点">3. 旧文書・直前の会話から変える点</a></li><li class="toc-main"><a href="#4.-クリュウ8部署から何を使うか">4. クリュウ8部署から何を使うか</a></li><li class="toc-main"><a href="#5.-初期版で一回の依頼をどう進めるか">5. 初期版で一回の依頼をどう進めるか</a></li><li class="toc-main"><a href="#6.-全案件共通のAI社員としての構成">6. 全案件共通のAI社員としての構成</a></li><li class="toc-main"><a href="#7.-保存と成果のつなぎ方">7. 保存と成果のつなぎ方</a></li><li class="toc-main"><a href="#8.-成果判定と、判定できない場合">8. 成果判定と、判定できない場合</a></li><li class="toc-main"><a href="#9.-実装順と、次へ進む条件">9. 実装順と、次へ進む条件</a></li><li class="toc-main"><a href="#10.-残る確認と設計更新の記録">10. 残る確認と設計更新の記録</a></li></ul></nav>
+<p>作成日: 2026-09-06<br />
+更新日: 2026-09-07（関連4文書と本タスクのやり取りを照合して再設計）<br />
+状態: 設計案。今回の作業は文書整理のみ。社員・スキル・接続・自動実行は未実装。<br />
+この文書を広告担当AI社員の設計の正本とする。実装の承認や稼働確認を意味しない。</p>
+<p>読み手別の補助文書:<br />
+- <a href="連絡用_広告担当AIの置き方_オーナーと広告担当向け.md">オーナー・広告担当向けの説明</a><br />
+- <a href="検討_20260907_広告担当AIの実装範囲.md">段階別の実装範囲と完了条件</a><br />
+- <a href="検討_20260907_クリュウ教材をLEAD複数案件で使う.md">複数案件での使い方と実行環境</a></p>
+<h2 id="1.-今回の目的と前提">1. 今回の目的と前提</h2>
+<p>目的は、山岸さんら広告担当が、新しい訴求を見つけ、コピーとクリエイティブを速く作り、結果を次の制作へ戻せるようにすること。<br />
+クリュウ教材の実務手順に、LEADの案件資料・既存ナレッジ・田中さんの判断を接続して、全案件共通の「広告担当AI社員」を設ける。</p>
+<table>
+<thead>
+<tr>
+<th>区分</th>
+<th>整理した内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ユーザーの希望</td>
+<td>制作を速くする。ヒットにつながる仮説を増やす。MTG・セールスから広告案を出す。購入教材を複数案件で使う</td>
+</tr>
+<tr>
+<td>既存方針</td>
+<td>窓口は広告担当1人。内的・外的リサーチを初期版に含める。LEADを共通の作業場所とする</td>
+</tr>
+<tr>
+<td>今回の再設計案</td>
+<td>初期版を「リサーチ→訴求選択→コピー→バナー候補の実物→添削→人の判断」の一連の仕事にする</td>
+</tr>
+<tr>
+<td>維持する境界</td>
+<td>スプシ・既存GASは変更しない。PALMOは広告・顧客・成果のデータ層。LEADは企画・制作・手順・判断の正本</td>
+</tr>
+<tr>
+<td>人の担当</td>
+<td>コピーの採用、出稿前の最終判断、入稿、広告セット、予算変更</td>
+</tr>
+<tr>
+<td>費用の方針</td>
+<td>既存文書の「追加API課金を避ける」を維持。既存契約・承認済み機能の範囲を実施時に確認する。無料・無制限とは断定しない</td>
+</tr>
+<tr>
+<td>今回の範囲</td>
+<td>この関連4文書の更新のみ。実装、画像制作、接続試験、外部送信、教材・ナレッジの書き換えは行わない</td>
+</tr>
+</tbody>
+</table>
+<p>将来の全体像は「調べる→作る→検証する→学びを残す」。最初に実用化するのは制作の一周である。<br />
+成果の紐付けや日次自動化の整備と並行して、可能な制作工程を進められる構成にする。</p>
+<h2 id="2.-田中さんの発言との対応">2. 田中さんの発言との対応</h2>
+<table>
+<thead>
+<tr>
+<th>根拠</th>
+<th>読み取れる要望</th>
+<th>設計への反映</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8/24 原本80〜121行</td>
+<td>競合から訴求を出す。自社PDCAと外部の発見を集め、バリエーションを増やす</td>
+<td>初期版に内的・外的リサーチを含める</td>
+</tr>
+<tr>
+<td>同91〜107行</td>
+<td>山岸さん側の「試していない施策が分かれば」という要望を田中さんが反復</td>
+<td>過去案との照合と、未使用の候補を残す</td>
+</tr>
+<tr>
+<td>同410〜434行</td>
+<td>セールス・アンケート・案件MTGから日々コピーを作り、良いものを使う</td>
+<td>案件資料を広告の材料に変換。出典と人の採否を記録</td>
+</tr>
+<tr>
+<td>同84〜87行</td>
+<td>入稿・初期広告セットは人が行う考え</td>
+<td>配信操作は人へ引き渡す</td>
+</tr>
+<tr>
+<td>4/20 原本100〜134行</td>
+<td>クリエイティブの仮説・日付付きフィードバック、説明会CPO・バックエンドCPO・ROAS・LTV、使用LPを見たい</td>
+<td>制作版と広告ID・LP・成果を対応付ける。評価は案件の最終成果まで参照</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../広告運用/MTG履歴/20260824_田中なんでもMTG_書き起こし原本.md">8月24日MTG原本</a><br />
+<a href="../広告運用/MTG履歴/20260420_田中なんでもMTG_書き起こし原本.md">4月20日MTG原本</a></p>
+<p>20〜30本はMTGで示された可能性・期待であり、毎回の最低提出本数ではない。根拠が薄い案で本数を埋めない。<br />
+MTGの発言、教材由来の方法、今回の設計提案を区別する。田中さんが特定教材名を発言したとまでは断定しない。</p>
+<h2 id="3.-旧文書・直前の会話から変える点">3. 旧文書・直前の会話から変える点</h2>
+<table>
+<thead>
+<tr>
+<th>食い違っていた点</th>
+<th>この再設計での扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>外的リサーチを初期版に含む記述と、後回し・任意の記述</td>
+<td>初期版に含める。取得できない回は当該工程を未確認と表示する</td>
+</tr>
+<tr>
+<td>「教材が本丸」と「内的リサーチは教材を使わない」</td>
+<td>教材01・02・03・05・07等の方法を、LEAD固有の資料と判断につなぐ</td>
+</tr>
+<tr>
+<td>コピーのみ／画像指示書のみ／画像3枚の混在</td>
+<td>初期版の予定は画像実物まで。指示書完成と画像完成を別状態で管理する</td>
+</tr>
+<tr>
+<td>「このCursorでは使えない」を全利用者に適用</td>
+<td>過去セッションの記録として扱う。実利用者の環境で機能と権限を確認する</td>
+</tr>
+<tr>
+<td>数値CSVの手動格納を分析の必須運用にする</td>
+<td>PALMO等の読み取り可能な実績を優先。CSVは受け渡し手段の一つであり、週次手入力を義務にしない</td>
+</tr>
+<tr>
+<td>広告分析はCPA分解だけとする</td>
+<td>説明会・購入までを広告評価に使う。LPやセールスの改善実務は既存担当へ渡す</td>
+</tr>
+<tr>
+<td>履歴に見当たらない案を「未試」と断定</td>
+<td>確認範囲を表示し、履歴不足は未確認とする</td>
+</tr>
+<tr>
+<td>社員ファイルや同期だけで起動・日次稼働とする</td>
+<td>利用する入口から提出までの実経路を確認する。定期起動とWeb公開は別工程</td>
+</tr>
+<tr>
+<td>番号付き広告フォルダと番号なしの混在</td>
+<td>実案件の既存構造を確認し、唯一の広告保存先を設定する。原則は対象案件内の「広告」</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4.-クリュウ8部署から何を使うか">4. クリュウ8部署から何を使うか</h2>
+<p><a href="../../41_リサーチ/購入教材/クリュウ_広告運用AIエージェントの教科書/教材本体/クリュウ式広告運用AI_Agent">教材本体</a></p>
+<table>
+<thead>
+<tr>
+<th>部署</th>
+<th>使う手順</th>
+<th>LEADでの受け持ち</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01 ナレッジ管理</td>
+<td>一次情報、顧客の言葉、実績、文体、効いた型を出典付きで整理</td>
+<td>広告の材料整理。共通知識への採用は既存ナレッジ管理へ</td>
+</tr>
+<tr>
+<td>02 リサーチ</td>
+<td>直接・間接・代替競合、顧客の悩み、広告内容から訴求マップを作る</td>
+<td>広告担当の専門工程。現行広告は画面等の確認根拠を残す</td>
+</tr>
+<tr>
+<td>03 戦略・ファネル設計</td>
+<td>最終成果から広告の役割を決め、訴求軸・テスト優先順位を制作へ渡す</td>
+<td>広告の実験設計に使う。商品・オファー変更はディレクターへ</td>
+</tr>
+<tr>
+<td>04 LP作成</td>
+<td>参考の構造分解、広告とLPの約束・CTAの照合</td>
+<td>既存LP担当へ改善依頼。別のLP制作系統は増やさない</td>
+</tr>
+<tr>
+<td>05 バナー作成</td>
+<td>異なる訴求、参考の視覚分解、コピー確定、生成設計、未採用案・版の保存</td>
+<td>初期版の制作の中心。画像実物の検品まで接続</td>
+</tr>
+<tr>
+<td>06 広告運用</td>
+<td>データ項目・取得状態・欠損確認</td>
+<td>PALMO等を読む連携の設計へ。Meta取得を重複実装しない</td>
+</tr>
+<tr>
+<td>07 広告分析</td>
+<td>計算結果から要因仮説・次の行動・学びを作る</td>
+<td>広告担当とファネル分析担当で分担</td>
+</tr>
+<tr>
+<td>08 クライアント対応</td>
+<td>数値・理由・次の行動を伝える</td>
+<td>報告、制作依頼、MTG論点の下書き。送信は別の明示依頼で既存経路を使う</td>
+</tr>
+</tbody>
+</table>
+<p>教材は保存先の文字列を変えるだけで導入しない。呼出先、参照順、スクリプト依存、画像生成、出力、検品までLEADに合わせる。<br />
+教材の部署別ナレッジコピー、デモ案件の事実、固定の予算変更率、CVゼロだけでの停止案は採用しない。<br />
+教材の制作デモはヒットや購入成果の実証ではない。出稿中の競合広告も、成果が良いと判断する根拠にはならない。</p>
+<h2 id="5.-初期版で一回の依頼をどう進めるか">5. 初期版で一回の依頼をどう進めるか</h2>
+<p>依頼例: 「広告担当、案件Aの直近MTGとセールス分析を使い、競合の切り口も踏まえて、次のテスト用のコピーとバナーを作って」<br />
+初回は対象案件・施策・LP・提出先を確定する。同じタスクで確定済みなら引き継ぎ、毎回同じ質問はしない。</p>
+<table>
+<thead>
+<tr>
+<th>工程</th>
+<th>入力と処理</th>
+<th>提出物・完了条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 受付</td>
+<td>案件マスター、目的、LP/オファー版、媒体、必要サイズ、参考素材、素材使用範囲を確認</td>
+<td>対象案件と保存先が一意。足りない項目だけ確認</td>
+</tr>
+<tr>
+<td>2 内的リサーチ</td>
+<td>MTG、セールス原本・分析、お客様の声、既存広告を読む</td>
+<td>悩み・購入理由・反論・語彙・使える証拠。出典、発言日、今回読んだ範囲を記録</td>
+</tr>
+<tr>
+<td>3 外的リサーチ</td>
+<td>競合広告や顧客が普段見る情報源を確認する</td>
+<td>観察した表現・構成・訴求と、URL・確認日・確認根拠。未取得分は未確認</td>
+</tr>
+<tr>
+<td>4 企画</td>
+<td>社内材料と外部の発見を組み合わせ、過去案と照合</td>
+<td>異なる訴求、狙う相手、根拠、テスト仮説、優先順位、未採用候補</td>
+</tr>
+<tr>
+<td>5 コピー</td>
+<td>冒頭・本文・見出し・CTAを作り、LPの約束と照合</td>
+<td>担当者が比較できる候補一覧。既存広告添削で問題を確認し、まとめて採用・修正を受ける</td>
+</tr>
+<tr>
+<td>6 制作</td>
+<td>採用コピーと参考の視覚分解からバナーを生成。動画は冒頭・台本・場面・編集指示を作る</td>
+<td>バナー画像実物、制作版、プロンプト、素材・参考の記録。動画完成品は別範囲</td>
+</tr>
+<tr>
+<td>7 検品と引渡し</td>
+<td>文字、サイズ、見切れ、読みやすさ、主張・LP整合、既存広告添削の修正結果を確認</td>
+<td>画像を実見した記録と採用候補。指示書のみは画像完成に数えない</td>
+</tr>
+<tr>
+<td>8 履歴</td>
+<td>採用・修正・不採用の理由、未使用案、今回の変更点を残す</td>
+<td>次回の依頼で前回履歴を読み、同じ案の再提出を避けられる</td>
+</tr>
+</tbody>
+</table>
+<p>候補数の例は「訴求3方向、各冒頭3案、採用コピーに対応するバナー最大3枚」。固定ノルマにせず、制作時間と配信テスト可能数に合わせる。<br />
+人の確認は候補を一覧にしてまとめて受ける。採用済みコピーや参考素材を再質問せず、修正指示のある範囲だけ再生成する。<br />
+外部リサーチ未確認でも内的材料からの案は作れる。ただし「競合調査済み」「リサーチ全工程完了」とは表示しない。<br />
+画像生成未接続ならコピー・設計書を提出し、画像を未完了とする。手渡し経路でも、画像を得て検品するところまで初期パイロットで確認する。</p>
+<h2 id="6.-全案件共通のAI社員としての構成">6. 全案件共通のAI社員としての構成</h2>
+<p>窓口は「広告担当」1人。中の専門工程をリサーチ・企画制作・成果分析と学習に分ける。<br />
+プロモーションディレクターが全体目的と優先順位を渡し、広告担当は制作・検証を進める。処理量が増えた時点で内部の専門作業を分担できる形にする。</p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>実装時の候補・接続</th>
+<th>今回の扱い</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>社員</td>
+<td>agents/01_プロモーション設計チーム/広告担当/agent.md</td>
+<td>定義案のみ</td>
+</tr>
+<tr>
+<td>起動入口</td>
+<td>skills/広告担当/SKILL.md から社員定義と必要な手順を明示的に読む</td>
+<td>未実装。名前だけの社員登録にしない</td>
+</tr>
+<tr>
+<td>手順</td>
+<td>広告リサーチ、広告コピー量産、広告バナー量産、広告分析。最初は共通入口配下の手順としてもよい</td>
+<td>入出力と引渡しを独立させる</td>
+</tr>
+<tr>
+<td>ナレッジ</td>
+<td>既存 knowledge/媒体別/Meta広告/ と案件の資料を参照</td>
+<td>教材原文を一括投入しない。新しい判断は出典付き候補として既存採用経路へ</td>
+</tr>
+<tr>
+<td>ゲート</td>
+<td>広告制作と広告成果分析の完了条件・機械確認・人の検品・未達時の扱い</td>
+<td>本文の条件を実装時に具体化する</td>
+</tr>
+<tr>
+<td>ルール</td>
+<td>案件境界、広告添削、ナレッジ管理、共通通知、4要素の既存正本</td>
+<td>今回は変更しない</td>
+</tr>
+<tr>
+<td>工程接続</td>
+<td>agents/_INDEX.md、ディレクター、工程表の正本に広告の制作・検証工程を追加</td>
+<td>実装時に同時整合。広告は運用中も反復する</td>
+</tr>
+<tr>
+<td>ツール入口</td>
+<td>既存のスキル同期を使い、担当者の利用環境で起動を確認</td>
+<td>スキル同期はWeb公開や定期実行とは別</td>
+</tr>
+</tbody>
+</table>
+<p>configs/ は人格・言葉遣い等の不変情報。可変の予算・目標CPO・ファネル・PALMO案件対応は案件マスター側に置く。<br />
+セールスFBから購入理由、証拠反論担当から根拠、LP担当から約束を受け取り、広告添削は独立して通す。<br />
+広告評価には下流成果を使うが、LP・セールス改善やオファー変更は、その担当へ根拠を添えて戻す。</p>
+<h2 id="7.-保存と成果のつなぎ方">7. 保存と成果のつなぎ方</h2>
+<p>初回に実案件の構造を確認し、対象施策内の既存「広告/」等を唯一の提出先として指定する。既存フォルダの移動や一律の番号付けはしない。<br />
+広告内には必要に応じて「参照資料一覧・リサーチ・企画・コピー・バナー・動画構成・添削・制作履歴・分析」を置く。空フォルダの大量作成は不要。</p>
+<table>
+<thead>
+<tr>
+<th>保存する情報</th>
+<th>正本・注意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>材料と根拠</td>
+<td>原本は既存保存先。広告側は参照先・日付・該当箇所と広告に使える要旨を保持。個人情報をコピーへ出さない</td>
+</tr>
+<tr>
+<td>制作履歴</td>
+<td>LEADに仮説ID、制作ID・版、訴求、冒頭、レイアウト、LP版、出典、採否・修正理由を残す</td>
+</tr>
+<tr>
+<td>配信実績</td>
+<td>PALMO等の取得済みデータを参照。LEADに新しい数値正本や顧客台帳を作らない</td>
+</tr>
+<tr>
+<td>対応表</td>
+<td>制作版とMeta広告IDを対応付ける。同画像を複数広告で使う場合もIDを潰さない。紐付かない広告を明示</td>
+</tr>
+<tr>
+<td>分析記録</td>
+<td>参照先、取得日時、期間、指標の定義、照合できた範囲、次の仮説を保存。必要な集計スナップショットは出所付きで保持</td>
+</tr>
+<tr>
+<td>共通の学び</td>
+<td>事例の条件・反証・件数を残して候補化。案件固有表現・顧客情報を除き、既存ナレッジ管理の審査を経る</td>
+</tr>
+</tbody>
+</table>
+<p>「未試」は全履歴と担当者確認等で確かめられた範囲に限る。履歴が欠ける場合は「参照した履歴では見つからない」とする。<br />
+学びを残すことはモデルの自動再学習ではない。次回の仕事で、採用済みの記録・判断を読み直す仕組みである。</p>
+<h2 id="8.-成果判定と、判定できない場合">8. 成果判定と、判定できない場合</h2>
+<p>説明会CPO・購入CPOは案件目的に合わせて使う。説明会は申込か参加か、購入は契約か入金か、対象期間と成果が出るまでの観測期間を先に定義する。<br />
+クリック等の上流指標も原因を考える材料にする。CPAが安いことだけで「当たり」と決めない。停止・増額の固定値を教材から自動移植しない。</p>
+<p>ハウスリスト、メール相違、広告不明の成果は、確認済みの広告成果と区別して表示する。<br />
+本人確認の材料がない人を推測で結び付けない。購入の紐付け不明は購入ゼロではない。未照合率と未照合件数を併記する。<br />
+配信期間、対象者、LP、成果の遅れが異なるものを単純比較せず、少数成果や不足データは判定保留にする。<br />
+広告IDごとの結果と、訴求・制作版でまとめた結果を区別し、まとめた際の対象ID・費用・重複除外方法を残す。</p>
+<p>レポートは「観測した数値→考えられる要因→根拠と限界→次に変える箇所→担当→いつ何を見るか」まで書く。<br />
+新しい訴求を探す段階では複数方向を試し、ヒット理由を確認する段階では冒頭だけ等に変更を絞る。ヒットの事前保証はしない。</p>
+<h2 id="9.-実装順と、次へ進む条件">9. 実装順と、次へ進む条件</h2>
+<table>
+<thead>
+<tr>
+<th>段階</th>
+<th>予定範囲</th>
+<th>次へ進む条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 実装前の準備</td>
+<td>最初の案件、利用環境、素材範囲、画像生成経路、追加API課金を避ける条件、試験の評価方法を固定</td>
+<td>足りない情報だけ確認。実装を開始する明示依頼がある</td>
+</tr>
+<tr>
+<td>1 制作の一周</td>
+<td>共通入口、内的・外的リサーチ、企画、コピー、バナー実物、広告添削、採否・制作版の保存</td>
+<td>担当者の環境から1案件で実行し、使える候補と画像実物を得る。未接続工程は未完了と報告</td>
+</tr>
+<tr>
+<td>2 反復と複数案件</td>
+<td>前回の採否と未使用訴求を読み、次の案を作る。別案件へ切り替える</td>
+<td>同じ材料・同じ案の再提出を減らせる。別案件の事実や素材が混ざらない</td>
+</tr>
+<tr>
+<td>3 成果を制作へ戻す</td>
+<td>PALMO等の読み取り、広告ID対応、説明会・購入成果、次のテスト案</td>
+<td>既知の広告で画像・費用・成果の対応を照合。欠損・重複・未照合を検知できる</td>
+</tr>
+<tr>
+<td>4 定期稼働</td>
+<td>新規資料の差分取得、実行頻度、生成上限、失敗時の扱いを設定</td>
+<td>同じ資料で重複生成しない。失敗・未処理分を把握できる。通知は別途許可された範囲のみ</td>
+</tr>
+</tbody>
+</table>
+<p>段階1の中で「文章→画像」の順に作る。画像を恒久的に後回しにする案へ戻さない。<br />
+制作速度・採用率は、試験前に人の現行作業と比較する方法を決める。待ち時間、手渡し、修正・再生成時間も含める。<br />
+目標本数や工数削減率は現時点で未設定。初期評価は「使える案の割合・異なる仮説の数・入稿候補までの所要時間」、配信後にCPO等を加える。</p>
+<h2 id="10.-残る確認と設計更新の記録">10. 残る確認と設計更新の記録</h2>
+<p>実装時に必要なのは、最初の案件・施策、山岸さんの利用環境、画像生成経路と契約範囲、承認担当、試験の評価条件。<br />
+PALMOの読み取り方法・項目・期間は段階3の前に確認する。制作開始の必須条件にはしない。<br />
+日次起動やWeb画面の追加は別実装であり、今回の社員設計から自動的に有効になるものではない。</p>
+<p>今回の文書整理の完了条件:<br />
+- 関連4文書を読み、初期版・費用・環境・保存先・分析の食い違いを解消する。<br />
+- MTGの確認事実、教材の手順、提案、未検証事項を分ける。<br />
+- 初期版に内的・外的リサーチとバナー実物までの予定を含め、部分完了条件を残す。<br />
+- 既存社員・正本の責務を確認し、実装コードを変更しない。<br />
+- 補助3文書を同じ段階・状態に揃え、リンク・署名・変更範囲・独立レビューを確認する。</p>
+<p>参照した既存正本:<br />
+- <a href="../../knowledge/媒体別/Meta広告/クリエイティブ制作/README.md">広告制作ナレッジ</a><br />
+- <a href="../../agents/_INDEX.md">社員索引</a> と <a href="../../skills/プロモーションディレクション/SKILL.md">ディレクション</a><br />
+- <a href="../../configs/README.md">configsの役割</a> と <a href="../../rules/プロジェクト責務分担表.md">プロジェクト責務</a><br />
+- <a href="../../02_ツール/開発支援/3層構造_同期監視.py">スキル同期コード</a><br />
+- <a href="../../41_リサーチ/購入教材/クリュウ_広告運用AIエージェントの教科書/教材本体/クリュウ式広告運用AI_Agent/部署/01_ナレッジ管理/スキル/knowledge-builder/SKILL.md">教材01の材料整理</a><br />
+- <a href="../../41_リサーチ/購入教材/クリュウ_広告運用AIエージェントの教科書/教材本体/クリュウ式広告運用AI_Agent/部署/05_バナー作成/スキル/banner-batch-creator/SKILL.md">教材05の制作・履歴管理</a><br />
+- <a href="../../41_リサーチ/購入教材/クリュウ_広告運用AIエージェントの教科書/教材本体/クリュウ式広告運用AI_Agent/部署/07_広告分析/スキル/ad-performance-report/SKILL.md">教材07の分析・学び</a></p>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-09-07)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 5HBGYD3N<br />
+Generated by: 田中祐一（Codex）</p>
+<hr /></article></main></div></body></html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>クリュウ教材を、LEADの複数案件で使うには - AI社員化プロジェクト 設計方針</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">THE LEAD DOCUMENT</div><h3>AI社員化プロジェクト 設計方針</h3><a href="024.html" class="sidebar-item"><span class="date">2026年09月07日</span> Zoom一括蒸留 Stage B 全件統合 最新統計</a>
+<a href="20260907.html" class="sidebar-item active"><span class="date">2026年09月07日</span> クリュウ教材を、LEADの複数案件で使うには</a>
+<a href="20260907-3b155c23d1a9.html" class="sidebar-item"><span class="date">2026年09月07日</span> 広告担当AIの実装範囲と完了条件</a>
+<a href="042.html" class="sidebar-item"><span class="date">2026年09月07日</span> 田中AIナレッジ同期 最新状況</a>
+<a href="043.html" class="sidebar-item"><span class="date">2026年09月07日</span> 田中祐一AI インプット来歴一覧（正本）</a>
+<a href="058.html" class="sidebar-item"><span class="date">2026年09月07日</span> 広告担当AIをLEADで動かす置き方（オーナー・広告担当向け）</a>
+<a href="060.html" class="sidebar-item"><span class="date">2026年09月07日</span> 運用: 田中AIナレッジ日次同期</a>
+<a href="20260906.html" class="sidebar-item"><span class="date">2026年09月06日</span> 広告担当AI社員と購入教材（内容調査＋設計）</a>
+<a href="20260902.html" class="sidebar-item"><span class="date">2026年09月02日</span> 購入教材チェックポイント取り込み設計（第1号: 南幅一刀『1日で億稼ぐClaudeCodeローンチ制作の教科書』）</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化・MCP移行設計と過去MD救済方針</a>
+<a href="20260703-6618cc9a4332.html" class="sidebar-item"><span class="date">2026年07月03日</span> AI社員DB化 実装バックログ</a>
+<a href="20260703-fc8225f25688.html" class="sidebar-item"><span class="date">2026年07月03日</span> Claude Code引き継ぎ指示書: 田中祐一AI・AI社員DB化・MCP移行</a>
+<a href="20260703-2eef3bba730c.html" class="sidebar-item"><span class="date">2026年07月03日</span> ナレッジフィードバックループ 実装ログ</a>
+<a href="20260703-9766cfd65fb2.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 初期実装ログ</a>
+<a href="20260703-36dd1f19293e.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チームAI社員 実装設計とタスク一覧</a>
+<a href="20260703-993dce3da493.html" class="sidebar-item"><span class="date">2026年07月03日</span> プロモーション設計チーム AI社員スケルトン実装ログ</a>
+<a href="20260703-305a0cbd2419.html" class="sidebar-item"><span class="date">2026年07月03日</span> 田中祐一AIとAI社員の連携設計メモ</a>
+<a href="20260703-9839d26e3780.html" class="sidebar-item"><span class="date">2026年07月03日</span> Codex引き継ぎ指示書：Zoom一括蒸留（Stage A）の継続</a>
+<a href="20260703-f4ff608442ec.html" class="sidebar-item"><span class="date">2026年07月03日</span> 設計: Zoom一括蒸留 Stage B仕分けルール</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> Zoom627本＋直近1ヶ月 一括蒸留 進捗台帳（2026-07-02開始）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;Aループ 第3バッチ 質問10件（2026-06-19）</a>
+<a href="20260619-0baa9ff1a113.html" class="sidebar-item"><span class="date">2026年06月19日</span> Q&amp;A第3バッチ 回答 raw（2026-06-19）</a>
+<a href="20260619-8895b7dee0c0.html" class="sidebar-item"><span class="date">2026年06月19日</span> knowledge/ 格納構造 監査findings（2026-06-19）／構造修正チームへの共有用</a>
+<a href="20260616.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-9a27315d8305.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第1バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-e8ba4640b470.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第1バッチ 質問15件（2026-06-16）</a>
+<a href="20260616-6af381a8afee.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;Aループ 第2バッチ 質問10件（2026-06-16）</a>
+<a href="20260616-4af36d07af09.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 蒸留・反映案（2026-06-16）</a>
+<a href="20260616-f22a343cb6f9.html" class="sidebar-item"><span class="date">2026年06月16日</span> Q&amp;A第2バッチ 田中回答 raw（2026-06-16）</a>
+<a href="20260616-8dca4f4450f4.html" class="sidebar-item"><span class="date">2026年06月16日</span> Golden Query ベースライン（2026-06-16）</a>
+<a href="20260616-da5ba6e3e600.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト メイン講義 ナレッジ化点検レポート</a>
+<a href="20260616-821cf0f8e440.html" class="sidebar-item"><span class="date">2026年06月16日</span> 会員サイト ナレッジ抽出候補（章7・8・11・12）</a>
+<a href="20260616-f046ec15c5fe.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：会員サイト背骨の高精度格納＋オーバーフロー回避取得＋DB移植を見据えて（2026-06-16）</a>
+<a href="20260616-810e51ac554b.html" class="sidebar-item"><span class="date">2026年06月16日</span> 設計：構造化レコード（git）＋embedding検索＋Q&amp;Aループ（2026-06-16）</a>
+<a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> Zoom統合候補 batch5 20260615</a>
+<a href="20260615-42e6d16d312b.html" class="sidebar-item"><span class="date">2026年06月15日</span> サンプル：紐付きマトリックス 5件（2026-06-15）</a>
+<a href="20260615-83c922584e73.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AIの脳・統合再設計書「視点ルーター × 索引リトリーバ × 思考骨格ループ」</a>
+<a href="20260615-8b8926b65c2e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 知識構造改訂：マトリックス紐付け（2026-06-15）</a>
+<a href="20260615-c3ef868e370e.html" class="sidebar-item"><span class="date">2026年06月15日</span> 田中祐一AI 大型ブラッシュアップ チェックポイント（2026-06-15）</a>
+<a href="20260614.html" class="sidebar-item"><span class="date">2026年06月14日</span> 田中祐一AI MCP デプロイを「main git連携」へ移行 ランブック</a>
+<a href="20260614-75e8292ec3c6.html" class="sidebar-item"><span class="date">2026年06月14日</span> B4: 哲学（哲学・原理）を本番AIへ常時ロードする設計</a>
+<a href="20260613.html" class="sidebar-item"><span class="date">2026年06月13日</span> Codex独立レビュー（田中祐一AI OS）2026-06-13</a>
+<a href="20260613-e216d68f219b.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI MCP 統合クリーンアップ ランブック</a>
+<a href="20260613-4505caf3c75a.html" class="sidebar-item"><span class="date">2026年06月13日</span> 承認バッチ① レビューシート（2026-06-13）</a>
+<a href="20260613-342d3d5e61c2.html" class="sidebar-item"><span class="date">2026年06月13日</span> 測定レポート：v2基準による「取りこぼし率」測定（2026-06-13）</a>
+<a href="20260613-0e75d5e994ae.html" class="sidebar-item"><span class="date">2026年06月13日</span> PALMO × 田中祐一AI 二層データ経済圏 設計</a>
+<a href="20260613-313759eee216.html" class="sidebar-item"><span class="date">2026年06月13日</span> 田中祐一AI ナレッジ検索アーキテクチャ v1（容量制約をインデックスで回避する）</a>
+<a href="20260612.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 定義書 v1</a>
+<a href="20260612-fbb020c57056.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一AI 詳細設計書 v1（Codex実行仕様）</a>
+<a href="20260612-0e7697895232.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: かず先生「若返りセラピスト」プロモ解説セミナー 構造化</a>
+<a href="20260612-1d1a49e660d3.html" class="sidebar-item"><span class="date">2026年06月12日</span> 分析: ゆう先生「10万フォロワーへの道」3チャレ解説セミナー 構造化</a>
+<a href="20260612-5fbf414df0f5.html" class="sidebar-item"><span class="date">2026年06月12日</span> 田中祐一プロモ解説 一般化原則集（ドラフト）</a>
+<a href="20260612-30719b534c0e.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 スナイパーローンチ重複検証レポート</a>
+<a href="20260612-070493703cb6.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査 20260612 ローンチ型所在レポート</a>
+<a href="20260612-c8f35ae71fb0.html" class="sidebar-item"><span class="date">2026年06月12日</span> 調査_20260612_ワンソウルメルマガ再編成計画</a>
+<a href="20260612-d55f1f2a6144.html" class="sidebar-item"><span class="date">2026年06月12日</span> 実案件プロモ型マッピング（WP-B7成果物）</a>
+<a href="20260429.html" class="sidebar-item"><span class="date">2026年04月29日</span> AI運用 全体ガイド（2026-04-29 時点）</a>
+<a href="20260415.html" class="sidebar-item"><span class="date">2026年04月15日</span> ナレッジ抽出プロセスの実例と学び</a>
+<a href="20260414.html" class="sidebar-item"><span class="date">2026年04月14日</span> AI社員化プロジェクト — 作業背景と現状</a>
+<a href="20260413.html" class="sidebar-item"><span class="date">2026年04月13日</span> AI社員化プロジェクト 設計方針まとめ</a></nav>
+<main class="content"><article class="article"><h1>クリュウ教材を、LEADの複数案件で使うには</h1>
+<p>作成日: 2026-09-07<br />
+更新日: 2026-09-07（再設計版）<br />
+読み手: 田中さん、山岸さん、実装担当<br />
+状態: 設計案。今回の更新は文書のみ。<br />
+正本: <a href="設計_20260906_広告担当AI社員と購入教材.md">広告担当AI社員と購入教材</a></p>
+<h2>1. 複数案件で共通にするもの</h2>
+<p>教材のリサーチ・戦略・制作・振り返りの手順を、LEADの広告担当AI社員の共通手順として使う。<br />
+教材フォルダはLEAD内の「41_リサーチ/購入教材」にある参照資料であり、案件ごとの作業場所はLEADの既存案件フォルダとする。<br />
+社員の窓口は1人。社内材料を使う仕事にも教材01の整理方法等を接続し、案件の事実と田中さんの判断を使う。</p>
+<table>
+<thead>
+<tr>
+<th>共通にするもの</th>
+<th>案件ごとに分けるもの</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>調査・コピー・バナー・分析の手順</td>
+<td>商品、オファー、LP版、ターゲット、予算、目標成果</td>
+</tr>
+<tr>
+<td>既存の広告制作ナレッジと広告添削</td>
+<td>MTG、セールス、お客様の声、参考素材、広告実績</td>
+</tr>
+<tr>
+<td>出典・完成物・不足時の確認方法</td>
+<td>仮説、コピー、画像、採否、広告ID対応、分析記録</td>
+</tr>
+<tr>
+<td>社員を呼ぶ入口</td>
+<td>案件・施策の識別情報、参照可能範囲、提出先</td>
+</tr>
+</tbody>
+</table>
+<p>configs/の人格・言葉遣いは必要に応じて参照する。可変のKPIやPALMO対応を詰め込まず、案件マスター側で管理する。<br />
+案件をまたいだコピー・顧客の言葉・実績の流用はしない。共通の型へ上げる際は、固有情報を除くことに加え、既存ナレッジ管理の審査を通す。</p>
+<h2>2. 案件を指定して動かす流れ</h2>
+<ol>
+<li>利用者はLEADで案件・施策と仕事を指定する。</li>
+<li>AIは対象の案件マスター、参照資料一覧、LP/オファー版、保存先を確定する。</li>
+<li>内的・外的リサーチから、訴求とコピー候補を作る。</li>
+<li>利用者が採用・修正したコピーからバナー候補を作り、検品する。</li>
+<li>採否と制作版を、その案件の次回入力へ戻す。</li>
+</ol>
+<p>同じタスクで案件が確定していれば引き継ぐ。案件が曖昧な場合だけ確認し、名前の似た別案件を選ばない。<br />
+初回は実案件の構造を確認し、対象施策内の既存「広告/」等を唯一の提出先にする。教材の「案件/」や別の番号フォルダへ保存しない。<br />
+案件の全資料を毎回読み直すのではなく、参照資料一覧と処理済み範囲から必要な資料を選ぶ。保存場所が分散していても原本を移動しない。</p>
+<h2>3. どのアプリで使うか</h2>
+<p>Cursor、Claude Code、Codexなどのどれを常用するかは、山岸さんの利用環境を確認して決める。<br />
+各クライアントは同じLEADの社員・スキル正本を参照する設計とし、アプリごとに別の広告社員や教材会社を作らない。</p>
+<table>
+<thead>
+<tr>
+<th>仕事</th>
+<th>必要な機能</th>
+<th>接続できない場合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>社内資料から案を出す</td>
+<td>対象資料を読み、案件の保存先へ提出できる</td>
+<td>足りない資料・権限を明示</td>
+</tr>
+<tr>
+<td>外的リサーチ</td>
+<td>広告や情報源を実際に確認し、URL・日付・根拠を残せる</td>
+<td>外的工程を未確認にし、可能な社内材料の制作を続ける</td>
+</tr>
+<tr>
+<td>バナー画像</td>
+<td>採用コピーと参考から画像を生成し、保存・修正・実見できる</td>
+<td>指示書までを提出し、画像は未完了。手渡しでの完成経路も確認する</td>
+</tr>
+<tr>
+<td>成果分析</td>
+<td>許可されたPALMO等の実績を、広告ID・期間・定義付きで読める</td>
+<td>成果判定を保留。制作業務全体は止めない</td>
+</tr>
+</tbody>
+</table>
+<p>過去文書の「Claude Code＋Chrome」や「Cursor→Codex」は当時の候補であり、利用者の環境で動作確認済みではない。<br />
+画面操作の可否、画像生成の契約範囲、担当者の権限を実装時に確認する。追加API課金を避ける方針は維持し、無料を保証しない。<br />
+スキルの参照用ファイルを同期しただけで、Web画面に社員が増えたり、毎朝自動で動いたりするとは扱わない。</p>
+<h2>4. 初期試験と展開</h2>
+<p>段階0で、最初の案件・利用環境・画像生成経路・費用条件・試験の評価方法を確認する。<br />
+段階1は、1案件で内的・外的リサーチからコピー・バナー実物・広告添削・採否記録まで通す。<br />
+段階2は、その案件の次回制作と別案件への切替を確認する。「前回と違う訴求を出せる」「資料や保存先が混ざらない」を見る。<br />
+段階3でPALMO等の成果を制作に戻し、段階4で日次等の定期起動を追加する。</p>
+<p>教材を案件数ぶん複製する作業や、各案件に新しい数値台帳を作る作業は不要。<br />
+初期案件はまだ指定していない。既存文書の矢場田・たかみず等は説明例であり、今回の実装対象を確定したものではない。<br />
+スプシ・既存GAS・PALMO・社員・スキルの変更は今回行わない。</p>
+<p>詳細な検証項目は <a href="検討_20260907_広告担当AIの実装範囲.md">実装範囲</a>、社内共有の説明は <a href="連絡用_広告担当AIの置き方_オーナーと広告担当向け.md">連絡用文書</a> を参照する。</p>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-09-07)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: WE7OE33O<br />
+Generated by: 田中祐一（Codex）</p>
+<hr /></article></main></div></body></html>
