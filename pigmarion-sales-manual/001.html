@@ -1,315 +1,124 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>セールス担当別_傾向とクセ - ピグマリオン セールスレポート</title>
-<style>
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>セールス担当別 傾向とクセ（ピグマリオン ホームインターメソッド） - ピグマリオン セールスレポート</title><style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
-  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
-/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
-   各要素は rem 指定なので全体が比例して拡大する。 */
 html { font-size: 18px; }
 @media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.95;
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   -webkit-font-smoothing: antialiased;
-  letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
-
-/* ===== 記事カード ===== */
-.article {
-  background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
-  border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
-}
-
-/* ===== 見出し ===== */
-.article h1 {
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1.5;
-  margin: 0 0 2rem;
-  padding: 0 0 1.2rem;
-  color: var(--ink);
-  border-bottom: 3px solid var(--main);
-  position: relative;
-}
-.article h1::before {
-  content: "";
-  display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
-  border-radius: 6px;
-  position: absolute; left: 0; bottom: -4.5px;
-}
-.article h2 {
-  font-size: 1.32rem;
-  font-weight: 700;
-  color: var(--sub);
-  margin: 2.8rem 0 1.1rem;
-  padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
-}
-.article h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 2rem 0 0.7rem;
-  padding-left: 0.85rem;
-  border-left: 4px solid var(--line);
-}
-/* キーワード検出された H3（注意・結論・強み等） */
-.article h3.callout-h {
-  border-left: none;
-  padding: 0.6rem 1rem;
-  border-radius: 10px;
-  background: var(--bg);
-  color: var(--ink);
-  display: flex; align-items: center; gap: 0.5rem;
-  box-shadow: inset 5px 0 0 var(--bar);
-  background: var(--bg);
-}
-.article h3.callout-h { background: var(--bg); }
-.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
-
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
 .article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
-
-/* ===== 本文 ===== */
-/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
 .article p { margin: 1.15rem 0; max-width: 42em; }
 .article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
-.article li { margin: 0.5rem 0; }
-.article li::marker { color: var(--main); }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
 .article strong { color: var(--sub); font-weight: 700; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
-/* 章/小見出し直後の段落をリード文として少し強調 */
-.article h2 + p, .article h3 + p { color: var(--ink); }
-
-/* ===== ステップバー（17ステップ照合などの構造化） ===== */
-.step {
-  display: flex; align-items: center; gap: 0.75rem;
-  margin: 1.6rem 0 0.4rem;
-  padding: 0.6rem 0.9rem;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
-}
-.step-no {
-  flex: 0 0 auto;
-  width: 30px; height: 30px;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; font-weight: 800; font-size: 0.95rem;
-  border-radius: 9px;
-}
-.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
-.eval {
-  flex: 0 0 auto;
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
-  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
-}
-.eval-ok { background: #E0F4EE; color: #1B8F70; }
-.eval-warn { background: #FCF0D9; color: #B07A14; }
-.eval-ng { background: #F7DEDB; color: #B0463B; }
-/* ステップバー直後の本文を少しインデントして従属関係を見せる */
-.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
-
-/* ===== 成績バッジ（A/B/C/D） ===== */
-.grade {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 2rem; height: 2rem; border-radius: 9px;
-  color: #fff; font-weight: 800; font-size: 1rem;
-}
-
-/* ===== テーブル ===== */
-.article table {
-  border-collapse: separate; border-spacing: 0;
-  width: 100%; margin: 1.3rem 0;
-  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-  font-size: 0.95rem;
-}
-.article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
-  color: #fff; font-weight: 700; text-align: left;
-  padding: 0.8rem 0.95rem; border: none;
-}
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
 .article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
 .article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
-.article tbody tr:hover { background: rgba(44,181,150,0.10); }
-
-/* ===== バッジ（結果ラベル） ===== */
-.badge {
-  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
-  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
-}
-
-/* ===== 注意枠カード（blockquote） ===== */
-.callout-box {
-  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
-  background: #FCF3E6; border-left: 5px solid #E0973E;
-  border-radius: 0 12px 12px 0; color: var(--ink);
-}
-.callout-box p { margin: 0.4rem 0; }
-
-/* ===== コード ===== */
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
 .article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
 .article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
 .article pre code { background: none; color: inherit; padding: 0; }
-.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
-
-/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
-/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
-   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
-.sidebar-item--cross {
-  margin-top: 0.4rem;
-  border-left: 3px solid var(--line);
-}
-.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
-
-/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
-.article a.ref-link {
-  background: #E6F6F1; color: var(--sub);
-  padding: 0.1rem 0.5rem; border-radius: 6px;
-  font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
-}
-.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
-
-/* ===== 用語集（折りたたみ） ===== */
-.article .glossary {
-  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
-  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
-}
-.article .glossary summary {
-  cursor: pointer; font-weight: 700; color: var(--sub);
-  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
-}
-.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
-.article .glossary dl { margin: 0.3rem 0 0.8rem; }
-.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
 .article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
 
-/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
-.article .verdict {
-  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
-  border-radius: 14px; border: 1px solid var(--line);
-  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
-}
-.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
-.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
-.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
-.article .verdict.is-good { border-left: 6px solid #2CB596; }
-.article .verdict.is-watch { border-left: 6px solid #E0973E; }
-.article .verdict.is-bad { border-left: 6px solid #C0584E; }
-
-/* ===== 出典表記（文字壁の緩和） ===== */
-/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
-   情報としては残すが視覚的な主役は本文に戻す。 */
-.article .src-cite {
-  font-size: 0.72em;
-  color: #9FB1AB;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.5;
-}
-
-/* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
-.sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
-  border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
-}
-.sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
-}
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
-.sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
-}
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
-.sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
-}
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
-/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
-.mobile-back {
-  display: none;
-  position: sticky; top: 0; z-index: 200;
-  background: var(--card); border-bottom: 1px solid var(--line);
-  padding: 0.6rem 1rem;
-}
-.mobile-back a {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.9rem; font-weight: 700; color: var(--sub);
-  text-decoration: none;
-}
-.mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
-  .sidebar { display: none; }
-  .mobile-back { display: block; }
-  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
-  .article h1 { font-size: 1.4rem; }
-  .article h2 { font-size: 1.15rem; }
-  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-}
-</style>
-</head>
-<body>
-<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
-<div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
-<h3>ピグマリオン セールスレポート</h3>
-<a class="sidebar-item sidebar-item--cross" href="../pigmarion-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../pigmarion-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item active"><span class="date">2026年07月09日</span> セールス担当別_傾向とクセ</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年07月09日</span> 個別説明会_セールス成功失敗マニュアル</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年07月09日</span> 全体レポート</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年07月09日</span> 旦那対策_完全マニュアル</a>
-<a href="005.html" class="sidebar-item"><span class="date">2026年07月09日</span> 来場者ペルソナ分析_セールスデータ集約</a>
-<a href="006.html" class="sidebar-item"><span class="date">2026年07月09日</span> 質疑応答の理想回答集</a>
-</nav>
-<main class="content">
-<article class="article">
-<h1>セールス担当別 傾向とクセ（ピグマリオン ホームインターメソッド）</h1>
-<h2>このファイルの位置づけ</h2>
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">REPORT</div><h3>ピグマリオン セールスレポート</h3><a class="sidebar-item sidebar-item--cross" href="../pigmarion-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../pigmarion-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item active"><span class="date">2026年09月09日</span> セールス担当別 傾向とクセ（ピグマリオン ホームインターメソッド）</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年09月09日</span> 個別説明会 セールス成功例・改善点マニュアル（共通値）</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年09月09日</span> 全体レポート（ピグマリオン IQ200グローバルキッズ）</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年09月09日</span> 旦那対策 完全マニュアル</a>
+<a href="005.html" class="sidebar-item"><span class="date">2026年09月09日</span> 来場者ペルソナ分析 / セールスデータ集約（ピグマリオン恵美子・IQ200グローバルキッズ）</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年09月09日</span> ホームインターメソッド 質疑応答 理想回答集</a></nav>
+<main class="content"><article class="article"><h1>セールス担当別 傾向とクセ（ピグマリオン ホームインターメソッド）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#このファイルの位置づけ">このファイルの位置づけ</a></li><li class="toc-main"><a href="#現在のセールスデータ概況（2026-05-26時点）">現在のセールスデータ概況（2026-05-26時点）</a></li><li class="toc-sub"><a href="#担当別KPI">担当別KPI</a></li><li class="toc-sub"><a href="#来場者ペルソナ（10タイプ）">来場者ペルソナ（10タイプ）</a></li><li class="toc-sub"><a href="#書き起こし状況">書き起こし状況</a></li><li class="toc-main"><a href="#conica（本部認定講師・防災士）">conica（本部認定講師・防災士）</a></li><li class="toc-sub"><a href="#傾向・強み">傾向・強み</a></li><li class="toc-sub"><a href="#クセ・分析で繰り返し出る改善点">クセ・分析で繰り返し出る改善点</a></li><li class="toc-sub"><a href="#参照しやすい分析ファイル">参照しやすい分析ファイル</a></li><li class="toc-sub"><a href="#2026-04-23-追記（4/11〜4/22分析から）">2026-04-23 追記（4/11〜4/22分析から）</a></li><li class="toc-main"><a href="#あみーご（マスター認定講師）">あみーご（マスター認定講師）</a></li><li class="toc-sub"><a href="#傾向・強み-1">傾向・強み</a></li><li class="toc-sub"><a href="#クセ・分析で繰り返し出る改善点-1">クセ・分析で繰り返し出る改善点</a></li><li class="toc-sub"><a href="#参照しやすい分析ファイル-1">参照しやすい分析ファイル</a></li><li class="toc-sub"><a href="#2026-04-23-追記（4/11〜4/22分析から）-1">2026-04-23 追記（4/11〜4/22分析から）</a></li><li class="toc-main"><a href="#角田友佳">角田友佳</a></li><li class="toc-sub"><a href="#傾向・強み-2">傾向・強み</a></li><li class="toc-sub"><a href="#クセ・分析で繰り返し出る改善点-2">クセ・分析で繰り返し出る改善点</a></li><li class="toc-sub"><a href="#参照しやすい分析ファイル-2">参照しやすい分析ファイル</a></li><li class="toc-sub"><a href="#2026-04-23-追記（4/11〜4/22分析から）-2">2026-04-23 追記（4/11〜4/22分析から）</a></li><li class="toc-main"><a href="#SHINO（本部認定講師）">SHINO（本部認定講師）</a></li><li class="toc-sub"><a href="#傾向・強み-3">傾向・強み</a></li><li class="toc-sub"><a href="#クセ・分析で繰り返し出る改善点-3">クセ・分析で繰り返し出る改善点</a></li><li class="toc-sub"><a href="#参照しやすい分析ファイル-3">参照しやすい分析ファイル</a></li><li class="toc-sub"><a href="#2026-04-23-追記（4/11〜4/22分析から）-3">2026-04-23 追記（4/11〜4/22分析から）</a></li><li class="toc-sub"><a href="#2026-05-25-追記（4/23〜5/25分析から）">2026-05-25 追記（4/23〜5/25分析から）</a></li><li class="toc-main"><a href="#記録上「不明」や表記ゆれがある案件">記録上「不明」や表記ゆれがある案件</a></li><li class="toc-main"><a href="#関連マニュアル">関連マニュアル</a></li></ul></nav>
+<h2 id="このファイルの位置づけ">このファイルの位置づけ</h2>
 <ul>
 <li>インプット：<code>セールス原本/</code>・<code>セールス分析/</code> にある個別案件の蓄積から横断的に抽出したメモである。</li>
 <li>用途：担当ごとの「再現できている強み」と「複数案件で繰り返す注意点」を一覧化し、育成・シフト・振り返りのたたき台にする。</li>
 <li>更新方針：新しい分析が溜まり、同じ指摘や褒めどころが3件前後で重なったら、本ファイルに1行でも追記する。</li>
 </ul>
 <hr />
-<h2>現在のセールスデータ概況（2026-05-26時点）</h2>
+<h2 id="現在のセールスデータ概況（2026-05-26時点）">現在のセールスデータ概況（2026-05-26時点）</h2>
 <blockquote class="callout-box">
 <p>詳細は <a class="ref-link" href="005.html">来場者ペルソナ分析_セールスデータ集約.md</a> / <code>担当者別_全体マップ.md</code> を参照。</p>
 </blockquote>
-<h3>担当別KPI</h3>
+<h3 id="担当別KPI">担当別KPI</h3>
 <table>
 <thead>
 <tr>
@@ -376,7 +185,7 @@ a:hover { text-decoration: underline; }
 </tr>
 </tbody>
 </table>
-<h3>来場者ペルソナ（10タイプ）</h3>
+<h3 id="来場者ペルソナ（10タイプ）">来場者ペルソナ（10タイプ）</h3>
 <ol>
 <li>ママOS覚醒型 — 「自分が変わらなければ」と内省に到達済み。成約率が最も高い</li>
 <li>教育投資置き換え検討型 — 習い事3〜5種を既にやっており、追加ではなく置き換えフレームで決断する</li>
@@ -389,11 +198,11 @@ a:hover { text-decoration: underline; }
 <li>情報過多・比較検討型 — 育児本多読・教室体験多数で知識豊富だが実践に落とせていない層</li>
 <li>復職・時間制約型 — 育休中〜復職直前で「今しかない」切迫感あり。時間軸の訴求が効く</li>
 </ol>
-<h3>書き起こし状況</h3>
+<h3 id="書き起こし状況">書き起こし状況</h3>
 <p>動画URL 113件中91件書き起こし完了。分析91件。</p>
 <hr />
-<h2>conica（本部認定講師・防災士）</h2>
-<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>傾向・強み</h3>
+<h2 id="conica（本部認定講師・防災士）">conica（本部認定講師・防災士）</h2>
+<h3 id="傾向・強み">傾向・強み</h3>
 <ul>
 <li>防災士・AI時代・危機意識など、自分の立ち位置を早い段階で見せ、講座を時代文脈に載せる説明が得意（東りか・尾﨑・宮原など）。</li>
 <li>「情報過多で迷子」「軸が1本ほしい」に対し、共感から「軸」の解決方向へ一貫して導ける。</li>
@@ -403,7 +212,7 @@ a:hover { text-decoration: underline; }
 <li>多子・看護師等の高負荷ママで、自己嫌悪と変化意欲が同居するケースのヒアリングが深い（八木）。</li>
 <li>「癇癪・条件付き愛情」など深い子育ての悩みに具体的アドバイスができる。「感情は止めなくていい、行動だけ止める」「生存不安」など踏み込んだ言語化で自覚を引き出す（石井・守安）。</li>
 </ul>
-<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>クセ・分析で繰り返し出る改善点</h3>
+<h3 id="クセ・分析で繰り返し出る改善点">クセ・分析で繰り返し出る改善点</h3>
 <ul>
 <li>配偶者相談：顧客の言葉（「やる気を尊重してくれる」等）を鵜呑みにせず、事前に夫・家族相談対策を厚く確認する（東りか）。</li>
 <li>DWE・高額教材失敗：事実は出るが、マニュアルにある「過去の失敗経験深掘り」まで踏み込めていないことがある（尾﨑）。</li>
@@ -413,7 +222,7 @@ a:hover { text-decoration: underline; }
 <li>ご主人への事前情報が薄いとフォロー設計が立てにくい（宮原）。責任感強めママへの継続リスクにも一言触れる余地。</li>
 <li>投資優先・現金不足など経済状況は冒頭〜中盤で確認する。65分〜130分かけて終盤で「株仕込み・無職・現金なし」が判明すると否決が避けられない（守安）。</li>
 </ul>
-<h3>参照しやすい分析ファイル</h3>
+<h3 id="参照しやすい分析ファイル">参照しやすい分析ファイル</h3>
 <ul>
 <li>20260305_東りか_conica_分析.md</li>
 <li>20260316_桶谷麻衣_conica_分析.md</li>
@@ -424,7 +233,7 @@ a:hover { text-decoration: underline; }
 <li>20260402_石井裕美_conica_分析.md</li>
 <li>20260404_守安沙也加_conica_分析.md</li>
 </ul>
-<h3>2026-04-23 追記（4/11〜4/22分析から）</h3>
+<h3 id="2026-04-23-追記（4/11〜4/22分析から）">2026-04-23 追記（4/11〜4/22分析から）</h3>
 <p>強みの再確認：</p>
 <ul>
 <li>過去に別スクール・他教材で「最初は良くなるけどすぐ戻る」過去の失敗経験を持つ層に対して、「おしりをたたき続けるシステム」「継続で戻らない仕組み」という一語集約が効く。保留→成約への決定打として働いた<span class="src-cite">（出典: 20260413_荻原ひろみ_conica）</span>。</li>
@@ -440,14 +249,14 @@ a:hover { text-decoration: underline; }
 <li>超学習家ママ・診断目的層には、診断開示前に「結果がどうであれ、次の階段をどう設計するか」の面白さを先に予告するフレームを持つ<span class="src-cite">（出典: 20260420_尾﨑希美_conica）</span>。</li>
 </ul>
 <hr />
-<h2>あみーご（マスター認定講師）</h2>
-<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>傾向・強み</h3>
+<h2 id="あみーご（マスター認定講師）">あみーご（マスター認定講師）</h2>
+<h3 id="傾向・強み-1">傾向・強み</h3>
 <ul>
 <li>カナダ留学・「英語はおまけ」など価値観の自己紹介が安定しており、英語一辺倒にしたくない層に刺さる。</li>
 <li>診断と悩みの接続、北風と太陽、未来設計で「顧客自身に言語化させる」型が上手い。即決・当日振込に近いクロージングまでいくこともある（村田）。</li>
 <li>スケジュールの柔軟性・担任・再個別での特典維持など、複数講座掛け持ちや専門職の配偶者がいる顧客のオペレーションに強い（本宮）。</li>
 </ul>
-<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>クセ・分析で繰り返し出る改善点</h3>
+<h3 id="クセ・分析で繰り返し出る改善点-1">クセ・分析で繰り返し出る改善点</h3>
 <ul>
 <li>Chatwork 所感が空欄・短いことがある。保留理由・決済期日・決め手がログに残らず、フォローと横展開がしづらい（東原・松井など）。</li>
 <li>DWE 失敗過去の失敗経験の深掘りをもう一段（村田で指摘）。</li>
@@ -457,7 +266,7 @@ a:hover { text-decoration: underline; }
 <li>教材への関心は強いが「母のOS」が残ると教材トライ保留に寄る。短答タイプには具体シナリオの質問でボリュームを取る（20260409三上麻友さん）。</li>
 <li>危機感が薄い・困りが少ない層には未来シナリオの短いケースが必要。幼児起床で中断しうる枠は再日程を早めに確保（20260410國分砂来さん）。</li>
 </ul>
-<h3>参照しやすい分析ファイル</h3>
+<h3 id="参照しやすい分析ファイル-1">参照しやすい分析ファイル</h3>
 <ul>
 <li>20260304_村田敦子_あみーご_分析.md</li>
 <li>20260309_本宮美由紀_あみーご_分析.md</li>
@@ -466,7 +275,7 @@ a:hover { text-decoration: underline; }
 <li>20260409_三上麻友_あみーご_分析.md</li>
 <li>20260410_國分砂来_あみーご_分析.md</li>
 </ul>
-<h3>2026-04-23 追記（4/11〜4/22分析から）</h3>
+<h3 id="2026-04-23-追記（4/11〜4/22分析から）-1">2026-04-23 追記（4/11〜4/22分析から）</h3>
 <p>強みの再確認：</p>
 <ul>
 <li>「怒鳴ってしまう・自分をコントロールできない」と涙される深いヒアリングで「ママのOS」主軸に直接接続する型が再現性高い<span class="src-cite">（出典: 20260416_仁野君枝_あみーご）</span>。</li>
@@ -481,15 +290,15 @@ a:hover { text-decoration: underline; }
 <li>「プレッシャーに押し潰されそう」「涙」の強い心理状態は保留中ぶり返しリスク。短期集中で背中を押す場合もフォロー1本目で短文の安心を先に渡す<span class="src-cite">（出典: 20260416_仁野君枝_あみーご）</span>。</li>
 </ul>
 <hr />
-<h2>角田友佳</h2>
-<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>傾向・強み</h3>
+<h2 id="角田友佳">角田友佳</h2>
+<h3 id="傾向・強み-2">傾向・強み</h3>
 <ul>
 <li>教材デモの具体性（実験・プリント・子の特性に合わせた見せ方）と、発達・知育に寄せた論理で納得を取りにいける。</li>
 <li>自閉・グレーなど、ご自身の子の自己開示で発達児ママとの距離を一気に縮める武器がある（山下）。</li>
 <li>指しゃぶり等の具体的アドバイスで、説明の前に「味方」になれる（山下）。</li>
 <li>競合（ドーマン等）からの切替・W受講・公開ワーク活用など、説明の流れの組み替えが上手い（橋本）。</li>
 </ul>
-<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>クセ・分析で繰り返し出る改善点</h3>
+<h3 id="クセ・分析で繰り返し出る改善点-2">クセ・分析で繰り返し出る改善点</h3>
 <ul>
 <li>予算感・月謝想定・直近の高額投資（発コミュ等）は冒頭から中盤で必ず採る。終盤で乖離が判明しやすい（山下はチーム全体の学びとして言及あり）。</li>
 <li>競合プログラムの金額・不満は価格提示前に深掘り（山下・魚津）。</li>
@@ -499,7 +308,7 @@ a:hover { text-decoration: underline; }
 <li>所感・初回決済期日の明文化が薄いとナレッジ化しづらい（橋本）。</li>
 <li>ドーマン等への深掘りと本講座との差別化、後ろ向き夫への事前資料を厚く（魚津）。</li>
 </ul>
-<h3>参照しやすい分析ファイル</h3>
+<h3 id="参照しやすい分析ファイル-2">参照しやすい分析ファイル</h3>
 <ul>
 <li>20260221_山下真紀_角田友佳_分析.md</li>
 <li>20260304_橋本みゆき_角田友佳_分析.md</li>
@@ -508,7 +317,7 @@ a:hover { text-decoration: underline; }
 <li>20260319_魚津優子_角田友佳_分析.md</li>
 <li>20260322_小林梨奈_角田友佳_分析.md</li>
 </ul>
-<h3>2026-04-23 追記（4/11〜4/22分析から）</h3>
+<h3 id="2026-04-23-追記（4/11〜4/22分析から）-2">2026-04-23 追記（4/11〜4/22分析から）</h3>
 <p>強みの再確認：</p>
 <ul>
 <li>1歳ママが「ベビーよりキッズに感じがある」と話した場合、本人希望に沿って柔軟にキッズを軸に話せる進行の柔軟性<span class="src-cite">（出典: 20260416_三浦友梨_角田友佳）</span>。</li>
@@ -521,8 +330,8 @@ a:hover { text-decoration: underline; }
 <li>所感の情報量不足（商談時間・診断詳細・ご主人の年齢職業教育観など）が再発。最低限の項目を所感テンプレに含める運用で再現性を担保したい<span class="src-cite">（出典: 20260416_三浦友梨_角田友佳）</span>。</li>
 </ul>
 <hr />
-<h2>SHINO（本部認定講師）</h2>
-<h3 class="callout-h" style="--bar:#189B7D;--bg:#E6F6F1"><span class="callout-ico">✅</span>傾向・強み</h3>
+<h2 id="SHINO（本部認定講師）">SHINO（本部認定講師）</h2>
+<h3 id="傾向・強み-3">傾向・強み</h3>
 <ul>
 <li>「北風から太陽へ」の自己開示、忙しいママ・トリプルワーク経験での共感が安定（田中舞・長田）。</li>
 <li>他セミナー（ママの気持ちのみ等）との差別化、英語突出から他7能力への軸ずらしが明確（森谷）。</li>
@@ -531,7 +340,7 @@ a:hover { text-decoration: underline; }
 <li>保留でも法定書面の先読み合わせと、次のアクションを具体化しやすい（森谷）。</li>
 <li>岸本回：説明会中の親子の自然なやりとりを成長の証拠に変換し、「比べない」を一貫テーマに講座全体を接続する構成力。孤立している親の「相談できる場」への欲求を、サポートの多層説明で満たす。</li>
 </ul>
-<h3 class="callout-h" style="--bar:#E0973E;--bg:#FCF3E6"><span class="callout-ico">⚠️</span>クセ・分析で繰り返し出る改善点</h3>
+<h3 id="クセ・分析で繰り返し出る改善点-3">クセ・分析で繰り返し出る改善点</h3>
 <ul>
 <li>慎重検討型・専門家（作業療法士等）：エビデンス・論理・「何度も買う気はない」の背景掘りが浅いと温度が半々で止まる（田中舞）。</li>
 <li>画面共有の不安定さ・時間超過・価格（定価から特典まで）の導線が長く分かりにくい（岸本）。</li>
@@ -544,7 +353,7 @@ a:hover { text-decoration: underline; }
 <li>保留時は所感だけでなく初回決済期日・支払方法欄を空欄にしない（川村真由美・2026-03-27）。</li>
 <li>既存の高額投資で成果が出ている層には、「上回る価値」を担任・再現性・コミュニティの対比で短く示す必要がある（20260409真田栞さん）。</li>
 </ul>
-<h3>参照しやすい分析ファイル</h3>
+<h3 id="参照しやすい分析ファイル-3">参照しやすい分析ファイル</h3>
 <ul>
 <li>20260224_岸本莉紗_SHINO_分析.md</li>
 <li>20260302_森谷真由美_SHINO_分析.md</li>
@@ -555,7 +364,7 @@ a:hover { text-decoration: underline; }
 <li>20260408_川田真美_SHINO_分析.md</li>
 <li>20260409_真田栞_SHINO_分析.md</li>
 </ul>
-<h3>2026-04-23 追記（4/11〜4/22分析から）</h3>
+<h3 id="2026-04-23-追記（4/11〜4/22分析から）-3">2026-04-23 追記（4/11〜4/22分析から）</h3>
 <p>強みの再確認：</p>
 <ul>
 <li>「慎重・できないと言う子の特性」を「思考力が高い・伸びる特性」にリフレームする言語化で、親の不安を安心に変換し講座継続動機に繋げる型が再現性高い<span class="src-cite">（出典: 20260412_高野瑠莉_SHINO、20260413_森田いづみ_SHINO）</span>。</li>
@@ -571,7 +380,7 @@ a:hover { text-decoration: underline; }
 <li>発達不安（手先・ことば・切り替え）＋低予算＋夫無関心の地方ママには、分割・期間調整の具体案と、公的リソース情報（発達相談・療育）を並行して渡す「リソース提供型」のセールスで、否決でも信頼を残す運用を検討<span class="src-cite">（出典: 20260422_大友恵_SHINO）</span>。</li>
 <li>SNS検索依存で軸が揺らぐ層は、入会後も定期的にぶり返すリスク。フォロー設計として「迷った時の入口」を担任が先に提示する運用<span class="src-cite">（出典: 20260412_高野瑠莉_SHINO）</span>。</li>
 </ul>
-<h3>2026-05-25 追記（4/23〜5/25分析から）</h3>
+<h3 id="2026-05-25-追記（4/23〜5/25分析から）">2026-05-25 追記（4/23〜5/25分析から）</h3>
 <h4>conica</h4>
 <ul>
 <li>「おしりをたたき続けるシステム」「環境を変えていく（天国と地獄・伝播）」の型が大橋直美・平沢春菜・今道朝子で再現。ママの気持ち代弁＋涙の場面作りが強み。</li>
@@ -599,13 +408,13 @@ a:hover { text-decoration: underline; }
 <li>本購入で満足層（土屋亜由美・一色真未）には「書籍より実践伴走」の差別化をもう一段早く。櫻井洋子は解決しすぎて否決の反面教師。</li>
 </ul>
 <hr />
-<h2>記録上「不明」や表記ゆれがある案件</h2>
+<h2 id="記録上「不明」や表記ゆれがある案件">記録上「不明」や表記ゆれがある案件</h2>
 <ul>
 <li>分析側で担当名が特定しづらい回がある。所感・冒頭自己紹介で担当名を残す運用が前提（水野るい子・加納遥・伊藤灯子・中江穂奈美など）。</li>
 <li>過去の書き起こしでは「新（しのぶ／シン）」表記があり、SHINO と同一人物のログとして扱われている例がある（岸本莉紗）。</li>
 </ul>
 <hr />
-<h2>関連マニュアル</h2>
+<h2 id="関連マニュアル">関連マニュアル</h2>
 <ul>
 <li>個別説明会_セールス成功失敗マニュアル.md</li>
 <li>質疑応答の理想回答集.md</li>
@@ -617,9 +426,4 @@ Version: 1.5 (2026-05-25)<br />
 Licensed to: KATSUO MARKETING Community Member<br />
 Security Trace ID: K9P3X7M2<br />
 Generated by: 田中祐一</p>
-<hr /><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
-</article>
-</main>
-</div>
-</body>
-</html>
+<hr /><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details></article></main></div></body></html>

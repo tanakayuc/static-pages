@@ -1,310 +1,119 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>来場者ペルソナ分析_セールスデータ集約 - ピグマリオン セールスレポート</title>
-<style>
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>来場者ペルソナ分析 / セールスデータ集約（ピグマリオン恵美子・IQ200グローバルキッズ） - ピグマリオン セールスレポート</title><style>
 :root {
-  --main: #2CB596; --sub: #189B7D; --bg: #F0FAF8;
-  --ink: #243B36; --ink-soft: #5B726B; --line: #D7ECE5; --card: #FFFFFF;
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
 }
 * { box-sizing: border-box; }
-/* 50代の読者にやさしいよう、基準フォントを大きめ（≒+2pt）に設定。
-   各要素は rem 指定なので全体が比例して拡大する。 */
 html { font-size: 18px; }
 @media (max-width: 720px) { html { font-size: 16.5px; } }
 html, body { overflow-x: hidden; }
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.95;
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
   -webkit-font-smoothing: antialiased;
-  letter-spacing: 0.01em;
 }
-a { color: var(--sub); text-decoration: none; word-break: break-all; }
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
 a:hover { text-decoration: underline; }
-
-/* ===== 記事カード ===== */
-.article {
-  background: var(--card);
-  border-radius: 18px;
-  padding: 3rem 3.2rem 3.5rem;
-  box-shadow: 0 8px 30px rgba(24,155,125,0.08);
-  border: 1px solid var(--line);
-  font-size: 1.05rem;  /* 本文は基準よりさらに気持ち大きく（読みやすさ優先） */
-}
-
-/* ===== 見出し ===== */
-.article h1 {
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1.5;
-  margin: 0 0 2rem;
-  padding: 0 0 1.2rem;
-  color: var(--ink);
-  border-bottom: 3px solid var(--main);
-  position: relative;
-}
-.article h1::before {
-  content: "";
-  display: inline-block;
-  width: 46px; height: 6px;
-  background: linear-gradient(90deg, var(--main), var(--sub));
-  border-radius: 6px;
-  position: absolute; left: 0; bottom: -4.5px;
-}
-.article h2 {
-  font-size: 1.32rem;
-  font-weight: 700;
-  color: var(--sub);
-  margin: 2.8rem 0 1.1rem;
-  padding: 0.55rem 0 0.55rem 1rem;
-  border-left: 6px solid var(--main);
-  background: linear-gradient(90deg, rgba(44,181,150,0.10), rgba(44,181,150,0));
-  border-radius: 0 8px 8px 0;
-}
-.article h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 2rem 0 0.7rem;
-  padding-left: 0.85rem;
-  border-left: 4px solid var(--line);
-}
-/* キーワード検出された H3（注意・結論・強み等） */
-.article h3.callout-h {
-  border-left: none;
-  padding: 0.6rem 1rem;
-  border-radius: 10px;
-  background: var(--bg);
-  color: var(--ink);
-  display: flex; align-items: center; gap: 0.5rem;
-  box-shadow: inset 5px 0 0 var(--bar);
-  background: var(--bg);
-}
-.article h3.callout-h { background: var(--bg); }
-.article h3.callout-ico, .callout-ico { font-size: 1.05em; }
-
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
 .article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
-
-/* ===== 本文 ===== */
-/* 本文は読みやすい行幅に抑える（見出し・テーブルは全幅のまま＝編集記事的リズム） */
 .article p { margin: 1.15rem 0; max-width: 42em; }
 .article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
-.article li { margin: 0.5rem 0; }
-.article li::marker { color: var(--main); }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
 .article strong { color: var(--sub); font-weight: 700; }
 .article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
-/* 章/小見出し直後の段落をリード文として少し強調 */
-.article h2 + p, .article h3 + p { color: var(--ink); }
-
-/* ===== ステップバー（17ステップ照合などの構造化） ===== */
-.step {
-  display: flex; align-items: center; gap: 0.75rem;
-  margin: 1.6rem 0 0.4rem;
-  padding: 0.6rem 0.9rem;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(24,155,125,0.06);
-}
-.step-no {
-  flex: 0 0 auto;
-  width: 30px; height: 30px;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; font-weight: 800; font-size: 0.95rem;
-  border-radius: 9px;
-}
-.step-name { flex: 1 1 auto; font-weight: 700; color: var(--ink); font-size: 1.02rem; }
-.eval {
-  flex: 0 0 auto;
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 2rem; height: 1.7rem; padding: 0 0.6rem;
-  border-radius: 999px; font-weight: 800; font-size: 0.95rem;
-}
-.eval-ok { background: #E0F4EE; color: #1B8F70; }
-.eval-warn { background: #FCF0D9; color: #B07A14; }
-.eval-ng { background: #F7DEDB; color: #B0463B; }
-/* ステップバー直後の本文を少しインデントして従属関係を見せる */
-.step + p { margin-top: 0.55rem; padding-left: 0.2rem; }
-
-/* ===== 成績バッジ（A/B/C/D） ===== */
-.grade {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 2rem; height: 2rem; border-radius: 9px;
-  color: #fff; font-weight: 800; font-size: 1rem;
-}
-
-/* ===== テーブル ===== */
-.article table {
-  border-collapse: separate; border-spacing: 0;
-  width: 100%; margin: 1.3rem 0;
-  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-  font-size: 0.95rem;
-}
-.article thead th {
-  background: linear-gradient(180deg, var(--main), var(--sub));
-  color: #fff; font-weight: 700; text-align: left;
-  padding: 0.8rem 0.95rem; border: none;
-}
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
 .article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
 .article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
-.article tbody tr:hover { background: rgba(44,181,150,0.10); }
-
-/* ===== バッジ（結果ラベル） ===== */
-.badge {
-  display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px;
-  font-size: 0.85rem; font-weight: 700; white-space: nowrap;
-}
-
-/* ===== 注意枠カード（blockquote） ===== */
-.callout-box {
-  margin: 1.4rem 0; padding: 1.1rem 1.3rem;
-  background: #FCF3E6; border-left: 5px solid #E0973E;
-  border-radius: 0 12px 12px 0; color: var(--ink);
-}
-.callout-box p { margin: 0.4rem 0; }
-
-/* ===== コード ===== */
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
 .article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
 .article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
 .article pre code { background: none; color: inherit; padding: 0; }
-.article a[target="_blank"]::after { content: " ↗"; font-size: 0.78em; color: var(--main); }
-
-/* ===== サイドバー内 案件内ビュー切替（マニュアル⇔月次） ===== */
-/* 緑ボタン等で特別扱いせず、普通のサイドバー項目として表示する。
-   他項目と差がつきすぎないよう、左に細い帯だけ添える。 */
-.sidebar-item--cross {
-  margin-top: 0.4rem;
-  border-left: 3px solid var(--line);
-}
-.sidebar-item--cross::before { content: "📅 "; font-size: 0.85em; }
-
-/* ===== 本文中の参照リンク（〇〇.md を参照） ===== */
-.article a.ref-link {
-  background: #E6F6F1; color: var(--sub);
-  padding: 0.1rem 0.5rem; border-radius: 6px;
-  font-size: 0.92em; font-weight: 600;
-  border-bottom: 1px solid var(--main); word-break: break-all;
-}
-.article a.ref-link::before { content: "🔗 "; font-size: 0.85em; }
-
-/* ===== 用語集（折りたたみ） ===== */
-.article .glossary {
-  margin: 2.6rem 0 0; padding: 0.4rem 1.2rem;
-  background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px;
-}
-.article .glossary summary {
-  cursor: pointer; font-weight: 700; color: var(--sub);
-  padding: 0.7rem 0; font-size: 0.95rem; list-style-position: inside;
-}
-.article .glossary[open] summary { border-bottom: 1px dashed var(--line); margin-bottom: 0.6rem; }
-.article .glossary dl { margin: 0.3rem 0 0.8rem; }
-.article .glossary dt { font-weight: 700; color: var(--ink); margin-top: 0.7rem; font-size: 0.95rem; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
 .article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
 
-/* ===== 今月の判定サマリー（月次レポート冒頭の3行） ===== */
-.article .verdict {
-  margin: 0 0 1.8rem; padding: 1.1rem 1.3rem;
-  border-radius: 14px; border: 1px solid var(--line);
-  background: #fff; box-shadow: 0 4px 16px rgba(24,155,125,0.07);
-}
-.article .verdict .v-row { display: flex; gap: 0.7rem; margin: 0.35rem 0; align-items: baseline; }
-.article .verdict .v-key { flex: 0 0 6.5em; font-weight: 700; color: var(--sub); font-size: 0.92rem; }
-.article .verdict .v-val { flex: 1 1 auto; color: var(--ink); }
-.article .verdict.is-good { border-left: 6px solid #2CB596; }
-.article .verdict.is-watch { border-left: 6px solid #E0973E; }
-.article .verdict.is-bad { border-left: 6px solid #C0584E; }
-
-/* ===== 出典表記（文字壁の緩和） ===== */
-/* （出典: 〇〇_分析.md／…）を本文よりはっきり小さく・薄いグレーに沈める。
-   情報としては残すが視覚的な主役は本文に戻す。 */
-.article .src-cite {
-  font-size: 0.72em;
-  color: #9FB1AB;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.5;
-}
-
-/* ===== レイアウト（サイドバー型） ===== */
-.layout { display: flex; min-height: 100vh; }
-.sidebar {
-  width: 290px; min-width: 290px;
-  background: linear-gradient(180deg, #ffffff, var(--bg));
-  border-right: 1px solid var(--line);
-  padding: 1.6rem 1.1rem; overflow-y: auto;
-}
-.sidebar .brand {
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--main); text-transform: uppercase; margin-bottom: 0.35rem;
-}
-.sidebar h3 { margin: 0 0 1.2rem; font-size: 1.02rem; color: var(--ink); font-weight: 800; }
-.sidebar-item {
-  display: block; padding: 0.65rem 0.8rem; margin-bottom: 5px;
-  color: var(--ink); border-radius: 10px; font-size: 0.9rem;
-  border: 1px solid transparent; word-break: break-all;
-}
-.sidebar-item:hover { background: #fff; border-color: var(--line); text-decoration: none; }
-.sidebar-item.active {
-  background: linear-gradient(135deg, var(--main), var(--sub));
-  color: #fff; box-shadow: 0 4px 14px rgba(24,155,125,0.25);
-}
-.sidebar .date { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 2px; }
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
 .sidebar-item.active .date { color: rgba(255,255,255,0.85); }
-.content { flex: 1; padding: 2.4rem; max-width: 980px; overflow-y: auto; overflow-wrap: anywhere; }
-/* ===== スマホ：サイドバー非表示・本文全幅 ===== */
-.mobile-back {
-  display: none;
-  position: sticky; top: 0; z-index: 200;
-  background: var(--card); border-bottom: 1px solid var(--line);
-  padding: 0.6rem 1rem;
-}
-.mobile-back a {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.9rem; font-weight: 700; color: var(--sub);
-  text-decoration: none;
-}
-.mobile-back a:hover { text-decoration: underline; }
-@media (max-width: 720px) {
-  .sidebar { display: none; }
-  .mobile-back { display: block; }
-  .content { padding: 1rem; max-width: 100%; overflow-wrap: anywhere; }
-  .article { padding: 1.4rem 1rem 2rem; border-radius: 14px; }
-  .article h1 { font-size: 1.4rem; }
-  .article h2 { font-size: 1.15rem; }
-  .article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-}
-</style>
-</head>
-<body>
-<div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
-<div class="layout">
-<nav class="sidebar">
-<div class="brand">Sales Report</div>
-<h3>ピグマリオン セールスレポート</h3>
-<a class="sidebar-item sidebar-item--cross" href="../pigmarion-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../pigmarion-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年07月09日</span> セールス担当別_傾向とクセ</a>
-<a href="002.html" class="sidebar-item"><span class="date">2026年07月09日</span> 個別説明会_セールス成功失敗マニュアル</a>
-<a href="003.html" class="sidebar-item"><span class="date">2026年07月09日</span> 全体レポート</a>
-<a href="004.html" class="sidebar-item"><span class="date">2026年07月09日</span> 旦那対策_完全マニュアル</a>
-<a href="005.html" class="sidebar-item active"><span class="date">2026年07月09日</span> 来場者ペルソナ分析_セールスデータ集約</a>
-<a href="006.html" class="sidebar-item"><span class="date">2026年07月09日</span> 質疑応答の理想回答集</a>
-</nav>
-<main class="content">
-<article class="article">
-<h1>来場者ペルソナ分析 / セールスデータ集約（ピグマリオン恵美子・IQ200グローバルキッズ）</h1>
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">REPORT</div><h3>ピグマリオン セールスレポート</h3><a class="sidebar-item sidebar-item--cross" href="../pigmarion-monthly/">月次レポート</a><a class="sidebar-item sidebar-item--cross" href="../pigmarion-sales-analysis/">個別セールス分析（顧客別）</a><a href="001.html" class="sidebar-item"><span class="date">2026年09月09日</span> セールス担当別 傾向とクセ（ピグマリオン ホームインターメソッド）</a>
+<a href="002.html" class="sidebar-item"><span class="date">2026年09月09日</span> 個別説明会 セールス成功例・改善点マニュアル（共通値）</a>
+<a href="003.html" class="sidebar-item"><span class="date">2026年09月09日</span> 全体レポート（ピグマリオン IQ200グローバルキッズ）</a>
+<a href="004.html" class="sidebar-item"><span class="date">2026年09月09日</span> 旦那対策 完全マニュアル</a>
+<a href="005.html" class="sidebar-item active"><span class="date">2026年09月09日</span> 来場者ペルソナ分析 / セールスデータ集約（ピグマリオン恵美子・IQ200グローバルキッズ）</a>
+<a href="006.html" class="sidebar-item"><span class="date">2026年09月09日</span> ホームインターメソッド 質疑応答 理想回答集</a></nav>
+<main class="content"><article class="article"><h1>来場者ペルソナ分析 / セールスデータ集約（ピグマリオン恵美子・IQ200グローバルキッズ）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#第1部:-来場者の深層分析（実商談60件-精読）">第1部: 来場者の深層分析（実商談60件 精読）</a></li><li class="toc-sub"><a href="#全体像-—-一言でいえば「情報は持っているが、確信と決裁権を持っていない母親」">全体像 — 一言でいえば「情報は持っているが、確信と決裁権を持っていない母親」</a></li><li class="toc-sub"><a href="#1.-競合に何を認知しているか">1. 競合に何を認知しているか</a></li><li class="toc-sub"><a href="#2.-購入経験-—-「買って満足」と「失敗トラウマ」の二層構造">2. 購入経験 — 「買って満足」と「失敗トラウマ」の二層構造</a></li><li class="toc-sub"><a href="#3.-つまずきポイント（なぜ決まらないか）—-否決の解剖">3. つまずきポイント（なぜ決まらないか）— 否決の解剖</a></li><li class="toc-sub"><a href="#4.-よく使う言葉（母親の口癖・語彙）">4. よく使う言葉（母親の口癖・語彙）</a></li><li class="toc-sub"><a href="#5.-刺さるトーク・展開（成約-↔-否決の対比）">5. 刺さるトーク・展開（成約 ↔ 否決の対比）</a></li><li class="toc-main"><a href="#第2部:-来場者タイプ分類（既存を維持）">第2部: 来場者タイプ分類（既存を維持）</a></li><li class="toc-sub"><a href="#タイプ1:-ママOS覚醒型（成約率:-高い）">タイプ1: ママOS覚醒型（成約率: 高い）</a></li><li class="toc-sub"><a href="#タイプ2:-教育投資置き換え検討型（成約率:-中〜高）">タイプ2: 教育投資置き換え検討型（成約率: 中〜高）</a></li><li class="toc-sub"><a href="#タイプ3:-夫・家族相談型（成約率:-保留→成約か否決かに二極化）">タイプ3: 夫・家族相談型（成約率: 保留→成約か否決かに二極化）</a></li><li class="toc-sub"><a href="#タイプ4:-確認・答え合わせ型（成約率:-低い）">タイプ4: 確認・答え合わせ型（成約率: 低い）</a></li><li class="toc-sub"><a href="#タイプ5:-金額ギャップ型（成約率:-低い）">タイプ5: 金額ギャップ型（成約率: 低い）</a></li><li class="toc-sub"><a href="#タイプ6:-過去の失敗経験型（成約率:-中。払拭できれば成約）">タイプ6: 過去の失敗経験型（成約率: 中。払拭できれば成約）</a></li><li class="toc-sub"><a href="#タイプ7:-低月齢・時期尚早型（成約率:-低い）">タイプ7: 低月齢・時期尚早型（成約率: 低い）</a></li><li class="toc-sub"><a href="#タイプ8:-シングルマザー-/-経済的制約型（成約率:-極めて低い）">タイプ8: シングルマザー / 経済的制約型（成約率: 極めて低い）</a></li><li class="toc-sub"><a href="#タイプ9:-情報過多・比較検討型（成約率:-中。決め手を作れるか）">タイプ9: 情報過多・比較検討型（成約率: 中。決め手を作れるか）</a></li><li class="toc-sub"><a href="#タイプ10:-復職・時間制約型（成約率:-中〜高。切迫感を活かせるか）">タイプ10: 復職・時間制約型（成約率: 中〜高。切迫感を活かせるか）</a></li><li class="toc-main"><a href="#第3部:-担当別成約率（既存を維持）">第3部: 担当別成約率（既存を維持）</a></li><li class="toc-sub"><a href="#全体サマリー">全体サマリー</a></li><li class="toc-sub"><a href="#担当者別-集計テーブル">担当者別 集計テーブル</a></li><li class="toc-sub"><a href="#担当者別コメント">担当者別コメント</a></li><li class="toc-sub"><a href="#注記">注記</a></li><li class="toc-main"><a href="#参照元">参照元</a></li></ul></nav>
 <p>IQ200グローバルキッズ講座 / ホームインターメソッド（0〜8歳幼児教育）</p>
 <p>本資料は、実商談60件を1本ずつ精読した深層分析（第1部）に、これまでの来場者タイプ分類（第2部）と担当別成約率（第3部）を統合したものです。<br />
 第1部は「なぜ決まらないのか」を太く描くことを主眼に、成約と否決を対比して整理しています。来場者の生の発話を短く引用しています。</p>
 <p>★暫定・要検証 / 2026-06-26 更新（第1部を実商談60件精読で新設、第2〜3部は既存を維持）</p>
 <hr />
-<h2>第1部: 来場者の深層分析（実商談60件 精読）</h2>
-<h3>全体像 — 一言でいえば「情報は持っているが、確信と決裁権を持っていない母親」</h3>
+<h2 id="第1部:-来場者の深層分析（実商談60件-精読）">第1部: 来場者の深層分析（実商談60件 精読）</h2>
+<h3 id="全体像-—-一言でいえば「情報は持っているが、確信と決裁権を持っていない母親」">全体像 — 一言でいえば「情報は持っているが、確信と決裁権を持っていない母親」</h3>
 <p>60件を通して見えてくる来場者像は、教育意識が高く、すでに何かしらの幼児教育に手を出していて、それでも「これでいいのか分からない」という不安を抱えた母親です。困っていないわけではなく、むしろ調べすぎて迷子になっている。一方で、44万円という金額の決裁権を自分が持っていないか、持っていても夫への報告・説得が要る。この「確信のなさ」と「決裁権のなさ」の2つが、否決の根を作っています。</p>
 <p>成約と否決を分けるのは、子どもの素質でも母親の熱量でもなく、次の3点に集約されます。</p>
 <ul>
@@ -314,7 +123,7 @@ a:hover { text-decoration: underline; }
 </ul>
 <p>以下、5軸でこの構造を深掘りします。</p>
 <hr />
-<h3>1. 競合に何を認知しているか</h3>
+<h3 id="1.-競合に何を認知しているか">1. 競合に何を認知しているか</h3>
 <p>来場者はほぼ全員、複数の幼児教育を経験・検討済みです。「教育投資の初心者」はごく少数で、大半が「比較検討のプロ」として相談会に来ています。担当はこれらを実名で否定せず、「領域が違う」「家庭でできる」と再定義して相対化しています。</p>
 <p><strong>(1) ディズニー英語システム（DWE）— 最頻出の比較対象、かつ最大の"失敗トラウマ"</strong><br />
 60件で最も多く名前が挙がるのがDWE。「フルセット約100万」が価格相場の参照点になっており、購入済みの家庭が複数います。ただしほぼ全員が挫折を語る。「100万くらいしたわりには全然やらずに寝てるみたいな方もよく聞く」「うちの友人が買ってほとんど使えてなかった」「1回もほぼ使わないであげちゃった」「駆け流しもしなきゃいけないのがとても苦痛だった」。担当はこの挫折を逆手に取り、「キャラクター頼みでブームが終わると使わなくなる」「メルカリに中古が大量に出ている」と暗に貶めて差別化しています。DWE購入済み家庭は、資金が枯渇しているため否決リスクも同時に高い（三浦・鷲巣・塚本）。</p>
@@ -329,7 +138,7 @@ a:hover { text-decoration: underline; }
 <p><strong>(6) SNS・YouTube・ChatGPT — "見えない競合"</strong><br />
 最も厄介なのは無料の情報源です。「8時に寝かす」「東大ママは早くと言わない」等の断片情報に振り回されている状態そのものを、担当は敵に設定します。ChatGPTを有料の育児相談相手として常用する新しい層も登場（「チャットGPT信者みたいになってます」）。「YouTubeでいいの探してやってみよう」と思わせてしまうと、「自分でできそう」という否決理由に直結します。</p>
 <hr />
-<h3>2. 購入経験 — 「買って満足」と「失敗トラウマ」の二層構造</h3>
+<h3 id="2.-購入経験-—-「買って満足」と「失敗トラウマ」の二層構造">2. 購入経験 — 「買って満足」と「失敗トラウマ」の二層構造</h3>
 <p><strong>(1) すでに高額教育に投資済み、が大多数</strong><br />
 完全な未経験者は少数で、大半が幼児教室の月謝・英語教材・育児本・母親向けマインド講座のいずれかに支出済みです。むしろ「直前に別の高額講座を買ったばかり」の重複投資が否決の物理的要因になります。発達科学コミュニケーション65万（昨年11月・山下）、別講座60万自腹（中江）、分子栄養学講座30万（鷲巣・先月）、脳科学育児50万＋アンガマネ50万（赤羽）、ドーマン30万強（魚津）。「すごい大金を使ったばっかり」で、内容に共感しても資金が残っていません。</p>
 <p><strong>(2) 「買っただけでやらない」自己認識</strong><br />
@@ -339,7 +148,7 @@ a:hover { text-decoration: underline; }
 <p><strong>(4) 書籍だけは買う層 / 相場観のない層</strong><br />
 恵美子先生の書籍をKindleで購入済み・3DAYSアーカイブ視聴済みで来場する「温まった層」が多数います。一方で「教育系は初めてで動画だけ売って終わりじゃないから高そう」と相場観のないまま来る層も一部おり、この層は44万への免疫がなく面食らいます。</p>
 <hr />
-<h3>3. つまずきポイント（なぜ決まらないか）— 否決の解剖</h3>
+<h3 id="3.-つまずきポイント（なぜ決まらないか）—-否決の解剖">3. つまずきポイント（なぜ決まらないか）— 否決の解剖</h3>
 <p>ここが本資料の核です。60件の否決・保留を解剖すると、原因は重層的に絡み合っています。太い順に並べます。</p>
 <p><strong>(1) 夫の壁 — ほぼ全件に登場する最大の構造要因</strong><br />
 保留・否決の理由として圧倒的多数を占めるのが夫です。パターンは3つに分かれます。</p>
@@ -362,7 +171,7 @@ a:hover { text-decoration: underline; }
 <p><strong>(7) ママ自身のキャパ不安・1年契約の重さ</strong><br />
 「私がいっぱいいっぱいになりそう」「フルタイムで時間がない」「1ヶ月のお試しがなくて1年縛りだと続けられるか不安」「終了後も月2500円・診断別料金が中途半端」。下の子・産後の余裕のなさ（産後うつ・2歳差育児・ダウン症児に手がかかる）が「自分が変われるか」への最大の恐怖になります。</p>
 <hr />
-<h3>4. よく使う言葉（母親の口癖・語彙）</h3>
+<h3 id="4.-よく使う言葉（母親の口癖・語彙）">4. よく使う言葉（母親の口癖・語彙）</h3>
 <p>来場者の発話には強い共通パターンがあり、トークの引っ掛かりどころを示しています。</p>
 <p><strong>(1) 自責・自己卑下の言葉</strong><br />
 「自分が変わらなきゃいけない」「私の接し方が良くない」「私に学がないので」「チャランポランに生きてきた」「太陽のママになれていない」「北風ママ多かったかな」。この自己卑下は、講座の「ママのままでいい、見方を変えるだけ」という肯定リフレームが刺さる入口です。</p>
@@ -377,7 +186,7 @@ a:hover { text-decoration: underline; }
 <p><strong>(6) 保留・否決のサイン語</strong><br />
 「興味はあります（しか言えない）」「半々です」「やってみないと分からない」「ちょっと相談してみます」「今いっぱいいっぱい」「整理してから」「料金次第」「比較検討したい」「ビジネスはビジネス（＝キャンペーン価格を見透かす）」。これらが出たら温度が上がりきっていないサインです。</p>
 <hr />
-<h3>5. 刺さるトーク・展開（成約 ↔ 否決の対比）</h3>
+<h3 id="5.-刺さるトーク・展開（成約-↔-否決の対比）">5. 刺さるトーク・展開（成約 ↔ 否決の対比）</h3>
 <p><strong>(1) 【最強の刺さり】「変わるのはママ、子どもではない」＝OSアップデート</strong><br />
 全件で最も響き、涙を引き出すのもここ。「子どもを変えるんじゃなくてママのあり方を変えるだけ」「知識を上乗せる必要はない、今のままで見方を変えるだけ」「戦略的ポンコツママ」。家庭環境（夫・義両親）を変えなくていいという心理的ハードル下げが、決裁権のない母に効く設計です。成約者はここで腹落ちしている。逆に、これが「腑に落ちない」層（マインドは子育て本と共通、既に自分で軸を作った＝三上・真田）は否決に流れます。差別化の核が刺さるかどうかが第一関門です。</p>
 <p><strong>(2) 「お尻を叩き続けるシステム / 担任が継続させる」＝失敗トラウマへの直撃</strong><br />
@@ -402,9 +211,9 @@ a:hover { text-decoration: underline; }
 <p><strong>(8) 【否決後の出口設計】— 関係を残した良い判断</strong><br />
 否決・保留でも次の接点を残す動きが評価できます。「法定書面だけ読み合わせて申込だけして入金を蹴る方法もある」「1週間悩んでまたなら再Zoom」「月500円コミュニティ会員・無料イベント・荻窪/荻窪イベント（2,500円）」。加納は否決でも月500円コミュニティに参加。高瀬麗子は否決後にリアルイベント接続で関係を残しました。アフターメールでの粘り（荻原）が保留→成約に転じた好例もあります。</p>
 <hr />
-<h2>第2部: 来場者タイプ分類（既存を維持）</h2>
+<h2 id="第2部:-来場者タイプ分類（既存を維持）">第2部: 来場者タイプ分類（既存を維持）</h2>
 <p>出典: セールス分析ファイル91件（<code>セールス分析/</code> 配下）の全件を横断分類。第1部の60件精読と整合する。</p>
-<h3>タイプ1: ママOS覚醒型（成約率: 高い）</h3>
+<h3 id="タイプ1:-ママOS覚醒型（成約率:-高い）">タイプ1: ママOS覚醒型（成約率: 高い）</h3>
 <p>代表例: 佐々木彩奈さん（あみーご担当・成約）、籾山亜紀さん（conica担当・成約）</p>
 <p>特徴:<br />
 - 「子どもの問題ではなく、自分が変わらなければ」という内省に到達している<br />
@@ -415,7 +224,7 @@ a:hover { text-decoration: underline; }
 <p>推奨アプローチ:<br />
 - ヒアリングで「ご自身が変わりたいと思ったきっかけ」を深掘りし、OS覚醒の動機を言語化させる<br />
 - 教材・英語力の説明は短く切り上げ、「ママの変化事例」を重点的に語る</p>
-<h3>タイプ2: 教育投資置き換え検討型（成約率: 中〜高）</h3>
+<h3 id="タイプ2:-教育投資置き換え検討型（成約率:-中〜高）">タイプ2: 教育投資置き換え検討型（成約率: 中〜高）</h3>
 <p>特徴:<br />
 - 既に習い事を3〜5種類（ピアノ、水泳、公文、モンテ、英会話、体操など）<br />
 - 「全部技能教育で、思考教育がない」と指摘されるとハッとする<br />
@@ -423,7 +232,7 @@ a:hover { text-decoration: underline; }
 <p>推奨アプローチ:<br />
 - 冒頭で現在の習い事と月額コストを全部洗い出す<br />
 - 「追加ではなく置き換え。カバー範囲が広がって月額は変わらない」とリフレーム</p>
-<h3>タイプ3: 夫・家族相談型（成約率: 保留→成約か否決かに二極化）</h3>
+<h3 id="タイプ3:-夫・家族相談型（成約率:-保留→成約か否決かに二極化）">タイプ3: 夫・家族相談型（成約率: 保留→成約か否決かに二極化）</h3>
 <p>特徴:<br />
 - ママ本人の意欲は高いが、決裁権が夫にあるか、家族の承認がないと動けない構造<br />
 - 金額より「妻が勝手に決めた」と思われることへの恐怖がブレーキ</p>
@@ -431,7 +240,7 @@ a:hover { text-decoration: underline; }
 - 序盤で「お金の決裁は誰がされてますか」を必ず確認<br />
 - 夫同席Zoomの設定、または家族向け「3分で伝わる要約」を保留の出口にする<br />
 - 夫が英語に無関心なら「英語」でなく「思考力・自信・非認知能力」で説得材料を作る</p>
-<h3>タイプ4: 確認・答え合わせ型（成約率: 低い）</h3>
+<h3 id="タイプ4:-確認・答え合わせ型（成約率:-低い）">タイプ4: 確認・答え合わせ型（成約率: 低い）</h3>
 <p>代表例: 森田いづみさん（SHINO担当・否決）、高橋瑛子さん（SHINO担当・否決）</p>
 <p>特徴:<br />
 - 子育ては既にうまくいっている実感がある。動機は「今のやり方の確認」「診断が面白そう」<br />
@@ -439,7 +248,7 @@ a:hover { text-decoration: underline; }
 <p>推奨アプローチ:<br />
 - 診断提示前に「診断は入口、12ヶ月の伴走がメイン価値」と先出しする<br />
 - 無理にクロージングせず、低額コミュニティ・リアルイベントへの接続で関係を残す</p>
-<h3>タイプ5: 金額ギャップ型（成約率: 低い）</h3>
+<h3 id="タイプ5:-金額ギャップ型（成約率:-低い）">タイプ5: 金額ギャップ型（成約率: 低い）</h3>
 <p>代表例: 高瀬麗子さん（角田友佳担当・否決）、西川実穂さん（あみーご担当・否決）</p>
 <p>特徴:<br />
 - 想定価格（10〜20万・月謝制）と提示44万の乖離が3倍以上<br />
@@ -447,7 +256,7 @@ a:hover { text-decoration: underline; }
 <p>推奨アプローチ:<br />
 - 冒頭で予算感・過去の教育投資額を確認し、乖離があれば時間配分を調整<br />
 - 否決が見えたら低額接点（月500円コミュニティ・リアルイベント）に切り替える</p>
-<h3>タイプ6: 過去の失敗経験型（成約率: 中。払拭できれば成約）</h3>
+<h3 id="タイプ6:-過去の失敗経験型（成約率:-中。払拭できれば成約）">タイプ6: 過去の失敗経験型（成約率: 中。払拭できれば成約）</h3>
 <p>特徴:<br />
 - 過去に声かけ系・マインド系スクールに通ったが「すぐ元に戻った」経験<br />
 - 「今回も同じでは」が最大のブレーキ</p>
@@ -455,14 +264,14 @@ a:hover { text-decoration: underline; }
 - 「なぜ続かなかったか」を深掘りし、単発ワーク型と継続伴走型の構造差を言語化<br />
 - 「担任がずっと見ている／1年走り続ける設計」で継続の仕組みを強調<br />
 - 保留はアフターメールで粘る（荻原パターン）</p>
-<h3>タイプ7: 低月齢・時期尚早型（成約率: 低い）</h3>
+<h3 id="タイプ7:-低月齢・時期尚早型（成約率:-低い）">タイプ7: 低月齢・時期尚早型（成約率: 低い）</h3>
 <p>特徴:<br />
 - 子どもが0〜2歳で「今できることが少ない」と感じる<br />
 - 「キッズの方が魅力的、1歳だとできることも限られてる」が本音</p>
 <p>推奨アプローチ:<br />
 - 「1歳こそ差がつく」を発達科学データで示す<br />
 - ベビー講座への振り替え、または同年代ママとの接点を先に売る</p>
-<h3>タイプ8: シングルマザー / 経済的制約型（成約率: 極めて低い）</h3>
+<h3 id="タイプ8:-シングルマザー-/-経済的制約型（成約率:-極めて低い）">タイプ8: シングルマザー / 経済的制約型（成約率: 極めて低い）</h3>
 <p>代表例: 西川実穂さん（あみーご担当・否決）</p>
 <p>特徴:<br />
 - シングルマザー・求職中など家計に構造的制約。話術の範囲外<br />
@@ -470,7 +279,7 @@ a:hover { text-decoration: underline; }
 <p>推奨アプローチ:<br />
 - 序盤で家計状況を確認し金額帯を早めに伝える<br />
 - 低額の代替接点へ誘導し、説明会自体の価値を渡す</p>
-<h3>タイプ9: 情報過多・比較検討型（成約率: 中。決め手を作れるか）</h3>
+<h3 id="タイプ9:-情報過多・比較検討型（成約率:-中。決め手を作れるか）">タイプ9: 情報過多・比較検討型（成約率: 中。決め手を作れるか）</h3>
 <p>代表例: 加納遥さん（否決）、森田いづみさん（SHINO担当・否決）</p>
 <p>特徴:<br />
 - 育児本多読・幼児教室複数体験・他教材使用済み。知識は多いが実践に落とせない<br />
@@ -479,7 +288,7 @@ a:hover { text-decoration: underline; }
 - 「色々やってきた中で、一番やりきれなかったことは何ですか」と逆方向から深掘り<br />
 - 「知識と実践のギャップを埋めるのが伴走の価値」と位置づける<br />
 - SHINOの自己開示（読み漁り→アウトプットできなかった→軸ができた）が効く</p>
-<h3>タイプ10: 復職・時間制約型（成約率: 中〜高。切迫感を活かせるか）</h3>
+<h3 id="タイプ10:-復職・時間制約型（成約率:-中〜高。切迫感を活かせるか）">タイプ10: 復職・時間制約型（成約率: 中〜高。切迫感を活かせるか）</h3>
 <p>特徴:<br />
 - 育休中で復職間近、またはフルタイム共働き。「復帰したら時間がない」切迫感<br />
 - 「1日10分だけ」の具体性が刺さる</p>
@@ -487,10 +296,10 @@ a:hover { text-decoration: underline; }
 - 「復帰後に仕組みがない状態で始めるのと、今のうちに作るのと、どちらが楽ですか」<br />
 - 朝5分夜5分など具体的なタイムスケジュールを提示</p>
 <hr />
-<h2>第3部: 担当別成約率（既存を維持）</h2>
+<h2 id="第3部:-担当別成約率（既存を維持）">第3部: 担当別成約率（既存を維持）</h2>
 <p>出典: <code>担当者別_全体マップ.md</code> + <code>管理シート/IQ200ベースシート_BASE.csv</code>。データ時点: 2026-05-26。<br />
 精度: 管理シート精度は約70%と推定。結果欄が空白・不明のケースが散在するため、傾向値として読むこと。</p>
-<h3>全体サマリー</h3>
+<h3 id="全体サマリー">全体サマリー</h3>
 <table>
 <thead>
 <tr>
@@ -529,7 +338,7 @@ a:hover { text-decoration: underline; }
 </tr>
 </tbody>
 </table>
-<h3>担当者別 集計テーブル</h3>
+<h3 id="担当者別-集計テーブル">担当者別 集計テーブル</h3>
 <table>
 <thead>
 <tr>
@@ -624,27 +433,22 @@ a:hover { text-decoration: underline; }
 </tr>
 </tbody>
 </table>
-<h3>担当者別コメント</h3>
+<h3 id="担当者別コメント">担当者別コメント</h3>
 <p>あみーご（確定分41.3%）: 4担当中トップ。受け持ち最多52件で量・質ともにエース。「負の循環を本人に言わせる」黄金パターン（このまま準備が遅いと→学校嫌々→ママ怒っちゃう→負の循環、を母自身に言わせ、直後に理想像を描かせて感情の落差で『手に入れたい』を引き出す）が成約に直結。懸念払拭と保留案件のフォロー設計が強い。</p>
 <p>conica（確定分35.3%）: 保留→成約に戻す粘りが特徴。「お尻を叩き続けるシステム」の概念命名力、夫同席Zoom設定など構造的解決の姿勢。一方、未来恐怖トークが長尺になりすぎ独演化するセッションも。YouTube閉鎖でvideo_gone 7件発生。</p>
 <p>SHINO（確定分26.9%）: 自己開示（育児本読み漁り→アウトプットできなかった→軸ができた）が情報過多型への武器。「慎重さは思考力が高い」等の逆転視点が豊富。ただし「今やる理由」を覆す具体データの準備が弱く、確認型・時期尚早型・エビデンス要求層への対応に課題。SHINO／清水しのぶは同一人物。</p>
 <p>角田友佳（確定分20.9%）: 受け持ち48件と多いが成約9件。動画URL記載率が低く（12/48）改善サイクルが回りにくい。否決後のリアルイベント接続（高瀬麗子）は良い。価格感の確認タイミングが遅く、乖離が大きい場合の時間ロスが目立つ。</p>
-<h3>注記</h3>
+<h3 id="注記">注記</h3>
 <ul>
 <li>成約率（全件）= 成約 / 受け持ち（不参加含む）</li>
 <li>成約率（確定分）= 成約 /（成約 + 否決）。保留は含めない</li>
 <li>担当者名の表記揺れは正規化済み（あみ→あみーご、ゆか/角田→角田友佳、SHIN/shin→SHINO、Conica→conica）</li>
 </ul>
 <hr />
-<h2>参照元</h2>
+<h2 id="参照元">参照元</h2>
 <ul>
 <li>第1部: 実商談60件の深掘り抽出 <code>21_プロジェクト一覧/_横断_セールス/工程分析/ピグマペルソナ深掘り/batch01〜12.json</code></li>
 <li>第2部: セールス分析ファイル91件（<code>セールス分析/</code> 配下）</li>
 <li>第3部: <code>担当者別_全体マップ.md</code> + <code>管理シート/IQ200ベースシート_BASE.csv</code> + 状態台帳</li>
 </ul>
-<p>2026-06-26 第1部（実商談60件精読・5軸）を新設。第2部・第3部は2026-05-26版を維持。★暫定・要検証。</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details>
-</article>
-</main>
-</div>
-</body>
-</html>
+<p>2026-06-26 第1部（実商談60件精読・5軸）を新設。第2部・第3部は2026-05-26版を維持。★暫定・要検証。</p><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details></article></main></div></body></html>
