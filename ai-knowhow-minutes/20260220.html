@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ザ・リード AI改善 MTG 議事録（2026年2月20日） - AIノウハウMTG議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>AIノウハウMTG議事録</h3><a href="20260615.html" class="sidebar-item"><span class="date">2026年06月15日</span> ザ・リード AI改善 MTG 議事録（2026年6月15日）</a>
+<a href="20260518.html" class="sidebar-item"><span class="date">2026年05月18日</span> ザ・リード AI改善 MTG 議事録（2026年5月18日）</a>
+<a href="20260323.html" class="sidebar-item"><span class="date">2026年03月23日</span> AIノウハウMTG 議事録</a>
+<a href="20260220.html" class="sidebar-item active"><span class="date">2026年02月20日</span> ザ・リード AI改善 MTG 議事録（2026年2月20日）</a>
+<a href="20260130.html" class="sidebar-item"><span class="date">2026年01月30日</span> ザ・リード AI改善 MTG 議事録（2026年1月30日）</a>
+<a href="20260113.html" class="sidebar-item"><span class="date">2026年01月13日</span> ザ・リード AI改善 MTG 議事録（2026年1月13日）</a>
+<a href="20250605.html" class="sidebar-item"><span class="date">2025年06月05日</span> ザ・リード AI改善 MTG 議事録（2025年6月5日）</a></nav>
+<main class="content"><article class="article"><h1>ザ・リード AI改善 MTG 議事録（2026年2月20日）</h1>
+<h2 id="サマリー">サマリー</h2>
+<p>田中はCursorに非常にはまっており、開発会社との契約もなくなり毎日100ファイル単位で生成する体制になったという進捗報告からスタート。ナレッジは田中が「司書」として一元管理し、社内50人体制にGitHub参照権を配る構想が共有された。<br />
+今回の中心議題はAgent Skills（スキルズ）機能で、1枚のマスターファイルに全情報を詰め込む方式から、フェーズごとの専門家エージェントに分割するSkills方式への進化が宇田から実演を交えて説明された。トークン削減・出力の安定化・PM（ディレクター）役の自動生成が利点として整理され、田中は「これを作った方が早い」と強く反応した。<br />
+後半はAI時代の制作体制の変化（中間層の消滅、秘書需要の高まり、講座ビジネスの成果ハードル上昇）や、2027年以降のAGI・シンギュラリティの見通しまで踏み込んだ議論となり、田中は「僕らの仕事はナレッジを整えることだけになりそう」という所感で締めくくった。次回は3月23日15時。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年2月20日 15時02分頃開始（JST）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoom（田中祐一個人MTGリンク）</td>
+</tr>
+<tr>
+<td>長さ</td>
+<td>56分</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、北島正幸、宇田</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://us02web.zoom.us/rec/share/1mA-UDUaSer334QnpKGT-suKiaV9DqDiFegojVleUXpUcwzs1hhCrSuWlEv_EPoK.xDK0EiI1QQdWbxRX" target="_blank" rel="noopener noreferrer">https://us02web.zoom.us/rec/share/1mA-UDUaSer334QnpKGT-suKiaV9DqDiFegojVleUXpUcwzs1hhCrSuWlEv_EPoK.xDK0EiI1QQdWbxRX</a></td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/AI改善/ミーティング履歴/20260220_AI改善MTG_書き起こし原本.md</code></td>
+</tr>
+</tbody>
+</table>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1.-Cursor活用の進捗報告">1. Cursor活用の進捗報告</a></li><li class="toc-sub"><a href="#2.-ナレッジの中央管理体制（田中の構想）">2. ナレッジの中央管理体制（田中の構想）</a></li><li class="toc-sub"><a href="#3.-吉原さんの投稿への疑問とエディタツール論争">3. 吉原さんの投稿への疑問とエディタツール論争</a></li><li class="toc-sub"><a href="#4.-ブラウザ操作の限界とCoWork/OpenCraw">4. ブラウザ操作の限界とCoWork/OpenCraw</a></li><li class="toc-sub"><a href="#5.-Agent-Skills機能の解説（本題）">5. Agent Skills機能の解説（本題）</a></li><li class="toc-sub"><a href="#6.-Skills販売という新しいオファーの形">6. Skills販売という新しいオファーの形</a></li><li class="toc-sub"><a href="#7.-Claude-CodeとCursorの使い分け・課金の実態">7. Claude CodeとCursorの使い分け・課金の実態</a></li><li class="toc-sub"><a href="#8.-AI時代の制作体制の変化">8. AI時代の制作体制の変化</a></li><li class="toc-sub"><a href="#9.-中間層の消滅とブルーカラー需要の爆発">9. 中間層の消滅とブルーカラー需要の爆発</a></li><li class="toc-sub"><a href="#10.-AGI・シンギュラリティへの見通し">10. AGI・シンギュラリティへの見通し</a></li><li class="toc-sub"><a href="#11.-次回予定の調整">11. 次回予定の調整</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中">田中</a></li><li class="toc-sub"><a href="#北島">北島</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1.-Cursor活用の進捗報告">1. Cursor活用の進捗報告</h3>
+<p>田中から、社内向けCursorセミナー資料を作成中であり、Cursorに非常にはまっていて毎日100ファイルずつ生成、この日までに1000ファイルほど作成したという報告。開発会社とのプロジェクトがなくなり、自分でやった方が早い状態になったとのこと。1時間の書き起こしなどGeminiが吐き出せない処理を行うブラウザツールも自作できたと共有された。</p>
+<h3 id="2.-ナレッジの中央管理体制（田中の構想）">2. ナレッジの中央管理体制（田中の構想）</h3>
+<p>田中は、データ原本フォルダに更新権限を全員に持たせ、各案件のステップメール・セールスデータ等が上がってきたら田中が振り分ける「ナレッジは全部僕が管理する」体制を社内に発表したと報告。リポジトリ同期によって参照権限を持つ社内50人体制を組みたいという方針を共有した。</p>
+<h3 id="3.-吉原さんの投稿への疑問とエディタツール論争">3. 吉原さんの投稿への疑問とエディタツール論争</h3>
+<p>田中は、業界の吉原さんが「Cursorを使って連携するな」という趣旨の投稿をしていたことへの疑問を宇田に相談。宇田は「投稿の真意は不明だが、Cursorはチーム共有もできるが基本は個人のパフォーマンス最大化ツール」とした上で、開発に強い層はエディタツール（UIを覚える必要がある）を嫌い、Claude CodeのようなターミナルベースのAIを好む傾向があると解説。田中は「女性スタッフにcdコマンドを打たせるのはストレスが大きい」とコメントした。</p>
+<h3 id="4.-ブラウザ操作の限界とCoWork/OpenCraw">4. ブラウザ操作の限界とCoWork/OpenCraw</h3>
+<p>田中から、UTAGEやMyASPの操作のような「ブラウザ操作」がCursor/Claude Codeでできるのかという質問。宇田は、CursorやClaude Codeはローカルでの制作・開発向けであり、ブラウザ操作はできないと説明。Claude公式のCoWork機能（ブラウザを動かすAI機能）を使えばマニュアル通りの設置は可能だが、「人間のチェックなしで完全AIドリブンにするのはローンチにおいてはまだ怖い」という宇田の見解が共有された。田中はOpenCrawというスマホ→PCブリッジツールにも触れたが、宇田は「便利ではあるが生産性への影響はそこまで大きくない。結局オンライン秘書業務レベルの自動化にとどまっている」と評価した。</p>
+<h3 id="5.-Agent-Skills機能の解説（本題）">5. Agent Skills機能の解説（本題）</h3>
+<p>宇田がCursor画面を共有し、インスタリール台本作成を例にSkills機能を実演。従来は1枚のMarkdownマスターファイル（リール台本のルールセット全部）をフォルダごとドラッグ&amp;ドロップして指示していたが、Skillsにするとテーマ作成・台本作成・レビュー・文字数調整といった役割ごとに専門家エージェントへ自動的に細分化される。Skills発動時にはヒアリングから入る設計になっており、必要な情報を毎回思い出す手間がなくなる。</p>
+<p>田中の「プロモーション全体で作ることもできるのか」という質問に、宇田は「行ける」と即答し、プロダクトローンチ全体のSkillsもすでに作っており、ヒアリングベースで顧客理解→商品設計→ファネル設計→LTV/エバーグリーンまで一気通貫で自動生成できると説明。北島は「マスターファイルだとディレクションする人がいないのに対し、Skillsだとマネジメントする人（PM）がいて必要なところだけやってくれる」と理解を整理した。</p>
+<h3 id="6.-Skills販売という新しいオファーの形">6. Skills販売という新しいオファーの形</h3>
+<p>宇田から、これまでGPTsだった訴求が今後Skills自体の販売に変わっていくという見立てが共有された。田中は「Skills作った方が早いじゃん」と北島に呼びかけ、自身の5チャレローンチのノウハウをSkills（Zipファイル）として配布することを、GitHub共有よりも受け入れやすいオファーとして検討する方針を示した（GitHubはアカウント作成のハードルが高いため）。</p>
+<h3 id="7.-Claude-CodeとCursorの使い分け・課金の実態">7. Claude CodeとCursorの使い分け・課金の実態</h3>
+<p>宇田は、CursorのUltraプラン（200ドル）を10日〜20日で使い切ってしまった実体験から、大量処理（リール台本100本など）はClaude Codeで、細かい微調整はCursorで行うという使い分けに変えたと説明。Claude Codeの課金はCursor側の課金体系と別（Claude本体の課金が反映される）である点も整理された。</p>
+<p>田中も「自分もCursorが重くなってきている」と感じており、宇田は「ファイル数・チャット数が増えると重くなるため、使っていないチャットは定期的に閉じている」とアドバイス。両者とも現時点ではUltraを使い切るほどの利用状況には至っていない（田中は15日経過で17%）ことを確認した。</p>
+<h3 id="8.-AI時代の制作体制の変化">8. AI時代の制作体制の変化</h3>
+<p>田中の「ナルトの影分身」のたとえ（みんなが作ったプロモーションを共有すれば50人分の成長が手に入る）に対し、宇田は「田中さんが使うから化けるだけで、他の人が使うと劣化コピーになりがち」という難しさを指摘。田中はセールスの書き起こしをGit Ignoreで個人情報を回避しつつトーク集として案件横断で共有する取り組みを紹介し、「影分身というよりデバフをかける感じかもしれない」と自嘲気味にコメントした。</p>
+<p>宇田からは、2026年以降スクール・講座ビジネスが大きく変わるという見立てが示された。AIによって誰がやってもクオリティの高い制作物ができるようになった結果、受講生が成果を出すハードルが上がっている（クラウドワークス突破のような従来の成果基準が通用しなくなっている）という課題認識が共有された。</p>
+<h3 id="9.-中間層の消滅とブルーカラー需要の爆発">9. 中間層の消滅とブルーカラー需要の爆発</h3>
+<p>田中の「テスラの自動運転でタクシー運転手が消える」たとえを引き合いに、宇田は「中間層はごっそりいらなくなり、月3〜5万円で雇える主婦層のような人材の需要が逆に上がる」と分析。田中は「1プロモーターに1秘書を派遣する教育事業をやった方がいいのでは」というアイデアを口にし、宇田も「そちらのビジネスの方が息が長い」と同意した。</p>
+<h3 id="10.-AGI・シンギュラリティへの見通し">10. AGI・シンギュラリティへの見通し</h3>
+<p>宇田から、2027年にAGIが明確化しエージェントが多くの仕事を持っていき、2029〜2030年にはエージェントが仕事をするのが当たり前になる（シンギュラリティ）という見立てが共有された。田中は「僕の努力がいらなくなると考えると結構鬱になる」と率直な心境を吐露し、宇田も「必要ないんじゃないか、でも必要だな、を繰り返している」と共感した。最終的に田中は「あと数年頑張りましょう」と締め、Skillsを実際に作ってみたいという意欲を示した。</p>
+<h3 id="11.-次回予定の調整">11. 次回予定の調整</h3>
+<p>3月最終週の都合が合わないため、3月23日（月）15時に次回開催することで合意した。</p>
+<h2 id="決まったこと">決まったこと</h2>
+<ul>
+<li>ナレッジは田中が一元管理し、GitHub参照権を社内メンバーに配布する体制で運用する</li>
+<li>Skills機能を導入し、マスターファイル1枚方式からフェーズ別専門家エージェント方式へ移行する</li>
+<li>大量処理はClaude Code、細かい微調整はCursorという使い分けを標準にする</li>
+<li>5チャレローンチ等のノウハウは、GitHub共有よりもSkills（Zip配布）でのオファーを検討する</li>
+<li>次回MTG：3月23日（月）15時</li>
+</ul>
+<h2 id="やること">やること</h2>
+<h3 id="田中">田中</h3>
+<ul>
+<li>[ ] プロモーション用のSkillsを実際に作ってみる</li>
+<li>[ ] 5チャレローンチのノウハウをSkills配布オファーとして検討する</li>
+<li>[ ] 社内向けCursorセミナーの内容をメルマガにも展開する（宇田の許可取得済み）</li>
+</ul>
+<h3 id="北島">北島</h3>
+<ul>
+<li>[ ] Skills導入に向けて、既存のスプレッドシート工程表の整理を進める</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-09-10)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 8NW4QK3R<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
