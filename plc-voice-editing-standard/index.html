@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PLC参加者の声インタビュー 編集ガイド｜社内版と外注版の前後比較</title>
+<style>
+:root{
+  --main:#2CB596; --sub:#189B7D; --deep:#0B7564;
+  --bg:#F0FAF8; --bg-top:#F7FCFB;
+  --ink:#243B36; --ink-soft:#5B726B;
+  --line:#D7ECE5; --card:#FFFFFF;
+  --accent-gradient:linear-gradient(135deg,#49D7B4 0%,var(--main) 48%,var(--deep) 100%);
+  --surface-shadow:0 18px 55px rgba(21,102,83,.09);
+  --surface-radius:22px;
+}
+*{box-sizing:border-box}
+html{font-size:18px}
+@media (max-width:720px){html{font-size:16.5px}}
+html,body{overflow-x:hidden}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  background:radial-gradient(circle at 88% -8%,rgba(73,215,180,.17),transparent 32rem),
+             linear-gradient(180deg,var(--bg-top) 0%,var(--bg) 100%);
+  color:var(--ink); line-height:1.95; -webkit-font-smoothing:antialiased; letter-spacing:.01em;
+}
+a{color:var(--sub);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.layout{display:grid;grid-template-columns:264px minmax(0,1fr);min-height:100vh}
+.sidebar{width:264px;height:100vh;position:sticky;top:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(240,250,248,.90));
+  border-right:1px solid var(--line);padding:1.65rem 1rem 2rem;overflow-y:auto}
+.sidebar .brand{font-size:.72rem;letter-spacing:.14em;color:var(--ink-soft);font-weight:700;margin:0 0 .2rem .55rem}
+.sidebar .brand-sub{font-size:.86rem;font-weight:700;color:var(--deep);margin:0 0 1.2rem .55rem;line-height:1.6}
+.sidebar-item{display:block;padding:.6rem .8rem;margin-bottom:5px;color:var(--ink);
+  border-radius:10px;font-size:.88rem;border:1px solid transparent;line-height:1.55}
+.sidebar-item:hover{background:rgba(44,181,150,.09);text-decoration:none}
+.sidebar-note{margin:1.4rem .55rem 0;font-size:.76rem;color:var(--ink-soft);line-height:1.8}
+.content{width:100%;max-width:1080px;margin:0 auto;padding:clamp(1.5rem,3vw,2.7rem)}
+.article{background:var(--card);border-radius:var(--surface-radius);
+  padding:clamp(2.2rem,4vw,3.35rem) clamp(1.8rem,4.5vw,3.5rem) 3.6rem;
+  box-shadow:var(--surface-shadow);border:1px solid var(--line);font-size:1.05rem;overflow-wrap:anywhere}
+.backnav{display:none}
+@media (max-width:860px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .content{max-width:100%;padding:1rem}
+  .article{padding:1.55rem 1.2rem 2.2rem;border-radius:18px}
+  .backnav{display:block;font-size:.85rem;color:var(--ink-soft);margin:0 0 .9rem}
+}
+
+h1{font-size:1.9rem;font-weight:800;line-height:1.5;margin:0 0 2rem;padding:0 0 1.2rem;
+  color:var(--ink);border-bottom:3px solid var(--main);position:relative}
+h1::before{content:"";display:inline-block;width:64px;height:5px;background:var(--accent-gradient);
+  border-radius:6px;position:absolute;left:0;bottom:-4.5px}
+.lede{font-size:.85rem;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin:0 0 .6rem}
+h2{font-size:1.32rem;font-weight:700;color:var(--sub);margin:3rem 0 1.1rem;
+  padding:.55rem 0 .55rem 1rem;border-left:6px solid var(--main);
+  background:linear-gradient(90deg,rgba(44,181,150,.10),rgba(44,181,150,0));border-radius:0 8px 8px 0;scroll-margin-top:1rem}
+h3{font-size:1.1rem;font-weight:700;color:var(--ink);margin:2.2rem 0 .7rem;
+  padding-left:.85rem;border-left:4px solid var(--line)}
+p{margin:1.15rem 0;max-width:42em}
+ul,ol{padding-left:1.4rem;margin:.9rem 0;max-width:42em}
+li{margin:.5rem 0}
+li::marker{color:var(--main)}
+strong{color:var(--sub);font-weight:700}
+hr{border:none;border-top:1px dashed var(--line);margin:2.6rem 0}
+
+.tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;
+  padding:.18rem .6rem;border-radius:999px;vertical-align:.14em;margin-left:.5rem}
+.tag.now{background:rgba(44,181,150,.14);color:var(--deep)}
+.tag.near{background:rgba(232,168,56,.16);color:#8A5D08}
+.tag.hard{background:rgba(120,132,128,.14);color:#4D5C57}
+
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0 .4rem}
+@media (max-width:860px){.cmp{grid-template-columns:1fr}}
+.cmp figure{margin:0}
+.cmp img{width:100%;display:block;border-radius:12px;border:1px solid var(--line)}
+.cap{font-size:.82rem;font-weight:700;margin:0 0 .45rem;display:flex;align-items:center;gap:.45rem}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.dot.a{background:#D9534F}
+.dot.b{background:var(--main)}
+.cmp figcaption{font-size:.82rem;color:var(--ink-soft);margin-top:.5rem;line-height:1.75}
+.single{margin:1.5rem 0 .4rem}
+.single img{width:100%;display:block;border-radius:12px;border:1px solid var(--line)}
+.single figcaption{font-size:.82rem;color:var(--ink-soft);margin-top:.5rem;line-height:1.75}
+
+.tbl-wrap{overflow-x:auto;margin:1.4rem 0}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:520px}
+th,td{border-bottom:1px solid var(--line);padding:.6rem .7rem;text-align:left;vertical-align:top}
+thead th{background:rgba(44,181,150,.08);color:var(--deep);font-weight:700;white-space:nowrap}
+tbody tr:nth-child(even){background:rgba(240,250,248,.6)}
+td.num{white-space:nowrap;font-variant-numeric:tabular-nums}
+.hl{background:rgba(232,168,56,.18);border-radius:4px;padding:0 .25rem;font-weight:700}
+
+.chips{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.1rem 0}
+.chip{display:flex;align-items:center;gap:.5rem;border:1px solid var(--line);border-radius:10px;
+  padding:.45rem .7rem;font-size:.8rem;background:#fff}
+.sw{width:26px;height:26px;border-radius:6px;border:1px solid rgba(0,0,0,.08);display:inline-block;flex:none}
+
+.note{background:rgba(240,250,248,.85);border:1px solid var(--line);border-left:6px solid var(--main);
+  border-radius:0 12px 12px 0;padding:1.1rem 1.3rem;margin:1.6rem 0}
+.note p{margin:.5rem 0}
+.note p:first-child{margin-top:0}
+.note p:last-child{margin-bottom:0}
+
+.check{list-style:none;padding:0;margin:1rem 0;max-width:42em}
+.check li{padding-left:1.9rem;position:relative;margin:.55rem 0}
+.check li::before{content:"";position:absolute;left:0;top:.42em;width:15px;height:15px;
+  border:2px solid var(--main);border-radius:4px}
+.foot{margin-top:3.4rem;padding-top:1.4rem;border-top:1px solid var(--line);
+  font-size:.8rem;color:var(--ink-soft);line-height:1.85}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="sidebar">
+  <p class="brand">EDITING GUIDE</p>
+  <p class="brand-sub">PLC参加者の声<br>インタビュー編集ガイド</p>
+  <a class="sidebar-item" href="#intro">はじめに</a>
+  <a class="sidebar-item" href="#good">1. できている部分</a>
+  <a class="sidebar-item" href="#now">2. すぐ直せること</a>
+  <a class="sidebar-item" href="#telop">3. テロップの割り方</a>
+  <a class="sidebar-item" href="#color">4. 色を寄せる</a>
+  <a class="sidebar-item" href="#next">5. これから作る正本</a>
+  <a class="sidebar-item" href="#check">6. 書き出し前チェック</a>
+  <p class="sidebar-note">社内制作：北村こうきさん回<br>比較：外注制作4本<br>2026年9月11日</p>
+</nav>
+
+<main class="content">
+<article class="article">
+<p class="backnav">PLC参加者の声インタビュー 編集ガイド</p>
+<p class="lede">EDITING GUIDE ／ 2026.09.11</p>
+<h1>PLC参加者の声インタビュー 編集ガイド<br>社内版と外注版を並べて見てみました</h1>
+
+<h2 id="intro">はじめに</h2>
+
+<p>お疲れさまです、田中です。</p>
+
+<p>北村こうきさん回、拝見しました。ありがとうございます。<br>
+外注に出していたものを社内で作れるようにする、という流れの中で、ここまで持ってきてくれたのは本当にありがたいです。</p>
+
+<p>ただ、正直に言うと、外注版と並べたときに「ちょっと違うな」と感じる部分がいくつかありました。<br>
+それを僕が全部手作業で指摘していくのはお互い大変なので、5本すべてをフレーム単位で分解して、機械で突き合わせてみました。<br>
+印象ではなくて、実際に測った数字で書いています。</p>
+
+<div class="note">
+<p><strong>先に前提を共有させてください。</strong></p>
+<p>今回、外注さんから素材データ（背景素材やテンプレートのプロジェクトファイル）はもらえていません。<br>
+なので、<strong>完全に同じものにするのは無理です。</strong>そこは仕方ないと思っています。</p>
+<p>でも、素材がなくても人の目で気づいて直せる部分と、数値を合わせれば寄せられる部分は確実にあります。<br>
+このページでは、その2つに絞って書きました。<br>
+「できないこと」を並べても意味がないので、「やれること」だけです。</p>
+</div>
+
+<p>比較したのは、この5本です。</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>区分</th><th>回</th><th>尺</th></tr></thead>
+<tbody>
+<tr><td>社内制作</td><td>北村こうきさん回</td><td class="num">10分41秒</td></tr>
+<tr><td>外注制作</td><td>齋藤ひとみさん回</td><td class="num">15分02秒</td></tr>
+<tr><td>外注制作</td><td>岩田妙さん回</td><td class="num">11分06秒</td></tr>
+<tr><td>外注制作</td><td>田口恵一さん回</td><td class="num">8分00秒</td></tr>
+<tr><td>外注制作</td><td>ミッチェル鈴木雅博さん回</td><td class="num">14分44秒</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="good">1. まず、できている部分</h2>
+
+<p>指摘だけ並べた資料にはしたくないので、先にここを書きます。<br>
+骨格はほぼ再現できています。</p>
+
+<ul>
+<li>構成（ダイジェスト → タイトルカード → 挨拶 → 質問①〜⑧ → 締め）が外注版と同じ</li>
+<li>左上の質問ラベルを、質問ごとに切り替える運用ができている</li>
+<li>テロップ枠の位置が外注版と<strong>12ピクセル以内</strong>。これは相当寄せてくれています</li>
+<li>色分けの考え方（田中＝黒、相手＝紺、強調＝赤、最強調＝金）がミッチェル鈴木さん回とほぼ同じ設計</li>
+<li>金色強調の量が全体の<strong>9.2%</strong>。外注版は5.2〜9.9%なので、ちょうどいい塩梅です</li>
+<li>音量は −19.8 LUFS。外注版は −13.5〜−21.3 LUFS なので、これもレンジ内</li>
+</ul>
+
+<p>ようは、骨は通っているということです。<br>
+あとは肉付けの部分で、直せるところを直していけば見分けがつかなくなります。</p>
+
+<h2 id="now">2. すぐ直せること（素材はいりません）<span class="tag now">すぐ直せる</span></h2>
+
+<p>ここからが本題です。<br>
+この章に書いたことは、外注さんの素材が手元になくても、全部そのまま直せます。</p>
+
+<h3>2-1. タイトルカードの「×」が抜けています</h3>
+
+<div class="cmp">
+<figure>
+<p class="cap"><span class="dot a"></span>社内版（北村さん回）</p>
+<img src="02-title-shanai.jpg" alt="社内版のタイトルカード。名前の間に×がない">
+<figcaption>「田中祐一」と「北村こうき」が並んでいるだけ</figcaption>
+</figure>
+<figure>
+<p class="cap"><span class="dot b"></span>外注版（田口さん回）</p>
+<img src="02-title-gaichu.jpg" alt="外注版のタイトルカード。名前の間に×が入っている">
+<figcaption>「田中祐一 × 田口恵一」と、間に「×」が入る</figcaption>
+</figure>
+</div>
+
+<p>外注版は4本すべてに「×」が入っていました。<br>
+小さいことに見えますが、この1文字があるだけで「対談です」という形がひと目で伝わります。<br>
+ないと、ただ名前が2つ置いてあるだけに見えてしまうんですよね。</p>
+
+<p><strong>やること：</strong>名前と名前の間に「×」を入れる。</p>
+
+<h3>2-2. 冒頭0.1秒に、前のテロップが残っています</h3>
+
+<div class="single">
+<figure>
+<img src="05-atama-nokori.jpg" alt="動画冒頭6フレーム。最初の3フレームだけ別のテロップが出ている">
+<figcaption>動画の頭から6フレーム。上の3枚だけ別のテロップが出て、すぐ切り替わっています</figcaption>
+</figure>
+</div>
+
+<p>動画の一番頭、<strong>3フレームだけ</strong>「実際にPLCに入ってからどんな成果を上げたのか教えてください」が金色で出て、すぐ次に切り替わっています。<br>
+時間にすると0.1秒です。読めません。見た人は「一瞬ちらついたな」としか思わない。</p>
+
+<p>頭のカットを詰めたときに、テロップのレイヤーだけ残ってしまったのかなと思います。<br>
+こういうのは、作っている本人には本当に見えないんですよね。僕も昔よくやりました。</p>
+
+<p><strong>やること：</strong>書き出す前に、頭とおしりを1フレームずつ送って確認する。</p>
+
+<h3>2-3. 最後の9秒、左上のラベルが消えています</h3>
+
+<div class="cmp">
+<figure>
+<p class="cap"><span class="dot a"></span>社内版（残り3秒あたり）</p>
+<img src="04-end-shanai.jpg" alt="社内版の終盤。左上にラベルがない">
+<figcaption>左上が空っぽになっています</figcaption>
+</figure>
+<figure>
+<p class="cap"><span class="dot b"></span>外注版（齋藤さん回・終盤）</p>
+<img src="04-end-gaichu.jpg" alt="外注版の終盤。左上にまとめラベルが出ている">
+<figcaption>「まとめ」ラベルに切り替わっています</figcaption>
+</figure>
+</div>
+
+<p>締めの挨拶に入ったところでラベルが消えていました。<br>
+外注版は4本とも、最後の1秒までラベルが出続けています。そのうち齋藤さん回と田口さん回は「まとめ」に切り替わる形でした。</p>
+
+<p>締めのパートだけ何もないと、動画が終わったのか続いているのか分からなくなります。</p>
+
+<p><strong>やること：</strong>締めのパートは「まとめ」ラベルに切り替える。ラベルを消さない。</p>
+
+<h3>2-4. ダイジェストの1枚目が、僕の質問になっています</h3>
+
+<div class="cmp">
+<figure>
+<p class="cap"><span class="dot a"></span>社内版のダイジェスト冒頭</p>
+<img src="06-digest-shanai.jpg" alt="社内版のダイジェスト冒頭のテロップ">
+<figcaption>「PLCに入ってからですと」。その前に僕の質問が一瞬入っています</figcaption>
+</figure>
+<figure>
+<p class="cap"><span class="dot b"></span>外注版のダイジェスト冒頭</p>
+<img src="06-digest-gaichu.jpg" alt="外注版のダイジェスト冒頭のテロップ">
+<figcaption>「元々は主婦に毛が生えた感じ」。ご本人の言葉から始まる</figcaption>
+</figure>
+</div>
+
+<p>外注版のダイジェストは、最初から最後まで<strong>ご本人の言葉だけ</strong>で組まれていました。聞き手の質問はひとつも入っていません。</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>回</th><th>ダイジェストの流れ</th></tr></thead>
+<tbody>
+<tr><td>齋藤さん回</td><td>実は年間40万円ぐらいだった　→　そうしたら200万円になった　→　1,850万円になりました</td></tr>
+<tr><td>田口さん回</td><td>コンテンツホルダーの方が婚活の事業を　→　1,500万円以上を売り上げました</td></tr>
+<tr><td>ミッチェル鈴木さん回</td><td>1回目で800万円くらい　→　2〜3回目で1500万円前後売れました</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>ダイジェストって、その人がどう変わったかを数字で見せる場所なんですよね。<br>
+だから1枚目には、一番強い一言を置いてほしいです。</p>
+
+<p>今回でいうと「<span class="hl">累計1億5,000万円のプロモーションの売上貢献に関わった</span>」。これが本来の1枚目です。</p>
+
+<p><strong>やること：</strong>ダイジェストはご本人の言葉だけで組む。1枚目は数字か変化が出ている一言を持ってくる。</p>
+
+<h3>2-5. 北村さんの顔が小さいです</h3>
+
+<div class="cmp">
+<figure>
+<p class="cap"><span class="dot a"></span>社内版</p>
+<img src="07-face-shanai.jpg" alt="社内版の映像部分。右側の北村さんが小さい">
+<figcaption>右側の北村さんが、左の僕より小さく映っています</figcaption>
+</figure>
+<figure>
+<p class="cap"><span class="dot b"></span>外注版（齋藤さん回）</p>
+<img src="07-face-gaichu.jpg" alt="外注版の映像部分。右側の齋藤さんが大きい">
+<figcaption>右側の齋藤さんのほうが少し大きい</figcaption>
+</figure>
+</div>
+
+<p>顔の横幅を実際に測ってみました。</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>回</th><th>田中（左）</th><th>ゲスト（右）</th><th>ゲスト ÷ 田中</th></tr></thead>
+<tbody>
+<tr><td>社内版（北村さん回）</td><td class="num">266px</td><td class="num">168px</td><td class="num"><span class="hl">0.63</span></td></tr>
+<tr><td>齋藤さん回</td><td class="num">209px</td><td class="num">236px</td><td class="num">1.13</td></tr>
+<tr><td>岩田さん回</td><td class="num">361px</td><td class="num">412px</td><td class="num">1.14</td></tr>
+<tr><td>ミッチェル鈴木さん回</td><td class="num">276px</td><td class="num">192px</td><td class="num">0.70</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>主役は出ていただいた方なのに、今回は北村さんが5本の中で一番小さく映っています。<br>
+外注版も回によってばらつきはありますが、齋藤さん回と岩田さん回は、僕より大きく寄せていました。</p>
+
+<p><strong>やること：</strong>相手の映像を拡大してトリミングし、最低でも僕と同じ大きさに揃える。</p>
+
+<h3>2-6. フレームレートが違います</h3>
+
+<p>外注版は4本とも<strong>25fps</strong>でした。社内版は29.97fpsです。<br>
+並べて見ても差は分かりにくいですが、同じシリーズなので揃えておきたいです。</p>
+
+<p><strong>やること：</strong>次からシーケンスを25fpsで作る。</p>
+
+<h2 id="telop">3. テロップの割り方（ここが一番効きます）<span class="tag now">すぐ直せる</span></h2>
+
+<p>正直、僕が一番「違うな」と感じていたのはここでした。<br>
+色でも素材でもなくて、テロップの切り方です。</p>
+
+<p>全尺のテロップを機械で数えてみました。</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>指標</th><th>社内版</th><th>齋藤さん回</th><th>岩田さん回</th><th>田口さん回</th><th>鈴木さん回</th></tr></thead>
+<tbody>
+<tr><td>1枚あたりの表示時間</td><td class="num"><span class="hl">3.14秒</span></td><td class="num">1.75秒</td><td class="num">1.61秒</td><td class="num">2.18秒</td><td class="num">2.27秒</td></tr>
+<tr><td>1分あたりの枚数</td><td class="num"><span class="hl">18.9枚</span></td><td class="num">33.7枚</td><td class="num">36.3枚</td><td class="num">26.9枚</td><td class="num">26.0枚</td></tr>
+<tr><td>1行で収まっている割合</td><td class="num"><span class="hl">28%</span></td><td class="num">78%</td><td class="num">66%</td><td class="num">63%</td><td class="num">43%</td></tr>
+<tr><td>2行になっている割合</td><td class="num"><span class="hl">72%</span></td><td class="num">22%</td><td class="num">34%</td><td class="num">37%</td><td class="num">57%</td></tr>
+<tr><td>文字の高さ（中央値）</td><td class="num"><span class="hl">75px</span></td><td class="num">82px</td><td class="num">83px</td><td class="num">77px</td><td class="num">84px</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>並べると、こうなります。</p>
+
+<div class="cmp">
+<figure>
+<p class="cap"><span class="dot a"></span>社内版のテロップ（抜粋6枚）</p>
+<img src="03-telop-shanai.jpg" alt="社内版のテロップを6枚並べたもの。2行が多い">
+<figcaption>2行で文章になっているものが多い</figcaption>
+</figure>
+<figure>
+<p class="cap"><span class="dot b"></span>外注版のテロップ（同じく抜粋6枚）</p>
+<img src="03-telop-gaichu.jpg" alt="外注版のテロップを6枚並べたもの。1行が多い">
+<figcaption>1行の短いフレーズが中心</figcaption>
+</figure>
+</div>
+
+<p>外注さんは「一息ぶん」で1枚を切っています。だから2秒前後でどんどん切り替わっていく。<br>
+社内版は1枚に文章を詰め込んでいるので、1枚が3秒以上出っぱなしになって、2行が7割を超えました。文字のサイズも5本の中で一番小さいです。</p>
+
+<p>ようは、<strong>テロップが「読み物」になってしまっている</strong>ということです。<br>
+話すテンポとテロップのテンポがズレるので、見ている人は先に読み終わって手持ち無沙汰になります。</p>
+
+<div class="note">
+<p><strong>やること</strong></p>
+<p>・1枚＝一息。文の途中で息継ぎが入ったら、そこで切る<br>
+・原則1行。2行にするのは、金額や固有名詞でどうしても切れないときだけ<br>
+・目安は1分あたり26枚以上（今は18.9枚です）<br>
+・文字の高さは80pxくらいまで上げる（1920×1080の場合）</p>
+</div>
+
+<p>ここだけでも直すと、体感はかなり変わるはずです。<br>
+色より先に、まずここをやってほしいなと思っています。</p>
+
+<h2 id="color">4. 色を寄せる（素材がないので、できるところまで）<span class="tag near">寄せられる</span></h2>
+
+<p>ここからは、素材がないので完全一致は無理な部分です。<br>
+でも、色の数値だけは実際のピクセルから測れたので、そこは寄せられます。</p>
+
+<p>まず面白かったのが、外注版4本の背景色が<strong>全部同じ値だった</strong>ことです。<br>
+つまりこれは回ごとの好みではなくて、決まったテンプレートがあるということですね。</p>
+
+<div class="cmp">
+<figure>
+<p class="cap"><span class="dot a"></span>社内版</p>
+<img src="01-honpen-shanai.jpg" alt="社内版の本編。背景が黄緑">
+<figcaption>黄緑ベース。柄は三角のローポリ</figcaption>
+</figure>
+<figure>
+<p class="cap"><span class="dot b"></span>外注版（齋藤さん回）</p>
+<img src="01-honpen-gaichu.jpg" alt="外注版の本編。背景がティール">
+<figcaption>エメラルド寄りのティール。柄は斜めの細い流線</figcaption>
+</figure>
+</div>
+
+<p>実測値はこうでした。</p>
+
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>箇所</th><th>外注版（4本とも同じ値）</th><th>社内版</th></tr></thead>
+<tbody>
+<tr><td>本編の背景</td><td class="num">#28D8BC</td><td class="num">#96EFB4</td></tr>
+<tr><td>上部の帯</td><td class="num">#64EBC5</td><td class="num">#A6F9C2</td></tr>
+<tr><td>ダイジェストの外周</td><td class="num">#B6E5DD</td><td class="num">#E9F6DE</td></tr>
+<tr><td>テロップ枠の線</td><td class="num">#16997B</td><td class="num">#27B07E</td></tr>
+<tr><td>左上ラベルの地色</td><td class="num">#16997B</td><td class="num">#26AF7B</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="chips">
+  <span class="chip"><span class="sw" style="background:#28D8BC"></span>外注 背景 #28D8BC</span>
+  <span class="chip"><span class="sw" style="background:#96EFB4"></span>社内 背景 #96EFB4</span>
+  <span class="chip"><span class="sw" style="background:#16997B"></span>外注 枠線 #16997B</span>
+  <span class="chip"><span class="sw" style="background:#27B07E"></span>社内 枠線 #27B07E</span>
+</div>
+
+<p><strong>寄せられること：</strong>テロップ枠の線と、左上ラベルの地色は、色を指定するだけなので今すぐ #16997B に変えられます。ここは完全に一致させられます。</p>
+
+<p><strong>寄せられること：</strong>背景も、ベースの色を #28D8BC に寄せるだけで印象はかなり近づきます。</p>
+
+<p><strong>難しいこと：</strong>背景の「柄」です。<span class="tag hard">素材がないと難しい</span><br>
+外注版は斜めの細い流線が入っていて、社内版は三角のローポリ。これは元素材がないと同じにはなりません。<br>
+ここは無理に真似しなくていいです。ベースの色が合っていれば、柄の細かい違いは気づかれません。</p>
+
+<div class="note">
+<p>大事なのは、<strong>目で見て似た色を作らないこと</strong>です。<br>
+「だいたいこのへんの緑かな」でやると、必ずズレます。<br>
+上の数値をそのまま打ち込んでください。それだけで揃います。</p>
+</div>
+
+<h2 id="next">5. これから、自分たちの正本を作りましょう</h2>
+
+<p>素材をもらえていない以上、毎回ゼロから色を合わせるのは現実的じゃないです。<br>
+だから、今回直したものを<strong>そのまま社内の正本にしてしまいましょう。</strong></p>
+
+<ol>
+<li>上の色に寄せた状態で、背景・テロップ枠・ラベル・タイトルカードを作り直す</li>
+<li>それをプロジェクトテンプレートとして保存する</li>
+<li>次回からは新規で作らず、必ずそのテンプレートの複製から始める</li>
+</ol>
+
+<p>これをやっておくと、毎回「色どうだっけ」で悩まなくて済みますし、担当が変わっても同じものが出てきます。<br>
+外注に戻す話ではまったくないので、そこは安心してください。<br>
+社内で回せるようになったこと自体が、すでに大きな前進です。</p>
+
+<p>あと、もし外注さんと連絡が取れるようなら、背景素材のデータだけ譲ってもらえないか一度聞いてみてもいいかもしれません。<br>
+もらえたらラッキー、もらえなくても今のやり方で十分いけます。</p>
+
+<h2 id="check">6. 書き出し前チェックリスト</h2>
+
+<p>毎回、書き出す前にこの順で見てください。</p>
+
+<ul class="check">
+<li>テロップが1分あたり26枚以上あるか</li>
+<li>2行テロップが半分以下に収まっているか</li>
+<li>文字の高さが80px相当になっているか</li>
+<li>タイトルカードに「×」が入っているか</li>
+<li>ダイジェストがご本人の言葉だけで組まれているか</li>
+<li>ダイジェストの1枚目が、数字か変化の一言になっているか</li>
+<li>冒頭と末尾を1フレームずつ送って、残りテロップがないか</li>
+<li>締めのパートが「まとめ」ラベルになっているか</li>
+<li>相手の顔が僕と同じ大きさ以上になっているか</li>
+<li>テロップ枠の線とラベルの地色が #16997B になっているか</li>
+<li>背景のベース色が #28D8BC に寄っているか</li>
+<li>25fpsで書き出したか</li>
+</ul>
+
+<hr>
+
+<p>長くなりましたが、直すところはこれで全部です。<br>
+優先順位をつけるなら、<strong>3番のテロップの割り方が一番効きます。</strong>ここだけ先に直したものを見せてもらえたら、そこで一度すり合わせましょう。</p>
+
+<p>一緒にいいものにしていきましょう^^</p>
+
+<p class="foot">
+比較検証：社内制作1本と外注制作4本を1080pで取得し、フレーム単位で抽出。<br>
+色は実ピクセル値を採取、テロップの表示時間と行数は全尺を機械計測、顔の大きさは画像認識で実測しています。<br>
+社内資料です。外部への共有はご遠慮ください。
+</p>
+
+</article>
+</main>
+</div>
+</body>
+</html>
