@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>広告リール 一人語り20本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap">
+<style>
+
+:root {
+  --ground:#F0FAF8; --panel:#FFFFFF; --ink:#243B36; --ink-soft:#4A6A60; --ink-faint:#7FA396;
+  --accent:#189B7D; --accent-soft:#2CB596; --line:#D7ECE5; --script-bg:#FBFEFD; --note-bg:#F7FCFA;
+  --shadow:0 8px 30px rgba(24,155,125,.07);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:#0E1714; --panel:#15221D; --ink:#E3EFEA; --ink-soft:#9DBAB0; --ink-faint:#6F8F85;
+    --accent:#4FC9A9; --accent-soft:#3FB795; --line:#24382F; --script-bg:#101B17; --note-bg:#12201B;
+    --shadow:0 8px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"] {
+  --ground:#0E1714; --panel:#15221D; --ink:#E3EFEA; --ink-soft:#9DBAB0; --ink-faint:#6F8F85;
+  --accent:#4FC9A9; --accent-soft:#3FB795; --line:#24382F; --script-bg:#101B17; --note-bg:#12201B;
+  --shadow:0 8px 30px rgba(0,0,0,.35);
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;
+  font-size:17px; line-height:1.9; padding:40px 16px 80px;
+}
+.wrap { max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:26px; }
+.panel {
+  background:var(--panel); border:1px solid var(--line); border-radius:18px;
+  box-shadow:var(--shadow); padding:38px 40px 34px;
+}
+h1 { font-size:1.85rem; font-weight:800; line-height:1.45; margin:0 0 6px; text-wrap:balance; }
+.lede { color:var(--ink-soft); font-size:.9rem; margin:0 0 22px; letter-spacing:.04em; }
+p { margin:1rem 0; max-width:42em; }
+.note { background:var(--note-bg); border:1px solid var(--line); border-radius:12px; padding:16px 22px; font-size:.93rem; }
+.note strong { color:var(--accent); }
+ul { margin:.6rem 0 .6rem 1.3em; padding:0; }
+li { margin:.35rem 0; }
+.index { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
+.index li + li { border-top:1px solid var(--line); }
+.index a {
+  display:flex; align-items:baseline; gap:14px; padding:11px 4px;
+  color:var(--ink); text-decoration:none; border-radius:6px;
+}
+.index a:hover { color:var(--accent); }
+.index a:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.i-num { color:var(--accent); font-weight:800; font-size:.85rem; letter-spacing:.08em; min-width:1.8em; font-variant-numeric:tabular-nums; }
+.i-name { flex:1; font-weight:500; }
+.i-ku { color:var(--ink-faint); font-size:.76rem; border:1px solid var(--line); border-radius:999px; padding:1px 9px; white-space:nowrap; }
+.i-sec { color:var(--ink-faint); font-size:.82rem; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.t-head { display:flex; align-items:baseline; gap:12px; }
+.t-num { color:var(--accent); font-weight:800; font-size:.9rem; letter-spacing:.08em; font-variant-numeric:tabular-nums; }
+h2 { font-size:1.35rem; font-weight:800; line-height:1.5; margin:0; text-wrap:balance; }
+.t-meta { display:flex; flex-wrap:wrap; gap:6px 16px; color:var(--ink-faint); font-size:.83rem; margin:.5rem 0 0; }
+.t-vis { display:flex; gap:10px; align-items:baseline; background:var(--note-bg); border:1px solid var(--line); border-radius:10px; padding:9px 14px; font-size:.9rem; margin:12px 0 0; }
+.t-vis-l { color:var(--accent); font-weight:700; font-size:.76rem; white-space:nowrap; }
+.t-tags { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 0; }
+.t-badge--mind { color:#B4762B; border-color:#DFC08A; }
+.t-badge--self { color:#9B5A7A; border-color:#D9AFC3; }
+.t-badge {
+  display:inline-block; font-size:.75rem; font-weight:700; color:var(--accent);
+  border:1px solid var(--accent-soft); border-radius:999px; padding:2px 12px; margin-top:10px;
+}
+.script {
+  background:var(--script-bg); border:1px solid var(--line); border-left:4px solid var(--accent-soft);
+  border-radius:12px; padding:20px 24px; font-size:1rem; line-height:2.05; margin-top:16px;
+  overflow-x:auto;
+}
+.script .dir { color:var(--ink-faint); font-size:.84rem; }
+.script .beat { color:var(--accent-soft); font-weight:700; padding:0 .15em; }
+.foot { text-align:center; color:var(--ink-faint); font-size:.78rem; }
+@media (max-width:640px) {
+  body { font-size:16px; padding:22px 10px 60px; }
+  .panel { padding:26px 20px 24px; }
+  h1 { font-size:1.45rem; } h2 { font-size:1.18rem; }
+  .script { padding:16px 15px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="panel">
+    <h1>広告リール、一人語りで20本</h1>
+    <p class="lede">台本のご確認用</p>
+    <p>反応が高いと見込む順に並べています。1本80〜93秒、一人語り。質問役は立てません。動画の中では一切売りません（ご案内はキャプション側に置きます）。</p>
+    <p class="lede">広告の実務 14本／マインド 6本。うち16本は、田中さんご自身の過去の発言がそのまま骨組みです。</p>
+    <ol class="index">
+      <li><a href="#s01"><span class="i-num">01</span><span class="i-name">いちばん安い広告を、止めた</span><span class="i-ku">広告の実務</span><span class="i-sec">92秒</span></a></li>
+      <li><a href="#s02"><span class="i-num">02</span><span class="i-name">ミュージシャンが殺到した</span><span class="i-ku">広告の実務</span><span class="i-sec">93秒</span></a></li>
+      <li><a href="#s03"><span class="i-num">03</span><span class="i-name">反応の数を、買う人の数だと思った</span><span class="i-ku">広告の実務</span><span class="i-sec">87秒</span></a></li>
+      <li><a href="#s04"><span class="i-num">04</span><span class="i-name">10万円が、1日で消えた</span><span class="i-ku">広告の実務</span><span class="i-sec">93秒</span></a></li>
+      <li><a href="#s05"><span class="i-num">05</span><span class="i-name">特典を盛るほど、売れなくなる</span><span class="i-ku">広告の実務</span><span class="i-sec">91秒</span></a></li>
+      <li><a href="#s06"><span class="i-num">06</span><span class="i-name">値下げの前に、見る数字がある</span><span class="i-ku">広告の実務</span><span class="i-sec">82秒</span></a></li>
+      <li><a href="#s07"><span class="i-num">07</span><span class="i-name">クリック率2.5%の広告が、いちばん売れなかった</span><span class="i-ku">広告の実務</span><span class="i-sec">85秒</span></a></li>
+      <li><a href="#s08"><span class="i-num">08</span><span class="i-name">広告を、出さないほうがいい人</span><span class="i-ku">広告の実務</span><span class="i-sec">87秒</span></a></li>
+      <li><a href="#s09"><span class="i-num">09</span><span class="i-name">代理店が下げてくれるのは、そこじゃない</span><span class="i-ku">広告の実務</span><span class="i-sec">87秒</span></a></li>
+      <li><a href="#s10"><span class="i-num">10</span><span class="i-name">2億4,000万円かけて、200人</span><span class="i-ku">広告の実務</span><span class="i-sec">97秒</span></a></li>
+      <li><a href="#s11"><span class="i-num">11</span><span class="i-name">この10万円は、検証費</span><span class="i-ku">マインド</span><span class="i-sec">88秒</span></a></li>
+      <li><a href="#s12"><span class="i-num">12</span><span class="i-name">分からないまま、走らせていい</span><span class="i-ku">マインド</span><span class="i-sec">87秒</span></a></li>
+      <li><a href="#s13"><span class="i-num">13</span><span class="i-name">学ぶほど、動けなくなる</span><span class="i-ku">マインド</span><span class="i-sec">90秒</span></a></li>
+      <li><a href="#s14"><span class="i-num">14</span><span class="i-name">広告費を、コストだと思ってる</span><span class="i-ku">マインド</span><span class="i-sec">85秒</span></a></li>
+      <li><a href="#s15"><span class="i-num">15</span><span class="i-name">売上じゃなくて、リストを貯める</span><span class="i-ku">マインド</span><span class="i-sec">90秒</span></a></li>
+      <li><a href="#s16"><span class="i-num">16</span><span class="i-name">年商8億で、3年足踏みした</span><span class="i-ku">マインド</span><span class="i-sec">89秒</span></a></li>
+      <li><a href="#s17"><span class="i-num">17</span><span class="i-name">4,500円で、分かること</span><span class="i-ku">広告の実務</span><span class="i-sec">89秒</span></a></li>
+      <li><a href="#s18"><span class="i-num">18</span><span class="i-name">代理店に、これを聞いてみてください</span><span class="i-ku">広告の実務</span><span class="i-sec">92秒</span></a></li>
+      <li><a href="#s19"><span class="i-num">19</span><span class="i-name">「絶対」「必ず」「誰でも」で止まる</span><span class="i-ku">広告の実務</span><span class="i-sec">90秒</span></a></li>
+      <li><a href="#s20"><span class="i-num">20</span><span class="i-name">1回目は、180万円でした</span><span class="i-ku">広告の実務</span><span class="i-sec">88秒</span></a></li>
+    </ol>
+  </header>
+
+  <section class="panel">
+    <div class="note">
+      <strong>読み方</strong>
+      <ul>
+        <li><span class="beat">／</span> はひと呼吸の「間」、<span class="dir">（　）</span>は演出のメモです</li>
+        <li>「」の中は、相談者や相手のセリフとして<strong>演じる</strong>箇所です。丁寧語のまま読み上げると効きません</li>
+        <li>言い回しは仮です。「僕はこう言わない」という箇所はそのまま直してください。<strong>1本まるごと書き直していただけると、それを声の正本にします</strong></li>
+        <li><strong>冒頭2秒の画</strong>を各本に付けました。言葉だけでフックを作らない、という前提で組んでいます</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel" id="s01">
+    <div class="t-head">
+      <span class="t-num">01</span>
+      <h2>いちばん安い広告を、止めた</h2>
+    </div>
+    <p class="t-meta"><span>事件の実況</span><span>約92秒</span></p>
+    <p class="t-tags"></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>週次レポートの画面をスマホで出して、指で下の行をなぞる</p>
+    <div class="script">
+      <span class="dir">（押す・言い切る）</span>先週、僕、いちばん数字のいい広告を止めました。<span class="beat">／</span><br>
+      <span class="dir">（数字はテロップ）</span>ある教育系の講座です。レポートに、登録148件。1件あたりの単価は、そのとき出してた中でいちばん安かったんですよ。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、その下の行を見たら、説明会に来た人は8人でした。<span class="beat">／</span><br>
+      <span class="dir">（声を落として）</span>148人が登録して、8人。<span class="beat">／</span><br>
+      こういうとき、止めるのってけっこう勇気がいるじゃないですか。いちばん安い広告ですから。<br>
+      僕もやりました。「もう少し回せば、説明会にも来るかもしれない」って、思うんですよ。<br>
+      <span class="dir">（声を落として）</span>でも、来ないんです。<span class="beat">／</span><br>
+      <span class="dir">（引用は演じる）</span>理由は、広告に入れた言葉でした。「東大に受かった子の親は、勉強しなさいって言ったことがない」。強い言葉でしょ。実際、クリックはめちゃくちゃ取れたんですよ。<br>
+      ただ、東大って、自分の子の話として受け取る人が少ないんです。「へえ」で終わる。知りたい人は集まって、通わせたい人は来なかった。<br>
+      <span class="dir">（分岐をテロップ）</span>分かれ道は2つです。登録は安いのに説明会に来ないなら、集めてる言葉が「情報」を約束してる。説明会に来るのに決まらないなら、言葉は合ってて、中で見せてるものがズレてる。<br>
+      もちろん、日程が合わなかった人もいますよ。でも、140人ぶんの理由にはならないでしょ。<br>
+      前者なら、言葉を「自分の子」の話に寄せ直す。後者なら、広告をいじらずに、説明会を録って聞き直す。直す場所が、まるで違うんですよ。<span class="beat">／</span><br>
+      安い広告を止めるのは、損に見えるんですけど、損じゃないですよ。<br>
+      この1行、ふだんは見ないんですよね。上の数字が良いときほど、見ない。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>今いちばん安く取れてる広告、その下の行、見てますか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s02">
+    <div class="t-head">
+      <span class="t-num">02</span>
+      <h2>ミュージシャンが殺到した</h2>
+    </div>
+    <p class="t-meta"><span>事件の実況</span><span>約93秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>ギターの写真を1枚、カメラの前に出す</p>
+    <div class="script">
+      <span class="dir">（押す）</span>広告に、ミュージシャンが殺到したことがあります。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>起業家を集めるはずの広告に、ミュージシャンが殺到したことがあります。<span class="beat">／</span><br>
+      <span class="dir">（数字はテロップ）</span>僕が見てた案件です。集客の教材を、ライブ集客っていう切り口で出してた。単価は安かったんですよ。回してた中でいちばん良かった。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、その先の講座は、1本も売れませんでした。<span class="beat">／</span><br>
+      でも、気づいたのはレポートの登録者一覧でした。興味関心の欄が、上から下まで全部、音楽だった。<br>
+      広告の画像に、ギターが1本、置いてあったんです。作った本人が、好きなギターを選んで入れた。それだけですよ。<br>
+      <span class="dir">（声を落として・読み手のセリフとして演じる）</span>ライブ集客っていう言葉と、ギターの写真。この2つが並んだ瞬間、向こうはこう読むんですよ。「自分のライブに、人を集める方法だ」って。<br>
+      <span class="dir">（分岐をテロップ）</span>で、まずいのはここからで。最初に登録した人をAIが学習して、似た人を連れてくるんですよ。最初の数十人が、そのあと何ヶ月ぶんの客層を決めてる。<br>
+      もちろん、AIが間違えたわけじゃないです。言われた通りに働いてる。<br>
+      だから、集まる人がズレたときに直すのは、設定じゃないんですよ。画像1枚と、言葉ひとつ。ここがズレたまま配信をいじっても、また同じ人が来ます。<span class="beat">／</span><br>
+      結局、たまった学習を全部リセットして、画像と言葉を作り直したんですよ。<br>
+      逆に、だから僕は、広告の画像と言葉が王様だって言ってます。画像1枚で、客層は変えられるんですよ。<br>
+      で、このときやっかいなのは、途中で誰も気づかないことなんですよ。数字はいいので。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>あなたの広告に、いちばん最初に登録した10人。どんな人でしたか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s03">
+    <div class="t-head">
+      <span class="t-num">03</span>
+      <h2>反応の数を、買う人の数だと思った</h2>
+    </div>
+    <p class="t-meta"><span>悪役セリフ憑依</span><span>約87秒</span></p>
+    <p class="t-tags"></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>スマホのインサイト画面を出して、指で右へスクロールして止める</p>
+    <div class="script">
+      <span class="dir">（声を落として・相手のセリフとして演じる）</span>いちばん伸びた投稿を広告に入れて、2週間、損しました。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・相手のセリフとして演じる）</span>「これ、インスタでいちばん伸びたやつなんで、広告に入れましょう」<span class="beat">／</span><br>
+      実際にそうした案件があって、僕もいいと思ったんですよ。<br>
+      2週間後のレポートで、登録の単価だけが、きれいに安く出てました。その先が、動かない。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、そのとき止めなかったんです。「反応が良かった素材なんだから、もう少し回せば」って思って。<br>
+      で、結局その広告から成約は出なくて、いちばん売れてたのは、セッションしてる様子をただ撮った、地味なやつでした。<br>
+      逆に、あとから見て僕が何を間違えたかというと、反応の数を、買う人の数だと思ったことなんですよ。<br>
+      <span class="dir">（声を落として）</span>伸びた投稿に反応したのは、もうこの先生を知ってる人です。「もっと聞きたい」って思ってる人でしょ。<br>
+      でも、広告の相手は1ミリも知らない人です。同じ素材でも、測ってるものが別なんですよ。<br>
+      もちろん、両方当たるものもありますよ。人柄がそのまま信用になる回は、強いです。<br>
+      ただ、判断を変えたのはそこじゃない。**その広告の登録者が、その後どこまで進んだか**を見るようになったことです。<span class="beat">／</span><br>
+      その2週間、僕は毎週のレポートで、登録の欄だけ見て安心してたんですよ。数字が緑だったので。<br>
+      成約の欄って、下のほうにあるんですよね。スクロールしないと出てこない位置に。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>いい素材かどうかは、2週間後のレポートの右側が決めます。反応の数では決めないでください。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s04">
+    <div class="t-head">
+      <span class="t-num">04</span>
+      <h2>10万円が、1日で消えた</h2>
+    </div>
+    <p class="t-meta"><span>私を主語に恥</span><span>約93秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span><span class="t-badge t-badge--self">自己開示</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>クレジットカードを1枚、机に置く</p>
+    <div class="script">
+      <span class="dir">（声を落として・落として言う）</span>僕、初日に10万円を溶かしてます。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・落として言う）</span>僕、初めて広告を出した日に、10万円を1日で溶かしてます。<span class="beat">／</span><br>
+      2017年です。設定は当時のスタッフにやってもらって、僕がやったのは、カードの番号を入れたことだけでした。<br>
+      <span class="dir">（数字はテロップ）</span>次の日に残高を見たら、減ってました。で、登録は0件です。<span class="beat">／</span><br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、いちばんまずかったのは、そこじゃないんですよ。<br>
+      何が起きて10万円が消えたのか、僕が説明できなかったこと。人に聞かれて、「たぶん設定です」としか言えなかったんです。<br>
+      よく、任せたのが失敗だったって言われるんですけど、そこは違うと思ってて。今も僕、管理画面には一度もログインしてないです。<br>
+      逆に、任せるのは正しいんですよ。ただ、握ってるものがある。<span class="beat">／</span><br>
+      <span class="dir">（処方をテロップ）</span>3つだけです。誰に何をどう伝えるか。1人集めるのにいくらかかったか。で、その人が、最後に買ったかどうか。<br>
+      もちろん、最初から全部分かってる人なんていないですよ。僕もそうでした。ただ、分からないまま2回目を出すのと、1個だけ握って出すのとでは、次に見える景色が違うんですよね。<br>
+      溶かしたお金って、授業料だと思ってるんですよ。10万円ぶんの授業は、ちゃんと受けました。<br>
+      で、そのとき僕が何をしたかというと、原因を調べにいかなかったんですよ。調べる知識がなかったので。<br>
+      代わりに、次に出すときに何を見るかだけ先に決めました。知識より先に、見る場所を決めた。順番はそれでよかったと思ってます。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>だから、1回目は溶かしていいです。2回目からは、何に払ったのか言えるようにしましょう。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s05">
+    <div class="t-head">
+      <span class="t-num">05</span>
+      <h2>特典を盛るほど、売れなくなる</h2>
+    </div>
+    <p class="t-meta"><span>悪役セリフ憑依</span><span>約91秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>紙を7枚、机に重ねて置く</p>
+    <div class="script">
+      <span class="dir">（声を落として・相手のセリフとして演じる）</span>特典を増やすほど、売れなくなります。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・相手のセリフとして演じる）</span>「特典、7個つけました」って言われたことがあるんですよ。<span class="beat">／</span><br>
+      知り合いに、集客がめちゃくちゃうまい人がいて。人はちゃんと集まるんです。毎回、数だけ見たら文句なしでした。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、そのあとが決まらなかった。<span class="beat">／</span><br>
+      使ってたページが「7大特典プレゼント」だったんですよ。7つ並んでるから、豪華に見えるでしょ。実際、登録はどんどん入る。<br>
+      ただ、集まってきたのは、その7つが欲しい人だったんですよね。商品が欲しい人じゃなくて。<br>
+      これ、よくあるのが「AIのツール配ります」ってやつです。ツールが欲しい人と、あなたの本命を買う人って、そもそも別の人なんですよ。<br>
+      誤解しないでほしいんですけど、ツールがダメって話じゃないです。本命とズレてるものがダメなだけで。本命を買う人だけが欲しがるツールなら、むしろ最高の特典になる。<span class="beat">／</span><br>
+      逆に言うと、特典を決めるときに考えることって、「何を配ると喜ばれるか」じゃないんです。「これを欲しがる人は、そのあと本命を買うか」なんですよ。<br>
+      誰でも欲しがるものを配ると、誰でも来ます。そこが、いちばん見落とされるところで。<br>
+      僕も昔、特典を増やしたことがあるんですよ。増やすと、申込みの画面で手が止まらなくなるんです。数字は気持ちいいですよ。<br>
+      ただ、そのあとの説明会で商品の話に入ると、空気が変わる。特典を取りに来た人なので。数が出てるときほど、気づきにくいんですよね。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>あなたが今配ってるもの、本命と地続きになってますか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s06">
+    <div class="t-head">
+      <span class="t-num">06</span>
+      <h2>値下げの前に、見る数字がある</h2>
+    </div>
+    <p class="t-meta"><span>悪役セリフ憑依</span><span>約82秒</span></p>
+    <p class="t-tags"></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>指を2本立てて、分かれ道を作る</p>
+    <div class="script">
+      <span class="dir">（声を落として・相談者のセリフとして演じる）</span>「説明会には来てくれるんですよ。でも、決まらなくて」<span class="beat">／</span><br>
+      <span class="dir">（声を落として）</span>で、だいたいこう続くんですよね。「値下げしたほうがいいですかね」って。<br>
+      <span class="dir">（押す・言い切る）</span>逆です。そこで下げると、たぶんもっと決まらなくなります。<span class="beat">／</span><br>
+      <span class="dir">（数字はテロップ）</span>僕が見てきた中だと、説明会からの成約が3割を切ってるとき、原因が値段だったことって、ほとんどないんですよ。<br>
+      <span class="dir">（数字はテロップ）</span>むしろ、同じ中身のものを3倍から4倍の値段で売ってる人のほうが、8割決まってたりする。<br>
+      じゃあ何を見るかっていうと、相手の最後の一言です。<span class="beat">／</span><br>
+      <span class="dir">（声を落として）</span>「そんなに高いんですか」って言われるなら、集めてる言葉が、お金の話を一度もしてないんです。値段を聞いた瞬間が、初対面になってる。<br>
+      <span class="dir">（声を落として）</span>「もう少し考えます」で終わるなら、値段はちゃんと届いてます。でも、届いてないのは、今日決める理由のほうでしょ。<br>
+      同じ「決まらない」でも、直す場所がまるで違うんですよ。<br>
+      もちろん、本当に高すぎることもありますよ。ただ、3割を切ってる理由としては、いちばん最後です。<span class="beat">／</span><br>
+      あと、値下げって1回やると戻せないんですよ。前に安く買った人がいる状態で元の値段に戻すと、その人たちに説明できなくなるので。<br>
+      で、下げた値段でも成約率が上がらなかったとき、打てる手がひとつ減った状態になるんです。そこがいちばんきついところで。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>下げる前に、直近5人が最後に何て言ったか、思い出してください。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s07">
+    <div class="t-head">
+      <span class="t-num">07</span>
+      <h2>クリック率2.5%の広告が、いちばん売れなかった</h2>
+    </div>
+    <p class="t-meta"><span>悪役セリフ憑依</span><span>約85秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>「2.5%」と書いた紙を出して、すぐ裏返す</p>
+    <div class="script">
+      <span class="dir">（声を落として）</span>数字がいちばん良い広告が、いちばん売れませんでした。<span class="beat">／</span><br>
+      <span class="dir">（声を落として）</span>「クリック率、2.5%出てます」って報告が来たんですよ。<span class="beat">／</span><br>
+      カウンセラーを育てる講座の広告でした。可愛いハリネズミの画像に、「人の話を聞くのが好きな方へ」。<br>
+      <span class="dir">（数字はテロップ）</span>クリック率2.5%って、かなり高いんですよ。ふつうは2%で合格の世界なので。でも、その先が動かなかった。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、登録率が3%でした。<span class="beat">／</span><br>
+      クリックはされてる。ページまで来てる。そこから9割以上が、そのまま帰ってるんですよ。<br>
+      <span class="dir">（声を落として）</span>可愛いから、みんな押すんです。押して、ページを見て、「あ、なんか違う」って離脱する。<br>
+      で、登録した数少ない人も、なんとなく登録してるから、そのあとの本命が決まらない。<br>
+      で、ここがやっかいなところで。集める単価だけ見てたら、この広告、勝ってるように見えるんですよ。安く集まってるので。<span class="beat">／</span><br>
+      でも、可愛い画像が呼ぶのは、悩みの浅い人なんですよ。本気でカウンセラーになりたい人じゃなくて、聞くのが好きな人が来る。<br>
+      逆に言うと、クリック率が高い広告が、いい広告とは限らないんですよね。<br>
+      この報告を受けたとき、僕が最初に聞いたのはクリック率じゃないです。そのあと何人が説明会に来たか、でした。<br>
+      で、その数を聞いて、止めましょうって言いました。数字がいちばん良い広告を止めるので、だいたい揉めるんですけどね。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>今週いちばんクリックされてる広告から、本命は何本売れましたか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s08">
+    <div class="t-head">
+      <span class="t-num">08</span>
+      <h2>広告を、出さないほうがいい人</h2>
+    </div>
+    <p class="t-meta"><span>宣告先出し</span><span>約87秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>電卓を置いて、何も打たずに手を離す</p>
+    <div class="script">
+      <span class="dir">（押す）</span>広告を出すほど、損が増える人がいます。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>広告を出さないほうがいい人って、はっきりいるんですよ。<span class="beat">／</span><br>
+      商品が、980円とか、数万円の教材で、それを売って終わり。この形の人です。<br>
+      出せば出すほど、赤字が深くなるんですよ。<span class="beat">／</span><br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、これ、根性とかセンスの話じゃないんですよ。計算の話です。<br>
+      僕が広告を出していいか決めるとき、先に置く数字があって。本命が1本売れるのに、いくらまでなら払えるか、なんです。<br>
+      <span class="dir">（数字はテロップ）</span>60万円の講座なら、そこに20万円までは払う、と先に決めておく。100万円入れたら300万円で返ってくる計算になります。<br>
+      でも、数万円の教材を単発で売ってる人は、この数字が置けないんですよね。1本売れても、払った広告費のほうが大きいので。<br>
+      だから、広告を始めたいって相談されたとき、僕が最初に聞くのは広告の話じゃないです。そのあと、何を売るんですかって聞きます。<span class="beat">／</span><br>
+      もちろん、単発で回る商売もありますけど。1件の利益が大きいものとか。<br>
+      ただ、広告って入り口でしかないので。入り口だけ広げても、奥に部屋がなかったら、人は帰るだけなんですよ。<br>
+      実際、相談に来た方で、商品が1つしかない状態だった人には、広告の話を一旦止めてもらったことが何回もあります。<br>
+      先に2つ目を作って、半年後にもう一度来てもらう。遠回りに見えて、そのほうが早いんですよ。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>1人のお客さんが、最後までにいくら払うか。出す前に、そこ言えますか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s09">
+    <div class="t-head">
+      <span class="t-num">09</span>
+      <h2>代理店が下げてくれるのは、そこじゃない</h2>
+    </div>
+    <p class="t-meta"><span>悪役セリフ憑依</span><span>約87秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>紙を1枚、真ん中で折って2列にする</p>
+    <div class="script">
+      <span class="dir">（声を落として・相手のセリフとして演じる）</span>丸投げすると、いちばん大事な数字が消えます。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・相手のセリフとして演じる）</span>「そのへん、全部お任せでいいですか」<span class="beat">／</span><br>
+      いいですよ。操作は、任せたほうが速いです。僕もやってません。<br>
+      ただ、任せた先が何を成果にしてるかは、知っておいたほうがいいんですよ。集客の単価と、集めた数です。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、あなたが困ってるのは、たぶんそこじゃないでしょ。<span class="beat">／</span><br>
+      「安く集まりました」で、向こうの仕事はちゃんと終わるんです。その先、来た人が説明会に来たか、買ったか。そこは、そもそも契約の外側なんですよ。<br>
+      でも、これ、代理店が悪いって話じゃないんです。誰も、そこまで渡してくれとは言われてない。それだけなんですよ。<br>
+      <span class="dir">（分岐をテロップ）</span>線の引き方はシンプルで。ボタンの操作と配信の調整は、渡す。誰に何をどう伝えるかと、集めた人が最後に買ったかどうか。この2つは、自分で持つ。<span class="beat">／</span><br>
+      逆に、僕は報酬が売上に連動する契約でやることが多いんですよ。利益が出なければ、報酬をもらえない。だから、集客の単価じゃなくて、売れたかどうかまで見てきました。<br>
+      立場が変われば、見る数字が変わるだけなんです。どっちが正しいって話じゃなくて。<br>
+      あと、渡す側で決めておくといいのが、報告の形なんですよ。何件で、いくらで、だけだと、こっちが判断できないので。<br>
+      そこに、その人たちが説明会まで来たか、買ったか。この2列を足してもらうだけで、話がぜんぜん変わります。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>任せる前に、紙に2列だけ書いてください。渡すものと、持つもの。それだけです。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s10">
+    <div class="t-head">
+      <span class="t-num">10</span>
+      <h2>2億4,000万円かけて、200人</h2>
+    </div>
+    <p class="t-meta"><span>私を主語に恥</span><span>約97秒</span></p>
+    <p class="t-tags"><span class="t-badge t-badge--self">自己開示</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>何も持っていない手のひらを、カメラに見せる</p>
+    <div class="script">
+      <span class="dir">（声を落として・落として言う）</span>僕、2億4,000万円かけて、200人で終わりました。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・落として言う）</span>僕、2億4,000万円かけて作ったものが、有料で使ってくれた人200人で終わったことがあります。<span class="beat">／</span><br>
+      <span class="dir">（数字はテロップ）</span>システムです。何年もかけて形にはなりました。でも、続かなかった。<br>
+      <span class="dir">（押す・落差をつける）</span>このとき、いちばん効いたのはお金じゃないんですよ。答え合わせが、何年も後にしか来なかったことです。<span class="beat">／</span><br>
+      作ってる途中、ずっと「これ、当たってるのかな」って思いながら進んでるんです。でも、分かったときには、もう2億使ってるんですよ。<br>
+      だから僕、「広告に何十万も入れるのはちょっと」っていう相談を受けると、逆のことを思うんですよね。広告って、いちばん安く間違えられる場所なんですよ。<br>
+      <span class="dir">（数字はテロップ）</span>言葉が届くかどうかは、数千円で分かるんですよ。同じことを、商品を作ってから確かめようとすると、桁が4つ変わる。<br>
+      もちろん、入れたお金が全部返ってくるわけじゃないです。溶ける分はあります。僕も溶かしてる。<span class="beat">／</span><br>
+      ただ、溶けた分は答えになります。この言葉は届かなかった、この人には刺さらなかった。全部は分かりませんよ。続けて使ってもらえるかまでは出ない。でも、入口が合ってるかは、そこで出る。<br>
+      僕が2億かけて知りたかったのも、結局そこでした。でも、ためらう気持ちは分かります。ただ、入口も確かめずに大きいものを作るほうが、よっぽど分が悪いと思ってる。<br>
+      しかも、途中でやめる判断もできなかったんですよ。いくら使ったかは分かるけど、当たってるかが分からないので。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>今、答え合わせを先送りにしてる場所、ひとつありませんか。そこ、先に確かめていいと思いますよ。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s11">
+    <div class="t-head">
+      <span class="t-num">11</span>
+      <h2>この10万円は、検証費</h2>
+    </div>
+    <p class="t-meta"><span>私を主語に</span><span>約88秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span><span class="t-badge t-badge--mind">マインド</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>1万円札を1枚、脇によける</p>
+    <div class="script">
+      <span class="dir">（押す）</span>広告を1回も外したくない人が、いちばん失敗します。<span class="beat">／</span><br>
+      これ、性格の話じゃないんですよ。当てにいく人って、金額を小さくしすぎるか、逆に一発で大きく入れるか、どっちかになるんです。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、どっちも判断ができない。<span class="beat">／</span><br>
+      小さすぎると、数字がたまらないから、当たったのか外れたのかが分からないんですよ。大きく入れると、外れたときに止められなくなる。取り返したくなるでしょ。<br>
+      だから僕は、最初に金額を決めるときに「このうちいくらまでは、答えを買うために使う」って、先に切っておくんですよ。<br>
+      <span class="dir">（数字はテロップ）</span>目安で言うと、予算の1割くらいですね。10万円出すなら、1万円は返ってこなくていい。そう決めてから出すんです。<br>
+      そうすると、外れたときに「損した」にならないんですよ。「この言い方は違うって分かった」になる。同じ結果なのに、次の一手が変わるんです。<br>
+      逆に、1円も外したくないと思って出すと、外れた瞬間に広告をやめる判断になりがちなんですよね。いちばんもったいないところで止まる。<br>
+      無駄に溶かしていいって話じゃないですよ。最初から全部当てようとしない、っていうだけで。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・相談者のセリフとして演じる）</span>で、これを決めてないと、外れた瞬間に相談が来るんですよ。「止めたほうがいいですか」って。<br>
+      そのとき僕が聞くのは、いくら使いましたか、じゃないです。何が分かりましたか、って聞きます。答えが出てくるなら、その広告費は仕事をしてるので。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>次に出す広告費のうち、いくらまでを検証費にしますか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s12">
+    <div class="t-head">
+      <span class="t-num">12</span>
+      <h2>分からないまま、走らせていい</h2>
+    </div>
+    <p class="t-meta"><span>悪役セリフ憑依</span><span>約87秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span><span class="t-badge t-badge--mind">マインド</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>自転車のハンドルを握る仕草をする</p>
+    <div class="script">
+      <span class="dir">（声を落として・相談者のセリフとして演じる）</span>分かるまで待つと、機会を逃します。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・相談者のセリフとして演じる）</span>「全然わけが分からないです」って、みんな言うんですよ。<span class="beat">／</span><br>
+      広告の数字の話を最初にすると、だいたい同じ反応が返ってきます。アルファベットばっかり出てくるので。<br>
+      で、そこで勉強を始める人がいるんですけど。<span class="beat">／</span><br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、分かってから始めた人って、僕はあんまり見たことがないんですよね。<br>
+      自転車と同じだと思ってて。乗り方を言葉で説明されても、最初は分からないじゃないですか。ペダルをこう踏んで、ハンドルをこう、って言われても。<br>
+      乗ったほうが早いんですよ。転びながら覚える。で、ある日いきなり乗れてる。<br>
+      広告も、分からないなりに数ヶ月回してると、だんだん見えてくるんです。「あ、この数字が動くと、こっちが動くのか」って、体でつながってくる。<br>
+      逆に、全部理解してから出そうとすると、たぶん出せないままなんですよ。学べば学ぶほど、知らないことが増えるので。<br>
+      もちろん、何も知らずに大金を入れるのは別の話です。最低限の数字だけ持って、小さく走らせる。それだけでいいです。<span class="beat">／</span><br>
+      実際、最初に全部説明したときって、みんな同じ顔になるんですよ。うなずいてるけど、目が動いてない。<br>
+      それが、3ヶ月くらい回した人と話すと、いきなり質問が具体的になるんです。「ここが下がってるのって、たぶんこっちですよね」って。あれ、教えてないんですよ。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>分からないまま始めていいですよ。分かってから、にすると、たぶん一生始まらないので。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s13">
+    <div class="t-head">
+      <span class="t-num">13</span>
+      <h2>学ぶほど、動けなくなる</h2>
+    </div>
+    <p class="t-meta"><span>宣告先出し</span><span>約90秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span><span class="t-badge t-badge--mind">マインド</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>本を3冊積んで、開かずに置く</p>
+    <div class="script">
+      <span class="dir">（押す）</span>学ぶほど、出せなくなります。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>講座を3つ買ってて、1つも出してない人、いるんですよ。<span class="beat">／</span><br>
+      これ、サボってるわけじゃないんです。逆に、めちゃくちゃ勉強してる人に起きるんですよ。<br>
+      僕はこれを、インプットは負債だって言ってます。学べば学ぶほど、重くなるんですよ。<span class="beat">／</span><br>
+      なんでかというと、知識が増えると、失敗するパターンも全部見えてくるからです。出す前に、外れる理由が10個思いつく状態になる。<br>
+      そうすると、もう出せないですよね。でも、10個潰してから出そう、ってなるので。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、成果が出てる人の順番って、逆なんですよ。先に出して、壁にぶつかって、ぶつかったところの動画だけ見る。必要なところだけ、人に聞く。<br>
+      上から下まで全部正しく学んでから動く人と、壁のところだけ取りにいく人。1年後に差がつくのは、知識の量じゃなくて、ぶつかった回数のほうなんですよね。<br>
+      もちろん、知らずに突っ込んでいいって話じゃないです。最低限は要ります。ただ、最低限って、思ってるより少ないんですよ。<span class="beat">／</span><br>
+      だけど、人から聞いた話は、どこまでいっても人の話なんですよ。自分でやって分かったことだけが、次に使えます。<br>
+      <span class="dir">（声を落として・落として言う）</span>僕も、講座を買って開いてないもの、たぶんありますよ。全部見てから使おう、と思った瞬間に止まってるんです。<br>
+      だから今は、先に使う日を決めてから買うようにしてます。使う場所が決まってない知識って、たぶん一生使わないので。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>今週、1個だけでいいので、学ぶ前に出してみませんか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s14">
+    <div class="t-head">
+      <span class="t-num">14</span>
+      <h2>広告費を、コストだと思ってる</h2>
+    </div>
+    <p class="t-meta"><span>悪役セリフ憑依</span><span>約85秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span><span class="t-badge t-badge--mind">マインド</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>財布を出して、開かずに閉じる</p>
+    <div class="script">
+      <span class="dir">（声を落として・相談者のセリフとして演じる）</span>「広告費、溶けそうで怖いんですよね」<span class="beat">／</span><br>
+      この言い方をする人、めちゃくちゃ多いです。で、僕はここを毎回ひっかかるんですよ。<br>
+      溶ける、って言うとき、その人の頭の中では、広告費が出ていくお金になってるんです。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、出ていくお金と、預けるお金って、別ものでしょ。<span class="beat">／</span><br>
+      家賃は、払ったら戻ってきません。あれはコストです。広告費は、1人集めるのにいくらで、その人が最後にいくら払うか。この2つが見えてたら、返ってくる前提のお金なんですよ。<br>
+      逆に、この2つが見えてないと、本当にただ出ていくだけになる。だから、その感覚自体は正しいんですよ。見えてないときは、身構えていい。<br>
+      <span class="dir">（声を落として・落として言う）</span>僕も、初めて10万円入れたときは手が震えました。今は毎月何百万円って動かしてますけど、震えたのは金額の問題じゃなかったんですよ。<br>
+      何が起きるか分からないまま払ってたからです。分かった瞬間に、震えなくなった。<span class="beat">／</span><br>
+      集める単価と、1人が最後までに払う金額。この2つが出せると、広告って電卓で回る世界になるんですよ。勘の話じゃなくなる。<br>
+      あと、もうひとつあって。コストだと思ってると、金額を下げたくなるんですよ。安く抑えたほうが正解に見えるので。<br>
+      でも、投資だと思ってると、返ってくるなら増やしたくなる。同じ数字を見てるのに、判断が真逆になるんですよね。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>今出してる広告、その2つの数字、言えますか。言えないなら、身構えるのは当たり前ですよ。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s15">
+    <div class="t-head">
+      <span class="t-num">15</span>
+      <h2>売上じゃなくて、リストを貯める</h2>
+    </div>
+    <p class="t-meta"><span>宣告先出し</span><span>約90秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span><span class="t-badge t-badge--mind">マインド</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>名刺の束を机に置いて、指でトントンと揃える</p>
+    <div class="script">
+      <span class="dir">（押す）</span>売上だけ追うと、来月はまたゼロからです。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>プロモーションって、売るためにやるものだと思いますよね。<span class="beat">／</span><br>
+      でも僕は逆で、集めるためにやってます。売上は、そのついでに立ってるくらいの感覚なんですよ。<br>
+      商品を売るために人を集めるんじゃなくて、人を集めるために商品を売る。順番が逆なんです。<span class="beat">／</span><br>
+      なんでかっていうと、今回の売上は今回で終わるけど、集まった人は残るからです。来月も、来年も、その人たちに届けられる。<br>
+      だから僕は、プロモーションが終わったときに最初に見る数字が、売上じゃないんですよ。何人残ったか、のほうです。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、これ、逆から見ると厳しい話でもあって。売上が立っても、誰も残らなかった回って、実質ゼロなんです。次にまた、ゼロから集めることになるので。<br>
+      広告が効くのも、ここなんですよね。広告って、その回の売上を作る道具に見えるんですけど、実際にやってるのは、来年使う名簿を買う作業に近いです。<br>
+      だから、1回で回収しきろうとすると、だいたい苦しくなる。今回の広告費を今回で全部返そうとすると、無理な売り方になっていくので。<span class="beat">／</span><br>
+      売上は使ったら消えますけど、名簿は積み上がるんですよ。<br>
+      これ、チームにも同じことを言ってます。プロモが終わったあとの報告で、売上だけ出てくると、もう1回聞くんですよ。<br>
+      で、何人増えました、って。そこが増えてない回は、次の打ち手がないので。売れた回より、そっちのほうが心配なんです。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>直近のプロモーションで、何人残りましたか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s16">
+    <div class="t-head">
+      <span class="t-num">16</span>
+      <h2>年商8億で、3年足踏みした</h2>
+    </div>
+    <p class="t-meta"><span>私を主語に恥</span><span>約89秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span><span class="t-badge t-badge--mind">マインド</span><span class="t-badge t-badge--self">自己開示</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>その場で足踏みする</p>
+    <div class="script">
+      <span class="dir">（声を落として・落として言う）</span>僕、年商8億で3年、足踏みしました。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・落として言う）</span>僕、年商8億くらいのところで、3年くらい足踏みしてます。<span class="beat">／</span><br>
+      <span class="dir">（数字はテロップ）</span>下がったわけじゃないんですよ。8億のまま、3年。数字だけ見たら、何も問題がない状態です。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、あれがいちばん、しんどい時期でした。<span class="beat">／</span><br>
+      起業して数年って、だいたい右肩上がりなんですよね。やればやるだけ伸びる。で、あるところで平らになる。踊り場って呼んでますけど。<br>
+      いろいろやってるのに、伸びていかない。去年の自分と、たいして変わってない。この感じに耐えられなくて、やめる人がけっこういるんですよ。<br>
+      面白いのが、売れてない人のほうが、まだ楽なんです。実力が足りないって自分で分かってるから、やることがはっきりしてる。頑張ればいい。<br>
+      でも、ある程度出てしまった人は、基準値が上がってるんですよ。だから、伸びてないのに、何が足りないのかも分からない。ここの処理がいちばん難しい。<br>
+      僕がそのとき何をしたかというと、伸ばすことじゃなくて、軽くすることでした。事業をスリムにして、チームも組み直して。<span class="beat">／</span><br>
+      事業って、安定するものじゃないので。どれだけ身軽でいられるかのほうが、たぶん大事なんですよね。<br>
+      その3年で何をやってたかというと、やること自体は増やしてたんですよ。新しい商品も作ったし、人も増やした。<br>
+      動いてないわけじゃないのに、数字が同じ。あれがいちばん、判断を狂わせます。もっとやらなきゃ、のほうに行くので。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>今、踊り場にいる人。そこ、わりと普通ですよ。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s17">
+    <div class="t-head">
+      <span class="t-num">17</span>
+      <h2>4,500円で、分かること</h2>
+    </div>
+    <p class="t-meta"><span>悪役セリフ憑依</span><span>約89秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>500円玉を3枚、机に並べて置く</p>
+    <div class="script">
+      <span class="dir">（声を落として・相談者のセリフとして演じる）</span>1日500円の広告は、たぶん無駄になります。<span class="beat">／</span><br>
+      <span class="dir">（声を落として・相談者のセリフとして演じる）</span>「広告って、1日500円でもできるんですよね」<span class="beat">／</span><br>
+      できます。ただ、たぶん思ってる使い方はできないです。<br>
+      1日500円を1本だけ回しても、判断できるだけの数がたまらないんですよ。1週間見ても、何も分からない。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、500円の使い道は、ちゃんとあって。<span class="beat">／</span><br>
+      同じ講座で、言いたいことを3通りに書き分けるんです。ここ、言い方を変えるんじゃないですよ。誰に向けて言うかを変えます。時間がない人に言うのと、売り方が分からない人に言うのでは、1行目が別物になるでしょ。<br>
+      <span class="dir">（数字はテロップ）</span>それを1日500円ずつ、3本同時に出す。3日回して、合計4,500円です。飲み会1回ぶんですよね。<br>
+      で、何が分かるかっていうと、勝ちじゃないんですよ。「この言い方は違うな」が分かる。消えるほうが先に見えるんです。<br>
+      逆に、ここで勝ちを決めきろうとすると、数が足りないので、たまたま当たった1本を信じることになります。それがいちばん高くつく。<br>
+      <span class="dir">（数字はテロップ）</span>事業として判断したいなら、桁がひとつ変わります。月10万から15万円。1日5,000円くらい。そこからが、続けるか止めるかを数字で決められる範囲です。<span class="beat">／</span><br>
+      で、3日回して、3本とも反応がなかったとき。これ、負けじゃないですからね。<br>
+      誰に向けるかを3つ試して、3つとも違った。つまり、まだ出してない4つ目に当たりがあるってことなので。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>4,500円は、答えを買うお金じゃなくて、外れを1つ消すお金です。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s18">
+    <div class="t-head">
+      <span class="t-num">18</span>
+      <h2>代理店に、これを聞いてみてください</h2>
+    </div>
+    <p class="t-meta"><span>未解決指示語</span><span>約92秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>指を1本だけ立てる</p>
+    <div class="script">
+      <span class="dir">（押す）</span>これを聞けないなら、たぶん損してます。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>これ、次の定例で1個だけ聞いてみてほしいんですよ。<span class="beat">／</span><br>
+      広告を外に出してる人向けの話です。合ってるか合ってないかを、こっちが判断できる質問があって。<br>
+      「この広告から、どんな人が来てますか」。これだけです。<span class="beat">／</span><br>
+      <span class="dir">（押す・この直前で息を止める）</span>数字は返ってくるんですよ。何件で、いくらで、って。でも、どんな人か、が返ってこないことがあるんです。<br>
+      それは相手が悪いわけじゃなくて、そこは見なくていい契約になってるだけなんですよね。安く多く集める、が仕事なので。<br>
+      <span class="dir">（処方をテロップ）</span>でも、聞くのはこれだけじゃなくて、あと4つあります。広告1本ごとに、本命が売れた単価は出せますか。説明会のアンケート、見たことありますか。週のレポートで、どの数字を見てますか。広告を止める基準は何ですか。<br>
+      全部答えられたら、たぶんかなり強い相手です。逆に、半分くらい止まるなら、そこが今の境目なんですよ。悪いって話じゃなくて、境目が見えたってことです。<br>
+      で、見えたら、こっちがその先を持てばいいだけなんですよね。誰に何を言うかと、最後に買ったかどうか。ここだけこっちで握る。<br>
+      丸投げが悪いんじゃないです。どこまで渡したか、お互い知らないのがまずいだけで。<span class="beat">／</span><br>
+      あと、聞き方も大事で。詰めるトーンで聞くと、次から数字が丸まって出てくるんですよ。<br>
+      僕は、こっちが判断したいので教えてほしい、って言い方にしてます。相手を試す質問じゃなくて、一緒に見るための質問なので。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>次の定例、1問目だけでいいので、聞いてみてください。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s19">
+    <div class="t-head">
+      <span class="t-num">19</span>
+      <h2>「絶対」「必ず」「誰でも」で止まる</h2>
+    </div>
+    <p class="t-meta"><span>事件の実況</span><span>約90秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>ページを下へスクロールして、途中で止める</p>
+    <div class="script">
+      <span class="dir">（押す）</span>広告が止まる原因、広告じゃないです。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>広告が止まるとき、原因が広告じゃないこと、けっこうあるんですよ。<span class="beat">／</span><br>
+      広告文は何回も直したのに、また落ちる。そういう相談をよく受けるんですよ。でも、だいたい見る場所が1個ズレてます。<br>
+      審査されてるの、広告だけじゃないんです。リンク先のページも見られてます。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>だから、広告の言葉をどれだけ丁寧にしても、飛んだ先に強い言葉が残ってたら、そっちで引っかかる。<br>
+      引っかかりやすい言葉って、だいたい決まってて。絶対、必ず、誰でも、たった何日で確実に。このあたりです。<br>
+      あと、ビフォーアフターっぽい見せ方と、不安をあおる書き方。この2つも、けっこう厳しく見られます。<br>
+      でも、ここで裏技を探しにいくと、たいてい深みにはまるんですよ。表現をちょっとぼかして通す、みたいなやり方は、結局また止まるので。<br>
+      やることは逆で。ちゃんとした人が、ちゃんとした事業を、ちゃんとした言葉でやってるって分かる状態を作るだけです。ページに事業の中身が書いてあるか、連絡先があるか、そのくらいの話なんですよ。<span class="beat">／</span><br>
+      止まってから直すと、また審査を待つことになります。アカウントに傷も残る。<br>
+      で、いちばん多いのが、ページの下のほうに残ってるパターンなんですよ。上は何回も直すので、きれいになってる。<br>
+      お客様の声のところとか、よくある質問のところ。あそこに「誰でもできました」が残ってたりするんですよね。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>今のページ、この4語、どこかに残ってませんか。<span class="beat">／</span><br>
+    </div>
+  </section>
+  <section class="panel" id="s20">
+    <div class="t-head">
+      <span class="t-num">20</span>
+      <h2>1回目は、180万円でした</h2>
+    </div>
+    <p class="t-meta"><span>事件の実況</span><span>約88秒</span></p>
+    <p class="t-tags"><span class="t-badge">本人の実発言</span></p>
+    <p class="t-vis"><span class="t-vis-l">冒頭2秒の画</span>指を3本立てて、順に折っていく</p>
+    <div class="script">
+      <span class="dir">（数字はテロップ）</span>1回目は180万円。正直、失敗に見えました。<span class="beat">／</span><br>
+      <span class="dir">（数字はテロップ）</span>1回目のプロモーションは、180万円でした。<span class="beat">／</span><br>
+      受講生の方の話です。180万円って、失敗ではないですけど、正直そんなに大きくはないですよね。<br>
+      <span class="dir">（押す・数字はテロップ）</span>で、2回目が1,600万円。3回目が4,400万円です。<span class="beat">／</span><br>
+      ここで言いたいのは、すごいでしょ、じゃないんですよ。1回目の180万円のとき、たぶん本人はけっこう落ち込んでるんです。<br>
+      <span class="dir">（声を落として・落として言う）</span>準備に何ヶ月もかけて、チームも動いて、それで180万円ですから。「自分には向いてないのかも」って、なりますよね。<br>
+      <span class="dir">（押す・この直前で息を止める）</span>でも、1回目で完成させようとするほうが無理があるんですよ。入口から出口までの流れって、作るものじゃなくて、育てるものなので。<br>
+      1回目で分かるのは、どこで人が減ってるかだけです。広告で止まってるのか、ページで止まってるのか、説明会で止まってるのか。それが分かった状態で2回目をやるから、桁が変わる。<br>
+      逆に、1回目でやめた人は、いちばん高い授業料だけ払って帰ってることになるんですよね。データは取れてるのに、使わずに。<br>
+      もちろん、何回やっても伸びない型もありますよ。ただ、それが分かるのも2回目以降なので。<span class="beat">／</span><br>
+      で、2回目に何を変えたかというと、商品じゃないんですよ。商品は同じです。<br>
+      変えたのは、どこで人が減ってたか、その1箇所だけ。だから2回目って、作り直しじゃなくて、直しなんですよね。<span class="beat">／</span><br>
+      <span class="dir">（押す）</span>1回目の数字、まだ持ってますか。それ、次の設計図ですよ。<span class="beat">／</span><br>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>ご確認いただきたいこと</h2>
+    <ul>
+      <li>各本の<strong>○×</strong>（これは撮りたい／これは違う）</li>
+      <li><strong>言い回しの違和感</strong>（「僕はこう言わない」という箇所）</li>
+      <li>内容が現場の実感と違うところ</li>
+    </ul>
+    <div class="note">
+      <strong>数字の公開可否は「公開OK」で進めています</strong>
+      <ul>
+        <li>すでに事例として公開されているものは、そのまま使う前提にしました</li>
+        <li><strong>失敗の事例だけは匿名のまま</strong>にしています（02のミュージシャン、07のハリネズミ）。褒めるときは実名、うまくいかなかった話は類型で、が型の必須ルールのためです</li>
+        <li>逆に<strong>20は賞賛側</strong>なので、許可が取れていれば実名で語るほうが強くなります</li>
+        <li>10の「2億4,000万円・有料200人」と、16の「年商8億で3年足踏み」は、社内とstand.fmでの発言が元です。ここだけ改めてご確認ください</li>
+      </ul>
+    </div>
+    <p>○をいただいた本から、撮影用に仕上げます。テキストではなく<strong>音声で返していただけると</strong>、直しの理由と言い回しの実物が一度に取れるので、そのほうが早いです。</p>
+  </section>
+
+  <p class="foot">広告リール 一人語り企画（社外秘）</p>
+
+</div>
+</body>
+</html>
