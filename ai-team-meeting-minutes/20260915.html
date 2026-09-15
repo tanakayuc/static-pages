@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AIミーティング 議事録（2026年9月15日） - AIミーティング議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 860px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>AIミーティング議事録</h3><a href="20260915.html" class="sidebar-item active"><span class="date">2026年09月15日</span> AIミーティング 議事録（2026年9月15日）</a>
+<a href="20260908.html" class="sidebar-item"><span class="date">2026年09月08日</span> AIミーティング 議事録（2026年9月8日）</a>
+<a href="20260609.html" class="sidebar-item"><span class="date">2026年06月09日</span> AIミーティング 議事録（2026年6月9日）</a></nav>
+<main class="content"><article class="article"><h1>AIミーティング 議事録（2026年9月15日）</h1>
+<h2 id="サマリー">サマリー</h2>
+<p>今回はカレンのショート動画編集AI化と、山岸の広告レポート自動化の2本柱で進捗を確認した。<br />
+動画編集は現状「一撃で8割」の仕上がりまで来ており、モデルの思考力(reasoning)設定とコストのトレードオフ、テロップの詰め方など主観が分かれる調整をどう選択式にするかが論点になった。<br />
+パターンを先回りで全部作り込まず、山岸・石津から具体的な要望が出たときに追加していく「後出し開発」方針を確認し、三浦さんについてはAI編集を使わずPremiere Proでの手動編集に専念してもらう整理をした。<br />
+広告レポートは、パルモにレポート・ボード作成機能を持たせず「クリエイティブ保存庫」として使う方針を再確認し、レポートの保存先はプロジェクト一覧の各案件フォルダ内に「広告」→「広告レポート」を切る構成にルール化した。<br />
+あわせて、Zoomクラウド録画をCloudflareへ全面移行してコストを下げている状況も共有された。<br />
+次回は9月19日(土)15時を予定。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>会議名</td>
+<td>AIミーティング（Zoomトピック名は「ザ・リード主催勉強会リンク」だが、別件用リンクを流用しただけで実体は本会議。参加者・内容とも既存のAIミーティングシリーズ=6/9・9/8と同一パターン）</td>
+</tr>
+<tr>
+<td>日時</td>
+<td>2026年9月15日 16時03分頃開始（JST）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoom</td>
+</tr>
+<tr>
+<td>長さ</td>
+<td>約55分</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、山岸、カレン</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/a2ec33c6-7d18-4b91-8be9-6781d707a23e" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/a2ec33c6-7d18-4b91-8be9-6781d707a23e</a></td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/AIミーティング/ミーティング履歴/20260915_AIミーティング_書き起こし原本.md</code></td>
+</tr>
+</tbody>
+</table>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1.-カレンの動画編集スキル開発の進捗">1. カレンの動画編集スキル開発の進捗</a></li><li class="toc-sub"><a href="#2.-モデルの思考力(Reasoning)とコストのトレードオフ">2. モデルの思考力(Reasoning)とコストのトレードオフ</a></li><li class="toc-sub"><a href="#3.-カレンのポータルサイト（パターン選択）構想の拡張">3. カレンのポータルサイト（パターン選択）構想の拡張</a></li><li class="toc-sub"><a href="#4.-女性50代向けデザインと属人・非属人編集の切り分け">4. 女性50代向けデザインと属人・非属人編集の切り分け</a></li><li class="toc-sub"><a href="#5.-動画編集の中長期展望">5. 動画編集の中長期展望</a></li><li class="toc-sub"><a href="#6.-三浦さんの動画編集とAI活用の切り分け">6. 三浦さんの動画編集とAI活用の切り分け</a></li><li class="toc-sub"><a href="#7.-山岸の広告レポート自動化・進捗共有">7. 山岸の広告レポート自動化・進捗共有</a></li><li class="toc-sub"><a href="#8.-広告レポートの内容とセールス分析の関係">8. 広告レポートの内容とセールス分析の関係</a></li><li class="toc-sub"><a href="#9.-レポートの保存先ルール">9. レポートの保存先ルール</a></li><li class="toc-sub"><a href="#10.-坂本さんへのAIコーチング運用">10. 坂本さんへのAIコーチング運用</a></li><li class="toc-sub"><a href="#11.-テロップなしパターン・速度調整・広告動画の音源">11. テロップなしパターン・速度調整・広告動画の音源</a></li><li class="toc-sub"><a href="#12.-次回ミーティング日程">12. 次回ミーティング日程</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中">田中</a></li><li class="toc-sub"><a href="#カレン">カレン</a></li><li class="toc-sub"><a href="#山岸">山岸</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1.-カレンの動画編集スキル開発の進捗">1. カレンの動画編集スキル開発の進捗</h3>
+<p>田中から冒頭で「報告済み以上に特に進捗はないか」と確認があり、カレンから、自撮り動画のカット編集は「今仕上がっている分で言うと一撃で8割」の完成度に達していると報告があった。ただし、残り2割は人間が見たときの主観（詰めすぎて冷たく感じるか、詰めが甘く感じるか）が分かれる部分で、もう一段の工程が必要になるとのこと。田中から、MCP上で「カットの間を激詰め・ちょい詰め・普通詰め」のように選べるようにできないかという提案があった。</p>
+<h3 id="2.-モデルの思考力(Reasoning)とコストのトレードオフ">2. モデルの思考力(Reasoning)とコストのトレードオフ</h3>
+<p>田中から「スキルとモデルの関係性がよく分かっていない」という率直な疑問が出され、カレンが実際に触った所感を共有した。モデルの思考力（reasoning、低・中・高）は高いほど人間の意図を先回りして仕上げてくれる感覚があり、中以上が実用ラインとのこと。一方、最上位モデル（アストラ等）を使うとショート動画1本の仕上げにトークンを15〜20%消費してしまい、コストパフォーマンスが悪く量産には向かないと報告された。田中も「アストラの20%食うってショート動画を量産できないやん」「AIで動画編集って現実的じゃない」と述べ、長尺（15分等）はさらにコストが重くなりそうだという見立てで一致した。それでも一度ワークフローとして成立させること自体はやる価値があるという整理をした。</p>
+<h3 id="3.-カレンのポータルサイト（パターン選択）構想の拡張">3. カレンのポータルサイト（パターン選択）構想の拡張</h3>
+<p>田中から、カレンが作成したポータルサイトのように「Aフォント・Bフォント・Cフォント」のような選択肢をブラウザ上で選び、その組み合わせのプロンプトを田中祐一MCPに貼り付けて発動させる仕組みが良いのではという提案があった。カレンからは、テロップの配置（上・中・下）は既に選べるようにしていると説明があった。田中はこの発想を高く評価し（「カレンさんのさっきのアイデアめちゃくちゃええなって思いれました」）、動画編集だけでなくスライド作成やLPデザインにも応用し、選んだパターンをコピーして田中祐一AIに貼ると素材を聞かれて仕上げてくれる、というレベル感（ワードでフォントをいじる程度の操作感）を目指したいという構想を共有した。</p>
+<h3 id="4.-女性50代向けデザインと属人・非属人編集の切り分け">4. 女性50代向けデザインと属人・非属人編集の切り分け</h3>
+<p>田中から、女性50代向けの動画は基本的に縦書きテロップが多く、Premiere Proでは対応しづらいことや、ビジネス向け（田中自身が使いやすいと感じるフォント）と女性向け（森部さんのような有名インフルエンサーのスタイル）とでコストのかかり方が大きく変わるという話があった。あわせて、インフルエンサーごとの編集傾向（ドーパミン刺激系の派手な編集 vs ダイレクト出版・北原さんのようなすっきり系編集）を例に挙げ、経営者向けコンテンツはすっきり編集で足りるのではという見立ても共有された。カレンからは、話し言葉をテロップに逐語で起こすか、要約して載せるかという選択肢もあり、パターンの組み合わせが際限なく増えてしまう懸念が示された。</p>
+<p>これに対し田中は「今回は別にいらない」とし、まずは基本形（喋っているだけの動画に文字テロップを入れて一旦出す）を作り、山岸さんや石津さんから「このテイストの動画を作りたい」という具体的な要望が出た時点でそのパターンを後から埋め込んでいく「後出し開発」の方針を明確にした。将来的には「基本設定」と「詳細設定」のタブを分け、詳細設定側でパターンを選べるようにする案も出た。</p>
+<h3 id="5.-動画編集の中長期展望">5. 動画編集の中長期展望</h3>
+<p>田中は、この考え方を広告担当にも展開すれば、担当者が自分でパターンを選んでLPやスライドを作れるようになる可能性に言及し、「カレンさんスキルそれ団体で売り物になりますよ」と評価した上で、田中祐一AI自身にもこのパターン選択の仕組み（片岡さん・たかみず保江さん向けに作った既存デザイン等）を搭載し、ポータルサイト上でビジュアル選択→自動生成という形にしたいという中長期の構想を共有した。カレンには、あと2日ほどで今週の仕込みを仕上げてほしいと依頼があった。</p>
+<h3 id="6.-三浦さんの動画編集とAI活用の切り分け">6. 三浦さんの動画編集とAI活用の切り分け</h3>
+<p>田中から、三浦さんの案件について「族人の動画編集スキルがどこまで必要なのか」という悩みが共有された。山口さんのケースのようにライティングと音声吹き込みを渡して世界観に合わせて仕上げてもらう場合は完成形の見本があれば対応できそうだが、三浦さんはPremiere Proを最低限触れる程度で、AI開発までは難しいという判断に至った。結果として、三浦さんはAIを使わず（課金もしない）、Premiere Proでの手動編集に専念してもらう方針が確定した。田中の「お客様の声」の編集は既に完成形として形になっているため、その完成形を渡して真似てもらう方向性が現実的ではないかという話も出た。あわせて、坂本さん・三浦さん・新しく入った動画編集担当（青森さん）がどの程度AIを使っているか・使いたいかをカレンが引き続きヒアリングし、言語化・スキル化していく役割を担うことを確認した（青森さんは無料プランのみで初心者レベルとの所感）。</p>
+<h3 id="7.-山岸の広告レポート自動化・進捗共有">7. 山岸の広告レポート自動化・進捗共有</h3>
+<p>山岸から、レポートの自動化がある程度できるようになり、Cloudflareへホスティングする形で進めていると報告があった。当初カレンから勧められたVercelは他のものとバッティングするためCloudflareを使うことになり、URLの発行まではできたが、独自ドメイン（Katsuo Marketingのドメイン）が意図せず設定されていた点は要確認として共有された。</p>
+<p>田中からは、自分も直近1週間でCloudflareを多く触っていること、Zoomのクラウド録画（月額1万円・1テラ保存プラン）を解約し、保存期間を3日に切り替えて録画は全てCloudflareへ保存する形に移行していること、これによりZoomクラウド保存だと年間約20万円かかっていたコストを抑えられる見込みであることが共有された。あわせてたかみず保江さんの議事録は既にCloudflare保存へ切り替え済みであることも説明した。</p>
+<h3 id="8.-広告レポートの内容とセールス分析の関係">8. 広告レポートの内容とセールス分析の関係</h3>
+<p>山岸から、Katsuo Marketingの広告管理ページに案件ごとの新規追加設定を行うと、スプレッドシートに数値が蓄積され、Metaに登録した広告本文・見出し・インプレッション等が同期して出力される仕組みになっていると説明があった。過去のヒット広告ランキング（売上が高い順）を出せる状態になっており、次のステップとして送客・説明会案内の広告で反応の良いものを優先順位付けするレポートも作成中とのこと。</p>
+<p>田中からは、個別説明会の申込が入るたびに「どのクリエイティブから来たか」「そのクリエイティブの現在のCPO」が分かり、URLをクリックするとそのクリエイティブのレポートに飛べるような仕組みへの期待が語られた。またセールスの傾向（どんな客層に対してどう話して成約したか）をクリエイティブ分析に紐付けられないかという話題も出たが、大半の案件は社内でセールスの中身まで見られないため「セールス分析はあくまでアドオンであり、デフォルトではない」という整理で一致した（フルで受託している案件のみ例外）。</p>
+<h3 id="9.-レポートの保存先ルール">9. レポートの保存先ルール</h3>
+<p>田中は、セールス分析レポートと同様の「乗り」でレポートを保存する方向にしたいという考えを共有した。具体的には、社内の「広告レポート」というディレクトリを切り、案件ごとのフォルダの下にHTML生成物を置く構成とし、小太郎くん経由でレポートを生成したら自動的に案件名を添えて報告される、セールスレポートと同じ運用にしたいという方針を示した。田中自身、2ヶ月ほど前にこの構成へ切り替えようとしていたのを忘れて放置していたことにその場で気づいたとのやり取りもあった。</p>
+<p>議論の結果、保存先はプロジェクト一覧の各案件フォルダの中に「広告」フォルダを切り、その中に「広告レポート」を保存するルールにすることで合意した。田中自身の案件（ピグマリオンのえみこさんのエバー案件等を含む）についても、自分のフォルダの中に「広告」フォルダを新設してレポートを格納する方針とした。また、新規案件「安心安定」で1年ぶりに関わることになった新井さんのように、広告担当以外のプロデューサーが過去のレポートにアクセスしたいケースがあることも共有され、この保存構成であれば対応できるという認識で一致した。</p>
+<h3 id="10.-坂本さんへのAIコーチング運用">10. 坂本さんへのAIコーチング運用</h3>
+<p>カレンから、翌日（9月16日）予定の坂本さんとのAIコーチングについて確認があった。田中は、AI開発のやり方を一から教えるより、坂本さんに編集させてみて「これってどうやってるんですか」とリサーチしてもらう形でカレンがコントロールする方が良いという考えを示し、契約せずに済むケースの見極めも兼ねて話を聞いてほしいと依頼した。坂本さん自身は既にショート動画編集の実務経験があり(田中のインスタ編集も担当実績あり)、浜田さんが編集したものを再現するパターンも参考になり得るとした。また、広告担当（山西さん・伊勢さん）が坂本さん・三浦さんに編集依頼を投げる際のパターンも再現スキル化できると良いという話があった。三浦さん・坂本さんとのミーティングは週一固定にはせず、必要な時に話す程度で良いことを確認した。</p>
+<h3 id="11.-テロップなしパターン・速度調整・広告動画の音源">11. テロップなしパターン・速度調整・広告動画の音源</h3>
+<p>田中から、セミナーコンテンツなどテロップを入れない動画も多いため、田中祐一AIに「テロップなし・カットのみ」「無音カットのみ」のプロンプトパターンも用意したいという提案があった。山岸から再生速度を変える機能について質問があり、カレンから音量調整は既にAIが自動で行っており、速度調整（1.2倍速等）も依頼すれば対応できそうだと回答した（要検証）。山岸から、由美子先生のサンキュー動画の再生速度が遅く感じる点も共有された。田中からは、広告動画は速度調整や音源選定（テンプレ音源ではなくオリジナル音源を使うと反応が上がったというX上の話題）が重要という補足があった。</p>
+<h3 id="12.-次回ミーティング日程">12. 次回ミーティング日程</h3>
+<p>田中から次回日程の相談があり、当初9月20日案も出たが、19日（土）の同じ時間帯で確認したところ田中に16時から別件ミーティングが入っているため、15時に変更して次回開催することで合意した。</p>
+<h2 id="決まったこと">決まったこと</h2>
+<ul>
+<li>モデルの思考力(reasoning)設定は中以上を実用ラインとし、最上位モデル（アストラ等）はコスト（1本あたりトークン15〜20%）が重く、ショート動画量産には使わない</li>
+<li>ショート動画編集のパターンは先回りで全部作り込まず、山岸・石津から具体的な要望（テイスト）が出た時点でパターンを追加する「後出し開発」方針とする</li>
+<li>三浦さんはAI動画編集を使わず（課金不要）、Premiere Proでの手動編集に専念してもらう</li>
+<li>坂本さん・三浦さんへのAI活用状況の確認は週一固定にせず、必要な時に行う</li>
+<li>パルモにレポート・ボード作成機能を持たせない方針を再確認。パルモは「クリエイティブ保存庫」として使う</li>
+<li>広告レポートの保存先は、プロジェクト一覧の各案件フォルダ内に「広告」→「広告レポート」を切る構成にルール化する（田中自身の案件フォルダにも同様に適用）</li>
+<li>Zoomクラウド録画（月額1万円・1TBプラン）を解約し、録画は全てCloudflareへ保存する移行を進める</li>
+<li>次回MTG：2026年9月19日(土)15時（田中の16時の別件都合により変更）</li>
+</ul>
+<h2 id="やること">やること</h2>
+<h3 id="田中">田中</h3>
+<ul>
+<li>[ ] Zoomクラウド録画からCloudflare保存への移行を完了させる</li>
+<li>[ ] 広告レポートの保存先ルール（プロジェクト一覧/各案件フォルダ内「広告」→「広告レポート」）を自身の案件フォルダにも反映する</li>
+</ul>
+<h3 id="カレン">カレン</h3>
+<ul>
+<li>[ ] 明日（9/16）の坂本さんとのAIコーチングで、AI利用頻度をヒアリングしスキル開発の方向性を検証する</li>
+<li>[ ] テロップの詰め方（激詰め・ちょい詰め・普通詰め）を選択式にできるよう検証を進める</li>
+<li>[ ] ポータルサイトのパターン選択機能（フォント・字幕位置等）を土曜日のワークに向けて仕上げる（今週中の仕込み）</li>
+<li>[ ] 三浦さん・坂本さん・青森さんへのAI活用ヒアリングを継続する（必要な時のみ）</li>
+<li>[ ] テロップなし（カットのみ・無音カットのみ）パターンの追加を検討する</li>
+<li>[ ] 再生速度調整（1.2倍速等）の対応可否を確認して報告する</li>
+</ul>
+<h3 id="山岸">山岸</h3>
+<ul>
+<li>[ ] 広告レポートで発行したURLに独自ドメイン（Katsuo Marketing）が誤って設定されていた件を確認・共有する</li>
+<li>[ ] 広告レポートの保存先を、プロジェクト一覧の案件ごとの「広告」→「広告レポート」フォルダ構成に合わせて整備する</li>
+<li>[ ] ヒット広告ランキング・訴求分析レポートの作成を継続し、個別説明会申込とクリエイティブの紐付け（CPO表示等）を検討する</li>
+<li>[ ] 「安心安定」案件のMeta APIスプレッドシート同期を継続する</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-09-15)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: RLSO4OSE<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
