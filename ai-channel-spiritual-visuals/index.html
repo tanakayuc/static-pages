@@ -1,0 +1,1292 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>月と星｜映像の世界観と編集方法 - VISUAL PROPOSAL</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.content { max-width: 860px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3.2rem) 1.2rem 4rem; overflow-wrap: anywhere; }
+@media (max-width: 860px) { .content { padding: 1.2rem; } .article { padding: 1.55rem 1.2rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.5rem; } .article table { display: block; overflow-x: auto; } }
+</style></head><body><main class="content"><article class="article">
+
+<style>
+.proposal-table-wrap{max-width:100%;overflow-x:auto;margin:22px 0}.proposal-table-wrap table{margin:0;table-layout:fixed}.proposal-table-wrap:focus-visible{outline:2px solid #189b7d}
+.proposal-timeline{min-width:1180px}.proposal-timeline th:nth-child(1){width:85px}.proposal-timeline th:nth-child(2){width:245px}.proposal-timeline th:nth-child(3){width:110px}.proposal-timeline th:nth-child(4){width:190px}.proposal-timeline th:nth-child(5){width:300px}.proposal-timeline th:nth-child(6){width:250px}
+.proposal-wide{min-width:720px}.proposal-detail{min-width:460px}.proposal-detail th:first-child{width:140px}
+.proposal-table-hint{font-size:14px;color:#63736b;margin-bottom:-12px}
+.sample-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:24px 0 42px}
+.sample-grid figure{margin:0;min-width:0}.sample-grid img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;border:1px solid #deddd4;border-radius:6px}
+.sample-grid figcaption{font-size:14px;color:#555d58;margin-top:7px}
+.sample-open{display:block}.sample-open:focus-visible{outline:3px solid #189b7d;outline-offset:4px}
+#sample-dialog{width:min(96vw,1700px);max-width:96vw;max-height:96vh;box-sizing:border-box;padding:18px;border:0;border-radius:12px;background:#f5f2ea;color:#253039}
+#sample-dialog::backdrop{background:rgba(8,16,23,.88)}
+#sample-dialog img{display:block;max-width:100%;max-height:78vh;margin:12px auto 0;object-fit:contain}
+.sample-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.sample-toolbar p{margin:0 auto 0 0;font-size:16px}
+.sample-toolbar button{font:inherit;font-size:16px;border:1px solid #a9b8ae;border-radius:6px;background:white;padding:8px 12px;cursor:pointer}
+@media(max-width:600px){.sample-grid{grid-template-columns:1fr;gap:18px}#sample-dialog{padding:10px}.sample-toolbar p{flex:1 0 100%}.sample-toolbar button{flex:1}#sample-dialog img{max-height:70vh}}
+@media print{.sample-grid{grid-template-columns:1fr 1fr}#sample-dialog{display:none}}
+</style>
+<h1>月と星をきっかけに、50代のこれからを読み解く</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#推薦と、この資料の使い方">推薦と、この資料の使い方</a></li><li class="toc-main"><a href="#参照本文から確認した前提と、今回の提案">参照本文から確認した前提と、今回の提案</a></li><li class="toc-main"><a href="#共通の4場面と見本の扱い">共通の4場面と見本の扱い</a></li><li class="toc-main"><a href="#世界観5案の比較">世界観5案の比較</a></li><li class="toc-main"><a href="#A｜月明かりの窓辺">A｜月明かりの窓辺</a></li><li class="toc-main"><a href="#B｜月の手帖">B｜月の手帖</a></li><li class="toc-main"><a href="#C｜暮らしと星のエッセイ">C｜暮らしと星のエッセイ</a></li><li class="toc-main"><a href="#D｜大人の月刊誌">D｜大人の月刊誌</a></li><li class="toc-main"><a href="#E｜和紙と月の余白">E｜和紙と月の余白</a></li><li class="toc-main"><a href="#60秒の画面構成例">60秒の画面構成例</a></li><li class="toc-sub"><a href="#A-月明かりの窓辺｜60秒">A 月明かりの窓辺｜60秒</a></li><li class="toc-sub"><a href="#B-月の手帖｜60秒">B 月の手帖｜60秒</a></li><li class="toc-sub"><a href="#C-暮らしと星のエッセイ｜60秒">C 暮らしと星のエッセイ｜60秒</a></li><li class="toc-sub"><a href="#D-大人の月刊誌｜60秒">D 大人の月刊誌｜60秒</a></li><li class="toc-sub"><a href="#E-和紙と月の余白｜60秒">E 和紙と月の余白｜60秒</a></li><li class="toc-main"><a href="#動画素材の公式プレビュー・購入候補">動画素材の公式プレビュー・購入候補</a></li><li class="toc-sub"><a href="#V1-Clouds-Passing-The-Moon">V1 Clouds Passing The Moon</a></li><li class="toc-sub"><a href="#V2-A-cup-of-tea-and-a-teapot-on-a-window-sill">V2 A cup of tea and a teapot on a window sill</a></li><li class="toc-sub"><a href="#V3-A-Person-Writing-on-a-Journal">V3 A Person Writing on a Journal</a></li><li class="toc-sub"><a href="#V4-Glittering-Moonlight-on-Ocean-Waves-at-Night">V4 Glittering Moonlight on Ocean Waves at Night</a></li><li class="toc-sub"><a href="#V5-A-view-of-a-window-with-rain-falling-through-it">V5 A view of a window with rain falling through it</a></li><li class="toc-sub"><a href="#V6-Full-Moon-Shining-Through-the-Night-Clouds">V6 Full Moon Shining Through the Night Clouds</a></li><li class="toc-sub"><a href="#V7-Notebook,-Writing,-Hands,-Warm-Light">V7 Notebook, Writing, Hands, Warm Light</a></li><li class="toc-main"><a href="#素材の調達方針と購入優先度">素材の調達方針と購入優先度</a></li><li class="toc-main"><a href="#通常回とゲスト回で変えること">通常回とゲスト回で変えること</a></li><li class="toc-main"><a href="#未確認事項と、担当者が次に決めること">未確認事項と、担当者が次に決めること</a></li><li class="toc-main"><a href="#読解した資料と制作物">読解した資料と制作物</a></li></ul></nav>
+<p>映像の世界観と編集方法の提案資料｜2026年9月19日｜正式チャンネル名は未決定</p>
+<h2 id="推薦と、この資料の使い方">推薦と、この資料の使い方</h2>
+<p>通常回の主力は A「月明かりの窓辺」を推薦します。50代の日常と月のテーマをつなぎやすく、ナビゲーターが隣で一緒に考える立ち位置に合うためです。説明では背景を明るい紙面に切り替えます。継続制作の負担を最優先する場合の次点は B「月の手帖」です。</p>
+<p>5案は選択肢です。5種類を毎回混ぜる運用ではありません。採用案の背景・文字・図解の型を揃えてから、通常回を1本試作して判断します。評価は企画への適合・見やすさ・継続性に基づく制作上の判断で、再生数や視聴維持率の検証結果ではありません。</p>
+<p>同じ4場面を5案で描いた20枚を下に掲載しています。<a href="https://tanakayuc.github.io/static-pages/ai-channel-spiritual-visuals/">共有用の比較ページ</a>では、画像を押すとページ内で拡大できます。既存資料と同じGitHub Pages形式で、URLを知っている方が閲覧できます。<a href="https://tanakayuc.github.io/static-pages/ai-channel-spiritual-visuals/moon-visual-proposal.zip">HTMLと画像の一式</a>もダウンロードできます。原本・制作記録のGitHubリポジトリは非公開で、そちらには閲覧権限が必要です。</p>
+<h2 id="参照本文から確認した前提と、今回の提案">参照本文から確認した前提と、今回の提案</h2>
+<p class="proposal-table-hint">表は左右にスクロールできます。</p><div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-wide">
+<thead>
+<tr>
+<th>項目</th>
+<th>既存資料・会話で決まっていること</th>
+<th>今回提案すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>対象視聴者</td>
+<td>50代女性。家族を優先してきて、自分の希望やこれからの暮らしを考えたい人</td>
+<td>「自分の願いが出てこない」という日常の問いで4場面を統一</td>
+</tr>
+<tr>
+<td>コンセプト</td>
+<td>月と星をきっかけに、50代のこれからを読み解く。月・星・占星術が軸</td>
+<td>毎回「暮らしの問い→月や星の考え方→自分に引き寄せた問い→小さな実践」へ</td>
+</tr>
+<tr>
+<td>語り手</td>
+<td>先生・占い師ではなく、視聴者と学び、問い、気づくナビゲーター</td>
+<td>人格は「急には願いが出てこないですよね」のような視点で伝える</td>
+</tr>
+<tr>
+<td>運営とゲスト</td>
+<td>非属人のメディアとして運営し、専門家ゲストを呼び、そのゲストの商品へつなぐ</td>
+<td>通常回では関心と信頼を育てる。商品案内はゲストの専門と商品を明示する別パート</td>
+</tr>
+<tr>
+<td>声</td>
+<td>人の語りを軸とする、落ち着いた親しみのある声。過剰にテンションを上げない</td>
+<td>問いのあと約1秒、気づきの前約0.5秒。音楽・環境音は声の理解を妨げない</td>
+</tr>
+<tr>
+<td>既存の見た目</td>
+<td>「和×月×金」、上品な大人向け。アバターの最終仕様は未決定</td>
+<td>実写、手帖、コラージュ、雑誌、和紙の5方向を比較</td>
+</tr>
+<tr>
+<td>カットと字幕</td>
+<td>既存の制作標準に秒数の目安と全文字幕の方針がある</td>
+<td>今回の依頼を優先し、固定秒数で切らず意味と可読性で調整。図解は16〜19秒の例も置く</td>
+</tr>
+<tr>
+<td>名称</td>
+<td>「学校」は採用しない。先生ポジションにしない</td>
+<td>本資料のタイトルはコンセプト表現。正式なチャンネル名の決定ではない</td>
+</tr>
+</tbody>
+</table></div>
+<p>差別化の中心は、日付の特別感だけで行動を煽ることではなく、月や星を入口に50代の実感へ言葉を戻すことです。「植物と風と水のある暮らし」の落ち着いた非属人寄りの形式は会話で挙がった参考です。今回の資料ではそのチャンネルの最新数値・動画全編を再検証しておらず、今回作る画面の役割と編集方法を具体化しています。</p>
+<p>アバタローさんは今回指定された「ナレーションを中心に、内容に合わせて動画・静止画・図解が切り替わる」という形式の参照です。声・文章・固有の映像表現を再現する提案ではありません。</p>
+<h2 id="共通の4場面と見本の扱い">共通の4場面と見本の扱い</h2>
+<p>対象フォルダの動画台本はREADMEのみで、完成台本はありません。そこで比較用の新規例「家族の願いは浮かぶのに、自分の願いが出てこない」を作りました。承認済みの収録台本ではありません。</p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>場面</th>
+<th>同じ内容で比較するもの</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 冒頭の問い</td>
+<td>自分の願い、何だろう？</td>
+</tr>
+<tr>
+<td>② 日常の情景</td>
+<td>家事が終わった、私の時間。お茶とノートを置く</td>
+</tr>
+<tr>
+<td>③ 考え方の図解</td>
+<td>新月に書く→日々試す→満月に振り返る</td>
+</tr>
+<tr>
+<td>④ 気づきと実践</td>
+<td>今夜、自分のために一行。小さな楽しみを一つ書く</td>
+</tr>
+</tbody>
+</table></div>
+<p>③は今回のワーク案を説明する図です。天体の位置関係を表す図や、研究結果の図ではありません。「月が願望を実現させる」とする科学的な因果も主張しません。本・研究を扱う本番回では、実在する原本・該当ページ・主張を確認したうえで、自作の整理図と引用を区別します。未入手の書籍を読了済みとして使っていません。</p>
+<p>全20枚はAI生成の配置見本です。人物の実績・実体験・生活記録ではありません。手帖の書き込みや本の背などの生成された細部は装飾であり、出典や本人の記録にしません。実際の記録を扱う回では、提供された記録に差し替えます。</p>
+<p>画像は約16:9の横長で、生成時の寸法を保って保存しています。字幕は下部の落ち着いた帯に置きました。本番は1920×1080を基本とし、字幕は角ゴシック64〜72pxを起点に最大2行、左右と下に余白を確保します。見本の長い一文は、本番で意味の区切りに分けて順に表示します。画像内文字をそのまま動かさず、背景・図解・字幕を別レイヤーで組み直します。</p>
+<h2 id="世界観5案の比較">世界観5案の比較</h2>
+<p>評価は5点満点の相対評価です。継続性は、1回限りの完成度よりも素材の再利用と編集者への引継ぎやすさで見ています。</p>
+<p class="proposal-table-hint">表は左右にスクロールできます。</p><div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-wide">
+<thead>
+<tr>
+<th>案</th>
+<th>画の作り方</th>
+<th style="text-align: right;">適合</th>
+<th style="text-align: right;">見やすさ</th>
+<th style="text-align: right;">継続性</th>
+<th>判断</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A 月明かりの窓辺</td>
+<td>実写の情景を主役にする</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td>主力として推薦</td>
+</tr>
+<tr>
+<td>B 月の手帖</td>
+<td>俯瞰の静止画と紙の図解</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td>負担を抑える次点</td>
+</tr>
+<tr>
+<td>C 暮らしと星のエッセイ</td>
+<td>写真＋植物の線画＋紙のコラージュ</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td>日常の感情を豊かに描く</td>
+</tr>
+<tr>
+<td>D 大人の月刊誌</td>
+<td>余白・文字・写真枠を分けた雑誌構成</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td>比較・ゲスト回に強い</td>
+</tr>
+<tr>
+<td>E 和紙と月の余白</td>
+<td>和紙・墨・切り絵の平面的な映像</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td>和の余韻が強い</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="A｜月明かりの窓辺">A｜月明かりの窓辺</h2>
+<p>実写の情景を主役にする。</p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>観点</th>
+<th>提案内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>感じてほしいこと</td>
+<td>家族の時間が終わり、ようやく自分に戻れる。静かだが寂しくない。</td>
+</tr>
+<tr>
+<td>チャンネルに合う理由</td>
+<td>既存の「和×月×金」を、豪華な祭壇ではなく普通の暮らしへ落とせる。先生ではない語り手と50代の日常がつながる。</td>
+</tr>
+<tr>
+<td>配色・文字・光・質感</td>
+<td>藍 #243249／生成り #F3EDE2／真鍮 #B79B64。見出しは明朝、字幕は太めの角ゴシック。窓の青と室内の暖色、木・陶器・布。横長の情景に余白を残す。</td>
+</tr>
+<tr>
+<td>動画と静止画・図解</td>
+<td>雲・水面・湯気など、話の情景が本当に動くときに動画。問い・願いの整理・星の意味は静止画と明るい3項目以内の図解。夜景だけで全編を埋めない。</td>
+</tr>
+<tr>
+<td>語り手・アバター</td>
+<td>今回は表示なし。採用するなら冒頭の挨拶と結びに各3〜5秒、左下の字幕より上に画面幅8〜10%。通常の語りには常駐させない。</td>
+</tr>
+<tr>
+<td>制作の手間と継続性</td>
+<td>中。部屋・時間帯の統一が必要。窓辺／台所／ノートの基本背景を先に揃えると継続しやすい。15分回の映像編集だけで初回8〜12時間、型完成後4〜6時間を仮置き。音声・台本・修正・素材費は別、実測ではない。</td>
+</tr>
+<tr>
+<td>向いているテーマ</td>
+<td>新月・満月と自分の願い／子育て後の時間／夫婦との距離感／静かなジャーナリング。</td>
+</tr>
+<tr>
+<td>合わないテーマ</td>
+<td>十二星座の12項目を一度に比較する回、緻密なホロスコープ読解。情景を減らして図解へ切り替える必要がある。</td>
+</tr>
+</tbody>
+</table></div>
+<p>候補素材：<a href="#v1">V1</a> ／ <a href="#v4">V4</a> ／ <a href="#v6">V6</a>。各商品の詳細は後半にまとめています。</p>
+<div class="sample-grid"><figure><a href="images/A_scene1.jpg" class="sample-open" aria-label="A1 冒頭の問いを拡大"><img alt="A1 冒頭の問い" src="images/A_scene1.jpg" /></a><figcaption>A1 冒頭の問い・押すと拡大</figcaption></figure><figure><a href="images/A_scene2.jpg" class="sample-open" aria-label="A2 日常の情景を拡大"><img alt="A2 日常の情景" src="images/A_scene2.jpg" /></a><figcaption>A2 日常の情景・押すと拡大</figcaption></figure><figure><a href="images/A_scene3.jpg" class="sample-open" aria-label="A3 考え方の図解を拡大"><img alt="A3 考え方の図解" src="images/A_scene3.jpg" /></a><figcaption>A3 考え方の図解・押すと拡大</figcaption></figure><figure><a href="images/A_scene4.jpg" class="sample-open" aria-label="A4 気づきと実践を拡大"><img alt="A4 気づきと実践" src="images/A_scene4.jpg" /></a><figcaption>A4 気づきと実践・押すと拡大</figcaption></figure></div>
+<h2 id="B｜月の手帖">B｜月の手帖</h2>
+<p>俯瞰の静止画と紙の図解。</p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>観点</th>
+<th>提案内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>感じてほしいこと</td>
+<td>自分にも一行なら書けそう。正解を習うより、考えを置ける場所がある。</td>
+</tr>
+<tr>
+<td>チャンネルに合う理由</td>
+<td>語り手が視聴者と一緒に考える立ち位置を、机と白紙で伝えられる。体験を捏造せず、書くワークへ進める。</td>
+</tr>
+<tr>
+<td>配色・文字・光・質感</td>
+<td>紙 #F4EEDD／墨茶 #433C35／古金 #AA9060。ほぼ真上からの俯瞰、生成りのノートを大きく。角ゴシック中心。明るい拡散光、紙の繊維・麻・鉛筆。</td>
+</tr>
+<tr>
+<td>動画と静止画・図解</td>
+<td>ペン先やお茶は短い窓枠内の動画。問い、書く順番、振り返り項目は静止画。図解は手帖にカードを置くように段階表示する。</td>
+</tr>
+<tr>
+<td>語り手・アバター</td>
+<td>原則なし。採用する場合は章の問いの横に小さな案内役を1回3秒程度、15分回で最大3回。手書きの吹き出しを大量に出さない。</td>
+</tr>
+<tr>
+<td>制作の手間と継続性</td>
+<td>低〜中。手帖・カード・字幕の3テンプレートを再利用しやすい。初回6〜9時間、型完成後3〜5時間という編集のみの仮見積もり。写真の連続撮影は不要。</td>
+</tr>
+<tr>
+<td>向いているテーマ</td>
+<td>願いの書き方／新月から満月の振り返り／感情整理／小さく試す企画。</td>
+</tr>
+<tr>
+<td>合わないテーマ</td>
+<td>旅や季節の開放感を主役にした回、天体の位置関係を精密に示す回。全編同じ机では単調になる。</td>
+</tr>
+</tbody>
+</table></div>
+<p>候補素材：<a href="#v2">V2</a> ／ <a href="#v3">V3</a> ／ <a href="#v7">V7</a>。各商品の詳細は後半にまとめています。</p>
+<div class="sample-grid"><figure><a href="images/B_scene1.jpg" class="sample-open" aria-label="B1 冒頭の問いを拡大"><img alt="B1 冒頭の問い" src="images/B_scene1.jpg" /></a><figcaption>B1 冒頭の問い・押すと拡大</figcaption></figure><figure><a href="images/B_scene2.jpg" class="sample-open" aria-label="B2 日常の情景を拡大"><img alt="B2 日常の情景" src="images/B_scene2.jpg" /></a><figcaption>B2 日常の情景・押すと拡大</figcaption></figure><figure><a href="images/B_scene3.jpg" class="sample-open" aria-label="B3 考え方の図解を拡大"><img alt="B3 考え方の図解" src="images/B_scene3.jpg" /></a><figcaption>B3 考え方の図解・押すと拡大</figcaption></figure><figure><a href="images/B_scene4.jpg" class="sample-open" aria-label="B4 気づきと実践を拡大"><img alt="B4 気づきと実践" src="images/B_scene4.jpg" /></a><figcaption>B4 気づきと実践・押すと拡大</figcaption></figure></div>
+<h2 id="C｜暮らしと星のエッセイ">C｜暮らしと星のエッセイ</h2>
+<p>写真＋植物の線画＋紙のコラージュ。</p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>観点</th>
+<th>提案内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>感じてほしいこと</td>
+<td>暮らしの中に、小さな発見がある。気負わず見られる大人の読み物。</td>
+</tr>
+<tr>
+<td>チャンネルに合う理由</td>
+<td>占星術を学問として構える前に、50代のあるあるから入れる。神秘性と普通の生活の距離を、写真と挿絵の組み合わせで縮める。</td>
+</tr>
+<tr>
+<td>配色・文字・光・質感</td>
+<td>白紙 #F4F1E8／青灰 #61778B／墨 #35424A／控えめな金 #AC9869。写真6・挿絵4を目安に非対称配置。薄い和紙、植物のインク線、自然光。見出し明朝・字幕角ゴシック。</td>
+</tr>
+<tr>
+<td>動画と静止画・図解</td>
+<td>写真の窓の部分だけを動画にする。感情の比喩・関係性・問いは挿絵を使う静止画。図解は余白の紙面で段階表示し、素材を同時に動かさない。</td>
+</tr>
+<tr>
+<td>語り手・アバター</td>
+<td>今回はなし。採用するなら線画の小さな横顔を導入・問い返し・結びの最大3回、左の余白に画面幅8%程度。人物の顔出しは不要。</td>
+</tr>
+<tr>
+<td>制作の手間と継続性</td>
+<td>中〜高。写真と線画の質感合わせに手間がかかる。初回10〜14時間、型完成後5〜8時間という編集のみの仮見積もり。切り抜きと配置の部品化で短縮する。</td>
+</tr>
+<tr>
+<td>向いているテーマ</td>
+<td>50代の気持ち／夫婦や親子／星座を性格の問いとして読む／日常の気づき。</td>
+</tr>
+<tr>
+<td>合わないテーマ</td>
+<td>短時間で大量の情報を比較する回、細かな天体データ。装飾を増やすと重要な文字が埋もれる。</td>
+</tr>
+</tbody>
+</table></div>
+<p>候補素材：<a href="#v2">V2</a> ／ <a href="#v3">V3</a> ／ <a href="#v5">V5</a>。各商品の詳細は後半にまとめています。</p>
+<div class="sample-grid"><figure><a href="images/C_scene1.jpg" class="sample-open" aria-label="C1 冒頭の問いを拡大"><img alt="C1 冒頭の問い" src="images/C_scene1.jpg" /></a><figcaption>C1 冒頭の問い・押すと拡大</figcaption></figure><figure><a href="images/C_scene2.jpg" class="sample-open" aria-label="C2 日常の情景を拡大"><img alt="C2 日常の情景" src="images/C_scene2.jpg" /></a><figcaption>C2 日常の情景・押すと拡大</figcaption></figure><figure><a href="images/C_scene3.jpg" class="sample-open" aria-label="C3 考え方の図解を拡大"><img alt="C3 考え方の図解" src="images/C_scene3.jpg" /></a><figcaption>C3 考え方の図解・押すと拡大</figcaption></figure><figure><a href="images/C_scene4.jpg" class="sample-open" aria-label="C4 気づきと実践を拡大"><img alt="C4 気づきと実践" src="images/C_scene4.jpg" /></a><figcaption>C4 気づきと実践・押すと拡大</figcaption></figure></div>
+<h2 id="D｜大人の月刊誌">D｜大人の月刊誌</h2>
+<p>余白・文字・写真枠を分けた雑誌構成。</p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>観点</th>
+<th>提案内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>感じてほしいこと</td>
+<td>内容を落ち着いて整理できる。あとから見返したくなる。</td>
+</tr>
+<tr>
+<td>チャンネルに合う理由</td>
+<td>専門家の説明とナビゲーターの問いを、誌面の役割として分けやすい。「先生の授業」に寄りすぎないため、見出しを答えより問いにする。</td>
+</tr>
+<tr>
+<td>配色・文字・光・質感</td>
+<td>生成り #F5F1E9／紺 #29394B／赤茶 #A26550。明朝の大見出し、角ゴシックの字幕、細い罫線。明るいマット紙。写真枠35〜40%、余白と文字60〜65%の2列構図。</td>
+</tr>
+<tr>
+<td>動画と静止画・図解</td>
+<td>誌面の写真枠内だけで、お茶・海・手元を動かす。言葉の比較やゲストの要点は静止画・図解。縦動画も細い枠に収めて活用できる。</td>
+</tr>
+<tr>
+<td>語り手・アバター</td>
+<td>通常回ではなし。ゲスト回は左右の名前と役割を区別し、発言中だけ小さな肖像枠。ナビゲーターを「先生」と表示しない。常時の口パクは不要。</td>
+</tr>
+<tr>
+<td>制作の手間と継続性</td>
+<td>中。最初に余白・見出し・比較図の型を作れば引き継ぎやすい。初回7〜10時間、型完成後4〜6時間という編集のみの仮見積もり。毎回の新規誌面設計は避ける。</td>
+</tr>
+<tr>
+<td>向いているテーマ</td>
+<td>新月と満月の違い／星座の考え方の比較／書籍紹介／ゲストの話を整理する回。</td>
+</tr>
+<tr>
+<td>合わないテーマ</td>
+<td>余韻だけで聴かせる回。文章を載せすぎると講義資料に見え、ラジオとしての気楽さが薄れる。</td>
+</tr>
+</tbody>
+</table></div>
+<p>候補素材：<a href="#v2">V2</a> ／ <a href="#v4">V4</a> ／ <a href="#v7">V7</a>。各商品の詳細は後半にまとめています。</p>
+<div class="sample-grid"><figure><a href="images/D_scene1.jpg" class="sample-open" aria-label="D1 冒頭の問いを拡大"><img alt="D1 冒頭の問い" src="images/D_scene1.jpg" /></a><figcaption>D1 冒頭の問い・押すと拡大</figcaption></figure><figure><a href="images/D_scene2.jpg" class="sample-open" aria-label="D2 日常の情景を拡大"><img alt="D2 日常の情景" src="images/D_scene2.jpg" /></a><figcaption>D2 日常の情景・押すと拡大</figcaption></figure><figure><a href="images/D_scene3.jpg" class="sample-open" aria-label="D3 考え方の図解を拡大"><img alt="D3 考え方の図解" src="images/D_scene3.jpg" /></a><figcaption>D3 考え方の図解・押すと拡大</figcaption></figure><figure><a href="images/D_scene4.jpg" class="sample-open" aria-label="D4 気づきと実践を拡大"><img alt="D4 気づきと実践" src="images/D_scene4.jpg" /></a><figcaption>D4 気づきと実践・押すと拡大</figcaption></figure></div>
+<h2 id="E｜和紙と月の余白">E｜和紙と月の余白</h2>
+<p>和紙・墨・切り絵の平面的な映像。</p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>観点</th>
+<th>提案内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>感じてほしいこと</td>
+<td>一息ついて、自分の内側に目を向けられる。静かな和の空気。</td>
+</tr>
+<tr>
+<td>チャンネルに合う理由</td>
+<td>月と和の記号を強く持てる。実写の人物に頼らずチャンネル固有の見た目を作れる一方、暮らしの具体性は語りで補う必要がある。</td>
+</tr>
+<tr>
+<td>配色・文字・光・質感</td>
+<td>和紙 #F2ECDD／墨藍 #34414E／金 #B39A65。大きな余白、平面的な切り絵のカップ・ノート・窓。墨の端と紙の繊維、金の小さな円。明朝見出し・太い角ゴシック字幕。発光エフェクトは使わない。</td>
+</tr>
+<tr>
+<td>動画と静止画・図解</td>
+<td>月・水面を小さな丸窓に限定して動画化。問い・感情の比喩・月の区切りは静止画や切り絵の図解。紙全体を揺らさず、必要な部品だけ出す。</td>
+</tr>
+<tr>
+<td>語り手・アバター</td>
+<td>原則なし。入れる場合は人型より小さな案内役の印を、冒頭と結びに2〜3秒ずつ。キャラクターの採用は別途決める。</td>
+</tr>
+<tr>
+<td>制作の手間と継続性</td>
+<td>中。最初の絵柄統一に時間が必要。初回8〜12時間、型完成後4〜6時間という編集のみの仮見積もり。色と紙素材を固定すると長期運用しやすい。</td>
+</tr>
+<tr>
+<td>向いているテーマ</td>
+<td>満月の振り返り／気持ちの手放し／季節と暦／静かに考える短いワーク。</td>
+</tr>
+<tr>
+<td>合わないテーマ</td>
+<td>具体的な体験の記録、人物対談の長尺、生活手順の説明。抽象画を実際の記録の代わりにしない。</td>
+</tr>
+</tbody>
+</table></div>
+<p>候補素材：<a href="#v1">V1</a> ／ <a href="#v4">V4</a> ／ <a href="#v6">V6</a>。各商品の詳細は後半にまとめています。</p>
+<div class="sample-grid"><figure><a href="images/E_scene1.jpg" class="sample-open" aria-label="E1 冒頭の問いを拡大"><img alt="E1 冒頭の問い" src="images/E_scene1.jpg" /></a><figcaption>E1 冒頭の問い・押すと拡大</figcaption></figure><figure><a href="images/E_scene2.jpg" class="sample-open" aria-label="E2 日常の情景を拡大"><img alt="E2 日常の情景" src="images/E_scene2.jpg" /></a><figcaption>E2 日常の情景・押すと拡大</figcaption></figure><figure><a href="images/E_scene3.jpg" class="sample-open" aria-label="E3 考え方の図解を拡大"><img alt="E3 考え方の図解" src="images/E_scene3.jpg" /></a><figcaption>E3 考え方の図解・押すと拡大</figcaption></figure><figure><a href="images/E_scene4.jpg" class="sample-open" aria-label="E4 気づきと実践を拡大"><img alt="E4 気づきと実践" src="images/E_scene4.jpg" /></a><figcaption>E4 気づきと実践・押すと拡大</figcaption></figure></div>
+<h2 id="60秒の画面構成例">60秒の画面構成例</h2>
+<p>以下は試作の尺です。最初に読み上げ音声を録り、文末・問いの間・図解の読み終わりに合わせて調整します。6つの発話は5案共通で、合計218文字。60秒内に読み上げと図解の確認時間を収める想定です。録音による秒単位の実測はまだ行っていません。</p>
+<p>表の字幕欄は代表句です。本番は全文を字幕にし、表にない接続部分も音声に合わせて表示します。「／」は改行または次の字幕への切り替え候補です。字幕は動かさず、背景の寄りとは別に固定します。動画の元音は原則ミュートし、語りと一つの静かな音楽を中心にします。</p>
+<h3 id="A-月明かりの窓辺｜60秒">A 月明かりの窓辺｜60秒</h3>
+<p class="proposal-table-hint">表は左右にスクロールできます。</p><div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-timeline">
+<thead>
+<tr>
+<th>秒数</th>
+<th>話す内容</th>
+<th>区分</th>
+<th>使う素材</th>
+<th>画面の動き</th>
+<th>字幕の代表句</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0〜8秒</td>
+<td>家族の願いなら、すぐ浮かぶ。けれど、自分の願いはどうでしょう。</td>
+<td>静止画</td>
+<td>A1</td>
+<td>問いを出して静止。最後に1秒の間。</td>
+<td>家族の願いなら、すぐ浮かぶ。／けれど、自分の願いは？</td>
+</tr>
+<tr>
+<td>8〜17秒</td>
+<td>家事が終わったあと、お茶とノートを置いてみる。今日は、自分のための時間です。</td>
+<td>静止画</td>
+<td>A2</td>
+<td>背景だけ100→102%にゆっくり寄る。字幕は固定。</td>
+<td>家事が終わったあと、／お茶とノートを。</td>
+</tr>
+<tr>
+<td>17〜29秒</td>
+<td>「願いを書いて」と言われても、急には出てきませんよね。まずは月を、振り返る区切りとして使ってみます。</td>
+<td>動画＋文字</td>
+<td>V1（小窓）＋生成りの文字面</td>
+<td>音声はつないだまま月の小窓へ。問いの文が終わると文字面に移る。</td>
+<td>急には出てきませんよね。／月を、振り返る区切りに。</td>
+</tr>
+<tr>
+<td>29〜46秒</td>
+<td>新月に書く。日々、ひとつ試す。満月に振り返る。この三つを、無理のない範囲で繰り返します。</td>
+<td>図解</td>
+<td>A3を元にした3カード図解</td>
+<td>新月→日々→満月を各発話で追加。約8秒で揃え、残り約9秒は全体を保持。図は拡大しない。</td>
+<td>新月に書く。日々、試す。／満月に振り返る。</td>
+</tr>
+<tr>
+<td>46〜53秒</td>
+<td>大きな夢でなくても、かまいません。小さな楽しみから。</td>
+<td>静止画</td>
+<td>A4</td>
+<td>図解からノートへ0.4秒で切り替え。寄りを止める。</td>
+<td>大きな夢でなくても、／かまいません。</td>
+</tr>
+<tr>
+<td>53〜60秒</td>
+<td>今夜、自分のためにできることを、一行だけ書いてみませんか。</td>
+<td>静止画</td>
+<td>A4を保持</td>
+<td>同じ画を保持して空白の一行を見せる。字幕が読み終わってから約1秒の余韻。</td>
+<td>今夜、自分のために／一行だけ書いてみませんか。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="B-月の手帖｜60秒">B 月の手帖｜60秒</h3>
+<p class="proposal-table-hint">表は左右にスクロールできます。</p><div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-timeline">
+<thead>
+<tr>
+<th>秒数</th>
+<th>話す内容</th>
+<th>区分</th>
+<th>使う素材</th>
+<th>画面の動き</th>
+<th>字幕の代表句</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0〜8秒</td>
+<td>家族の願いなら、すぐ浮かぶ。けれど、自分の願いはどうでしょう。</td>
+<td>静止画</td>
+<td>B1</td>
+<td>真上のノートに問いを置く。背景は止める。</td>
+<td>家族の願いなら、すぐ浮かぶ。／けれど、自分の願いは？</td>
+</tr>
+<tr>
+<td>8〜17秒</td>
+<td>家事が終わったあと、お茶とノートを置いてみる。今日は、自分のための時間です。</td>
+<td>動画＋静止画</td>
+<td>V2を手帖右の縦枠に／B2の紙背景</td>
+<td>お茶だけ動く。紙面と字幕は固定し、動画音声は使わない。</td>
+<td>家事が終わったあと、／お茶とノートを。</td>
+</tr>
+<tr>
+<td>17〜28秒</td>
+<td>「願いを書いて」と言われても、急には出てきませんよね。まずは月を、振り返る区切りとして使ってみます。</td>
+<td>静止画</td>
+<td>B2</td>
+<td>『急には出てこない』で白紙へ切る。無理にページめくりを足さない。</td>
+<td>急には出てきませんよね。／月を、振り返る区切りに。</td>
+</tr>
+<tr>
+<td>28〜46秒</td>
+<td>新月に書く。日々、ひとつ試す。満月に振り返る。この三つを、無理のない範囲で繰り返します。</td>
+<td>図解</td>
+<td>B3を元にした紙カード図解</td>
+<td>3カードを順に置く。約8秒で完成後10秒保持。強調は金の下線1か所だけ。</td>
+<td>新月に書く。日々、試す。／満月に振り返る。</td>
+</tr>
+<tr>
+<td>46〜53秒</td>
+<td>大きな夢でなくても、かまいません。小さな楽しみから。</td>
+<td>動画＋静止画</td>
+<td>V3を小さな写真枠に</td>
+<td>筆記のイメージを短く挿入。見本の英語を願いの内容として読まない。</td>
+<td>大きな夢でなくても、／かまいません。</td>
+</tr>
+<tr>
+<td>53〜60秒</td>
+<td>今夜、自分のためにできることを、一行だけ書いてみませんか。</td>
+<td>静止画</td>
+<td>B4</td>
+<td>白紙の一行へ戻る。背景・字幕位置は固定して結びを聴かせる。</td>
+<td>今夜、自分のために／一行だけ書いてみませんか。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="C-暮らしと星のエッセイ｜60秒">C 暮らしと星のエッセイ｜60秒</h3>
+<p class="proposal-table-hint">表は左右にスクロールできます。</p><div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-timeline">
+<thead>
+<tr>
+<th>秒数</th>
+<th>話す内容</th>
+<th>区分</th>
+<th>使う素材</th>
+<th>画面の動き</th>
+<th>字幕の代表句</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0〜8秒</td>
+<td>家族の願いなら、すぐ浮かぶ。けれど、自分の願いはどうでしょう。</td>
+<td>静止画</td>
+<td>C1</td>
+<td>写真は100→102%の寄り。植物と文字は止める。</td>
+<td>家族の願いなら、すぐ浮かぶ。／けれど、自分の願いは？</td>
+</tr>
+<tr>
+<td>8〜18秒</td>
+<td>家事が終わったあと、お茶とノートを置いてみる。今日は、自分のための時間です。</td>
+<td>動画＋挿絵</td>
+<td>V2を縦枠に／C2の植物線画</td>
+<td>枠の中のお茶だけ動く。紙の縁で写真と絵をつなぐ。</td>
+<td>家事が終わったあと、／お茶とノートを。</td>
+</tr>
+<tr>
+<td>18〜30秒</td>
+<td>「願いを書いて」と言われても、急には出てきませんよね。まずは月を、振り返る区切りとして使ってみます。</td>
+<td>静止画</td>
+<td>C2</td>
+<td>話の問い返しで明るい紙面へ切る。葉を揺らす演出は足さない。</td>
+<td>急には出てきませんよね。／月を、振り返る区切りに。</td>
+</tr>
+<tr>
+<td>30〜47秒</td>
+<td>新月に書く。日々、ひとつ試す。満月に振り返る。この三つを、無理のない範囲で繰り返します。</td>
+<td>図解</td>
+<td>C3の紙面に3カード</td>
+<td>線画を薄くしてカードを順に出す。約8秒の段階表示、9秒の全体保持。</td>
+<td>新月に書く。日々、試す。／満月に振り返る。</td>
+</tr>
+<tr>
+<td>47〜53秒</td>
+<td>大きな夢でなくても、かまいません。小さな楽しみから。</td>
+<td>動画＋挿絵</td>
+<td>V3を写真の窓に</td>
+<td>手元だけを動かし、余白に『小さな楽しみ』。</td>
+<td>大きな夢でなくても、／かまいません。</td>
+</tr>
+<tr>
+<td>53〜60秒</td>
+<td>今夜、自分のためにできることを、一行だけ書いてみませんか。</td>
+<td>静止画</td>
+<td>C4</td>
+<td>ノートの一行を中央に。視線を散らす装飾は増やさず保持。</td>
+<td>今夜、自分のために／一行だけ書いてみませんか。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="D-大人の月刊誌｜60秒">D 大人の月刊誌｜60秒</h3>
+<p class="proposal-table-hint">表は左右にスクロールできます。</p><div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-timeline">
+<thead>
+<tr>
+<th>秒数</th>
+<th>話す内容</th>
+<th>区分</th>
+<th>使う素材</th>
+<th>画面の動き</th>
+<th>字幕の代表句</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0〜8秒</td>
+<td>家族の願いなら、すぐ浮かぶ。けれど、自分の願いはどうでしょう。</td>
+<td>静止画</td>
+<td>D1</td>
+<td>左の問いを先に表示し、写真は静止。</td>
+<td>家族の願いなら、すぐ浮かぶ。／けれど、自分の願いは？</td>
+</tr>
+<tr>
+<td>8〜17秒</td>
+<td>家事が終わったあと、お茶とノートを置いてみる。今日は、自分のための時間です。</td>
+<td>動画＋文字</td>
+<td>V2を右側の縦長写真枠に</td>
+<td>左の見出しは固定、右だけ動画。全面のズームはしない。</td>
+<td>家事が終わったあと、／お茶とノートを。</td>
+</tr>
+<tr>
+<td>17〜28秒</td>
+<td>「願いを書いて」と言われても、急には出てきませんよね。まずは月を、振り返る区切りとして使ってみます。</td>
+<td>静止画</td>
+<td>D2</td>
+<td>『急には』の文の切れ目で写真を紙面へ。左列の役割を保つ。</td>
+<td>急には出てきませんよね。／月を、振り返る区切りに。</td>
+</tr>
+<tr>
+<td>28〜47秒</td>
+<td>新月に書く。日々、ひとつ試す。満月に振り返る。この三つを、無理のない範囲で繰り返します。</td>
+<td>図解</td>
+<td>D3の3項目図解</td>
+<td>三つの要点を発話に合わせて追加。約9秒で完成、10秒保持。字幕と図の間に余白。</td>
+<td>新月に書く。日々、試す。／満月に振り返る。</td>
+</tr>
+<tr>
+<td>47〜53秒</td>
+<td>大きな夢でなくても、かまいません。小さな楽しみから。</td>
+<td>静止画</td>
+<td>D4</td>
+<td>図を外して一行の見出しとノート写真に戻す。</td>
+<td>大きな夢でなくても、／かまいません。</td>
+</tr>
+<tr>
+<td>53〜60秒</td>
+<td>今夜、自分のためにできることを、一行だけ書いてみませんか。</td>
+<td>静止画</td>
+<td>D4を保持</td>
+<td>切り替えず同じ誌面で結ぶ。文末を読み終えたら1秒保持。</td>
+<td>今夜、自分のために／一行だけ書いてみませんか。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="E-和紙と月の余白｜60秒">E 和紙と月の余白｜60秒</h3>
+<p class="proposal-table-hint">表は左右にスクロールできます。</p><div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-timeline">
+<thead>
+<tr>
+<th>秒数</th>
+<th>話す内容</th>
+<th>区分</th>
+<th>使う素材</th>
+<th>画面の動き</th>
+<th>字幕の代表句</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0〜8秒</td>
+<td>家族の願いなら、すぐ浮かぶ。けれど、自分の願いはどうでしょう。</td>
+<td>静止画</td>
+<td>E1</td>
+<td>和紙の大きな余白に問い。全体は完全に静止。</td>
+<td>家族の願いなら、すぐ浮かぶ。／けれど、自分の願いは？</td>
+</tr>
+<tr>
+<td>8〜17秒</td>
+<td>家事が終わったあと、お茶とノートを置いてみる。今日は、自分のための時間です。</td>
+<td>静止画</td>
+<td>E2</td>
+<td>湯気の線だけを0.8秒かけて表示。その後は止める。</td>
+<td>家事が終わったあと、／お茶とノートを。</td>
+</tr>
+<tr>
+<td>17〜29秒</td>
+<td>「願いを書いて」と言われても、急には出てきませんよね。まずは月を、振り返る区切りとして使ってみます。</td>
+<td>動画＋切り絵</td>
+<td>V1を小さな丸窓に／和紙背景</td>
+<td>月の丸窓だけ動く。月映像の前後は0.4秒の切り替え。</td>
+<td>急には出てきませんよね。／月を、振り返る区切りに。</td>
+</tr>
+<tr>
+<td>29〜47秒</td>
+<td>新月に書く。日々、ひとつ試す。満月に振り返る。この三つを、無理のない範囲で繰り返します。</td>
+<td>図解</td>
+<td>E3の切り絵3カード</td>
+<td>新月・日々・満月の札を約8秒で出し、10秒保持。紙や金粉を常時動かさない。</td>
+<td>新月に書く。日々、試す。／満月に振り返る。</td>
+</tr>
+<tr>
+<td>47〜53秒</td>
+<td>大きな夢でなくても、かまいません。小さな楽しみから。</td>
+<td>静止画</td>
+<td>E4</td>
+<td>切り絵の白紙ノートへ。文字だけを1回表示。</td>
+<td>大きな夢でなくても、／かまいません。</td>
+</tr>
+<tr>
+<td>53〜60秒</td>
+<td>今夜、自分のためにできることを、一行だけ書いてみませんか。</td>
+<td>静止画</td>
+<td>E4を保持</td>
+<td>動かさず一行を考える間を作る。BGMを少し下げて言葉を残す。</td>
+<td>今夜、自分のために／一行だけ書いてみませんか。</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="動画素材の公式プレビュー・購入候補">動画素材の公式プレビュー・購入候補</h2>
+<p>異なる動画7件を選び、各世界観に3件ずつ対応させました。確認日は2026年9月19日です。個別の公式ページへのリンクからプレビュー・取得条件へ進めます。この資料には動画ファイルを再配布・埋め込みしていません。</p>
+<p>V1・V2・V3は公式プレーヤーの一部再生を目視確認しました。V4〜V7は商品説明の確認で、映像を見たとは扱っていません。公開前には採用素材の全尺・音声・継ぎ目・利用条件を編集担当が確認してください。</p>
+<p><a id="v1"></a></p>
+<h3 id="V1-Clouds-Passing-The-Moon">V1 Clouds Passing The Moon</h3>
+<p><a href="https://www.pexels.com/video/clouds-passing-the-moon-1051550/">公式プレビュー・取得ページへ</a></p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>項目</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提供元・素材ID</td>
+<td>Pexels / Luis Medina Diseño／1051550</td>
+</tr>
+<tr>
+<td>映るもの・動き</td>
+<td>月の前を雲が横切る夜空。プレビューの複数フレームで雲の位置変化を確認。</td>
+</tr>
+<tr>
+<td>合わせる話</td>
+<td>「月を区切りに、自分を振り返る」という導入。新月そのものを説明する箇所には満月の映像を置かない。</td>
+</tr>
+<tr>
+<td>合う世界観</td>
+<td>A 月明かりの窓辺／E 和紙と月の余白</td>
+</tr>
+<tr>
+<td>確認した仕様</td>
+<td>1280×720／16:9／2分03秒／30fps</td>
+</tr>
+<tr>
+<td>価格・区分・条件</td>
+<td>無料（0米ドル）。Pexels公式ページの無料ダウンロード表記を確認。</td>
+</tr>
+<tr>
+<td>チーム・外注での確認</td>
+<td>公式ライセンスと取得日・素材IDを案件台帳に保存。商用編集可・クレジット任意。無加工素材の再販売や素材サイトへの再配布は不可。外注には公式取得先を渡し、素材そのものを公開配布しない。人物・ブランドの推薦を示す使い方は避け、権利の追加確認が必要な写り込みを確認。</td>
+</tr>
+<tr>
+<td>確認段階</td>
+<td>公式プレビューの一部再生を目視確認。全尺の連続視聴は未実施。</td>
+</tr>
+<tr>
+<td>採用判断</td>
+<td>720p。フルHD画面では小窓利用を優先。全面・寄りが必要ならV6を再生確認後に比較。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="v2"></a></p>
+<h3 id="V2-A-cup-of-tea-and-a-teapot-on-a-window-sill">V2 A cup of tea and a teapot on a window sill</h3>
+<p><a href="https://www.pexels.com/video/a-cup-of-tea-and-a-teapot-on-a-window-sill-16938568/">公式プレビュー・取得ページへ</a></p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>項目</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提供元・素材ID</td>
+<td>Pexels / Emrah／16938568</td>
+</tr>
+<tr>
+<td>映るもの・動き</td>
+<td>雨の窓辺にティーポットとカップ。再生でカップの水面・滴の変化が見える。湯気だけを見せる素材ではない。</td>
+</tr>
+<tr>
+<td>合わせる話</td>
+<td>「家事が終わったあと、お茶とノートを置く」のお茶の情景。</td>
+</tr>
+<tr>
+<td>合う世界観</td>
+<td>B 月の手帖／C 暮らしと星のエッセイ／D 大人の月刊誌</td>
+</tr>
+<tr>
+<td>確認した仕様</td>
+<td>1080×1920／9:16（縦）／26秒／59.94fps</td>
+</tr>
+<tr>
+<td>価格・区分・条件</td>
+<td>無料（0米ドル）。Pexels公式ページで確認。</td>
+</tr>
+<tr>
+<td>チーム・外注での確認</td>
+<td>公式ライセンスと取得日・素材IDを案件台帳に保存。商用編集可・クレジット任意。無加工素材の再販売や素材サイトへの再配布は不可。外注には公式取得先を渡し、素材そのものを公開配布しない。人物・ブランドの推薦を示す使い方は避け、権利の追加確認が必要な写り込みを確認。</td>
+</tr>
+<tr>
+<td>確認段階</td>
+<td>公式プレーヤーを操作し一部再生を目視確認。全尺の連続視聴は未実施。</td>
+</tr>
+<tr>
+<td>採用判断</td>
+<td>横画面への無理な全面拡大はしない。B/C/Dの写真枠に収める。外の建物を日本の実生活と断定しない。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="v3"></a></p>
+<h3 id="V3-A-Person-Writing-on-a-Journal">V3 A Person Writing on a Journal</h3>
+<p><a href="https://www.pexels.com/video/a-person-writing-on-a-journal-9683116/">公式プレビュー・取得ページへ</a></p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>項目</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提供元・素材ID</td>
+<td>Pexels / Taryn Elliott／9683116</td>
+</tr>
+<tr>
+<td>映るもの・動き</td>
+<td>指輪のある手とペン先の接写。英語が書かれたノートに筆記し、ペンが離れる動きを確認。</td>
+</tr>
+<tr>
+<td>合わせる話</td>
+<td>「一行だけ書いてみる」「小さく試す」。本人の実践記録ではなく筆記のイメージ。</td>
+</tr>
+<tr>
+<td>合う世界観</td>
+<td>B 月の手帖／C 暮らしと星のエッセイ</td>
+</tr>
+<tr>
+<td>確認した仕様</td>
+<td>3840×2160／16:9／17秒／25fps</td>
+</tr>
+<tr>
+<td>価格・区分・条件</td>
+<td>無料（0米ドル）。Pexels公式ページで確認。</td>
+</tr>
+<tr>
+<td>チーム・外注での確認</td>
+<td>公式ライセンスと取得日・素材IDを案件台帳に保存。商用編集可・クレジット任意。無加工素材の再販売や素材サイトへの再配布は不可。外注には公式取得先を渡し、素材そのものを公開配布しない。人物・ブランドの推薦を示す使い方は避け、権利の追加確認が必要な写り込みを確認。</td>
+</tr>
+<tr>
+<td>確認段階</td>
+<td>公式プレビューの一部再生を目視確認。全尺の連続視聴は未実施。</td>
+</tr>
+<tr>
+<td>採用判断</td>
+<td>英語の内容を日本語の願い事として紹介しない。文字内容が重要な回は白紙の自作図解、または任意の実物撮影へ。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="v4"></a></p>
+<h3 id="V4-Glittering-Moonlight-on-Ocean-Waves-at-Night">V4 Glittering Moonlight on Ocean Waves at Night</h3>
+<p><a href="https://www.pexels.com/video/glittering-moonlight-on-ocean-waves-at-night-32864351/">公式プレビュー・取得ページへ</a></p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>項目</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提供元・素材ID</td>
+<td>Pexels / Mario Krimer／32864351</td>
+</tr>
+<tr>
+<td>映るもの・動き</td>
+<td>夜の波に月明かりがきらめくと商品説明にある。実際の動く速さやループの継ぎ目は未確認。</td>
+</tr>
+<tr>
+<td>合わせる話</td>
+<td>問いを置いたあとの余韻、満月の振り返り、章のつなぎ。</td>
+</tr>
+<tr>
+<td>合う世界観</td>
+<td>A 月明かりの窓辺／D 大人の月刊誌／E 和紙と月の余白</td>
+</tr>
+<tr>
+<td>確認した仕様</td>
+<td>1920×1080／16:9／30秒／24fps</td>
+</tr>
+<tr>
+<td>価格・区分・条件</td>
+<td>無料（0米ドル）。公式商品説明と無料提供を確認。</td>
+</tr>
+<tr>
+<td>チーム・外注での確認</td>
+<td>公式ライセンスと取得日・素材IDを案件台帳に保存。商用編集可・クレジット任意。無加工素材の再販売や素材サイトへの再配布は不可。外注には公式取得先を渡し、素材そのものを公開配布しない。人物・ブランドの推薦を示す使い方は避け、権利の追加確認が必要な写り込みを確認。</td>
+</tr>
+<tr>
+<td>確認段階</td>
+<td>商品説明・仕様だけ確認。再生は未確認。</td>
+</tr>
+<tr>
+<td>採用判断</td>
+<td>波動や心への効果の証拠映像としては扱わない。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="v5"></a></p>
+<h3 id="V5-A-view-of-a-window-with-rain-falling-through-it">V5 A view of a window with rain falling through it</h3>
+<p><a href="https://www.pexels.com/video/a-view-of-a-window-with-rain-falling-through-it-9494948/">公式プレビュー・取得ページへ</a></p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>項目</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提供元・素材ID</td>
+<td>Pexels / Nothing Ahead／9494948</td>
+</tr>
+<tr>
+<td>映るもの・動き</td>
+<td>雨粒のある窓の情景と商品説明にある。カメラの揺れ・速度は再生前のため未確認。</td>
+</tr>
+<tr>
+<td>合わせる話</td>
+<td>「自分の願いが浮かばない」という迷い、気持ちを言葉にする前の間。</td>
+</tr>
+<tr>
+<td>合う世界観</td>
+<td>C 暮らしと星のエッセイ</td>
+</tr>
+<tr>
+<td>確認した仕様</td>
+<td>1920×1080／16:9／2分59秒／25fps</td>
+</tr>
+<tr>
+<td>価格・区分・条件</td>
+<td>無料（0米ドル）。公式商品説明と無料提供を確認。</td>
+</tr>
+<tr>
+<td>チーム・外注での確認</td>
+<td>公式ライセンスと取得日・素材IDを案件台帳に保存。商用編集可・クレジット任意。無加工素材の再販売や素材サイトへの再配布は不可。外注には公式取得先を渡し、素材そのものを公開配布しない。人物・ブランドの推薦を示す使い方は避け、権利の追加確認が必要な写り込みを確認。</td>
+</tr>
+<tr>
+<td>確認段階</td>
+<td>商品説明・仕様だけ確認。再生は未確認。</td>
+</tr>
+<tr>
+<td>採用判断</td>
+<td>暗い雨景色を長く続けない。Cの小窓で短く使い、次の明るい紙面につなぐ。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="v6"></a></p>
+<h3 id="V6-Full-Moon-Shining-Through-the-Night-Clouds">V6 Full Moon Shining Through the Night Clouds</h3>
+<p><a href="https://elements.envato.com/full-moon-clouds-469JVL9">公式プレビュー・取得ページへ</a></p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>項目</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提供元・素材ID</td>
+<td>Envato Elements / 02lab／469JVL9</td>
+</tr>
+<tr>
+<td>映るもの・動き</td>
+<td>満月に雲がかかる夜空。商品説明上の内容で、プレビューの再生は未確認。</td>
+</tr>
+<tr>
+<td>合わせる話</td>
+<td>Aの月の導入、Eの丸窓。高解像度で月の情景を使いたい場合の購入候補。</td>
+</tr>
+<tr>
+<td>合う世界観</td>
+<td>A 月明かりの窓辺／E 和紙と月の余白</td>
+</tr>
+<tr>
+<td>確認した仕様</td>
+<td>4096×2160／256:135（約1.90:1、16:9より横長）／1分00秒／24fps／Photo JPEG／1.6GB／ループ素材ではない</td>
+</tr>
+<tr>
+<td>価格・区分・条件</td>
+<td>定額契約。Coreは公式料金ページで月額換算16.50米ドル〜。契約期間・税・請求総額・チーム席の見積もりは未確認。単品価格は未確認。</td>
+</tr>
+<tr>
+<td>チーム・外注での確認</td>
+<td>1つのライセンスは1つの完成プロジェクト。別動画への再利用は追加ライセンスを発行。契約中に完成した作品は解約後も既存利用可。外注者の利用席・素材引渡し・契約主体はTeams条件で確認し、アカウント共有を前提にしない。</td>
+</tr>
+<tr>
+<td>確認段階</td>
+<td>商品ページ・仕様・料金・一般ライセンスを確認。再生未確認（取得したページに動画利用不可の表示）。</td>
+</tr>
+<tr>
+<td>採用判断</td>
+<td>初回購入を確定する候補ではない。購入前に本人のブラウザで再生・希望画角・契約席を確認。</td>
+</tr>
+</tbody>
+</table></div>
+<p><a id="v7"></a></p>
+<h3 id="V7-Notebook,-Writing,-Hands,-Warm-Light">V7 Notebook, Writing, Hands, Warm Light</h3>
+<p><a href="https://artlist.io/stock-footage/clip/notebook-writing-hands-warm-light/345902">公式プレビュー・取得ページへ</a></p>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>項目</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提供元・素材ID</td>
+<td>Artlist / Continuous Content／345902</td>
+</tr>
+<tr>
+<td>映るもの・動き</td>
+<td>暖色の光の中のノートと筆記する手という商品名。実際の動き・文字・手元の写り方は未確認。</td>
+</tr>
+<tr>
+<td>合わせる話</td>
+<td>B/Dの書く場面。無料V3の英語や接写が合わないとき、同一シリーズの統一感を比較する。</td>
+</tr>
+<tr>
+<td>合う世界観</td>
+<td>B 月の手帖／D 大人の月刊誌</td>
+</tr>
+<tr>
+<td>確認した仕様</td>
+<td>解像度・縦横比・長さ・fpsは未確認。</td>
+</tr>
+<tr>
+<td>価格・区分・条件</td>
+<td>定額契約の候補。Footageを含む対象プランの金額・契約期間・税・単品購入可否は未確認。</td>
+</tr>
+<tr>
+<td>チーム・外注での確認</td>
+<td>会社運営・クライアント案件はPro系の適用範囲を確認。Socialの個人向け契約でよいと判断しない。Footageの収録、外注編集の席、素材受渡しを確認。契約中に完成・公開した作品の既存利用と、解約後の新規制作を分けて管理する。</td>
+</tr>
+<tr>
+<td>確認段階</td>
+<td>公式商品名・作者・シリーズと一般ライセンスのみ確認。再生・個別仕様は未確認。</td>
+</tr>
+<tr>
+<td>採用判断</td>
+<td>優先度は低い。まずプレビュー・仕様・見積もりが揃ってから候補を確定する。</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="素材の調達方針と購入優先度">素材の調達方針と購入優先度</h2>
+<p>当面の主力素材サイトは Pexels を推薦します。日常の動き・月・水面を必要な箇所にだけ使い、主画面は今回のような静止画と自作図解で構成すれば、初回から定額契約を増やす必要はありません。Aを主力にする場合も、写真風のAI背景とPexelsの短い動きで試作できます。</p>
+<p>有料契約を1つ増やすときの第一候補は Envato Elements Core です。月の高解像度素材に加えて、映像・写真・図形素材などをまとめて比較できるためです。ただしV6は再生未確認なので、現時点で契約確定を勧めるものではありません。Artlistは同一撮影シリーズの統一感が必要になった段階の比較候補に留めます。</p>
+<p class="proposal-table-hint">表は左右にスクロールできます。</p><div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-wide">
+<thead>
+<tr>
+<th>優先度</th>
+<th>調達するもの</th>
+<th>判断と具体的な候補</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1：初回は無料で確認</td>
+<td>日常の筆記・お茶、月の小窓</td>
+<td>V1・V2・V3。V2は縦枠、V3は英語の筆記という制約込みで使用</td>
+</tr>
+<tr>
+<td>1：自作する</td>
+<td>月の区切り、星座の要点、問いの文字画面</td>
+<td>図形・文字を編集可能なレイヤーで作る。今回の③は3カードの共通型にできる</td>
+</tr>
+<tr>
+<td>1：AI生成に適する</td>
+<td>同じ部屋の窓辺、人物を特定しない情景、和紙・挿絵</td>
+<td>画の統一感を作る。生成された文字や本を根拠にしない。正式字幕は編集ソフトで組む</td>
+</tr>
+<tr>
+<td>2：無料素材を追加</td>
+<td>水面・雨景色など章間の情景</td>
+<td>V4・V5を全尺再生して、速度や明るさが合う場合だけ採用</td>
+</tr>
+<tr>
+<td>3：有料を検討</td>
+<td>全面で使える高解像度の月</td>
+<td>Envato V6を再生確認し、無料V1では画質不足のカットがある場合にCoreの契約条件を見積もる</td>
+</tr>
+<tr>
+<td>4：有料のシリーズを比較</td>
+<td>色・場所・小物が揃った手元映像</td>
+<td>Artlist V7。プレビュー・仕様・Footageを含むプラン料金を確認してから判断</td>
+</tr>
+<tr>
+<td>必要な回だけ任意撮影</td>
+<td>日本語の実際のノート、実際に試した物や記録</td>
+<td>カメラ固定の手元だけでよい。顔出し・毎回の撮影は必須にしない。本人の経験を扱う場合だけ実物にする</td>
+</tr>
+<tr>
+<td>初回は買わない</td>
+<td>大量の星座CG、宇宙トンネル、光る波動素材、常時口パクのアバター、高額な編集効果集</td>
+<td>今回の差別化と可読性に直結しない。複数サイトの同時契約、上位AIプランも必要性が出てから</td>
+</tr>
+</tbody>
+</table></div>
+<p>金額は契約確定額ではありません。Envatoの月額換算表記を月払いの請求額と解釈せず、期間・税込総額・利用席・更新条件を見積もってから契約します。本作業では購入・無料試用の申込・外注への送信を行っていません。</p>
+<p>ライセンス確認の根拠：<a href="https://www.pexels.com/license/">Pexels公式ライセンス</a>／<a href="https://elements.envato.com/pricing">Envato料金</a>／<a href="https://help.elements.envato.com/hc/en-us/articles/360000621483-Introduction-to-the-Envato-subscription-License">Envatoライセンス入門</a>／<a href="https://elements.envato.com/teams">Envato Teamsの確認先</a>／<a href="https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license">Artlist公式ライセンス解説</a>。Teams個別席条件の最終確認は未実施です。</p>
+<h2 id="通常回とゲスト回で変えること">通常回とゲスト回で変えること</h2>
+<p>通常回は、視聴者の疑問を先に置きます。「月の何が効くか」を権威的に説明するより、「今の自分に、どんな問いとして使えるか」をナビゲーターが言葉にします。十二星座や占星術の専門回でも、最初から12項目の一覧を見せず、今話している1〜3項目に絞ります。</p>
+<p>ゲスト回は「ナビゲーターの問い」「専門家の説明」「視聴者が選べる次の行動」を区別します。顔出しの収録可否は別途決定で、肖像の静止画と音声だけでも構成できます。商品案内ではゲスト名・提供商品・案内先を明示し、ナビゲーター自身の成果や講座に見せません。今回の60秒例には未決定の商品や販売条件を入れていません。</p>
+<h2 id="未確認事項と、担当者が次に決めること">未確認事項と、担当者が次に決めること</h2>
+<div class="proposal-table-wrap" tabindex="0" aria-label="表。横にスクロールできます"><table class="proposal-detail">
+<thead>
+<tr>
+<th>未確認・未決定</th>
+<th>本資料での扱い／次の判断</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正式名称、声の担当、アバターの採否</td>
+<td>今回はコンセプト名・落ち着いた声・人物なしの見本。初回収録前に決める</td>
+</tr>
+<tr>
+<td>本番台本と扱う書籍の本文</td>
+<td>完成台本なし。今回の218文字は比較用新規例。書籍・研究を扱う回は原本の該当箇所を確認する</td>
+</tr>
+<tr>
+<td>日付・新月満月の時刻・星座の解釈</td>
+<td>今回は特定日付を使わない。実際の配信回で暦と出典を照合する</td>
+</tr>
+<tr>
+<td>V4〜V7の再生、V7の仕様</td>
+<td>説明確認の候補として掲載。採用前に全尺の動き・文字・画角を確認する</td>
+</tr>
+<tr>
+<td>V6のプレビュー利用不可表示</td>
+<td>有料候補の保留理由。再生できない状態で契約しない</td>
+</tr>
+<tr>
+<td>契約・税・外注者の席</td>
+<td>既存契約は不明。新規契約の前に会社名義・担当席・受渡し範囲を確認する</td>
+</tr>
+<tr>
+<td>生成画像の本番用レイヤー</td>
+<td>現在は構図と字幕の見本。字幕と図解は本番の編集データで再組版する</td>
+</tr>
+<tr>
+<td>視聴者による見やすさ、編集工数、視聴維持率</td>
+<td>今回は制作上の比較。Aの60秒を試作し、50代の試聴者が字幕と図解を読み切れるか確認する</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="読解した資料と制作物">読解した資料と制作物</h2>
+<p>以下は本文を照合した資料です。同期ミラーは変更せず、移動後の正本フォルダを参照しました。</p>
+<ul>
+<li><a href="https://github.com/tanakayuc/theleadpromotion/blob/main/50_%E9%9D%9E%E5%B1%9E%E4%BA%BA%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E9%81%8B%E5%96%B6/05_%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB/03_%E3%82%B9%E3%83%94%E3%83%AA%E3%83%81%E3%83%A5%E3%82%A2%E3%83%AB/00_%E4%BC%81%E7%94%BB%E3%81%BE%E3%81%A8%E3%82%81.md">チャンネル企画まとめ</a>：ターゲット・軸・差別化・ゲスト商品への導線。</li>
+<li><a href="https://github.com/tanakayuc/theleadpromotion/blob/main/50_%E9%9D%9E%E5%B1%9E%E4%BA%BA%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E9%81%8B%E5%96%B6/05_%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB/03_%E3%82%B9%E3%83%94%E3%83%AA%E3%83%81%E3%83%A5%E3%82%A2%E3%83%AB/02_%E8%A8%AD%E8%A8%88/00_%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E8%A8%AD%E5%AE%9A.md">チャンネル設定</a>：未決定欄を確認。今回の提案を決定事項として埋めていません。</li>
+<li><a href="https://github.com/tanakayuc/theleadpromotion/blob/main/50_%E9%9D%9E%E5%B1%9E%E4%BA%BA%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E9%81%8B%E5%96%B6/01_%E6%AD%A3%E6%9C%AC/31_%E5%88%B6%E4%BD%9C%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88%E6%A8%99%E6%BA%96.md">制作フォーマット標準</a>：声・語り・字幕・テンポの既存方針。今回の依頼を優先して意味単位の切り替えに調整。</li>
+<li><a href="https://github.com/tanakayuc/theleadpromotion/blob/main/50_%E9%9D%9E%E5%B1%9E%E4%BA%BA%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E9%81%8B%E5%96%B6/05_%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB/03_%E3%82%B9%E3%83%94%E3%83%AA%E3%83%81%E3%83%A5%E3%82%A2%E3%83%AB/03_%E5%8B%95%E7%94%BB%E5%8F%B0%E6%9C%AC/README.md">動画台本フォルダ</a>：完成台本がないことを確認。</li>
+<li><a href="https://github.com/tanakayuc/theleadpromotion/blob/main/50_%E9%9D%9E%E5%B1%9E%E4%BA%BA%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E9%81%8B%E5%96%B6/05_%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB/03_%E3%82%B9%E3%83%94%E3%83%AA%E3%83%81%E3%83%A5%E3%82%A2%E3%83%AB/04_%E7%B7%A8%E9%9B%86%E7%B4%A0%E6%9D%90/README.md">編集素材フォルダ</a>：共有するものと原素材の管理方針。</li>
+<li><a href="https://github.com/tanakayuc/theleadpromotion/blob/main/50_%E9%9D%9E%E5%B1%9E%E4%BA%BA%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E9%81%8B%E5%96%B6/05_%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB/03_%E3%82%B9%E3%83%94%E3%83%AA%E3%83%81%E3%83%A5%E3%82%A2%E3%83%AB/01_%E4%BC%81%E7%94%BB/%E6%A0%B9%E6%8B%A0/01_%E5%9B%BD%E5%86%85%E6%B5%B7%E5%A4%96%E3%83%A9%E3%82%A4%E3%83%90%E3%83%AB10%E9%81%B8%E3%81%A8%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%AB%E5%86%8D%E8%A9%95%E4%BE%A1_20260913.md">国内海外ライバル10選とジャンル再評価</a>：月・星の軸と隣接ジャンルの位置づけ。</li>
+<li><a href="https://github.com/tanakayuc/theleadpromotion/blob/main/50_%E9%9D%9E%E5%B1%9E%E4%BA%BA%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E9%81%8B%E5%96%B6/05_%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB/47_%E5%85%A8%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB%E6%98%A0%E5%83%8F%E4%B8%96%E7%95%8C%E8%A6%B3%E3%81%A8%E7%B4%A0%E6%9D%90%E8%B3%BC%E5%85%A5%E5%80%99%E8%A3%9C.md">全チャンネルの映像世界観と素材購入候補</a>：共通方針・スピリチュアル該当節・調達条件を参照。他チャンネルの全本文を今回の読解対象とはしていません。</li>
+</ul>
+<p>共有物は、この説明資料、<a href="index.html">比較ページ</a>、<a href="images/">20枚の画像</a>、<a href="https://tanakayuc.github.io/static-pages/ai-channel-spiritual-visuals/moon-visual-proposal.zip">一式ZIP</a>です。動画は制作していません。生成プロンプト・素材候補・60秒構成は原本と同じフォルダに保存しています。</p>
+<dialog id="sample-dialog" aria-labelledby="sample-label">
+<div class="sample-toolbar"><p id="sample-label"></p><button type="button" id="sample-prev">← 前へ</button><button type="button" id="sample-next">次へ →</button><button type="button" id="sample-close">閉じる</button></div>
+<img id="sample-large" alt="">
+</dialog>
+<script>
+(()=> {
+const links=Array.from(document.querySelectorAll('.sample-open'));
+const dialog=document.getElementById('sample-dialog');
+const large=document.getElementById('sample-large');
+const label=document.getElementById('sample-label');
+let selected=0;
+function show(index){
+ selected=(index+links.length)%links.length;
+ const img=links[selected].querySelector('img');
+ large.src=img.src;large.alt=img.alt;
+ label.textContent=(selected+1)+' / '+links.length+'　'+img.alt;
+}
+links.forEach((link,index)=>link.addEventListener('click',event=>{
+ event.preventDefault();show(index);dialog.showModal();
+}));
+document.getElementById('sample-close').addEventListener('click',()=>dialog.close());
+document.getElementById('sample-prev').addEventListener('click',()=>show(selected-1));
+document.getElementById('sample-next').addEventListener('click',()=>show(selected+1));
+dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+dialog.addEventListener('keydown',event=>{
+ if(event.key==='ArrowRight'){event.preventDefault();show(selected+1)}
+ if(event.key==='ArrowLeft'){event.preventDefault();show(selected-1)}
+});
+dialog.addEventListener('close',()=>links[selected].focus());
+})();
+</script>
+
+</article></main></body></html>
