@@ -2,8 +2,27 @@
 
 スタッフ・ワークショップ向けの操作可能なポータル試作。架空メンバーのみを使い、ブラウザ内に体験データを保存します。
 
-## 共有ページ
-https://tanakayuc.github.io/static-pages/plc-park/
+![PC画面](preview-desktop.png)
+
+## スタッフへの共有入口
+https://tanakayuc.github.io/static-pages/plc-park/#demos
+
+|担当・用途|直接開くURL|
+|---|---|
+|45日シート開発|https://tanakayuc.github.io/static-pages/plc-park/#sheet45|
+|毎日の運営サポート|https://tanakayuc.github.io/static-pages/plc-park/#daily|
+|メンバー体験|https://tanakayuc.github.io/static-pages/plc-park/#home|
+|申請承認|https://tanakayuc.github.io/static-pages/plc-park/#manage|
+|操作マニュアル|https://tanakayuc.github.io/static-pages/plc-park/manual.html|
+|仕様・運用ルール案|https://tanakayuc.github.io/static-pages/plc-park/spec.html|
+
+## v0.2の操作
+- 45日シート：Day 14を報告すると未報告候補から外れる。相談希望を付けると運営一覧に表示。初回のみ10 T/LTT。
+- 毎日の運営：イベントごとの未参加/未確認を判別。根拠付きの出欠修正、担当・期限・対応状況・メモを保存。
+- 画面別URL：ハッシュで直接開ける。同じブラウザで入力結果を共有し、再読み込みでも保存。別の人のブラウザとは同期しない。
+- 仕様：いただいた方針、デモの提案ルール、要決定事項を区別。既存45日シートの実データとは未接続。
+
+体験の基準日時は2026年10月5日09:00 JSTで固定。初期状態の45日シート未報告者は2人。対象外/休止中と今日の締切前は未報告人数に含めない。実会員データは入力しない。
 
 ## 3分の体験手順
 1. ホームの公園でアバターを押し、プロフィールとChatworkへの導線を見る。
@@ -36,3 +55,7 @@ https://tanakayuc.github.io/static-pages/plc-park/
 
 ## 検証
 ポイント加算、重複申請・重複承認・重複教材完了の防止を状態モデルで確認。ブラウザで申請→承認→マグ装備の一連の操作を確認。
+
+公開版検証：GitHub Pagesのデプロイ成功、PC/390px表示、公開版での申請→承認→着せ替え→リセットを確認。HTML・CSS・JS・画像の公開内容をローカル最新版と照合済み。
+
+モデル検証：`node test-model.cjs`。締切判定、対象外/休止の除外、初回保存のみ加算、出欠根拠の必須化、イベント間の分離、保存状態の復元と初期化を確認。
