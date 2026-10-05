@@ -59,3 +59,23 @@ https://tanakayuc.github.io/static-pages/plc-park/#demos
 公開版検証：GitHub Pagesのデプロイ成功、PC/390px表示、公開版での申請→承認→着せ替え→リセットを確認。HTML・CSS・JS・画像の公開内容をローカル最新版と照合済み。
 
 モデル検証：`node test-model.cjs`。締切判定、対象外/休止の除外、初回保存のみ加算、出欠根拠の必須化、イベント間の分離、保存状態の復元と初期化を確認。
+
+## v0.2の確認画面
+
+![毎日の運営](preview-daily.png)
+
+![45日シート](preview-sheet45.png)
+
+公開検証：共有ガイドから各画面へ直接移動し、公開版で45日報告→運営人数の再計算、フォロー記録保存、初期化を確認。操作マニュアルと仕様書をブラウザで開き、公開HTML/CSS/JSとローカル最新版の一致を照合。PCと390pxの表示を確認。
+
+## v0.3：つながりと集計範囲
+
+- 募集・最近利用：https://tanakayuc.github.io/static-pages/plc-park/#connect
+- グループ指定・配点試算：https://tanakayuc.github.io/static-pages/plc-park/#signals
+- 仕様追記：https://tanakayuc.github.io/static-pages/plc-park/spec.html#community
+
+募集ジョブ・協力できるジョブ・分野・期限を編集でき、条件一致の理由から紹介候補を見る。7/14/30日の募集期限、本人が選べる利用状況の公開、10分後/15日後の状態変化を体験できる。最終ログインとポータルの最終操作は区別する。
+
+Chatwork由来の評価は指定グループ・開始日以降に限定する方針。個別チャット・マイチャット・未指定グループは対象外。実ChatworkやAI使用履歴は接続せず、すべて架空記録での試算。採点済み実績と利用日数の参考点数を分け、ホームのT/LTTとは独立した試算として扱う。
+
+`node test-community.cjs`：募集の一致条件、期限境界、非公開、グループ範囲、開始前・個別チャット・確認待ちの除外、重複防止、利用日数の重複排除、試算の分離を確認。
