@@ -1,0 +1,48 @@
+PLC会員サイト移植担当へのデザイン引き継ぎ指示書
+版: PLC承認済みポータル v12 / 2026-10-06
+
+【最初に開くURL】
+デザイン引き継ぎページ: https://tanakayuc.github.io/static-pages/plc-park/design-handoff.html
+承認済みポータル: https://tanakayuc.github.io/static-pages/plc-park/portal-demo.html?v=12#home
+デザイン分析・比較: https://tanakayuc.github.io/static-pages/plc-park/design-review.html
+前後比較: https://tanakayuc.github.io/static-pages/plc-park/design-compare.html
+運営画面の補助参考: https://tanakayuc.github.io/static-pages/plc-park/portal-admin.html?v=2
+
+【このデザインの位置づけ】
+田中祐一が2026-10-06に「この感じ」と承認したPLCポータルv12を、PLC会員サイト移植の視覚・操作の正本とする。最上位は「PLCポータル」、ミッションは「全員で勝つ」。ポータルから「学ぶ＝PLCコンテンツ」「ツールを探す＝PLCツール」「交流する＝PLCキャンパス」「サポートを受ける＝PLCサポート」「マイプロフィール」へ進む。「次にやること」はこれらを横断する入口とする。
+
+PLC会員サイトの教材移植は「学ぶ」に入れる。学校の風景 → 教室 → 教材カード → 動画・本文・資料・次の行動の順で見せる。今のPLC素材集は「素材ライブラリー」に置き、教材や相談準備から同じ資料へ行けるようにする。会員サイトだけ別ブランドのトップを作らず、共通のPLCヘッダー、ナビ、パンくず、戻り導線を維持する。
+
+【実装時の正本】
+公開デモHTML: https://tanakayuc.github.io/static-pages/plc-park/portal-demo.html
+基本CSS: https://tanakayuc.github.io/static-pages/plc-park/portal-demo.css
+最終調整CSS: https://tanakayuc.github.io/static-pages/plc-park/portal-refined.css
+描画・動線: https://tanakayuc.github.io/static-pages/plc-park/portal-demo.js
+無料比較フォントCSS: https://tanakayuc.github.io/static-pages/plc-park/assets/fonts/noto-sans-jp.css
+画像: https://tanakayuc.github.io/static-pages/plc-park/assets/v11-learn-card.jpg など assets/v11-*.jpg
+ソースの正本は非公開リポジトリ https://github.com/tanakayuc/plc-community-portal （閲覧権限がある担当者向け）。承認基準のコミットは c180eb5。公開ミラーは https://github.com/tanakayuc/static-pages/tree/main/plc-park 。公開ファイルはプレビュー用であり、実教材や実会員データは含まない。
+
+既存の portal-demo.css を先に、portal-refined.css を最後に適用する。別のフレームワークに移す場合はCSSを丸ごとグローバルに流し込まず、文字・余白・色・カード・操作の規則を既存コンポーネントへ対応づける。既存の描画関数と画像を活かし、似た新テンプレートをゼロから作らない。
+
+【文字と余白】
+既定書体は端末標準 + ヒラギノ。CSSは -apple-system, BlinkMacSystemFont, "Hiragino Sans", "PLC Noto Sans JP", sans-serif。Noto Sans JPは自己配信の無料比較候補。AppleのSFフォントファイルを複製・再配布しない。
+見出しは主に600、本文400、操作500。日本語を無理に詰めない。PC本文16px、カード説明15px、カード見出し23px、セクション見出し32pxが目安。スマホの2列カードでは見出し17px、説明14px、リンク13px。主操作は高さ44px以上。
+見出しと説明は8〜10px、説明と行動は16〜22px、意味の違う塊は28〜36pxを目安にする。Appleの製品紹介ページの大きな余白をそのまま教材一覧へ移さず、学習の続きとサポートはすぐ押せる密度を保つ。
+
+【色、画像、動き】
+ホームは落ち着いた緑。5エリアの色と風景画像を別々にする：学ぶ＝青、ツール＝琥珀、交流＝緑、サポート＝珊瑚、プロフィール＝紫。背景・ラベル・ボタンの強調は、現在のエリアと一致させる。教材の階層が深くなっても現在地を見失わないよう、同じ色の手がかりとパンくずを残す。
+主行動は塗りの丸型ボタン、補助行動は文字リンク。内部移動は「→」、外部サイトは「↗」。カード全体を大きく動かさず、hoverは控えめな影や下線にする。フォーカス表示とreduced-motionを維持する。3D歩行や自動再生の装飾を追加しない。2Dの風景に奥行きを感じさせる既存画像が基準。
+
+【移植対象の扱い】
+教材ごとに、元の見出し・本文・動画・配布資料・レッスン順序・公開条件・進捗を台帳化してから対応先へ置く。移植のために本文を勝手に短縮・言い換えしない。動画の視聴進捗と活動ポイントは本番の計測仕様に合わせ、デモ値を実会員の値として表示しない。未移植の教材を「視聴可能」「完了済み」と見せない。実データのない場所は運営確認用に明確に分ける。
+田中祐一AIはブラウザ会話画面ではなくMCP接続を基本とする。会員サイトでは「ツールを探す」から接続方法と利用資格へ案内する。既存クレジット残高とPLC活動ポイントT/LTTは別の概念として扱う。
+
+【移植先での完了条件】
+1. 現行の移植作業・コンテンツ台帳を先に確認し、他担当の成果を上書きしない。
+2. ホーム → 学ぶ → 教室 → 教材 → 素材または次の行動 → ポータルへ戻る、の実操作を確認する。
+3. PC 1280px / 1512px、スマホ 390px / 320pxで見出し、教材カード、動画、資料、ナビ、横はみ出し、押下領域を確認する。文字だけ拡大しても崩れないことを確認する。
+4. 既存v12と並べて文字階層、余白、画像と色の一致、ボタン/リンク、現在地を比較する。承認済みの配置を変える場合は、移植上必要な理由と比較画面を残す。
+5. 本番URLで実教材・画像・権限・主要操作を確認する。GitHubへの反映だけを公開完了としない。
+
+【担当者への依頼文】
+上記URLのPLC承認済みv12をデザイン正本として読み、現在進行中のPLC会員サイト移植へ適用してください。まず既存の移植状況とコンテンツ台帳を確認し、ホームと「学ぶ」の動線、共通ヘッダー、教材カード、動画・資料ページを同じデザイン文法でつなげてください。見た目だけ似せず、PC/スマホの文字階層・余白・操作・現在地を実画面で照合してください。実教材や進捗を架空データで置き換えず、未接続部分は実装状況として報告してください。実装後は公開URLと変更箇所、比較画面、検証結果を返してください。

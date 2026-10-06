@@ -1,3 +1,10 @@
+# PLC会員サイト移植へのデザイン引き継ぎ
+
+- [引き継ぎページ](https://tanakayuc.github.io/static-pages/plc-park/design-handoff.html) — 承認済みv12の画面、色・文字・余白、教材移植の動線、正本ファイルを一つの入口に整理。
+- [全文指示書](PLC会員サイト_デザイン引き継ぎ指示書.txt) — 移植担当へそのまま渡せるテキスト。公開ページ内から全文コピー可能。
+
+会員サイトの教材・会員情報の移植自体はこの引き継ぎ資料に含まれません。実コンテンツと権限は移植先で照合します。
+
 # 最新 v0.13：活動ポイント管理の画面例
 
 - [管理画面](https://tanakayuc.github.io/static-pages/plc-park/portal-admin.html?v=2) — 架空の会員別T/LTT集計、検索、履歴、CSV出力、確認待ちの承認を体験できます。
