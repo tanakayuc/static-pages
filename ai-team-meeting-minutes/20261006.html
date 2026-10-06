@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AIミーティング 議事録（2026年10月6日） - AIミーティング議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>AIミーティング議事録</h3><a href="20261006.html" class="sidebar-item active"><span class="date">2026年10月06日</span> AIミーティング 議事録（2026年10月6日）</a>
+<a href="20260915.html" class="sidebar-item"><span class="date">2026年09月15日</span> AIミーティング 議事録（2026年9月15日）</a>
+<a href="20260908.html" class="sidebar-item"><span class="date">2026年09月08日</span> AIミーティング 議事録（2026年9月8日）</a>
+<a href="20260609.html" class="sidebar-item"><span class="date">2026年06月09日</span> AIミーティング 議事録（2026年6月9日）</a></nav>
+<main class="content"><article class="article"><h1>AIミーティング 議事録（2026年10月6日）</h1>
+<h2 id="サマリー">サマリー</h2>
+<p>今回はカレンと山岸さんが参加した外部研修の報告からスタートし、GitHubとは何かも分からない状態から要件定義→実装という開発フローを体感し「アプリが仕上がる」という壁を突破できた経緯が共有された。<br />
+続いて非属人チャンネルの動画編集体制をどうするか（カレン単独か、坂本さん・三浦さん・大野さんをどこまで加えるか）を議論し、全員への一律依頼をやめてカレンと坂本さんを中心に据える方向、三浦さんの契約条件は人事担当と確認する方向で整理した。<br />
+田中からは「スキル開発＝編集パターンの言語化」という方針が繰り返し語られ、スキルを百個作れば編集パターンを百個再現できるという考え方のもと、全員がAIスキル開発を自分の仕事にしていく必要があるという話をした。<br />
+後半は田中祐一AIで現在開発中の構想（PLCパーク・ポイント連動・アドライブラリ管理画面・ファネルライブラリ・Meta広告ライブラリの名寄せ等）を共有し、どこまで山岸さんに引き継ぐかはまだ迷っているという率直な悩みを共有した。<br />
+あわせて新人・既存メンバー向けのAI研修を仕組み化する方針、山岸さんの広告レポート自動化の進捗、根拠リサーチスキルの各案件展開、次回研修（11月3日）への参加者募集を確認した。次回MTGは10月27日13時を予定。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>会議名</td>
+<td>AIミーティング（田中祐一・山岸・カレンによる定例MTG。田中祐一AIでの動画編集自動化・広告レポート自動化のスキル開発。既存シリーズ=6/9・9/8・9/15と同一パターン）</td>
+</tr>
+<tr>
+<td>日時</td>
+<td>2026年10月6日 13時59分59秒頃開始（JST）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoom</td>
+</tr>
+<tr>
+<td>長さ</td>
+<td>58分15秒（実測。R2録画メタデータ recording_start 2026-10-06T04:59:59Z→recording_end 2026-10-06T05:58:14Zで確認。前提カードJSON記載の「58分」は秒単位の根拠がなく使用しない）</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、カレン、山岸（Zoom表示名sawa）</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/7b88b030-d043-45bc-b0b1-31c8921b6032" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/7b88b030-d043-45bc-b0b1-31c8921b6032</a></td>
+</tr>
+<tr>
+<td>公開状況</td>
+<td>未公開（後続処理でオーケストレーター側が対応予定）</td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td><code>0_データ原本/2026年/10月/6日/Zoom/202610061359_Zoom_田中 祐一's Personal Meeting Room.md</code></td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/AIミーティング/ミーティング履歴/20261006_AIミーティング_書き起こし原本.md</code></td>
+</tr>
+<tr>
+<td>話者なしの生書き起こし</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/AIミーティング/ミーティング履歴/20261006_AIミーティング_生書き起こし.md</code>（Zoom TRANSCRIPT VTT原文）</td>
+</tr>
+<tr>
+<td>Zoomチャットログ</td>
+<td>この回はチャットログなし（取得スクリプトで確認済み・2026-10-06分該当なし）</td>
+</tr>
+</tbody>
+</table>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1.-カレン・山岸さんの外部研修報告">1. カレン・山岸さんの外部研修報告</a></li><li class="toc-sub"><a href="#2.-研修講師から渡されたチェック資料（2種のzip）">2. 研修講師から渡されたチェック資料（2種のzip）</a></li><li class="toc-sub"><a href="#3.-動画・画像生成のAPIキー格安ツールへの慎重姿勢">3. 動画・画像生成のAPIキー格安ツールへの慎重姿勢</a></li><li class="toc-sub"><a href="#4.-非属人チャンネルの体制見直し（カレン・坂本さん・三浦さん・大野さんの切り分け）">4. 非属人チャンネルの体制見直し（カレン・坂本さん・三浦さん・大野さんの切り分け）</a></li><li class="toc-sub"><a href="#5.-「スキル開発」という共通言語をどう浸透させるか">5. 「スキル開発」という共通言語をどう浸透させるか</a></li><li class="toc-sub"><a href="#6.-山岸さんの実践例と坂本さんへの依頼切り分け">6. 山岸さんの実践例と坂本さんへの依頼切り分け</a></li><li class="toc-sub"><a href="#7.-非属人チャンネルの位置づけと伝承の悩み">7. 非属人チャンネルの位置づけと伝承の悩み</a></li><li class="toc-sub"><a href="#8.-動画編集メンバーの見極め（視聴量・インスピレーションの重要性）">8. 動画編集メンバーの見極め（視聴量・インスピレーションの重要性）</a></li><li class="toc-sub"><a href="#9.-田中祐一AIで開発中の構想の共有（引き継ぎ検討）">9. 田中祐一AIで開発中の構想の共有（引き継ぎ検討）</a></li><li class="toc-sub"><a href="#10.-山岸さんの広告レポート自動化・根拠リサーチスキルの展開">10. 山岸さんの広告レポート自動化・根拠リサーチスキルの展開</a></li><li class="toc-sub"><a href="#11.-三浦さんの採用・契約確認（人事対応）">11. 三浦さんの採用・契約確認（人事対応）</a></li><li class="toc-sub"><a href="#12.-新人・既存メンバー向けAI研修の仕組み化">12. 新人・既存メンバー向けAI研修の仕組み化</a></li><li class="toc-sub"><a href="#13.-次回研修（11月3日）への参加者募集">13. 次回研修（11月3日）への参加者募集</a></li><li class="toc-sub"><a href="#14.-宿題と次回ミーティング日程">14. 宿題と次回ミーティング日程</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中">田中</a></li><li class="toc-sub"><a href="#カレン">カレン</a></li><li class="toc-sub"><a href="#山岸">山岸</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1.-カレン・山岸さんの外部研修報告">1. カレン・山岸さんの外部研修報告</h3>
+<p>冒頭、田中から「どうでした？行ってみて何時まで行ったんですか？」と確認があり、カレンから午前10時から夜20時まで山岸さんと一緒に研修に参加していたと報告があった。参加人数は午前10人、午後は合わせて20人程度とのこと。田中は研修の要約ページを見て「普通やん」という率直な感想を漏らしつつ、「自分と市場のギャップが分からなくなっている」と悩みを共有した。田中自身は「AIは触り直せば分かるんじゃないか」という考え方があり、Xから情報を探してプロンプトを試行錯誤すれば何とかなると思っていたが、山岸さんの受け取り方との差を気にしていた。</p>
+<p>カレンからは、山岸さんにとっては「開発に至るまでの壁」がそもそも大きかったという説明があった。田中やカレンのように「ガチャガチャいじればいい」という前提がない中で、まず「GitHubとは何か」「それをどう使えば何につながるのか」という全体像が見えないまま作業していた状態だったとのこと。今回の研修で午前中にGitHub連携の初歩を扱い、午後からはアプリ開発に取り組むタイムが設けられ、「要件定義をこう進めて、そこからこう伝えていくとアプリが仕上がる」という開発の流れを体感できたことで、大きなハードルを突破できたという報告があった。カレンは「田中さんのように自然に背景を話せる人はすぐにアプリができると思っていたが、やったことがない人はどういう手順でシステムが仕上がるのか自体が分かっていない」と、山岸さんの立場を代弁した。</p>
+<p>田中は「自分が思っている以上に、世の中の人はAIに対してギャップがあるのか」と尋ね、カレンは「一度『自分にもできた』という壁を突破できると使いやすくなっていくと思うが、自分自身でガチャガチャ触ってみるところまで行けていないのが現状」と答えた。田中は「みんなのトレーニングを何かやってやるか」（原文[00:06:13]「ごチャレでもしてやるかね」は聞き取り不明瞭で具体的な開催形式は断定できない）「タイミングの問題がきっと誰にもある」と受け止めた。</p>
+<h3 id="2.-研修講師から渡されたチェック資料（2種のzip）">2. 研修講師から渡されたチェック資料（2種のzip）</h3>
+<p>田中が「PDFみたいなのはだけど」と資料の話を振り、カレンから、研修講師（本文中では「青森さん」「あおんぼさん」「安藤さん」など表記が複数回に渡ってゆれており、本名を特定できないため本議事録では「研修講師」と表記する）から2種類のzip資料を受け取ったという報告があった。これをCodexに読み込ませることで、何かシステムを作る際のチェック項目を事前に組み込める軸になっているとのこと。エージェントがうまく機能するよう講師視点での様々なチェックをくぐった内容が入っているという説明があり、「入れた方がスムーズに進みやすい」「要らなければ使わなくてもいい」と言われたとのこと。田中は「これは見ないといけない」「多分オープンでやっているんだろう」と興味を示し、資料を試しに入れてみる方向で合意した。</p>
+<h3 id="3.-動画・画像生成のAPIキー格安ツールへの慎重姿勢">3. 動画・画像生成のAPIキー格安ツールへの慎重姿勢</h3>
+<p>カレンから、画像生成・動画生成を安く使えるAPIキー提供サービス（Geminiやチャット系AIのAPIを割安で使える仲介的なツール）が紹介され、Codexやクラウドコードと繋ぐとコスパ良く動画生成できるという話があった。田中は「クーポン券みたいなものかな」と受け止めつつ、「非公式のグレーな感じ」と聞くと「怪しいツールですね」「誰かが作った、安く使えてしまう何かを引っ張り出す怪しいツールだから、いつか使えなくなる可能性がある」と慎重な見立てを示した。動画制作にかかるコストは会社に請求してよいという方針を確認しつつ、この手のグレーなツールへの依存はリスクとして明確にした。</p>
+<h3 id="4.-非属人チャンネルの体制見直し（カレン・坂本さん・三浦さん・大野さんの切り分け）">4. 非属人チャンネルの体制見直し（カレン・坂本さん・三浦さん・大野さんの切り分け）</h3>
+<p>この話題が「今日のミーティングの主軸」として扱われた。田中は、非属人チャンネル運営のために「AIに興味がある・強い」という人材を動画担当として採用してきた経緯を振り返り、採用時は動画スキルよりAIへの関心を重視していたが、実際にやってみると動画そのもののスキルも必要になってきたという悩みを共有した。コミュニケーション面では、ためこみがちなタイプのメンバーよりも、気軽に試行錯誤して報告してくれるタイプのメンバーの方がやりやすいという所感も語られた。</p>
+<p>田中は「AIが進化すればするほど、試行錯誤してくれる人以外は必要なくなっていく」という残酷な側面に触れつつ、3ヶ月の試用期間でメンバーの適性を見極めなければならない現実があると述べた。カレンが非属人チャンネルにどこまで関わる意思があるかによって、体制の選択肢が変わってくるとして、次の4つの選択肢を提示した。</p>
+<ul>
+<li>選択肢1: カレンが一人で全チャンネルの面倒を見る</li>
+<li>選択肢2: カレン＋坂本さんで見る</li>
+<li>選択肢3: カレン＋坂本さん＋三浦さんで見る</li>
+<li>選択肢4: カレン＋坂本さん＋三浦さん＋大野さんなど全員で見る</li>
+</ul>
+<p>田中は「カレンが責任を持って5チャンネルを見て、手が回らなければもう一人もらえる」くらいの体制で進め、坂本さんにはショート担当に加えてロング動画も任せていく方向性を示した。大野さんについては稼働に余裕があり試行錯誤できるタイプとして候補に挙げつつ、会社のお金でAIツールを契約する際にやや慎重さを欠く面があり、現時点では多くは依頼していないという説明もあった。三浦さんについては、コミュニケーションの取りやすさや相性の面で坂本さんより難しさを感じている部分があり、契約条件（試用期間・契約期間）を含めた体制の見直しが論点になった。カレンから、三浦さんから直接相談が来て、カレンが内容を整理した上で田中にチャット経由で確認を入れているが、まだ返信を受け取っていないことが共有され、田中は該当のチャット（50代からのお金の専門チャット）を確認し、人事担当と相談のうえ対応する方針とした。</p>
+<p>結論として、全員に一律で依頼する「ふわっとした」進め方はやめて、カレンと坂本さんを中心に据える体制で一旦進めることを確認した。坂本さんは自分からAI学習の意欲を示し、前日にClaude Codeを契約して自分で触り始めていたことも共有され、田中は「自分でAI勉強しますと言ってくれたのは嬉しかった」と評価した。</p>
+<h3 id="5.-「スキル開発」という共通言語をどう浸透させるか">5. 「スキル開発」という共通言語をどう浸透させるか</h3>
+<p>田中は、山岸さんのコメントを見て「スキルがあれば触れば分かる、という考え方が実は違っていた」と気づいたと述べた。「スキル開発せい」という言葉自体が通じないという課題があり、本当に求めているのは全員がスキル開発できる状態であるという方針を明確にした。できる・できないの現実問題としてはアドビ（Premiere Pro）で手動編集させてもよいが、最終的には「スキル開発させて、その編集パターンが田中祐一AIに取り込める状態で納品してほしい」という要望を伝えた。</p>
+<p>山岸さんからは、自分が指示して仕上げた動画の続きを坂本さんがそのまま引き継げる状態にするにはどうすればいいか、スキル化のやり方自体がこれから勉強という段階だという質問があった。田中は「スキル化は『スキル化してください』とお願いするだけ」と答え、動画編集について「スキルが100あるということは編集パターンが100再現できるイメージ」であり、トランジションを1つ入れるごとに1スキルを開発し、AIがどの場面にどのスキルを当てるかを制御できるようになれば、一撃で高品質な動画が出せるようになるという考え方を説明した。そのためには、どういう場面でどういう表現・フォントサイズ・画像配置にするかを言語化しておく必要があり、過去に見た行政のPR動画制作会社の例（編集パターンを全て言語化していたためクオリティが高かった）を引用した。</p>
+<p>田中は、現在購入している動画編集ツールをカレンに渡し、カレンがデフォルト設定を肉付けしていく中でスキルが増えていく現状を説明した上で、「スキル開発部隊が早すぎる」という課題にも触れた。最近は動画編集の世界でClaude（Opus 5.5）の方が安く使えるようになってきているという話も共有され、カレンは研修講師が「AIツール会社同士の競争は続くので、中身の人間の意図・スキル開発をしっかりしておけば大丈夫」と話していたことを紹介し、田中もこれに同意した。</p>
+<p>田中は、年商規模・ユーザー数・受講生数に関する数値（原文[00:37:11]「日本最大級のおさるマーケ」等、聞き取り不明瞭な箇所を含み、どの事業・立場の数値かを本議事録では断定しない）を引きながら、依頼主側が「こう再現したい」というイメージを持っていないとスキルは作れないと述べ、カレンが見せた手書き風のアニメーション編集のような豊かな表現を増やしていきたいという考えを共有した。一方で、動画の編集センスは「ファッションに近い」もので、文章のように心理トリガーを一行ずつ分解して教えられるものではなく、自分の得意分野ではないという率直な自己評価も語られた。</p>
+<h3 id="6.-山岸さんの実践例と坂本さんへの依頼切り分け">6. 山岸さんの実践例と坂本さんへの依頼切り分け</h3>
+<p>山岸さんから、当日「山田先生」の案件で素材をAI編集し、切り取り作業は自分でパッとできたが、テロップ入れがいまひとつで、間にイメージ画像を挟む編集まではできたものの、その先をもう少し細かく仕上げる部分を坂本さんに依頼したという実践報告があった。AIで操作を続けるか、従来通りAdobe系ツールで坂本さんに作業してもらうか迷っているとのことで、田中は「時間に余裕があるならAIでスキル開発してほしい」と伝え、全員がスキル開発できないと今後は立ち行かないという方針を繰り返した。</p>
+<h3 id="7.-非属人チャンネルの位置づけと伝承の悩み">7. 非属人チャンネルの位置づけと伝承の悩み</h3>
+<p>田中は、このミーティング自体の位置づけについて「業務としてはこのチームで話したいが、AIの話としてはこのチームだけで話すのは勿体ない」という葛藤を共有した。自分が全社に拾い広める時間がないため、カレンと山岸さんに「伝承者」になってもらうという無茶振りをしている自覚があるとした上で、非属人チャンネル運用の中で、お金のチャンネルなどの台本フィードバックのような業務が、ユーチューブ台本添削スキルのアップデート依頼という形でそのまま田中祐一AIのスキル改善につながっていく仕組みを説明した。フィードバックを重ねるたびにチェックシートが増え、過去の指摘パターンが点数化されていくという運用がすでに回っていることも共有された。</p>
+<h3 id="8.-動画編集メンバーの見極め（視聴量・インスピレーションの重要性）">8. 動画編集メンバーの見極め（視聴量・インスピレーションの重要性）</h3>
+<p>田中は、動画編集を依頼する相手を選ぶ基準として、SNSや広告をどれだけ見ているか、どれだけ「この編集面白い」と取り込もうと思えるかという感性の重要性を挙げた。ある人物（本文中では名前を伏せる）については、数値管理・システム構築系の業務であれば向いているが、ビジュアル面のワクワク感に乏しいため動画編集メンバーには入れたくないという評価を示した。あわせて、50代女性ペルソナが見てワクワクするかどうかという視点も必要だとした。</p>
+<h3 id="9.-田中祐一AIで開発中の構想の共有（引き継ぎ検討）">9. 田中祐一AIで開発中の構想の共有（引き継ぎ検討）</h3>
+<p>田中は「最近田中祐一AIで開発していることを、山岸さんに引き継ぐか迷っている」と率直な悩みを共有した上で、構想の全体像を説明した。要点は以下の通り。</p>
+<ul>
+<li>社内の吉田さんが開発している、PLC参加者の参加状況をデータベース化する仕組み。3ヶ月間音沙汰がない受講生の一覧が田中に送られ、田中がカーソル経由で一覧から約35人に個別メッセージを送るという運用が既に動いている</li>
+<li>新たに開発中の「PLCパーク」（仮称）は、参加者一人ひとりの状況・好み・趣味を数値化し、「この人はプロデューサーを求めている」等のマッチングをChatwork経由のコンタクト申請として提示する仕組み。45日シートの進捗、生涯累積の「ライフタイムポイント」（イベント企画・応援行動等で貯まる）と、約3ヶ月単位で行う表彰・ステータス化（例: 「ファイブファネルマスター」）を組み合わせる</li>
+<li>カジャビから会員サイトをPLCポータルへ移行する計画（1ヶ月以内目標）。移行後は動画視聴状況やリアルワークショップ参加状況に応じてポイントが付与される。PLCポータルの下にPLCパーク（AIポータル）とPLCの会員サイトがぶら下がる構成で、10月のワークショップでお披露目したいという目標も共有された</li>
+<li>アドライブラリーの管理画面側の構想（自分がリサーチしたものと他の人がリサーチしたものを切り替えるモード、アカウントごとのアクセス制御、Meta広告ライブラリでアカウント名が変わっても同一人物として名寄せする仕組み）</li>
+<li>「ファネルライブラリ」という開発中の新機能。早川さんと進めているプロジェクトで、入り口・先行オファー・ウェビナー等のファネル構造とメールを全て保存していつでも見返せるようにし、他案件のファネルを再現するための土台にする構想</li>
+</ul>
+<p>田中は、この構想を今触れるメンバーに仕込んでいってほしいという期待を示しつつ、田中祐一AI自体のUIをそのまま渡すと社内情報に全てアクセスできてしまうため、参考情報だけを外出しした専用ページを作る必要があるという課題も共有した。カレンには、ショートのデザインページに続いてロング動画のデザインページも作ってほしいという依頼があった。</p>
+<h3 id="10.-山岸さんの広告レポート自動化・根拠リサーチスキルの展開">10. 山岸さんの広告レポート自動化・根拠リサーチスキルの展開</h3>
+<p>山岸さんから、広告の全てを回して試作改善を回していけるシステムを研修講師のもとで作っており、現時点ではローカルでしか動かせないが、田中の案件や「安心安定」案件で実際に回しながら育てて、将来的には伊豆さんなどにも使ってもらいたいという報告があった。田中は「やればできるはず」と期待を示し、数値を取ってリサーチし、ライバルに比べて弱い所から改善点を出し、クリエイティブの文章・動画生成の下書きまで進め、レポーティングするところまで実現してほしいと伝えた。将来的には、広告を回している案件で週1回アドライブラリーでのライバルリサーチが自動で走るようにし、新しいアップデート情報やXでの話題も拾って報告できるようにしたいという方向性も共有された。</p>
+<p>あわせて田中は、自身が使っている「根拠リサーチ」スキルについて、各案件にも同様の仕組みを持たせた方がよいという考えを共有した。例として、メールの開封率が前年比で下がっているという調査結果を根拠に「ワンステップで購入させた方がいい」という訴求を補強したり、体験型授業が落第率を下げたという研究結果を根拠にチャレンジローンチの構成を補強したりする使い方を挙げ、人間が根拠を調べるのは無理があるためAIに任せるのがよいという方針を示した。案件ごとの根拠集があれば、広告を作るフローの抜けている工程を埋められるのではないかという見立ても共有された。</p>
+<h3 id="11.-三浦さんの採用・契約確認（人事対応）">11. 三浦さんの採用・契約確認（人事対応）</h3>
+<p>カレンから、三浦さんから直接長文の相談（お金・安心安定専門チャットでの進め方の相談）が来ており、カレンが内容を整理した上で田中にチャット経由で確認を入れていたが、田中からまだ返信がないことが共有された。田中は該当のチャットを確認し、人事担当と相談して三浦さんの契約期間を確認する方針とした。あわせて、採用マーケチャットでの別件の人事確認（表記ゆれがあり本人特定を断定できないため本議事録では「人事担当」と抽象化する）も並行して進める様子が共有された。田中は「AI時代の人の問題は本当に悩ましい」とコメントし、人事教育の仕組み自体を見直す必要性を感じているとした。</p>
+<h3 id="12.-新人・既存メンバー向けAI研修の仕組み化">12. 新人・既存メンバー向けAI研修の仕組み化</h3>
+<p>カレンから「社内用のYouTubeレクチャーアカウントを立ち上げて、スキル開発とは何かという解説動画を作ってアップしてよいか」という提案があり、田中はこれを受けて「研修を作るべき」という方針を示した。新規メンバーだけでなく既存メンバーにも、「できるまで話を聞くだけでなく、全員が研修動画を視聴・承諾したか確認できる仕組み」を作りたいという考えを共有した。発想としてはPLCポータルと同じで、ログインして動画を見て承諾する形を想定し、さらに進んでGitHubとVercelを使って自分のアプリを公開するところまで研修として行わせたいという構想も語られた。</p>
+<p>田中は、山岸さんの研修受講での理解度の変化（当初は用語が分からず苦戦していたが、研修を経て楽しくなってきたという本人のコメント）を踏まえ、「スキルは触れば分かる」という考え方が実は正しくなかったと気づいたと述べた。</p>
+<h3 id="13.-次回研修（11月3日）への参加者募集">13. 次回研修（11月3日）への参加者募集</h3>
+<p>山岸さんから、研修講師による研修が来月もあるのか確認があり、田中が参加を呼びかけた。次回は11月3日（文化の日・火曜）に予定されており、田中は坂本さん・早川さん・吉田さんなども誘ってみる方針を示し、飛行機移動が必要なメンバーにはマイルで手配することも検討すると述べた。参加人数には上限があり、早い者勝ちで案内する運用とした。あわせて、地方在住の動画担当メンバーが東京に集まりづらい事情や、コミュニケーションの取り方（AIに聞けば分かることを長文で確認してくる傾向への懸念）についても話題になった。</p>
+<h3 id="14.-宿題と次回ミーティング日程">14. 宿題と次回ミーティング日程</h3>
+<p>田中から、各自の宿題（研修講師から渡された2種のzip資料を自分でも試してみる、検証事業を見てみる、研修講師が配布しているGPT活用法をチームに展開する等）を実施し、結果を次回共有する方針が示された。日程調整の結果、次回MTGは10月27日（火）13時に確定した（田中が日本に滞在中でミーティングが取りづらい期間のため、火曜日固定で確保する方向）。</p>
+<h2 id="決まったこと">決まったこと</h2>
+<ul>
+<li>非属人チャンネルの動画編集体制は、全員への一律依頼をやめ、カレンと坂本さんを中心に据える方向で進める（三浦さん・大野さんの関わり方は今後整理）</li>
+<li>坂本さんにはショート担当に加えてロング動画も任せていく方向とする</li>
+<li>三浦さんの契約条件（契約期間等）は人事担当と確認したうえで対応する</li>
+<li>全員がAIスキル開発（編集パターン等の言語化→田中祐一AIへの取り込み）を自分の業務とする方針を明確にする。アドビ等での手動編集自体は否定しないが、最終的にはスキル化して納品してもらう</li>
+<li>新人・既存メンバー向けのAI研修を仕組み化する（ログイン→動画視聴→承諾、さらにGitHub・Vercelでアプリ公開まで行わせる研修を検討）</li>
+<li>山岸さんの広告レポート自動化システムは、田中案件・安心安定案件で実践しながら育て、将来的に他案件（伊豆さん等）にも展開する</li>
+<li>田中が使っている「根拠リサーチ」スキルの考え方を各案件に展開する方針とする</li>
+<li>次回研修（11月3日・文化の日）への参加希望者を早い者順で募集し、マイルで予約できる場合は田中が飛行機の手配を検討する</li>
+<li>次回MTG：2026年10月27日（火）13時</li>
+</ul>
+<h2 id="やること">やること</h2>
+<h3 id="田中">田中</h3>
+<ul>
+<li>[ ] 研修講師から渡された2種のzip資料を自分でも取り込めるか検証する</li>
+<li>[ ] 検証事業（研修で扱われた内容）を見てみる</li>
+<li>[ ] 三浦さんからの相談チャットを確認し、人事担当と契約期間を確認して連絡する</li>
+<li>[ ] 次回研修（11月3日）への参加希望者（坂本さん・早川さん・吉田さん等）に声をかけ、マイルで予約できる場合は飛行機の手配を検討する</li>
+<li>[ ] 田中祐一AIで開発中の構想（PLCパーク・アドライブラリ管理画面・ファネルライブラリ等）を山岸さんに引き継ぐかどうかを検討する</li>
+</ul>
+<h3 id="カレン">カレン</h3>
+<ul>
+<li>[ ] 非属人チャンネルの体制について、三浦さんへどう伝えるかを人事担当・田中と調整する</li>
+<li>[ ] ショートのデザインページに続き、ロング動画のデザインページを作成する</li>
+<li>[ ] 社内用YouTubeレクチャーアカウントでのスキル開発解説動画は、全員が視聴・承諾したか確認できる仕組みと合わせて検討する（動画単独の公開は田中が「全員が消しこむ仕組みがないと」と条件を示し未確定）</li>
+<li>[ ] 三浦さんから届いた長文の相談内容を田中へ個別に送る（[00:58:02]で田中から依頼・了承済み）</li>
+</ul>
+<h3 id="山岸">山岸</h3>
+<ul>
+<li>[ ] 広告自動化システムを田中案件・安心安定案件で実践しながら育てる</li>
+<li>[ ] 研修講師から教わったGPT活用法（チャットでの質問対応）をチームに展開する</li>
+<li>[ ] 坂本さんへの編集依頼の切り分け（AI操作の続きを依頼するか、Adobe系で依頼するか）を進める</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-10-06)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: GIPJXA1P<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
