@@ -2,12 +2,14 @@
 
 - [引き継ぎページ](https://tanakayuc.github.io/static-pages/plc-park/design-handoff.html) — 承認済みv12の画面、色・文字・余白、教材移植の動線、正本ファイルを一つの入口に整理。
 - [全文指示書](PLC会員サイト_デザイン引き継ぎ指示書.txt) — 移植担当へそのまま渡せるテキスト。公開ページ内から全文コピー可能。
+- [管理画面の本番更新・データ取込](https://tanakayuc.github.io/static-pages/plc-park/admin-production-handoff.html) — PLC運営画面に表示する項目、PoCの別Supabaseを含む取込元、権限・台帳・更新順を整理。
+- [管理画面の全文指示書](PLC管理画面_本番更新とデータ取込指示書.txt) — 本番実装担当へ渡す詳細版。
 
 会員サイトの教材・会員情報の移植自体はこの引き継ぎ資料に含まれません。実コンテンツと権限は移植先で照合します。
 
 # 最新 v0.13：活動ポイント管理の画面例
 
-- [管理画面](https://tanakayuc.github.io/static-pages/plc-park/portal-admin.html?v=2) — 架空の会員別T/LTT集計、検索、履歴、CSV出力、確認待ちの承認を体験できます。
+- [管理画面](https://tanakayuc.github.io/static-pages/plc-park/portal-admin.html?v=3) — 架空の会員別T/LTT集計、検索、履歴、CSV出力、確認待ちの承認を体験できます。
 - [PLCポータル](https://tanakayuc.github.io/static-pages/plc-park/portal-demo.html?v=13#home) — アカウントメニューとフッターから管理画面の見本へ移動できます。
 
 承認済みv12の文字・余白・ボタンを再利用。実データ・管理者認証・MCP接続は未実装です。実接続の順序と権限は `PLC活動ポイント管理_実装仕様.txt` に記載しています。
