@@ -1,6 +1,6 @@
 # 最新 v0.13：活動ポイント管理の画面例
 
-- [管理画面](https://tanakayuc.github.io/static-pages/plc-park/portal-admin.html?v=1) — 架空の会員別T/LTT集計、検索、履歴、CSV出力、確認待ちの承認を体験できます。
+- [管理画面](https://tanakayuc.github.io/static-pages/plc-park/portal-admin.html?v=2) — 架空の会員別T/LTT集計、検索、履歴、CSV出力、確認待ちの承認を体験できます。
 - [PLCポータル](https://tanakayuc.github.io/static-pages/plc-park/portal-demo.html?v=13#home) — アカウントメニューとフッターから管理画面の見本へ移動できます。
 
 承認済みv12の文字・余白・ボタンを再利用。実データ・管理者認証・MCP接続は未実装です。実接続の順序と権限は `PLC活動ポイント管理_実装仕様.txt` に記載しています。
