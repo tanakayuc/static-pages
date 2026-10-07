@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>ゆう先生 Zoom録画アーカイブ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap">
+<style>
+/* レイアウト: 上に保存状況の要約、下に新しい順の録画リスト（1行=1回、右端に再生ボタン） */
+:root{color-scheme:light;
+  --bg:#f5f7f6; --surface:#ffffff; --ink:#1d2a2a; --muted:#5c6b69; --line:#d9e2df;
+  --accent:#1f6f6a; --accent-ink:#ffffff; --soft:#e6f1ef;
+  --old:#8a5a14; --old-bg:#fbf0dc; --mid:#4c5d8c; --mid-bg:#e9ecf7; --new:#1f6f6a; --new-bg:#e2f2ef;
+  --display:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --body:"BIZ UDPGothic","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121817; --surface:#1a2221; --ink:#e4ecea; --muted:#9db0ad; --line:#2c3836;
+  --accent:#5cbcb3; --accent-ink:#0e1615; --soft:#1f2e2c;
+  --old:#f0c27a; --old-bg:#3a2d17; --mid:#aab8ea; --mid-bg:#252c44; --new:#7dd6cc; --new-bg:#17332f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121817; --surface:#1a2221; --ink:#e4ecea; --muted:#9db0ad; --line:#2c3836;
+  --accent:#5cbcb3; --accent-ink:#0e1615; --soft:#1f2e2c;
+  --old:#f0c27a; --old-bg:#3a2d17; --mid:#aab8ea; --mid-bg:#252c44; --new:#7dd6cc; --new-bg:#17332f; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:32px 56px;display:grid;gap:24px}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(22px,4vw,30px);line-height:1.3;margin:0;text-wrap:balance}
+.lead{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.status{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:grid;gap:14px}
+.facts{display:flex;flex-wrap:wrap;gap:10px 28px}
+.fact{display:grid;gap:2px}
+.fact b{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums}
+.fact span{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.notes{margin:0;padding-left:1.2em;color:var(--muted);font-size:13.5px;display:grid;gap:4px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toolbar span{font-size:13px;color:var(--muted);margin-right:4px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.chip:focus-visible,.play:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.list{display:grid;gap:10px;list-style:none;margin:0;padding:0}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;grid-template-columns:132px minmax(0,1fr) auto;gap:6px 18px;align-items:center}
+.when{display:grid;gap:4px;font-variant-numeric:tabular-nums}
+.date{font-family:var(--display);font-weight:700;font-size:16px}
+.time{font-size:12.5px;color:var(--muted)}
+.age{justify-self:start;font-size:12px;font-weight:700;border-radius:4px;padding:1px 8px}
+.age.old{color:var(--old);background:var(--old-bg)} .age.mid{color:var(--mid);background:var(--mid-bg)} .age.new{color:var(--new);background:var(--new-bg)}
+.body{min-width:0;display:grid;gap:4px}
+.title{font-weight:700;font-size:15.5px;line-height:1.5}
+.no{color:var(--muted);font-variant-numeric:tabular-nums;font-weight:400;margin-right:6px;font-size:13px}
+.summary{color:var(--muted);font-size:13.5px;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.fmt{color:var(--ink)}
+.files{display:flex;flex-wrap:wrap;gap:4px 6px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.files span{background:var(--soft);border-radius:4px;padding:1px 7px}
+.files b{color:var(--ink);font-weight:700}
+.play{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;border-radius:8px;padding:9px 16px;white-space:nowrap}
+.play:hover{filter:brightness(1.08)}
+.play svg{width:14px;height:14px;fill:currentColor}
+footer{font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){
+  .item{grid-template-columns:minmax(0,1fr);gap:8px}
+  .when{grid-template-columns:auto auto auto;align-items:baseline;gap:8px;justify-content:start}
+  .play{justify-self:start}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>body{margin:0}*{box-sizing:border-box}</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>ゆう先生 Zoom録画アーカイブ</h1>
+    <p class="lead">ゆう先生のZoomクラウドに残っていた録画19回分を、ザ・リードのクラウド保管庫（Cloudflare R2）にすべて保存しました。各行の「再生する」から、ブラウザでそのまま視聴・保存できます。</p>
+  </header>
+  <section class="status" aria-label="保存状況">
+    <div class="facts">
+      <div class="fact"><b>19回</b><span>保存した録画</span></div>
+      <div class="fact"><b>127ファイル</b><span>動画・音声・書き起こし・チャット</span></div>
+      <div class="fact"><b>10.4GB</b><span>Zoomと容量一致を確認済み</span></div>
+      <div class="fact"><b>2027年10月7日</b><span>再生リンクの有効期限</span></div>
+    </div>
+    <ul class="notes">
+      <li>撮影期間は 2026年8月17日〜9月30日。保存日は 2026年10月7日です。「◯日前」はこのページを開いた日から数えています。</li>
+      <li>Zoom側の録画はまだ削除していません。この一覧で中身を確認してから削除を判断できます。</li>
+      <li>タイトルと内容メモは、Zoomの自動書き起こしから付けたものです。参加者の名前は載せていません。</li>
+      <li>「再生する」で開くページはログイン不要で、URLを知っている方なら誰でも視聴できます。動画ごとの「この動画を保存」でダウンロードでき、書き起こし・チャットも同じページから取得できます。</li>
+      <li>1回あたり最大5種類の見え方（ギャラリー・スピーカー・共有画面など）の動画と音声が入っています。各行の小さな表示が1ファイルごとの容量です。</li>
+    </ul>
+  </section>
+  <div class="toolbar" role="group" aria-label="絞り込み">
+    <span>表示</span>
+    <button class="chip" id="f-all" data-f="all" aria-pressed="true">すべて</button>
+    <button class="chip" id="f-ind" data-f="個別相談" aria-pressed="false">個別相談</button>
+    <button class="chip" id="f-grp" data-f="グループ相談" aria-pressed="false">グループ相談</button>
+    <button class="chip" id="f-unk" data-f="判別不能" aria-pressed="false">内容不明</button>
+  </div>
+  <ol class="list" id="list"></ol>
+  <footer>株式会社ザ・リード｜動画は保存期間が2年を超えた場合、削除される場合があります。</footer>
+</main>
+<script>
+const ROWS = [{"no": 1, "start": "2026-09-30 10:31", "dur": 31, "mb": 486, "title": "アロマサロン｜画質・世界観・発信の絞り方の相談", "format": "個別相談", "summary": "アロマサロンのリール画質と背景の世界観づくり、アロマ訴求の入れ方、発信を絞るか広げるかを相談。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/7f6326bb-d6fe-47c4-bf0c-3048f828448f", "videos": 5, "files": [["共有画面＋スピーカー", 104], ["共有画面＋ギャラリー", 104], ["スピーカー", 88], ["ギャラリー", 117], ["共有画面のみ", 55], ["音声のみ", 18]]}, {"no": 2, "start": "2026-09-30 10:03", "dur": 26, "mb": 618, "title": "ボディケア｜リールの撮り方・編集・ネタ選びの相談", "format": "個別相談", "summary": "リール作りを始めたい受講生へ、元ネタの真似方、撮影と編集、照明機材、リサーチ方法を説明。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/98543902-e3f0-454c-83c7-5cabdc4dc625", "videos": 5, "files": [["共有画面＋スピーカー", 158], ["共有画面＋ギャラリー", 139], ["スピーカー", 91], ["ギャラリー", 149], ["共有画面のみ", 64], ["音声のみ", 17]]}, {"no": 3, "start": "2026-09-29 10:01", "dur": 27, "mb": 450, "title": "ほぐし・アロマ｜プロフィール改善とリール運用", "format": "個別相談", "summary": "宣伝色の強いプロフィールのAIでの作り直しと、参考アカウント探しから真似て作る進め方を指導。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/fc9ddba8-2c51-447e-b8ad-327d771a863c", "videos": 5, "files": [["共有画面＋スピーカー", 90], ["共有画面＋ギャラリー", 87], ["スピーカー", 87], ["ギャラリー", 118], ["共有画面のみ", 52], ["音声のみ", 16]]}, {"no": 4, "start": "2026-09-24 12:30", "dur": 42, "mb": 558, "title": "エステ｜施術動画の方向性・方言・物販展開の相談", "format": "個別相談", "summary": "施術動画とセルフケア動画の併用、方言での発信、遠方からのDM対応、生徒の集客、自社化粧品の案。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/279ddbc7-08b1-4742-a3c3-f90be1df18cc", "videos": 5, "files": [["共有画面＋スピーカー", 103], ["共有画面＋ギャラリー", 103], ["スピーカー", 111], ["ギャラリー", 155], ["共有画面のみ", 59], ["音声のみ", 26]]}, {"no": 5, "start": "2026-09-24 10:30", "dur": 32, "mb": 448, "title": "離乳食教室・サロン｜アカウント整理とLINE導線", "format": "個別相談", "summary": "3つのアカウントを1つに絞る方針、LINE有料化とオープンチャット導線、オンライン化の流れを相談。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/6499b779-6e2a-49a1-9257-dc6190116db6", "videos": 5, "files": [["共有画面＋スピーカー", 82], ["共有画面＋ギャラリー", 74], ["スピーカー", 99], ["ギャラリー", 126], ["共有画面のみ", 48], ["音声のみ", 20]]}, {"no": 6, "start": "2026-09-16 10:00", "dur": 42, "mb": 492, "title": "施術サロン｜フォロワー増加後の導線と販売の相談", "format": "個別相談", "summary": "フォロワー約7500人から先の進め方。LINE誘導、ファン化、少人数モニター販売、決済ツール、AI資料作成。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/7adf426a-8f69-4b08-8654-3c4ea20bd15f", "videos": 5, "files": [["共有画面＋スピーカー", 105], ["共有画面＋ギャラリー", 91], ["スピーカー", 106], ["ギャラリー", 120], ["共有画面のみ", 45], ["音声のみ", 25]]}, {"no": 7, "start": "2026-09-15 11:01", "dur": 36, "mb": 485, "title": "地方サロン｜投稿頻度・時短制作・LINE導線の相談", "format": "個別相談", "summary": "投稿頻度を上げる時短制作法、地元向けの見せ方、公式LINEから来店につなげる流れを相談。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/d121dad5-00b0-42c4-8246-10e454f070dd", "videos": 5, "files": [["共有画面＋スピーカー", 89], ["共有画面＋ギャラリー", 87], ["スピーカー", 103], ["ギャラリー", 139], ["共有画面のみ", 48], ["音声のみ", 20]]}, {"no": 8, "start": "2026-09-15 10:01", "dur": 31, "mb": 338, "title": "整体・エステ｜独自メソッドの言語化と顔出しの相談", "format": "個別相談", "summary": "独自整体の差別化を言語化する方法、資格なしで教える可否、顔出しと年齢表記、冒頭は真似る型を指導。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/4317249a-22da-4c4b-92bd-bfb23b02f0c9", "videos": 5, "files": [["共有画面＋スピーカー", 58], ["共有画面＋ギャラリー", 49], ["スピーカー", 77], ["ギャラリー", 107], ["共有画面のみ", 29], ["音声のみ", 18]]}, {"no": 9, "start": "2026-09-11 11:33", "dur": 32, "mb": 354, "title": "痩身サロン｜近隣競合への差別化と新規集客の相談", "format": "個別相談", "summary": "近くに同内容の安価な競合が出て新規が減った悩み。差別化の言語化、お客様の声、見せ方を相談。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/60577380-9565-41db-8170-2be41a2b1c8e", "videos": 5, "files": [["共有画面＋スピーカー", 68], ["共有画面＋ギャラリー", 61], ["スピーカー", 68], ["ギャラリー", 90], ["共有画面のみ", 48], ["音声のみ", 19]]}, {"no": 10, "start": "2026-09-11 11:02", "dur": 30, "mb": 422, "title": "ドライヘッドスパ｜睡眠の専門性が伝わる世界観づくり", "format": "個別相談", "summary": "専門家に見える小物や照明の世界観づくり、投稿頻度、LINE登録を増やす流れ、地域向け発信を相談。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/fa3b00b5-ed37-4b3a-b062-a0a063f0bb11", "videos": 5, "files": [["共有画面＋スピーカー", 75], ["共有画面＋ギャラリー", 75], ["スピーカー", 88], ["ギャラリー", 119], ["共有画面のみ", 46], ["音声のみ", 18]]}, {"no": 11, "start": "2026-09-09 13:04", "dur": 11, "mb": 26, "title": "内容判別不可（約11分・雑談の断片のみ）", "format": "判別不能", "summary": "講師の断片的な独り言のみで、相談や講義の内容は確認できない。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/9e30991d-0983-4d8e-861d-e5e2ea3f1242", "videos": 1, "files": [["スピーカー", 20], ["音声のみ", 6]]}, {"no": 12, "start": "2026-09-08 12:33", "dur": 7, "mb": 2, "title": "書き起こしなし（約7分）", "format": "判別不能", "summary": "書き起こしが無く内容は不明。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/ec829fb4-b3cb-49f5-bc08-9433ff7f2c8f", "videos": 1, "files": [["スピーカー", 1], ["音声のみ", 0]]}, {"no": 13, "start": "2026-09-08 12:03", "dur": 29, "mb": 479, "title": "セラピスト向けスクール｜SNS発信の軸と導線設計", "format": "個別相談", "summary": "スクール運営者が、プロ向けか一般向けかの発信軸と、広告後のピン留め動画の導線設計を相談。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/a4dc0f34-b06f-4c6b-bc87-92015072e299", "videos": 5, "files": [["共有画面＋スピーカー", 93], ["共有画面＋ギャラリー", 89], ["スピーカー", 93], ["ギャラリー", 118], ["共有画面のみ", 68], ["音声のみ", 18]]}, {"no": 14, "start": "2026-09-07 14:30", "dur": 25, "mb": 345, "title": "整体｜急増後のLINE導線と提携依頼の相談", "format": "個別相談", "summary": "急増したアカウントの三脚の揺れ、有名人フォローの扱い、アフィリエイト依頼の断り方、LINE導線。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/fe37b9ef-f4c6-4394-9ed6-ce94765f0150", "videos": 5, "files": [["共有画面＋スピーカー", 99], ["共有画面＋ギャラリー", 88], ["スピーカー", 52], ["ギャラリー", 67], ["共有画面のみ", 24], ["音声のみ", 14]]}, {"no": 15, "start": "2026-09-07 14:00", "dur": 22, "mb": 233, "title": "姿勢ケア｜LINE登録から来店につなげる流れの相談", "format": "個別相談", "summary": "姿勢診断ツールを特典にした導線を整理。ピン留め動画、特典の追加、ファン化、モニター募集の順を説明。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/34111563-6f08-4974-899b-4e6ccd55522f", "videos": 5, "files": [["共有画面＋スピーカー", 47], ["共有画面＋ギャラリー", 44], ["スピーカー", 51], ["ギャラリー", 56], ["共有画面のみ", 21], ["音声のみ", 14]]}, {"no": 16, "start": "2026-09-07 11:00", "dur": 24, "mb": 185, "title": "体のケア相談｜足の痛みと立ち仕事の合間のケア", "format": "個別相談", "summary": "SNS相談ではなく、足の外側の痛みと立ち仕事の疲れへのケア、入浴、休憩の取り方、家族の足のむくみ。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/dc76396d-91a7-4f5b-9c9c-d0c8fb8ea7fd", "videos": 2, "files": [["スピーカー", 77], ["ギャラリー", 94], ["音声のみ", 14]]}, {"no": 17, "start": "2026-09-02 10:00", "dur": 30, "mb": 622, "title": "セラピスト｜1万人突破後のオンライン商品設計の相談", "format": "個別相談", "summary": "フォロワー1万人到達後に、サブスクより高額講座、少人数モニター、DM自動返信とオープンチャット導線。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/1430eeb9-a604-4a86-af13-a7d130a16522", "videos": 5, "files": [["共有画面＋スピーカー", 158], ["共有画面＋ギャラリー", 144], ["スピーカー", 103], ["ギャラリー", 159], ["共有画面のみ", 39], ["音声のみ", 18]]}, {"no": 18, "start": "2026-08-26 11:02", "dur": 66, "mb": 1172, "title": "グループ相談｜コラボライブ準備・講座価格・強み整理", "format": "グループ相談", "summary": "冒頭に近況談。続けて3名が、コラボライブの進め方、グループ講座の価格設計、打ち出す強みの整理を相談。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/8a4e5baa-ab12-44d6-8ad7-24f168ffe3de", "videos": 5, "files": [["共有画面＋スピーカー", 297], ["共有画面＋ギャラリー", 311], ["スピーカー", 179], ["ギャラリー", 289], ["共有画面のみ", 56], ["音声のみ", 40]]}, {"no": 19, "start": "2026-08-17 11:02", "dur": 168, "mb": 2197, "title": "グループ相談｜集客・価格設計・YouTube運用の質疑", "format": "グループ相談", "summary": "雑談のあと、受講生からの相談に順に回答。集客手段、モニター募集、価格設計、YouTube運用。", "url": "https://thelead-zoom-share.thelead-video-archive.workers.dev/s/f9f1c946-9382-4a89-a310-d7c314aedc35", "videos": 5, "files": [["共有画面＋スピーカー", 429], ["共有画面＋ギャラリー", 409], ["スピーカー", 443], ["ギャラリー", 644], ["共有画面のみ", 178], ["音声のみ", 94]]}];
+const WD = ["日","月","火","水","木","金","土"];
+const today = new Date(); today.setHours(0,0,0,0);
+function render(filter){
+  const ol = document.getElementById("list");
+  ol.textContent = "";
+  for (const r of ROWS){
+    if (filter !== "all" && r.format !== filter) continue;
+    const [d, t] = r.start.split(" ");
+    const [y, mo, da] = d.split("-").map(Number);
+    const shot = new Date(y, mo-1, da);
+    const days = Math.round((today - shot) / 86400000);
+    const ageCls = days >= 42 ? "old" : days >= 21 ? "mid" : "new";
+    const li = document.createElement("li");
+    li.className = "item";
+    li.innerHTML = `
+      <div class="when">
+        <span class="date">${y}/${mo}/${da}（${WD[shot.getDay()]}）</span>
+        <span class="time">${t} 撮影</span>
+        <span class="age ${ageCls}">${days}日前</span>
+      </div>
+      <div class="body">
+        <div class="title"><span class="no">No.${r.no}</span>${esc(r.title)}</div>
+        <p class="summary">${esc(r.summary)}</p>
+        <div class="meta"><span class="fmt">${esc(r.format)}</span><span>${fmtDur(r.dur)}</span><span>動画${r.videos}本</span><span>合計 ${r.mb.toLocaleString()}MB</span></div>
+        <div class="files">${r.files.map(([n,mb]) => `<span>${n} <b>${mb.toLocaleString()}MB</b></span>`).join("")}</div>
+      </div>
+      <a class="play" href="${r.url}" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>再生する</a>`;
+    ol.appendChild(li);
+  }
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function fmtDur(m){return m >= 60 ? `${Math.floor(m/60)}時間${m%60}分` : `${m}分`}
+document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  render(b.dataset.f);
+}));
+render("all");
+</script>
+
+</body>
+</html>
