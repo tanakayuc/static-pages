@@ -1,0 +1,1118 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>配信の設計と決めたこと（設計戦略図） - 天野ちえり 中国伝統風水の教科書 v2（チャレンジステップ・個別説明会型）素材集</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MATERIAL LIBRARY</div><h3>天野ちえり 中国伝統風水の教科書 v2（チャレンジステップ・個別説明会型）素材集</h3><div class="sidebar-section"><span>はじめに</span></div>
+<a href="001.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>中国伝統風水の教科書 v2（チャレンジステップ・個別説明会型）素材集</span></a>
+<div class="sidebar-section"><span>全体設計</span></div>
+<a href="002.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>ファネル全体図（v2 個別説明会型）</span></a>
+<a href="003.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>配信一覧（時系列・メール＋LINE 全47通＋個別説明会の申込後7通）</span></a>
+<a href="004.html" class="sidebar-item is-nested active"><span class="sidebar-item-mark" aria-hidden="true"></span><span>配信の設計と決めたこと（設計戦略図）</span></a>
+<a href="005.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>UTAGE実装用 URL一覧と差し替え表（中国伝統風水の教科書 v2）</span></a>
+<div class="sidebar-section"><span>オプトインLP</span></div>
+<a href="006.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>オプトインLP 全体構成案とライティング（上から下まで・全文）</span></a>
+<div class="sidebar-section"><span>ページ</span></div>
+<a href="007.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>動画視聴ページ 設計書（第1話〜第3話）</span></a>
+<a href="008.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>個別説明会ページ（入会事前確認のご案内）原稿</span></a>
+<a href="009.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>個別説明会 申込後サンキューページ（LINE登録ページ）</span></a>
+<div class="sidebar-section"><span>動画</span></div>
+<a href="010.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>動画はこちら（中国伝統風水の教科書 v2）</span></a>
+<a href="011.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>第1話 書き起こし（元動画）</span></a>
+<a href="012.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>第2話 書き起こし（元動画）</span></a>
+<a href="013.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>第3話 書き起こし（元動画）</span></a>
+<div class="sidebar-section"><span>第1話の配信 / メール</span></div>
+<a href="014.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 1日目・登録直後（自動返信）｜【※必ずお読みください】本物の風水で、あなたの運気を劇的に変える方法</span></a>
+<a href="015.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 1日目・登録1時間後｜【重要】第1話のリマインドと第2話のご案内</span></a>
+<a href="016.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・7:00｜コレ、お忘れではないですか？（玄関のチェック）</span></a>
+<a href="017.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・12:00｜「限界を感じていました…」ある一級建築士が本物の風水に辿り着いた理由</span></a>
+<a href="018.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・19:00｜【動画は明日まで】まだ間に合います！</span></a>
+<a href="019.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・7:00｜【本日23時59分まで】第1話の重要ポイントを5分で解説</span></a>
+<a href="020.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・12:00｜なぜスターバックスやAppleは風水を使うのか？成功者の共通点</span></a>
+<a href="021.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・21:00｜【あと3時間】動画は間もなく削除されます</span></a>
+<div class="sidebar-section"><span>第1話の配信 / LINE</span></div>
+<a href="022.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 1日目・登録直後｜ご登録ありがとうございます😊</span></a>
+<a href="023.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 2日目・14:00｜玄関のチェック、</span></a>
+<a href="024.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 3日目・14:00｜「鬼門に玄関を作ってはいけない」</span></a>
+<a href="025.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 3日目・22:00｜第1話が見られるのは、</span></a>
+<div class="sidebar-section"><span>第2話の配信 / メール</span></div>
+<a href="026.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 1日目・登録直後（第1話の感想提出直後・自動返信）｜【中国伝統風水】第2話（実例編）をお届けします</span></a>
+<a href="027.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 1日目・登録1時間後（再送）｜【再送】第2話の動画はご覧になりましたか？</span></a>
+<a href="028.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・7:00｜たった10日で不登校が解決した理由</span></a>
+<a href="029.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・12:00｜売上2倍、通院不要に。ある老舗お茶屋さんの奇跡</span></a>
+<a href="030.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・19:00｜「モンスターペアレンツ」と息子の依存症。解決の鍵は『入り口』でした</span></a>
+<a href="031.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・7:00｜【本日23時59分まで】3つの実例に共通する「運の方程式」とは？</span></a>
+<a href="032.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・12:00｜【本日まで】風水と「お金」の秘密、知りたくありませんか？</span></a>
+<a href="033.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・21:00｜【あと3時間】運気を「待つ」のをやめて、「創る」人生へ</span></a>
+<div class="sidebar-section"><span>第2話の配信 / LINE</span></div>
+<a href="034.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 1日目・登録直後（第1話の感想提出直後・自動返信）｜第1話の感想、</span></a>
+<a href="035.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 2日目・14:00｜今日は、第2話に出てくる</span></a>
+<a href="036.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 3日目・14:00｜「引っ越してから朝起きられない」</span></a>
+<a href="037.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 3日目・22:00｜第2話の動画が閉じるまで、</span></a>
+<div class="sidebar-section"><span>第3話の配信 / メール</span></div>
+<a href="038.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 1日目・登録直後（第2話の感想提出直後・自動返信）｜【最終話】本物の風水を、自分で使えるようになる方法</span></a>
+<a href="039.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 1日目・登録1時間後（再送）｜神社に行っても、しばらくすると元に戻る理由</span></a>
+<a href="040.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・7:00｜自分で学んで、ご主人の会社まで整えた人の話</span></a>
+<a href="041.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・12:00｜変えたのは、寝る場所と机の位置だけでした</span></a>
+<a href="042.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目・19:00｜本を読んでも、風水が身につかなかった理由</span></a>
+<a href="043.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・7:00｜2043年に、あなたは何歳ですか</span></a>
+<a href="044.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・12:00｜面談の60分、中身を全部お見せします</span></a>
+<a href="045.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目・21:00｜「面談で売り込まれませんか？」</span></a>
+<a href="046.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 4日目・7:00｜「私なんて」と思っていませんか</span></a>
+<a href="047.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 4日目・12:00｜医師や経営者が、なぜ風水を頼むのか</span></a>
+<a href="048.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 4日目・21:00｜明日まで。自宅を少し整えただけで、お店に新規20人</span></a>
+<a href="049.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 5日目・7:00｜【本日最終日】フォームだけ、先に送ってください</span></a>
+<a href="050.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 5日目・19:00｜「興味はあるけど、不安です」という方へ</span></a>
+<a href="051.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 5日目・21:00（最終）｜あと3時間。決めるのは、面談の後でいい</span></a>
+<a href="052.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 6日目・12:00｜3本の動画、ありがとうございました</span></a>
+<div class="sidebar-section"><span>第3話の配信 / LINE</span></div>
+<a href="053.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 1日目・登録直後（自動返信）｜第2話の感想、</span></a>
+<a href="054.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 2日目・14:00｜第3話、もうご覧になりましたか😊</span></a>
+<a href="055.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 3日目・14:00｜「面談で売り込まれませんか？」</span></a>
+<a href="056.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 4日目・14:00｜・まずは自分の家だけ整えたい</span></a>
+<a href="057.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 5日目・9:00｜おはようございます。</span></a>
+<a href="058.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 5日目・14:00｜ひとつだけ、お願いがあります。</span></a>
+<a href="059.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 5日目・22:00（最終）｜あと2時間で受付を締め切ります。</span></a>
+<a href="060.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 6日目・14:00｜個別説明会の受付と、</span></a>
+<div class="sidebar-section"><span>個別説明会申込後の配信 / メール</span></div>
+<a href="061.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 申込直後（自動返信）｜【重要】まだ日程は確定していません</span></a>
+<a href="062.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目 7:00｜まずは、LINEでご連絡ください</span></a>
+<a href="063.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 2日目 21:00｜60分で何をするのか、先にお見せします</span></a>
+<a href="064.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 3日目 21:00｜風水は「置くもの」だと思っていませんか</span></a>
+<a href="065.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>メール 4日目 21:00｜約4,000件の鑑定から見えたこと</span></a>
+<div class="sidebar-section"><span>個別説明会申込後の配信 / LINE</span></div>
+<a href="066.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE 個別説明会シナリオ登録直後（自動返信）｜個別説明会へのお申し込み、</span></a>
+<a href="067.html" class="sidebar-item is-nested"><span class="sidebar-item-mark" aria-hidden="true"></span><span>LINE メッセージ受信時（自動応答）｜メッセージありがとうございます😊</span></a></nav>
+<main class="content"><article class="article"><h1>配信の設計と決めたこと（設計戦略図）</h1><nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#0.-このファネルの位置づけ（v2で変わったこと）">0. このファネルの位置づけ（v2で変わったこと）</a></li><li class="toc-main"><a href="#0-1.-URL（原稿には仮URLを直書き済み。UTAGE本番URL確定時に一括置換する）">0-1. URL（原稿には仮URLを直書き済み。UTAGE本番URL確定時に一括置換する）</a></li><li class="toc-sub"><a href="#基準を変えた箇所（ゲート§5に従い理由を記録）">基準を変えた箇所（ゲート§5に従い理由を記録）</a></li><li class="toc-sub"><a href="#2026-09-21-改訂（クロスチェック反映・田中指示）">2026-09-21 改訂（クロスチェック反映・田中指示）</a></li><li class="toc-sub"><a href="#2026-09-21-追加裁定（田中）">2026-09-21 追加裁定（田中）</a></li><li class="toc-sub"><a href="#2026-09-21-追加裁定その2（田中）">2026-09-21 追加裁定その2（田中）</a></li><li class="toc-sub"><a href="#2026-10-03-追加（田中指示）">2026-10-03 追加（田中指示）</a></li><li class="toc-sub"><a href="#2026-10-10-追加（田中指示）:-個別説明会の申込後を5通＋LINEに">2026-10-10 追加（田中指示）: 個別説明会の申込後を5通＋LINEに</a></li><li class="toc-main"><a href="#0-2.-配信設計表">0-2. 配信設計表</a></li><li class="toc-sub"><a href="#第1話（3日間）-メール-8通-→-01_動画1/メール/">第1話（3日間） メール 8通 → 01_動画1/メール/</a></li><li class="toc-sub"><a href="#第1話（3日間）-LINE-4通-→-01_動画1/LINE/">第1話（3日間） LINE 4通 → 01_動画1/LINE/</a></li><li class="toc-sub"><a href="#第2話（3日間）-メール-8通-→-02_動画2/メール/">第2話（3日間） メール 8通 → 02_動画2/メール/</a></li><li class="toc-sub"><a href="#第2話（3日間）-LINE-4通-→-02_動画2/LINE/">第2話（3日間） LINE 4通 → 02_動画2/LINE/</a></li><li class="toc-sub"><a href="#第3話（5日間＋お礼1日）-メール-15通-→-03_動画3/メール/">第3話（5日間＋お礼1日） メール 15通 → 03_動画3/メール/</a></li><li class="toc-sub"><a href="#第3話（5日間＋お礼1日）-LINE-8通-→-03_動画3/LINE/">第3話（5日間＋お礼1日） LINE 8通 → 03_動画3/LINE/</a></li><li class="toc-main"><a href="#0-3.-リンクの重ね方（ゲート2-4）">0-3. リンクの重ね方（ゲート2-4）</a></li><li class="toc-main"><a href="#0-4.-おまけ（PS）の配置表">0-4. おまけ（PS）の配置表</a></li><li class="toc-main"><a href="#0-5.-実装チェックリスト（UTAGE）">0-5. 実装チェックリスト（UTAGE）</a></li><li class="toc-main"><a href="#0-6.-命名規則メモ">0-6. 命名規則メモ</a></li><li class="toc-main"><a href="#1.-ライティングの大原則（v2固有）">1. ライティングの大原則（v2固有）</a></li></ul></nav>
+<blockquote class="callout-box">
+<p>通ごとの主張・リンクの組み立て・田中さんの裁定の記録。原稿ファイルが正で、表は原稿から書き出している。</p>
+</blockquote>
+<p>作成日: 2026-08-13<br />
+命名・構造の正本: <code>skills/プッシュメッセージ設計/SKILL.md</code>（1通＝1MD／媒体はフォルダ分離／<code>連番_配信タイミング_件名.md</code>）<br />
+本文の型: <code>knowledge/スキル別/メルマガ作成/メルマガ共通ルール.md</code><br />
+合否: <code>gates/プロモーション/プッシュメッセージ.md</code><br />
+v1（一般販売型）との差分: <code>../README.md</code></p>
+<h2 id="0.-このファネルの位置づけ（v2で変わったこと）">0. このファネルの位置づけ（v2で変わったこと）</h2>
+<p>第3話の着地が「販売ページ→決済」から「<strong>個別説明会（60分・オンライン面談）</strong>」に変わった。ステップ配信の主張もこれに合わせて「講座を買ってください」から「<strong>まず60分、天野と話してください</strong>」へ全面的に切り替える。</p>
+<ul>
+<li>価格は動画・ページ・メール・LINEのどこにも書かない（面談内でのみ）。「特別価格」という語までは可</li>
+<li>面談は「約60分・オンライン（Zoom）・無料」で全通統一。「30分」は使わない</li>
+<li>講座の呼称は動画に合わせて「初級・応用・発展」。「開運講座」は使わない。3つをまとめて学ぶコースは、動画（第3話22:30のスライド）と同じ「三運統合（初級・応用・発展）コース」と呼ぶ（2026-10-10 田中指示。個別説明会ページは修正済み。配信4通〈M05・M13・L03・L06〉の「フルパック」は未修正）</li>
+<li>「講座の詳細ページ」「お申し込みページ」という語は使わない。着地はすべて「個別説明会ページ（事前フォーム）」</li>
+<li>第1話・第2話は動線が変わらないので v1 の主張・構成を活かし、文言微修正＋命名規則への揃え直し＋LINE新設のみ</li>
+<li>第3話は14通すべて書き直し（面談誘導型に）</li>
+</ul>
+<h2 id="0-1.-URL（原稿には仮URLを直書き済み。UTAGE本番URL確定時に一括置換する）">0-1. URL（原稿には仮URLを直書き済み。UTAGE本番URL確定時に一括置換する）</h2>
+<p>リントが <code>https://</code> で始まるURLしか検査しないため、原稿には <code>{変数}</code> ではなく<strong>仮URL</strong>を直書きしている。本番URL確定後、下表の仮URLを <code>sed</code> で一括置換すること（置換後にもう一度リントを回す）。</p>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>原稿内の仮URL</th>
+<th>本番URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第1話 視聴ページ</td>
+<td><code><a href="https://sub.the-lead11.com/p/fusui-ep1-douga" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/p/fusui-ep1-douga</a></code></td>
+<td><code><a href="https://sub.168fu-sui.com/p/episode1-archive" target="_blank" rel="noopener noreferrer">https://sub.168fu-sui.com/p/episode1-archive</a></code>（2026-10-09 確定・原稿は置換済み）</td>
+</tr>
+<tr>
+<td>第2話 視聴ページ</td>
+<td><code><a href="https://sub.the-lead11.com/p/fusui-ep2-douga" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/p/fusui-ep2-douga</a></code></td>
+<td><code><a href="https://sub.168fu-sui.com/p/episode2-archive" target="_blank" rel="noopener noreferrer">https://sub.168fu-sui.com/p/episode2-archive</a></code>（2026-10-09 確定・原稿は置換済み）</td>
+</tr>
+<tr>
+<td>第3話 視聴ページ</td>
+<td><code><a href="https://sub.the-lead11.com/p/fusui-ep3-douga" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/p/fusui-ep3-douga</a></code></td>
+<td><code><a href="https://sub.168fu-sui.com/p/episode3-archive" target="_blank" rel="noopener noreferrer">https://sub.168fu-sui.com/p/episode3-archive</a></code>（2026-10-09 確定・原稿は置換済み）</td>
+</tr>
+<tr>
+<td>個別説明会ページ（個別説明会・事前フォーム）</td>
+<td><code><a href="https://sub.the-lead11.com/p/fusui-ep3-mendan" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/p/fusui-ep3-mendan</a></code></td>
+<td><code><a href="https://sub.168fu-sui.com/p/kobetsuform-apply" target="_blank" rel="noopener noreferrer">https://sub.168fu-sui.com/p/kobetsuform-apply</a></code>（2026-10-10 UTAGE担当のカレンさん発行。第3話のメール・LINE・振り返りページは差し替え済み）</td>
+</tr>
+<tr>
+<td>個別説明会の事前フォーム（ページ内ボタンの飛び先）</td>
+<td><code><a href="https://sub.the-lead11.com/p/fusui-ep3-mendan-form" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/p/fusui-ep3-mendan-form</a></code></td>
+<td>（未確定）</td>
+</tr>
+<tr>
+<td>振り返りページ（旧・復習用ページ。第1話〜第3話＋「個別説明会はこちら」。第3話と同じ5日目23:59で閉じる。第3話の3〜5日目の配信から毎通案内）</td>
+<td><code><a href="https://sub.the-lead11.com/p/fusui-fukushu" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/p/fusui-fukushu</a></code></td>
+<td>（未確定）</td>
+</tr>
+<tr>
+<td>特定商取引法に基づく表記</td>
+<td><code><a href="https://sub.the-lead11.com/p/fusui-toku" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/p/fusui-toku</a></code></td>
+<td>（未確定）</td>
+</tr>
+<tr>
+<td>プライバシーポリシー</td>
+<td><code><a href="https://sub.the-lead11.com/p/fusui-pp" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/p/fusui-pp</a></code></td>
+<td>（未確定）</td>
+</tr>
+<tr>
+<td>公式LINE（自動返信00のみ）</td>
+<td><code><a href="https://sub.the-lead11.com/line/open/fusui-official" target="_blank" rel="noopener noreferrer">https://sub.the-lead11.com/line/open/fusui-official</a></code></td>
+<td>（未確定）</td>
+</tr>
+<tr>
+<td>PS用YouTube（第2話メール02）</td>
+<td><code><a href="https://www.youtube.com/watch?v=FUSUI_EP2_PS_PLACEHOLDER" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=FUSUI_EP2_PS_PLACEHOLDER</a></code></td>
+<td>天野さんに該当回を確認。無ければPSごと削除</td>
+</tr>
+<tr>
+<td>PS用YouTube（第1話メール03）</td>
+<td>第1話フォルダの原稿を参照</td>
+<td>同上</td>
+</tr>
+</tbody>
+</table>
+<p>感想フォーム（第1話→第2話、第2話→第3話）は視聴ページ内に埋め込む前提で、配信本文には別URLを置かない。</p>
+<table>
+<thead>
+<tr>
+<th>期限タグ</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%base_date|n月j日(w)|P2D%</code></td>
+<td>第1話・第2話の期限（登録日を1日目とする3日間＝+2日）</td>
+</tr>
+<tr>
+<td><code>%base_date|n月j日(w)|P4D%</code></td>
+<td>第3話の期限（登録日を1日目とする5日間＝+4日）</td>
+</tr>
+<tr>
+<td>~~<code>%base_date|n月j日(w)|P6D%</code>~~</td>
+<td>使わない（2026-10-10 田中指示で7日目を廃止。振り返りページも第3話と同じ <code>P4D</code>）</td>
+</tr>
+</tbody>
+</table>
+<p>読者名の差し込み（<code>%name%</code> 等）は使わない。</p>
+<h3 id="基準を変えた箇所（ゲート§5に従い理由を記録）">基準を変えた箇所（ゲート§5に従い理由を記録）</h3>
+<ul>
+<li><strong>03_動画3/LINE/06（5日目22時・最終）は353文字で400字未満のまま許容</strong>（2026-08-13）。理由: 締切2時間前の最後の1通で、読者は文章ではなくボタンを押すかどうかだけを見る局面。文字を足すと逆に離脱する。他の6通は400字以上を満たしている</li>
+</ul>
+<h3 id="2026-09-21-改訂（クロスチェック反映・田中指示）">2026-09-21 改訂（クロスチェック反映・田中指示）</h3>
+<ul>
+<li><strong>事例はすべて出所のある実例に置き換えた。</strong> 旧M04（経営者A）・M06（老舗旅館）・M09（占い師）・M12（主婦B）は、動画の書き起こしにもマスターデータにも出所が無かったため廃止。差し替え先は <code>../../../マスターデータ/お客様の声データ.md</code> のA区分（受講生：熊坂雅代・田中三智代・小池裕美子）とB区分（鑑定クライアント：岡義隆・小林博文・山田直広）。鑑定クライアントは「鑑定を受けた方」、受講生は「学んだ方」と書き分ける。旧版は <code>_旧版_20260920/</code> に退避</li>
+<li><strong>なぜ今なのか</strong>を M10（4日目21時）に1通まるごと入れた（旧「風水マスターという働き方」を置き換え）。中身は個別説明会ページの「迫る壁」と同じ</li>
+<li><strong>推薦の声</strong>（岡先生・小林社長）を M09 に入れた。個別説明会ページ・オプトインLPと同じ人物・同じ事実</li>
+<li>全49通（第1話12・第2話12・第3話25）に <code>| 気づき | … |</code> を追記（ゲートの新基準）</li>
+<li>「個人の感想」の注記は<strong>オプトインLPのみ</strong>（広告の着地ページ対策）。配信と個別説明会ページには入れない（田中裁定 2026-09-21）</li>
+<li>リントの実行コマンド（名乗りを重複判定から除く）:<br />
+<code>python3 02_ツール/開発支援/プッシュメッセージ_リント.py &lt;このフォルダ&gt; --opening-signature "メール:風水空間クリエイター|天野千恵里です。"</code></li>
+<li>リントに残るNGは次の2種で、どちらも機械の誤検出として許容する: ①期限タグ <code>%base_date|…%</code> を含む行の文字数超過（配信時は「9月23日(水)」程度に展開され22字以内に収まる）　②P2D／P4Dの混在（第1話・第2話は3日、第3話は5日という設計どおり）</li>
+</ul>
+<h3 id="2026-09-21-追加裁定（田中）">2026-09-21 追加裁定（田中）</h3>
+<ul>
+<li><strong>第3話の受付は5日のまま。メールの通数も増やさない。</strong>「なぜ今なのか」を前へ出す（4日目21時→<strong>2日目7時</strong>。第3話で最初に届く朝のメール）。5日目のメールは3通</li>
+<li><strong>個別LINEへの誘導は第3話の1通目から。</strong> LINE全通のボタン前に「気になることは、このLINEに送ってください」、メールは迷いを扱う通（不安・迷う・売り込まれませんか・私なんて・最終日2通）の末尾に「公式LINEにそのままメッセージをください。私が直接お返事します」。URLは置かない（リンク数を増やさない）。主役は申込ボタン、LINEは迷っている人の受け皿</li>
+<li><strong>6〜7日目のフォロー（メール2通・LINE2通）を新設。事前フォームを送っていない方だけに送る。</strong> 受付と特別価格の対象は5日目23:59で本当に閉じる（延長しない）。6日目＝受付終了の報告＋第1話・第2話を復習用に再公開、7日目＝復習用の公開とLINE相談は本日まで。LINEで相談が来た方をどうご案内するかは天野さんの個別判断</li>
+<li><strong>復習用の再公開は、第1話・第2話で感想（アウトプット）を出してくださった方へのお礼。</strong> 「3日で非公開」は感想を出さなかった方に対する話なので矛盾しない（田中裁定）。文面にも「感想を送ってくださった皆さんへ、お礼として」と書く</li>
+<li>LINEは1日1通以上（第3話: 1〜4日目は各1通、5日目3通、6日目1通）</li>
+<li>実装: UTAGEで「事前フォーム送信済み」のラベル（または申込シナリオへの移動）を条件に、M14・M15・L07・L08 の配信対象から外す。復習用ページは第1話・第2話の視聴ページを複製し、感想フォームを外して7日目23:59で閉じる</li>
+<li><strong>2026-10-10 田中指示で上の6〜7日目を変更</strong>: 7日目を無くし、すべてを5日間で終える。第3話の公開・個別説明会の受付・復習用ページは5日目23:59で閉じる（動画のテロップ「お申し込みの受付は、第3話の公開期間（5日間）です」とそのまま合う）。5日目は3通のプッシュ（メール11〜13・LINE04〜06）のまま。6日目は「ありがとうございました。これからはYouTubeでお付き合いください」とお礼を伝え、天野さんのYouTubeを渡すだけ（メール14・LINE07）。復習用の再公開とLINE相談の延長はしない。メール15・LINE08（7日目）は削除</li>
+</ul>
+<h3 id="2026-09-21-追加裁定その2（田中）">2026-09-21 追加裁定その2（田中）</h3>
+<ul>
+<li>肩書きは「<strong>風水空間クリエイター</strong>」に統一（配信49通の名乗り・個別説明会ページ）</li>
+<li>実績の言い方は「<strong>風水鑑定4,000件</strong>」に統一</li>
+<li>欠席時の録画対応は、個別説明会ページの「よくあるご質問」の記載どおりでよい</li>
+<li><strong>個別LINEの返信は天野さんに回す</strong>（こちらから依頼して運用を渡す）</li>
+<li>加藤銘茶本舗（加藤進さま）は、第2話の「老舗のお茶屋さん」と同一の事例</li>
+<li>復習用ページは1本（第1話〜第3話＋「個別のご相談はこちら」＝LINE）。特商法・プライバシーポリシーはエグゼクティブ風水学の既存ページ（株式会社KAIUN名義）をもとに本講座用を作成。生成は <code>../ページ/HTML/_build_sub_pages.py</code></li>
+<li>復習用ページの各話の下に「個別説明会のお申し込みはこちらから」のリンクを置く（田中指示 2026-09-21）。<strong>受付の締切は個別説明会ページ側のUTAGEタイマーで制御する</strong>（5日目23:59以降は、個別説明会ページ・復習用ページとも公開終了ページへ移す設定にする。2026-10-10 に7日目とLINE相談の延長を無くしたため）。復習用ページは感想を出した方なら5日以内に見ても差し支えない作りにしてある</li>
+<li><strong>呼び名は「個別説明会」に統一</strong>（田中指示 2026-09-21）。「入会事前確認」は動画3の中だけの呼び名なので、個別説明会ページの冒頭注記で一度だけ対応を書く。60分の場そのものを指す普通名詞としての「面談」は使ってよい</li>
+<li><strong>個別説明会ページは、単独で人に送っても成立する書き方にする</strong>（田中指示 2026-09-21）。「第3話で紹介した」「3本の動画を見た方へ」など話数に依存する言い方をしない。締めは限定性ではなく「まず一歩踏み出してみてください」</li>
+<li><strong>期限はページ本文に書かない。</strong> ステップ配信用（<code>mendan/</code>）だけ、ページ最上部の固定バー「個別説明会のお申し込みは ◯月◯日 23:59 まで」と、動画視聴者向けの注記を出す。直接ご案内用（<code>mendan_direct/</code>）はバーも注記も無し。限定性はメール・LINEで伝える</li>
+<li>お客様の声は顔写真つきで多く載せる。学んだ方6名（オプトインLPの画像から顔写真を切り出し。田中三智代さまは写真が手元に無いため末尾に文章のみ）＋天野の鑑定を受けた方5名（ご自宅・ご家族の変化が中心の方。不妊治療など医療に関わる声は載せない）</li>
+<li>特典はビジュアルつき。Zoom風水特別セミナーの中身（過去のテーマ）は天野さんに確認して追記する</li>
+<li><strong>個別説明会ページはデザイナー依頼ではなく自社で修正する</strong>。土持さんのCSS・画像を土台にした自社生成HTML（<code>_build_mendan.py</code>）で、文言・ブロックの増減・スマホ表示の調整まで対応できる。土持さんに頼むのは、文字を焼き込んだ見出し画像を新しく作るときだけ</li>
+</ul>
+<h3 id="2026-10-03-追加（田中指示）">2026-10-03 追加（田中指示）</h3>
+<ul>
+<li><strong>言い方の統一</strong>（2026-10-03 田中指示で再変更）: 先に進むための仕組みは「動画の下のフォームから<strong>感想を送っていただくと、次の話に進めます</strong>」というやわらかい言い方にする。「課題」「宿題」「アウトプット」「提出しないと見られない」は心理的なハードルが高いので使わない（動画の中ではフォームに触れていないため、配信側の言い方は自由に決めてよい）。第1話の最後の玄関の見直しは「チェック」「お伝えしたこと」と書く</li>
+<li><strong>動画との総点検</strong>: 全49通・387項目を書き起こしと照合（Codex独立レビュー）。動画と食い違う14件・根拠のない29件のうち、動画の中身を言い違えている箇所（第3話のテーマを「風水とお金」としていた5通、3事例の共通点、不登校事例の内容、第2話で話す内容、図面だけで実践できる、など）と、実在しない声・体験に見える記述（「言ってくださる方が多い」「毎回いらっしゃいます」「何度も聞いてきました」「何度も思いました」等）を直した。動画の尺（約35分・25分）は編集後の長さで正しいので変更なし。直す前の版は <code>../_旧版/配信_20261003/</code></li>
+<li><strong>個別説明会の申込後の自動返信を新設</strong>: <code>04_個別説明会申込後/</code>（メール1通・LINE2通）</li>
+<li>メール M00: 事前フォーム送信直後の自動返信。公式LINE（個別説明会シナリオ連携）へ誘導し、お名前を送ってもらう</li>
+<li>LINE L00: 個別説明会シナリオ登録直後。お名前の送信をお願いする。<strong>URLを置かない例外</strong>（リントの「自動返信にCTAが無い」は許容。やってほしい行動がお名前の送信で、リンクを押す必要がないため）</li>
+<li>LINE L01: メッセージ受信時の自動応答。担当スタッフが1〜2営業日以内に返信</li>
+</ul>
+<h3 id="2026-10-10-追加（田中指示）:-個別説明会の申込後を5通＋LINEに">2026-10-10 追加（田中指示）: 個別説明会の申込後を5通＋LINEに</h3>
+<ul>
+<li>田中さんの「みんなでローンチ」個別説明会の申込後5通（申込直後・1日目7時・1日目21時・2日目21時・3日目21時）を手本に、呼び方を「個別説明会」にそろえて作った。手本の原文は <code>04_個別説明会申込後/参考_みんなでローンチ個別説明会申込後_UTAGE抜き取り_20261010.md</code>（UTAGE APIで抜き取り）</li>
+<li>LINEは日程調整のためにお名前を聞くだけ（田中指示）。L00は田中さん指定の文「お申し込みありがとうございます。ご本人確認（お名前の照合）のため、お申し込み時のお名前を教えてください。確認後、日程調整のご連絡をさせていただきます」をもとにした短い1通</li>
+<li>電話での連絡はしない（手本にある「お電話にてご連絡」は入れていない）</li>
+</ul>
+<p><strong>日の数え方（2026-10-10 田中指摘で統一）</strong>: すべてのシナリオで「登録日（申込日）＝1日目」と数える。UTAGEの「N日後」は「(N+1)日目」。申込後の4通は、手本（みんなでローンチ）の「申込の翌日＝1日目」の表記のままになっていて第1〜3話と1日ずれていたので、2日目〜4日目に直した（送る時刻は変わらない）。各ファイルの「UTAGEの設定」欄に、入れる値を書いてある</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th>推奨日時</th>
+<th>主張</th>
+<th>冒頭の入り方</th>
+<th>CTA位置</th>
+<th>リンク</th>
+<th>ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">M00</td>
+<td>申込直後</td>
+<td>まだ日程は確定していない。日程はLINEで決める</td>
+<td>あいさつ→受付の報告</td>
+<td>冒頭</td>
+<td>公式LINE</td>
+<td><code>04_個別説明会申込後/メール/00_申込直後_まだ日程は確定していません.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">M01</td>
+<td>2日目 7:00</td>
+<td>まずLINEで連絡。天野との面談の候補日も参加URLもLINEで届く</td>
+<td>あいさつ→入れ違いのおわび</td>
+<td>中盤</td>
+<td>公式LINE</td>
+<td><code>04_個別説明会申込後/メール/01_2日目7時_まずはLINEでご連絡ください.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">M02</td>
+<td>2日目 21:00</td>
+<td>60分でやることを先に全部見せる</td>
+<td>問いかけ</td>
+<td>末尾</td>
+<td>公式LINE</td>
+<td><code>04_個別説明会申込後/メール/02_2日目21時_60分で何をするのか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">M03</td>
+<td>3日目 21:00</td>
+<td>風水は「置くもの」ではなく場所・時間・人を合わせて見る</td>
+<td>LINEの確認→世間の意見</td>
+<td>冒頭</td>
+<td>公式LINE</td>
+<td><code>04_個別説明会申込後/メール/03_3日目21時_風水は置くものだと思っていませんか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">M04</td>
+<td>4日目 21:00</td>
+<td>約4,000件の鑑定と学んだ方の声。仲間と学ぶ講座</td>
+<td>数字の提示</td>
+<td>末尾</td>
+<td>公式LINE</td>
+<td><code>04_個別説明会申込後/メール/04_4日目21時_約4000件の鑑定から見えたこと.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">L00</td>
+<td>個別説明会シナリオ登録直後</td>
+<td>お名前の照合のためにお名前を送ってほしい</td>
+<td>お礼</td>
+<td>なし</td>
+<td>なし</td>
+<td><code>04_個別説明会申込後/LINE/00_シナリオ登録直後_お名前を送ってください.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">L01</td>
+<td>メッセージ受信時</td>
+<td>届いたこと・確認でき次第返信すること・面談の候補日もこのトークで届くこと</td>
+<td>お礼</td>
+<td>なし</td>
+<td>なし</td>
+<td><code>04_個別説明会申込後/LINE/01_メッセージ受信時_自動応答.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>基準を変えた箇所（ゲート§5。案件の例外）:</p>
+<ul>
+<li><strong>公式LINEへの誘導を全5通に置く。</strong> スキルの「公式LINEへの誘導は自動返信1通だけ」は販促・教育の配信向けの決まり。申込後の配信は、LINEでお名前を送ってもらうことが目的そのもので、手本の5通も全通に専用LINEを置いている（2026-10-10 田中指示で手本に合わせた）</li>
+<li><strong>M01〜M04は申込者全員に届く。</strong> お名前をLINEで送ったかどうかは自動では分からない（LINEの友だち追加・シナリオ登録だけでは、お名前の送信まで済んだとは限らない）ため、除外はしない。手本と同じく本文の「入れ違いのご連絡になります」で対応する（M01に記載）</li>
+<li><strong>M00のLINEをお使いでない方の連絡先は <code>support@fu-sui168.com</code>。</strong> 天野さんのサイトの特定商取引法の表記（<a href="https://fu-sui168.com/commerce" target="_blank" rel="noopener noreferrer">https://fu-sui168.com/commerce</a> 。オプトインLPがリンクしているもの）のアドレス。9/21に作った特商法ページはエグゼクティブ風水学の特商法（<code>b_fengshui@lead-pro1.com</code>）から写していたので、2026-10-10 田中指摘でこちらにそろえた</li>
+<li><strong>L00・L01は短いまま（LINEの400〜500字の対象外）、L00はURLを置かない。</strong> お名前を送ってもらうだけの通のため（2026-10-03・2026-10-10 田中指示）</li>
+<li>リントのコマンド: <code>python3 02_ツール/開発支援/プッシュメッセージ_リント.py &lt;このフォルダ&gt;/個別説明会申込後 --expect メール=5,LINE=2 --opening-signature "メール:風水空間クリエイター|天野千恵里です。"</code>。残るNGはL00のURL無しの1件だけ</li>
+</ul>
+<h2 id="0-2.-配信設計表">0-2. 配信設計表</h2>
+<p>この表は、各原稿MDの冒頭の設計メモ（主張・冒頭の入り方・CTA位置・リンク）から書き出したもの。<strong>原稿ファイルが正</strong>で、表と食い違ったら原稿に合わせて書き出し直す（2026-10-11、表と原稿のずれを直したときに決めた）。</p>
+<h3 id="第1話（3日間）-メール-8通-→-01_動画1/メール/">第1話（3日間） メール 8通 → <code>01_動画1/メール/</code></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th>推奨日時</th>
+<th>主張</th>
+<th>冒頭の入り方</th>
+<th>CTA位置</th>
+<th>リンク</th>
+<th>ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">00</td>
+<td>1日目・登録直後（自動返信）</td>
+<td>本物の風水で運気を劇的に変える方法（コンセプト提示）。世間の風水は「似て非なるもの」、世界のトップが使う本物の風水を教科書として公開する</td>
+<td>あいさつ→コンセプト→CTA（自動返信の例外形）</td>
+<td>前半</td>
+<td>第1話URL×2＋公式LINE（自動返信のみ3本）</td>
+<td><code>00_登録直後_本物の風水で運気を劇的に変える方法.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">01</td>
+<td>1日目・登録1時間後</td>
+<td>第1話リマインドと第2話への条件（感想のアウトプットが第2話の鍵）。第2話で見られる3つの事例を予告する</td>
+<td>問いかけ</td>
+<td>末尾</td>
+<td>第1話URL×1＋PSに天野さんのYouTube（2026-10-10 田中指示）</td>
+<td><code>01_1時間後_第1話リマインドと第2話案内.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">02</td>
+<td>2日目・7:00</td>
+<td>玄関のチェックは済みましたか（玄関＝気の入り口。ここが詰まると奥まで気が届かない）</td>
+<td>共感シチュエーション（朝の玄関の光景）</td>
+<td>中盤</td>
+<td>第1話URL×1＋PS: 天野さんのYouTube「玄関を開けた時にコレが見える家は…」（Mf6Q0Rl5X2s。2026-10-10 田中指示で教育用に追伸へ）</td>
+<td><code>02_2日目7時_コレお忘れではないですか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">03</td>
+<td>2日目・12:00</td>
+<td>一級建築士が本物の風水に辿り着いた理由（設計だけでは解決できない悩みがあった。運気が上がらないのは努力不足ではなく本物を知らないだけ）</td>
+<td>ストーリー先行（ハウスメーカー時代）</td>
+<td>末尾</td>
+<td>第1話URL×1＋PS: 天野さんのYouTube「家相と風水の違い」（tSROeZ55lgg。2026-10-10 田中指示で教育用に追伸へ）</td>
+<td><code>03_2日目12時_一級建築士が本物の風水に辿り着いた理由.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">04</td>
+<td>2日目・19:00</td>
+<td>動画は明日まで、まだ間に合います（高価な道具も才能も不要。図面と正しい知識があれば誰でも実践できる）</td>
+<td>数字の提示（残り29時間）</td>
+<td>冒頭</td>
+<td>第1話URL×1＋PSに天野さんのYouTube（2026-10-10 田中指示）</td>
+<td><code>04_2日目19時_動画は明日までまだ間に合います.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">05</td>
+<td>3日目・7:00</td>
+<td>第1話の重要ポイントを5分で（未視聴の人向けダイジェスト。本編は本日23:59まで）</td>
+<td>世間の意見（「風水は気休め」というコメント）</td>
+<td>中盤</td>
+<td>第1話URL×1＋PSに天野さんのYouTube（2026-10-10 田中指示）</td>
+<td><code>05_3日目7時_第1話の重要ポイントを5分で解説.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">06</td>
+<td>3日目・12:00</td>
+<td>スターバックスやAppleが風水を使う理由（成功者の共通点は「環境の力」を戦略的に使っていること。風水は元々成功者専用の技術）</td>
+<td>相談の引用（経営者からの「会社には関係ないでしょう？」）</td>
+<td>末尾</td>
+<td>第1話URL×1＋PSに天野さんのYouTube（2026-10-10 田中指示）</td>
+<td><code>06_3日目12時_スターバックスやAppleは風水を使う理由.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">07</td>
+<td>3日目・21:00</td>
+<td>あと3時間、動画は間もなく削除（最終確認と3つのポイントの総まとめ。感想アウトプット→第2話へ）</td>
+<td>数字の提示（締切・あと3時間）</td>
+<td>冒頭</td>
+<td>第1話URL×2（冒頭・末尾）</td>
+<td><code>07_3日目21時_あと3時間動画は間もなく削除されます.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="第1話（3日間）-LINE-4通-→-01_動画1/LINE/">第1話（3日間） LINE 4通 → <code>01_動画1/LINE/</code></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th>推奨日時</th>
+<th>主張</th>
+<th>冒頭の入り方</th>
+<th>CTA位置</th>
+<th>リンク</th>
+<th>ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">00</td>
+<td>1日目・登録直後</td>
+<td>第1話の視聴案内（コンセプト提示。世間の風水は似て非なるもの、本物の風水を第1話で）</td>
+<td>あいさつ→コンセプト→CTA（自動返信の例外形）</td>
+<td>前半（コンセプト直後）</td>
+<td>第1話</td>
+<td><code>00_登録直後_第1話の視聴案内.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">01</td>
+<td>2日目・14:00</td>
+<td>玄関のチェック（玄関＝気の入り口。正面の透明窓は気が抜ける）</td>
+<td>問いかけ（玄関チェックの進み具合）</td>
+<td>中盤</td>
+<td>第1話</td>
+<td><code>01_2日目14時_玄関を見直しましたか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">02</td>
+<td>3日目・14:00</td>
+<td>家相と風水を混ぜると効かない（世間の風水の多くは日本独自の家相。本物の風水は統計学で調整方法がある）</td>
+<td>世間の意見（よく聞く家相のルールを並べる）</td>
+<td></td>
+<td>第1話</td>
+<td><code>02_3日目14時_家相と風水は混ぜるな.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">03</td>
+<td>3日目・22:00</td>
+<td>締切直前（あと2時間。第1話の2つの要点を再提示し、感想アウトプット→第2話へ）</td>
+<td>数字の提示（締切）</td>
+<td>冒頭</td>
+<td>第1話</td>
+<td><code>03_3日目22時_あと2時間.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="第2話（3日間）-メール-8通-→-02_動画2/メール/">第2話（3日間） メール 8通 → <code>02_動画2/メール/</code></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th>推奨日時</th>
+<th>主張</th>
+<th>冒頭の入り方</th>
+<th>CTA位置</th>
+<th>リンク</th>
+<th>ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">00</td>
+<td>1日目・登録直後（第1話の感想提出直後・自動返信）</td>
+<td>第2話（実例編）をお届け。3つのビフォーアフターで「環境を変えると人生が動く」を見せる</td>
+<td>あいさつ→コンセプト→CTA（自動返信の例外形）</td>
+<td>前半</td>
+<td>第2話URL×2＋公式LINE（自動返信のみ3本）</td>
+<td><code>00_登録直後_第2話実例編をお届けします.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">01</td>
+<td>1日目・登録1時間後（再送）</td>
+<td>第2話はご覧になりましたか。3日間限定の実例編を見て、感想を出すと第3話へ</td>
+<td>問いかけ</td>
+<td>末尾</td>
+<td>第2話URL＋PSに天野さんのYouTube（2026-10-10 田中指示）</td>
+<td><code>01_1時間後_第2話の動画はご覧になりましたか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">02</td>
+<td>2日目・7:00</td>
+<td>たった10日で不登校が解決した理由（玄関の荷物と本命卦に合わないベッド）。問題は子どもではなく環境の側</td>
+<td>ストーリー先行</td>
+<td>中盤</td>
+<td>第2話URL＋PS: 天野さんのYouTube「玄関変えただけ。引きこもりの子供に起きた劇的な変化」（t55mBe7IHqs）</td>
+<td><code>02_2日目7時_たった10日で不登校が解決した理由.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">03</td>
+<td>2日目・12:00</td>
+<td>売上2倍が3年継続・通院不要・TV取材3本。老舗お茶屋さんは入り口を1つに絞り、レジと寝室を整えただけ</td>
+<td>数字の提示</td>
+<td>末尾</td>
+<td>第2話URL＋PS: 天野さんのYouTube「医師が風水を取り入れた理由｜レジを50cm戻したら売上が変わった」（vztFGVGkHow）</td>
+<td><code>03_2日目12時_売上2倍通院不要_老舗お茶屋さんの奇跡.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">04</td>
+<td>2日目・19:00</td>
+<td>モンスターペアレンツと息子の依存症、解決の鍵は入り口。3つの入り口を良い玄関1本に統一したら人間関係が入れ替わった</td>
+<td>共感シチュエーション</td>
+<td>冒頭</td>
+<td>第2話URL＋PS: 天野さんのYouTube「夫婦関係が風水で改善したホントの話」（_NrDlLu5gDA）</td>
+<td><code>04_2日目19時_モンスターペアレンツと依存症_解決の鍵は入り口.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">05</td>
+<td>3日目・7:00</td>
+<td>3つの実例に共通するのは、気の流れと住む人と空間の相性を整えたこと。使いこなすには「場所・時間・人」を合わせて見る。断片の風水では効かない。本日23:59で非公開</td>
+<td>世間の意見</td>
+<td>中盤</td>
+<td>第2話URL＋PSに天野さんのYouTube（2026-10-10 田中指示）</td>
+<td><code>05_3日目7時_3つの実例に共通する運の方程式とは.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">06</td>
+<td>3日目・12:00</td>
+<td>風水とお金の秘密（水＝お金の巡り・山＝人間関係と健康）。第3話に進む条件は第2話の視聴と感想。本日まで</td>
+<td>相談の引用</td>
+<td>末尾</td>
+<td>第2話URL＋PSに天野さんのYouTube（2026-10-10 田中指示）</td>
+<td><code>06_3日目12時_風水とお金の秘密知りたくありませんか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">07</td>
+<td>3日目・21:00</td>
+<td>あと3時間。運気を「待つ」のをやめて「創る」人生へ。3事例は具体的な行動で運気を創った。環境だけは自分で整えられる</td>
+<td>数字の提示（締切）</td>
+<td>冒頭（末尾にも同じURLを1本）</td>
+<td>第2話URL×2</td>
+<td><code>07_3日目21時_運気を待つのをやめて創る人生へ.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="第2話（3日間）-LINE-4通-→-02_動画2/LINE/">第2話（3日間） LINE 4通 → <code>02_動画2/LINE/</code></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th>推奨日時</th>
+<th>主張</th>
+<th>冒頭の入り方</th>
+<th>CTA位置</th>
+<th>リンク</th>
+<th>ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">00</td>
+<td>1日目・登録直後（第1話の感想提出直後・自動返信）</td>
+<td>第2話（実例編）の視聴案内。3つの事例に共通するのは「気の入り口」を整えたこと</td>
+<td>あいさつ→コンセプト→CTA（自動返信の例外形）</td>
+<td>前半</td>
+<td>第2話URL</td>
+<td><code>00_登録直後_第2話の視聴案内.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">01</td>
+<td>2日目・14:00</td>
+<td>玄関の鏡クイズ（正面はNG。良い気まで跳ね返す）。知っていれば防げることが第2話にある</td>
+<td>問いかけ（クイズ）</td>
+<td>末尾</td>
+<td>第2話URL</td>
+<td><code>01_2日目14時_玄関の鏡どこがダメ.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">02</td>
+<td>3日目・14:00</td>
+<td>寝室の梁チェック（梁の下で寝ると体を切られる状態。布で隠すだけでOK）。本日23:59まで</td>
+<td>共感シチュエーション（体調不良の相談）</td>
+<td>末尾</td>
+<td>第2話URL</td>
+<td><code>02_3日目14時_寝室の梁を見てください.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">03</td>
+<td>3日目・22:00</td>
+<td>締切直前（あと2時間）。問題は人ではなく環境。風水は事前予防の技術</td>
+<td>数字の提示（締切）</td>
+<td>中盤</td>
+<td>第2話URL</td>
+<td><code>03_3日目22時_あと2時間.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="第3話（5日間＋お礼1日）-メール-15通-→-03_動画3/メール/">第3話（5日間＋お礼1日） メール 15通 → <code>03_動画3/メール/</code></h3>
+<p>2026-10-10 田中指示で並び替え: 1〜2日目は第3話の中身だけ（受講生の声・学び方・開運との違い）、個別説明会の話（なぜ今・面談の中身・不安）は3日目以降へ。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th>推奨日時</th>
+<th>主張</th>
+<th>冒頭の入り方</th>
+<th>CTA位置</th>
+<th>リンク</th>
+<th>ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">00</td>
+<td>1日目・登録直後（第2話の感想提出直後・自動返信）</td>
+<td>最終話（第3話）をお届けする。第3話は「自分の家を自分で整えられるようになる」話で、独学の壁・開運との違い・家族まで変わる理由・学んだ方の家で起きたことを話している。講座のご案内は動画の最後でする（2026-10-10 田中指示: 最初の段階では第3話の面白さと学びの深さだけを伝える。申し込みの仕組みや30分・3日以内の訂正は書かない）</td>
+<td>あいさつ→コンセプト→CTA（自動返信の例外形）</td>
+<td>前半</td>
+<td>第3話URL×2＋公式LINE（自動返信のみ3本）</td>
+<td><code>00_登録直後_本物の風水を自分で使えるようになる方法.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">01</td>
+<td>1日目・登録1時間後（再送）</td>
+<td>その場限りの開運（神社・パワースポット）は、しばらくすると元に戻る。風水で空間を整えると効果が積み重なり、家族や周りの人の運気も一緒に上がる。第3話の前半でこの話をしている</td>
+<td>問いかけ</td>
+<td>末尾</td>
+<td>第3話＋PSに天野さんのYouTube（2026-10-10 田中指示: 1〜2日目は第3話のリンクだけにし、PSに天野さんのYouTube）</td>
+<td><code>01_1時間後_神社に行っても元に戻る理由.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">02</td>
+<td>2日目・7:00</td>
+<td>小池裕美子さんは自分で学び、自宅だけでなくご主人の会社まで自分で整えた。学ぶ意味はここにある</td>
+<td>ストーリー先行</td>
+<td>末尾</td>
+<td>第3話＋PSに天野さんのYouTube（2026-10-10 田中指示: 1〜2日目は第3話のリンクだけにし、PSに天野さんのYouTube）</td>
+<td><code>02_2日目7時_自分で学んでご主人の会社まで整えた人の話.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">03</td>
+<td>2日目・12:00</td>
+<td>会社員の熊坂雅代さんはご主人の寝る場所を、薬剤師の田中三智代さんは娘さんの机の位置を変えた。講座で学んだことを、ご家族のために自分の家で試した二人の話は第3話で</td>
+<td>ストーリー先行</td>
+<td>末尾</td>
+<td>第3話＋PSに天野さんのYouTube（2026-10-10 田中指示: 1〜2日目は第3話のリンクだけにし、PSに天野さんのYouTube）</td>
+<td><code>03_2日目12時_変えたのは寝る場所と机の位置だけ.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">04</td>
+<td>2日目・19:00</td>
+<td>本やYouTubeで調べても自分の家に当てはめられないのは、学び方の問題。第3話の後半で、予習の動画とZoomの復習講座の2段階、ほかの方の質問からの気づき、応用の実習会で羅盤を手に測る練習、同じ志の仲間と進めることを話している</td>
+<td>共感（よくある状況）</td>
+<td>末尾</td>
+<td>第3話＋PSに天野さんのYouTube（2026-10-10 田中指示: 1〜2日目は第3話のリンクだけにし、PSに天野さんのYouTube）</td>
+<td><code>04_2日目19時_本を読んでも身につかなかった理由.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">05</td>
+<td>3日目・7:00</td>
+<td>なぜ今なのか。今の20年周期は2043年まで。多くの人にとって自分でお金を動かせる最後の20年と重なる。環境は毎日効き、家を変えられるのは動けるうちだけ。でもまずは今の家で整えられるところから始められる。</td>
+<td>数字の提示</td>
+<td>末尾</td>
+<td>振り返りページ（第1話〜第3話）＋個別説明会ページ（2026-10-10 田中指示: 3〜5日目は個別説明会ページと振り返りページの2本）</td>
+<td><code>05_3日目7時_2043年にあなたは何歳ですか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">06</td>
+<td>3日目・12:00</td>
+<td>60分で何を話すのか、全部先にお見せする（開示）</td>
+<td>数字の提示</td>
+<td>冒頭</td>
+<td>振り返りページ（第1話〜第3話）＋個別説明会ページ（2026-10-10 田中指示: 3〜5日目は個別説明会ページと振り返りページの2本）</td>
+<td><code>06_3日目12時_面談60分で話すこと.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">07</td>
+<td>3日目・21:00</td>
+<td>「売り込まれませんか」という質問への答え。決めるのは面談の後でいい</td>
+<td>相談の引用</td>
+<td>冒頭</td>
+<td>振り返りページ（第1話〜第3話）＋個別説明会ページ（2026-10-10 田中指示: 3〜5日目は個別説明会ページと振り返りページの2本）</td>
+<td><code>07_3日目21時_面談で売り込まれませんか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">08</td>
+<td>4日目・7:00</td>
+<td>「専門家でもない私なんて」は不要。初級は「全く何も知りません」の人のためにある</td>
+<td>問いかけ</td>
+<td>中盤</td>
+<td>振り返りページ（第1話〜第3話）＋個別説明会ページ（2026-10-10 田中指示: 3〜5日目は個別説明会ページと振り返りページの2本）</td>
+<td><code>08_4日目7時_私なんてと思っていませんか.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">09</td>
+<td>4日目・12:00</td>
+<td>科学者である医師や、200店舗を率いる経営者が天野に依頼している。本物かどうかを厳しく見る人たちが選んだ風水を、自宅で使える形で学べる</td>
+<td>世間の意見</td>
+<td>末尾</td>
+<td>振り返りページ（第1話〜第3話）＋個別説明会ページ（2026-10-10 田中指示: 3〜5日目は個別説明会ページと振り返りページの2本）</td>
+<td><code>09_4日目12時_医師や経営者が風水を頼む理由.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td>4日目・21:00</td>
+<td>美容院を経営する山田直広さんは、店ではなく自宅を整えただけで、1ヶ月で新規のお客様が20人に増えた。環境は住まいから効く</td>
+<td>数字の提示（締切）→ストーリー</td>
+<td>末尾</td>
+<td>振り返りページ（第1話〜第3話）＋個別説明会ページ（2026-10-10 田中指示: 3〜5日目は個別説明会ページと振り返りページの2本）</td>
+<td><code>10_4日目21時_自宅を整えたら店に新規20人.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td>5日目・7:00</td>
+<td>本日最終日。面談の日程は後で調整できるので、フォームだけ先に送ってほしい</td>
+<td>数字の提示（締切）</td>
+<td>冒頭</td>
+<td>振り返りページ（第1話〜第3話）＋個別説明会ページ（2026-10-10 田中指示: 3〜5日目は個別説明会ページと振り返りページの2本）</td>
+<td><code>11_5日目7時_本日最終日_フォームだけ先に.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td>5日目・19:00</td>
+<td>「不安です」という声にお答えする。不安なまま決めなくていいから面談がある</td>
+<td>相談の引用</td>
+<td>中盤</td>
+<td>振り返りページ（第1話〜第3話）＋個別説明会ページ（2026-10-10 田中指示: 3〜5日目は個別説明会ページと振り返りページの2本）</td>
+<td><code>12_5日目19時_一歩踏み出すのが不安という方へ.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td>5日目・21:00（最終）</td>
+<td>あと3時間。決めるのは面談の後でいいから、フォームだけは今日中に</td>
+<td>数字の提示（締切）</td>
+<td>冒頭</td>
+<td>個別説明会ページのみ（最終日の最後の配信・単独可）</td>
+<td><code>13_5日目21時_あと3時間_決めるのは面談の後でいい.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">14</td>
+<td>6日目・12:00</td>
+<td>個別説明会の受付と3本の動画の公開は、5日目の23:59で終わった。ここまで付き合ってくれたお礼と、これからは天野さんのYouTubeでお付き合いください、という案内</td>
+<td>事実の報告</td>
+<td>中盤</td>
+<td>天野さんのYouTubeチャンネル＋最初の1本（間取りの回）</td>
+<td><code>14_6日目12時_ありがとうございました_これからはYouTubeで.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="第3話（5日間＋お礼1日）-LINE-8通-→-03_動画3/LINE/">第3話（5日間＋お礼1日） LINE 8通 → <code>03_動画3/LINE/</code></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">No</th>
+<th>推奨日時</th>
+<th>主張</th>
+<th>冒頭の入り方</th>
+<th>CTA位置</th>
+<th>リンク</th>
+<th>ファイル</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">00</td>
+<td>1日目・登録直後（自動返信）</td>
+<td>最終話の視聴案内。第3話は自分の家を自分で整えられるようになる話（独学の壁・開運との違い・学んだ方の話）。講座のご案内は動画の最後（2026-10-10 田中指示: 申し込みの仕組みや30分・3日以内の訂正は書かない）</td>
+<td></td>
+<td></td>
+<td>第3話</td>
+<td><code>00_登録直後_最終話の視聴案内.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">01</td>
+<td>2日目・14:00</td>
+<td>第3話をご覧になったか。その場限りの開運は元に戻り、空間を整える風水は積み重なる（第3話前半の図）。後半では学び方と実習会の様子も（2026-10-10 田中指示: 2日目は個別説明会ではなく第3話を魅力的に見せる。旧「面談でやることを全部お見せします」は3日目のLINE02と重なるため置き換え）</td>
+<td></td>
+<td></td>
+<td>第3話</td>
+<td><code>01_2日目14時_開運に行っても元に戻る理由.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">02</td>
+<td>3日目・14:00</td>
+<td>「話を聞くだけ」で大丈夫。売り込みの場ではない</td>
+<td></td>
+<td></td>
+<td>個別説明会ページ（振り返りページを添える）</td>
+<td><code>02_3日目14時_話を聞くだけで大丈夫です.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">03</td>
+<td>4日目・14:00</td>
+<td>初級だけか三運統合コースかは、一人で決めなくていい。面談で一緒に決める</td>
+<td></td>
+<td></td>
+<td>個別説明会ページ（振り返りページ＝総点検を添える）</td>
+<td><code>03_4日目14時_どのコースかは一緒に決めます.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">04</td>
+<td>5日目・9:00</td>
+<td>最終日の朝。第1話の玄関チェックを回収し、「あなたの家はどこから」を面談で見る</td>
+<td></td>
+<td></td>
+<td>個別説明会ページ（振り返りページを添える）</td>
+<td><code>04_5日目9時_本日最終日.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">05</td>
+<td>5日目・14:00</td>
+<td>日程が決まっていなくても、フォームだけ先に送ってほしい</td>
+<td></td>
+<td></td>
+<td>個別説明会ページ（振り返りページを添える）</td>
+<td><code>05_5日目14時_フォームだけ先に送ってください.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">06</td>
+<td>5日目・22:00（最終）</td>
+<td>あと2時間。風水は「決めたら」でなく「動いたら」変わる。フォーム1枚も同じ</td>
+<td></td>
+<td></td>
+<td>個別説明会ページ（最終日の最後の配信・単独可）</td>
+<td><code>06_5日目22時_あと2時間.md</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">07</td>
+<td>6日目・14:00</td>
+<td>受付と3本の動画の公開は昨日で終わった。お付き合いのお礼と、これからは天野さんのYouTubeでお付き合いください、という案内</td>
+<td>事実の報告</td>
+<td>末尾</td>
+<td>天野さんのYouTubeチャンネル</td>
+<td><code>07_6日目14時_ありがとうございました_これからはYouTubeで.md</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="0-3.-リンクの重ね方（ゲート2-4）">0-3. リンクの重ね方（ゲート2-4）</h2>
+<ul>
+<li><strong>最初の段階（第3話の登録直後〜1日目）は、第3話の面白さと学びの深さだけを伝える</strong>（2026-10-10 田中指示）。講座の説明をしていない段階で「動画からは申し込めません」と書かない。講座については「動画の最後で講座のご案内もしています」の一言にとどめる。動画の「30分」「3日以内」と今の運用（約60分・5日間）の違いは、動画が差し替わることもあるので配信では書かない（動画にはテロップで直してある）</li>
+<li><strong>「LINEで相談を」の呼びかけは毎回入れない・言い回しを毎回変える</strong>（2026-10-10 田中指示「同じ言い回しは連続で使うと飽きられる。3日連続なら中1日外す」）。第3話はメール・LINEとも1日目・3日目・5日目に1回ずつ（メール00・07・11、LINE00・02・05）、すべて違う言い回し</li>
+<li><strong>第3話のリンクの組み立て（2026-10-10 田中指示で変更）</strong>: 第3話の視聴ページは、動画の下に個別説明会の本文と申込フォームが続く作り。そのため、</li>
+<li><strong>1〜2日目</strong>（メール00〜04・LINE00〜01）: <strong>第3話のリンクだけ</strong>。個別説明会ページへの直接のリンクは置かず、「動画の下に、個別説明会のご案内があります」と書く。リンクが1本の通にはPSに天野さんのYouTube（下の表）</li>
+<li><strong>3〜5日目</strong>（メール05〜12・LINE02〜05）: <strong>個別説明会ページと振り返りページ（第1〜3話をまとめたページ）の2本</strong>を押す。第3話は振り返りページで見られるので、第3話の視聴ページへの直接リンクは置かない</li>
+<li>最終の後押し（メール13・LINE06）は個別説明会ページだけ。6日目（メール14・LINE07）はお礼とYouTube</li>
+<li>振り返りページも、第3話と同じく読者の登録日時から5日目23:59までのカウントダウンで閉じる</li>
+<li>LINEの主CTA（実装値・2026-10-10）: 第3話=L00・L01（1〜2日目）は第3話、L02〜L05（3〜5日目）は個別説明会ページ（振り返りページを添える）、L06は個別説明会ページだけ、L07はお礼とYouTube</li>
+<li>公式LINEへの誘導は各話の自動返信（00）にだけ置く</li>
+</ul>
+<h2 id="0-4.-おまけ（PS）の配置表">0-4. おまけ（PS）の配置表</h2>
+<p>天野さんのYouTube（チャンネル名「天野ちえり 1級建築士×風水師」 <a href="https://www.youtube.com/@" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@</a>天野ちえり風水師 ）を、教育用として追伸に置く（2026-10-10 田中指示「メイン動画だけじゃ分からないこともあるから、教育用として追伸に差し込む」）。各通の本文の結論につながる回を選び、入れる理由の一文は通ごとに変える。</p>
+<table>
+<thead>
+<tr>
+<th>通</th>
+<th>本文の話</th>
+<th>PSの動画</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01_動画1/メール/02（2日目7時）</td>
+<td>玄関に立ち止まってみる</td>
+<td>玄関を開けた時にコレが見えてしまう家は金運が逃げ老後資金がなくなる（Mf6Q0Rl5X2s）</td>
+</tr>
+<tr>
+<td>01_動画1/メール/03（2日目12時）</td>
+<td>一級建築士が本物の風水に辿り着いた理由</td>
+<td>その不安、家相のせいかもしれません｜家相と風水の違い（tSROeZ55lgg）</td>
+</tr>
+<tr>
+<td>02_動画2/メール/02（2日目7時）</td>
+<td>不登校の事例</td>
+<td>【実話】玄関変えただけ。引きこもりの子供に起きた劇的な変化（t55mBe7IHqs）</td>
+</tr>
+<tr>
+<td>02_動画2/メール/03（2日目12時）</td>
+<td>老舗お茶屋さんのレジと入口</td>
+<td>医師が風水を取り入れた理由｜レジを50cm戻したら売上が変わった（vztFGVGkHow）</td>
+</tr>
+<tr>
+<td>02_動画2/メール/04（2日目19時）</td>
+<td>家族関係と入り口</td>
+<td>【寝室の問題】夫婦関係が風水で改善したホントの話（_NrDlLu5gDA）</td>
+</tr>
+<tr>
+<td>01_動画1/メール/01（1時間後）</td>
+<td>第2話の3つの実例を予告</td>
+<td>【実録】Youtubeの風水実践したら人生変わりました（1m3p25TUmAA）</td>
+</tr>
+<tr>
+<td>01_動画1/メール/04（2日目19時）</td>
+<td>道具も才能もいらない、知識で誰でも</td>
+<td>一級建築士の資格を持った風水師が教える!!今日から出来る自宅の運気UP 入門編（zv-toleOkKw）</td>
+</tr>
+<tr>
+<td>01_動画1/メール/05（3日目7時）</td>
+<td>巷の風水の多くは家相、本物は別物</td>
+<td>家相にまどわされちゃダメ！風水で気を通そう！！（tJrXstl_9Dk）</td>
+</tr>
+<tr>
+<td>01_動画1/メール/06（3日目12時）</td>
+<td>成功者は環境の力を使う</td>
+<td>お金持ちとそうでない人　寝室の違い３選（KTMoqiU0XCY）</td>
+</tr>
+<tr>
+<td>02_動画2/メール/01（1時間後）</td>
+<td>第2話は実例編</td>
+<td>実録！風水で実際にここが変わりました！（-70-kdewjRk）</td>
+</tr>
+<tr>
+<td>02_動画2/メール/05（3日目7時）</td>
+<td>断片の風水では効かない（場所・時間・人）</td>
+<td>【風水師暴露】「玄関にラッキーアイテムで金運上がるの？」「そんな都合の良い話、正直〇〇です」（P3g4h-5JDVE）</td>
+</tr>
+<tr>
+<td>02_動画2/メール/06（3日目12時）</td>
+<td>水はお金の巡り</td>
+<td>【運気撃沈】湯水のようにお金が減っていく　家の特徴（RugQVL6TInc）</td>
+</tr>
+<tr>
+<td>03_動画3/メール/01（1時間後）</td>
+<td>その場限りの開運と、積み重なる風水</td>
+<td>実話　風水の力で生活大改善した話（tDBde_-sdl8）</td>
+</tr>
+<tr>
+<td>03_動画3/メール/02（2日目7時）</td>
+<td>小池さんの「家族みんなが仲良く」</td>
+<td>【風水】南西は家庭円満に関係します。重要視してください。【方位】（u9dvH72aHQA）</td>
+</tr>
+<tr>
+<td>03_動画3/メール/03（2日目12時）</td>
+<td>寝る場所と机の位置</td>
+<td>あなたの寝室危険です！不幸になる寝室の共通点３選（bj5g3aYEdvc）</td>
+</tr>
+<tr>
+<td>03_動画3/メール/04（2日目19時）</td>
+<td>初めてでも学び方で身につく</td>
+<td>【風水】初心者はまずは気の流れを意識しよう！（2BfocoKRabI）</td>
+</tr>
+<tr>
+<td>03_動画3/メール/14（6日目12時）</td>
+<td>お礼と、これからはYouTubeで（PSではなく本文で）</td>
+<td>チャンネル＋そのお家はダメかも！？風水的キケンな間取りについて！（2kdLqPIxpVQ）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>2026-10-10 田中指示で方針を変更: <strong>本文のリンクが1本しかない通には、PSにおすすめのYouTubeを入れる</strong>（「リンクが1個しか入ってないやつは、YouTubeのリンクを差し込んで教育していった方がいい。1話目も2話目も3話目も」）。上の後半9通が追加分。選び方は、その通の本文の結論につながる回で、公開中を確認したもの。入れる理由の一文は通ごとに変える</li>
+<li>置かない通: 各話の登録直後（00。視聴ページ・LINEなどリンクが3本ある）、本編へのリンクが2本ある通（第1話・第2話の07、第3話の3〜5日目＝振り返りページと個別説明会ページの2本）</li>
+<li>個別説明会申込後のメール（04_個別説明会申込後）にも入れない。リンクはLINE登録の1本だけだが、申込後の目的はLINEで連絡をもらい日程調整に進むことなので、ほかのリンクで気をそらさない（2026-10-11 田中確認済み）</li>
+<li>復習用ページをPSに入れた形（同日の一つ前の指示）は、上の「第3話のリンクの組み立て」に置き換えた。振り返りページは3〜5日目の本文で毎通案内する</li>
+<li>同日、第3話のメール・LINEに残っていた「担当のスタッフがお返事します」を外した（当面は天野さん本人が対応する前提のため）</li>
+<li>旧原稿にあった「開運風水チャンネル」はチャンネル名ではなかったため使わない（実際の名前は上記）</li>
+</ul>
+<h2 id="0-5.-実装チェックリスト（UTAGE）">0-5. 実装チェックリスト（UTAGE）</h2>
+<p>Codexレビュー（2026-08-16・<code>../Codexレビュー_20260816.md</code>）の指摘を反映。</p>
+<ul>
+<li>[ ] <strong>投入対象は本フォルダの <code>01_動画1/</code> <code>02_動画2/</code> <code>03_動画3/</code> <code>04_個別説明会申込後/</code>（<code>メール/</code> <code>LINE/</code>）のみ。<code>../参考_v1原本/</code> と <code>04_個別説明会申込後/参考_*.md</code>（手本の抜き取り）は絶対に投入しない</strong>（v1は旧価格・決済導線、参考は別案件の原文）</li>
+<li>[ ] <strong>メール本文をUTAGEへ登録するとき、末尾に配信解除タグ <code>%cancel%</code> を含む共通フッター（運営者・事務局・解除リンク）を必ず付ける</strong>。原稿MDには含めていない（ゴールデン参照ピグマリオンと同じ運用）。UTAGE APIは <code>%cancel%</code>／<code>%cancelall%</code> が無いとバリデーションエラー</li>
+<li>[ ] 仮URL（<code>fusui-ep1/2/3-douga</code>・<code>fusui-ep3-mendan</code>・<code>fusui-official</code>・YouTube PLACEHOLDER）を本番URLに一括置換 → <strong>置換後にリントを再実行</strong>（0-1の表）</li>
+<li>[ ] 第1話・第2話は登録日起点の3日間（<code>P2D</code>）、第3話は5日間（<code>P4D</code>）でタイマー設定</li>
+<li>[ ] 第3話の5日目23:59に「動画公開」「個別説明会の受付」が同時に閉じることを確認</li>
+<li>[ ] <code>%base_date%</code> の展開結果をテスト登録で確認（P2D／P4Dの日付と23:59）</li>
+<li>[ ] 個別説明会ページの事前フォーム <code>success_url</code> → <strong>サンキューページ（<code>../ページ/サンキューページ_個別説明会申込後.md</code>・LINE登録ページ）</strong> → 公式LINEで名前送信 → 天野さんが日程調整。LINE友だち追加ボタンは「個別説明会」シナリオ連携付き</li>
+<li>[ ] 天野さんのカレンダーは1件90分ブロック（告知は約60分）</li>
+<li>[ ] 事前フォームに「内容確認のうえ日程調整。内容によってはお断りすることがある」文言を入れる（田中指示 2026-08-16）。フォーム送信＝面談確定ではない運用。天野さんが内容を見て候補日を送る／お断りする、の2分岐をLINE側で回す</li>
+<li>[ ] 面談後の返答は「お早めに、24時間以内を目処に」（田中指示 2026-08-16 暫定→2026-10-10 この言い方で確定）。面談台本・ページ・LINEのリマインド文言を揃える（2026-10-10 個別説明会ページ・申込後メールは反映済み）</li>
+<li>[x] 個別説明会は当面、天野さん本人が面談する（2026-10-10 田中指示）。申込後のメール・サンキューページ・個別説明会ページは「担当者から候補日をご案内」ではなく「天野との面談に進んでいただきます。そのため、まずはLINEでご連絡ください。ご本人確認ができ次第、日程調整に入らせていただきます。ご連絡いただき次第、候補日をご案内します」の形にそろえた（同日、田中さんの再指示で「日程を送ってもらう」形から直した）。LINEの返信を誰がするかは書かない（9/25 天野さん回答「LINEは担当者がメインで答える」とぶつけないため）</li>
+<li>[x] 個別説明会ページ「なぜ、今なのか」の「お金を動かせる最後の20年」は残す（2026-10-10 田中裁定「これは絶対必要」。Codexの指摘は不採用）</li>
+<li>[ ] 天野さんの埼玉テレビ「おとばん」出演（10月）は、放送後にLP・個別説明会ページの実績欄へ足す（2026-10-10 田中指示「今のうちに出さなくていい。後から付け足せばいい」）。放送日・回のタイトルを天野さんに確認してから</li>
+<li>[ ] 金額がメール・LINE・ページ・動画のどこにも出ていないことを照合（動画内の「特別価格」の語はOK）</li>
+<li>[ ] 「30分」「3日以内」の動画内発言は、ページのファーストビュー直下注記＋M00／L00で「現在は約60分・5日間」と訂正済み。他に残っていないか全文grep</li>
+<li>[ ] 「開運講座」「お申し込みページ」「講座詳細ページ」が残っていないか全文grep（「三運統合」は動画に合わせて使うので対象外。2026-10-10）</li>
+<li>[ ] 全47通（第1〜3話）と申込後7通のリンク疎通（テスト配信で実クリック）</li>
+<li>[x] PS用YouTube: 天野さんのチャンネルから選んで14通に入れた（2026-10-10。0-4。リンク1本の通に追加）</li>
+</ul>
+<h2 id="0-6.-命名規則メモ">0-6. 命名規則メモ</h2>
+<p><code>連番_配信タイミング_件名.md</code>（2桁ゼロ埋め・媒体prefixなし・媒体はフォルダで分離）。正本は <code>skills/プッシュメッセージ設計/SKILL.md</code>。</p>
+<h2 id="1.-ライティングの大原則（v2固有）">1. ライティングの大原則（v2固有）</h2>
+<ul>
+<li><strong>メールの名乗り</strong>は全通「風水空間クリエイター 天野千恵里です。」で固定（肩書きは2026-09-21 田中裁定で「風水空間クリエイター」に統一）。次の段落から書き出しとし、通ごとに変える</li>
+<li><strong>面談は「売り込みの場ではない」を毎回違う角度で伝える。</strong> 「60分でやることを全部見せる」「話を聞くだけでいい」「決めるのは面談の後でいい」「コースは一緒に決める」の4本柱をローテーションする</li>
+<li><strong>未視聴の人が読んでも成立させる。</strong> 「動画をご覧になった方は」で始めない</li>
+<li><strong>事例は出所のある実例だけを使う</strong>（マスターデータA区分＝学んだ方／B区分＝鑑定を受けた方）。匿名の作り話に見える事例は使わない</li>
+<li>「月収100万円」など金額に見える数字は書かない（ゲート2-5）</li>
+<li>v1にあった「講座の詳細が受け取れるのは、あと◯日」は全部「個別説明会の受付は、あと◯日」に置き換える</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-10-13)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: LYSFRNGH<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
