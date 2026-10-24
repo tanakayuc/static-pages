@@ -69,7 +69,7 @@ ul.checks li::before{content:'\2713';position:absolute;left:0;color:var(--accent
 .notice-box ul li::before{content:'\30FB';position:absolute;left:0}
 .footer{padding:32px 16px;background:#111;text-align:center}
 .footer-links{margin-bottom:12px}
-.footer-links a{color:#aaa;font-size:14px;font-weight:500;margin:0 10px;text-decoration:underline}
+.footer-links a{color:#aaa;font-size:14px;font-weight:500;margin:0 10px;text-decoration:underline;display:inline-block}
 .copyright{font-size:14px;font-weight:500;color:#666}
 @media(min-width:769px){
 body{font-size:18px}
@@ -222,7 +222,7 @@ h1,h2,h3,.section-heading h2,.form-section h2,.mid-cta h3{font-family:'Noto Seri
   </div>
 </section>
 <section class="survey" id="survey" data-live>
-  <form id="survey-form" novalidate>
+  <form id="survey-form" data-next="thanks2.html" novalidate>
   <fieldset id="survey-fs">
     <div class="q">
       <h3>お申込み情報</h3>
@@ -257,16 +257,9 @@ h1,h2,h3,.section-heading h2,.form-section h2,.mid-cta h3{font-family:'Noto Seri
     </div>
     <p class="err" id="err">お名前・メールアドレス・電話番号・お仕事・AI使いこなしレベルを入力してください（メールアドレスと電話番号は正しい形で）。</p>
     <button class="cta-button go" type="submit">無料でオンラインセミナーに参加する</button>
-    <p class="go-note">送信すると、次の画面でLINEオープンチャットからセミナーに参加できます。</p>
+    <p class="go-note">送信すると、次のページでLINEオープンチャットからセミナーに参加できます。</p>
   </fieldset>
   </form>
-</section>
-
-<section class="done-box" id="done">
-  <h2>ご回答ありがとうございました</h2>
-  <p>最後に、LINEオープンチャットでセミナーに参加してください。セミナーのご案内は、LINEオープンチャットでお届けします。</p>
-  <a class="line-btn" href="#" data-oc-url>LINEオープンチャットでセミナーに参加する</a>
-  <p style="margin-top:14px;font-size:13px;color:#777">※参加用のURLは、UTAGEへの設置時に入れます。</p>
 </section>
 
 <section class="expired-box" id="expired">
@@ -317,9 +310,8 @@ h1,h2,h3,.section-heading h2,.form-section h2,.mid-cta h3{font-family:'Noto Seri
     var err=document.getElementById('err'),ok=form.fullname.value.trim()&&/.+@.+\..+/.test(form.email.value.trim())&&form.tel.value.replace(/[^0-9]/g,'').length>=10&&form.job.value.trim()&&form.ai.value;
     if(!ok){err.style.display='block';return}
     err.style.display='none';
-    // UTAGEでは、このフォームをUTAGEの登録フォーム（質問項目つき）に置き換える
-    document.querySelectorAll('[data-live]').forEach(function(x){x.classList.add('hidden')});
-    document.getElementById('done').style.display='block';window.scrollTo({top:0,behavior:'smooth'});
+    // UTAGEでは、このフォームをUTAGEの登録フォーム（質問項目つき）に置き換え、送信後の移動先をサンキューページ2にする
+    location.href=form.getAttribute('data-next')||'thanks2.html';  // 送信したらサンキューページ2（LINEオープンチャットへの参加）へ
   });
 })();
 </script></body></html>
