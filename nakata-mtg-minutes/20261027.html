@@ -1,0 +1,314 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>中田りょうこMTG（2026-10-27）1秒お片付けスタジオ（店舗構想）とバックエンド商品の設計、料理教室チェーンの仕組みに学ぶ - 中田りょうこ 1秒収納 定期ミーティング議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection {{ margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }}
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep {{ margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }}
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>中田りょうこ 1秒収納 定期ミーティング議事録</h3><a href="20261027.html" class="sidebar-item active"><span class="date">2026年10月27日</span> 中田りょうこMTG（2026-10-27）1秒お片付けスタジオ（店舗構想）とバックエンド商品の設計、料理教室チェーンの仕組みに学ぶ</a>
+<a href="20260923.html" class="sidebar-item"><span class="date">2026年09月23日</span> 中田りょうこMTG（2026-09-23）体験セミナー3日間の振り返りとYouTube企画の方向性再検討</a>
+<a href="20260910.html" class="sidebar-item"><span class="date">2026年09月10日</span> 中田りょうこMTG（2026-09-10）新ファネル構成の詰めとYouTube企画のヒアリング準備</a>
+<a href="20260825.html" class="sidebar-item"><span class="date">2026年08月25日</span> 1秒収納MTG（2026-08-25）中価格帯「ナチュラルウーマン二日間合宿」の着想</a>
+<a href="20260730.html" class="sidebar-item"><span class="date">2026年07月30日</span> 1秒収納MTG（2026-07-30）セールススライドのティザー不足</a>
+<a href="20260717.html" class="sidebar-item"><span class="date">2026年07月17日</span> 1秒収納MTG（2026-07-17）YouTube動画の広告LP検証プラン</a>
+<a href="20260710.html" class="sidebar-item"><span class="date">2026年07月10日</span> 1秒収納MTG（2026-07-10）パネル刷新とメッセージ再構築</a>
+<a href="20260702.html" class="sidebar-item"><span class="date">2026年07月02日</span> 1秒収納MTG（2026-07-02）新ファネル全面改善と「後ろから作る」方針</a>
+<a href="20260625.html" class="sidebar-item"><span class="date">2026年06月25日</span> 1秒収納MTG（2026-06-25）プロモとセールス運用の具体化</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> 1秒収納MTG（2026-06-19）ブランドの軸を再設定する</a></nav>
+<main class="content"><article class="article"><h1>中田りょうこMTG（2026-10-27）1秒お片付けスタジオ（店舗構想）とバックエンド商品の設計、料理教室チェーンの仕組みに学ぶ</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/2cb5bf17-216f-4e9a-b7c8-ae0ef27ab486/file/bWVkaWEvMjAyNi8xMC8yNy8wOTAwX1BMQ-ODl-ODqeODgeODiuOCs-ODvOOCueWwgueUqFpPT03jg6rjg7Pjgq9fYjk4ZDg0ZjdlMC9NUDRfMTEzYWZmMGEtMjU4ZC00ZjAwLWFiNGQtMDhkZWUxMWNmYTBhLm1wNA#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年10月26日 19:09（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>今回は、中田りょうこさんがAIで作った「1秒お片付けスタジオ」（店舗）のイメージ画像を田中が見るところから始まり、店舗をやるとして、バックエンドの60万円の講座をどう売るかを話し合った。<br />
+田中は、店舗から高額講座へ引き上げるのは時間がかかりそうだと見て、先にオンラインの片付け軸のブランドが上がる効果や、店舗をイベント企画で回す発想、店舗発の講師コース（ライセンス）を挙げた。<br />
+中田は、大手料理教室チェーンの体験レッスンから工数売りへつなぐ流れ、ライセンス講師が店舗で教える仕組み、使用した商品を紹介して法人収益を得る仕組みを共有し、同様の発想が片付けにも使えると受け止めた。<br />
+田中は、そのチェーンの公開数値から利益率の低さを指摘し、店舗は広げるほどリスクが大きくなるので1店舗目の収益計算を実験として重ねる必要があると述べた。<br />
+最後に、田中が送ったブックローンチの案について、教育を先に入れてからお片付け塾へ進める流れを考え方として共有した。決定事項はなく、構想と検討事項が中心の回である。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年10月27日 18:00頃〜18:33頃（日本時間。Zoom記録は09:00:11 UTC開始、長さ33分）</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、中田りょうこ</td>
+</tr>
+<tr>
+<td>Zoomの部屋</td>
+<td>「PLCプラチナコース専用ZOOMリンク」の部屋を使った、中田さんとの個別ディレクション（PLCプラチナの会議ではない）</td>
+</tr>
+<tr>
+<td>会議識別子</td>
+<td><code>+qd4OebzTQmzHGXT+l9I5A==</code></td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/2cb5bf17-216f-4e9a-b7c8-ae0ef27ab486" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/2cb5bf17-216f-4e9a-b7c8-ae0ef27ab486</a></td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td><code>21_プロジェクト一覧/nakata_中田りょうこ/1秒収納定期ミーティング/データ原本/20261027_中田りょうこMTG_書き起こし原本.md</code></td>
+</tr>
+<tr>
+<td>話者なしの生書き起こし</td>
+<td><code>21_プロジェクト一覧/nakata_中田りょうこ/1秒収納定期ミーティング/データ原本/20261027_中田りょうこMTG_生書き起こし.md</code></td>
+</tr>
+<tr>
+<td>原本の注意</td>
+<td>自動書き起こし。話者ラベルは田中・中田の2名で、系統的な入れ替わりや局所的な誤割当は見つからなかった。固有名詞・数値に誤認識の疑いがあり、原本の冒頭に「怪しい」を注記した。取得処理の癖で1行目の見出しが発言の断片になっていたため、議事録の題名には使わず、原本の見出しも直した。</td>
+</tr>
+<tr>
+<td>Zoomチャット</td>
+<td>なし（取得済み・チャットなし）</td>
+</tr>
+<tr>
+<td>取り扱い</td>
+<td>案件（1秒収納）の商品設計・店舗構想が主題のため、定期ミーティング側に格納。第三者の人名・施設名は伏せた。会議中に中田が触れた個人的な事情は、案件に関係しないため記録しない。</td>
+</tr>
+</tbody>
+</table>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1秒お片付けスタジオのイメージ画像と、リアル店舗の見え方（00:00:34〜00:03:38）">1秒お片付けスタジオのイメージ画像と、リアル店舗の見え方（00:00:34〜00:03:38）</a></li><li class="toc-sub"><a href="#バックエンドの60万円の講座を、店舗でどう発掘するか（00:03:38〜00:08:52）">バックエンドの60万円の講座を、店舗でどう発掘するか（00:03:38〜00:08:52）</a></li><li class="toc-sub"><a href="#イベントの企画化、アップセル、店舗のカウンセリング機能（00:08:04〜00:14:20）">イベントの企画化、アップセル、店舗のカウンセリング機能（00:08:04〜00:14:20）</a></li><li class="toc-sub"><a href="#料理教室チェーンの強みを分解する（00:14:24〜00:24:55）">料理教室チェーンの強みを分解する（00:14:24〜00:24:55）</a></li><li class="toc-sub"><a href="#複数店舗と属人化の考え方（00:22:32〜00:25:55）">複数店舗と属人化の考え方（00:22:32〜00:25:55）</a></li><li class="toc-sub"><a href="#チェーンの公開数値から見る、店舗の収益性とリスク（00:25:28〜00:29:15）">チェーンの公開数値から見る、店舗の収益性とリスク（00:25:28〜00:29:15）</a></li><li class="toc-sub"><a href="#ブックローンチの案と、教育を先に入れる順序（00:29:22〜00:33:00）">ブックローンチの案と、教育を先に入れる順序（00:29:22〜00:33:00）</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-sub"><a href="#店舗は「売る場所」より「見つける場所」として設計する">店舗は「売る場所」より「見つける場所」として設計する</a></li><li class="toc-sub"><a href="#店舗は「事業の本体」ではなく「実験施設」として計算する">店舗は「事業の本体」ではなく「実験施設」として計算する</a></li><li class="toc-sub"><a href="#商品ラインは、入口・横展開・ライセンス・出口の順に並べる">商品ラインは、入口・横展開・ライセンス・出口の順に並べる</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-main"><a href="#決まったこと・合意した方向">決まったこと・合意した方向</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#中田りょうこ">中田りょうこ</a></li><li class="toc-sub"><a href="#田中祐一">田中祐一</a></li><li class="toc-main"><a href="#検討中・未確定">検討中・未確定</a></li><li class="toc-main"><a href="#原本照合と公開上の注意">原本照合と公開上の注意</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1秒お片付けスタジオのイメージ画像と、リアル店舗の見え方（00:00:34〜00:03:38）">1秒お片付けスタジオのイメージ画像と、リアル店舗の見え方（00:00:34〜00:03:38）</h3>
+<p>冒頭、田中が中田の作ったAI画像に反応した。中田は「1秒お片付けスタジオ」というイメージで、テーマカラーのペパーミントグリーンとティファニーブルーを使って作ってみたところ、こういう店が実際にあったらいいと思ったと話した。田中は、地方ではあまり見ないクオリティで、都心の一等地でないと見かけないようなおしゃれさだと評した。</p>
+<p>中田は、料理教室のチェーンは日本中にあるので、片付けも同じように、札幌にも福岡にも、商業施設のテナントに入っている状態をイメージしたと説明した。</p>
+<p>田中は、リアルの店舗に出る人が少ない理由について、ネット系の人は人間関係の面倒くささに疲れてネットを選んでいるだけではないかと見立てを述べた。中田は、整理収納アドバイザーは一人で始めると時給3,000円程度に留まり、片付けを勧めても相手が費用をかけたくなくて途中で止まるという商売をしている人が多く、セールスもクロージングもできない人が多いと応じた。田中は、周りでもネット系で苦しんでいる人は多いので、簡単ではない中でどうやるかを考えること自体は良く、人としての味わいも深くなると話した。</p>
+<h3 id="バックエンドの60万円の講座を、店舗でどう発掘するか（00:03:38〜00:08:52）">バックエンドの60万円の講座を、店舗でどう発掘するか（00:03:38〜00:08:52）</h3>
+<p>田中が「商品設計」を今日の話題にしようと切り出すと、中田は、店舗は店舗でやるとしても、バックエンドで60万円の講座を売りたいところだと整理した。片付けられない人は必ず出てくるので、習いに来て満足する人もいれば、実は物屋敷・ゴミ屋敷の状態の人もいる。そうした人をしっかり見つけていく仕組みができれば、ビジネスとして良いと考えている、と中田は述べた。</p>
+<p>田中は、先日、PPを実施したスタジオ施設の運営事例を紹介した。そこは家賃をペイできる程度の収益で、受講生向けに1時間500円で使えるワーキングスペースと、機材を持たなくても動画が撮れる撮影ブース（1時間2,500円程度）があり、さらに個別説明会で決まらなかった人に「うちのクリエイターがどう勉強しているか見に来ませんか」と声をかけて見学会を開くと、月に3〜5人ほどが講座に上がるという。田中は、店舗から引き上げるのは難しいと思っていたが、疑っている人を連れて行って売り上げを立てる方が、確かにイメージが湧くと感じたと述べた。</p>
+<p>そのうえで田中は、タイプが違うと整理した。自分ではできない、周りにも言いづらい人が、講座に入ってみたら素晴らしい仲間ができたというのは、どちらかといえばアカデミー側のイメージ。お片付け自体をエンタメ化して、それを通してみんなで仲良くなろうという、コミュニティ好きの人が最初から来るのが店舗側ではないか、という見立てである。そのため、店舗から高額講座へ引き上げるのは時間がかかりそうで、むしろ店舗の技術を「あなたも学びませんか」と講師コースとして売る方が売れそうだと話した。</p>
+<p>田中が例に挙げたのは、あるヘッドスパのサロンが、サロンのホームページで「行列のできる人気店のスパ技術を学んでみませんか」とセラピスト養成講座を募集している形である。田中は、やってみないと分からないので、オンラインの片付けアカデミーが売れる可能性ももちろんあるが、マイスターコースのような講師向けの講座を、大衆受けする価格帯で売る手もあると述べた。中田は共感していた。</p>
+<h3 id="イベントの企画化、アップセル、店舗のカウンセリング機能（00:08:04〜00:14:20）">イベントの企画化、アップセル、店舗のカウンセリング機能（00:08:04〜00:14:20）</h3>
+<p>田中は、店舗の集客ではイベントが大事ではないかと予想を述べた。最近、ある店舗経営者の話を聞いた際にも、スタッフが行うイベントの回数が多いほど売り上げが立つという、とてもシンプルな話があったという。体験レッスンだけでなく、体験レッスンそのものを企画化することが大事になりそうだとも話した。中田は、料理教室でいえばおせちやクリスマスメニューのことかと確認し、田中が肯定した。</p>
+<p>田中は、片付けという見せ方を保ちつつ、中田の得意分野であるインテリアの学びを加え、「おうちの空間デザイン」のようなところまでアップセルできると、マイナスをゼロに戻すだけでなくプラスになり、クロスセルや収益性も上がるのではと提案した。さらに、お片付けの延長でフラワーのワークショップなどを開き、イベントを複数回やることで、基本コース10回や友達と一緒に入る流れもできる。あとは、店長がどう動けばバックエンドが売れるのかが課題だと述べた。</p>
+<p>ここで田中は、バーカウンターで不動産を売る事例を出した。知人に、コの字型・ロの字型のカウンターの居酒屋を一人で営み、客全員と話しながら不動産の売買や紹介の話をしている人がいる。田中は「どうなりたいか」「最近の困りごとは」と聞くカフェ的な機能の後ろに商品があれば店舗の収益性は大きく上がるので、店舗にカウンセリングの機能をもたせられれば良いと述べた。中田は、自分も物件が大好きなので、食事をしながら住みたい物件を見ているうちに内見に行きたくなる流れはイメージできると共感した。田中は、アップセルの鍵は教えることではなく、カウンセリングだと話した。</p>
+<p>中田は、料理教室チェーンの仕組みを共有した。体験は500円ほどで、体験後にクロージングがある。単発ではなく、基本のコースが10回または12回のチケット制で、毎週でも月1回で1年間でも通えて、初級・中級・上級に分かれる。パンのコースを初級だけ買うと安くなる、と抱き合わせを勧められ、自分は基本のコースにパンのコースを足して買ったという。中田は、10年ほど前の経験なので現在は変わっている可能性があるとも付け加えた。</p>
+<p>田中は、「安くなるから買う」というタイプの人が、オンライン講座では買わないように感じると話した。中田は、一度財布を開いて片付けを習ってもらい、そこで「やってもなかなか変わらない」と途中で言い出す人が、うちの60万円を払うタイプの人のはずだと見立てた。そこまで言ってくれた人に「お話を聞きますよ」と声をかけ、「実はこういうコースもあります」と案内する形はありではないか、そうした人を見つける仕組みがイベントなどでできると良い、と述べた。田中は、基本的にはヒアリングの中で「実は」を引き出せるかの勝負なので、それをどう仕組みにして、つなぐ流れにするかが課題だと応じた。</p>
+<h3 id="料理教室チェーンの強みを分解する（00:14:24〜00:24:55）">料理教室チェーンの強みを分解する（00:14:24〜00:24:55）</h3>
+<p>田中は、料理教室チェーンの成功法則をAIに調べてもらっていると述べ、中田に、以前の講座中のワークで調べたのかと尋ねた。中田は、講座が終わってから自分で考えているときに出てきた気づきだと答えた。その気づきとして中田が挙げたのは次の点である。</p>
+<ul>
+<li>そのチェーンはもともと、料理器具を売ろうとして始めたが、体験が楽しい、体験は売れるという発見から教室に広がった。</li>
+<li>個人で料理を教える先生は多いが、そのチェーンは一等地のガラス張りの教室を、全国同じシステムで展開している。</li>
+<li>毎回のレシピがイラスト手書きで、他にない特徴になっている。</li>
+</ul>
+<p>田中は、楽しく続けられる仕組みがあり、集客が安定し、1店舗あたりで利益が計算できることが強みだと整理した。そのうえで、一等地に安く出せるかが勝負で、定価で出していたら収益性は高く見えない、と話した。中田も「どうして成立しているのか」と疑問を共有し、田中は収益構造が気になると述べた。</p>
+<p>田中は、最初に逸話としてガラス張りの教室が珍しく、一等地に招待される座組になって安く入れているのではないかと推測した。テナント型は家賃が高く、ロイヤルティも払うので厳しいという話を聞くこと、モール型は集客力があるので家賃が高く、路面店の方が家賃構造上は良いことも述べた。中田の印象は、モール型だった。</p>
+<p>そのチェーンの商品構造について田中は、マスターコースとライセンスコースがあり、料理・パン・おせち・ケーキと横にクロスで売っていく形だと見ていた。単価が高いのはライセンスである。中田は、ライセンスを取った人が自宅ではなく、そのチェーンの教室で教えており、人気の先生の枠は満員になり、そうでない先生には欠員が出たときにフリーの受講生が入る、という集客の仕組みだと補足した。</p>
+<p>田中は、この構造を片付けに当てはめた。お片付け、インテリアなどを、それぞれ9万円ほどのコースにし、それぞれに先生を立ててライセンスを出していくという形で引き上げていくなら、店舗の収益性も上がりそうだと話した。最終的な出口としてアカデミーがある、という持って行き方ができると良いという。ただし、この9万円はあくまで田中が当てはめた仮の数字で、原本でも聞き取りが不明瞭な部分がある。</p>
+<p>田中は、LTV設計で重要なのは、卒業の先にも商品があることだと述べた。そのチェーンでは現場にコンサルタント職がいて、お客さんに合ったプランを追加で提案する役割がたくさんあり、セールス担当に近いという。紹介制度は、友人が入会すると、紹介した人と友人のそれぞれにパンの基本レッスン1回分のチケットがつき、体験レッスンが無料になるもの。田中は、10回チケットが9万円なら1回分で9,000円分引きのイメージだと試算したが、金額の聞き取りは不明瞭で、原本どおりには確定できない。中田は、もらう人も嫌な感じがせず、紹介のために無理をした感じにもならず、みんなにとって良いという形が、女性にとっては大事だと共感した。</p>
+<p>さらに田中は、法人収益が大きいらしいと述べた。調理器具や食品のメーカーが、その教室を使って自社商品の紹介の場にしている。中田は、レッスン後に「今日使った材料はこれです」と紹介され、自宅でそれを買う人が出るので、メーカーから収益が入っていると説明した。洗剤や塩など、実際に使った商品がそうだという。中田は、それを片付けにも応用して、使用した収納用品を「これは無印良品のこれ」「これは別の家具量販店のこれ」と紹介することもできると気づき、ビジネスプランの意味が分かってきたと述べた。田中は、片付けグッズのメーカーに「うちの店舗で使わせます」と声をかける乗り方もあるかもしれないと話した。</p>
+<h3 id="複数店舗と属人化の考え方（00:22:32〜00:25:55）">複数店舗と属人化の考え方（00:22:32〜00:25:55）</h3>
+<p>田中は、複数店舗でないと見えない部分があるとしつつ、特に2店舗目で苦戦するイメージがあると述べた。店舗系の人を見ていると、1店舗目はオーナーが現場に張り付き、自分にとって最良のものを出す。2店舗目は人に任せ、さらに条件も異なるため難しくなる、という話は多い。これは飲食絡みの話なので片付けとは違い、飲食は原価が大きそうだとも付け加えた。</p>
+<p>中田は、イメージはスープ専門店のチェーンのように、1店舗目と2店舗目で違いが出にくい形だと話した。ビジネスモデルがしっかりしていて、誰かが張り切るから売れるというわけではない、仕組み勝負なのだろうという。</p>
+<p>田中は、一方で一日店長の制度という手もあると述べた。「いつか一度店長をやってみたかった」という人はいるので、場所を貸して体験してもらい、利益を分配する形が居酒屋などでもよくある。人についてくる顧客がいるので、完全に属人化しないのも戦略であり、属人化してプラスの売り上げをつくるのも一つの仕組みだ、と話した。週に1回ぐらいそういう日があってもいいかもしれないと提案した。中田は、マイスター制度の中で、その先生が好きだから予約を入れるというのも、ある意味で属人化だと応じた。田中は、先生がネット上のプロモーションをして「この日に現場でやるので集まりましょう」と呼びかければ、売り上げが上がる仕組みの一つになると補足した。</p>
+<h3 id="チェーンの公開数値から見る、店舗の収益性とリスク（00:25:28〜00:29:15）">チェーンの公開数値から見る、店舗の収益性とリスク（00:25:28〜00:29:15）</h3>
+<p>田中は、そのチェーンは1店舗あたりの利益が出てこないが、全体の売上と利益は出ていると述べた。田中が読み上げたのは、2019年の数値として、売上約167億円に対して利益約7億円で、利益率は低いという内容である（原本では数値の聞き取りが不明瞭なため、外部に使う際は原典で要確認）。中田は、少なく感じる、コロナの時は大丈夫だったのかと驚いた。田中は、コロナ期は計測不能だろうと話した。</p>
+<p>田中は、利益7億円程度であれば、コンテンツビジネスのトップ層は、10人ほどの組織でも到達できるという感覚を述べた。中田は、悩ましいと受け止めた。田中は、やってみること自体は良いと思うとし、理由として、オンラインのお片付け軸のブランドが上がる可能性を挙げた。一方で、1店舗での収益性を考えると、10店舗ほどが適正な規模かもしれず、少なくともそのチェーンの収益構造では、広げるほどリスクが大きくなるとも述べた。利益率は、何かあったときの体力に関係するという。</p>
+<p>また田中は、実験施設としての1店舗の収益性から2店舗目が計算されるので、収益計算はしておく必要があると話した。さらに、先ほどのビジュアルからは、家賃だけでなく内装に費用がかかりそうだとも指摘した。店舗やフランチャイズの案件では、良いところで2年程度の回収期間が出てくるのが目安になる、と付け加えた。中田は了解した。</p>
+<h3 id="ブックローンチの案と、教育を先に入れる順序（00:29:22〜00:33:00）">ブックローンチの案と、教育を先に入れる順序（00:29:22〜00:33:00）</h3>
+<p>田中は、自分がアイデアとして送ったブックローンチについて、どう思うかを単純に聞いてみたいと切り出した。中田は、送ってもらったものをまだ十分に確認できていない、と答えた。田中は、見ていないなら問題ない、聞いてみたかっただけだと返した。中田は、ローンチ自体は以前も書いた通りで、ある講師は継続してブックローンチをしている、と別の講師の例を挙げた。</p>
+<p>田中は、ブックローンチで大事なのはその後に何をするかだと述べた。一つは体験セミナーにすぐつなげる形で、投資系ではその後にセミナーへつなぐオファーもある。しかし、今回のセミナーの報告を見ると、教育が甘く売れなかったという考察になっているため、すぐにつなげるとさらに薄くなるのではないかと懸念した。田中の中では、中田と話すなら、ナチュラルウーマン（の考え方）を実は一般化して先に入れ、その後にお片付け塾に進む流れが良いのではないかと思っている、と述べた。中田は、先に教育をかけてしまうということなのだと理解した。</p>
+<p>田中は具体例として、本からお片付けの「あり方」としてのコミュニティを案内し、今すぐ入れば通常月額3,300円が1,000円になる、という形を挙げた。田中自身が事業をやっていた頃は、ビジネス書の読者の約4人に1人がコミュニティに入った。当時は放置していたので解約率が高かったが、スタッフが一緒にオリエンテーションをして30分話す、同期だけのイベントを開くなどすれば、長く続いた可能性がある、とも振り返った。</p>
+<p>そのうえで田中は、ブックローンチで高単価を狙っても良いし、低単価から引き上げていっても良い、リアルの本を大量に配るのは面白いと思う、と述べた。ただし自分の市場では高単価が売りづらく、「勉強してから入ります」という人が多かった。中田も同じことをよく言われると応じた。田中は、時間がかかる流れであるなら、最初から時間がかかる流れにしておいてもいいのでは、という考えだと締めた。中田は了解し、時間になったためここで会議を終えた。</p>
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
+<h3 id="店舗は「売る場所」より「見つける場所」として設計する">店舗は「売る場所」より「見つける場所」として設計する</h3>
+<p>田中と中田の整理では、店舗に来る人の多くは、片付けそのものよりもコミュニティやイベントの楽しさに惹かれる層である。60万円の講座に進む人は、習ったのに変わらないと感じ始めた人であり、その人を見つけるのはヒアリングと「実は」を引き出す対話の仕組みだ。店舗は即売の場ではなく、悩みを話してもらえる場を作り、後ろに商品を置く設計が良い、という見方である。</p>
+<h3 id="店舗は「事業の本体」ではなく「実験施設」として計算する">店舗は「事業の本体」ではなく「実験施設」として計算する</h3>
+<p>田中は、店舗系ビジネスで、1店舗目の数字から2店舗目が計算されると繰り返した。広げるほど固定費と失敗のダメージが増えるので、まず1店舗で収益性（家賃・内装・回収期間）を確かめる。オンラインの片付けブランドを上げるための場としても意味がある、という位置づけである。</p>
+<h3 id="商品ラインは、入口・横展開・ライセンス・出口の順に並べる">商品ラインは、入口・横展開・ライセンス・出口の順に並べる</h3>
+<p>料理教室チェーンを分解して、入口は低価格の体験、横展開は料理・パン・おせち・ケーキのような複数コース、単価が高いのはライセンス、その先に継続や追加提案がある、という構造だと整理された。田中は、卒業の先にも商品があることがLTV設計の肝だとも述べている。</p>
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<ul>
+<li><strong>体験レッスンをイベントとして企画化する</strong>：季節のメニュー（おせち・クリスマス）のように、片付けでも季節や目的のあるイベントにすることで、集客の理由をつくる（00:08:20〜00:09:03）。</li>
+<li><strong>片付けにインテリアを足し、「マイナスをゼロにする」だけで終わらせない</strong>：空間デザインまでアップセル先を広げる案（00:09:04〜00:09:32）。</li>
+<li><strong>「実は」を引き出すヒアリングを仕組みにする</strong>：習っても変わらないと言い出した人に、個別に話を聞く機会を設ける（00:13:20〜00:14:20）。</li>
+<li><strong>店舗の外にも収益の柱を置く</strong>：使用した商品の紹介による法人収益、ライセンス講師が店舗で教える仕組み、メーカーとの提携が料理教室チェーンで機能している（中田の説明）（00:17:57〜00:22:21）。</li>
+<li><strong>完全に属人化しない戦略と、属人でプラスを作る戦略を併用する</strong>：一日店長や人気講師の日を設ける案（00:24:11〜00:25:28）。</li>
+<li><strong>教育が甘いと感じたら、ローンチ後の次の一手の前に教育を先に入れる</strong>：ブックローンチ後にすぐ体験セミナーへつなぐのではなく、先にコミュニティなどで教育をかけてからお片付け塾へ進める流れ（00:30:07〜00:31:55）。</li>
+</ul>
+<h2 id="決まったこと・合意した方向">決まったこと・合意した方向</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+<th>会議上の状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>決定事項</td>
+<td>なし</td>
+<td>構想と検討事項が中心。実施の決定や期限の約束はない</td>
+</tr>
+<tr>
+<td>店舗の収益性</td>
+<td>1店舗目の収益計算（家賃・内装・回収期間）をしたうえで、実験施設として考える</td>
+<td>田中の助言として共有。具体的な試算の分担は未決</td>
+</tr>
+<tr>
+<td>ブックローンチ</td>
+<td>田中が送った案について、中田は確認が済んでいない</td>
+<td>中田が確認するかは未確定（田中は「見ていないなら大丈夫」と返答）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="やること">やること</h2>
+<p>会議上で担当と期限が明言されたものはない。次のものは、発言から読み取れる持ち帰り事項であり、期限は未定。</p>
+<h3 id="中田りょうこ">中田りょうこ</h3>
+<ul>
+<li>[ ] 料理教室チェーンの1店舗あたりの収益について、中田が参加する講座の機会に確認すると述べた（00:25:42。講座・ワークの名称は聞き取り不明瞭）。</li>
+<li>[ ] 田中が送ったブックローンチのアイデアを確認する（00:29:37〜00:29:50。実施の約束ではない）。</li>
+</ul>
+<h3 id="田中祐一">田中祐一</h3>
+<ul>
+<li>[ ] 会議で話した料理教室チェーンについて、AIに調べてもらっている内容（00:14:24、00:19:05）を、必要があれば中田へ共有する。共有の約束は会議では出ていない。</li>
+</ul>
+<h2 id="検討中・未確定">検討中・未確定</h2>
+<ul>
+<li>1秒お片付けスタジオ（店舗）を実施するか、時期、立地、規模は未定。画像はイメージ段階。</li>
+<li>店舗から60万円の講座へ引き上げる具体的な導線（イベント、見学ツアー、ヒアリング設計）は未設計。田中は、店舗から直接引き上げるのは時間がかかりそうで、見学会型や講師コース型の方が売れそうと見ている。</li>
+<li>ライセンス・マイスター制度（講師コース）の価格、コース数、運用は未定。9万円の数字は田中の当てはめ例であり、決定した価格ではない。</li>
+<li>使用した商品の紹介による法人収益の仕組みを、片付けでどう取り入れるかは未定。</li>
+<li>ブックローンチの実施可否、その後の流れ（体験セミナー直結か、先にコミュニティで教育か）は未定。コミュニティの月額料金の数字は、田中が挙げた例であり、決定した価格ではない。</li>
+<li>次の打ち合わせは、終了間際に「また今月のブラ〜（聞き取り不明瞭）で」「1秒収納の定例ミーティングもあるから」という言及があったが、日付と時刻の発言はない。</li>
+</ul>
+<h2 id="原本照合と公開上の注意">原本照合と公開上の注意</h2>
+<p>本議事録は、書き起こし全文と上記の時刻を照合して作成した。次の点は自動書き起こしの誤認識の疑いがあり、断定していない。</p>
+<ul>
+<li>「1秒お片付けスタジオ」の名称（原本では「一部週の」などと表記）</li>
+<li>料理教室チェーンの数値（売上約167億円・利益約7億円は2019年の数値と田中が述べたもの。外部に使う前に原典で確認する）</li>
+<li>紹介制度の金額（9,000円分引き等の試算）、コースの回数（10回または12回）</li>
+<li>講座・ワークの名称（「ドラップ」「ドラッグア」などと表記）</li>
+</ul>
+<p>第三者の施設名・人名、会議中に中田が触れた個人的な事情は、必要最小限にぼかし、または記録していない。</p>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-10-27)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: X9D5MON5<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
