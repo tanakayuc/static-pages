@@ -1,0 +1,432 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>たかみずMTG 議事録（2026-10-28） - たかみずMTG 議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>たかみずMTG 議事録</h3><a href="20261028.html" class="sidebar-item active"><span class="date">2026年10月28日</span> たかみずMTG 議事録（2026-10-28）</a>
+<a href="20261014.html" class="sidebar-item"><span class="date">2026年10月14日</span> たかみずMTG 議事録（2026-10-14）</a>
+<a href="20260923.html" class="sidebar-item"><span class="date">2026年09月23日</span> たかみずMTG 議事録（2026-09-23）</a>
+<a href="20260907.html" class="sidebar-item"><span class="date">2026年09月07日</span> たかみずMTG 議事録（2026-09-07）</a>
+<a href="20260826.html" class="sidebar-item"><span class="date">2026年08月26日</span> たかみずMTG 議事録（2026-08-26）</a>
+<a href="20260805.html" class="sidebar-item"><span class="date">2026年08月05日</span> たかみずMTG 議事録（2026-08-05）</a>
+<a href="20260723.html" class="sidebar-item"><span class="date">2026年07月23日</span> たかみずMTG 議事録（2026-07-23）</a>
+<a href="20260708.html" class="sidebar-item"><span class="date">2026年07月08日</span> たかみずMTG 議事録（2026-07-08）</a>
+<a href="20260610.html" class="sidebar-item"><span class="date">2026年06月10日</span> たかみずMTG 議事録（2026-06-10）</a>
+<a href="20260527.html" class="sidebar-item"><span class="date">2026年05月27日</span> たかみずMTG 議事録（2026-05-27）</a>
+<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 次世代型AIセールス キックオフMTG 議事録（2026-04-28）</a>
+<a href="20260325.html" class="sidebar-item"><span class="date">2026年03月25日</span> たかみずMTG 議事録（2026-03-25）</a>
+<a href="20260311.html" class="sidebar-item"><span class="date">2026年03月11日</span> 20260311 定期ミーティング 議事録</a>
+<a href="20260302.html" class="sidebar-item"><span class="date">2026年03月02日</span> 20260302 MTG 議事録</a></nav>
+<main class="content"><article class="article"><h1>たかみずMTG 議事録（2026-10-28）</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/83b817d6-a0eb-4fc7-a484-d54ce6e557d7/file/bWVkaWEvMjAyNi8xMC8yOC8xMjAwX-eUsOS4reelkOS4gOWAi-S6uk1UR-ODquODs-OCr18yOTgwMTI2ZmUyL01QNF81NWUzZWJkYy02ZWYxLTQzYWMtYjIzYi0xNmM3NGI1Nzc4NDgubXA0#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年10月28日 11:17（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>今回は、10月22日に始めた電話動線の最初の6日間の結果（電話申込7名、個別相談の約束5名、うち1名がプラチナで成約）を受けて、「この数字は良いのか悪いのか、どこで見切るのか」という判断軸の相談が中心だった。<br />
+田中は、個別説明会の獲得単価が5万円前後、6〜7万円まで上がっても耐えられるとし、成約率は3〜5件では分からないので個別説明会が30件ほど溜まるまで回し続け、予算はじわじわ上げる方が無難だと助言した。あわせて、電話診断をはっきり打ち出した広告、インスタのオファー動画、診断を受けた人に紹介を頼む仕組み（紹介ごとに1万円、またはフィードバックと引き換え）が案として出た。<br />
+そのほか、19万円台の商品の特典と分割の考え方、電話診断の中身と20分で個別相談へつなぐ流れ、1分ロープレを個別説明会に使う案、動かない受講生が生まれる理由（集客した層の問題）、LPの受講生の声に数字を入れられない件、CPAの許容ライン、動画広告の変化、ご褒美ランチ会の終了、チームの手放し方が話題になった。最後に、11月以降の定例日程が確認された。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年10月28日 21:00頃〜22:00頃（59分）</td>
+</tr>
+<tr>
+<td>発言者</td>
+<td>Yasue Takamizu（たかみず保江）、田中 祐一、かねこ　あき、澤田 亜美</td>
+</tr>
+<tr>
+<td>Zoomトピック</td>
+<td>田中祐一個人MTGリンク</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/83b817d6-a0eb-4fc7-a484-d54ce6e557d7" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/83b817d6-a0eb-4fc7-a484-d54ce6e557d7</a></td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td><code>21_プロジェクト一覧/tak_たかみず/MTG履歴/20261028_たかみずMTG_書き起こし原本.md</code></td>
+</tr>
+<tr>
+<td>Zoomチャットログ</td>
+<td><a href="20261028-chat.txt">20261028-chat.txt をダウンロード</a>（URLは「（URLは非公開）」に置き換えて公開。田中が動きのある動画の例としてFacebookの動画のリンクを共有）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1.-二チャレ10月の結果と、電話動線の最初の6日間">1. 二チャレ10月の結果と、電話動線の最初の6日間</a></li><li class="toc-sub"><a href="#2.-電話動線の広告費は良いのか悪いのか、どこで見切るのか">2. 電話動線の広告費は良いのか悪いのか、どこで見切るのか</a></li><li class="toc-sub"><a href="#3.-電話診断を前面に出した広告と、インスタのオファー動画">3. 電話診断を前面に出した広告と、インスタのオファー動画</a></li><li class="toc-sub"><a href="#4.-電話診断を受けた人に、紹介をお願いする仕組み">4. 電話診断を受けた人に、紹介をお願いする仕組み</a></li><li class="toc-sub"><a href="#5.-19万円台の商品：LINE相談し放題、特典、分割">5. 19万円台の商品：LINE相談し放題、特典、分割</a></li><li class="toc-sub"><a href="#6.-電話診断の中身と、個別相談への誘導">6. 電話診断の中身と、個別相談への誘導</a></li><li class="toc-sub"><a href="#7.-電話担当の体制と、診断から個別説明会までのフォロー">7. 電話担当の体制と、診断から個別説明会までのフォロー</a></li><li class="toc-sub"><a href="#8.-田中の新しい企画：月商100万円突破者だけの個別説明会">8. 田中の新しい企画：月商100万円突破者だけの個別説明会</a></li><li class="toc-sub"><a href="#9.-動かない受講生が出る理由">9. 動かない受講生が出る理由</a></li><li class="toc-sub"><a href="#10.-LPの受講生の声に数字を入れられない件">10. LPの受講生の声に数字を入れられない件</a></li><li class="toc-sub"><a href="#11.-田中の別案件の見切りと、CPAの許容ライン">11. 田中の別案件の見切りと、CPAの許容ライン</a></li><li class="toc-sub"><a href="#12.-広告の変化と動画クリエイティブ">12. 広告の変化と動画クリエイティブ</a></li><li class="toc-sub"><a href="#13.-ご褒美ランチ会の終了と、リアル開催">13. ご褒美ランチ会の終了と、リアル開催</a></li><li class="toc-sub"><a href="#14.-体験会・個別説明会を自分でやるときのやり方">14. 体験会・個別説明会を自分でやるときのやり方</a></li><li class="toc-sub"><a href="#15.-チームの手放し方">15. チームの手放し方</a></li><li class="toc-sub"><a href="#16.-次回以降の定例">16. 次回以降の定例</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-sub"><a href="#前例のない動線は、割り算で見て、30件たまるまで判断しない">前例のない動線は、割り算で見て、30件たまるまで判断しない</a></li><li class="toc-sub"><a href="#予算は先に決めて、じわじわ上げる">予算は先に決めて、じわじわ上げる</a></li><li class="toc-sub"><a href="#オファーは広告でもインスタでも、はっきり打ち出す">オファーは広告でもインスタでも、はっきり打ち出す</a></li><li class="toc-sub"><a href="#動かない人の多くは、集客した層で決まっている">動かない人の多くは、集客した層で決まっている</a></li><li class="toc-sub"><a href="#LPの下の文章より、誰を呼ぶかの広告に力を使う">LPの下の文章より、誰を呼ぶかの広告に力を使う</a></li><li class="toc-sub"><a href="#見切りは事実と許容CPAで決める">見切りは事実と許容CPAで決める</a></li><li class="toc-sub"><a href="#オンラインで足りない「熱」は、リアルで補う">オンラインで足りない「熱」は、リアルで補う</a></li><li class="toc-sub"><a href="#手放すときは、案件ごとに丸ごと任せる">手放すときは、案件ごとに丸ごと任せる</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-sub"><a href="#電話診断の運用（現状）">電話診断の運用（現状）</a></li><li class="toc-sub"><a href="#個別説明会の伸ばし方（田中の案）">個別説明会の伸ばし方（田中の案）</a></li><li class="toc-sub"><a href="#紹介の仕組み">紹介の仕組み</a></li><li class="toc-sub"><a href="#インスタのオファー動画（田中案）">インスタのオファー動画（田中案）</a></li><li class="toc-sub"><a href="#商品設計">商品設計</a></li><li class="toc-sub"><a href="#広告・クリエイティブ">広告・クリエイティブ</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#たかみず・チーム">たかみず・チーム</a></li><li class="toc-main"><a href="#検討中・方針">検討中・方針</a></li><li class="toc-main"><a href="#Zoomチャットログ">Zoomチャットログ</a></li><li class="toc-sub"><a href="#発言ログ">発言ログ</a></li><li class="toc-main"><a href="#聞き取りについての注記">聞き取りについての注記</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1.-二チャレ10月の結果と、電話動線の最初の6日間">1. 二チャレ10月の結果と、電話動線の最初の6日間</h3>
+<p>たかみずから、10月の状況の報告があった。<br />
+- 二チャレ（2日間セミナー）は10月、毎週開催の全4回のうち3回が終わり、最終の4回目は1日目が終わって2日目が明日で終了となる<br />
+- 全3回での集客は19名、離脱が1名、日程調整が2名（内訳の数字は原本の聞き取りが不明瞭）。オートウェビナーは10月が2名<br />
+- 電話動線は10月22日にスタートし、途中で一度止めた。22日から27日の6日間のうち、後半の3日間で電話の申込が7名あった<br />
+- 7名のうち5名が個別相談の約束まで進み、うち2名がすでに個別相談を実施、1名がプラチナで成約した。残り3名は日程は決まっているがまだ実施前<br />
+- 日程調整中が1名、ほかに電話に出ない人が1名いる</p>
+<p>田中は「電話は早いですね」と反応した。来月からはワンデーになるという前提も確認された。</p>
+<h3 id="2.-電話動線の広告費は良いのか悪いのか、どこで見切るのか">2. 電話動線の広告費は良いのか悪いのか、どこで見切るのか</h3>
+<p>たかみずから、電話動線の広告は日予算40,000円で回していて、6日間でおよそ24万円を使い、現時点で成約は1件・100万円（原本の聞き取りが不明瞭）という状況が共有され、「これが良いのか悪いのか分からず、悪ければどこで落とすのか、その境目が分からない」という相談があった。</p>
+<p>田中は、電話を使ったこのやり方は誰かの前例をなぞったものではなく、業界外で「電話がめちゃくちゃ売れているらしい」と聞いて持ってきたものだと説明した。そのうえで、割り算で見るよう助言した。<br />
+- 24万円で電話申込が7件、個別説明会につながるのが5件。電話申込1件あたり約4万円、個別説明会の獲得で約5万円という計算になる<br />
+- 個別説明会を10件やっても広告費は50万円。そのうち2件が決まれば、広告費に対してプラス400%程度になる（原本は「よラス400パー」。ROASを指すと思われるが聞き取りが不明瞭）<br />
+- 「めちゃくちゃいい数字かといったらそうではないが、今までの中では一番現実性のあるファネルかもしれない」</p>
+<p>かねこからは、今までのツーデイズでは個別相談を1件取るのにかかった広告費に比べ、電話動線では4分の1程度の金額で個別までつなげられているという数値が出ていた、という補足があった（比較の対象と向きは原本の聞き取りが不明瞭。文脈上、電話動線のほうが安いという趣旨と読める）。</p>
+<p>見切りの目安について、田中は次のように述べた。<br />
+- まず予算をどこまで積むかを決めるところから。自分は「100万円使う」「50万円で見てみる」と先に決める派<br />
+- 見るべきは個別説明会を1件取るのにいくらかかっているか（CPO）で、今の5万円なら6〜7万円まで上がっても耐えられる<br />
+- 成約率は3件や5件では分からない。30件ほどやってみると傾向が分かる。教育が薄いぶん、電話でどこまでカバーできるかは分からない<br />
+- なので20〜30件たまるまではずっと回し続ければよく、もっと早く検証したい、行ける感覚があるなら予算を上げる</p>
+<p>たかみずが「日予算40,000円で1か月やるより、短期間にドンと100万円ぐらい上げた方がいいのか」と尋ねると、田中は「100万円は月で鳴らす（月額の話）」と整理し、たかみずは「月に直すと120万円ぐらいで、この感じで見ておけばよい」と確認した。田中は、行けると思って一気に予算を突っ込むと大きくぶれて逆に苦戦することもあるので、じわじわ上げる方が無難だと付け加えた。また、どのクリエイティブが当たり、どのトークが刺さるかも、やってみないと分からない部分だと述べた。田中自身、動画LPなのに「動画のクリエイティブの反応がいい」という、意味の分からない結果に出会ったことがある、という話もあった。</p>
+<h3 id="3.-電話診断を前面に出した広告と、インスタのオファー動画">3. 電話診断を前面に出した広告と、インスタのオファー動画</h3>
+<p>田中は「電話診断というオファーを明確に打ち出した広告を出してみたら面白いのでは」と提案した。かねこが広告の現状を確認したところ、今の広告は「お悩み向けに、詳しくはこの動画を見てください」という誘導で、電話診断をやっているという記載はない、とのことだった。</p>
+<p>たかみずが「一番上に『電話診断』とバンと出してはだめか」と尋ねると、田中は「分かりやすいオファーだと思うので、やってみたらいい」と答え、「あなたのセールスの問題を明確にする。電話診断募集中」のような出し方を例に挙げた。普通に申込が来るのではないか、という見立て。</p>
+<p>さらに、電話診断が強いのなら、インスタのリールにもオファーの動画を作ってみてはどうか、と提案した。たかみずは、インスタでオファー系の動画を出したことは一度もないと答えた。田中は「売らないと売れない」と述べ、リールで出すのが自分たちのやり方だが、ストーリーズが得意な人もいると説明した。田中が描いた動画の流れは次のようなもの。<br />
+- 「セールスで多くの人が間違っている」「クロージングするな」のような切り口で始める<br />
+- 実際の講義の動画を流し、受講生ごとの癖と直し方を見せたうえで、「セールスの弱点は大体5つか6つに集約される」と続ける<br />
+- 「あなたの弱点を炙り出す機会があったら興味ありませんか」と問いかけ、インスタのプロフィールのURLから電話診断（セールス力を引き上げる診断）へ誘導する<br />
+- 電話診断を受けるには、このあとの10分の動画を見る必要がある、と案内する</p>
+<p>たかみずは「その前段階の動画ですね、LPの動画を見てもらう」と理解した。内容は今のLPの動画とは違っていてよい、という確認もあった。見本として、田中は若返りセラピスト養成講座のオファー動画が残っていること、児玉さんの最近のリールが、プロフィールのURLから説明会の申込へつなぐ導線としてとても綺麗だったことを挙げた。田中はフィードは画像広告、リールは動画広告という位置づけにすぎないとし、お金をかけずにアプローチできるのがインスタの良さだと述べた。</p>
+<h3 id="4.-電話診断を受けた人に、紹介をお願いする仕組み">4. 電話診断を受けた人に、紹介をお願いする仕組み</h3>
+<p>電話の申込者の客層が、ツーデイズとは違うという話が出た（宝石の販売の人や、個展を控えて「セールスが必要だ」と師匠から紹介された人など）。田中は、教育をすればするほど同じ業界の人が集まるのかもしれないが、教育が浅いと客層が散るとも言え、それは良い面でも悪い面でもあるので、はまるかどうか次第だと述べた。</p>
+<p>そのうえで田中は、個別相談のあと「お金がないので無理です」となった人への案を出した。まずはセールスの練習から始めましょうと伝え、その人専用の紹介リンクを発行する。電話診断に友達を1人案内してくれたら1人につき10,000円払うので、それでお金をためてまた来てください、という形。一度電話で話して、二度目が説明会になるので、それなりに仲良くなっているはず、という見立てだった。たかみずは「アフィリエイトのようなものですね」と受け止めた。</p>
+<p>たかみずはこれに重ねて、「一度やったら澤田のフィードバック（30分ゴリゴリ）をつけるから、まず1人連れてこい」という形はどうか、と提案した。連れてくる人が適当な人だったらフィードバックはしない、という条件つき。澤田 亜美さんは「お金よりロープレをやってあげる方が値打ちがあるように思う」と応じ、お金がなくても何とかしたいと思って来た人が紹介するきっかけにもなる、と話した。たかみずは「ちゃんと要チェックです。やります」と受け止めた。ただし、澤田 亜美さんの負担が増える点も話に出た。</p>
+<p>田中は、成約しなかった人を取りこぼさない「ダウンセル」を用意した方がいい、という以前からの話にも触れた。案としては2つ。<br />
+- パターン1: 単価を下げて何とかマネタイズする（個別トレーニングのような形）<br />
+- パターン2: 「もう働いてお金をためてから来てください」という形</p>
+<h3 id="5.-19万円台の商品：LINE相談し放題、特典、分割">5. 19万円台の商品：LINE相談し放題、特典、分割</h3>
+<p>たかみずから、19万円台の商品（原本では「190,000」「198,000円」と発話。金額の聞き取りが不明瞭）について、LINEの相談し放題はつけた方がよいか、グループを作るべきかという質問があった。個別に来たものを随時、澤田 亜美さんなど他のメンバーが答える形も考えている、とのこと。</p>
+<p>田中の答えは次のとおり。<br />
+- たかみずが出てこなくても売上が上がる商品は、それでいい。世の中には手っ取り早くやりたい人がいて、そういう人が買う<br />
+- グループ化する必要はない。期間中に実際にやってみて困ったことがあればLINEで相談できる、というのは魅力的<br />
+- ただ、たかみずが出てこない商品だと、「たかみずから学びたい」という気持ちは育たない<br />
+- そこで、アカデミーのコースにあるマインドセットの講義のようなものを特典としてプレゼントし、ロープレの前にまず見て学習しておいてもらう。ロープレをする側もやりやすくなるし、たかみずを好きになってもらえる可能性もあり、上位の商品への引き上げにもつながるかもしれない</p>
+<p>たかみずは、日曜のイベントで使っていた5本の動画があるので、それを渡すのがよいと受け止め、田中は「事前課題です、という形で」と添えた。</p>
+<p>分割払いについて、たかみずは「1か月の短期商品なので、分割はない方がいいのではないか。カード会社に自分で連絡してもらう形でいいと思う」と意見を述べた。田中は「まったくその通り。少なくとも都度分割はあり得ない。短期で終わるものは分割はなく、一括」と答えた。幅広い業種の人が買いそうだとも述べた。たかみずは、文章でフィードバックをうたっても人があまり来なかったので、オプションとしてでもきちんと説明して価値が伝われば来るはず、と話した。</p>
+<h3 id="6.-電話診断の中身と、個別相談への誘導">6. 電話診断の中身と、個別相談への誘導</h3>
+<p>田中が「電話診断では何を話しているのか」と尋ね、澤田 亜美さんとたかみずが説明した。<br />
+- 澤田 亜美さん: 仕事で販売やセールスをしているかから入り、仕事の内容、今の売上、なぜそれをやっているのか、と質問する。セールスのヒアリングを凝縮した形で、10分ぐらい（10分以内）<br />
+- たかみず: 話してもらった内容から、セールスは対話だと伝え、この人のセールスの良いところ、課題を伝える。そこから、セールスは声だけではなく、視覚情報が半分以上を占めるというメラビアンの法則の話をして、せっかくの機会なので表情や所作も含めて見る時間をつくれる、と個別相談（Zoom）へ誘導する。課題を明確にして、それで引っ張る流れ<br />
+- 長さの基準は20分。たかみずが「20分でオーケーか」と確認し、澤田 亜美さんは「それ以上だと個別相談のように相談に乗ってしまうので、そのぐらいで誘導するのが一番いい」と答えた<br />
+- 最初に澤田 亜美さんとみうら　みゆきさんの通話を聞いたときは「詐欺っぽい」口調で、課題や提案が一方的な話しベースだった。そこはフィードバックして修正させている、とのこと。通話は全部録音して、担当2名に事前トレーニングもしている<br />
+- 最初の名乗りは「魔法の45分セールステンプレートの認定パートナーの澤田です。セールス力診断をお申し込みいただいたので」で、それで相手はすぐ分かってくれるとのこと。申込が入ると速攻で通知が届く仕組みで、24時間体制で電話している</p>
+<p>田中は、個別説明会の中で「1分だけ、普段の私をお客様だと思って売ってもらえませんか」とお願いして1分ロープレをし、「この問題がありましたね。これを60分間やるので、改善点をたくさん持ち帰れてセールスがすごく上がると思いませんか」と続ける案を出した。たかみずは「そっちの方が早いかもしれない」「それはいいと思う」と応じ、田中は「そうなったらすごく売りやすいのでは」と述べた。</p>
+<h3 id="7.-電話担当の体制と、診断から個別説明会までのフォロー">7. 電話担当の体制と、診断から個別説明会までのフォロー</h3>
+<p>たかみずから、チームが縮小しているため総動員でセールスに関わっていること、かねこさんもセールスに入ることになったことが共有された。田中は、それぞれ得意なポジションがあるのはいいと受け止めた。</p>
+<p>田中は、診断のあと個別説明会までの間に何をしているのかを尋ねた。澤田 亜美さんは、電話診断ではアンケートを取り、Zoomの案内とあいさつの会話をすること、二チャレのときは職業を聞いて一言やり取りしたり、日程が空く人には先生の動画を渡したりしていることを説明した。田中は、自分のところは相手に合わせたお客様の声を必ず送るようにしている、と共有した。「あなたに近い人はすでにこういう成功事例があるので見てきてください」という送り方。自分の場合は動画から個別に入るので教育が済んでいるが、電話動線では教育が短いぶん、こうした補強が効くと述べた。</p>
+<h3 id="8.-田中の新しい企画：月商100万円突破者だけの個別説明会">8. 田中の新しい企画：月商100万円突破者だけの個別説明会</h3>
+<p>田中は、自分で作ろうとしている新しいファネルとして、「月商100万円を突破した人しか受けられない、田中が自分でやる個別説明会」を紹介した。自分でセールスするのは初めてだが、売る気はあまりなく、相手に気がなければ5分で終わりでいい、というやる気のない感じで行く想定。普段は1,320,000円の一本売りだが、このときは次の2コースを売ってみたいという（金額の聞き取りは原本で不明瞭）。<br />
+- マンツーマンサポート付きのコース（2,000,000円）<br />
+- ファネルも作り、売上の10%ももらうコース（4,500,000円）</p>
+<p>コピーは「SNSで売れているけど疲れた人だけ」に向けて書いているとのこと。どうなるか分からないと前置きしつつ、「たかみずさんの講座に出て数百万売って失速していく人」がまさに対象だと話した。</p>
+<h3 id="9.-動かない受講生が出る理由">9. 動かない受講生が出る理由</h3>
+<p>たかみずから、アカデミー生のなかに、イベントや仕組みの共有をしても何もやらない人がいて、AIシナリオを持っていても爆発的に成果を出す人もいれば全くやらない人もいる、クロージングが怖いと言い続ける人もいる、いろいろ試してきたがどうしたらいいか、という相談があった。</p>
+<p>田中は「ある種の諦めも大事」と述べ、集客した層によってしまう部分があると説明した。<br />
+- 今回の電話のフローで、客層ががらりと変わる可能性もある<br />
+- 「もう人生後がない、これが最後」という感じで成約した人は、行動が良くない傾向がある。余裕がないので、淡々とメンタルがぶれず、地味に続けられる人の方が成果が出ると思っている<br />
+- 追い込まれたときに大逆転できる人は10〜20%のスーパーマンで、残り8割は、そのままの人生のパターンが続く。自分を変えられる人は少数派。たかみずさんのような大逆転ストーリーを持つ人は、それだからこそ活躍しているが、そういう人は多くない（多くの人は悪い習慣が悪い結果を導く）<br />
+- 自分は「頑張ってクロージングした人は成果につながりづらい」と思っている</p>
+<p>田中は裏づけとして、昨年の「安心安定のカウンセラー」という案件の例を話した。「人生経験が武器になる」というコピーを「挫折経験が武器になる」に変えたら、お金のない人がたくさん来て、受講生の成果が過去最低になり、講師もやりづらいと言っていた。自分が追い込まれて変わったから皆もできるはず、と思うのは悪い癖で、「追い込まれたらスーパーサイヤ人になれる悟空のようなタイプは少なく、その裏には大量の屍がいる」とのこと。別の例として、お金がなければまずウーバーイーツで月収50万円を稼げと、最初のステップに置いているコミュニティの話も共有された。追い込まれた状態だと、別の一発逆転の誘惑にやられやすい、という見立て。</p>
+<h3 id="10.-LPの受講生の声に数字を入れられない件">10. LPの受講生の声に数字を入れられない件</h3>
+<p>かねこから、先日田中に相談した「LPの受講生の声」の件の続報があった。数字を入れたいと広告会社（アドベート）に伝えたところ、今は落ち着いているかもしれないが、アップデートの際に一発で広告停止になることがあるため、具体的な数字は入れないでほしいと言われたとのこと。そのため「壁を突破」「V字回復」のような文言に直して入れようとしている、という報告。</p>
+<p>田中の見立てはこうだった。<br />
+- 受講生の声が申込率（コンバージョンレート）にどれだけ影響するのかが大事。今回は動画を見たあとの下のページなので、影響はそんなに大きくないはず。申込む人はそこまで見ないのでは<br />
+- かねこから、最近の体験会の申込者には売上が月5万円やゼロの人が入ってくるようになった、こういう声を載せると低レベルの人が集まらないかという懸念が出た。田中は、誰を最初に呼んでくるのかが広告の役割であり、LPの下の文章はそんなに影響のある場所ではないと答えた<br />
+- 全体として、どこが重要かの優先順位がまだ見えておらず、全部に力が入っている印象。ここはそんなに重要ではないと思う<br />
+- むしろ、LPの一番下に置くものに力を使うより、余力があるなら広告のクリエイティブを作って広告会社に渡す方がインパクトは大きい<br />
+- 電話診断を受けた後に、お客様の声を送るのは有効。受講生の成果を10秒ずつつないだダイジェスト動画を送るのも手。田中自身、ホームページに全員のよいところだけをまとめた動画を置いていて、人数が多く見えると話した<br />
+- 強調するなら職業。業種ごとに成果を並べられるのが最強で、「御社の業種に近いところでも成果が出ています」と見せやすい。ただ、お客様の声そのものがコモディティ化していて、昔より価値が薄れている</p>
+<h3 id="11.-田中の別案件の見切りと、CPAの許容ライン">11. 田中の別案件の見切りと、CPAの許容ライン</h3>
+<p>たかみずが、田中が以前進めていたチャレンジ型の案件の行方を尋ねた。田中は、いまいちだったので一旦やめたと答えた。見切りは1か月で、セミナーを3回して、来た分には売れたが、CPAが想定より高かった。最初は3,000円だったのが、最後は10,000円を超えてきた。CPA以外の数値はおおむね予想どおりだったので、コンセプトから見直すことにした。</p>
+<p>たかみずが「CPAが10,000円を超えたら高いのは分かるが、7,000円ぐらいなら許容範囲か」と尋ねると、田中は「ファネルによる、ターゲットによる」と答えた。たとえば年商2,000万円以上の経営者を狙えば、最初からCPAは10,000円を超えるが、教育が薄くても売れる部分がある。同じファネルでも、ランディングページがすごく長く、一番下にしかボタンがない（全部読まないと申込に行かせない）ものもあり、業界や狙う相手でだいぶ変わる、とのこと。</p>
+<h3 id="12.-広告の変化と動画クリエイティブ">12. 広告の変化と動画クリエイティブ</h3>
+<p>田中は、広告の時代が変わったと感じる例として、オーダーノートという有名な案件の広告をぜひ見ておくよう勧めた。長い動画で、お客様の声も一つずつ全部紹介していく。人が話すだけのトーク形式でテロップがあるだけのものではなく、Bロールの技術を使ってモーションを動かしながら切り替えていくため、視聴維持率が高いのではないか、という見立て。これを作るのは技術的にも面倒だが、もしAIで作っているなら大きな優位性だと思う、と述べた。田中は、マイクを持って話しているだけの人たちよりセンセーショナルになる、ビジネス系で通用するかを検証したい、と話し、次はハロウィンで顔を青く塗ったジーニーの写真を使った広告を試すと笑いを交えて話した（信用を失うのか、CPAが安くなるのかを検証する）。</p>
+<p>その流れで、TikTokでは諸葛孔明の姿で始めたが再生数が伸びず、普通の田中の方が伸びた、という話もあった。</p>
+<h3 id="13.-ご褒美ランチ会の終了と、リアル開催">13. ご褒美ランチ会の終了と、リアル開催</h3>
+<p>たかみずから、続けてきたご褒美ランチ会を今回で終了にする、という報告があった。着飾ってやるのがあまり好きではないこと、自分が言い出した企画から始まったわけではないことが理由で、何か月かに一度、田中のように、売れた人だけでなく皆と会えるリアルのイベントをやる方がよいと考えた、とのこと。</p>
+<p>田中は、初心者が成果を出せないのは、オンラインだからという面もあると述べた。オンラインだと周りの人のやる気の熱が伝わらず、情報が情報だけで伝わってしまう。みんなこんなに頑張っているから自分も、という刺激がない。田中自身は3か月に1回リアルで開催していて、来年は2か月に1回にしたいと話した。</p>
+<h3 id="14.-体験会・個別説明会を自分でやるときのやり方">14. 体験会・個別説明会を自分でやるときのやり方</h3>
+<p>たかみずが、体験会のあとの個別相談の運用を、田中のやり方として尋ねた。田中の答えは次のとおり。<br />
+- 自分が個別をやるときは、必ず価格を言った後。「30分だけやります。完全審査制です」と伝える形と、価格を言わずに認定パートナーに振る形があり、その時の気分で決める<br />
+- 自分の場合は認定パートナーが常にセールスをしているので、たまに自分がやるときは審査制の30分面談にする<br />
+- 審査は面談の前に済ませていて、「合格」と送るので、相手は喜んで来る。面談では最後に「申し込むのは自由です。どうしますか」と聞くだけ<br />
+- 十人やれば八人決まる。価格を知ったうえで面談に来ているので、緩い感じで聞いても決まる</p>
+<h3 id="15.-チームの手放し方">15. チームの手放し方</h3>
+<p>たかみずから、セールスチームのメンバーの対応について、つい手を出してしまい、手が離れない、という相談があった。個別にメッセージを送って、サポートに入る素振りがないと指摘してしまうこともある、との話。</p>
+<p>田中は、社長が全部を見るのは現実には難しいと述べ、たかみずがセールス出身なので、そこが一番手放しにくいポイントになる、と整理した。自分が一番手放しにくかったのはコピーライティングで、最後は丸投げした。少しでも見ると言ったら必ず口を出すし、自分で書き始めてしまうので、案件ごとに任せたと割り切った。さらに、たかみずが関わらない案件をもう一つ作ってチームに任せるのは、チームの成長にとてもいいと述べた。たかみずは「電話でダウンセルを売る案件はどうか」と受け止めた。</p>
+<p>個別に伝えているのであれば、グループの場でなければ大問題になるほどの出しゃばりではないのでは、というのが田中の見方で、たかみずは、このような件についてはメンバーには触れないようにすると述べた。</p>
+<h3 id="16.-次回以降の定例">16. 次回以降の定例</h3>
+<p>たかみずが次回の定例を確認し、田中は自身のカレンダーに設定されている予定を読み上げた。<br />
+- 11月: 11日（水）21時、25日（水）21時<br />
+- 12月: 9日（水）21時、23日（水）</p>
+<p>たかみずから、11月25日だけ都合が悪いため前後にずらしてほしいという依頼があり、田中は了承して、11月26日（木）でどうかと確認し、たかみずも了承した（時刻は原本で明示なし。田中は「27日でも」とも発言）。</p>
+<hr />
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
+<h3 id="前例のない動線は、割り算で見て、30件たまるまで判断しない">前例のない動線は、割り算で見て、30件たまるまで判断しない</h3>
+<p>電話申込は4万円前後、個別説明会は5万円前後、2件決まれば広告費の400%程度。ただし成約率は3〜5件では分からないので、30件前後たまるまで回し続ける。見るのは個別説明会1件あたりの獲得コストで、6〜7万円までは耐えられる。</p>
+<h3 id="予算は先に決めて、じわじわ上げる">予算は先に決めて、じわじわ上げる</h3>
+<p>いくら使うかを先に決める。行けると思って一気に突っ込むと大きくぶれて苦戦することがある。クリエイティブもトークも、当たるものはやってみないと分からない。</p>
+<h3 id="オファーは広告でもインスタでも、はっきり打ち出す">オファーは広告でもインスタでも、はっきり打ち出す</h3>
+<p>「電話診断募集中」のように、何を提供するのかを前面に出す。売らないと売れない。オファーの動画は広告用の動画とは別に作る。</p>
+<h3 id="動かない人の多くは、集客した層で決まっている">動かない人の多くは、集客した層で決まっている</h3>
+<p>追い込まれて買った人は、余裕がなく行動が悪い傾向がある。挫折経験を前面に出すと、お金のない人が集まり、成果が出にくい。どの層を集めるかが、あとの成果を決める。</p>
+<h3 id="LPの下の文章より、誰を呼ぶかの広告に力を使う">LPの下の文章より、誰を呼ぶかの広告に力を使う</h3>
+<p>LPの下の受講生の声はコンバージョンにそれほど影響しない。余力があるなら、広告のクリエイティブに使う。全部に力を入れるのではなく、重要度の順位をつける。</p>
+<h3 id="見切りは事実と許容CPAで決める">見切りは事実と許容CPAで決める</h3>
+<p>CPAの許容ラインはターゲットとファネルで変わる。以前の案件は、CPAが3,000円から10,000円超えに上がった時点でコンセプトから見直した。</p>
+<h3 id="オンラインで足りない「熱」は、リアルで補う">オンラインで足りない「熱」は、リアルで補う</h3>
+<p>オンラインだと周りのやる気が伝わらず、刺激がない。何か月かに一度、皆と会えるリアルの場をつくる。</p>
+<h3 id="手放すときは、案件ごとに丸ごと任せる">手放すときは、案件ごとに丸ごと任せる</h3>
+<p>見ると言ったら口を出してしまうので、見ない案件を作る。自分が関わらない案件を任せることが、チームの成長につながる。</p>
+<hr />
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<h3 id="電話診断の運用（現状）">電話診断の運用（現状）</h3>
+<ul>
+<li>長さの基準は20分。診断は10分前後のヒアリングで、課題を明確にして個別相談（Zoom）へ誘導する</li>
+<li>最初の名乗りは「認定パートナーの○○です。セールス力診断をお申し込みいただいたので」で、すぐ分かってもらえる</li>
+<li>申込が入ったらすぐ通知が届く仕組みで、24時間体制で電話する</li>
+<li>通話は全部録音し、担当にフィードバックして修正している（最初は詐欺っぽい口調だった）</li>
+<li>診断のあと個別説明会まで間があく人には、先生の動画を渡している</li>
+</ul>
+<h3 id="個別説明会の伸ばし方（田中の案）">個別説明会の伸ばし方（田中の案）</h3>
+<ul>
+<li>「1分だけ私をお客様だと思って売ってください」という1分ロープレから入り、課題を指摘して、60分のロープレで改善点を持ち帰れると伝える</li>
+<li>診断のあとには、相手に合わせたお客様の声や、受講生の成果をまとめたダイジェスト動画を送る</li>
+<li>自分が個別をやるときは、価格を言ったあとに「30分、完全審査制」と伝える</li>
+</ul>
+<h3 id="紹介の仕組み">紹介の仕組み</h3>
+<ul>
+<li>お金がなくて見送った人には、専用の紹介リンクを発行し、電話診断に友達を案内してくれたら1人につき10,000円</li>
+<li>または、フィードバック（30分）と引き換えに1人紹介してもらう。ただし適当な人の紹介なら実施しない</li>
+</ul>
+<h3 id="インスタのオファー動画（田中案）">インスタのオファー動画（田中案）</h3>
+<ul>
+<li>切り口は「セールスで多くの人が間違っている」「クロージングするな」</li>
+<li>実際の講義の動画を流し、弱点は5〜6つに集約されると伝え、「弱点を炙り出す電話診断」へ誘導</li>
+<li>プロフィールのURLから申込、申込にはこの後の10分の動画を見る必要があると明記</li>
+</ul>
+<h3 id="商品設計">商品設計</h3>
+<ul>
+<li>LINE相談し放題は、グループ化せず個別でよい</li>
+<li>たかみずが出てこない商品には、マインドセットの動画を事前課題として特典でつける</li>
+<li>短期で終わる商品は、分割払いを用意せず一括にする</li>
+</ul>
+<h3 id="広告・クリエイティブ">広告・クリエイティブ</h3>
+<ul>
+<li>動画LPでも、動画のクリエイティブの反応がいいことがある。当たるものはやってみないと分からない</li>
+<li>受講生の声は、業種ごとに並べるのが最強。ただしコモディティ化していて、価値は昔より薄い</li>
+<li>数字を入れると広告停止のリスクがあるため、具体的な数字を避けて「壁を突破」「V字回復」のような言葉で表す</li>
+</ul>
+<hr />
+<h2 id="決まったこと">決まったこと</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>電話動線の広告</td>
+<td>日予算40,000円（月120万円ペース）のまま回し、30件前後の個別説明会がたまるまで検証を続ける。予算はじわじわ上げる方針</td>
+</tr>
+<tr>
+<td>電話診断の長さ</td>
+<td>20分を基準に個別相談へ誘導する（澤田 亜美さんも同意）</td>
+</tr>
+<tr>
+<td>19万円台商品の特典</td>
+<td>LINE相談し放題はグループ化せず個別対応。日曜のイベントで使った5本の動画を事前課題として渡す方向</td>
+</tr>
+<tr>
+<td>分割払い</td>
+<td>用意しない（一括）</td>
+</tr>
+<tr>
+<td>ご褒美ランチ会</td>
+<td>今回で終了。今後は何か月かに一度、皆と会えるリアルのイベントを検討</td>
+</tr>
+<tr>
+<td>定例ミーティング</td>
+<td>11月11日（水）21時、11月26日（木）に変更（25日は都合が悪いため）、12月9日（水）21時、12月23日（水）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="やること">やること</h2>
+<h3 id="たかみず・チーム">たかみず・チーム</h3>
+<ul>
+<li>[ ] 電話動線の広告を、日予算40,000円のまま継続して検証する（個別説明会30件前後まで）</li>
+<li>[ ] 電話診断をはっきり打ち出した広告のクリエイティブを試す（田中の提案。担当は原本で特定できず）</li>
+<li>[ ] インスタに電話診断のオファー動画（リール）を出すか検討する</li>
+<li>[ ] 電話診断を受けた人に紹介をお願いする仕組み（紹介ごとに10,000円、または30分のフィードバックと引き換え）をチェックして試す（たかみず「要チェックです。やります」）</li>
+<li>[ ] 個別説明会に、1分ロープレから入る流れを取り入れるか検討する</li>
+<li>[ ] 19万円台商品に、マインドセット動画（日曜のイベントで使った5本）を事前課題として付ける</li>
+<li>[ ] 診断のあとに送る、相手に合わせたお客様の声や、受講生の成果のダイジェスト動画を用意する</li>
+<li>[ ] LPの下の受講生の声は数字を入れない言葉に直す。余力があれば広告のクリエイティブを作って広告会社に渡す（かねこ）</li>
+<li>[ ] 田中が見るよう勧めた動画広告（オーダーノート）の広告を見ておく</li>
+</ul>
+<h2 id="検討中・方針">検討中・方針</h2>
+<ul>
+<li>成約しなかった人向けのダウンセル（個別トレーニング、または働いて資金をためてから出直す形）は、田中の案として共有された段階で、具体的な設計は未定</li>
+<li>たかみずが関わらない案件（電話でダウンセルを売る案件など）をチームに任せる案は、たかみずが受け止めた段階で、具体的な実施は未定</li>
+<li>田中の月商100万円突破者向け個別説明会は、田中側で試す企画として共有されたもの</li>
+<li>11月26日（木）の定例の時刻は、原本で明示されていない</li>
+</ul>
+<h2 id="Zoomチャットログ">Zoomチャットログ</h2>
+<p>原本: <code>0_データ原本/2026年/10月/28日/Zoom/202610282100_Zoom_田中祐一個人MTGリンク_チャット.txt</code>（原本はURLを含むため非公開。公開用は上のメタ表のダウンロード版）</p>
+<h3 id="発言ログ">発言ログ</h3>
+<table>
+<thead>
+<tr>
+<th>経過時間</th>
+<th>発言者</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00:41:31</td>
+<td>田中 祐一</td>
+<td>「動きのある動画笑」と書き込み、動きのある動画の例としてFacebookの動画のリンクを共有（URLは非公開）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="聞き取りについての注記">聞き取りについての注記</h2>
+<ul>
+<li>発言者の表記は、Zoomの表示名に従った。音声認識で別の漢字や別の呼び方に聞き取られている箇所（たかみずさん、澤田 亜美さん、かねこさんの呼び名）は、文脈から各メンバーの名前に直した</li>
+<li>商品・手法の名前のうち、ファネルが別の語に聞き取られている箇所は、本文ではファネルと表記した</li>
+<li>冒頭に呼びかけられた人名（「佐々さん」）は、聞き取りが不明瞭なため、本文では取り上げていない</li>
+<li>00:41:47前後の数十秒は、田中が共有した動画の音声が、たかみずさんの発言として書き起こされている可能性がある（話者不明）。本文の根拠には使っていない</li>
+<li>数字や固有名詞の聞き取りが不明瞭な箇所は、本文で「原本の聞き取りが不明瞭」と明記し、書き起こし原本には【怪しい】フラグを付けた</li>
+<li>田中が別の案件の売上・広告費の数字を話した箇所は、他の案件の情報のため、本文には載せていない（案件名も省いた）</li>
+<li>メンバー個人の評価や、関係性に関わる発言は、一般化して記載した</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-10-29)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: ZLJY78FS<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
