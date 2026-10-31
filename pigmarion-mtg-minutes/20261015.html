@@ -1,0 +1,473 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ピグマリオン定期MTG 議事録（2026-10-15） - ピグマリオン定期MTG 議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>ピグマリオン定期MTG 議事録</h3><a href="20261030.html" class="sidebar-item"><span class="date">2026年10月30日</span> ピグマリオン定期MTG 議事録（2026-10-30）</a>
+<a href="20261015.html" class="sidebar-item active"><span class="date">2026年10月15日</span> ピグマリオン定期MTG 議事録（2026-10-15）</a>
+<a href="20261002.html" class="sidebar-item"><span class="date">2026年10月02日</span> ピグマリオン定期MTG 議事録（2026-10-02）</a>
+<a href="20260925.html" class="sidebar-item"><span class="date">2026年09月25日</span> ピグマリオン定期MTG 議事録（2026-09-25）</a></nav>
+<main class="content"><article class="article"><h1>ピグマリオン定期MTG 議事録（2026-10-15）</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/3da973ea-051d-44a2-a5e4-3400e443206f/file/bWVkaWEvMjAyNi8xMC8xNS8xMTU4X-ODlOOCsOODnuODquOCquODs-Wumuacn01UR--8iFlvdVR1YmXjg6njgqTjg5bvvIlfZTdlNjE0ZWViYy9NUDRfeXRjRmlZV0JKXzFiVXZpZGVvLm1wNA#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年10月14日 23:48（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>今回は、キッズの数値の見方、新しい施策の構想、そしてベビー（パーフェクト育脳）のシナリオの「軸」づくりが中心でした。<br />
+冒頭で田中から、キッズは成約率が下がった広告でもROASが500%を超えており、全体で見れば当たりの広告を走らせ続ける方がよい、という整理が出ました。集客期間や個別説明会の申込タイミングによる成約率の差も、この案件ではほぼ出ていないというデータの報告がありました。<br />
+構想の中心は、月1回の企画を各講座の先生が月替わりで担当する「GKM（グローバルキッズマム）コミュニティ」です。田中の本を使ったブックローンチで、購入者の約2割が入会した実績が紹介され、コミュニティの価格・特典・5周年での刷新が話題になりました。Kindle広告とChatGPT広告は見送り、YouTube広告は再挑戦します。<br />
+後半はベビーの13要素のうち、ターゲット、なぜ今か、冒頭の一言、真の原因、目指す未来を確認しました。冒頭は「できるママほど赤ちゃんの才能を潰している」、真の原因は「できすぎるから」を軸にします。次回は10月30日（金）で（開始時刻は要確認）、田中側でベビーの台本を作って送ります。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年10月15日（木）21:00ごろ〜22:24ごろ（日本時間。YouTubeライブは20:58 JST配信開始、全長1:26:03）</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/3da973ea-051d-44a2-a5e4-3400e443206f" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/3da973ea-051d-44a2-a5e4-3400e443206f</a></td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td>田中側で保管（全編・話者分離つき）</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、ピグマリオン代表（恵美子さんと推定）、先方スタッフほか</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>オンライン（Global Kid's Mom チャンネルの限定公開ライブで録画）</td>
+</tr>
+</tbody>
+</table>
+<p>※書き起こしの話者は音声から機械で分けたもので、参加者名は発言内容から当てはめています。1つのラベルに複数人の発言が混ざる箇所があるため、先方か田中かは内容から確実に分かるものだけ書き分け、判別が難しい箇所は「先方」と表記しました。</p>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#キッズ：成約率が下がっても、全体ではプラス">キッズ：成約率が下がっても、全体ではプラス</a></li><li class="toc-sub"><a href="#集客期間と個別説明会の申込タイミング">集客期間と個別説明会の申込タイミング</a></li><li class="toc-sub"><a href="#個別説明会の募集">個別説明会の募集</a></li><li class="toc-sub"><a href="#田中が考えていた新しい施策（JV・オンライン家庭教師・ダウンセル）">田中が考えていた新しい施策（JV・オンライン家庭教師・ダウンセル）</a></li><li class="toc-sub"><a href="#GKMコミュニティ構想">GKMコミュニティ構想</a></li><li class="toc-sub"><a href="#ポイント制度の話（参考事例）">ポイント制度の話（参考事例）</a></li><li class="toc-sub"><a href="#田中からの依頼：コミュニティのレター案">田中からの依頼：コミュニティのレター案</a></li><li class="toc-sub"><a href="#ベビー（パーフェクト育脳）：シナリオの13要素">ベビー（パーフェクト育脳）：シナリオの13要素</a></li><li class="toc-sub"><a href="#次回日程">次回日程</a></li><li class="toc-sub"><a href="#ベビー講座の先生との関わり方">ベビー講座の先生との関わり方</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中">田中</a></li><li class="toc-sub"><a href="#ピグマリオン">ピグマリオン</a></li><li class="toc-main"><a href="#検討中・方針">検討中・方針</a></li><li class="toc-main"><a href="#確認したいこと">確認したいこと</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="キッズ：成約率が下がっても、全体ではプラス">キッズ：成約率が下がっても、全体ではプラス</h3>
+<ul>
+<li>田中が「直近で相談するテーマは」と聞き、先方のセールス担当の成約率が直近で下がっている件について、先方スタッフから田中の解説を聞きたいという希望が出た。</li>
+<li>田中の見立て：普段の成約率が30%前後なのに対して、ある広告クリエイティブ経由は15%前後。セールス担当の成約率が下がっているのは、そのクリエイティブの影響ではないか、と田中は見ている。一方でROASを見ると500%以上出ている。</li>
+<li>成約率が下がっていること以上に、安く集客できていることの経営的なプラスが大きい。セールス担当にとってのベストな客層だけを呼ぶことは目指したいが、プロジェクトとして数字を上げていく以上、それだけが正解ではない。</li>
+<li>先方スタッフの確認：成約しやすい人以外の幅広い方が来ているので成約率は下がるが、人数も来ているので全体ではよい、という理解でよいか。田中：その広告単体として利益はきちんと出ている。</li>
+<li>田中の整理：キッズに関しては、当たっている広告を走らせておく方が全体最適。セールスだけの話を聞いて判断できないことがある。広告とセールスの主張は、どのチームでも相反することが多い。間に立つマーケターが、どちらのチームも気持ちよく働けるよう、場合によってはどちらかに我慢してもらいながらバランスを取り、利益を上げていく。</li>
+<li>セールスがやりやすいようにだけ動くと、かえって利益が下がることもある、という点を広告側から見て気づいたこととして共有した。</li>
+</ul>
+<h3 id="集客期間と個別説明会の申込タイミング">集客期間と個別説明会の申込タイミング</h3>
+<ul>
+<li>先方スタッフ：広告期間（集客期間）は問題ないということなら、今までどおり3週間で回すか、2週間も試すか。田中：この案件は変わらないので試してみます（発言のまま。2週間を試す主体は確認事項に記載）。</li>
+<li>田中が別の案件のデータも調べたところ、集客期間が成約しやすさに大きく影響する案件があった。ライバルが多い案件や、顧客が飽きやすい案件は、集客期間が効く。</li>
+<li>ピグマリオンの案件は平均的で、集客期間による差は目立たず、ブレがなかった。</li>
+<li>毎週イベントを回すより、動画1本で個別面談を取るやり方もある、という話も田中から出た（ジャンルによって向き不向きがある）。</li>
+<li>田中が追加で調べたこと：</li>
+<li>個別説明会の申込タイミング（ライブの1日目・2日目・3日目）による成約率の差：ほとんどなし。</li>
+<li>申込から個別説明会の実施までの期間による差：キャンセルや日程変更を全部は除けていないので精度は70%ほどだが、この案件ではあまり差がなかった。日程が遅くなっても決まるときは決まる。</li>
+<li>田中の結論：この案件のお客様は、メンタルが安定していて待ってくれる。待ってくれるお客様に恵まれているというのが、数値を解析しての感想。</li>
+</ul>
+<h3 id="個別説明会の募集">個別説明会の募集</h3>
+<ul>
+<li>先方スタッフ：個別説明会は、Day2から告知して募集し、Day2の翌日から始めるやり方を前回から行っている。今回は個別の募集が23件。オープンチャットも使っているが、伸びが今ひとつ。</li>
+<li>2クール、このやり方で試し続けようと思っている。田中：そういう試し自体はよいと思う。</li>
+</ul>
+<h3 id="田中が考えていた新しい施策（JV・オンライン家庭教師・ダウンセル）">田中が考えていた新しい施策（JV・オンライン家庭教師・ダウンセル）</h3>
+<p>田中は、大きな構想として、グローバルキッズマムとして入れたい施策をいくつか持っていた。テキストで送っても伝わらないだろうと置いていたもので、今回、口頭で話した。</p>
+<p><strong>相互紹介のJV</strong></p>
+<ul>
+<li>田中は、いろいろなコミュニティと「両側での相互紹介」を組む案を持っていたが、背景を聞いて置いておいた、という経緯。</li>
+<li>代表：嫌がっているわけではない。ただ、IQ200のような商品を買う層はとても限られていて、相手のリストに該当する人が少ないと、今までやってみて感じている。</li>
+<li>これまでの相手は、子ども向けのコンテンツを持つ代表者との組み合わせ（おうち受験、先取り、子どもの英語、食事系など）。対象顧客が合いにくく、紹介につながったのは食事系の相手から1件あったとのこと。</li>
+<li>田中の考え：子ども系は間接競合ではなく、どちらかというと直接競合に近い。直接競合だと狙うターゲットが大きくなってしまい、交わる意味が薄い。田中が想像しているのは、経営者のコミュニティ、帝王学を学ぶ経営者のコミュニティなど、変わった人が集まる場所。</li>
+<li>代表から、以前にコンシェルジュ系のサービスの方と話したとき、「もっと高いサービスを作ってほしい」と言われたという話。完全にお家に入り込んでIQ200教育をする、というようなもの。田中：それは家庭教師の派遣業になり、事業拡張性がないのでやらなくてよい。</li>
+<li>代表：芸能人や著名人に、メソッドを使ってもらっている事例が出るとよい。</li>
+</ul>
+<p><strong>オンライン家庭教師</strong></p>
+<ul>
+<li>代表：オンライン家庭教師ができあがったので、それなら組めるJVがあると思う。認定講師が提供するサービスとして、一般的な日本のオンライン家庭教師と同じくらいの価格で始められそう。代表自身やベビーの先生が担当するとかなり高くなる。</li>
+<li>田中：公式サービスとして出すと、この講座が売れなくなるのでは、という危惧はある。ただし立場上、何とも言えない。</li>
+<li>代表の相談：講座を自分でやりたくない、自信がない、時間がない、以前の講座でうまく使えなかったトラウマがある、という方に、個別に案内してよいか。定例の時間に、明らかにそちらが合う方へ案内するのはどうか。先方スタッフからも、確実にできる家庭教師の方を勧めたい方がいるという補足。</li>
+<li>田中の返答：</li>
+<li>買わずに終わったリストに案内すること自体は、全然よい。</li>
+<li>リストを溜めておいて、キャンペーンとして「何組限定」で募集するのもよい。</li>
+<li>ホームページなどで大々的にフロントに出すのは、何とも言えない（田中の立場上の理由もある）。広告を回して専用ページを回すと、自分で自分の首を絞めることになる。気軽に頼む人は増えるので、最終的にはかなり広がるかもしれない。</li>
+<li>代表：層が下がるので数は圧倒的に多いと思うが、先生が多くないので、すぐには拡大できない。まず今いる認定講師で小さく始める。</li>
+</ul>
+<p><strong>ダウンセルのウェビナー</strong></p>
+<ul>
+<li>田中：ウェビナーの登録は全然ない、という認識でよいか。先方スタッフ：今9名。ローンチで終わった方に案内しているが、「3つ」「4つ」という数え方の内容は確認事項に記載。「4つで9名」とのこと。動きがかなり鈍い。</li>
+<li>田中：誘導の仕方と過去の履歴を一度見たい。本気で案内して9名なら、セカンドファネルとして適切ではなく、それなら家庭教師の方がよい、となる。案内文がまとまっていれば送ってほしい。</li>
+</ul>
+<p><strong>広告チャネル</strong></p>
+<ul>
+<li>Kindle広告はやめる。リサーチの結果、安く出稿できても使える額が月10万程度で、経営的なインパクトが弱いため。</li>
+<li>ChatGPT広告も調べていたが、コンテンツビジネスの業界で事例が出てからでよい。今は自分たちで先に掘る必要はない。</li>
+<li>YouTube広告は、田中側のメンバーが一度やってうまくいかなかったため、再挑戦の指示を出した。まずそれをやる。</li>
+</ul>
+<h3 id="GKMコミュニティ構想">GKMコミュニティ構想</h3>
+<p><strong>きっかけ：今のコミュニティの現状</strong></p>
+<ul>
+<li>田中の質問：卒業後は月額2500円でコミュニティに残れるのか。先方スタッフ：コミュニティは在校生・卒業生は基本無料。2500円は教材費で、キッズ講座の内容を使い続けられる（担任がつかない）。現在、2500円を払っている方が115名。</li>
+<li>田中の見立て：母親向け講座がたとえ1億〜2億まで行っても、それ以上に爆発的に売れるかというと、そうではないと思う。一般受けする入口があった方がよい。2500円に近いものを1,000〜10,000人にした方が、会社へのインパクトが大きい。</li>
+<li>今は「ローンチからキッズ」「ローンチからベビー」を無限に増やす戦略。これは先生のカリスマ性やコンテンツの強さに左右される。田中自身も台本を見て、ふわっとした案件は売るのが難しいと感じた。</li>
+<li>そこで土台として「GKMコミュニティ」を作る。</li>
+</ul>
+<p><strong>構想の中身</strong></p>
+<ul>
+<li>月1回の企画を、各講座の先生が月替わりで担当し、相談やコンテンツの共有をする（4月はキッズの先生、5月・6月は別の先生、のように）。講座に入る手前の「池」。</li>
+<li>月額制で、入会金があってもよい。ママ向けの情報（運動、地域、お金など）が全部集まる場所にする。特定の何かを深く学ぶ場ではなく、広く薄く学び、ママ同士でつながる。</li>
+<li>本気で変えたい人は、各講座へ。コミュニティの会員がコーチに6か月に1回ほど相談でき、その相談から「そろそろこの講座を受けた方がよいのでは」と各講座へ案内する流れも作れる。</li>
+<li>講座が仮になくなっても、新しい講座の先生が差し替えて回せる。</li>
+<li>海外の子育て事情のレポートを毎月共有する案も（代表の出張の話＋AIで補足した内部レポート）。</li>
+<li>先生は対談形式でも、1人で話す形式でもよい（先方スタッフの質問に、田中はどちらでもよいと回答）。月1回のセミナーに来てもらうよう会員に促す必要があり、コーチングの消化状況も見ていく必要がある。</li>
+</ul>
+<p><strong>田中の実績：ブックローンチ＋ワンタイムオファー</strong></p>
+<ul>
+<li>田中は自分の本でこの仕組みを回していた。本を買った人に、購入直後のワンタイムオファーとして、初月1,000円で入れるコミュニティのページを出す。「この瞬間限り」とすると、本の購入者の約20%が入会した。</li>
+<li>入会率が上がる一方で、翌月の退会率も跳ね上がった。田中は1人で運営していたので対策できなかったが、認定講師がいれば、スタート時のオリエンテーションなどで仲良くなってもらい、継続率を上げられるのでは。</li>
+<li>入会後の一定期間（例：7日間）は退会できないようにしつつ、その間にコーチングで友達になってもらい、やめづらい状況を作る。</li>
+<li>先生の新しい本が出るたびに、同じ流れでGKMコミュニティへ案内する。代表の2冊目も同様。田中の場合は、書店から売るのではなく、自分で買い占めた本を送る形が中心だった。</li>
+<li>アメリカで流行っている「送料だけで本を無料で送る」キャンペーン（100冊限定など）もある。</li>
+<li>田中の提案：100〜300冊を著者買いし、そこからコミュニティに何人入るか、退会率やLTVを冬から春にかけて検証する。数字が出れば事業として硬さが出る。高単価の一発売りは、外部から見ると不安定。「一定数のコミュニティ会員がいて、そのうち一定数がバックエンドに上がる」と言える方が強い。サブスク入会者の5人に1人がバックエンドを買う、という数字が見えれば、スケールできる。</li>
+<li>代表：本の在庫は出版社にあるはず。出版社から買うと3割引きだが、売上のデータには乗らない（Amazonで買ってほしいと言われている）。</li>
+</ul>
+<p><strong>Kindleと紙の本の違い</strong></p>
+<ul>
+<li>代表：ブックローンチは紙の本のこと？　Kindle広告とは違う？</li>
+<li>田中：Kindleが売れても、誰が買ったか分からない。購入者が第一章などにある特典のLINEリンクをクリックして初めてリストになる。目安は購入者の50%ほどがリストイン。他社の教材販売サービスも同様で、低い。紙の本なら実住所まで取れる。</li>
+</ul>
+<p><strong>今のコミュニティ（月500円）をどうするか</strong></p>
+<ul>
+<li>先方スタッフ：今の500円のコミュニティは、対談などがあったときは全編が見られる。YouTubeに上げるときは、今は人によるが、20分だけ公開し、その後にコミュニティへの入会案内を出す形にしている。不定期なので、500円のままか値上げするかを、ちょうど今日議論していた。</li>
+<li>代表：500円は回収もできず、微妙で、今作り直しているところ。各講座の先生が月替わりで担当する、というのはとてもよい。</li>
+<li>田中の見立て：月3,000円の会員が12か月継続してトントンくらいの感覚。ただし、このジャンルならCPAはもっと安くなりそうなので、ママ向けの3,000円や1,980円でもよい。</li>
+<li>現在は、講座が終わった卒業生を、通常500円のコミュニティに永年無料で自動加入させている。希望しない方には解約してもらう運用（代表）。田中：講座に1回でも参加すれば永久会員権が付く、というのは魅力になる。3,000円を払うのは、まだ講座に参加していない人、という整理になる。居座ってもらえば、新しい講座の先生の話を聞いて復活したときにLTVが上がる。ただ「500円でずっと入れる」はインパクトが弱いので、値上げした方がよいのでは。</li>
+<li>代表：自信がなかった。自分の対談を毎月1回やると約束できなかったので。各先生が月替わりで1回ずつなら、できそう。田中：先生にとっても、よいセミナーができれば自分の講座の報酬につながる。</li>
+<li>田中：計測のしくみも入れたい。誰が何をいつ買ったか、LTV、どの広告から来たか。これを測れば、マーケティング的にかなりスケールする。著者同士のJV（対談）もしやすくなる。仮にJVの報酬が1件売れて5,000円程度だとすると、JVとしてのテンションは上がらないが、著者同士の対談としてはメリットが大きい（報酬額は決まっていない）。</li>
+</ul>
+<p><strong>5周年とリニューアル</strong></p>
+<ul>
+<li>代表：5周年を過ぎているが、何かやりたいと思っていた。このコミュニティを大幅に変える、というのは5周年の企画としてありだと思う。500円の既存会員は何か月かは500円のままで、新規の方は初月無料などにする、というイメージ（期間は未定）。急にやると変なので、5周年のような大きな節目があるとやりやすい。</li>
+<li>出版パーティーと5周年を一緒にやろうと考えていた。2冊目が5月中旬に出るので重なるが、コミュニティの話なら別でもよいのかもしれない。代表によると、出版社側は出版（出版パーティー）と絡めてほしい意向。</li>
+<li>田中：コミュニティはコミュニティで、出版を絡める必要があるのか。田中と代表が何人かで、出版と関係なくリアルセミナーをする形でもよい。それは別途組んでほしい。</li>
+<li>田中：コミュニティのオファーを、本気で考えてみてほしい。情報だけでは売れる時代ではなく、コンセプトも大事。</li>
+<li>先方スタッフ：今のコミュニティ向けの案内は、イベントごとに「スペシャル対談があります」とメールするだけ。キッズ講座には「今月のこんなのがあります」という案内を流している。</li>
+</ul>
+<h3 id="ポイント制度の話（参考事例）">ポイント制度の話（参考事例）</h3>
+<ul>
+<li>田中が自分のコミュニティの会員サイトを作り直す中で、独自のポイント制度を試作している。チャットで質問する・返信する・イベントを企画するとポイントが入り、リアルセミナーへの参加は配点を高くする。ログは毎日自動で集計している。</li>
+<li>在籍日数が長いほど、ログインしたときに宝石が増えていく（やめたらゼロ）ような見せ方もできる。オリジナルグッズを持っている人のアイコンに印が付く、といった案もあるが、実運用はまだ決まっていないし、配点が正しいかも確認していない。</li>
+<li>地元のお茶会などを、ユーザーが自分たちで開くようになったら最高。そうした行動にポイントを付けるのもよい。</li>
+<li>代表：コミュニティ内通貨のような仕組みを、受講生同士の教え合いやサポートにも使えないかと相談していた。今の会員システムでは難しく、システムごとの変更は大変。Instagramでの拡散も、ポイントや割引で促したいが、ママたちにはなかなかできない。</li>
+<li>田中：コミュニティに本当に人が入ってくるようになったら、検討してよい。代表：まずはコミュニティの内容を充実させるところから。</li>
+</ul>
+<h3 id="田中からの依頼：コミュニティのレター案">田中からの依頼：コミュニティのレター案</h3>
+<ul>
+<li>コミュニティのレター案（オファーとサポート内容が分かるもの）がほしい。正式なページでなくても、PDFでもよい。</li>
+<li>田中も、昔のサブスクのレターを探してみる（消えているかもしれない）。</li>
+</ul>
+<h3 id="ベビー（パーフェクト育脳）：シナリオの13要素">ベビー（パーフェクト育脳）：シナリオの13要素</h3>
+<p><strong>前提：シナリオの「エッジ」が足りない</strong></p>
+<ul>
+<li>田中：ベビーのシナリオが自分の中で面白くない理由を探したところ、決まりきっていないことがたくさんあり、エッジが効いていなかった。入口の「パーフェクト育脳」はパンチが効いていて興味を持たせるが、その後の教育の部分がぼやっとしている。</li>
+<li>田中がシナリオを書くときは、だいたい13の要素を固める。その中で固まっていないものを今日確認する。</li>
+</ul>
+<p><strong>ターゲットの前提</strong></p>
+<ul>
+<li>田中：2歳まででよいか。先方：2歳の最後の日まで入る。田中は、過去のシナリオが「ずりばい」の話などが中心で、狭いと感じていた。</li>
+<li>代表：2歳半の子は、ベビー講座には入らず、キッズのイメージになっているかもしれない。</li>
+<li>田中：育休の頃は余力がなさすぎる感覚がある。離乳食がある程度済んだ頃、1歳前後が主力になるのでは。6か月の方もいるが、そのくらいで考えている。早期教育にお金をかけていて、ベビーパークなどに最低限のお金は払い、もっといいものを求めている層にしたい。</li>
+</ul>
+<p><strong>なぜ今やらなければいけないか</strong></p>
+<ul>
+<li>田中：冒頭で「なぜ今学ぶのか」を組むが、固まっていなかった。キッズの案件は「8歳で脳ができあがる」と言っているので、ベビーで「2歳で脳ができあがる」とは言えない。</li>
+<li>代表：3歳までと3歳から8歳では、使う脳の部位が違う。脳幹に近い後ろの部分（呼吸・運動など、古い脳）が0〜3歳で、3歳以降は学習の脳（お利口さんの脳）が伸びていく。家の2階建てに例えられ、1階が0〜3歳。1階ができていないのに2階をやってもだめ、と育脳の人はよく言う。</li>
+<li>田中の整理：3歳までに育つ部位を見逃すと、その後の2階の部分が弱くなって、学習の脳が育ちづらくなる。2階建てで設計するのが最強、パーフェクト、という話でよい。田中が脳の名前を尋ねたところ、代表は「体の脳と呼ぶところが多いようだ」（主に呼吸・運動）と回答した。正式な部位名は確認事項に記載。</li>
+</ul>
+<p><strong>冒頭の一言（常識の破壊）</strong></p>
+<ul>
+<li>田中：オープニングがAIとやり取りしても面白くならなかった。バウンサーは常識の破壊になりにくく、エルゴの抱っこも、教育のためではない。「教育のために〇〇をしているなら、今すぐやめてください」の形が一番パンチが効く。</li>
+<li>代表：スキンシップが良いと思っている親は多い。抱っこはベビーカーより目線も高く、話しかけやすいので、良いと思っている人が多いのでは。</li>
+<li>田中：パッと聞いて分かりにくい。「目を見ながら読み聞かせをしているなら逆効果」のような、分かりやすい行動が必要。幼児教室に通わせているのは炎上しそうで避けたい。ふわっとならよいが、ズバッと行きたい。</li>
+<li>先方スタッフ：前回の代表とのやり取りに、「ママが何でもやってあげることが愛情だと思っている」も、常識の破壊の一つとして入っていた。田中：行動が具体でないので刺さらない。「靴下を履かせているなら、子どもの才能を奪っています」のような具体の行動が分かりやすい。</li>
+<li>代表：「いつも機嫌が良い」はダメ。赤ちゃんがいつも機嫌良く過ごしているなら、脳が発達していないかもしれない。寒い、暑い、床が固い、お腹がすくといったことがなく、高層マンションで温度が整い、いつでもおっぱいが飲め、お母さんが話しかけてくれるような刺激の少ない環境が一番よくない。田中：説明を受けないと分からない。「いいじゃん」と言われそうで、愛情につながることは否定しづらい。</li>
+<li>先方からは、ベビーサインをやめてください、赤ちゃんを泣かせないようにしていませんか、といった案も出た（具体的すぎる、という声も）。代表は自分の失敗例として、赤ちゃんが機嫌を悪くする前に先回りしてお世話していたことを挙げた。</li>
+<li>田中の案：<strong>「頭のいいママほど赤ちゃんの才能を潰しているって、ご存知ですか」</strong>。代表が「できるママなんですよね」と返し、田中が<strong>「できるママほど赤ちゃんの才能を潰しているのはご存知ですか」</strong>に言い直した。「この子が寒くならないように、こうしてあげよう」といった行動が、実は発達の観点では逆効果、という入り方。先方スタッフ：それいいですね。</li>
+</ul>
+<p><strong>「パーフェクト」の反対側（北風／太陽にあたる対比）</strong></p>
+<ul>
+<li>田中：温室ママと太陽ママでいいのか、という確認。代表：太陽ママは、ベビーの顧客にはピンときていないようだ（ガミガミ叱るタイプではないため）。</li>
+<li>田中の候補：できるママと見守るママ、できすぎママ、完璧ママ、過保護、教育ママ、戦略的ママ。先方スタッフの候補：先回りママ（田中：×側でよい）。</li>
+<li>代表：見守るは近いが、赤ちゃんには弱い。サポートはしなければいけないので、「ナイスアシスト」をしてほしい。ただしそのナイスアシストは少なくてよい、という補足。</li>
+<li>田中：技術論ではなくマインド論に持っていける。技術論だと「自分でやってみます」と言われてしまう。反対側の言葉は今日も決まらず、持ち越し。</li>
+</ul>
+<p><strong>真の原因：「できすぎるから」</strong></p>
+<ul>
+<li>田中：解決策につなげるための真の原因があると、軸がぴしっと決まる。当初は「優しすぎるから」を考えたが、<strong>「できすぎるから」</strong>がよい。できすぎるからサポートが過剰になり、脳の発達を阻害する。</li>
+<li>田中：顧客は「全然育児ができず、振り回されて感情的にもうイヤ」という人ではなく、ある程度自分で考えてやっている人。マインドとスキルの両方が重要で、知識だけではできるようにならない、という方がクロージングしやすい。「できすぎているから」で、ベネフィットは「頭と体が育つ」。</li>
+<li>解決の見せ方として、阻害する要素をなくし、子どもの個性を見て才能を伸ばす。それを月齢ごとに分け、2歳くらいまでは半年ずつ程度のマトリックスがあるとよい。代表：運営側で作った方が売りやすいマトリックスになるかもしれない（検討中）。</li>
+</ul>
+<p><strong>目指す未来（ベネフィット）</strong></p>
+<ul>
+<li>田中：この案件を通して何を目指すのか。代表：いいリーダーがほしい。悪いリーダーが多いので、いいリーダーが必要なのではと思っている（「世界平和」という冗談交じりのやり取りもあった）。</li>
+<li>田中の整理：AIが出てきた不確実性の時代に、強く生き残れる子になってほしい。特定の分野で周りを引っ張れるようになれば、子育てを終えたあとに誇りが持てて、余生が楽しくなる。その土台の器を広げられるのはママしかいない。</li>
+<li>代表：赤ちゃんに対してこうなってほしい、というよりは、子育てを通じて自分も開花する、という方が響きそう。</li>
+<li>先方からは、過保護社会を変えたい、安心・安全にしすぎてモンスターペアレントになる、子育て鬱が生まれる、ママが育児自体を楽しめるようにしていきたい、という考え。</li>
+<li>代表が紹介した、先方スタッフが担当した受講生（算数）の声：自分がこう育てられなかったから、今子育てで悩んでいる。ここで学ばなければ、この子も大きくなって同じ悩みを抱え、代々続いてしまう。だから学びたい。</li>
+<li>田中：学ぶママを増やして、世の中を幸せにする連鎖があるようになれば、というのは支持されそう。代表：子育てに自信が持てない、自己肯定感が低い、という悩みが根にある。</li>
+<li>田中：これ以上の軸で台本を作れそうなので、また出す。</li>
+</ul>
+<h3 id="次回日程">次回日程</h3>
+<ul>
+<li>田中：10月の4週目にしてもらえるとありがたい。30日はどうか。先方スタッフ：30日で大丈夫。→ <strong>10月30日（金）</strong>。田中は「21時台で空いているのは30日だけ」という趣旨で説明し、先方が30日を了承した。開始時刻は明示的に確定していないため、確認事項に記載。</li>
+<li>台本は田中が作って送る。しっくりこなければまた聞く（口頭で聞く方が情報が多い）。</li>
+</ul>
+<h3 id="ベビー講座の先生との関わり方">ベビー講座の先生との関わり方</h3>
+<ul>
+<li>代表：先生に参加してもらった方がよいか。田中：台本の元ができた段階で、先生と一度個別で話してもよい。月齢ごとの成長ラインで、12部位に対して何をすればよいかの表も欲しい。</li>
+<li>代表：その表をどう作るか（運営側で作るか、先生に相談して作ってもらうか）を検討している。これまでは、先生には授業を中心にお願いし、プロモーションに関する部分は運営で考える方針で進めてきたが、よりよいプロモーションのために、一度先生の話を聞いて参加してもらうのもありかもしれない。</li>
+<li>先方スタッフ：今作っている動画は先生が作ったもので、12部位が全部入っている。AIで仮に作ってはいるが、表に出すには先生にお伺いを立てる必要がある。</li>
+</ul>
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
+<ul>
+<li><strong>全体最適で見る。</strong> 成約率だけを見て判断せず、集客コストやROASとあわせて、その広告が会社に何を残すかを見る。広告とセールスの主張はぶつかりやすく、間に立つマーケターが調整する。</li>
+<li><strong>高単価の一発売りは不安定。</strong> 土台となるコミュニティ（会員数と上がる比率）があると、事業として硬くなる。</li>
+<li><strong>「何を使ってはいけないか」ではなく「具体の行動」で常識を壊す。</strong> 冒頭は、ママが日常でやっている具体的な行動を、「才能を奪っている」と言い切る形が分かりやすい。</li>
+<li><strong>技術論ではなくマインド論に持っていく。</strong> 技術論だと「自分でやってみます」で終わる。「できすぎるから」のようにマインドの原因を置くと、講座の必要性につながる。</li>
+<li><strong>真の原因は、解決策につながるものを置く。</strong> 軸が決まり、クロージングしやすくなる。</li>
+</ul>
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<ul>
+<li>成約率が30%前後の案件で、ある広告経由が15%前後でも、ROAS 500%超なら全体では当たり。</li>
+<li>集客期間の影響は案件の性質による。ライバルが多い案件、顧客が飽きやすい案件では、集客期間が成約しやすさに大きく響く例がある。ピグマリオンの案件は平均的で影響が小さい。</li>
+<li>個別説明会の申込タイミング（1日目〜3日目）と、申込から実施までの期間による成約率の差は、この案件ではあまりない（キャンセル・日程変更を追い切れておらず、精度は70%ほど）。</li>
+<li>ブックローンチで、本の購入直後に「初月1,000円」のワンタイムオファーを出すと、購入者の約20%が入会した（田中の実績）。入会率が上がるが翌月の退会率も上がるため、入会直後のオリエンテーションや友達づくりで継続率を上げる設計が要る。</li>
+<li>Kindleや他社の教材販売サービスは、購入者の名前が分からず、特典のリンクを踏んだ人だけがリストになる（Kindleで購入者の約50%が目安）。紙の本は住所まで取れる。</li>
+<li>反対側の言葉は、ガミガミ型ではなく、ベビーでは「できるママ」「先回り」「過保護」の側から探す。</li>
+<li>ベビーのターゲットは、田中は離乳食がある程度済んだ頃、1歳前後が主力ではないかと想定している（6か月の方もいる）。</li>
+</ul>
+<h2 id="決まったこと">決まったこと</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>キッズの広告</td>
+<td>成約率は下がっているが、ROAS 500%超の広告は走らせておく</td>
+</tr>
+<tr>
+<td>個別説明会の募集</td>
+<td>Day2から告知する今のやり方を、2クール試して続ける</td>
+</tr>
+<tr>
+<td>広告チャネル</td>
+<td>Kindle広告はやらない。ChatGPT広告は、業界の事例が出るまで見送り。YouTube広告は田中側で再挑戦</td>
+</tr>
+<tr>
+<td>ベビーの冒頭の一言</td>
+<td>「できるママほど赤ちゃんの才能を潰している」を軸にする（細かい文言は台本で詰める）</td>
+</tr>
+<tr>
+<td>ベビーの真の原因</td>
+<td>「できすぎるから」</td>
+</tr>
+<tr>
+<td>次回</td>
+<td>10月30日（金）。開始時刻は要確認。田中側でベビーの台本を作って送る</td>
+</tr>
+</tbody>
+</table>
+<h2 id="やること">やること</h2>
+<h3 id="田中">田中</h3>
+<ul>
+<li>[ ] ベビーの台本を作って、先方に送る（期限は未確認）</li>
+<li>[ ] 昔のサブスクのレターを探してみる</li>
+<li>[ ] 届いたウェビナー（ダウンセル）の案内文と過去の履歴を見る</li>
+</ul>
+<h3 id="ピグマリオン">ピグマリオン</h3>
+<ul>
+<li>[ ] ウェビナー（ダウンセル）の案内文・過去の案内の履歴を田中へ送る</li>
+<li>[ ] コミュニティのレター案（オファー・サポートが分かるもの。PDFでも可）を田中へ送る</li>
+<li>[ ] 個別説明会の募集を2クール試す</li>
+</ul>
+<h2 id="検討中・方針">検討中・方針</h2>
+<ul>
+<li>GKMコミュニティの設計（価格、特典、月1回の企画を各講座の先生が月替わりで担当する形、5周年に合わせた刷新、既存の500円会員の扱い）</li>
+<li>ブックローンチ＋ワンタイムオファーの検証（100〜300冊の著者買い、冬から春に入会率・退会率・LTVを計測）</li>
+<li>オンライン家庭教師の出し方（講座を買わずに終わった方や、家庭教師が明らかに合う方への個別案内は可。大々的なフロントに出すかは要検討）</li>
+<li>集客期間を3週間のままにするか、2週間も試すか（誰がどの案件で試すかは未確認）</li>
+<li>相互紹介JV（子ども系は直接競合に近い。経営者コミュニティなどを検討）</li>
+<li>「パーフェクト」の反対側の言葉（候補：先回りママ、過保護、完璧ママ、できすぎママ、教育ママなど）</li>
+<li>月齢ごとの成長ライン（12部位）の表の作り方（運営側で作るか、先生に相談するか）と、先生に参加してもらう時期・内容（台本の元ができた段階で個別に話す案あり。担当・実施は未決定）</li>
+<li>ポイント制度（コミュニティの内容を充実させてから）</li>
+</ul>
+<h2 id="確認したいこと">確認したいこと</h2>
+<ul>
+<li>「この案件は変わらないので試してみます」の主語：2週間の集客期間を試すのは先方か、田中側か</li>
+<li>ウェビナーの案内の数え方：書き起こしでは「3つのローンチで終わったやつには4つかかけてる」「4つで9名」とあり、ローンチ数・案内の回数・対象のいずれを指すかの確認</li>
+<li>ベビーの台本を送る期限（次回の前か）の確認</li>
+<li>次回の開始時刻：10月30日（金）の何時にするか（書き起こしでは田中が「21時台」「22時」に触れているが、開始時刻の確定は確認できなかった）</li>
+<li>書き起こしで人名が不明瞭だった箇所（ゆかさん、ゆみさん、千奈子さんなど）：表記の確認</li>
+<li>脳の部位の正式な名称（古い脳／お利口さんの脳などの呼び方）</li>
+<li>「ベビー講座の先生」を指す呼称（書き起こしでは「小学校先生」）：誰を指すかの確認</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-10-15)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: 23HPSUPO<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
