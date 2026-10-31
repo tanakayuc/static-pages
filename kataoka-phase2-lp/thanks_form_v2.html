@@ -1,0 +1,280 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>【見本】サンキューページ フォーム誘導改善版｜AI顧問のはじめかた</title><style>html,body{margin:0;padding:0;background:#F5F5F5}.kt-sample-note{background:#FFF7D6;color:#5c4400;font:700 13px/1.6 sans-serif;text-align:center;padding:8px 12px;border-bottom:1px solid #e6d58a}</style></head><body>
+<div class="kt-sample-note">これは修正版の見本ページです（送信しても登録されません）。UTAGEへは utage_thanks_form_v2_raw.html の中身を貼り付けます。</div>
+<!--
+UTAGE サンキューページ貼り付けコード
+空白ページにカスタムHTMLを1つ置き、このファイル全体を貼り付けてください。
+セクション・行・列は全幅、余白0に設定。タイトル・OGP・検索除外はページ設定で行います。
+動画：指定のUTAGE動画ページをiframeで表示（自動再生なし）。
+UTAGEで本文より先にscriptが実行されても、本文の描画を待って初期化します。
+本文と動画は初期状態から表示し、期限切れを判定したときだけ非表示にします。
+期限：最初にこのページを開いた日本時間の日付から3日後の23:59まで。
+例：10/24の初回アクセス → 10/27 23:59まで。期限切れ後は動画・特典・アンケートを非表示。
+初回日時は同一ブラウザのlocalStorageとCookieで記録。再訪問では期限を更新しません。
+別端末・別ブラウザ・シークレットモード・保存データ削除には引き継がれません。
+保存が拒否されている環境では再訪問の期限を保持できません。
+本人単位の厳密な期限管理にはUTAGE側の会員認証等が別途必要です。
+アンケートは指定されたUTAGEフォームへPOST送信します。
+送信先：https://sub.the-lead10.com/r/SgMts3eTcji7/store
+項目：name（必須）、mail（必須）、phone（必須）、free1・free2・free3（必須）。
+送信後の移動先：https://sub.the-lead10.com/p/ai-komon-thxline2。公開前にテスト登録と遷移を確認してください。
+画像は元サイトの絶対URLを参照。元サイトから削除すると表示できなくなります。
+2026-10-31 修正版（フォーム登録率の改善）：
+・動画のすぐ下に「セミナー受講にはフォームの記入が必須」を大きく表示
+・「フォームへ進む」ボタンを動画の下に置き、スマホでは画面下にも固定表示（フォームが見えたら消える）
+・「アンケート」の呼び方を「参加申込フォーム」に変更
+・10大特典をフォームの下へ移し、「参加者にはこんな特典もあります」と案内
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;900&family=Noto+Serif+JP:wght@900&display=swap">
+<style>
+#kataoka-thanks *,#kataoka-thanks *::before,#kataoka-thanks *::after{box-sizing:border-box !important;margin:0 !important;padding:0 !important}#kataoka-thanks{scroll-behavior:smooth !important}#kataoka-thanks{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',sans-serif !important;font-size:17px !important;font-weight:500 !important;line-height:1.85 !important;color:#222 !important;background:#fff !important;-webkit-font-smoothing:antialiased !important}#kataoka-thanks img{max-width:100% !important;height:auto !important;display:block !important}#kataoka-thanks a{color:inherit !important;text-decoration:none !important}#kataoka-thanks{--accent:#1E3A8A !important;--cta:#C2410C !important;--cta-hover:#9A3412 !important;--line:#06C755 !important;--line-hover:#05A648 !important;--text-h:#111 !important;--text-b:#222 !important;--bg:#fff !important;--bg-gray:#F5F5F5 !important}#kataoka-thanks .section{padding:48px 16px !important}#kataoka-thanks .section-gray{background:var(--bg-gray) !important}#kataoka-thanks .inner{max-width:600px !important;margin:0 auto !important;padding:0 16px !important}#kataoka-thanks .section-heading{margin-bottom:28px !important;text-align:center !important}#kataoka-thanks .section-heading .pre-label{display:block !important;font-size:14px !important;font-weight:900 !important;letter-spacing:.15em !important;color:var(--accent) !important;text-transform:uppercase !important;margin-bottom:8px !important}#kataoka-thanks .section-heading h2{font-size:28px !important;font-weight:900 !important;line-height:1.4 !important;letter-spacing:.02em !important;color:var(--text-h) !important}#kataoka-thanks .section-heading .lead{font-size:17px !important;font-weight:500 !important;line-height:1.8 !important;color:var(--text-b) !important;margin-top:14px !important}#kataoka-thanks .first-view{padding:0 !important;background:#fff !important}#kataoka-thanks .first-view img.fv-header{width:100% !important;display:block !important}#kataoka-thanks .form-section{padding:32px 16px 48px !important;background:var(--bg-gray) !important;text-align:center !important}#kataoka-thanks .form-section h2{font-size:24px !important;font-weight:900 !important;line-height:1.5 !important;color:var(--text-h) !important;margin-bottom:8px !important}#kataoka-thanks .form-section .form-sub{font-size:16px !important;font-weight:500 !important;color:#555 !important;margin-bottom:24px !important}#kataoka-thanks .optin-form{max-width:560px !important;margin:0 auto !important}#kataoka-thanks .optin-form input[type="email"]{width:100% !important;padding:16px 16px !important;font-size:17px !important;border:2px solid #ccc !important;border-radius:4px !important;font-family:inherit !important;margin-bottom:12px !important;outline:none !important;transition:border-color .2s !important}#kataoka-thanks .optin-form input[type="email"]:focus{border-color:var(--accent) !important}#kataoka-thanks .optin-form input[type="email"]::placeholder{color:#aaa !important}#kataoka-thanks .cta-button{display:block !important;width:100% !important;padding:18px 16px !important;background:var(--cta) !important;color:#fff !important;font-size:18px !important;font-weight:900 !important;line-height:1.4 !important;border:none !important;border-radius:4px !important;cursor:pointer !important;font-family:inherit !important;transition:background .2s !important;text-align:center !important}#kataoka-thanks .cta-button:hover{background:var(--cta-hover) !important}#kataoka-thanks .form-note{font-size:14px !important;font-weight:500 !important;color:#777 !important;margin-top:12px !important}#kataoka-thanks p{margin-bottom:18px !important}#kataoka-thanks p:last-child{margin-bottom:0 !important}#kataoka-thanks strong{font-weight:900 !important}#kataoka-thanks h3{font-size:22px !important;font-weight:900 !important;line-height:1.4 !important;color:var(--text-h) !important;margin-bottom:16px !important}#kataoka-thanks h4{font-size:19px !important;font-weight:900 !important;line-height:1.5 !important;color:var(--text-h) !important;margin-bottom:10px !important}#kataoka-thanks ul.checks{list-style:none !important;padding:0 !important}#kataoka-thanks ul.checks li{position:relative !important;padding-left:24px !important;font-size:17px !important;font-weight:500 !important;line-height:1.7 !important;margin-bottom:8px !important}#kataoka-thanks ul.checks li::before{content:'\2713' !important;position:absolute !important;left:0 !important;color:var(--accent) !important;font-weight:900 !important}#kataoka-thanks .data-cards{display:grid !important;grid-template-columns:1fr !important;gap:16px !important;margin-top:24px !important}#kataoka-thanks .data-card{background:#fff !important;border:2px solid var(--accent) !important;border-radius:4px !important;padding:20px 16px !important;text-align:center !important}#kataoka-thanks .data-card .num{font-size:40px !important;font-weight:900 !important;line-height:1 !important;color:var(--cta) !important;letter-spacing:-.03em !important;margin-bottom:6px !important}#kataoka-thanks .data-card .num span{font-size:22px !important}#kataoka-thanks .data-card .label{font-size:15px !important;font-weight:700 !important;line-height:1.5 !important;color:var(--text-h) !important}#kataoka-thanks .data-card .source{font-size:12px !important;font-weight:500 !important;color:#777 !important;margin-top:6px !important}#kataoka-thanks .achievement-box{background:var(--accent) !important;color:#fff !important;border-radius:4px !important;padding:28px 20px !important;margin-top:24px !important;text-align:center !important}#kataoka-thanks .achievement-box .big-num{font-size:56px !important;font-weight:900 !important;line-height:1 !important;letter-spacing:-.03em !important;color:#FFD700 !important;margin-bottom:8px !important}#kataoka-thanks .achievement-box .big-num span{font-size:30px !important}#kataoka-thanks .achievement-box .big-label{font-size:19px !important;font-weight:900 !important;color:#fff !important;margin-bottom:4px !important}#kataoka-thanks .achievement-box .big-sub{font-size:15px !important;font-weight:500 !important;color:#ddd !important}#kataoka-thanks .numbered-detail{counter-reset:dnum !important}#kataoka-thanks .numbered-detail h4.num-h4{position:relative !important;padding-left:48px !important;margin-bottom:10px !important}#kataoka-thanks .numbered-detail h4.num-h4::before{counter-increment:dnum !important;content:counter(dnum) !important;position:absolute !important;left:0 !important;top:0 !important;width:36px !important;height:36px !important;background:var(--accent) !important;color:#fff !important;font-size:18px !important;font-weight:900 !important;display:flex !important;align-items:center !important;justify-content:center !important;border-radius:2px !important}#kataoka-thanks .secret-list{list-style:none !important;padding:0 !important}#kataoka-thanks .secret-list li{border-left:4px solid var(--cta) !important;padding:14px 16px !important;font-size:17px !important;font-weight:700 !important;line-height:1.7 !important;margin-bottom:10px !important;background:#fff !important}#kataoka-thanks .mid-cta{background:var(--accent) !important;padding:40px 16px !important;text-align:center !important}#kataoka-thanks .mid-cta h3{font-size:24px !important;font-weight:900 !important;line-height:1.5 !important;color:#fff !important;margin-bottom:14px !important}#kataoka-thanks .mid-cta p{font-size:17px !important;font-weight:700 !important;line-height:1.7 !important;color:#ddd !important;margin-bottom:24px !important}#kataoka-thanks .mid-cta .cta-button{max-width:560px !important;margin:0 auto 12px !important}#kataoka-thanks .instructor-card{display:grid !important;grid-template-columns:1fr !important;gap:20px !important;align-items:start !important;margin-bottom:40px !important}#kataoka-thanks .instructor-card img.photo{width:180px !important;height:180px !important;object-fit:cover !important;border-radius:8px !important;margin:0 auto !important}#kataoka-thanks .instructor-card .info .role{font-size:14px !important;font-weight:900 !important;letter-spacing:.08em !important;color:var(--accent) !important;margin-bottom:4px !important}#kataoka-thanks .instructor-card .info h3{font-size:26px !important;font-weight:900 !important;line-height:1.4 !important;margin-bottom:4px !important}#kataoka-thanks .instructor-card .info .name-reading{font-size:14px !important;font-weight:500 !important;color:#777 !important;margin-bottom:6px !important}#kataoka-thanks .instructor-card .info .title-line{font-size:15px !important;font-weight:700 !important;color:var(--accent) !important;margin-bottom:14px !important;border-bottom:1px solid #ddd !important;padding-bottom:8px !important}#kataoka-thanks .instructor-card .info .bio p{font-size:16px !important;font-weight:500 !important;line-height:1.85 !important;margin-bottom:10px !important}#kataoka-thanks .highlight-box{background:var(--bg-gray) !important;border-left:4px solid var(--cta) !important;padding:16px 20px !important;margin-top:20px !important}#kataoka-thanks .highlight-box h4{color:var(--cta) !important;margin-bottom:8px !important}#kataoka-thanks .compare-grid{display:grid !important;grid-template-columns:1fr !important;gap:16px !important;margin-bottom:24px !important}#kataoka-thanks .notice-section{padding:24px 16px !important;background:var(--bg-gray) !important}#kataoka-thanks .notice-box{max-width:600px !important;margin:0 auto !important;border:2px solid var(--accent) !important;border-radius:4px !important;padding:20px 20px !important}#kataoka-thanks .notice-box h4{font-size:15px !important;font-weight:900 !important;color:var(--text-h) !important;margin-bottom:10px !important}#kataoka-thanks .notice-box ul{list-style:none !important;padding:0 !important}#kataoka-thanks .notice-box ul li{font-size:15px !important;font-weight:500 !important;line-height:1.7 !important;margin-bottom:6px !important;padding-left:16px !important;position:relative !important}#kataoka-thanks .notice-box ul li::before{content:'\30FB' !important;position:absolute !important;left:0 !important}#kataoka-thanks .footer{padding:32px 16px !important;background:#111 !important;text-align:center !important}#kataoka-thanks .footer-links{margin-bottom:12px !important}#kataoka-thanks .footer-links a{color:#aaa !important;font-size:14px !important;font-weight:500 !important;margin:0 10px !important;text-decoration:underline !important;display:inline-block !important}#kataoka-thanks .copyright{font-size:14px !important;font-weight:500 !important;color:#666 !important}
+@media(min-width:769px){#kataoka-thanks{font-size:18px !important}#kataoka-thanks .section{padding:48px 20px !important}#kataoka-thanks .section-heading{margin-bottom:32px !important}#kataoka-thanks .section-heading h2{font-size:32px !important}#kataoka-thanks .section-heading .lead{font-size:18px !important}#kataoka-thanks h3{font-size:24px !important}#kataoka-thanks h4{font-size:20px !important}#kataoka-thanks .first-view img.fv-header{max-width:600px !important;margin:0 auto !important}#kataoka-thanks .form-section{padding:32px 20px 48px !important}#kataoka-thanks .form-section h2{font-size:28px !important}#kataoka-thanks .form-section .form-sub{font-size:17px !important;margin-bottom:28px !important}#kataoka-thanks .optin-form input[type="email"]{padding:18px 20px !important;font-size:17px !important}#kataoka-thanks .cta-button{font-size:20px !important;padding:20px 24px !important}#kataoka-thanks .data-card .num{font-size:44px !important}#kataoka-thanks .data-card .num span{font-size:24px !important}#kataoka-thanks .achievement-box{padding:32px 28px !important;margin-top:28px !important}#kataoka-thanks .achievement-box .big-num{font-size:64px !important}#kataoka-thanks .achievement-box .big-num span{font-size:34px !important}#kataoka-thanks .achievement-box .big-label{font-size:20px !important}#kataoka-thanks .achievement-box .big-sub{font-size:16px !important}#kataoka-thanks .numbered-detail h4.num-h4{padding-left:52px !important}#kataoka-thanks .numbered-detail h4.num-h4::before{width:38px !important;height:38px !important;font-size:18px !important}#kataoka-thanks .secret-list li{font-size:18px !important;padding:16px 20px !important}#kataoka-thanks .mid-cta{padding:48px 20px !important}#kataoka-thanks .mid-cta h3{font-size:28px !important}#kataoka-thanks .mid-cta p{font-size:18px !important}#kataoka-thanks .instructor-card{grid-template-columns:180px 1fr !important;gap:24px !important}#kataoka-thanks .instructor-card img.photo{width:180px !important;height:180px !important;margin:0 !important}#kataoka-thanks .instructor-card .info h3{font-size:28px !important}#kataoka-thanks .instructor-card .info .bio p{font-size:16px !important}#kataoka-thanks .compare-grid{grid-template-columns:1fr 1fr !important;gap:16px !important}#kataoka-thanks ul.checks li{font-size:18px !important}#kataoka-thanks .highlight-box{padding:18px 22px !important}#kataoka-thanks .notice-section{padding:28px 20px !important}#kataoka-thanks .notice-box{padding:22px 24px !important}
+}#kataoka-thanks{background:#F5F5F5 !important}#kataoka-thanks .deadline{position:sticky !important;top:0 !important;z-index:50 !important;background:var(--accent) !important;color:#fff !important;text-align:center !important;padding:10px 12px !important;box-shadow:0 2px 6px rgba(0,0,0,.2) !important}#kataoka-thanks .deadline .dl-label{font-size:13px !important;font-weight:700 !important;line-height:1.4 !important;color:#dbe4ff !important}#kataoka-thanks .deadline .dl-date{font-size:20px !important;font-weight:900 !important;line-height:1.3 !important}#kataoka-thanks .deadline .dl-count{font-size:15px !important;font-weight:700 !important;margin-top:2px !important;font-variant-numeric:tabular-nums !important}#kataoka-thanks .deadline .dl-count b{font-size:20px !important;color:#FFD700 !important}#kataoka-thanks .deadline.warn{background:#9A3412 !important}#kataoka-thanks .deadline.warn .dl-label{color:#ffe6d5 !important}#kataoka-thanks .deadline.hot{background:#B91C1C !important}#kataoka-thanks .deadline.over{background:#444 !important}#kataoka-thanks .steps{display:flex !important;gap:6px !important;margin:20px auto 0 !important;max-width:600px !important;padding:0 16px !important}#kataoka-thanks .steps li{flex:1 !important;list-style:none !important;text-align:center !important;font-size:12px !important;font-weight:700 !important;line-height:1.4 !important;padding:8px 4px !important;border-radius:4px !important;background:#e3e3e3 !important;color:#777 !important}#kataoka-thanks .steps li b{display:block !important;font-size:11px !important;letter-spacing:.08em !important}#kataoka-thanks .steps li.done{background:#d6e4d9 !important;color:#1b5e20 !important}#kataoka-thanks .steps li.now{background:var(--accent) !important;color:#fff !important}#kataoka-thanks .thanks-head{padding:28px 16px 8px !important;text-align:center !important}#kataoka-thanks .thanks-head h1{font-size:24px !important;font-weight:900 !important;line-height:1.5 !important;color:var(--text-h) !important}#kataoka-thanks .thanks-head p{margin-top:12px !important;font-size:16px !important}#kataoka-thanks .limit-note{max-width:568px !important;margin:16px auto 0 !important;background:#fff !important;border-left:4px solid var(--cta) !important;padding:12px 16px !important;font-size:15px !important;font-weight:700 !important;line-height:1.7 !important}#kataoka-thanks .video-area{max-width:600px !important;margin:20px auto 0 !important;padding:0 16px !important}#kataoka-thanks .video-area h2{font-size:19px !important;font-weight:900 !important;line-height:1.5 !important;margin-bottom:10px !important;text-align:center !important}#kataoka-thanks .video-slot{position:relative !important;aspect-ratio:16/9 !important;background:#111 !important;border-radius:4px !important;overflow:hidden !important;display:flex !important;align-items:center !important;justify-content:center !important;color:#bbb !important;font-size:14px !important;text-align:center !important;padding:16px !important}#kataoka-thanks .video-slot video{position:absolute !important;inset:0 !important;width:100% !important;height:100% !important;background:#000 !important}#kataoka-thanks .watch-check{display:flex !important;gap:10px !important;align-items:flex-start !important;margin-top:14px !important;background:#fff !important;padding:14px 16px !important;border:2px solid var(--accent) !important;border-radius:4px !important;font-size:16px !important;font-weight:700 !important;line-height:1.6 !important;cursor:pointer !important}#kataoka-thanks .watch-check input{width:22px !important;height:22px !important;margin-top:3px !important;flex:none !important}#kataoka-thanks .survey{max-width:600px !important;margin:24px auto 0 !important;padding:0 16px 8px !important}#kataoka-thanks .survey fieldset{border:0 !important;padding:0 !important;margin:0 !important;min-width:0 !important}#kataoka-thanks .survey .lock{display:block !important;text-align:center !important;font-size:14px !important;color:#777 !important;margin-bottom:8px !important}#kataoka-thanks .survey.locked .q,#kataoka-thanks .survey.locked .go{opacity:.4 !important;pointer-events:none !important}#kataoka-thanks .survey .q{background:#fff !important;border-radius:4px !important;padding:18px 16px !important;margin-bottom:14px !important}#kataoka-thanks .survey .q h3{font-size:17px !important;margin-bottom:4px !important}#kataoka-thanks .survey .q .hint{font-size:13px !important;color:#777 !important;margin-bottom:10px !important}#kataoka-thanks .survey .q label.opt{display:flex !important;gap:10px !important;align-items:flex-start !important;padding:10px 4px !important;font-size:16px !important;font-weight:500 !important;line-height:1.5 !important;border-top:1px solid #eee !important;cursor:pointer !important}#kataoka-thanks .survey .q label.opt:first-of-type{border-top:0 !important}#kataoka-thanks .survey .q input[type=radio],#kataoka-thanks .survey .q input[type=checkbox]{width:20px !important;height:20px !important;margin-top:2px !important;flex:none !important}#kataoka-thanks .survey input[type=text],#kataoka-thanks .survey input[type=email],#kataoka-thanks .survey input[type=tel],#kataoka-thanks .survey select,#kataoka-thanks .survey textarea{width:100% !important;font-size:17px !important;font-family:inherit !important;padding:12px !important;border:2px solid #ccc !important;border-radius:4px !important}#kataoka-thanks .survey textarea{min-height:96px !important}#kataoka-thanks .survey label.fld{display:block !important;font-size:15px !important;font-weight:700 !important;margin:14px 0 6px !important}#kataoka-thanks .survey label.fld:first-of-type{margin-top:4px !important}#kataoka-thanks .survey .req{display:inline-block !important;font-size:11px !important;font-weight:900 !important;background:var(--cta) !important;color:#fff !important;border-radius:2px !important;padding:1px 6px !important;margin-left:6px !important;vertical-align:2px !important}#kataoka-thanks .survey .err{color:#B91C1C !important;font-size:14px !important;font-weight:700 !important;margin-top:8px !important;display:none !important}#kataoka-thanks .survey .go-note{font-size:13px !important;color:#777 !important;text-align:center !important;margin-top:10px !important}#kataoka-thanks .done-box,#kataoka-thanks .expired-box{max-width:568px !important;margin:24px auto !important;background:#fff !important;border:2px solid var(--accent) !important;border-radius:4px !important;padding:24px 20px !important;text-align:center !important;display:none !important}#kataoka-thanks .done-box h2{font-size:22px !important;font-weight:900 !important;line-height:1.5 !important;margin-bottom:12px !important}#kataoka-thanks .done-box .line-btn{display:block !important;background:var(--line) !important;color:#fff !important;font-size:18px !important;font-weight:900 !important;padding:18px 16px !important;border-radius:4px !important;margin-top:18px !important}#kataoka-thanks .done-box .line-btn:hover{background:var(--line-hover) !important}#kataoka-thanks .expired-box{border-color:#999 !important}#kataoka-thanks .hidden{display:none!important}#kataoka-thanks .bonus{max-width:980px !important;margin:28px auto 0 !important;padding:0 16px !important;text-align:center !important}#kataoka-thanks .bonus-label{display:inline-block !important;font-size:13px !important;font-weight:700 !important;color:#fff !important;background:var(--accent) !important;border-radius:3px !important;padding:3px 10px !important;margin-bottom:8px !important}#kataoka-thanks .bonus h2{font-size:22px !important;font-weight:900 !important;line-height:1.4 !important;margin-bottom:10px !important}#kataoka-thanks .bonus-group{margin-top:16px !important}#kataoka-thanks .bonus .sp{display:inline !important}
+@media(min-width:769px){#kataoka-thanks .bonus .sp{display:none !important}}#kataoka-thanks .bonus-lead{font-size:14px !important;color:#555 !important;margin-bottom:14px !important}#kataoka-thanks .bonus-grid{list-style:none !important;padding:0 !important;margin:0 !important;display:grid !important;grid-template-columns:repeat(2,1fr) !important;gap:8px !important}#kataoka-thanks .bonus-grid li{background:#fff !important;border-radius:4px !important;padding:5px 5px 8px !important;text-align:left !important;box-shadow:0 1px 2px rgba(0,0,0,.08) !important;min-width:0 !important}#kataoka-thanks .bonus-grid img{width:100% !important;height:auto !important;aspect-ratio:16/9 !important;object-fit:cover !important;border-radius:3px !important;display:block !important}#kataoka-thanks .bonus-grid .bn{display:block !important;font-size:11px !important;font-weight:900 !important;color:#8B6B3E !important;margin-top:5px !important;letter-spacing:.04em !important}#kataoka-thanks .bonus-grid .bt{display:block !important;font-size:12.5px !important;font-weight:700 !important;line-height:1.35 !important;color:#111 !important;word-break:auto-phrase !important}
+@media(min-width:769px){#kataoka-thanks .bonus h2{font-size:26px !important}#kataoka-thanks .bonus-grid{gap:12px !important;grid-template-columns:repeat(5,1fr) !important}#kataoka-thanks .bonus-grid .bt{font-size:14px !important}#kataoka-thanks .bonus-grid .bn{font-size:11px !important}}#kataoka-thanks{--accent:#0A1230 !important;--gold:#8B6B3E !important;--cta:#C2410C !important;--navy:#070C1F !important}#kataoka-thanks h1,#kataoka-thanks h2,#kataoka-thanks h3,#kataoka-thanks .section-heading h2,#kataoka-thanks .form-section h2,#kataoka-thanks .mid-cta h3{font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif !important}#kataoka-thanks .section-heading .pre-label{color:var(--gold) !important}#kataoka-thanks .achievement-box{background:linear-gradient(135deg,#070C1F,#0F1A42) !important}#kataoka-thanks .first-view img.fv-header{display:block !important;margin:0 auto !important;width:100% !important;max-width:1200px !important;height:auto !important}
+@media(min-width:769px){#kataoka-thanks .first-view img.fv-header{max-width:1200px !important}}#kataoka-thanks .form-section{padding:36px 16px 52px !important}#kataoka-thanks .cta-button{box-shadow:0 3px 0 #8F2F08 !important}#kataoka-thanks .thanks-head h1{color:#0A1030 !important}
+#kataoka-thanks{display:block !important;width:100% !important;max-width:none !important;min-width:0 !important;margin:0 !important;padding:0 !important;text-align:left !important;letter-spacing:normal !important;overflow-wrap:break-word !important;}
+#kataoka-thanks :where(h1,h2,h3,p,div,section,span,form,label,input,button,textarea,ol,li,fieldset){font-family:inherit;line-height:inherit;letter-spacing:inherit;}
+#kataoka-thanks .video-slot{padding:0 !important;}
+#kataoka-thanks .video-slot iframe{position:absolute !important;inset:0 !important;width:100% !important;height:100% !important;border:0 !important;display:block !important;}
+#kataoka-thanks input,#kataoka-thanks textarea{background:#fff !important;color:#222 !important;box-shadow:none !important;min-width:0 !important;}
+#kataoka-thanks .survey input[type=radio]{appearance:auto !important;}
+#kataoka-thanks[data-state=expired] [data-live]{display:none !important;}
+#kataoka-thanks #expired{display:none !important;}
+#kataoka-thanks[data-state=expired] #expired{display:block !important;}
+
+
+/* 添付見本：濃紺の背景、数字のみ黄色、単位と見出しは白。 */
+#kataoka-thanks .deadline,
+#kataoka-thanks .deadline.warn,
+#kataoka-thanks .deadline.hot{background:#0A1230 !important;}
+#kataoka-thanks .deadline .dl-count{color:#FFFFFF !important;font-weight:900 !important;}
+#kataoka-thanks .deadline .dl-count b{color:#FFD700 !important;font-size:20px !important;font-weight:900 !important;}
+#kataoka-thanks .deadline.warn .dl-label{color:#DBE4FF !important;}
+/* 2026-10-31 フォーム登録率の改善 */
+#kataoka-thanks #survey{scroll-margin-top:92px !important;}
+#kataoka-thanks .must{max-width:600px !important;margin:22px auto 0 !important;padding:0 16px !important;text-align:center !important;}
+#kataoka-thanks .must-pre{display:inline-block !important;font-size:14px !important;font-weight:900 !important;color:#fff !important;background:#B91C1C !important;border-radius:3px !important;padding:4px 12px !important;margin-bottom:12px !important;}
+#kataoka-thanks .must-main{font-family:'Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif !important;font-size:27px !important;font-weight:900 !important;line-height:1.5 !important;color:#0A1030 !important;}
+#kataoka-thanks .must-mark{background:linear-gradient(transparent 58%,#FFE066 58%) !important;}
+#kataoka-thanks .must-main strong{color:#B91C1C !important;font-size:1.15em !important;}
+#kataoka-thanks .must-sub{font-size:15px !important;font-weight:700 !important;line-height:1.75 !important;color:#333 !important;margin-top:14px !important;}
+#kataoka-thanks .must-sub .pc{display:none !important;}
+#kataoka-thanks .jump-btn{display:block !important;margin:18px auto 0 !important;max-width:560px !important;background:var(--cta) !important;color:#fff !important;font-size:19px !important;font-weight:900 !important;line-height:1.4 !important;padding:18px 16px !important;border-radius:6px !important;box-shadow:0 4px 0 #8F2F08 !important;text-align:center !important;}
+#kataoka-thanks .jump-btn:hover{background:var(--cta-hover) !important;}
+#kataoka-thanks .jump-arrow{display:inline-block !important;margin-left:8px !important;animation:kt-bounce 1.2s ease-in-out infinite !important;}
+@keyframes kt-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+#kataoka-thanks .form-head{text-align:center !important;margin-bottom:16px !important;}
+#kataoka-thanks .form-badge{display:inline-block !important;font-size:13px !important;font-weight:900 !important;color:#fff !important;background:#B91C1C !important;border-radius:3px !important;padding:2px 12px !important;margin-bottom:8px !important;}
+#kataoka-thanks .form-head h2{font-size:24px !important;font-weight:900 !important;line-height:1.45 !important;color:#0A1030 !important;}
+#kataoka-thanks .form-head p:last-child{font-size:14px !important;font-weight:700 !important;color:#555 !important;margin-top:8px !important;}
+#kataoka-thanks .survey{border-top:4px solid var(--cta) !important;padding-top:28px !important;margin-top:32px !important;}
+#kataoka-thanks .bonus{margin-top:40px !important;padding-bottom:32px !important;}
+#kataoka-thanks .bonus-pre{font-size:15px !important;font-weight:700 !important;color:#555 !important;margin-bottom:6px !important;}
+#kataoka-thanks .float-jump{display:block !important;position:fixed !important;left:0 !important;right:0 !important;bottom:0 !important;z-index:60 !important;background:#B91C1C !important;color:#fff !important;text-align:center !important;font-size:14px !important;font-weight:700 !important;line-height:1.4 !important;padding:9px 12px calc(10px + env(safe-area-inset-bottom)) !important;box-shadow:0 -2px 8px rgba(0,0,0,.25) !important;transition:transform .25s !important;}
+#kataoka-thanks .float-jump b{color:#FFE066 !important;font-weight:900 !important;}
+#kataoka-thanks .float-jump span{display:block !important;font-size:17px !important;font-weight:900 !important;}
+#kataoka-thanks .float-jump.off{transform:translateY(110%) !important;}
+#kataoka-thanks .footer{padding-bottom:96px !important;}
+@media(min-width:769px){
+#kataoka-thanks .must-main{font-size:34px !important;}
+#kataoka-thanks .must-sub{font-size:16px !important;}
+#kataoka-thanks .must-sub .pc{display:inline !important;}
+#kataoka-thanks .jump-btn{font-size:21px !important;}
+#kataoka-thanks .form-head h2{font-size:28px !important;}
+#kataoka-thanks .float-jump{display:none !important;}
+#kataoka-thanks .footer{padding-bottom:32px !important;}
+}
+</style>
+<div id="kataoka-thanks">
+<div class="deadline" id="deadline">
+  <div class="dl-label" id="dl-label">この動画を見られるのは</div>
+  <div class="dl-date" id="dl-date">初回閲覧日の3日後 23:59まで</div>
+  <div class="dl-count" id="dl-count"></div>
+</div>
+
+<ol class="steps" data-live>
+  <li class="done"><b>STEP 1</b>無料登録<br>完了</li>
+  <li class="now"><b>STEP 2</b>動画を見て<br>フォームに記入</li>
+  <li><b>STEP 3</b>LINEオープンチャットで<br>セミナーに参加する</li>
+</ol>
+
+<div class="thanks-head" data-live>
+  <h1>ご登録ありがとうございます。<br>まずは動画をご覧ください。</h1>
+  <p>「フォロワー0・いいね一桁の50代が、地方で『AI顧問』として契約を取れる理由」をお話しします。</p>
+</div>
+
+<section class="video-area" data-live>
+  <h2>【挨拶動画】AI顧問のはじめかた</h2>
+  <div class="video-slot"><iframe src="https://utage-system.com/video/YZ0apRJSKKuv" data-video-src="https://utage-system.com/video/YZ0apRJSKKuv" title="挨拶動画：AI顧問のはじめかた" allow="fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+</section>
+
+<section class="must" data-live>
+  <p class="must-pre">まだセミナーのお申込みは完了していません</p>
+  <p class="must-main">セミナーを受講するには<br><span class="must-mark">下のフォームの記入が<strong>必須</strong></span>です</p>
+  <p class="must-sub">動画をご覧になったら、下の「参加申込フォーム」を送信してください。送信した方だけに、セミナーの参加方法をお送りします。</p>
+  <a class="jump-btn" href="#survey" data-jump>参加申込フォームへ進む<span class="jump-arrow" aria-hidden="true">▼</span></a>
+</section>
+
+<section class="survey" id="survey" data-live>
+  <form id="survey-form" action="https://sub.the-lead10.com/r/SgMts3eTcji7/store" method="post">
+  <input type="hidden" name="thanks_url" value="https://sub.the-lead10.com/p/ai-komon-thxline2">
+  <fieldset id="survey-fs">
+    <div class="form-head">
+      <p class="form-badge">必須</p>
+      <h2>無料オンラインセミナー<br>参加申込フォーム</h2>
+      <p>セミナーの参加方法は、このフォームを送信した方だけにお送りします。</p>
+    </div>
+    <div class="q">
+      <h3>お申込み情報</h3>
+      <p class="hint">セミナーのご案内のために使います</p>
+      <label class="fld" for="kt-name">お名前<span class="req">必須</span></label>
+      <input required type="text" name="name" id="kt-name" value="" placeholder="例：山田 太郎" autocomplete="name">
+      <label class="fld" for="kt-mail">メールアドレス<span class="req">必須</span></label>
+      <input required type="email" name="mail" id="kt-mail" value="" placeholder="例：yamada@example.com" autocomplete="email">
+      <label class="fld" for="kt-phone">電話番号<span class="req">必須</span></label>
+      <input required type="text" name="phone" id="kt-phone" value="" placeholder="例：09012345678" autocomplete="tel" inputmode="tel">
+    </div>
+    <div class="q">
+      <label class="fld" for="kt-free1">現在のお仕事を教えてください<span class="req">必須</span></label>
+      <textarea rows="4" required name="free1" id="kt-free1" placeholder="例：不動産会社の経営、社労士、会社員（営業）など"></textarea>
+    </div>
+    <div class="q">
+      <label class="fld" for="kt-free2">あなたの「AI使いこなしレベル」は次のどれに近いですか？<span class="req">必須</span></label>
+      <p class="hint">7段階のうち、いちばん近いものを1つ選んでください</p>
+      <select required name="free2" id="kt-free2">
+<option value="Lv.1　AIを知らない（聞いたことはあるが使ったことがない）">Lv.1　AIを知らない（聞いたことはあるが使ったことがない）</option>
+<option value="Lv.2　AIを知る（ChatGPTなどを試しに触った程度）">Lv.2　AIを知る（ChatGPTなどを試しに触った程度）</option>
+<option value="Lv.3　業務の一部にAI（メール作成や要約など特定の作業で使っている）">Lv.3　業務の一部にAI（メール作成や要約など特定の作業で使っている）</option>
+<option value="Lv.4　AIを使いこなす基礎（プロンプトを工夫し業務効率化に活用）">Lv.4　AIを使いこなす基礎（プロンプトを工夫し業務効率化に活用）</option>
+<option value="Lv.5　AIで成果物を制作（資料・提案書・LPなどをAIで作成）">Lv.5　AIで成果物を制作（資料・提案書・LPなどをAIで作成）</option>
+<option value="Lv.6　仕組み化・自動化（AIを使った業務フローを構築し運用）">Lv.6　仕組み化・自動化（AIを使った業務フローを構築し運用）</option>
+<option value="Lv.7　クライアントへAI導入支援（他社に提案・導入支援できる）">Lv.7　クライアントへAI導入支援（他社に提案・導入支援できる）</option>
+      </select>
+    </div>
+    <div class="q">
+      <label class="fld" for="kt-free3">今回のコンテンツの、どんなところに興味を持ちましたか？<span class="req">必須</span></label>
+      <p class="hint">セミナーで話してほしい内容があれば、あわせてお書きください</p>
+      <textarea rows="4" required name="free3" id="kt-free3" placeholder="例：ネット発信なしで契約を取る流れに興味を持ちました。最初の提案で何を見せるのかを知りたいです。"></textarea>
+    </div>
+    <button class="cta-button go" type="submit">無料でオンラインセミナーに参加する</button>
+    <p class="go-note">送信後、セミナーへの参加方法をご案内します。</p>
+  </fieldset>
+  </form>
+</section>
+
+<section class="bonus" data-live>
+  <p class="bonus-pre">参加者には、こんな特典もあります</p>
+  <h2>体験セミナーの<br class="sp">10大特典</h2>
+  <div class="bonus-group">
+    <p class="bonus-label">SNSシェア特典 5つ</p>
+    <p class="bonus-lead">SNSシェアの方法は、LINEオープンチャットに参加後にご案内しています。</p>
+    <ul class="bonus-grid"><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_06.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_06.jpg" alt="名刺テンプレート" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">シェア特典1</span><span class="bt">名刺テンプレート</span></li><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_07.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_07.jpg" alt="交流会で仕事を取るための行動10か条" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">シェア特典2</span><span class="bt">交流会で仕事を取るための行動10か条</span></li><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_08.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_08.jpg" alt="セールススライド" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">シェア特典3</span><span class="bt">セールススライド</span></li><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_09.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_09.jpg" alt="AI社員導入コンサルシート" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">シェア特典4</span><span class="bt">AI社員導入コンサルシート</span></li><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_10.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_10.jpg" alt="5つの集客方法 完全攻略ガイド" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">シェア特典5</span><span class="bt">5つの集客方法 完全攻略ガイド</span></li></ul>
+  </div>
+  <div class="bonus-group">
+    <p class="bonus-label">ライブ参加特典 5つ</p>
+    <p class="bonus-lead">体験セミナーのライブにご参加いただいた方にお渡しします。</p>
+    <ul class="bonus-grid"><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_01.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_01.jpg" alt="地方営業導線マップ" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">ライブ特典1</span><span class="bt">地方営業導線マップ</span></li><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_02.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_02.jpg" alt="売れるチラシテンプレート＆解説" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">ライブ特典2</span><span class="bt">売れるチラシテンプレート＆解説</span></li><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_03.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_03.jpg" alt="AI社員デモテンプレート" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">ライブ特典3</span><span class="bt">AI社員デモテンプレート</span></li><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_04.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_04.jpg" alt="契約書テンプレート" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">ライブ特典4</span><span class="bt">契約書テンプレート</span></li><li><picture><source type="image/webp" srcset="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_05.webp"><img src="https://tanakayuc.github.io/static-pages/kataoka-phase2-lp/img/bonus_05.jpg" alt="50万〜150万円で受注するための価格戦略" width="640" height="360" loading="lazy" decoding="async"></picture><span class="bn">ライブ特典5</span><span class="bt">50万〜150万円で受注するための価格戦略</span></li></ul>
+  </div>
+</section>
+
+<section class="expired-box" id="expired">
+  <h2 style="font-size:20px !important;font-weight:900 !important;margin-bottom:10px !important">この動画の公開は終了しました</h2>
+  <p>初めてこのページを開いた日の3日後（<span data-deadline-text>--</span>）までの限定公開でした。</p>
+</section>
+<a class="float-jump" href="#survey" data-jump data-live id="float-jump">セミナー参加には<b>フォームの記入が必須</b>です<span>フォームへ進む ▼</span></a>
+<footer class="footer"><div class="footer-links"><a href="https://tanakayuc.github.io/static-pages/kataoka-legal/tokusho.html" target="_blank" rel="noopener">特定商取引法に基づく表記</a><a href="https://tanakayuc.github.io/static-pages/kataoka-legal/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a></div><p class="copyright">© 2026 株式会社ザ・リード All Rights Reserved.</p></footer>
+<noscript><p>視聴期限の確認にはJavaScriptを有効にしてください。</p></noscript></div>
+<script>
+(function(){
+'use strict';
+function initialize(){
+var root=document.getElementById('kataoka-thanks');
+if(!root||!root.querySelector('#expired')||!root.querySelector('#survey-form')||!root.querySelector('#dl-count'))return false;
+if(root.dataset.initialized)return true;
+root.dataset.initialized='true';
+// このサンキューページ専用。登録LPの記録とは共有しない。
+var KEY='kataoka_thanks_first_open_jst_v1',DAY=86400000,JST=32400000;
+function valid(v){var n=Number(v);return Number.isFinite(n)&&n>0&&n<=Date.now()?n:null;}
+function readFirst(){
+ var values=[];
+ try{var n=valid(localStorage.getItem(KEY));if(n)values.push(n);}catch(e){}
+ try{var m=document.cookie.match(new RegExp('(?:^|;\\s*)'+KEY+'=([^;]*)'));var n=m&&valid(m[1]);if(n)values.push(n);}catch(e){}
+ return values.length?Math.min.apply(null,values):Date.now();
+}
+var first=readFirst();
+try{localStorage.setItem(KEY,String(first));}catch(e){}
+try{document.cookie=KEY+'='+first+'; max-age=34560000; path=/; SameSite=Lax; Secure';}catch(e){}
+// 初回アクセスの日本時間の日付 + 4日目の00:00を終了境界にする。
+// 例：10/24の何時に開いても10/27 23:59:59.999まで、10/28 00:00から終了。
+var end=Math.floor((first+JST)/DAY)*DAY+4*DAY-JST;
+var d=new Date(end-1+JST),week=['日','月','火','水','木','金','土'];
+var label=(d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日（'+week[d.getUTCDay()]+'）23:59';
+var bar=root.querySelector('#deadline'),date=root.querySelector('#dl-date'),count=root.querySelector('#dl-count');
+root.querySelectorAll('[data-deadline-text]').forEach(function(el){el.textContent=label;});
+var stopped=false,timer;
+function tick(){
+ var left=end-Date.now();
+ if(left<=0){
+  root.dataset.state='expired';
+  var fs=root.querySelector('#survey-fs');if(fs)fs.disabled=true;
+  bar.className='deadline over';
+  root.querySelector('#dl-label').textContent='公開期限が終了しました';
+  date.textContent=label+' で終了';count.textContent='';
+  if(!stopped){stopped=true;root.querySelectorAll('iframe').forEach(function(f){f.removeAttribute('src');if(f.parentNode)f.parentNode.removeChild(f);});}
+  if(timer)clearInterval(timer);
+  return false;
+ }
+ root.dataset.state='active';date.textContent=label+'まで（日本時間）';
+ bar.className='deadline'+(left<10800000?' hot':left<DAY?' warn':'');
+ var seconds=Math.ceil(left/1000),h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),s=seconds%60;
+ count.innerHTML='残り <b>'+h+'</b>時間<b>'+String(m).padStart(2,'0')+'</b>分<b>'+String(s).padStart(2,'0')+'</b>秒';
+ root.querySelectorAll('iframe[data-video-src]').forEach(function(f){if(!f.hasAttribute('src'))f.src=f.dataset.videoSrc;});
+ return true;
+}
+if(tick())timer=setInterval(tick,1000);
+window.addEventListener('pageshow',tick);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)tick();});
+// 期限内はブラウザの必須入力検証後、指定のUTAGEフォームへ通常のPOST送信。
+var form=root.querySelector('#survey-form');
+if(form)form.addEventListener('submit',function(e){if(!tick()){e.preventDefault();}});
+// 「フォームへ進む」ボタン：上部の期限バーに隠れない位置へなめらかに移動する。
+var survey=root.querySelector('#survey');
+root.querySelectorAll('[data-jump]').forEach(function(a){a.addEventListener('click',function(e){
+ if(!survey)return;e.preventDefault();
+ var y=survey.getBoundingClientRect().top+window.pageYOffset-(bar?bar.offsetHeight:0)-12;
+ try{window.scrollTo({top:y,behavior:'smooth'});}catch(err){window.scrollTo(0,y);}
+});});
+// スマホの固定ボタンは、動画下の「フォームへ進む」ボタンかフォームが画面に入っている間と、フォームより下では隠す。
+var floatBtn=root.querySelector('#float-jump'),must=root.querySelector('.jump-btn');
+if(floatBtn&&survey&&typeof IntersectionObserver!=='undefined'){
+ var seen={};
+ var io=new IntersectionObserver(function(es){
+  es.forEach(function(en){seen[en.target===survey?'s':'m']={on:en.isIntersecting,above:en.boundingClientRect.top<0};});
+  var s=seen.s||{},m=seen.m||{};
+  floatBtn.classList.toggle('off',!!(s.on||s.above||m.on));
+ });
+ io.observe(survey);if(must)io.observe(must);
+}
+return true;
+}
+// UTAGEはscriptを本文の前へ移動し、本文を後から描画するため、存在を待って初期化する。
+var observer=null,retryTimer=null;
+function boot(){
+ if(!initialize())return false;
+ if(observer)observer.disconnect();
+ if(retryTimer)clearInterval(retryTimer);
+ return true;
+}
+if(!boot()){
+ if(typeof MutationObserver!=='undefined'){
+  observer=new MutationObserver(boot);
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+ }
+ retryTimer=setInterval(boot,250);
+ document.addEventListener('DOMContentLoaded',boot);
+ window.addEventListener('load',boot);
+}
+})();
+</script>
+<script>document.addEventListener("submit",function(e){if(e.target&&e.target.id==="survey-form"){e.preventDefault();alert("見本ページのため送信しません。UTAGEに組み込んだページで送信できます。");}},true);</script>
+</body></html>
