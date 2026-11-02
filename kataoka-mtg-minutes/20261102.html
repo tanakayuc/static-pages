@@ -1,0 +1,589 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>片岡守MTG 議事録（2026-11-02） - 片岡守 ミーティング議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-frame { padding:.75rem; border:2px solid #06C755; border-radius:16px; background:#F1FBF4; }
+.material-flow-frame > header { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .6rem; margin-bottom:.75rem; }
+.material-flow-frame > header strong { padding:.2rem .7rem; border-radius:999px; color:#fff; background:#06C755; font-size:.78rem; font-weight:800; }
+.material-flow-frame > header small { color:var(--ink-soft); font-size:.74rem; line-height:1.5; }
+.material-flow-frame .material-flow-stage { width:auto; min-width:0; }
+.material-flow-frame .material-flow-pages { grid-template-columns:repeat(2, 16.5rem); align-items:start; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } .material-flow-frame .material-flow-pages { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>片岡守 ミーティング議事録</h3><a href="20261102.html" class="sidebar-item active"><span class="date">2026年11月02日</span> 片岡守MTG 議事録（2026-11-02）</a>
+<a href="20261026.html" class="sidebar-item"><span class="date">2026年10月26日</span> 片岡守MTG 議事録（2026-10-26）</a>
+<a href="20260928.html" class="sidebar-item"><span class="date">2026年09月28日</span> 片岡守MTG 議事録（2026-09-28）</a>
+<a href="20260827.html" class="sidebar-item"><span class="date">2026年08月27日</span> ザ・リード主催勉強会 議事録（2026-08-27）そのだめいさんによる補助金セミナー</a>
+<a href="20260824.html" class="sidebar-item"><span class="date">2026年08月24日</span> 片岡守MTG 議事録（2026-08-24）</a>
+<a href="20260717.html" class="sidebar-item"><span class="date">2026年07月17日</span> そのださん補助金相談ミーティング 議事録（2026-07-17）</a>
+<a href="20260703.html" class="sidebar-item"><span class="date">2026年07月03日</span> 片岡守MTG 議事録（2026-07-03）</a>
+<a href="20260619.html" class="sidebar-item"><span class="date">2026年06月19日</span> 片岡守MTG 議事録（2026-06-19）</a>
+<a href="20260610.html" class="sidebar-item"><span class="date">2026年06月10日</span> 片岡守MTG 議事録（2026-06-10）</a>
+<a href="20260602.html" class="sidebar-item"><span class="date">2026年06月02日</span> 片岡守MTG 議事録（体験セミナー成約改善・スライド修正・申込動線変更）</a>
+<a href="20260526.html" class="sidebar-item"><span class="date">2026年05月26日</span> 片岡守MTG 議事録（AIコンサルタント養成講座 社内運営体制・決済フロー確立）</a>
+<a href="20260522.html" class="sidebar-item"><span class="date">2026年05月22日</span> 片岡守MTG 議事録（スライド最終チェック・申込フロー確定）</a>
+<a href="20260519.html" class="sidebar-item"><span class="date">2026年05月19日</span> 園田めいさんMTG 議事録</a>
+<a href="20260420.html" class="sidebar-item"><span class="date">2026年04月20日</span> 片岡守 MTG 議事録（2026年4月20日）</a></nav>
+<main class="content"><article class="article"><h1>片岡守MTG 議事録（2026-11-02）</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/7c378094-8956-441f-9cdd-9c42b35454db/file/bWVkaWEvMjAyNi8xMS8wMi8wMzM3X-eUsOS4reelkOS4gOWAi-S6uk1UR-ODquODs-OCr18wYWM4ZTgxOTZkL01QNF8zODcyOGJjMi0wMjQwLTQ0OWEtYjU2OS0xZTU3YTg2ZTc3MGQubXA0#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年11月1日 20:35（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>AIコンサルタント養成講座の第2期プロモーションが、今週水曜（11月4日）のライブ1日目と個別説明会の募集開始を2日後に控えた中で、特典の配布方法、オファーシート、スライド、オープンチャットの運用を一通り確認した回。最大の変更点は特典の配布で、SNSシェア特典と「Day1の感想」を書いてもらう特典の両方でLINEに画面キャプチャが次々届くため、セールス担当のメッセージが埋もれないよう、特典用のLINEをセールス担当のものと分ける（カレンが作る。特典の送付はMurakiに頼む方向）ことに決まった。<br />
+片岡がスライドを見て気づいた点は1つで、Day1のスライドに「簡単な課題があります」とあるのに課題の中身が書かれていない、というもの。田中は、課題＝Day1の感想を書いて残り5つの特典を受け取ること、と整理し、受け取り方のページのURLとQRコードをDay1スライドの最後に貼ることにした（講師がその場でクリックできるように、録画視聴の人も受け取れるように）。あわせて、オープンチャットは3つ（A・B・C）を使い回し、同じものには3クールおきに戻ること、オープンチャットの毎回の投稿に開始時刻と残り日数を入れること、アーカイブはZoomのリンクで渡すこと、ダウンセルは「AI秘書導入実践」のような少人数の有料セミナーを年末ごろに行うこと（売れたらラッキーという位置づけ）が決まった。ライフティ（ローン）や園田さん（補助金）の扱いは検討・小ネタとして出た。<br />
+次回は11月10日（火）13:00で、第1クールの反省会を行う。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年11月2日（月）12:37開始（Zoomの会議時間は36分。書き起こしは00:36:33まで）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoom（Zoomの会議名は「田中祐一個人MTGリンク」。片岡守案件のAIコンサルタント養成講座・第2期プロモーションの定例ミーティング）</td>
+</tr>
+<tr>
+<td>参加者（発言あり）</td>
+<td>田中祐一、片岡守（Zoom表示名は Mamoru Kataoka）、カレン</td>
+</tr>
+<tr>
+<td>ほか</td>
+<td>発言のない参加者の有無は書き起こしからは分からない（Murakiはこの回では発言していない）</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/7c378094-8956-441f-9cdd-9c42b35454db" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/7c378094-8956-441f-9cdd-9c42b35454db</a></td>
+</tr>
+<tr>
+<td>Zoomチャットログ</td>
+<td><a href="20261102-chat.txt">20261102-chat.txt をダウンロード</a>（URLは「（URLは非公開）」に置き換えて公開。カレンがスライド生成カタログのリンクを共有）</td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td>0_データ原本/2026年/11月/2日/Zoom/202611021237_Zoom_田中祐一個人MTGリンク.md</td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td>21_プロジェクト一覧/kat_片岡守/ミーティング/データ原本/20261102_片岡守MTG_書き起こし原本.md</td>
+</tr>
+<tr>
+<td>話者なしの生データ</td>
+<td>同じフォルダの 20261102_片岡守MTG_Zoom字幕VTT原文.vtt（R2に保管されたZoomの字幕原文をそのまま取得）</td>
+</tr>
+<tr>
+<td>話者ラベルの確認</td>
+<td>Zoomのライブキャプションが参加者の表示名で付与したラベル（AIによる自動割当は使っていない）。通読して、自分を三人称で言う、立場と合わない発言をする、といった矛盾は見つからず、系統的な入れ替わりも局所的な誤割当もなかった。話者同定ゲートは合格（同じフォルダの 20261102_片岡守MTG_書き起こし原本_話者同定.md）</td>
+</tr>
+</tbody>
+</table>
+<p>Zoomの会議名は、田中の個人ミーティングの共用リンクのままだった。内容は冒頭から一貫して片岡守案件のAIコンサルタント養成講座の運営と第2期プロモーションの話で、同じ日の15:31開始の別の会議（別の相手との会議）とは混ぜていない。</p>
+<p>書き起こしはライブキャプション由来で、「電話」が「Day1」、「乾燥」が「感想」に聞こえるなど、聞き違いが多い。数字や名称が聞き取れない箇所は、書き起こし原本の冒頭「書き起こし確認事項」にフラグを付けてあり、この議事録でも断定していない。</p>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#前回（10月26日）からの続き">前回（10月26日）からの続き</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#冒頭：今週の流れと、ダウンセルの構想">冒頭：今週の流れと、ダウンセルの構想</a></li><li class="toc-sub"><a href="#特典の配布：LINEをセールス担当と分ける">特典の配布：LINEをセールス担当と分ける</a></li><li class="toc-sub"><a href="#申込後の流れと、第1クールの位置づけ">申込後の流れと、第1クールの位置づけ</a></li><li class="toc-sub"><a href="#オファーシートの確認">オファーシートの確認</a></li><li class="toc-sub"><a href="#契約・決済・法定書面（セールスチームへの共有）">契約・決済・法定書面（セールスチームへの共有）</a></li><li class="toc-sub"><a href="#ダウンセル：AI秘書導入実践の少人数セミナー">ダウンセル：AI秘書導入実践の少人数セミナー</a></li><li class="toc-sub"><a href="#スライドの確認：Day1の課題と、受け取り方ページのQRコード">スライドの確認：Day1の課題と、受け取り方ページのQRコード</a></li><li class="toc-sub"><a href="#セールス担当向けスライドと、園田さんの扱い">セールス担当向けスライドと、園田さんの扱い</a></li><li class="toc-sub"><a href="#ライフティ（ローン）と法定書面の補足">ライフティ（ローン）と法定書面の補足</a></li><li class="toc-sub"><a href="#オープンチャットの運用：投稿の時刻、3つの使い回し">オープンチャットの運用：投稿の時刻、3つの使い回し</a></li><li class="toc-sub"><a href="#アーカイブの公開方法">アーカイブの公開方法</a></li><li class="toc-sub"><a href="#個別説明会の締切と、受講生の層">個別説明会の締切と、受講生の層</a></li><li class="toc-sub"><a href="#次回の打ち合わせ">次回の打ち合わせ</a></li><li class="toc-main"><a href="#素材側との照合（この回で決まったことが、素材にどこまで入っているか）">素材側との照合（この回で決まったことが、素材にどこまで入っているか）</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中祐一">田中祐一</a></li><li class="toc-sub"><a href="#片岡守">片岡守</a></li><li class="toc-sub"><a href="#カレン">カレン</a></li><li class="toc-sub"><a href="#Murakiさん">Murakiさん</a></li><li class="toc-main"><a href="#検討中・未確定">検討中・未確定</a></li><li class="toc-main"><a href="#Zoomチャットログ">Zoomチャットログ</a></li><li class="toc-sub"><a href="#発言ログ">発言ログ</a></li></ul></nav><h2 id="前回（10月26日）からの続き">前回（10月26日）からの続き</h2>
+<p>前回の議事録（<code>21_プロジェクト一覧/kat_片岡守/ミーティング/議事録/20261026_片岡守MTG_議事録.md</code>）で「次回はスライドと個別説明会のプッシュまで確認」としていた点が、どう進んだか。</p>
+<table>
+<thead>
+<tr>
+<th>前回の話</th>
+<th>今回</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1・D2のスライドを田中が作成</td>
+<td>作成済みで、前回の会議の後に片岡へ送られている。片岡は確認して、指摘は1点（Day1の課題の中身が書かれていない）</td>
+</tr>
+<tr>
+<td>個別説明会のページを最終チェックしてプッシュ</td>
+<td>田中は個別説明会を、ライブ1日目で誘導し、Day2から5日間プッシュする流れで進める、と説明。申込後の流れ（自動返信、サンキュー、LINE、振り分け）も確認した</td>
+</tr>
+<tr>
+<td>オープンチャットを11月4日の午前中に差し替え</td>
+<td>11月4日（水）に次のオープンチャットへ切り替える。あわせて、A・B・Cの3つを使い回す運用に整理された</td>
+</tr>
+<tr>
+<td>決済フォーム・ベースシートをカレンが用意</td>
+<td>ベースシートと決済は「まだ貼っていない、これから」（カレン）</td>
+</tr>
+<tr>
+<td>セールス担当向けのスライドを田中が作成</td>
+<td>田中が、カレンのスライド生成のスキルを待たず、自分で全部作った。担当者自身の履歴は担当者が自分で入れる形</td>
+</tr>
+<tr>
+<td>7日以内の入金でサポートを3か月延長</td>
+<td>オファーシートに書き込み済み。法定書面での返金の計算は9か月になる、と整理された</td>
+</tr>
+<tr>
+<td>特典の渡し方（前回は未確認）</td>
+<td>Day1の感想を書いてもらう特典を追加。LINEの運用が重くなるため、特典用LINEを分けることに決まった</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="冒頭：今週の流れと、ダウンセルの構想">冒頭：今週の流れと、ダウンセルの構想</h3>
+<p>田中は、今日はもろもろの確認をする、と切り出した。オファーシートを書き直しているが、AIがなかなか出してくれず（25分もかかっている）、いったん置いておくことにした。</p>
+<p>流れの確認として、今週の水曜日（11月4日）から募集が始まる。ライブ1日目（D1）の中で個別説明会へ誘導し、2日目（D2）から5日間、個別説明会をプッシュする。ここまで話して、田中は「ダウンセルを何も用意していなかった」と気づいた。案として、3クール分をまとめたウェビナーを、片岡が第1期で行った「1日で学べる」形式で開く。アーカイブは3日間限定にする。登録させてしまう手もあるが、まずは走ってみる、と述べた。片岡は相づちを打って聞いていた。</p>
+<p>もう1つ、昨日から、2つ目のフォームの入力項目が厳しかったため、かなり緩めた、と田中は報告した。これで離脱が減ることを期待している。</p>
+<h3 id="特典の配布：LINEをセールス担当と分ける">特典の配布：LINEをセールス担当と分ける</h3>
+<p>ここがこの回の最大の論点になった。田中は、特典の配布がいろいろ変わってきて、今日ようやく準備が整う見込みだと述べ、まずカレンに、特典用のLINEを後で送ってほしい、と頼んだ。カレンは「専用の、はい、わかりました」と応じた。</p>
+<p>田中の懸念は次のとおり。</p>
+<ul>
+<li>特典は2種類ある。1つは、オープンチャットに登録してSNSで拡散する特典（SNSシェア特典）。もう1つは、Day1のライブの感想を書き、そのキャプチャを送ってもらって受け取る特典（Day1感想アウトプット特典）。</li>
+<li>どちらも、参加者が画面キャプチャを公式LINEに送り、運営が確認して「特典はこれです」と返信する。コピペで次々に返す運用になり、LINEにはキャプチャ付きのメッセージが一気に届く。</li>
+<li>そのLINEをセールス担当のLINEと共用にすると、セールス担当のメッセージが大量の特典の連絡に埋もれる（原本は「セールス担当のメッセージがめっちゃもれる」。「漏れる」ではなく「埋もれる」の意味と読む）。特典の連絡に紛れて、セールス担当の連絡が見落とされるのも避けたい。</li>
+</ul>
+<p>田中は「自分としては、セールス担当のLINEと分けたほうがいいと思っている」と述べ、カレンが「分けますか？分けるなら作りますけど」と確認した。田中は、個別説明会のセールスがあと数日あることもあり、分けたほうがよいと答えた（この箇所は書き起こしが崩れていて、理由の言い回しを断定しない）。カレンは「了解しました。じゃあ作ります」と引き受けた。</p>
+<p>特典の送付（確認してコピペで返す作業）は、Murakiに依頼するのがよいと田中は考えた。Murakiに「特典をペタペタ貼って送ってもらう」形を取る。田中は「そこが大きな変更」と整理した。</p>
+<p>SNS拡散の特典の仕組みについては、田中が画面を見せながら説明した。昨日の夜、田中がXとFacebookに投稿しており（片岡が「FacebookとXです」と補足）、その投稿にコメントしてもらう。そのあと、コメントのスクリーンショットを撮り、公式LINEを開いてキャプチャを送ってもらう。メッセージがどんどん届く形になる。</p>
+<p>加えて、ライブ参加者向けに、Day1の感想をアウトプットしてもらう特典の「受け取り方」のページも作らなければならない、と田中は述べた。なお、昨日から音声入力（Typeless）が動かなくなって手押しになっていると話す場面があったが、これは雑談。</p>
+<h3 id="申込後の流れと、第1クールの位置づけ">申込後の流れと、第1クールの位置づけ</h3>
+<p>田中は、次の共有はほぼメッセージのとおりだが、と前置きして、募集の全体の流れを確認した。ライブをすることで「AIコンサルタント」になれる、という訴求。講座名は「AI顧問の始め方」のままいく（名前を変えるのは面倒なので、このままでいく、と田中は述べ、片岡は「まあわかんないです」と返した）。</p>
+<p>申込後の流れは次のとおり。</p>
+<ol>
+<li>個別説明会の申込（フォーム）。</li>
+<li>自動返信、サンキューのページ、LINEの案内。</li>
+<li>LINEに登録すると、石田さん（表記は要確認）がベースシートをもとにセールス担当へ振り分ける。</li>
+<li>各担当は、ベースシートに「受け取りました」とチェックして進める。3人でセールスをするイメージ。</li>
+</ol>
+<p>第1クールは、演習に近い位置づけで進める。まず全体の流れに慣れることが目的で、現時点ではハウスリスト（既存の見込み客）も入れていない。昨年のAIコンサルのメールも使っていく必要がある、と田中は述べた。オープンチャットもまだ流していないので、第2クール・第3クールで流していく。</p>
+<h3 id="オファーシートの確認">オファーシートの確認</h3>
+<p>田中は、オファーシートの確認に入り、書き換えながら読み上げていった。AIが余計なものを出してくる、と笑う場面もあった。なお、このあたりで田中は、Mac miniを次に買おうと思っている、と雑談を挟んでいる（持ち歩けて止まらないものが欲しくなった、と）。</p>
+<p>講座名は「Claude特化型コンサルタント養成講座 9か月実践講座」（原本は「クロードトップ型」と聞こえる。名前自体はいらないかもしれない、と田中が述べた）。内容の確認は次のとおり。</p>
+<ul>
+<li>柱は「3つの柱、8つのサポート」の構成で、D2の中身（5つの柱が大事、という話）と対応させて要点を残している</li>
+<li>AIセミナーは月1回、60分から120分</li>
+<li>ロープレの練習会（片岡が「ロープレですね」と補った）、60分</li>
+<li>会員サイトでの講義とアーカイブ、テンプレート、チラシ、契約書のツール</li>
+<li>フォーム営業ツール：消そうか迷ったが、一応残した。トーンはかなり落とした（セールスのスライドでも同様）</li>
+<li>補助金：「申請手続きの代行はしません」と同じ書き方に揃え、「使える補助金は時期と会社によって違います」と書いた</li>
+<li>グループコンサル：田中が「90分でしたっけ、60分でしたっけ」と尋ね、片岡が答えた（数字が書き起こしに出ていない）</li>
+<li>チャットワークのサポート：前回「作る」と言って作っていなかった、なんでも相談チャットを作る必要がある。第1期のオファーからは入っていた、と田中が確認した</li>
+<li>リアル勉強会：基本は東京</li>
+<li>7日以内の入金で、サポートを3か月延長（9か月から12か月に。この箇所は書き起こしが崩れている）</li>
+<li>「ちゃんと長く続けたい」という意図も入れた（セールスのスライドにも書いた）</li>
+</ul>
+<p>田中が「語弊はありますか」と尋ねると、片岡は「特にないです」と答えた。田中は、修正したものを置くので、カレンに取り込んでほしい、と依頼し、カレンは了承した。</p>
+<h3 id="契約・決済・法定書面（セールスチームへの共有）">契約・決済・法定書面（セールスチームへの共有）</h3>
+<p>田中は、セールスチーム向けの共有として、決済まわりを説明した。</p>
+<ul>
+<li>決済はいつもどおり、GMOでの銀行振込。分割の場合は、銀行振込とPayPal</li>
+<li>入学金プラス分割で、期間は9か月</li>
+<li>一括払いで3か月延びる部分は「特典のようなもの」。中途解約の返金は9か月で計算する（特商法の法定書面の整理）</li>
+<li>つまり、一括の特典で講座の期間が伸びるのではなく、サポートが伸びる、という言い方になる（田中自身も「何とも言えない言い方になる」と述べた）</li>
+<li>PLC（田中の別の講座）も同じ構造で、6か月の講座に6か月のサポートが付くが、法定書面上は6か月で扱っている。9か月＋3か月の人でも、返金は9か月で計算する。法定書面の面ではPLCに近くなる</li>
+</ul>
+<p>そのうえで田中は、カレンに「パネさん」と呼びかけたと読める箇所で、一度この書面を見てもらってもいいかもしれない、と述べた（原本は「パネさん」。直後にカレンが応答しており、カレンへの呼びかけと読めるが、断定しない）。カレンは「はい」と答えた。</p>
+<h3 id="ダウンセル：AI秘書導入実践の少人数セミナー">ダウンセル：AI秘書導入実践の少人数セミナー</h3>
+<p>田中は、Claude CodeでAI社員を作る方法の設定セミナーのようなものを、ダウンセルで売っておくのはどうか、と提案した。ただ、流行らないかもしれない、とも述べた。片岡は、レベルの低い人も受けたいかもしれない、レベルによっては需要がある、と答えた。</p>
+<p>田中は、年末ごろに1回行うのがよいかもしれない、と考えた。</p>
+<ul>
+<li>既存の受講生は無料で1回参加できる</li>
+<li>外部の人にはオンラインで、3万9,800円ぐらいで売る（田中は途中で「39,000円」とも言っており、金額は確定していない）</li>
+<li>3時間、少人数のグループセミナー</li>
+<li>片岡のグループコンサルの形で「AI秘書導入実践」のような名前にする。片岡は「秘書機能を入れさせたり、自分が今やりたい作業をやらせる、ということですよね」と補い、「いいですね」と賛成した</li>
+</ul>
+<p>3クール分をまとめたうえで、ダウンセルを行う。まとめたあとに次のチャレンジをする場合もある。購入を強く勧めるのではなく、売れたらラッキーぐらいの位置づけで、田中は「ダウンセルはこれで決定」とまとめた。</p>
+<h3 id="スライドの確認：Day1の課題と、受け取り方ページのQRコード">スライドの確認：Day1の課題と、受け取り方ページのQRコード</h3>
+<p>田中は、スライドを先ほど片岡へ送ったところで、気になった点を尋ねた。片岡は目を通しており、「特にないが、1つだけ」と前置きして、次の点を指摘した。</p>
+<ul>
+<li>セミナーのスライドの中で「簡単な課題があります」と書いてあるのに、その課題が何か書かれていない</li>
+<li>Day2のスライドにも、「簡単な課題があります」と書いておきながら、課題が書かれていなかった</li>
+<li>以前の講座のように、ここに書いて提出してください、というフェーズではないはず</li>
+</ul>
+<p>田中は、これがちょうど先ほどの特典の話だと説明した。Day1の感想をSNSにもう1度書き込んでもらい（FacebookとX）、そのキャプチャを送ってもらう。これが「課題」で、課題をやった人が、残り5つの特典を受け取れる。田中は、このことをスライドに組み込むよう依頼したが、明確に指示を出していなかったため、さっき話した「受け取り方」のページが出てきたら、あとで組み込む、と述べた。</p>
+<p>次に、片岡が「講座中に、ここに書いてねと案内するのは私ですか」と尋ねた。田中は次の案を示した。</p>
+<ul>
+<li>「受け取り方法」のページを作り、そこに、Xと、公式LINEのURLを貼る（先ほどのSNS拡散の特典と同じ構成にする）</li>
+<li>Day1のスライドの最後に、そのページのURLを貼る。セミナーの講師が、その場でURLをクリックして開けるようにする</li>
+<li>片岡が、Zoomのチャットにそのリンクを貼る</li>
+</ul>
+<p>片岡は「ここにあるから、と言って、QRコードみたいなものも入るんですか」と確認し、「スマホから書く人もいると思う」と補足した。田中は「確かにそうですね。QRコードがいい」と同意し、次の理由を述べた。録画で見る人は、スライド上のURLをクリックできない。QRコードを貼っておけば、録画視聴の人も対応できる。また、録画を見ないと拡散できない、という考え方もできるので、それもいいかもしれない。田中は、Day1のスライドの課題と受け取り方のページ（URLとQRコード）を置いておく、と述べた。</p>
+<p>続いて田中は、会員サイトを見られるようにしておけば、素材集をそこに貼っておくのがよさそうだ、と述べた。</p>
+<h3 id="セールス担当向けスライドと、園田さんの扱い">セールス担当向けスライドと、園田さんの扱い</h3>
+<p>田中が「セールスのミーティングを、あと2日できるのか」といった話を挟み、片岡が「そのセールスのスライドでは、私が話す体になっていますか」と尋ねた。田中は「なっていないと思う」と答えた。片岡は、パートナー側（ファシリテーター）の紹介のところに、各自の履歴を入れるのかと確認し、田中は、各担当が自分のものを入れる、と答えて、片岡は理解した。</p>
+<p>田中は、当初はカレンのスライド作成のスキルをもらうつもりだったが、時間がなく、結局自分で全部作ってしまった、と述べた。ミーティングが間に合わないため、このスライドを解説する動画を送る。特殊なことは書いていないので、スライドを出さずに、聞いたほうがうまくいく部分もある、とも述べた。</p>
+<p>そのうえで、田中は「園田さんのことを書いていない」と気づいた。園田さんは補助金の専門家と読める（過去の議事録での扱いと同じ）。補助金が目的で入る人はそれなりにいそうで、公務員営業スクールよりは、現場の感覚として期待値が高い、と片岡も同意した（「使いたい」という反応）。田中は「じゃあ入れるか」とし、D2のスライドにも、さらっと入れておく必要がある、と述べた。昨年よりも、全体のトーンはかなり落としている。</p>
+<p>セールス担当向けの共有物は、昨年のセミナーの録画（共有）、片岡のオファー、田中が簡単に解説する動画、の3点を用意する見込み。ベースシートと決済のページはまだ貼っていない（カレン：「これからですね」）。</p>
+<h3 id="ライフティ（ローン）と法定書面の補足">ライフティ（ローン）と法定書面の補足</h3>
+<p>小ネタとして、田中は「ライフティ」というローンの話をした。別の案件（安心安定）で使いたいと言われたが、安心安定は100万円を超えていて、通らなさそうな気配がある。そこで、この講座にも入れてみようかと思った。ただ、ライフティは法人向けではなく、今回はビジネスをしている人が多いので、全部契約書で足りるのではないか、とも田中は考えている。契約書は法定書面ではないので、クーリングオフがない。副業の人が出たら、そのとき作る、という程度でよい。</p>
+<p>田中は、ライフティの申請を通すためのパンフレットを、勝手に作ってきた、と共有した。採用されないかもしれない小ネタ、と本人は述べている。</p>
+<p>ライフティについて田中が述べた特徴は次のとおり。</p>
+<ul>
+<li>3年ローンなどで、一括で入金してくれる</li>
+<li>小林まさみさんが、ママ向けのメールサロン講座で使っている（表記は聞こえたとおり）</li>
+<li>夫の収入を合算して審査してくれる</li>
+<li>この講座にはあまり関係ないかもしれず、本命は安心安定のカウンセラー企業のほう</li>
+</ul>
+<h3 id="オープンチャットの運用：投稿の時刻、3つの使い回し">オープンチャットの運用：投稿の時刻、3つの使い回し</h3>
+<p>田中は、片岡に追加の注意点として、オープンチャットの事前メッセージについて話した。田中自身は、別の作業（スライドなど）に集中しており、メッセージを出せていなかったが、直近の投稿は書き換えた。今後は、毎回「何時何分からセミナーがある」と入れる形にし、そのように指示を出していた。「あと2日です」という表記も入れる。片岡は、これまでは入っていなかった、手書きであとから修正して入れたところもあった、と述べ、次回からは毎回入れる、と答えた。</p>
+<p>次に、片岡が「このオープンチャットは、3クールまで使うのですか」と確認した。田中の説明は次のとおり。</p>
+<ul>
+<li>オープンチャットは3つ（A・B・C）を用意して、3回転したら一巡して戻ってくる</li>
+<li>つまり、1クール目、4クール目、7クール目が、同じオープンチャット</li>
+<li>1サイクルが約10日の集客期間で、1か月でA・B・Cを使い切る。翌月は、またAのオープンチャットに戻る</li>
+<li>戻るときに「次は何月何日に2日間セミナーがあります。前回参加できなかった人、見落とした人、参加した人もぜひ」と1回投稿してから、残り10日のカウントダウンを始める</li>
+<li>田中は、片岡にその都度「そろそろ戻るので、1回投稿してください」と頼む（原本は「タネさん」と呼びかけているように聞こえるが、片岡宛と読む）</li>
+<li>3クールごとに、0ページ（入口のページ）のタイマーをリセットしてほしい（リダイレクト制御）。3日間のタイマーで、メールの件名は急かしていない。もう少し件名を変えようと思っていたが余裕がなく、次のクールまでに直す</li>
+</ul>
+<p>カレンは、広告で使っているオープンチャットのリンクを、いつ切り替えるのか、と確認した。最初は「1・2・3クールを使ってから4クール目で替える」と読んでいたが、田中が「違う。1クール目と4クール目と7クール目が同じオープンチャットになる」と説明し、理解した。切り替えは明後日（11月4日）で、そこから毎月、3つのオープンチャットをぐるぐる使い回す。この運用は、12月末までの変則になるまで続ける。カレンは「また作ってご招待します」と述べた。</p>
+<p>年末年始は、いったん広告を止め、新規で3か月使える、というサイクルでもよいかもしれない、とも田中は述べた。</p>
+<h3 id="アーカイブの公開方法">アーカイブの公開方法</h3>
+<p>片岡は、アーカイブの公開方法を尋ねた。前回は、片岡がオープンチャットに「お待たせしました」と貼っていた。今回は、視聴ページを作ってもらえるのか、作るなら、カレンに渡せばよいのか、公開せずにデータのまま送ればよいのか、という確認だった。</p>
+<p>田中は「もらったらすぐ作る」と答え、田中でもカレンでも、2人のどちらかに送ればよい、と述べた。片岡が「動画データのまま、MP4の状態で送ります」と言ったところで、田中は「Zoomのリンクでいい、という感じですか」と確認した。田中は、アクセス制御の関係で、丸裸のまま送るのは微妙な気がする、とも述べている。最終的には、片岡が「ではZoomのリンクをお渡しします」と答え、田中も同意した。</p>
+<p>また、アーカイブを見る人には「課題の提出リンクはこちらから」と貼っておくほうが、簡単かもしれない、と田中は述べた。</p>
+<h3 id="個別説明会の締切と、受講生の層">個別説明会の締切と、受講生の層</h3>
+<p>田中は、アーカイブとD2からの5日間のプッシュを確認した。片岡が「個別相談の申込の締切が書いてありましたか」と尋ねると、田中は、詳細はLINEのオープンチャットで確認してもらう形にしていて、基本は「5日後ぐらいです」と言っておけばよい、と答えた。「5日後」が、翌日から数えて4日なのか、そのあたりは曖昧で、ステップメールは4日間で設定していた気がする。最終チェックが必要、と田中は述べた。</p>
+<p>来週は反省会を行い、今週はあと2日、準備をする。片岡は「とりあえず10（回か人か）やって、どんな感じに入ってくるか見る」と述べた。田中は、人数はそれほど多くなく、おそらく10人ぐらいだと見ている。</p>
+<p>片岡は、会社勤めの人は平日のライブには入ってこられないのではないか、と指摘した。受講生には公務員や会社員も何人かいて、それなりの割合でいそうだ、と述べた。田中は、広告運用の山岸さん（広告運用担当と読める）がこの点を知っているのか、広告のチャットに流しておこうか、と考えたが、最終的には「じゃあ無視しておこう」と結論した。</p>
+<h3 id="次回の打ち合わせ">次回の打ち合わせ</h3>
+<p>田中は、毎週のミーティングを同じ時間に行けるか、と尋ねた。片岡は、来週の月曜（11月9日）は用事があり、都合が悪いと答えた。調整の結果、11月10日（火）13:00で決まった（片岡・カレンとも大丈夫、と回答）。</p>
+<hr />
+<h2 id="素材側との照合（この回で決まったことが、素材にどこまで入っているか）">素材側との照合（この回で決まったことが、素材にどこまで入っているか）</h2>
+<p>会議の内容を、<code>21_プロジェクト一覧/kat_片岡守/プロモーション/第2期/</code> の素材と、11月2日までのコミットで照合した。素材の修正はこの議事録の作成では行っていない。</p>
+<table>
+<thead>
+<tr>
+<th>会議で決まったこと</th>
+<th>素材側の状況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day1のスライドに、課題（Day1の感想を書いて残り5つの特典を受け取る）と、受け取り方ページのURL・QRコードを入れる</td>
+<td>反映済み。11月2日のコミットで、受け取り方ページ（Day1感想アウトプット特典）が作成され、Day1の53枚目が「Day1の課題」になり、QRコードと押せるURLが載っている（審査用全文にも課題の説明が入っている）。特典の番号は、先に開示するSNSシェア特典を01〜05、Day1感想特典を06〜10に入れ替えた</td>
+</tr>
+<tr>
+<td>特典用LINEをセールス担当のLINEと分ける（カレンが作る）</td>
+<td>部分的に反映。素材の公式LINEの案内文は「UTAGEの特典用URL」を使い、SNSシェア特典とDay1感想特典で同じURLにして、送られた一言で特典を分ける形に変わっている。セールス担当のLINEとの分離そのものと、カレンの作業の完了、特典送付をMurakiが行う旨は、素材の中に見当たらない</td>
+</tr>
+<tr>
+<td>園田さん（補助金）を、セールス担当向けスライドとD2のスライドに入れる</td>
+<td>未反映。D2のスライドの審査用全文では、専門家スポットセミナー（園田さんの補助金セミナー）は項目として外した扱いで、第2期のスライドに無く、オファーシート案でも「未決」のまま。会議では「じゃあ入れるか」とした</td>
+</tr>
+<tr>
+<td>ダウンセル（AI秘書導入実践の少人数セミナー、年末ごろ、3万9,800円前後の案、3時間）</td>
+<td>素材に見当たらない（構想の段階）</td>
+</tr>
+<tr>
+<td>ライフティ（ローン）の申請用パンフレット</td>
+<td>素材に見当たらない（田中が別に作成。この講座で採用するかは未定）</td>
+</tr>
+<tr>
+<td>オープンチャット3つ（A・B・C）の使い回し、11月4日に次へ切り替え</td>
+<td>オープンチャットの運用・投稿のリストは素材にあるが、A・B・Cの使い回しの説明は素材の中に見当たらない</td>
+</tr>
+<tr>
+<td>オープンチャットの毎回の投稿に、開始時刻と残り日数を入れる</td>
+<td>11月2日〜11日の日付入り投稿（L33〜L46など）は素材にある。個々の投稿に時刻が入っているかは、この照合では確かめていない</td>
+</tr>
+<tr>
+<td>アーカイブはZoomのリンクで渡し、視聴ページに課題の提出リンクを貼る</td>
+<td>アーカイブのURLを差し込む投稿は素材にある（URLは穴埋め）。視聴ページは「もらったら作る」で、まだ作られていない</td>
+</tr>
+<tr>
+<td>オファーシートを修正して、カレンが取り込む</td>
+<td>素材に、11月2日付のオファーシート案（設計フォルダ）がある。カレンの取り込みが済んだかは素材からは分からない</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<ul>
+<li>特典の確認と返信を人力で回すLINEを、セールス担当のLINEと共用すると、大事な連絡が埋もれる。特典用とセールス用は最初から分けておく</li>
+<li>講師が画面を見ながら案内する場面では、URLだけでなくQRコードも貼る。録画で見る人はURLをクリックできないし、スマホから書き込む人もいる</li>
+<li>「簡単な課題があります」と書いたら、その場で課題の中身を言えるようにする。書いた本人（田中）には自明でも、読んだ側（片岡）には何が課題か分からない</li>
+<li>法定書面上、一括払いで増える3か月は「サポートの延長」として扱い、返金の計算は契約の本体（9か月）で行う。PLCも同じ構造</li>
+<li>オープンチャットは3つを使い回して集客期間ごとに戻ってくるため、戻るタイミングで「次の開催」を1回投稿してからカウントダウンに入る</li>
+<li>事前の投稿には、毎回、開始時刻と残り日数を入れる</li>
+<li>ダウンセルは、売れたらラッキー程度の位置づけで、既存受講生には無料で開放する形にすると、断られにくい</li>
+</ul>
+<hr />
+<h2 id="決まったこと">決まったこと</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+<th>担当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>特典用LINE</td>
+<td>セールス担当のLINEと分ける。特典用LINEはカレンが作る</td>
+<td>カレン</td>
+</tr>
+<tr>
+<td>特典の送付</td>
+<td>確認のうえ、特典をコピペで返信する作業はMurakiに依頼する方向</td>
+<td>田中</td>
+</tr>
+<tr>
+<td>Day1のスライド</td>
+<td>「Day1の課題」（感想を書いて残り5つの特典を受け取る）を入れ、受け取り方ページのURLとQRコードを最後に貼る</td>
+<td>田中</td>
+</tr>
+<tr>
+<td>Day2のスライド</td>
+<td>園田さんのことを、さらっと入れる</td>
+<td>田中</td>
+</tr>
+<tr>
+<td>オファーシート</td>
+<td>修正版を田中が置き、カレンが取り込む。片岡は内容に問題なしと確認</td>
+<td>田中・カレン</td>
+</tr>
+<tr>
+<td>ダウンセル</td>
+<td>AI秘書導入実践のような少人数セミナー（年末ごろ、3万9,800円前後、3時間）で決定。名称と金額は仮</td>
+<td>田中・片岡</td>
+</tr>
+<tr>
+<td>オープンチャット</td>
+<td>11月4日（水）に次のものへ切り替える。3つ（A・B・C）を12月末まで使い回す。戻る時は「次の開催」を1回投稿してからカウントダウン</td>
+<td>田中・カレン・片岡</td>
+</tr>
+<tr>
+<td>オープンチャットの投稿</td>
+<td>毎回、開始時刻と「あと○日」を入れる</td>
+<td>片岡</td>
+</tr>
+<tr>
+<td>アーカイブの渡し方</td>
+<td>片岡がZoomのリンクを田中かカレンに渡す。視聴ページを作る</td>
+<td>片岡・田中</td>
+</tr>
+<tr>
+<td>次回MTG</td>
+<td>11月10日（火）13:00（第1クールの反省会）</td>
+<td>田中・片岡</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="やること">やること</h2>
+<h3 id="田中祐一">田中祐一</h3>
+<ul>
+<li>[ ] 受け取り方ページ（Day1感想アウトプット特典）のURLとQRコードを、Day1のスライドの最後に貼る</li>
+<li>[ ] 園田さんのことを、セールス担当向けスライドとD2のスライドに入れる</li>
+<li>[ ] 修正したオファーシートをカレンに渡す</li>
+<li>[ ] セールス担当向けスライドの解説動画を用意して、セールス担当に送る</li>
+<li>[ ] 特典の送付をMurakiに依頼する</li>
+<li>[ ] なんでも相談チャット（チャットワークのサポート）を作る</li>
+<li>[ ] ステップメールの日数（4日間か5日後か）と申込の締切の最終チェックをする</li>
+<li>[ ] 3クールごとに0ページのタイマーをリセットする設定、メールの件名の見直しを次のクールまでに行う</li>
+<li>[ ] アーカイブ視聴ページを作る（片岡のZoomリンクを受け取ったら）</li>
+</ul>
+<h3 id="片岡守">片岡守</h3>
+<ul>
+<li>[ ] オープンチャットの毎回の投稿に、開始時刻と「あと○日」を入れる</li>
+<li>[ ] オープンチャットが一巡して戻るときに、次の開催を1回投稿する</li>
+<li>[ ] アーカイブのZoomリンクを田中かカレンに渡す</li>
+<li>[ ] 11月10日（火）13:00のミーティングに参加する</li>
+</ul>
+<h3 id="カレン">カレン</h3>
+<ul>
+<li>[ ] 特典用のLINEを作る（セールス担当のLINEと分ける）</li>
+<li>[ ] 特典用LINEの情報を田中に送る</li>
+<li>[ ] 修正されたオファーシートを取り込む</li>
+<li>[ ] 新しいオープンチャットを作って招待する</li>
+<li>[ ] ベースシートと決済ページを貼る（これから）</li>
+<li>[ ] 法定書面の返金の整理を、一度見る</li>
+</ul>
+<h3 id="Murakiさん">Murakiさん</h3>
+<ul>
+<li>[ ] 特典の確認と返信（特典を貼って送る作業）を受ける方向（田中が依頼する。この回にMurakiの発言はなく、承諾は未確認）</li>
+</ul>
+<hr />
+<h2 id="検討中・未確定">検討中・未確定</h2>
+<ul>
+<li>ダウンセルの名称と金額（「AI秘書導入実践」、3万9,800円と3万9,000円で揺れている）、開催時期（年末ごろ）。3クール分をまとめたウェビナーの案は、冒頭に出たが、実施の決定には至っていない</li>
+<li>園田さんをどの形（紹介か、スライド上の一言か）で入れるか。素材側では「未決」のまま</li>
+<li>ライフティの採用（パンフレットは作成済み、講座に入れるかは未定）</li>
+<li>グループコンサルの長さ（90分か60分か、書き起こしで数字が取れない）</li>
+<li>7日以内の入金特典の書き起こし（9か月が12か月になる趣旨と読むが、後半が崩れている）</li>
+<li>個別説明会の申込の締切が、翌日から数えて4日か、D2の5日後か</li>
+<li>「パネさん」「花子さん」「タネさん」の呼称（それぞれカレン・講師・片岡と読めるが断定していない）</li>
+<li>振り分け役の呼称（原本は「石田さん」。10/26の回までと同一人物と見ているが断定しない）</li>
+<li>次の定例の日程は、11月10日（火）13:00。前回（10月26日）の議事録に記した11月30日（月）14:00〜15:00は、別の予定として残っている（照合は完了報告に記載）</li>
+</ul>
+<hr />
+<h2 id="Zoomチャットログ">Zoomチャットログ</h2>
+<p>原本: <code>0_データ原本/2026年/11月/2日/Zoom/202611021237_Zoom_田中祐一個人MTGリンク_チャット.txt</code>（R2に保管されたチャットファイルから取得）</p>
+<h3 id="発言ログ">発言ログ</h3>
+<table>
+<thead>
+<tr>
+<th>経過時間</th>
+<th>発言者</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00:25:18</td>
+<td>カレン</td>
+<td>スライド生成カタログのリンクを共有（URLは非公開）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-11-02)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: KATA1102<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
