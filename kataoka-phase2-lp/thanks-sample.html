@@ -316,12 +316,12 @@ body{padding-bottom:96px}
     try{document.cookie=KEY+'='+v+'; max-age='+(60*60*24*10)+'; path=/; SameSite=Lax'}catch(e){}}
   var q=new URLSearchParams(location.search);
   var isLocal=location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';
-  var ts=NaN;
-  if(isLocal&&q.get('optin'))ts=new Date(q.get('optin')).getTime();   // 確認用（公開サーバーでは無効）
-  if(isNaN(ts)){var s=parseInt(getStore(),10);if(s>0)ts=s}
-  if(isNaN(ts)){ts=Date.now();setStore(String(ts))}
+  // サンプル専用: ブラウザに保存した時刻は使わない。開くたびに「今登録した」状態（残り約72時間）で表示する。
+  // 見た目の確認用: ?left=20 で残り20時間（橙）、?left=2 で残り2時間（赤）、?left=0.001 でほぼ終了
+  var ts=Date.now();
   var o=new Date(ts);
-  var dl=new Date(o.getFullYear(),o.getMonth(),o.getDate()+3,23,59,59).getTime();  // 登録の3日後の23:59（2026-10-24 田中さん）
+  var dl=new Date(o.getFullYear(),o.getMonth(),o.getDate()+3,23,59,59).getTime();
+  var lf=parseFloat(q.get('left'));if(lf>0)dl=Date.now()+lf*3600000;  // 登録の3日後の23:59（2026-10-24 田中さん）
   var WD=['日','月','火','水','木','金','土'],d=new Date(dl);
   var dateText=(d.getMonth()+1)+'月'+d.getDate()+'日（'+WD[d.getDay()]+'）23:59';
   var bar=document.getElementById('deadline'),elDate=document.getElementById('dl-date'),elCount=document.getElementById('dl-count');
