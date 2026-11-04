@@ -1,0 +1,558 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ピグマリオン定期MTG 議事録（2026-11-03・全体戦略） - ピグマリオン定期MTG 議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-frame { padding:.75rem; border:2px solid #06C755; border-radius:16px; background:#F1FBF4; }
+.material-flow-frame > header { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .6rem; margin-bottom:.75rem; }
+.material-flow-frame > header strong { padding:.2rem .7rem; border-radius:999px; color:#fff; background:#06C755; font-size:.78rem; font-weight:800; }
+.material-flow-frame > header small { color:var(--ink-soft); font-size:.74rem; line-height:1.5; }
+.material-flow-frame .material-flow-stage { width:auto; min-width:0; }
+.material-flow-frame .material-flow-pages { grid-template-columns:repeat(2, 16.5rem); align-items:start; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } .material-flow-frame .material-flow-pages { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>ピグマリオン定期MTG 議事録</h3><a href="20261103.html" class="sidebar-item active"><span class="date">2026年11月03日</span> ピグマリオン定期MTG 議事録（2026-11-03・全体戦略）</a>
+<a href="20261030.html" class="sidebar-item"><span class="date">2026年10月30日</span> ピグマリオン定期MTG 議事録（2026-10-30）</a>
+<a href="20261015.html" class="sidebar-item"><span class="date">2026年10月15日</span> ピグマリオン定期MTG 議事録（2026-10-15）</a>
+<a href="20261002.html" class="sidebar-item"><span class="date">2026年10月02日</span> ピグマリオン定期MTG 議事録（2026-10-02）</a>
+<a href="20260925.html" class="sidebar-item"><span class="date">2026年09月25日</span> ピグマリオン定期MTG 議事録（2026-09-25）</a></nav>
+<main class="content"><article class="article"><h1>ピグマリオン定期MTG 議事録（2026-11-03・全体戦略）</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/1ac11755-dbed-41ec-8433-3a8a98d15717/file/bWVkaWEvMjAyNi8xMS8wMy8xMzEwX-ODlOOCsOODnuODquOCquODs-Wumuacn01UR--8iFlvdVR1YmXli5XnlLvvvIlfZjY3MDBiY2ZkNi9NUDRfeXQ0ck42ZTZaS1dWOHZpZGVvLm1wNA#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年11月3日 22:02（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>今回は、ベビーやキッズの個別の施策ではなく、ピグマリオン全体の戦略を話す回でした。代表が「ダイレクト出版のように低価格のサブスクから入る形で成り立つのか」と問い、田中は「当てられていない講座が多い」「ピグマリオンさん本人頼りのセールスになっている」と見立てを返しました。<br />
+田中の助言は、撤退条件を決めてテスト的に出していくこと、キッズに集中してYouTube・インスタを専任者で固めること、広告で集めたリストをコミュニティ経由で引き上げる流れを作ることの3点です。<br />
+後半は「GKMコミュニティ」の設計が中心でした。代表が出した「共に作る（共創）」の発想を田中が高く評価し、本を550円で買った直後に、ワンクリックで3ヶ月3,300円のコミュニティに入れるオファーを出す案を、決済システムの導入も含めて説明しました。<br />
+まず先方がコミュニティの形とオファーを書き、田中がレターを書く段取りです。全体戦略は別日に改めて会議を設定します（24日以外）。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年11月3日（火）。YouTubeへの投稿は22:10（日本時間）。会議の開始・終了時刻は録画から分からない。録画の長さは58分41秒</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/1ac11755-dbed-41ec-8433-3a8a98d15717" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/1ac11755-dbed-41ec-8433-3a8a98d15717</a></td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td>田中側で保管（全編・話者分離つき・2段階チェック合格）</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、ピグマリオン代表（恵美子さんと推定）、先方スタッフ数名（田中が「内田さん」に次の会議の設定を依頼。価格を聞かれて答えた「ゆうかさん」もいる。氏名は確定していない）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>オンライン（Global Kid's Mom チャンネルの限定公開動画で録画）</td>
+</tr>
+</tbody>
+</table>
+<p>※録画は会話の途中から始まっています（冒頭は「テーマは」と代表の「書かせていただいたんですけれども」から。代表が事前に書いた資料への言及と思われますが、その説明部分は録画にありません）。<br />
+※書き起こしの話者は音声から機械で分け、別の方式との照合と別のAIによる判定の2段階で検査しました。田中と代表の2人だけに名前を付け、先方スタッフの発言と相づちは「話者不明」のまま残しています。名前を付けた行にも、先方の短い相づちが混ざる箇所があるため、この議事録では、田中の発言か代表の発言かが内容から確実に分かるものだけを書き分けました。自動で付いた名前の系統的な入れ替わりは、検査で確認されていません（別のAIの判定は全区間で「助言する側が田中」と一致）。<br />
+※聞き取りが不明瞭な箇所（人名・用語・数字）は、末尾の「確認したいこと」にまとめています。</p>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#前回までの宿題との対応">前回までの宿題との対応</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#冒頭：代表の問い「ダイレクト出版のようにして成り立つのか」">冒頭：代表の問い「ダイレクト出版のようにして成り立つのか」</a></li><li class="toc-sub"><a href="#田中の見立て：「単純に当てられていない」「ピグマリオンさん頼りのセールス」">田中の見立て：「単純に当てられていない」「ピグマリオンさん頼りのセールス」</a></li><li class="toc-sub"><a href="#代表の案：グローバルキッズマムで集めてから分けるか、切り口を変えるか">代表の案：グローバルキッズマムで集めてから分けるか、切り口を変えるか</a></li><li class="toc-sub"><a href="#売れない原因：誰が引っ張るか">売れない原因：誰が引っ張るか</a></li><li class="toc-sub"><a href="#社内でどこまでできるか：1年運営しての気づき">社内でどこまでできるか：1年運営しての気づき</a></li><li class="toc-sub"><a href="#田中の助言：撤退条件を決めて、テスト的にリリースしていく">田中の助言：撤退条件を決めて、テスト的にリリースしていく</a></li><li class="toc-sub"><a href="#質問：商品は1本で長く売れるのか">質問：商品は1本で長く売れるのか</a></li><li class="toc-sub"><a href="#代表がやるべきこと：インフルエンスとメディア">代表がやるべきこと：インフルエンスとメディア</a></li><li class="toc-sub"><a href="#他団体（協会）と組む案と、田中の見方">他団体（協会）と組む案と、田中の見方</a></li><li class="toc-sub"><a href="#算数の立て直し、外部講師、ナビゲーター">算数の立て直し、外部講師、ナビゲーター</a></li><li class="toc-sub"><a href="#「話さないファネル」と、立ち上げ期の個別コンサルコース">「話さないファネル」と、立ち上げ期の個別コンサルコース</a></li><li class="toc-sub"><a href="#認定講師が必要な理由">認定講師が必要な理由</a></li><li class="toc-sub"><a href="#第二の柱は、当たるまで挑戦し続ける">第二の柱は、当たるまで挑戦し続ける</a></li><li class="toc-sub"><a href="#英語案件">英語案件</a></li><li class="toc-sub"><a href="#英語・算数・運動・ご飯の優先順位">英語・算数・運動・ご飯の優先順位</a></li><li class="toc-sub"><a href="#SNS・YouTubeの戦略：キッズに集中し、専任者を立てる">SNS・YouTubeの戦略：キッズに集中し、専任者を立てる</a></li><li class="toc-sub"><a href="#YouTubeの撮り方：対談、公開相談、月1の質疑">YouTubeの撮り方：対談、公開相談、月1の質疑</a></li><li class="toc-sub"><a href="#教育ママはYouTubeを見ない：AI時代のSNSの考え方">教育ママはYouTubeを見ない：AI時代のSNSの考え方</a></li><li class="toc-sub"><a href="#大きな構想は間違っていないが、リソースが足りない">大きな構想は間違っていないが、リソースが足りない</a></li><li class="toc-sub"><a href="#GKMコミュニティの設計：「普通やん」から「共創」へ">GKMコミュニティの設計：「普通やん」から「共創」へ</a></li><li class="toc-sub"><a href="#他団体のコミュニティ事例">他団体のコミュニティ事例</a></li><li class="toc-sub"><a href="#代表の大学院進学の相談">代表の大学院進学の相談</a></li><li class="toc-sub"><a href="#次の会議の設定">次の会議の設定</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中">田中</a></li><li class="toc-sub"><a href="#ピグマリオン">ピグマリオン</a></li><li class="toc-main"><a href="#検討中・方針">検討中・方針</a></li><li class="toc-main"><a href="#確認したいこと">確認したいこと</a></li></ul></nav><h2 id="前回までの宿題との対応">前回までの宿題との対応</h2>
+<table>
+<thead>
+<tr>
+<th>前回の宿題（回）</th>
+<th>今回の状況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>コミュニティのレター案（オファー・サポートが分かるもの）を先方から田中へ（10/15）</td>
+<td>田中は「書いてくださっていた『学ぶ・つながる』も良いが、厳しく言うと普通やん」と評価（00:37:31）。そのうえで、あらためて「まずコミュニティの形を整えて、オファーを書いてほしい」と依頼（00:47:37）。レター案がどこまで届いているかは、今回の発言からは分からない</td>
+</tr>
+<tr>
+<td>ベビーの台本の書き直しと、撮影用の台本（10/30、田中）</td>
+<td>触れていない。田中は「ベビーとキッズの立て直しは別で進めているので、全体戦略は別の会議にしたい」と区別した（00:57:45）</td>
+</tr>
+<tr>
+<td>ベビーの撮影日の調整（10/30、先方）</td>
+<td>触れていない</td>
+</tr>
+<tr>
+<td>ベビーの発信担当の検討（10/30、先方。堀之内さんの案）</td>
+<td>田中が「堀内さんを第二の広告塔にして、ピグマリオン派と堀内派のようにする」案を出した（00:25:51）。同じ人物かは要確認</td>
+</tr>
+<tr>
+<td>昔のサブスクのレターを探す、ウェビナーの案内文を見る、個別説明会の募集を2クール（10/15）</td>
+<td>触れていない</td>
+</tr>
+</tbody>
+</table>
+<h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="冒頭：代表の問い「ダイレクト出版のようにして成り立つのか」">冒頭：代表の問い「ダイレクト出版のようにして成り立つのか」</h3>
+<ul>
+<li>録画の頭の部分（00:00:00〜00:00:16）は、会話の途中から始まっている。田中が「いろんな構造や構想についてこれ今やってるじゃないですか」と話し、代表が「書かせていただいた」と応じる。</li>
+<li>代表の問い（00:00:16）：田中から、ダイレクト出版のようにしたらいいという話をしてもらった。そういう方向でいけるものなのか。いろいろな人にも言われた。ダイレクト出版が成り立つのは、種類の違う人を集めてくるから。うちの場合は、算数の集客に来る人の半分がキッズの方で、コストが倍かかってしまっている。このままでは回していくのが難しいのではという話も出ている。「そもそもこういうやり方が無理だよ」という話になるのか、迷っている。（該当文は聞き取りが乱れており、意味は要確認）</li>
+</ul>
+<h3 id="田中の見立て：「単純に当てられていない」「ピグマリオンさん頼りのセールス」">田中の見立て：「単純に当てられていない」「ピグマリオンさん頼りのセールス」</h3>
+<ul>
+<li>田中（00:01:10〜）：単純に当てられていない（ヒットする商品・見せ方に当たっていない）。ピグマリオンさん頼りのセールスになっている、といういろんな問題があるのではないか。違うドアを開けに行っていない気がしている。</li>
+<li>田中：結局、ピグマリオンさんなしで売れるか。ピグマリオンさんがナビゲーターのように売ったとしても、「ピグマリオンさんのコンテンツではない売り方」をしなければならない。それが、ピグマリオンさんの半分コンテンツのようなもので売っているから、あまり意味がない状態になっているのではないか。</li>
+<li>田中：ダイレクト出版との違いは、サブスクから入るのが特徴的なこと。サブスクは一番難しい商品とも言われる。低価格サブスクが最も運営が難しく、利益を出すのが難しい。「どうしたらいいんでしょうね」。</li>
+<li>田中：逆に、ピグマリオンさんの講座以外は、アイデアとしては両方あるのかなと思う。</li>
+</ul>
+<h3 id="代表の案：グローバルキッズマムで集めてから分けるか、切り口を変えるか">代表の案：グローバルキッズマムで集めてから分けるか、切り口を変えるか</h3>
+<ul>
+<li>代表（00:02:31〜）：アイデアとしては2つある。</li>
+<li>1つ目：グローバルキッズマムを「賢い子を育てる」「トップ層へ行く」という切り口で集めておいて、運動・英語・算数などに分けていく。</li>
+<li>2つ目：もともと算数などは「頭がいい」を切り口にした方がよいが、その切り口を変えてしまって、違う講座にしてしまう。いま作っている講座の見せ方を変える。</li>
+</ul>
+<h3 id="売れない原因：誰が引っ張るか">売れない原因：誰が引っ張るか</h3>
+<ul>
+<li>田中（00:03:21）：社内のリストを使って売れるのは普通のこと。そうではない状況を作らなければならないが、それが成功できていない。課題は何だと思うか。</li>
+<li>代表（00:03:53）：算数やベビーが売れていない。</li>
+<li>田中（00:04:06）：ベビーは「俺が今まで本気を出していなかっただけ」という、すごい言い訳のようなこともある。</li>
+<li>代表（00:04:14）：算数も言い訳になるが、本気がみんなに出ない。チームプレイで、みんながやってくれると思ってしまっていた。私が引っ張っていかなければいけなかったと、今回反省している。誰かがグイグイ考えてやらないと、みんながふわっと考えるだけになり、それでは売れない。</li>
+<li>田中（00:04:49）：明確な「こうあるべき」という仮説を強く持ってやる人がいないといけない。商品への情熱も大事。だから、雇われた講師のような立場（書き起こしは「枯れてきた格子」。要確認）だと難しい側面がある。本気でやっているホルダーの方が売りやすいのは当然。運動は面白そうだが、ジャンルや講師の問題だった可能性もある。</li>
+</ul>
+<h3 id="社内でどこまでできるか：1年運営しての気づき">社内でどこまでできるか：1年運営しての気づき</h3>
+<ul>
+<li>代表（00:05:28〜）：「社内でどこまでできるか」と思って1年間やってきたが、なかなか難しい。頑張ってくれているが、セールススライドやライブシナリオを見ても、キッズのレベルに達しない（他の講座が）。</li>
+<li>代表自身ともう1人（「原ちゃん」）がキッズを他の人に任せて、そちらに入ればできるかもしれないが、キッズはまだ気が抜けない。</li>
+<li>セールス担当は頑張っているが、大半は、セールスが得意な専門人材のようにはなれない、という実感がある。</li>
+<li>伴走するコンシェルジュのように、保険屋さんのように要所要所で引っ張り上げる役ならできそうだが、広告からのセールスは難しい。これが1年やって分かったこと。</li>
+</ul>
+<h3 id="田中の助言：撤退条件を決めて、テスト的にリリースしていく">田中の助言：撤退条件を決めて、テスト的にリリースしていく</h3>
+<ul>
+<li>田中（00:07:24〜）：自分がピグマリオンさんの立場なら、撤退条件を決める。「この目標を達成しなかったらこの案件は終わり」と決めて、テスト的にリリースしていくしかないと思う。（途中に「ダブルスリーと似た感じ」という発言があるが、意味は要確認）</li>
+<li>田中が外から見て感じること：どこまで粘るかが決まっていない。講座が決まってしまっているから、粘り続けるしかない形になり、リソースが分散していっている。</li>
+<li>田中：本来、キッズくらいの「いつ入ってもよい」座組にしなければならない。売るなら本気でプロモーションするしかない。</li>
+</ul>
+<h3 id="質問：商品は1本で長く売れるのか">質問：商品は1本で長く売れるのか</h3>
+<ul>
+<li>代表（00:08:31）：田中さんのところのPLCやPPの人たちを見ていて、ずっと1本の商品でいけるものなのか。例えばキッズならキッズだけで、長く販売できるのか。途中で商品を変えるのか。</li>
+<li>田中（00:08:55）：基本的に商品を変えることの方が珍しい。基本は1本の商品になる。ただし本来は4つくらいの切り口で売れるようにしたい。自分も数年に1回コンセプトはリニューアルしているし、ファネルもリニューアルするが、売り物自体を変えるイメージはない。</li>
+<li>田中（00:09:20〜）：今のホームインターも、本来は「ママのマインドワーク」から売れる流れだって作れる。いろんなやり方ができる。</li>
+<li>プロモーションは成果報酬でプロモーターに依頼し、グローバルキッズはメディアの構築に集中する、というのも1つの手。</li>
+<li>1つの商品でもいけると思うが、流入経路はどこかが死んでいくので、ヘッジをかけたい。自分は、ブックローンチからコミュニティへ、コミュニティから引き上がる流れを作れないか、という多様化の戦略を基本的に考えている。今のコンセプトと今のプロモーションが何年もつかは分からない。</li>
+<li>代表（00:10:37）：商品はずっと続けて、10年も20年も売っていくイメージ。</li>
+<li>田中（00:10:45〜）：時代に合わせて変える側面はあるが、本質は変えない。主力商品がガラッと変わるのは、もはや別の会社に近い。</li>
+<li>田中：さらに、算数など他の講座を全部「キッズを売るための座組」とするのも1つの手。逆にキッズから売れていくのも手。広告から一気に売るのが難しいなら、コミュニティから、先生が各月1回ずつ登場し、「これ興味があるわ」「好きなところに行ってこい」としてマネタイズするのでもよい。高額商品をバコバコ売るのは、プロモーターの数が必要で難しいかもしれないが、できている人はいる。</li>
+</ul>
+<h3 id="代表がやるべきこと：インフルエンスとメディア">代表がやるべきこと：インフルエンスとメディア</h3>
+<ul>
+<li>代表（00:12:07）：キッズの見直しも、一度できたらOKというものではないとよく分かった。なかなか離れて次へ進めない。私も離れられていない。</li>
+<li>田中（00:12:39）：本当は、代表が一番やるべきことはインフルエンス（外部活動とメディア）で、販売プロモーションには関わらずに売れるのが一番理想。</li>
+<li>M&amp;Aで10億円以上の価値がつく会社でも、ロックアップ（売却後もしばらく続ける約束）がかかるのはYouTube。講座ビジネスでは「YouTubeだけは3年ずっとやってください」という契約でバイアウトする例がある。本来はそこだけをやらなければならない。</li>
+<li>ただし今は、ピグマリオンさんがプロデューサー的な立ち位置にもなっていて、いろんなファネルを作っている。</li>
+<li>田中：やってみてそんなに売れなかった講座は、サクッと諦めて、回転力を上げていくのがいいと思う。自分も力不足だが、どの案件も、コンセプトにエッジが効いていない感じがする。内容として「食いつかない」感じになると難しい。コンテンツへの思い入れや、積み重ねた年月がものを言う部分がある。（「分身栄養学とマネーマインド」という発言があるが、意味は要確認。ご飯系とお金系の講座の話と思われる）</li>
+<li>代表（00:14:01）：そこは、もう違うことを考えている。</li>
+</ul>
+<h3 id="他団体（協会）と組む案と、田中の見方">他団体（協会）と組む案と、田中の見方</h3>
+<ul>
+<li>代表（00:14:27）：運動もご飯も、歴史のある協会のトップの方たちと組む形に切り替えようかと思った。ただ、利益が薄くなる（無名の方よりも多く渡さなければならない）。向こうは協会の先生たちを抱えているので、認定講師講座は作れない。それでも、ネームバリューがあり、向こうが売る気になってくれればかなり売れそう。</li>
+<li>田中（00:15:09）：向こうが売る気かどうかは関係なく、広告で大量にリストを集められれば、そこで利益が出なくても、リストはキッズに回して利益を取れる。プロデュースは「利益を取るもの」というより、「人の商品でリストをかき集めるもの」と考えれば、1つ成り立つ。</li>
+<li>代表（00:15:38）：今のところ、前半はそんなイメージだった。ご飯とお金は、いったん考えるのをやめ、大きいところ（運動とご飯）で、名前だけでもとにかくリストが集まれば、キッズも両方売れるのではないか。</li>
+<li>田中（00:16:07）：人数の関係で、プロモーションは2、3本が限度。算数は、仮説が外れたなら売れないという話になる。もっと良いLPと広告があれば売れるのかは、分からない。</li>
+</ul>
+<h3 id="算数の立て直し、外部講師、ナビゲーター">算数の立て直し、外部講師、ナビゲーター</h3>
+<ul>
+<li>代表（00:16:29）：算数は、チームの編成をもう一度考えた方がよい。</li>
+<li>田中（00:16:44）：算数を自分たち（運営）だけでゴリゴリ回したらどうなるか、検証はした方がよい。打ち手が増えれば売れるかもしれないし、諦めるかもしれない。珍しいので面白いと思うが、「ピグマリオンさんの講座」に見えてしまうならやめた方がよい。むしろ、ピグマリオンさんが他のコンテンツに出るのを禁止したらどうか。</li>
+<li>先方スタッフが確認：ローンチも含めて全部か。田中：そう。「ナビゲーション（案内役）のうまい人を育てる」。スタッフ：外部講師に出てもらうイメージか。田中：その場合、本数は増やせなくなる。</li>
+<li>代表（00:17:54）：算数は、結局、私が出ても売れないなら、先生が話すのが得意でない場合は（書き起こしは「さちこ先生しゃべれないけど」）、私でなくてもよいのかと思ったこともある。</li>
+</ul>
+<h3 id="「話さないファネル」と、立ち上げ期の個別コンサルコース">「話さないファネル」と、立ち上げ期の個別コンサルコース</h3>
+<ul>
+<li>田中（00:18:12）：話すのが難しいなら、話さないファネルで勝負するのも手。検証例はまだ少ないが、うちが「チャレンジ（セールスの無料企画）」をやめて売れるようになった案件がある。</li>
+<li>セールス系の講座で、LPに約10分の動画を入れ、見たらすぐ電話診断に申し込む形。ローンチ動画は無い。30分間のセールス力診断をして、「個別説明会を受けますか」と言って売るモデル。</li>
+<li>教育しようとすると「またこの話か」となる。それより手っ取り早く改善したい、その能力が欲しいという人に売る。検証数は少ないが、明らかにチャレンジより数値が良い。セールス系はライバルが多く、教育している間にいなくなってしまうので、こちらの方が話が早かった。</li>
+<li>田中：最初の立ち上げ段階では、リスクを分散するため、全部「個別コンサルコース」で売ってしまうのがよい。やめやすい。</li>
+<li>先生のマンツーマンレッスンとグループレッスンのような形にして、先生が6ヶ月間サポートします、という売り方なら、みんながバラバラに入ってくる。講座として日付を決めて売ると後戻りできない感じになる。3人売れた時点で「じゃあやめておくか」ができる座組を組んでおくとよい。</li>
+<li>先方スタッフの確認：小さな集団で、全部個別コンサルコースにするということか。</li>
+</ul>
+<h3 id="認定講師が必要な理由">認定講師が必要な理由</h3>
+<ul>
+<li>代表（00:20:33）：認定講師が出てくればできるが、そこもなかなか。スタッフ：今は先生が1人なので難しい。代表：でももうちょっと。数人は出てきそう。</li>
+<li>田中（00:21:04）：認定講師がいたら、どうなるのか。代表：コースでも回せる。夜でも昼でも、何人集まったらゴーと決められる。最初はキッズもそんな感じだった。</li>
+<li>田中（00:21:22）：自分の中では、認定講師が必要な理由がよく分からない。例えばPLCは、自分1人で100人を回せている。</li>
+<li>代表（00:21:36）：それは田中さんだから回せる。今日も一日拝見していて、無理だと思った。（笑いまじりに「資質がないです」という声が続く）</li>
+</ul>
+<h3 id="第二の柱は、当たるまで挑戦し続ける">第二の柱は、当たるまで挑戦し続ける</h3>
+<ul>
+<li>田中（00:22:08）：検証していかなければならないが、いまのところキッズに代わる柱がない状況。第二の柱が育つかどうかは、2つ目のプロモーションが当たるまで挑戦し続けるしかない。ここは変わらないと思う。戦略上の問題は、どちらかといえば、リソースの分散と、売りづらい案件にリソースを割いていることではないか。</li>
+</ul>
+<h3 id="英語案件">英語案件</h3>
+<ul>
+<li>代表（00:22:50）：英語案件は結構売れている感じがするが、レッドオーシャンなのか。</li>
+<li>田中（00:22:59）：（先日のワンデーセミナーで）御社の英語の案件はあまり特徴がない、と言ってしまった（「すいません」）。</li>
+<li>先方スタッフ：それが特徴的なものに変わった。自分が共有しきれておらず、特徴のないものを田中さんに見せてしまった。代表：すごい講座に変わった。</li>
+<li>田中（00:23:20）：英語は、広告の世界では割と売れている印象。親が英語をする、という切り口の方が売れている。何かしらの手法や特徴が出せれば、全然売れる。痛みが明確だから。算数より、英語の方がコンプレックスが大きいのは間違いない。</li>
+<li>代表（00:23:28）：親も一緒に勉強できるのがいいかと思っている。</li>
+</ul>
+<h3 id="英語・算数・運動・ご飯の優先順位">英語・算数・運動・ご飯の優先順位</h3>
+<ul>
+<li>代表（00:24:08）：方向としては、算数も思ったよりうまくいっていないので頑張る。今は、英語・算数・運動・ご飯が一応スタートラインに全部ある。英語は、売れる案件のオファーまで持ってこられた。算数もオファーがかなり変わったので、結果が出てもおかしくない。運動とおうちご飯は、協会とやり取りをして、もう少し動いてほしいと交渉している最中。まず出してみて、伸びるものが1つでもあれば、ガーッと力を入れる。</li>
+</ul>
+<h3 id="SNS・YouTubeの戦略：キッズに集中し、専任者を立てる">SNS・YouTubeの戦略：キッズに集中し、専任者を立てる</h3>
+<ul>
+<li>田中（00:25:00）：YouTube・SNSのプロモーション戦略は、何をイメージしているか。</li>
+<li>代表（00:25:09）：同じ話。いろんな講座をやるにあたり、SNSを分散するとそれだけで労力がかかるので、今はやっていない。YouTubeはやっていこうとしていて、指摘されたサムネイルを少しずつ動かしている。</li>
+<li>田中（00:25:38）：キッズ以外は、いつ案件がなくなるか分からないので、絶対にキッズに集中した方がよい。メディア構築はやっていくべき。本来、ピグマリオンさんはそこにしか力を割かないようにすべき（組織体制上）。</li>
+<li>Kindle広告は、調べたが、いったんいらない。使える広告費が小さく、あまり価値を感じない。</li>
+<li>YouTube・インスタ・その他を制覇したい。それぞれ専門の人を1人ずつ立てて、ピグマリオンさんの尻を叩いていくしかないのではないか。</li>
+<li>田中が挙げた昔の例：ある物販スクールは、1つのスクールを売るために15人のSNS講師を作り、全員がそれぞれインスタをやって、全員で同じ商品を売りに行った。田中の受講生で、4億円くらいまで行った転売スクール。受講生の中で、転売ができる人 → 転売の講師 → その中で映える人がSNS、という3層で売り上げを作り、売れた分の半分をフィーとして渡していたと思う。</li>
+<li>田中：自分は、堀内さんを「第二の広告塔」にして、「ピグマリオン派」と「堀内派」のようになるのがよいと思う。広告も、ピグマリオンさんが取る広告と、堀内さんが押す広告は、当然タイプが違うので、両方あってよい。</li>
+<li>田中：YouTubeは、ちゃんとやらないと伸びない。ここはとても難しい。</li>
+</ul>
+<h3 id="YouTubeの撮り方：対談、公開相談、月1の質疑">YouTubeの撮り方：対談、公開相談、月1の質疑</h3>
+<ul>
+<li>代表（00:28:07）：やるには、本当に私がやっていられない。</li>
+<li>田中（00:28:19）：どうやって行動の延長線上の撮影にするか、だと思う。</li>
+<li>代表（00:28:35）：まだスタッフにも共有していないアイデア。教育関係の有名な方と実際にお会いする機会が多いので、リアルな対談で、カメラだけ持って行って、「ちょっと撮らせて」と言って撮ってくる。1人でずっと話すより、対談系の方がよいかもしれない。</li>
+<li>田中（00:29:16）：対談だけだと、自分のところに集客のファンがつかないので、ハイブリッドにしなければならない。1人語りを撮るのが面倒なら、毎回、受講生に顔出しなしで質問してもらう「公開相談」「公開コンサル」の形でもよい。</li>
+<li>代表（00:29:41）：台本は、外部の方に書いてもらうこともあるが、前から、ピンとこない。YouTubeの中から集めてきた情報を読んでいる感じで、視聴者にとっても目新しくなく、すでに出回っている情報になっている。自分が書くと、スピード寄りになって、「今時ではない」とみんなに言われる。</li>
+<li>田中（00:30:42）：受講生などから具体的な質問を出してもらい、回答するコンサル動画のような形にしてはどうか。（書き起こしは「中高生から」。「受講生から」の聞き違いの可能性）</li>
+<li>代表（00:30:57）：毎週インスタライブで、それをやっている。毎週何十分もやっているのに、活かされていなくてもったいない。</li>
+<li>田中（00:31:12）：月1回、30人くらいを会場に呼んで、ニュースピックスのような形で、ピグマリオンさんが真ん中でずっと質問に答える。それを撮影するのがよいと思う。1日でまとめて撮影してしまう。</li>
+<li>田中自身のYouTubeは、海外の人の仕組みを元に作っていて、ショート動画も1人あたり月3本くらい作れると思う。縦の動画で、1時間半で6人にコンサルした、という例も紹介。</li>
+<li>先方スタッフ：これならできそう。田中：対談と、月1回の公開相談のような形でできたらよいのではないか。結局、AIが出てきて、世の中に転がっている情報を拾って話すだけの情報には価値がない。</li>
+<li>代表（00:32:36）：メルマガも毎日書いて、インスタも毎週ライブをやっている。別に嫌ではないが、もう少し活かしてほしい。</li>
+<li>田中（00:32:50）：それは内田さんが頑張ること。（スタッフ：頑張ります）インスタライブを切り抜くだけでも、音声のポッドキャストにできるし、編集をかければショート動画にもできる。内田さんがAIを学ばないといけない。（スタッフ：もっとスキルアップします）</li>
+</ul>
+<h3 id="教育ママはYouTubeを見ない：AI時代のSNSの考え方">教育ママはYouTubeを見ない：AI時代のSNSの考え方</h3>
+<ul>
+<li>代表（00:33:28）：うちは教育ママが多いので、YouTubeはあまり見ない。インスタも、テレビもない家庭もあり、まずはインスタを見てみよう、というところ。</li>
+<li>田中（00:33:45）：最近は、AIが出てきたことで、毎日15分話したものを全部のメディアに展開する流れが増えている。コストも時間もかけず、物量を増やしていく世界観。</li>
+<li>「SNSで伸びて売る時代ではない」と最近すごく言われている。AIによるアルゴリズムの最適化で、見られるものの世界がどんどん狭まっているから。結局「広告じゃん」と一周回って、SNS系の人たちもそうなっている。</li>
+<li>知っている人との関係性を深める用途であれば、新規に伸ばさなくてよい。広告で取ってきて、SNSでは、一度入ったことがある人や、購入した顧客の悩みに答えていくようにすれば、運用コストは高くなく、伸びなくてもコンバージョンが上がると思う。</li>
+</ul>
+<h3 id="大きな構想は間違っていないが、リソースが足りない">大きな構想は間違っていないが、リソースが足りない</h3>
+<ul>
+<li>代表（00:35:05）：大きく考えると、広告でいろんな入口から入ってきたリストに、YouTubeなどで後押しをして、新しい商品もYouTubeやSNS、コミュニティを使ってアップグレードしていく戦略で、大きな構想は間違っていないと思う。ただ、それをやるリソースが足りないのが、今話していて一番の問題。大元はそれでよい、ということだよね。</li>
+<li>田中（00:35:54）：今話していて、大きく方向を変えましょう、ということはない。時間はかかるが、いま育てている皆さんのお子様が18歳くらいになって、AIを駆使してプロモーターになったら、めちゃめちゃすごいことになる。15歳くらいから、デザイナーなどで10代で活躍している人も多い。</li>
+<li>代表（00:36:15）：小学校受験は待ったなし。焦らず、着実に方向を決めて、1つずつ固めていくということか。セールスに入っている担当者を、コミュニティを作ってそこからアップグレードする仕事に全力投入してもらい、セールスは他の人に渡せないかを考えている。チームが集中して何かやらないと、何も進まない。</li>
+</ul>
+<h3 id="GKMコミュニティの設計：「普通やん」から「共創」へ">GKMコミュニティの設計：「普通やん」から「共創」へ</h3>
+<p><strong>田中の問題提起</strong></p>
+<ul>
+<li>田中（00:37:31）：コミュニティもどういう形でやるかが大事。改めて調べ直して、サブスクの難しさを自分は感じる。何をどう売るのか。書いてくださっていた「学ぶ・つながる」も、もちろん良い反面、厳しく言うと「普通やん」という感じもする。何の魅力で売るのか。</li>
+</ul>
+<p><strong>代表が描くコミュニティ（共創）</strong></p>
+<ul>
+<li>代表（00:38:13）：協会のコンサルもしていて、協会のイメージがずっと自分の中にある。協会ビジネスでは、いま「共創」のコミュニティがすごく動いている（書き起こしは「競争コミュニティ」。直後に「共に作る会員さん」と話しており、共創の聞き違いと思われる）。会員が、降ってくるのを待つのではなく、共に作る。</li>
+<li>例：うちで前によくやっていたこと。親が、いろんな学校（森の学校など）を見に行きたいが、1人で行くのは勇気がいる。そこで代表が学校とのつながりを最初に作り、みんなで見に行く。教育映画の上映会も多かった。食育など、いろんな分野があるので、上映会を自分でやりたいという人もいた。田植えや農水産業、未利用魚をママの目線で食品にして販売ルートに乗せる、といったことをやりたい人も多いと思う。</li>
+<li>商売になるかよりも、お母さんたちが一歩踏み出して、主体的に動くことが、頭のいい子・主体的に動く子を作る一番のコツ。「お母さんたち、動きましょう」というコミュニティにしたい。</li>
+</ul>
+<p><strong>田中の反応と提案</strong></p>
+<ul>
+<li>田中（00:39:42）：それは良さそう。コンテンツを学びましょう、というコミュニティだと、自分なら離脱していく。共創が主役で、さらに月1回のありがたい講義がある形の方がよい。</li>
+<li>田中：お友達ができるとやめづらくなる。早々にお友達を作らせる仕掛けがあるとよい。入会のオリエンテーションで、「あなたがこの3ヶ月間でやる共創の企画は何ですか」をコーチングで一緒に立て、その実行までサポートしてあげたら、やめないのではないか。</li>
+<li>田中：イベントを自由自在に立ち上げられるようにする。モニター募集でもよいし、子どもの体験に誘ってもよい。自分も、いつも誘いづらくて誘えないが、1人ぼっちの日に「レゴランド東京に集まる人いませんか」と投稿しようとして、いつも悩んでいる。（代表：小さなグループから大きなものまで、いろいろやったらいいと思う）</li>
+<li>田中（00:41:15）：自発的に動き、ママが楽しんでいる様子や、いろいろ考えて行動している様子が、子どもの学びにもなる。子どもと一緒にしてもよい。つながりは、箱が大きい方がよい。</li>
+<li>田中：PLCの会員サイトの構想では、誰がどの地域に住んでいて友達になれるか、という属性付けをデータベース化することを考えている。個人情報の範囲に気をつける必要はあるが、地域の支部のようなリストが作れたら、つながりやすくなる。そうしたバックグラウンドをフォローするコミュニティなら、とても面白い。</li>
+<li>田中：入会時は、コンテンツも学べるので、「今だけこのコンテンツが学べる」という特典にして入れてしまえばよい。</li>
+</ul>
+<p><strong>料金体系</strong></p>
+<ul>
+<li>田中（00:42:27）：サブスクは難しいので、3ヶ月単位くらいの課金でもよい。今はどういう料金体系を考えているか。</li>
+<li>先方スタッフ（「ゆうかさん」と呼びかけられた人）（00:42:35）：月3,000円で考えている。代表：通信教材のようなイメージ。コンテンツも情報も遊びもある。</li>
+<li>田中（00:42:53）：自分の感覚では、2万円までは「ポンと買う」イメージがある。ハードルを下げて、3ヶ月1万円（3ヶ月ごとの更新）にする案。代表：「リザスト」でできるね、システムで。（システム名は要確認）</li>
+</ul>
+<p><strong>ワンクリックアップセルとUnivaPay、本のブックローンチ</strong></p>
+<ul>
+<li>田中（00:43:25）：できればワンクリックアップセルにしたい。そのために、決済システムの「ユニバペイ」を契約してもらえないか。</li>
+<li>UTAGE（書き起こしは「宴」）に組み込むとき、例えば本を550円（送料のみ）で買った人が、次にコミュニティへの参加を、クレジットカードの情報なしでワンクリックで買える。これがワンクリックアップセル。</li>
+<li>この方式で、本を買った人の25%くらいがコミュニティに入った。「今回限りのご案内です」とし、通常1万円のコミュニティが3ヶ月3,300円、「このページを閉じたらこのオファーはなくなります」、というオファーで入れる。</li>
+<li>入会した人には伴走者が付き、共創のイベントを作る。参加後のロードマップのカリキュラムがあり、自分たちで進める。そうしたコミュニティが目指す1万人になれば、「それこそ世界平和だと思う」。</li>
+<li>代表（00:44:38）：コミュニティは、最初の何ヶ月かは無料でもいいと思う。</li>
+<li>田中（00:44:50）：最初から、絶対にお金をもらった方がいい。（先方スタッフ：年払いにしたら少し安く、はありか。田中：あり。自分なら、もう1つ次のアップセルを用意する）</li>
+<li>本550円 → 3ヶ月1万1,000円のところを、このページでだけ3,300円のオファー → その後、年払いにするとさらに2ヶ月分お得になるオファー。この3連続のオファーを出す。</li>
+<li>先方スタッフ：通常の申込ページではない感じか。本はどこで売っていたのか。田中：本は広告。広告からUTAGEにつなぎ、そこでワンクリックアップセル。</li>
+<li>田中（00:46:01）：ワンクリックでできるのがユニバペイなので、（先方の）会社でユニバペイを契約してほしい。代表：それは全然大丈夫。</li>
+<li>田中（00:46:15）：そうしたら、UTAGEで、うち（田中側）で組めるので、頼めばできる。この前見せたブックローンチのページのようにしてもよいし、今回のホームインターの流れをそのまま本にしてもよい。</li>
+<li>自分も本を作っていて、いま日本中、世界中の印刷会社を調べている。印刷代は、500冊で1冊500円くらいかかるようだ（要確認）。</li>
+<li>本を買った人のリストが10万人を超えたら、プレスリリースにもなる。自分は、「Web集客を考えたら必ず読む本」（書名かどうかは要確認）が実売1万部を突破したときにプレスリリースを出した。ただし、マーケティング技術系の内容は古くなると売りづらい、という趣旨の発言もあった（書き起こしが乱れており、要確認）。</li>
+</ul>
+<p><strong>何から始めるか</strong></p>
+<ul>
+<li>代表（00:47:37）：整理すると、何からやればよいか。</li>
+<li>田中（00:47:41）：まず、コミュニティの形を整えて、コミュニティのオファーを書いてほしい。そうしたら、自分の方でレターも書ける。ブックローンチは、既存の本でこの前書いたもの（ページ案）がある。</li>
+<li>田中の予想（00:48:01）：CPA（1人獲得するコスト）4,000〜5,000円くらいで、550円の本は売れるのではないか。次の3,300円のオファーは、まだ赤字。この赤字が、10人に1人でも引き上がる（上位商品を買う）のであれば、一気に黒字になる。3,300円は難しい。LTVがとても低い、ということも意識する必要がある。</li>
+</ul>
+<p><strong>ホームインターの本とシリーズ化</strong></p>
+<ul>
+<li>代表（00:48:42）：ホームインターのメソッドは、算数も英語も運動も、結局「お母さんが家でやるのが一番個別最適化で、子どものことをしっかり見られる」という発想。本にすると、算数も運動も、途中までは（ライブでいうと2日分くらいは）全く同じになることが分かった。本にするなら、3分の2くらいはその話で、最後に「こういうこともできる」を分割して、QRコードで案内するなど、できないか。</li>
+<li>田中（00:49:39）：シリーズものなら、「おうちで育てる」面はホームインターの本に詳しく書いてあるので、詳細はそちらを、とする形でよいのではないか。</li>
+<li>代表（00:50:01）：同じでもいいが、半分近く全く同じになってしまう。やはり「お家でやるのがいい」が大事。</li>
+<li>田中（00:50:21）：お家でやるのがいい事例や、お客様の話があれば、また全然違う感じになるかもしれない。</li>
+<li>代表（00:50:27）：コンセプトは全部一緒。おうちでやるのがいい、診断で見える、長い時間やらなくても10分をコツコツ毎日やる、生活の中に混ぜる。それをやる対象が、運動なのか、英語なのか、地域なのかが違うだけ。</li>
+</ul>
+<h3 id="他団体のコミュニティ事例">他団体のコミュニティ事例</h3>
+<ul>
+<li>田中（00:50:57）：ピグマリオンさんが見ている協会などで、規模が大きく、コミュニティが広がっているのはどこか。</li>
+<li>代表（00:51:04）：ある大きな協会（書き起こしの表記は「親弁」。表記要確認）。</li>
+<li>田中：その協会は古くないか。現役でも伸びているのか。</li>
+<li>代表（00:51:16）：いまだに伸びている。うちの受講生にも入っている人がいる。どんどん新しい弟子たちが広告塔になって、田中さんが言ったモデルを実現しているので、リストがすごい。毎日何百人も入ってくると言っていた。紹介だけで。ベビーでも、ほかの講座の方がインスタを同じ時期に始めて6万人くらいになったが、うちは5,000人しか伸びなかった。</li>
+<li>田中（00:52:10）：代表理事が、自分の知らない人になっている。3世代目以下、4世代目、5世代目かもしれない。画面には、がっつり金額まで書いてある。代表：11万円になっていた（表記要確認）。トップがいなくても全然、ということなのだろう。</li>
+<li>田中（00:52:54）：一般講座の方のコミュニティのレターを参考にしようかと思ったが、全然タイプが違う。代表：本当に勉強がしたい、テストの点数が上がりたい人たちなので。田中：旧世代の価値観で、大事だとは思うが、自分は全く惹かれない。</li>
+<li>田中（00:53:32）：参考になるレターがあれば、サンプルで書いてみると、チームの設計が進むかもしれない。強制的に言語化することになる。共創を軸にやっていくのは、いま聞いてとても面白かったので、何か考えられそう。「この子どもを育てる壮大な実験に、あなたも参加しませんか」のような言い方もいい。「みんなでみんなの子を育てる」は、ちょっと宗教っぽい（書き起こしは「多席」。要確認）ので、もう少しいい言い回しがほしい。</li>
+</ul>
+<h3 id="代表の大学院進学の相談">代表の大学院進学の相談</h3>
+<ul>
+<li>代表（00:54:35）：これも迷っていること。大学院に入らないかと言われている。今まで、このメソッドが発達の子たちにも効くことを、誰か論文に書いてくれないかと思っていた。教授と知り合いになり、「自分でやればいいじゃない」と言われた。大学院は週2回、2年通えば、論文として証明できる。うちのメソッドがどれくらい頭が良くなって、人生が良くなるかを、2年後には証明できるから来なさい、という話。聞いたことのない大学で、教育系の学科に、時代が求める子ども（持続可能な社会をつくる、ESD論という研究）を幼児教育から育てる研究をしている課があり、受け入れてくれるとのこと。</li>
+<li>田中（00:56:29）：個人の話なので、あまりコメントはしづらい。個人的には、コミュニティがもう少し大きくなって、いろんなアップセルが決まるようになってから行ったらよいのではないか。2年かかるのは相当大きい。</li>
+<li>代表／スタッフ（00:56:51）：出版社の方から「博士は取れないのか」「本が売れるためには博士の方がいい」と、出版のときにいつも言われた。2年後に博士が取れるということのようだ。</li>
+<li>田中（00:57:29）：長期投資の一環として考えるなら、どうするべきかは、この場では決められない。代表：明日ちょうど話を聞くところなので、今は話を聞きに行ってもらおうと思っている。（意味は要確認）</li>
+</ul>
+<h3 id="次の会議の設定">次の会議の設定</h3>
+<ul>
+<li>田中（00:57:45）：この全体戦略の話は、また別に会議を持たないといけない。今はベビーとキッズの立て直し（「立て直しじゃないけど」）をやっているので、それとは別に、内田さん、別の会議を立ててください。</li>
+<li>田中：次は、コミュニティが立ち上がったら、逆に自分は、博士のようなチャレンジもしてよいと思う。もう少し待ってもらえたら面白いのではないか。そういう形で、もう1本、集客ルートを確立したい。</li>
+<li>先方スタッフ（00:58:18）：24日以外で設定した方がよいか。田中：そうですね、別の日でお願いします。スタッフ：かしこまりました、調整させていただきます。田中：ありがとうございます、心強いです。また一度よろしくお願いします。先方：ありがとうございました（繰り返し）。ここで録画は終わる。</li>
+</ul>
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
+<ul>
+<li><strong>売れない原因を、まず「当てられていない」「人頼み」から疑う。</strong> 本人（ピグマリオンさん）なしで売れるか、本人のコンテンツではない売り方になっているか、が分かれ目。</li>
+<li><strong>撤退条件を先に決めて、テスト的に出す。</strong> どこまで粘るかが決まっていないと、講座が決まっているというだけで粘り続け、リソースが分散する。</li>
+<li><strong>柱が1本しかない間は、集中する。</strong> キッズ以外はいつ案件がなくなるか分からない。メディア構築はキッズに集中する。</li>
+<li><strong>代表は、販売プロモーションの現場から離れ、インフルエンス（外部活動とメディア）に集中するのが理想。</strong> 売却の場面でも、続けるべき資産としてYouTubeが残る例がある。</li>
+<li><strong>サブスク単体は難しい。入口の商品（本）から引き上げる設計にする。</strong> 低価格サブスクは、一番運営が難しく、利益を出しにくい。</li>
+<li><strong>コミュニティは、学ぶ場ではなく「共に作る」場にする。</strong> コンテンツを学ぶことが中心だと離脱される。友達ができるとやめづらい。</li>
+<li><strong>AI時代は、拾った情報を話すだけでは価値がない。</strong> SNSは新規に伸ばすより、一度つながった人や購入者の悩みに答える用途で運用コストを抑える。</li>
+<li><strong>流入経路は、どこかが死ぬ前提で、ヘッジを持つ。</strong> ブックローンチからコミュニティ、コミュニティから各講座へ、という多様化。</li>
+</ul>
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<ul>
+<li>立ち上げ期は、日付を決めた講座ではなく、個別コンサルコース（マンツーマンとグループ、6ヶ月サポート）で売ると、3人売れた時点でやめる判断もできる。</li>
+<li>セールス系の講座で、ローンチ動画を作らず、LPの約10分の動画から電話診断（30分）、個別説明会へつなぐ形が、チャレンジ（無料企画）より数値が良かった例（田中側。検証数は少ない）。</li>
+<li>本を550円（送料のみ）で買った直後に、ワンクリックでコミュニティの特別オファーを出す方式で、購入者の25%くらいが入会した（田中の実績。10/15の回では「約20%」と話していた）。ワンクリックにはユニバペイの契約が必要で、UTAGEに組み込む。</li>
+<li>3連続オファーの案：本550円 → 3ヶ月3,300円（通常は1万円または1万1,000円）→ 年払いで2ヶ月分お得。3,300円の段階は赤字でも、10人に1人が上位商品に上がれば黒字になる。</li>
+<li>本を買った人のリストが10万人になる、実売1万部を超える、といった数字は、プレスリリースの材料になる。</li>
+<li>入会時のオリエンテーションで「この3ヶ月でやる共創企画は何ですか」をコーチングで立て、実行までサポートすると、継続率が上がるのではないか（田中の仮説）。</li>
+<li>地域の支部のような属性付きのリストがあると、会員同士がつながりやすい（個人情報の範囲に注意）。</li>
+<li>ホームインターは、運動・英語・算数・地域のどれでも、コンセプトが同じ（家でやる、10分を毎日、生活に混ぜる）。本にするなら、共通部分を3分の2、各分野の違いを最後に分割してQRコードで案内する案が出た。</li>
+<li>インスタライブを毎週やっているなら、切り抜いて音声のポッドキャストとショート動画にして活かせる。月1回、会場で質疑応答をまとめて撮影し、1日で1か月分を撮る案。</li>
+<li>田中の経験として、ショート動画は、元の動画から1人あたり月3本ほど作れる。1時間半で6人にコンサルする形の撮影もある。</li>
+</ul>
+<h2 id="決まったこと">決まったこと</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大きな方向</td>
+<td>広告でいろんな入口からリストを集め、YouTube・SNS・コミュニティで後押しし、新しい商品もそこでアップグレードする戦略は変えない。代表が確認し、田中が「大きく方向を変えましょう、ということはない」と応じた</td>
+</tr>
+<tr>
+<td>ユニバペイの契約</td>
+<td>田中が、ワンクリックアップセルのために契約を依頼し、代表が「全然大丈夫です」と回答。実際の契約作業の担当と時期は未決</td>
+</tr>
+<tr>
+<td>次の会議</td>
+<td>全体戦略は別日の会議にする。内田さんが日程を設定する（24日以外。日付は未決）</td>
+</tr>
+<tr>
+<td>次の作業の順番</td>
+<td>先方がコミュニティの形とオファーを書く。それを受けて、田中がレターを書く</td>
+</tr>
+</tbody>
+</table>
+<h2 id="やること">やること</h2>
+<h3 id="田中">田中</h3>
+<ul>
+<li>[ ] 先方のコミュニティのオファーが届いたら、レターを書く</li>
+<li>[ ] 依頼があれば、UTAGEにワンクリックアップセル（本550円 → 3ヶ月3,300円 → 年払い）の流れを組む。ブックローンチのページも田中側で作れる</li>
+<li>[ ] ベビーの台本の書き直し・撮影用の台本（10/30の宿題。今回は触れていない。ベビー・キッズの立て直しは別で進行）</li>
+</ul>
+<h3 id="ピグマリオン">ピグマリオン</h3>
+<ul>
+<li>[ ] コミュニティの形を整え、オファー（価格、特典、サポート、共創イベントの設計）を書く</li>
+<li>[ ] 決済システム（ユニバペイ）を会社として契約する</li>
+<li>[ ] 内田さん：全体戦略の別会議の日程を、24日以外で調整する</li>
+<li>[ ] 内田さん：インスタライブの切り抜き（音声のポッドキャスト、ショート動画）に取り組み、AIを学ぶ（田中が「頑張ること」と指摘し、本人が「頑張ります」と回答）</li>
+<li>[ ] 参考になる他団体のコミュニティのレターがあれば、サンプルとして書いてみる（田中の提案）</li>
+<li>[ ] 代表：大学院の件は、明日話を聞く予定</li>
+</ul>
+<h2 id="検討中・方針">検討中・方針</h2>
+<ul>
+<li>GKMコミュニティの設計（共創を軸にする、料金は月3,000円か3ヶ月1万円か、最初の何ヶ月かを無料にするか、年払いを用意するか）</li>
+<li>本のブックローンチ（ホームインターの本をそのまま使うか、シリーズ化するか、QRコードで分割するか）</li>
+<li>算数の立て直し（運営だけで回す検証、チーム編成の見直し、ピグマリオンさんが出ない形）</li>
+<li>英語案件の売り方（親も一緒に勉強する切り口）</li>
+<li>運動・ご飯の協会との組み方（利益が薄い、向こうの認定講師との関係。リスト集めの役割と割り切る案）</li>
+<li>YouTube・インスタの専任者を立てる案（堀内さんを第二の広告塔にする）</li>
+<li>教育関係の有名な方との対談の撮影、月1回の会場での質疑応答、顔出しなしの公開相談</li>
+<li>認定講師が増えた場合に、個別コンサルコースで回す形</li>
+<li>セールス担当をコミュニティづくりに専念させ、セールスを別の人に渡す案（代表）</li>
+<li>代表の大学院進学（田中は、コミュニティが大きくなってからが良いと意見）</li>
+</ul>
+<h2 id="確認したいこと">確認したいこと</h2>
+<ul>
+<li>人名・表記：「堀内さん」（10/30の「堀之内さん／堀内さん」と同じか）、「内田さん」「ゆうかさん」「ゆかさん」（先方スタッフの氏名と役割）、「原ちゃん」、「さちこ先生」、「岩田かおりさん」、「ホルモジ」、「堀江路」「マンボさん」、他団体の名称と関係者名</li>
+<li>「競争コミュニティ」は「共創コミュニティ」でよいか</li>
+<li>「ダブルスリー」「枯れてきた格子」「分身栄養学」「シグマ日本さんたちの会社」「この近所のYouTube」「ツノアさん」「リザスト」の意味</li>
+<li>「ユニバペイ」「宴」が、UnivaPayとUTAGEでよいか</li>
+<li>数字：月3,000円の根拠、「通常1万円」と「3ヶ月1万1,000円」のどちらが通常価格か、25%（10/15は約20%）、CPA4,000〜5,000円の想定、印刷代「500冊で500円」、「インスタ6万・5,000」、「11万」（金額か人数か）、「10万人」「1万部」</li>
+<li>録画の冒頭（00:00:00〜00:00:16）の前に、代表が事前に書いた資料の説明があったか</li>
+<li>大学院の件の「明日話を聞く」「今行ってもらおうかな」の意味</li>
+<li>「24日」は何の日か（全体戦略の別会議の日程から除外する理由）と、新しい会議の日程</li>
+<li>前回までの宿題（ベビー台本、撮影日、コミュニティのレター案）の進み具合</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.1 (2026-11-04)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: PGM1103A<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
