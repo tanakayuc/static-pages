@@ -1,0 +1,325 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>お客様の傾向 - 愛され妻 セールスレポート</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-frame { padding:.75rem; border:2px solid #06C755; border-radius:16px; background:#F1FBF4; }
+.material-flow-frame > header { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .6rem; margin-bottom:.75rem; }
+.material-flow-frame > header strong { padding:.2rem .7rem; border-radius:999px; color:#fff; background:#06C755; font-size:.78rem; font-weight:800; }
+.material-flow-frame > header small { color:var(--ink-soft); font-size:.74rem; line-height:1.5; }
+.material-flow-frame .material-flow-stage { width:auto; min-width:0; }
+.material-flow-frame .material-flow-pages { grid-template-columns:repeat(2, 16.5rem); align-items:start; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } .material-flow-frame .material-flow-pages { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+
+.sales-library .library-header{background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);padding:1rem 2rem;display:flex;align-items:center;gap:2rem}
+.sales-library .library-brand{font-size:1rem;font-weight:700;color:var(--ink);white-space:nowrap}
+.sales-library .library-steps{display:flex;gap:.7rem;flex-wrap:wrap}
+.sales-library .library-steps a{color:var(--ink-soft);padding:.35rem .7rem;font-size:.88rem;border-bottom:2px solid transparent;white-space:nowrap}
+.sales-library .library-steps a[aria-current]{color:var(--sub);border-color:var(--main)}
+.sales-library .library-steps span{margin-right:.5rem;font-size:.8rem}
+.sales-library .sidebar h3{font-size:.9rem;font-weight:600;margin-bottom:1.3rem}
+.sales-library .library-category,.sales-library .library-child,.sales-library .library-back{display:block;color:var(--ink);border-radius:8px;padding:.55rem .7rem;font-size:.9rem;line-height:1.6}
+.sales-library .library-category{margin-top:.6rem;font-weight:700}
+.sales-library .library-child{margin-left:.7rem;font-size:.84rem;color:var(--ink-soft)}
+.sales-library [aria-current="page"].library-child,.sales-library [aria-current="page"].library-category{background:#E3F4ED;color:var(--deep)}
+.sales-library .library-side-note{font-size:.76rem;color:var(--ink-soft);margin:.6rem .8rem}
+.sales-library .library-back{margin:1.3rem 0}
+.sales-library .library-toc{border-top:1px solid var(--line);margin-top:1.5rem;padding-top:1rem;font-size:.8rem}
+.sales-library .library-toc summary{cursor:pointer;color:var(--sub);font-weight:600;margin-bottom:.6rem}
+.sales-library .library-toc a{display:block;color:var(--ink-soft);padding:.35rem .6rem;line-height:1.5;overflow-wrap:anywhere}
+.sales-library .article h1{font-size:1.65rem;margin-bottom:1.1rem;padding-bottom:1rem}
+.sales-library .library-lead{color:var(--ink-soft);margin:0 0 2rem;font-size:.95rem}
+.sales-library .library-group h2{font-size:1.08rem;margin-top:2rem;background:none;border-left:0;padding:0}
+.sales-library .library-rows,.sales-library .library-records{list-style:none;padding:0;margin:0;max-width:none}
+.sales-library .library-rows li,.sales-library .library-records li{margin:0;border-bottom:1px solid var(--line)}
+.sales-library .library-rows a{position:relative;display:block;padding:1rem 2rem 1rem .2rem;color:var(--ink)}
+.sales-library .library-rows strong{display:block;color:var(--ink);font-size:1rem;font-weight:600}
+.sales-library .library-rows span{display:block;color:var(--ink-soft);font-size:.87rem;margin-top:.25rem}
+.sales-library .library-rows b{position:absolute;right:.4rem;top:1.2rem;font-weight:400;color:var(--sub)}
+.sales-library .library-rows a:hover,.sales-library .library-records a:hover{background:#F4FAF7;text-decoration:none}
+.sales-library .library-filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.75rem;margin:1.5rem 0}
+.sales-library .library-filters label{font-size:.8rem;color:var(--ink-soft)}
+.sales-library input,.sales-library select{display:block;width:100%;min-width:0;margin-top:.3rem;border:1px solid #B9D9CE;border-radius:8px;padding:.65rem;background:white;color:var(--ink);font:inherit;font-size:16px}
+.sales-library .library-count{font-size:.8rem;color:var(--ink-soft);margin:1rem 0}
+.sales-library .library-records a{display:grid;grid-template-columns:1.5fr 1fr auto;gap:.4rem 1rem;align-items:center;padding:1rem .3rem;color:var(--ink);line-height:1.5}
+.sales-library .record-name{font-weight:600;font-size:1rem}.sales-library .record-staff{font-size:.84rem;color:var(--ink-soft)}
+.sales-library .library-records time{font-size:.76rem;color:var(--ink-soft);white-space:nowrap}
+.sales-library .record-open{font-size:.78rem;color:var(--sub);grid-column:1/-1}
+.sales-library #library-more{margin:1.3rem auto;display:block;padding:.6rem 1.4rem;background:white;border:1px solid #B9D9CE;border-radius:8px;color:var(--sub);font:inherit;font-size:.9rem;cursor:pointer}
+.sales-library [hidden]{display:none!important}.sales-library .library-guide{margin-top:2.5rem;font-size:.85rem;color:var(--ink-soft)}
+.sales-library .library-guide summary{cursor:pointer}.sales-library .library-mobile{display:none}
+.sales-library .article table{display:block;overflow-x:auto;max-width:100%}.sales-library .article th,.sales-library .article td{min-width:5rem}
+@media(max-width:860px){.sales-library .library-header{display:block;padding:.8rem 1rem}.sales-library .library-brand{font-size:.9rem}.sales-library .library-steps{gap:.2rem;margin-top:.5rem}.sales-library .library-steps a{font-size:.76rem;padding:.3rem .35rem}.sales-library .library-mobile{display:block;background:white;padding:.7rem 1rem;border-bottom:1px solid var(--line);font-size:.85rem}.sales-library .library-mobile>summary{cursor:pointer;color:var(--sub)}.sales-library .library-mobile .library-toc{margin-top:1rem}.sales-library .article h1{font-size:1.35rem}.sales-library .library-filters{grid-template-columns:1fr 1fr}.sales-library .library-filters label:first-child{grid-column:1/-1}.sales-library .library-records a{grid-template-columns:1fr auto}.sales-library .record-staff{grid-row:2}.sales-library .library-records time{grid-column:2;grid-row:1}.sales-library .record-open{grid-column:2;grid-row:2;text-align:right}}
+</style></head><body class="sales-library" data-ui-version="sales-library-v1"><header class="library-header"><a class="library-brand" href="../aisarezuma-sales-manual/">愛され妻 セールスレポート</a><nav class="library-steps" aria-label="セールス資料の読む順序"><a href="../aisarezuma-sales-manual/" aria-current="page"><span>1</span>全体をつかむ</a><a href="../aisarezuma-sales-analysis/"><span>2</span>商談を振り返る</a><a href="../aisarezuma-monthly/"><span>3</span>月ごとに見直す</a></nav></header><details class="library-mobile"><summary>メニュー・このページの目次</summary><a class="library-category" href="../aisarezuma-sales-manual/">全体・セールス資料</a><a class="library-child" href="001-bbef0812aa21.html">セールス担当別の傾向と改善点</a><a class="library-child" href="002.html">個別説明会 セールス成功例と改善のポイント</a><a class="library-child" href="001.html">全体レポート（愛され妻の会話術）</a><a class="library-child" href="004.html">お客様の傾向</a><a class="library-child" href="005.html">よくある質問への答え方</a><a class="library-category" href="../aisarezuma-sales-analysis/">個別分析</a><a class="library-category" href="../aisarezuma-monthly/">月次レポート</a><a class="library-back" href="index.html">← 一覧から探す</a><details class="library-toc" open><summary>このページの目次</summary><a href="#お客様像の要点">お客様像の要点</a><a href="#来場者の具体像">来場者の具体像</a><a href="#決め手とためらい">決め手とためらい</a><a href="#説明・集客に活かすこと">説明・集客に活かすこと</a><a href="#根拠と判断の限界">根拠と判断の限界</a></details></details>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">REPORT</div><h3>愛され妻 セールスレポート</h3><a class="library-category" href="../aisarezuma-sales-manual/">全体・セールス資料</a><a class="library-child" href="001-bbef0812aa21.html">セールス担当別の傾向と改善点</a><a class="library-child" href="002.html">個別説明会 セールス成功例と改善のポイント</a><a class="library-child" href="001.html">全体レポート（愛され妻の会話術）</a><a class="library-child" href="004.html">お客様の傾向</a><a class="library-child" href="005.html">よくある質問への答え方</a><a class="library-category" href="../aisarezuma-sales-analysis/">個別分析</a><a class="library-category" href="../aisarezuma-monthly/">月次レポート</a><a class="library-back" href="index.html">← 一覧から探す</a><details class="library-toc" open><summary>このページの目次</summary><a href="#お客様像の要点">お客様像の要点</a><a href="#来場者の具体像">来場者の具体像</a><a href="#決め手とためらい">決め手とためらい</a><a href="#説明・集客に活かすこと">説明・集客に活かすこと</a><a href="#根拠と判断の限界">根拠と判断の限界</a></details></nav>
+<main class="content"><article class="article"><h1>お客様の傾向</h1>
+<h2 id="お客様像の要点">お客様像の要点</h2>
+<p>合格原本で確認できた相談には、家庭での関係改善だけでなく、仕事への応用、生活時間、支払い可能性が含まれる。全来場者の比率や典型像は、分析対象に偏りがあるため判定しない。</p>
+<h2 id="来場者の具体像">来場者の具体像</h2>
+<p>仕事での説明力を求める例: 馬場は「系統立てて話ができるかといったら、そういう感じでもない」（<code>20261022_馬場嘉奈江_山岡.md</code> L67）と述べた。</p>
+<p>費用を条件にする例: 中野は「20万までって思っていたのでちょっとそこを崩せない」（<code>20261015_中野彰子_浜田.md</code> L1285）と述べた。</p>
+<p>時間を条件にする例: 牛島は「月に都合がつくかっていうところもあって」（<code>20261016_牛島麻由子_山岡.md</code> L636）と述べた。</p>
+<p>関係改善以外を希望する例: 久保田は「夫と別れて新しい生活をしていきたい」（<code>20261021_久保田香_山岡.md</code> L99）と述べた。</p>
+<h2 id="決め手とためらい">決め手とためらい</h2>
+<p>成約と否決は管理シートの結果であり、下記の発話だけが結果を生んだとは断定しない。講座案内前終了も否決へ読み替えない。</p>
+<span id="丸山否決"></span><h3 id="丸山・否決">丸山・否決</h3>
+<ul>
+<li>確認できた判断条件: 既に別の学びや家族との話し合いを試し、価格を高いと感じた</li>
+<li>例外・次回の確認: 既存の努力を否定せず、現在の安全を会話技術と分けて確認する</li>
+<li>個別分析: <code>20261013_丸山菜月_浜田_分析.md</code> §お客様像・§安全に関わる相談</li>
+</ul>
+<span id="志村講座案内前終了"></span><h3 id="志村・講座案内前終了">志村・講座案内前終了</h3>
+<ul>
+<li>確認できた判断条件: 資金と夫への追加負担にためらいがある</li>
+<li>例外・次回の確認: 概要を知りたい希望と、直ちに申し込めるかを分ける</li>
+<li>個別分析: <code>20261014_志村良子_浜田_分析.md</code> §購入判断の障壁</li>
+</ul>
+<span id="中野否決"></span><h3 id="中野・否決">中野・否決</h3>
+<ul>
+<li>確認できた判断条件: 上限20万円と、直近の元配偶者との会話への備えがある</li>
+<li>例外・次回の確認: 講座への関心や仕事での実践を、予算超過の承諾とみなさない</li>
+<li>個別分析: <code>20261015_中野彰子_浜田_分析.md</code> §お客様像・§購入判断の障壁</li>
+</ul>
+<span id="溝口否決"></span><h3 id="溝口・否決">溝口・否決</h3>
+<ul>
+<li>確認できた判断条件: 貯蓄が難しく、分割でも負担が難しいと明言した</li>
+<li>例外・次回の確認: 価値理解だけでは支払原資を作れない。現在の安心も確認する</li>
+<li>個別分析: <code>20261016_溝口智恵_山岡_分析.md</code> §購入判断の障壁・§まず読むべき結論</li>
+</ul>
+<span id="牛島成約"></span><h3 id="牛島・成約">牛島・成約</h3>
+<ul>
+<li>確認できた判断条件: 費用、仕事との両立時間、変われるかが判断材料</li>
+<li>例外・次回の確認: 申込後のメール到着は確認できたが、成約要因を一つに絞らない</li>
+<li>個別分析: <code>20261016_牛島麻由子_山岡_分析.md</code> §購入判断の障壁・§まず読むべき結論</li>
+</ul>
+<span id="島崎成約"></span><h3 id="島崎・成約">島崎・成約</h3>
+<ul>
+<li>確認できた判断条件: 必要性、今後の支出、学習継続を迷い、終盤も支払いを検討した</li>
+<li>例外・次回の確認: フォーム送信と決済完了、費用への納得を分ける</li>
+<li>個別分析: <code>20261019_島崎孝子_山岡_分析.md</code> §購入判断の障壁・§まず読むべき結論</li>
+</ul>
+<span id="奥田成約"></span><h3 id="奥田・成約">奥田・成約</h3>
+<ul>
+<li>確認できた判断条件: 既に伝える・断る実践が始まっているが、即決に疑問があった</li>
+<li>例外・次回の確認: 練習の価値と、判断期限・支払条件の理解を別に確認する</li>
+<li>個別分析: <code>20261020_奥田博子_山岡_分析.md</code> §結論・§17ステップ照合</li>
+</ul>
+<span id="久保田講座案内前終了"></span><h3 id="久保田・講座案内前終了">久保田・講座案内前終了</h3>
+<ul>
+<li>確認できた判断条件: 希望が関係維持から新しい生活へ変わり、講座との適合が焦点</li>
+<li>例外・次回の確認: 費用反論は確認できない。再連絡の時期と手段に目的・同意を足す</li>
+<li>個別分析: <code>20261021_久保田香_山岡_分析.md</code> §購入判断の障壁・§最終確認</li>
+</ul>
+<span id="花井否決"></span><h3 id="花井・否決">花井・否決</h3>
+<ul>
+<li>確認できた判断条件: 新しいパートナーと孫への対応を望み、費用負担を迷った</li>
+<li>例外・次回の確認: 本人の希望と提案の接続を一場面で確かめる</li>
+<li>個別分析: <code>20261022_花井郁子_山岡_分析.md</code> §望んでいる状態・§購入判断の障壁</li>
+</ul>
+<span id="馬場成約"></span><h3 id="馬場・成約">馬場・成約</h3>
+<ul>
+<li>確認できた判断条件: 助産師としての説明力と継続支援が目的で、自習コースを選んだ</li>
+<li>例外・次回の確認: 質問できない条件は質問の発話後に説明された。支援範囲を先に示す</li>
+<li>個別分析: <code>20261022_馬場嘉奈江_山岡_分析.md</code> §主な参加目的・§結論</li>
+</ul>
+<span id="横田成約"></span><h3 id="横田・成約">横田・成約</h3>
+<ul>
+<li>確認できた判断条件: 夫婦の対話を再開したく、仕事と受講日程の両立を気にした</li>
+<li>例外・次回の確認: 申込後のメールは面談内で届かず、LINEで振込先を送る案内だった</li>
+<li>個別分析: <code>20261024_横田ちなみ_浜田_分析.md</code> §現状と理想・§結論・§最終確認</li>
+</ul>
+<span id="鬼頭講座案内前終了"></span><h3 id="鬼頭・講座案内前終了">鬼頭・講座案内前終了</h3>
+<ul>
+<li>確認できた判断条件: 参加目的が気持ちの整理と練習で、担当側の受講判断の前提とずれた</li>
+<li>例外・次回の確認: 講座の概要には触れたが、正式な価格・申込へ進んでいない</li>
+<li>個別分析: <code>20261026_鬼頭良枝_山岡_分析.md</code> §お客様像・§まず読むべき結論</li>
+</ul>
+<span id="辻成約"></span><h3 id="辻・成約">辻・成約</h3>
+<ul>
+<li>確認できた判断条件: 以前から金銭的不安があり、子どもと今後の選択肢を考えた</li>
+<li>例外・次回の確認: 支払い可能性と本人・子どもの安心は申込結果と別に確認する</li>
+<li>個別分析: <code>20261026_辻加奈子_山岡_分析.md</code> §購入判断の障壁・§まず読むべき結論</li>
+</ul>
+<span id="山本成約"></span><h3 id="山本・成約">山本・成約</h3>
+<ul>
+<li>確認できた判断条件: 専門家への相談費用と、支援を始められる時期を気にした</li>
+<li>例外・次回の確認: 専門家費用を残せるか、本人のいう自由の意味を確認する</li>
+<li>個別分析: <code>20261027_山本美緒_山岡_分析.md</code> §購入判断の障壁</li>
+</ul>
+<h3 id="説明の入口を分ける">説明の入口を分ける</h3>
+<p>仕事への応用を主目的とする馬場と中野を、夫婦関係の修復希望だけでまとめない。前者は自習コースの成約、後者は予算上限を維持して否決であり、同じ「仕事にも使う」関心から同じ結果は予測できない（馬場・中野の個別分析 §お客様像）。</p>
+<p>関係を続けるかを考えている久保田・辻・山本も同じ目標ではない。久保田は新しい生活を選びたいという希望が強く、商品案内前に終了した。辻・山本は成約だが、今後の選択肢や専門家費用の確認が残る（各個別分析 §望んでいる状態・§購入判断の障壁）。</p>
+<p>支払いの迷いも一括りにしない。中野は明示した上限、溝口は分割でも負担が難しい状態、島崎は成約後も残る支払い不安である。金額の説明を重ねる前に、上限、生活費への影響、分割総額を分けて確認する（中野・溝口・島崎の個別分析 §購入判断の障壁）。</p>
+<span id="説明集客に活かすこと"></span><h2 id="説明・集客に活かすこと">説明・集客に活かすこと</h2>
+<p>面談前に本人の目的、使える時間、費用の上限を別々に聞き、適合する支援範囲を確認する。関係を続けることを全員の目標と決めつけない。</p>
+<h3 id="参加前に聞くこと">参加前に聞くこと</h3>
+<p>「家庭での会話」「仕事での活用」「新しい生活に向けた整理」のうち、今日扱いたい場面を本人に選んでもらう。馬場は助産師としての説明、久保田は新しい生活、鬼頭は気持ちの整理と練習が中心で、同じ案内文だけでは面談の期待がずれる（馬場・久保田・鬼頭の個別分析 §お客様像）。</p>
+<h3 id="既にできている行動を聞くこと">既にできている行動を聞くこと</h3>
+<p>丸山は別の学びと話し合い、牛島は日記や友人への相談、奥田は伝える・断る実践、横田は言い返さない工夫をしている。「まだ何もしていない」と決めつけず、どこまで変わり、何が残っているかを聞く（各個別分析 §お客様像・§課題と既にできていること）。</p>
+<h3 id="商品説明の前に聞くこと">商品説明の前に聞くこと</h3>
+<p>中野の上限、溝口の分割でも難しい負担、牛島・横田の受講時間、山本の専門家費用は別々の判断条件である。必要性や価値への納得を尋ねる質問だけでは、支払えるか、時間が取れるか、ほかの資金を残せるかは分からない（各個別分析 §購入判断の障壁）。</p>
+<h3 id="安心を確認すること">安心を確認すること</h3>
+<p>溝口・島崎・辻には現在の本人と子どもの安心を先に確かめる改善課題があり、丸山にも安全確認の課題がある。家族の行動を本人の伝え方だけの結果と説明せず、会話練習の支援範囲と安全に関する相談を分ける（各個別分析 §まず読むべき結論・§安全に関わる相談）。</p>
+<h3 id="見送りや保留を記録すること">見送りや保留を記録すること</h3>
+<p>志村・久保田・鬼頭は講座案内前終了だが、理由は同じではない。志村には資金負担と概要を知りたい希望、久保田には現在の目的との適合、鬼頭には面談目的のずれがある。終了区分だけで購入意欲を推定せず、本人が何を確認できて何を残したか記録する（各個別分析 §望んでいる状態・§購入判断の障壁）。</p>
+<h3 id="結果から読み過ぎないこと">結果から読み過ぎないこと</h3>
+<p>島崎は成約行でも終盤まで支払いを迷い、横田は申込後のメール未到達が残った。否決の花井には費用のほか提案との適合もある。成約なら不安が消えた、否決なら商品価値が伝わらなかったと単純化しない（島崎・横田・花井の個別分析 §まず読むべき結論・§購入判断の障壁）。</p>
+<h2 id="根拠と判断の限界">根拠と判断の限界</h2>
+<p>対象は合格した個別分析14件に対応する原本。未合格原本と原本がない面談の発言は含めない。複数タイプへの人数配分やタイプ別成約率は、現状の対象件数から断定しない。</p>
+<!-- 数値の出所
+個別分析件数 = 14 @ 対象は合格した個別分析14件 :: python3 99_作業エリア/20261104_愛され妻レポート/集計.py --print 個別分析件数
+-->
+
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.2 (2026-11-04)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: Z42U5BXY<br />
+Generated by: 田中祐一（Codex）</p>
+<hr /><details class="glossary"><summary>この資料で使う言葉の意味（クリックで開く）</summary><dl><dt>実施数（母数）</dt><dd>その月に個別説明会・セールスを行った件数。「何人に対して話したか」</dd><dt>成約</dt><dd>お申し込み・ご入金まで決まったこと</dd><dt>否決</dt><dd>検討の結果、今回は見送りになったこと</dd><dt>保留</dt><dd>その場で結論が出ず、後日のお返事待ちになっている状態</dd><dt>成約率（確定分）</dt><dd>結果が出た件（成約＋否決）のうち、成約に至った割合。保留は計算から除く</dd><dt>pp（ポイント）</dt><dd>成約率どうしの差。例: 30%→38%は「8pp上がった」</dd><dt>c系（c1〜c5）</dt><dd>面談が成立しなかった区分（応答なし・日程未確定・冷やかし等）。成約率の計算からは除く</dd><dt>スクリーニング</dt><dd>面談前に、見込みの度合い（本気度・予算感）を見きわめること</dd><dt>ダウンセル</dt><dd>本命より価格を抑えたプランをご案内すること</dd><dt>リード</dt><dd>見込みのお客様（これから検討してくださる方）</dd><dt>ビリーフ</dt><dd>お客様の思い込み・前提となっている考え方。これを書き出すワークを指すことも</dd><dt>ROI（投資対効果）</dt><dd>支払った費用に対して、どれだけ見返り・成果が得られるか</dd><dt>FC／BC</dt><dd>FC=フロント商品（入口の講座）、BC=バック商品（上位・本命の講座）</dd><dt>W3</dt><dd>ザ・リードが決済を担当する案件群の総称</dd><dt>申込ベース／入金ベース</dt><dd>申込ベースは申込金額の合計、入金ベースは実際に入金された金額。両者は通常ずれる</dd></dl></details></article></main></div></body></html>
