@@ -1,0 +1,367 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ザ・リード社内 PLCプロモMTG 議事録（2026年11月9日） - ザ・リード PLCプロモ 議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-frame { padding:.75rem; border:2px solid #06C755; border-radius:16px; background:#F1FBF4; }
+.material-flow-frame > header { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .6rem; margin-bottom:.75rem; }
+.material-flow-frame > header strong { padding:.2rem .7rem; border-radius:999px; color:#fff; background:#06C755; font-size:.78rem; font-weight:800; }
+.material-flow-frame > header small { color:var(--ink-soft); font-size:.74rem; line-height:1.5; }
+.material-flow-frame .material-flow-stage { width:auto; min-width:0; }
+.material-flow-frame .material-flow-pages { grid-template-columns:repeat(2, 16.5rem); align-items:start; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } .material-flow-frame .material-flow-pages { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>ザ・リード PLCプロモ 議事録</h3><a href="20261109.html" class="sidebar-item active"><span class="date">2026年11月09日</span> ザ・リード社内 PLCプロモMTG 議事録（2026年11月9日）</a>
+<a href="20261019.html" class="sidebar-item"><span class="date">2026年10月19日</span> ザ・リード社内 PLCプロモMTG 議事録（2026年10月19日）</a>
+<a href="20261005.html" class="sidebar-item"><span class="date">2026年10月05日</span> ザ・リード社内 PLCプロモMTG 議事録（2026年10月5日）</a>
+<a href="20260914.html" class="sidebar-item"><span class="date">2026年09月14日</span> ザ・リード社内 PLCプロモMTG 議事録（2026年9月14日）</a>
+<a href="20260608.html" class="sidebar-item"><span class="date">2026年06月08日</span> ザ・リード社内 PLCプロモMTG 議事録（2026年6月8日）</a>
+<a href="20260420.html" class="sidebar-item"><span class="date">2026年04月20日</span> ザ・リード社内 PLCプロモMTG 議事録（2026年4月20日）</a>
+<a href="20260406.html" class="sidebar-item"><span class="date">2026年04月06日</span> ザ・リード社内 PLCプロモMTG 議事録（2026年4月6日）</a>
+<a href="20260323.html" class="sidebar-item"><span class="date">2026年03月23日</span> ザ・リード社内MTG 議事録</a>
+<a href="20260302.html" class="sidebar-item"><span class="date">2026年03月02日</span> PLCプロモーション用ミーティング 議事録</a></nav>
+<main class="content"><article class="article"><h1>ザ・リード社内 PLCプロモMTG 議事録（2026年11月9日）</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/1b8c7e5f-93f2-43e0-9ae4-25de89f08b21/file/bWVkaWEvMjAyNi8xMS8wOS8wNDM0X-eUsOS4reOBquOCk-OBp-OCgk1UR18wMzRjZTQ3ZmVmL01QNF84ZDQxNjM4Yy0xZDQwLTQ5ZjQtYmYyNC03YTk2OWI3MWY3MDIubXA0#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年11月8日 15:51（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>田中さんが、いま動いているPLC関連の施策と、これから組むファネルの構想を石田さん・北村さんに共有し、石田さんが意見を出す形で進んだ回。<br />
+前半は、21日間チャレンジローンチ・ブートキャンプ（対象5人）の終わり方の確認。個別は終わり、特典のグルコンは今週土曜で最後になるため、石田さんのアフターコンサルは来週以降に組み直し、グルコン後の流れで個別へつなげるかどうかは石田さんに任せることになった。<br />
+後半は、新しく組むファネルの構想。広告で集めている人が違うから売れない、という訴求で15分動画のあと田中さんが直接面談する超ハイエンド向けのファネル、プロモーター向けのファネル、たかみずさん案件で当たり始めた「15分動画から電話診断へ」のファネルを PLC に応用する案が語られた。<br />
+石田さんからは、ターゲットを店舗経営者など「ビジネスを積み上げてきた人」に寄せる案が出て、「AIが苦手・SNSが苦手でも技術はある人」を狙う動画との2本でテストする方針が話された。電話診断の費用感の試算や、30日チャレンジ型の安い商品を増やす構想も出た。最後は、ファネルができたら共有するという田中さんの言葉で終了した。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年11月9日（月）13:34〜（約25分。最後の発話は 00:25:58）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoom（トピック名「田中なんでもMTG」）</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、石田明、北村こうき（北村さんの発言は冒頭と終わりの挨拶のみ）</td>
+</tr>
+<tr>
+<td>種別</td>
+<td>ザ・リード社内ミーティング・PLCプロモ（田中祐一案件のプロモーション企画MTG。毎週月曜に開かれてきた定例シリーズ。直近の記録は 2026-10-19、2026-10-05）</td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td><code>0_データ原本/2026年/11月/9日/Zoom/202611091334_Zoom_田中なんでもMTG.md</code></td>
+</tr>
+<tr>
+<td>書き起こし原本（MTG履歴）</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/PLCプロモ/MTG履歴/20261109_PLCプロモ社内MTG_書き起こし原本.md</code></td>
+</tr>
+<tr>
+<td>話者なしの生書き起こし</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/PLCプロモ/MTG履歴/20261109_PLCプロモ社内MTG_生書き起こし.md</code>（R2保管のZoom VTT原文をそのまま保持）</td>
+</tr>
+<tr>
+<td>話者同定</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/PLCプロモ/MTG履歴/20261109_PLCプロモ社内MTG_話者同定.md</code>（話者同定ゲート合格）</td>
+</tr>
+<tr>
+<td>録画・書き起こし</td>
+<td>Cloudflare R2（非公開）: <code>records/2026/11/09/0434_田中なんでもMTG_034ce47fef/</code></td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/1b8c7e5f-93f2-43e0-9ae4-25de89f08b21" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/1b8c7e5f-93f2-43e0-9ae4-25de89f08b21</a></td>
+</tr>
+<tr>
+<td>Zoomチャットログ</td>
+<td>なし（この会議のチャット欄の記録は保管されていない）</td>
+</tr>
+</tbody>
+</table>
+<p>同じ日の11:17開始の広告運用の田中なんでもMTG（広告運用チームの定例）は別の記録で、この議事録の対象外。</p>
+<p>話者ラベルの確認: Zoom側の自動書き起こしで全発話に話者名が付いており、内容と矛盾する箇所は見つからなかったため、そのまま採用した。ただし <code>[00:11:44]</code> と <code>[00:16:14]</code> の2行は、石田さんの質問・確認と田中さんの返答が1行に混ざっている（Zoomのキュー分割のため）。該当の発言は話者を断定していない。</p>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・全体構成">議論の流れ・全体構成</a></li><li class="toc-main"><a href="#1.-21日間ブートキャンプの現状とアフターコンサル-[00:00:16]-[00:03:13]">1. 21日間ブートキャンプの現状とアフターコンサル [00:00:16]-[00:03:13]</a></li><li class="toc-main"><a href="#2.-動かすファネル全体像（3チャレのトリップワイヤー型と、構想中の数本）-[00:03:16]-[00:04:49]">2. 動かすファネル全体像（3チャレのトリップワイヤー型と、構想中の数本） [00:03:16]-[00:04:49]</a></li><li class="toc-main"><a href="#3.-ファネル案1:-プレミアムリードファネル（仮称・超ハイエンド向け）-[00:03:46]-[00:05:15]">3. ファネル案1: プレミアムリードファネル（仮称・超ハイエンド向け） [00:03:46]-[00:05:15]</a></li><li class="toc-main"><a href="#4.-ファネル案2:-プロモーター向け-[00:05:09]-[00:05:19]">4. ファネル案2: プロモーター向け [00:05:09]-[00:05:19]</a></li><li class="toc-main"><a href="#5.-ファネル案3:-電話診断ファネル（たかみずさん案件での手応え）-[00:05:19]-[00:12:06]">5. ファネル案3: 電話診断ファネル（たかみずさん案件での手応え） [00:05:19]-[00:12:06]</a></li><li class="toc-main"><a href="#6.-ターゲットの議論:-店舗・リアルビジネスの人を狙うか-[00:07:15]-[00:10:21]、[00:12:06]-[00:19:11]">6. ターゲットの議論: 店舗・リアルビジネスの人を狙うか [00:07:15]-[00:10:21]、[00:12:06]-[00:19:11]</a></li><li class="toc-main"><a href="#7.-15分動画と2分動画の広告成績の比較-[00:13:14]-[00:14:19]">7. 15分動画と2分動画の広告成績の比較 [00:13:14]-[00:14:19]</a></li><li class="toc-main"><a href="#8.-AIが苦手な人を狙う案と、2本の動画でのテスト-[00:19:11]-[00:21:21]">8. AIが苦手な人を狙う案と、2本の動画でのテスト [00:19:11]-[00:21:21]</a></li><li class="toc-main"><a href="#9.-電話診断の費用感の試算-[00:21:21]-[00:22:51]">9. 電話診断の費用感の試算 [00:21:21]-[00:22:51]</a></li><li class="toc-main"><a href="#10.-ローンチの時代認識、サブスク、30日チャレンジの量産構想-[00:23:38]-[00:25:47]">10. ローンチの時代認識、サブスク、30日チャレンジの量産構想 [00:23:38]-[00:25:47]</a></li><li class="toc-main"><a href="#考え方・マインドセット（田中さんの発言から）">考え方・マインドセット（田中さんの発言から）</a></li><li class="toc-main"><a href="#決まったこと・方針">決まったこと・方針</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中さん">田中さん</a></li><li class="toc-sub"><a href="#石田さん">石田さん</a></li><li class="toc-sub"><a href="#北村さん">北村さん</a></li><li class="toc-main"><a href="#検討中・方針（未決）">検討中・方針（未決）</a></li><li class="toc-main"><a href="#怪しい箇所（聞き取り不明瞭・要確認）について">怪しい箇所（聞き取り不明瞭・要確認）について</a></li></ul></nav><h2 id="議論の流れ・全体構成">議論の流れ・全体構成</h2>
+<p>冒頭、田中さんは「今動いているものの施策と相談がある」と切り出し、まずチャレンジローンチの21日間ブートキャンプの状況から入った。対象者5人の個別・グルコンの進み具合を確認し、石田さんが1回目のコーチングで「21日が終わったあとの実践の作戦会議をしましょう」と伝えていることを聞いた。そのうえで、アフターコンサルの日程はグルコンが終わった来週以降に組む方がよい、と二人の認識を合わせた。</p>
+<p>次に田中さんは、これから動かすファネルを順に解説した。1つ目は3チャレのトリップワイヤー型ファネル（ほぼ自動で売れ、都度田中さんにメッセージが入る形）。これとは別に、新しく構想している数本のファネルとして、超ハイエンド向けのプレミアムリードファネル（仮称）、プロモーター向け、たかみずさん案件で当たり始めた電話診断の応用、の3つを説明した。</p>
+<p>電話診断の応用の説明から、議論は一気に具体化した。石田さんが「リアルビジネスをやっている人向けにしてはどうか」と提案し、田中さんは英語教室の方と美容室系の方という2人のペルソナを挙げて、店舗経営者の方がフィットしそうだと同意。続いて、15分動画と2分動画の広告成績の比較、コピーが使い古されていないか、AIが苦手な人を狙う案、電話診断の費用の試算、石田さんの「電話到達率は上がりそう」という見立てが続いた。</p>
+<p>最後は、「ローンチしたら負けるぐらいの時代になっている」という田中さんの見方、月額サブスクで安定する可能性、30日チャレンジを5万円で自動化して量産する構想を話し、ファネルができたら共有するという依頼で終了した。</p>
+<hr />
+<h2 id="1.-21日間ブートキャンプの現状とアフターコンサル-[00:00:16]-[00:03:13]">1. 21日間ブートキャンプの現状とアフターコンサル [00:00:16]-[00:03:13]</h2>
+<ul>
+<li>田中さん: 今動いている施策と相談がある。まずチャレンジローンチの21日間ブートキャンプは、対象者が5人 [00:00:25]-[00:00:39]</li>
+<li>田中さん: 今日から添削に入る（「3回目の検索を忘れていた」という趣旨の前置きは聞き取り不明瞭）。グルコンも個人コンサルも非常にたくさんやったが、コンサルというと個人的な悩みを聞くことは少なく、ほぼ相手のやりたいことに沿ってフィードバックしているのが実態 [00:00:42]-[00:00:57]</li>
+<li>特典の状況: 今週の土曜日が特典のグルコンの最後。5人全員を調整して出す形で、女性の方以外は全員参加でエントリーされている（この箇所は聞き取り不明瞭）。個別は5人中4人が対象で、4人とも終わった [00:00:57]-[00:01:22]、[00:02:14]-[00:02:31]</li>
+<li>石田さんの説明: 自分が1回目のコーチングで伝えているのは、21日間がすべて終わってチャレンジローンチの形ができたあと、実際の集客などは自分たちでやることになるので、そこから先の作戦会議をしましょう、という建て付け（回数の言い方は「二回目は伝えてある」と揺れていて不明瞭） [00:01:22]-[00:01:54]</li>
+<li>田中さん: グルコンが今週末で終わるので、石田さんのアフターコンサルは来週以降に組んでもらう。その個別が、そのままゴールにつながる個別になればよい [00:01:57]-[00:02:09]</li>
+<li>石田さんは、グルコンがラストだと思って日程を組み始めており、1人だけ決めてしまったが、グルコン後の方がよいので変更する、と話した。田中さんも来週以降の方がよいと同意 [00:02:33]-[00:03:00]</li>
+<li>田中さん: 流れのまま押し切る手もあると思う。そこは石田さんに任せる、と話した。石田さんは了承 [00:03:01]-[00:03:16]</li>
+</ul>
+<h2 id="2.-動かすファネル全体像（3チャレのトリップワイヤー型と、構想中の数本）-[00:03:16]-[00:04:49]">2. 動かすファネル全体像（3チャレのトリップワイヤー型と、構想中の数本） [00:03:16]-[00:04:49]</h2>
+<ul>
+<li>田中さん: 次に動かさなければならないのは、チャレンジローンチのコンセプトを変えたトリップワイヤー型ファネル。ほぼ自動で売れていき、都度田中さんにメッセージが入る形に仕組み化して変えていく。準備は始めている [00:03:16]-[00:03:43]</li>
+<li>それとは別に、いま構想しているファネルが数本ある（「四本」と言ったが、このあと具体的に語られたのは次の3本）。量が多いので順に解説する、と前置きした [00:03:33]-[00:03:58]</li>
+</ul>
+<h2 id="3.-ファネル案1:-プレミアムリードファネル（仮称・超ハイエンド向け）-[00:03:46]-[00:05:15]">3. ファネル案1: プレミアムリードファネル（仮称・超ハイエンド向け） [00:03:46]-[00:05:15]</h2>
+<ul>
+<li>訴求: 「広告で集めている人が間違っているから売れない」という切り口で、プレミアムリードファネルの作り方を伝える [00:03:46]-[00:03:58]</li>
+<li>流れ: オプトインのあと15分の動画を見てもらい、そのあと田中さんが直接面談をする流れを組む [00:03:58]-[00:04:09]</li>
+<li>商品ライン: PLC、プラチナと広告代行まで含むもの、田中さんが動画1本のファネルを全部AIで作るプロデュースプラン、の3段階を用意していく。金額は 1,320,000円・2,000,000円・4,000,000円＋売上の10%と読めるが、いずれも聞き取り不明瞭（要確認） [00:04:09]-[00:04:26]</li>
+<li>面談条件: 「月商100万円を超えたことがある」ことを、申込フォームの条件として出すつもり。広告のCPAは 10,000円ぐらいを想定（何の単価かは聞き取り不明瞭）。本当にやっている人専用のファネルで、超ハイエンド向け [00:04:26]-[00:04:53]</li>
+<li>経緯: 「おさるさん」から散々「作れ」と言われてきた。PLCを増やしたかったので気が進まなかったが、PLCを増やす方向はいろいろ検証が必要なため、手っ取り早く、森谷さんも実績のあるハイエンドモデルのファネルでいく、と田中さんは話した [00:04:53]-[00:05:09]（前回10月19日の回で話した「個別面談（15分）へ呼ぶ高単価向けファネル」の続きと見られるが、同一かは要確認）</li>
+</ul>
+<h2 id="4.-ファネル案2:-プロモーター向け-[00:05:09]-[00:05:19]">4. ファネル案2: プロモーター向け [00:05:09]-[00:05:19]</h2>
+<ul>
+<li>田中さん: プロモーター向けには、ローンチの組織化の方法のようなものを、同じ形のファネルで組んでみようと思っている [00:05:09]-[00:05:19]</li>
+</ul>
+<h2 id="5.-ファネル案3:-電話診断ファネル（たかみずさん案件での手応え）-[00:05:19]-[00:12:06]">5. ファネル案3: 電話診断ファネル（たかみずさん案件での手応え） [00:05:19]-[00:12:06]</h2>
+<ul>
+<li>田中さん: 3つ目で悩んでいるのが、たかみずさんの案件で組み直した電話ファネル。これまでチャレンジローンチで滑っていたのが当たり始めた [00:05:19]-[00:05:33]</li>
+<li>構造: 10〜15分の動画1本が広告から始まり、見た人は電話診断に申し込む。たかみずさんの案件は、電話セールス力診断で30分話して個別に落とす形で、ファネルがほぼない [00:05:44]-[00:06:20]</li>
+<li>変化: 業種が広がった（不動産、宝石店など）。これまでは個人で稼ぎたい人が多かったが、単純にセールス力を上げたいというニーズが出て、ファネルを組み込まないことでターゲットが広がる。チャレンジなどで教育すると、かえってターゲットが明確になる [00:06:24]-[00:06:51]</li>
+<li>田中さんの狙い: セールスに負担がかかるファネルだが、PLCを1本売りできないかを1本だけ試してみたい。ただし石田さんが電話にどこまで対応できるかという問題があり悩ましい（この箇所は聞き取り不明瞭） [00:06:55]-[00:07:15]</li>
+<li>実績の確認: 田中さんが「セールスは今のところ0件やって2件決まっている」と話し、石田さんが「5件申し込みがあって、4件やって、2件決まった、という感じ？」と確認して、田中さんが同意した（数字は要確認）。電話から説明会への誘導率は約8割。田中さん自身は、先月の2週間で数値が上がってきたと見ている。待たせてクロージングするファネルだからという性格もある、と話した [00:11:31]-[00:12:06]</li>
+<li>田中さんの見方: ツーステップマーケティングに入ると、広告リストでは教育負けしやすい（ハウスリストなら別）。だから、手っ取り早く話を聞かせろ、という方向がよいのではないか [00:11:07]-[00:11:31]</li>
+</ul>
+<h2 id="6.-ターゲットの議論:-店舗・リアルビジネスの人を狙うか-[00:07:15]-[00:10:21]、[00:12:06]-[00:19:11]">6. ターゲットの議論: 店舗・リアルビジネスの人を狙うか [00:07:15]-[00:10:21]、[00:12:06]-[00:19:11]</h2>
+<ul>
+<li>石田さん: そのファネルで行くなら、リアルビジネスをやっている人向けはどうか。いまコンテンツビジネスをやっている層だと、みんなで食い合うような気がする [00:07:15]-[00:07:32]</li>
+<li>田中さん: 3チャレのトリップワイヤー型ファネルはそちら側のはず。店舗系もありだが、牧野さんと被る可能性がある。石田さんは「ずっとやってみたいと思っていた」と応じた [00:07:32]-[00:07:56]</li>
+<li>田中さんが挙げた2人のペルソナ: 1人は広島で20年間英語教室をやっていて「このコンテンツはもっと高く売れるはずなのに、どうすればいいか分からなかった」という高本さん。もう1人は、京都で美容室のコンサルをしている女性（名前は思い出せず、会話の途中で「しまむらさん／下村さん」と出るが同一人物かは未確認）。「経営者なら話が早く、電話だけでいけそうな気がする」と話した [00:07:56]-[00:10:21]</li>
+<li>診断の名前: 「何を診断するのか、何のコンセプトで言うのか」が課題。石田さんは、自分の知識・経験が高くても売れるのかを診断する、といった方向を話した（この箇所は聞き取り不明瞭）。田中さんは「あなたの持っている知識・経験を高単価にしましょう」というコピーは使い古されているか、と尋ね、石田さんは「めっちゃ使い古されている。どういうコピーにするか次第」と答えた。田中さんは、20年続けた英語教室がいきなり500,000円で売れた、といった実例を動画で見せれば新しく見えるかもしれない、と話した [00:12:06]-[00:15:48]</li>
+<li>石田さんの考え: 起業したい人ではなく、ビジネスを積み上げてきた人に引っかかるように入ってもらうと戦いやすい。そういう人は電話でもまともな会話ができる。悩みは「別のマネタイズの軸を持ちたいが達成できていない」「もともとのビジネスが衰退気味」などが多い [00:15:48]-[00:18:10]</li>
+<li>田中さん: SNSを使わない人をどう増やすかが課題。「正しいターゲット設定・コンセプト設計・全体設計さえできれば、あとはチームもAIも広告もやってくれる」という打ち出しもありうる [00:18:10]-[00:18:58]</li>
+</ul>
+<h2 id="7.-15分動画と2分動画の広告成績の比較-[00:13:14]-[00:14:19]">7. 15分動画と2分動画の広告成績の比較 [00:13:14]-[00:14:19]</h2>
+<ul>
+<li>田中さん: 今日の広告チームで出た話として、ある案件の動画LP（「八幡さんの案件」と話したが要確認）で、2分の動画を見てオプトインするタイプはCPAがいちばん安い（約2,000円）が、個別への誘導がない [00:13:14]-[00:13:31]</li>
+<li>15分の動画を見る方はCPAが約5,800円だが、3人に1人が個別説明会に申し込んでいる。CPOに直すと、15分の方が約15,000円、2分の方は200,000円近く使っても1件も入っていない、という趣旨（数字は要確認） [00:13:31]-[00:13:55]</li>
+<li>田中さんの受け止め: 入口でやり切る方がよいのかもしれない。トレンドが少し変わってきているのではないか [00:13:55]-[00:14:16]</li>
+</ul>
+<h2 id="8.-AIが苦手な人を狙う案と、2本の動画でのテスト-[00:19:11]-[00:21:21]">8. AIが苦手な人を狙う案と、2本の動画でのテスト [00:19:11]-[00:21:21]</h2>
+<ul>
+<li>田中さん: 「AIに対してはポジティブかネガティブか」と石田さんに質問。石田さんは「意外にそこまででもない。AIに敏感なのはコンテンツビジネス界隈だけな気がする」と答え、最近入った方（「樽さん」と話したが要確認）がまさにそうだ、と補足した [00:19:15]-[00:20:13]</li>
+<li>田中さんの案: 「AIが苦手・SNSが苦手でも、技術はある」人を最初のターゲットにしてもよいと考えていた。店舗系向けの電話診断の動画と、AI・SNSが苦手でも技術がある人向けの動画の、2つのペルソナで出す [00:19:30]-[00:20:57]</li>
+<li>利点: 電話診断なら、サンキューページまで同じで、動画だけをターゲットごとに作り変えれば量産でき、テストがしやすい [00:21:01]-[00:21:21]</li>
+</ul>
+<h2 id="9.-電話診断の費用感の試算-[00:21:21]-[00:22:51]">9. 電話診断の費用感の試算 [00:21:21]-[00:22:51]</h2>
+<ul>
+<li>田中さん: 電話診断は当たり外れが相当ある。1日に1〜2件来るだけでも大きい。たかみずさんの案件（書き起こしでは「高橋さん」と話したが、辞書上はたかみずさんの言い間違い）では、電話が15,000円〜20,000円で取れている [00:21:21]-[00:21:44]</li>
+<li>試算: 電話が20,000円で取れ、5割が説明会に進めば説明会1件が40,000円。そこから30%が成約するなら成約1件が約120,000円で、そのCPAは出せない。電話から説明会への誘導率が30%なら説明会1件が約60,000円、30%成約で約180,000円になり、それでも出せない。ただし、数字がもっと良いかもしれない。成約単価が400,000円なら、試してみてもよい [00:21:44]-[00:22:51]（計算の途中で言い直しがあり、数字は要確認）</li>
+<li>石田さん: 30%の成約は高い。ただし、電話ならかなり長く話せそう。「見ていない人ほど、中身のイメージが違って離脱するのが、いまの申込から落ちてくる原因だと思う。電話到達率はむしろ上がりそう」と話した。田中さんは「やってみれば分かる」と応じた [00:22:07]-[00:23:38]</li>
+</ul>
+<h2 id="10.-ローンチの時代認識、サブスク、30日チャレンジの量産構想-[00:23:38]-[00:25:47]">10. ローンチの時代認識、サブスク、30日チャレンジの量産構想 [00:23:38]-[00:25:47]</h2>
+<ul>
+<li>田中さん: みんなセールス代行を使って電話させまくるファネルの時代に入っている。これだとローンチは要らない。ローンチをしたら負けるぐらいで、濃いハウスリストを持つ人の手法になっていく [00:23:38]-[00:23:58]</li>
+<li>もし月額20,000円ほどのサブスクを電話で売れるなら、将来は安定するかもしれない。伝聞として、保険営業マン向けのクロージング勉強会（月額20,000円、1,000人ぐらいと聞いた）が儲かっていて、アップセルで合宿を売っているという話も出た（人名・数字は伝聞のため要確認） [00:23:58]-[00:24:47]</li>
+<li>石田さん: 売る商品も PLC 1本というより、別の形がありそう [00:24:47]-[00:24:54]</li>
+<li>田中さんの構想: 30日チャレンジの自動化ができたら、5万円で30日チャレンジを売る。電話で「これは無理」と思った人にはそちらを案内し、PLCに入る人はPLCに入ればよい。30日の自動化商品が1年で数本に増えれば、提案できるものがすごく増える。広告の30日プログラム、セールス代行の30日プログラムも作りたい。12月に日本へ行ったときに撮影したい、という構想（人名は聞き取り不明瞭） [00:24:54]-[00:25:47]</li>
+<li>締め: 動いていく内容として情報共有した。ファネルができたら共有するので、よろしくお願いします、と田中さん。石田さんは「お願いします」と応じ、田中さんが終了を宣言した [00:25:47]-[00:25:58]</li>
+</ul>
+<hr />
+<h2 id="考え方・マインドセット（田中さんの発言から）">考え方・マインドセット（田中さんの発言から）</h2>
+<ul>
+<li>広告リストでは教育で負けやすい: ツーステップマーケティングは、ハウスリストなら成り立つが、広告リストではかなり厳しい。手っ取り早く話を聞かせる設計の方がよいのではないか、という見立て</li>
+<li>ターゲットはファネルで広がる: 教育のファネルを組まず、電話診断で30分話す形にしたら、業種が広がり、セールス力を上げたいというニーズが見えてきた。教育を入れると逆にターゲットが明確になる</li>
+<li>数字の判断は成約単価から見る: CPAや説明会単価が高く見えても、成約単価が高ければ試す価値がある、という考え方</li>
+<li>テストは動画だけを替えて量産する: ページやサンキューを共通にして、ターゲットごとに動画だけを作り変えれば、テストがしやすい</li>
+<li>入口でやり切る流れに寄っているかもしれない: 2分動画より15分動画のように、個別へつなげやすい入口の方が、CPAは高くてもCPOでは勝つ場合がある</li>
+</ul>
+<h2 id="決まったこと・方針">決まったこと・方針</h2>
+<ul>
+<li>ブートキャンプの特典のグルコンは、今週土曜（11月14日ごろ。「土曜日かな」と話した）が最後</li>
+<li>石田さんのアフターコンサルはグルコン終了後の来週以降に組み直す。グルコン後にそのまま個別へつなげるかは石田さんに任せる</li>
+<li>3チャレのトリップワイヤー型ファネルの準備を始めている（ほぼ自動で売れ、都度田中さんにメッセージが入る形）</li>
+<li>電話診断型ファネルは、店舗・リアルビジネスの人向けとAI・SNSが苦手な人向けの2つのペルソナで、動画だけを替えて試す方向（「じゃあそれでやってみるか」と話したが、時期は未定）</li>
+</ul>
+<h2 id="やること">やること</h2>
+<h3 id="田中さん">田中さん</h3>
+<ul>
+<li>[ ] プレミアムリードファネル（仮称）の準備を進める（台本・動画など。準備を始めたと発言）</li>
+<li>[ ] 電話診断型ファネルのコンセプト・動画づくり（何を診断するか、何のコンセプトで言うかを決める）</li>
+<li>[ ] ファネルができたら石田さん・北村さんに共有する</li>
+</ul>
+<h3 id="石田さん">石田さん</h3>
+<ul>
+<li>[ ] ブートキャンプ参加者のアフターコンサルの日程を、グルコン終了後（来週以降）に組み直す（すでに1人決めた分は変更する意向）</li>
+</ul>
+<h3 id="北村さん">北村さん</h3>
+<ul>
+<li>今回は明確な担当の割り当てはなかった</li>
+</ul>
+<h2 id="検討中・方針（未決）">検討中・方針（未決）</h2>
+<ul>
+<li>電話診断で何を診断するのか、どのコンセプトで言うか</li>
+<li>店舗・リアルビジネスの人向けと、AI・SNSが苦手な人向けの2つの動画を、どの順で出すか</li>
+<li>PLCを電話診断型ファネルで1本売りできるか（石田さんが電話にどこまで対応できるかを含む）</li>
+<li>月額20,000円ほどのサブスクや、5万円の30日チャレンジ自動化商品を持つ場合の位置づけ</li>
+<li>広告・セールス代行などの30日プログラムの制作時期（12月の撮影は構想段階）</li>
+<li>日付・金額・人名の聞き取りが不明瞭な箇所の確定</li>
+</ul>
+<hr />
+<h2 id="怪しい箇所（聞き取り不明瞭・要確認）について">怪しい箇所（聞き取り不明瞭・要確認）について</h2>
+<p>本文中の数値・固有名詞の一部に聞き取りが不明瞭な箇所がある。主なもの:</p>
+<ul>
+<li>金額: プレミアムリードファネルの3段階の商品価格（1,320,000円・2,000,000円・4,000,000円＋売上の10%と聞こえる）、面談条件の月商、CPA 10,000円の対象、15分・2分の動画のCPA・CPO、電話診断の試算（言い直しがある）</li>
+<li>人名・呼称: 「おさるさん」「牧野さん」「高本さん」「しまむらさん／下村さん」「八幡さん」「樽さん」「野川さん」「石破さん」など（辞書上、「高水」「高橋」はたかみずさんの言い間違いとして扱った）</li>
+<li>数字: 電話診断の実績（申込5件・実施4件・成約2件は石田さんの言い直しに田中さんが同意した形）、先月2週間の期間、保険営業向け勉強会の月額・人数</li>
+</ul>
+<p>詳細は書き起こし原本 <code>97_ザ・リード事業/ザ・リード社内ミーティング/PLCプロモ/MTG履歴/20261109_PLCプロモ社内MTG_書き起こし原本.md</code> の【怪しい】注記を参照。本議事録ではいずれも断定せず、趣旨が明確な部分のみ要約している。</p>
+<p>また、第三者のビジネス上の数値（他者の案件の実績・伝聞）は、会議内の発言をそのまま要約した。個人を特定する評価は含めていない。</p>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-11-09)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: BSLW6TVE<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
