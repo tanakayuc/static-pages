@@ -98,6 +98,19 @@ h3{font-size:20px;line-height:1.5;margin:0 0 10px}
 .steps li.now{background:var(--teal-deep);color:#fff;font-weight:700}
 .warn{background:#FFF8E1;border:1px solid #FFE08A;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:700}
 .btn.line{background:#06C755}
+.bridge{margin:28px 0 12px;text-align:center;font-weight:700;color:var(--teal-deep);font-size:17px}
+.bridge::before,.bridge::after{content:"";display:block;width:2px;height:18px;background:var(--teal);margin:6px auto}
+.lpblock{border:1px solid var(--teal-tint);border-radius:16px;padding:0 0 18px;overflow:hidden;background:#fff}
+.lpblock>*:not(.lphero){margin-left:18px;margin-right:18px}
+.lphero{display:block;width:100%;height:auto}
+.lph{font-size:19px;margin:16px 18px 6px}
+.lpcatch{font-weight:700;color:#d82f81;margin-top:0}
+.lpcheck{padding-left:22px}
+.lpcheck li{margin:6px 0}
+.greet{margin-top:18px}
+.profile{margin-top:18px;background:#faf7f9;border-radius:12px;padding:14px 16px;font-size:14px}
+.ocimg{display:block;width:100%;height:auto;margin-top:14px;border-radius:12px}
+
 .video-slot{aspect-ratio:16/9;background:#e9f1ef;border:2px dashed #9bc3bb;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;color:var(--muted);font-size:14px}
 .flow{counter-reset:f;list-style:none;padding:0;margin:0 0 10px;display:grid;gap:12px}
 .flow li{counter-increment:f;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px 14px 60px;position:relative}
@@ -325,25 +338,49 @@ function gate(){
   document.getElementById('go').onclick = () => thanks(t);
   document.getElementById('again').onclick = () => { step = 0; ans.length = 0; render(); };
 }
+const OPENCHAT_URL = '#'; // 【組み込み】本番は3日間チャレンジ専用オープンチャットの参加URL（11期サンキューページのボタンと同じ）
 function thanks(t){
   const d = TYPES[t];
-  card.innerHTML = `<ol class="steps"><li class="done">診断</li><li class="done">メール登録</li><li class="now">結果とご挨拶</li><li>オープンチャット</li></ol>
+  card.innerHTML = `<ol class="steps"><li class="done">診断</li><li class="done">メール登録</li><li class="now">結果と案内</li><li>オープンチャット</li></ol>
+    <p class="warn">3日間チャレンジへの参加は、まだ完了していません。ページの最後のボタンから、オープンチャットに参加してください。</p>
     <p class="eyebrow">YOUR TYPE ${d.no}</p>
     <p class="result-name" id="resultName">${esc(d.name)}</p>
     <p class="type-lead">${esc(d.lead)}</p>
     ${d.body.map(p => `<p>${esc(p)}</p>`).join('')}
     ${d.voices.slice(0, 3).map(v => `<p class="mini-voice">「${esc(v[1])}」<span>${esc(v[0])}</span></p>`).join('')}
-    <div class="form" id="greetSlot">
-      <p style="margin:0 0 12px"><b>矢場田さんからのご挨拶</b></p>
-      <!-- 【組み込み】ここから：本番では、この枠に今の3日間チャレンジのサンキューページにある矢場田さんの挨拶動画を入れる（同じ動画。再生の自動開始はしない） -->
-      <div class="video-slot" id="greetVideo">挨拶動画の枠（本番は今のサンキューページと同じ動画）</div>
-      <!-- 【組み込み】ここまで -->
-    </div>
+    <p class="bridge">そんなあなたに、おすすめなのがこちらです</p>
+    <section class="lpblock" id="lpBlock">
+      <img class="lphero" src="img/hero.jpg" alt="資格も才能も毎日の情報発信も必要なし。必要なのはあなたの人生経験だけ。安心安定カウンセラー起業" width="1280" height="748">
+      <h3 class="lph">安心安定のカウンセラー起業 3日間チャレンジプログラム</h3>
+      <p class="lpcatch">あなたの“人生”経験が感謝される起業法</p>
+      <p>あなたの人生の経験で得た「感情」や「乗り越え方」、そして「未来への想い」は、今、同じように悩む方にとって心強い道標となります。資格がなくても、あなたの人生経験そのものが、お客様にとって非常に高い価値です。</p>
+      <ul class="lpcheck">
+        <li>今会社員だけど、スキマ時間に何か副業を始めたい</li>
+        <li>子育て中で外で働きにくいけど、在宅で何か始めたい</li>
+        <li>顔出しせずにコッソリ稼げる副業を探している</li>
+        <li>自分の時間も大切にしながら、やりがいを感じる働き方をしたい</li>
+      </ul>
+      <p>顔出しなしでもOK。生活スタイルに合わせて時間も調整できる秘訣を公開します。カウンセラー特化型の自動集客の仕組みがあれば、SNS投稿が苦手な人でも、本当に悩んでいる人だけが集まるようになります。</p>
+      <div class="challenge"><div><b>FREE</b>参加は無料</div><div><b>ONLINE</b>オンラインで参加</div><div><b>ARCHIVE</b>録画の配信あり</div></div>
+      <div class="greet" id="greetSlot">
+        <p style="margin:0 0 10px"><b>矢場田さんからのご挨拶</b></p>
+        <!-- 【組み込み】ここから：本番では、今の3日間チャレンジのサンキューページにある矢場田さんの挨拶動画を入れる（同じ動画。自動再生はしない） -->
+        <div class="video-slot" id="greetVideo">挨拶動画の枠（本番は今のサンキューページと同じ動画）</div>
+        <!-- 【組み込み】ここまで -->
+      </div>
+      <div class="profile">
+        <p class="eyebrow">PROFILE</p>
+        <p><b>矢場田つとむ</b>（株式会社ライフビジョン代表 / カウンセラー専門コンサルタント）</p>
+        <p>高校1年生のときに対人緊張から不眠症、不登校になり、21歳のときには難病の潰瘍性大腸炎に。10〜20代にかけて悩み続け、研究し続けるなかで「こころの悪循環を断ち切るセラピー」を開発しました。その経験をもとに、6000件以上のカウンセリングを実施。ノウハウを体系化したのが「安心安定のカウンセラー起業講座」です。</p>
+      </div>
+    </section>
     <div class="form" id="openchatSlot">
       <p style="margin:0 0 12px"><b>${esc(d.cta)}</b></p>
-      <p style="margin:0 0 12px">この結果に興味を持っていただいた方は、下のボタンからオープンチャットに参加してください。続きのご案内は、オープンチャットでお送りします。</p>
-      <a class="btn line" id="openchatBtn" data-type="${esc(t)}" href="#" onclick="return false" style="width:100%;text-align:center">オープンチャットに参加する</a>
-      <p class="note"><b>見本のためオープンチャットにはつながりません。</b>本番は、このキャンペーン用に作るオープンチャットの参加URLを入れます（URLは未確定）。</p>
+      <p style="margin:0 0 12px">3日間チャレンジへの参加は、LINEオープンチャットから。下のボタンを押して参加してください。</p>
+      <a class="btn line" id="openchatBtn" data-type="${esc(t)}" href="${OPENCHAT_URL}" onclick="return false" style="width:100%;text-align:center">オープンチャットに参加する</a>
+      <p class="note"><b>匿名で参加でき、いつでも退出できます。</b>入室時に「LINEを悪用した詐欺にご注意ください」と表示されますが、これは全てのオープンチャットで表示されるものです。</p>
+      <img class="ocimg" src="img/openchat.webp" alt="LINEオープンチャットとは。普段のLINEと分けて使える、LINEのID交換が不要、通報機能がある、すべて無料で使える" width="1197" height="1314" loading="lazy">
+      <p class="note"><b>見本のためボタンはつながりません。</b>本番は、いまの3日間チャレンジのサンキューページと同じオープンチャットの参加URLを入れます。</p>
     </div>`;
   card.scrollIntoView({behavior:'smooth', block:'start'});
 }
