@@ -98,6 +98,7 @@ h3{font-size:20px;line-height:1.5;margin:0 0 10px}
 .steps li.now{background:var(--teal-deep);color:#fff;font-weight:700}
 .warn{background:#FFF8E1;border:1px solid #FFE08A;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:700}
 .btn.line{background:#06C755}
+.video-slot{aspect-ratio:16/9;background:#e9f1ef;border:2px dashed #9bc3bb;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;color:var(--muted);font-size:14px}
 .flow{counter-reset:f;list-style:none;padding:0;margin:0 0 10px;display:grid;gap:12px}
 .flow li{counter-increment:f;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px 14px 60px;position:relative}
 .flow li::before{content:counter(f);position:absolute;left:16px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--teal-deep);color:#fff;font-weight:700;text-align:center;line-height:30px;font-family:var(--latin)}
@@ -252,8 +253,8 @@ footer a{color:var(--muted);margin:0 8px}
   <h2>診断のあとの流れ</h2>
   <ol class="flow">
     <li><b>診断に答える</b>13問・約2分。ここまでは登録なしで進められます。</li>
-    <li><b>メールアドレスを入れて、結果を見る</b>あなたのタイプと、同じタイプの先輩の言葉が表示されます。</li>
-    <li><b>3日間チャレンジ専用LINEに参加する</b>無料の3日間チャレンジプログラムで、あなたのタイプに合った始め方を具体的に見ていきます。</li>
+    <li><b>メールアドレスを入れて、結果を見る</b>あなたのタイプ、同じタイプの先輩の言葉、矢場田さんからのご挨拶動画が表示されます。</li>
+    <li><b>オープンチャットに参加する</b>続きのご案内は、オープンチャットでお送りします。</li>
   </ol>
   <div class="challenge">
     <div><b>FREE</b>参加は無料</div>
@@ -326,17 +327,23 @@ function gate(){
 }
 function thanks(t){
   const d = TYPES[t];
-  card.innerHTML = `<ol class="steps"><li class="done">診断</li><li class="done">メール登録</li><li class="now">LINEに参加</li></ol>
-    <p class="warn">3日間チャレンジの本登録は、まだ完了していません。下のボタンから専用LINEに参加してください。</p>
+  card.innerHTML = `<ol class="steps"><li class="done">診断</li><li class="done">メール登録</li><li class="now">結果とご挨拶</li><li>オープンチャット</li></ol>
     <p class="eyebrow">YOUR TYPE ${d.no}</p>
     <p class="result-name" id="resultName">${esc(d.name)}</p>
     <p class="type-lead">${esc(d.lead)}</p>
     ${d.body.map(p => `<p>${esc(p)}</p>`).join('')}
     ${d.voices.slice(0, 3).map(v => `<p class="mini-voice">「${esc(v[1])}」<span>${esc(v[0])}</span></p>`).join('')}
-    <div class="form">
+    <div class="form" id="greetSlot">
+      <p style="margin:0 0 12px"><b>矢場田さんからのご挨拶</b></p>
+      <!-- 【組み込み】ここから：本番では、この枠に今の3日間チャレンジのサンキューページにある矢場田さんの挨拶動画を入れる（同じ動画。再生の自動開始はしない） -->
+      <div class="video-slot" id="greetVideo">挨拶動画の枠（本番は今のサンキューページと同じ動画）</div>
+      <!-- 【組み込み】ここまで -->
+    </div>
+    <div class="form" id="openchatSlot">
       <p style="margin:0 0 12px"><b>${esc(d.cta)}</b></p>
-      <a class="btn line" id="lineBtn" data-type="${esc(t)}" href="#" onclick="return false" style="width:100%;text-align:center">3日間チャレンジ専用LINEに参加する</a>
-      <p class="note">LINEでは、同じタイプの先輩のインタビュー動画もお送りします。<b>見本のためLINEにはつながりません。</b>本番は、今のサンキューページと同じLINE登録ボタン（シナリオ GziguupnWBOn）にします。</p>
+      <p style="margin:0 0 12px">この結果に興味を持っていただいた方は、下のボタンからオープンチャットに参加してください。続きのご案内は、オープンチャットでお送りします。</p>
+      <a class="btn line" id="openchatBtn" data-type="${esc(t)}" href="#" onclick="return false" style="width:100%;text-align:center">オープンチャットに参加する</a>
+      <p class="note"><b>見本のためオープンチャットにはつながりません。</b>本番は、このキャンペーン用に作るオープンチャットの参加URLを入れます（URLは未確定）。</p>
     </div>`;
   card.scrollIntoView({behavior:'smooth', block:'start'});
 }
