@@ -143,6 +143,17 @@ footer a{color:var(--muted);margin:0 8px}
 .steps3 b{display:block;margin-bottom:2px}
 details{border-bottom:1px solid #eadde3;padding:10px 0}details summary{cursor:pointer;font-weight:700}
 .bridgebox{background:#fdf2f6;border-radius:12px;padding:14px 16px;font-weight:700;margin-top:26px}
+.env{text-align:center;margin:6px 0 4px}
+.env span{display:inline-block;font-size:72px;line-height:1;animation:floaty 3s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(176,43,92,.25))}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+.letter{background:#fffdf7;border:1px solid #eadfcc;border-radius:8px;padding:22px 20px;margin-top:14px;box-shadow:0 10px 28px rgba(60,30,40,.10);animation:unfold .9s ease both}
+@keyframes unfold{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:none}}
+.lt-to{font-size:20px;font-weight:700;margin:0 0 8px}
+.lt-open{margin:0 0 6px}
+.lt-from{display:flex;gap:14px;align-items:center;margin:26px 0 4px;padding-top:16px;border-top:1px dashed #d9c9b0}
+.lt-from img{width:56px;height:auto;border-radius:50%;object-fit:cover;aspect-ratio:1;object-position:top}
+.lt-from span{line-height:1.7}
+@media (prefers-reduced-motion:reduce){.env span,.letter{animation:none}}
 </style>
 </head>
 <body>
@@ -281,27 +292,33 @@ function gate(){
   card.dataset.result = t;
   try{ localStorage.setItem('yabata_diag_type', t); sessionStorage.setItem('yabata_diag_type', t); }catch(e){}
   card.innerHTML = `<div class="progress"><i style="width:100%"></i></div>
-    <p class="eyebrow">COMPLETE</p>
-    <p class="result-name">診断が完了しました</p>
-    <p>あなたのタイプと、同じタイプの先輩の始め方がまとまりました。メールアドレスを入れると、結果が表示されます。</p>
+    <div class="env" aria-hidden="true"><span>&#9993;</span></div>
+    <p class="eyebrow">LETTER</p>
+    <p class="result-name">あなた宛ての診断結果が、届いています</p>
+    <p>8つの回答をもとに、矢場田からの手紙の形でまとめました。お名前とメールアドレスを入れて、受け取ってください。</p>
     <div class="form" id="formSlot">
       <!-- 【組み込み】ここから：本番では、この div の中身を今の3日間チャレンジ登録フォーム（UTAGE・シナリオ ibCOkeUIFYZI）の埋め込みに差し替える -->
+      <label for="nm">お名前（ニックネームでも大丈夫です）</label>
+      <input id="nm" type="text" autocomplete="given-name" placeholder="例：さくら">
       <label for="mail">メールアドレス</label>
       <input id="mail" type="email" placeholder="example@gmail.com" autocomplete="email">
-      <button class="btn" id="go" style="width:100%">結果を見る</button>
+      <button class="btn" id="go" style="width:100%">手紙を受け取る</button>
       <p class="note" id="demoNote"><b>見本のため送信しません。</b>本番はUTAGEの登録フォームに差し替えます。</p>
       <!-- 【組み込み】ここまで -->
       <p class="note">ご登録いただくと、無料の3日間チャレンジプログラムへの参加登録にもなります。登録したメールアドレスにも、結果をお送りします。</p>
     </div>
     <button class="back" id="again">最初からやり直す</button>`;
-  document.getElementById('go').onclick = () => thanks(t);
+  document.getElementById('go').onclick = () => { const n = document.getElementById('nm'); NAME = n ? n.value.trim().slice(0, 20) : ''; thanks(t); };
   document.getElementById('again').onclick = () => { step = 0; ans.length = 0; render(); };
 }
+let NAME = '';
 const OPENCHAT_URL = '#'; // 【組み込み】本番は3日間チャレンジ専用オープンチャットの参加URL（11期サンキューページのボタンと同じ）
 function thanks(t){
   const d = TYPES[t];
   card.innerHTML = `<ol class="steps"><li class="done">診断</li><li class="done">メール登録</li><li class="now">結果と案内</li><li>オープンチャット</li></ol>
     <p class="warn">3日間チャレンジへの参加は、まだ完了していません。ページの最後のボタンから、オープンチャットに参加してください。</p>
+    <div class="letter"><p class="lt-to">${NAME ? esc(NAME) + 'さんへ' : 'あなたへ'}</p>
+    <p class="lt-open">診断を受けてくれて、ありがとうございます。回答を読ませてもらいました。あなたが止まりやすい理由と、その進め方を、手紙にまとめます。</p>
     <p class="eyebrow">YOUR TYPE ${d.no}</p>
     <p class="result-name" id="resultName">${esc(d.name)}</p>
     <p class="type-lead">${esc(d.lead)}</p>
@@ -312,6 +329,7 @@ function thanks(t){
     <h3 class="rh">同じタイプの先輩の言葉</h3>
     ${d.voices.slice(0, 3).map(v => `<p class="mini-voice">「${esc(v[1])}」<span>${esc(v[0])}</span></p>`).join('')}
     ${reportTail(t)}
+    <p class="lt-from"><img src="img/yabata.jpg" alt="矢場田 勲" width="56" height="84"><span>${NAME ? esc(NAME) + 'さんの' : 'あなたの'}一歩目を、楽しみにしています。<br><b>矢場田 勲</b></span></p></div>
     <p class="bridgebox">${esc(BRIDGE[t])}</p>
     <p class="bridge">そんなあなたに、おすすめなのがこちらです</p>
     <section class="lpblock" id="lpBlock">
