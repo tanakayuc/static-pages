@@ -209,7 +209,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </details>
 <details class="tree-section"><summary>診断</summary>
 <details class="tree-subsection"><summary>ページ</summary>
-<a href="005.html" class="sidebar-item tree-leaf">診断ページ（13問）｜公開URLと設問・採点</a>
+<a href="005.html" class="sidebar-item tree-leaf">診断ページ（12問）｜公開URLと設問・採点</a>
 </details>
 <details class="tree-subsection"><summary>設計書</summary>
 <a href="006.html" class="sidebar-item tree-leaf">診断ファネル案 v2｜タイプと流れの設計</a>
@@ -246,7 +246,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </details>
 <details class="tree-section"><summary>診断</summary>
 <details class="tree-subsection"><summary>ページ</summary>
-<a href="005.html" class="sidebar-item tree-leaf">診断ページ（13問）｜公開URLと設問・採点</a>
+<a href="005.html" class="sidebar-item tree-leaf">診断ページ（12問）｜公開URLと設問・採点</a>
 </details>
 <details class="tree-subsection"><summary>設計書</summary>
 <a href="006.html" class="sidebar-item tree-leaf">診断ファネル案 v2｜タイプと流れの設計</a>
@@ -269,9 +269,9 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </details></details></nav>
 <main class="content"><article class="article"><h1>UTAGEへの組み込み手順（スタッフ用）</h1>
 <p>見本ページ: <a href="https://tanakayuc.github.io/static-pages/yabata-diagnostic-lp/" target="_blank" rel="noopener noreferrer">https://tanakayuc.github.io/static-pages/yabata-diagnostic-lp/</a><br />
-結果の見え方の確認: 見本ページのURLの末尾に <code>?view=result&amp;type=子育て</code>（<code>会社員</code> <code>初めて</code> <code>売上</code> <code>PC</code> も可）</p>
+結果の見え方の確認: 見本ページのURLの末尾に <code>?view=result&amp;type=時間</code>（<code>自信</code> <code>順番</code> <code>集客</code> <code>IT</code> も可。回答なしで結果が開く見本表示です）</p>
 <h2>仕組み（1行）</h2>
-<p>13問に答える → 最後の画面で、今の3日間チャレンジ登録フォームを出す → 登録後は結果ページへ。結果の下に、今のLP（<code>a-counselor-lead-flp02</code>）の要素（ヘッダー画像、人生経験が価値という訴求、プロフィール）と挨拶動画を置き、最後に3日間チャレンジ専用のオープンチャットへ誘導する（11期のサンキュー <code>main-linethx11th</code> の形）。診断結果は、ブラウザに保存したタイプ（<code>yabata_diag_type</code>）を、サンキューページで読んで表示する。</p>
+<p>12問に答える → 最後の画面で、今の3日間チャレンジ登録フォームを出す → 登録後は結果ページへ。結果の下に、今のLP（<code>a-counselor-lead-flp02</code>）の要素（ヘッダー画像、人生経験が価値という訴求、プロフィール）を置き（挨拶動画は使わない。結果は、矢場田さんからのお手紙の形で見せる）、最後に3日間チャレンジ専用のオープンチャットへ誘導する（11期のサンキュー <code>main-linethx11th</code> の形）。診断結果は、ブラウザに保存したタイプ（<code>yabata_diag_type</code>）を、サンキューページで読んで表示する。</p>
 <h2>作業1：診断ページ</h2>
 <ol>
 <li>見本の <code>index.html</code> をUTAGEのLPにHTMLとして貼る（js_body等のカスタム欄。複製して試す）。</li>
@@ -281,8 +281,8 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <h2>作業2：サンキューページ</h2>
 <ol>
 <li>今の <code>9th-leadthx</code> は、リード社共通で他の案件も使う。矢場田さん用に複製して、診断用のサンキューにする。</li>
-<li>見本の <code>thanks(t)</code> の中身（結果の見出し・本文・先輩の声・挨拶動画・オープンチャットボタン）をタイプ別に表示する。タイプは <code>localStorage.getItem('yabata_diag_type')</code>。保存が無いとき（広告から直接来た等）は、今のサンキューの文面のまま出す。</li>
-<li>挨拶動画：見本の <code>#greetVideo</code>（点線の枠）に、今の3日間チャレンジのサンキューページにある矢場田さんの挨拶動画を入れる（同じ動画。自動再生はしない）。</li>
+<li>見本の <code>thanks(t)</code> の中身（結果の見出し・本文・先輩の声・オープンチャットボタン）をタイプ別に表示する。タイプは <code>localStorage.getItem('yabata_diag_type')</code>。保存が無いとき（広告から直接来た等）は、今のサンキューの文面のまま出す。</li>
+<li>お手紙：見本の <code>.letter</code> が、宛名（登録時のお名前）つきのお手紙の見た目です。お名前の入力欄は、登録フォームに追加するか、見本のまま使います。挨拶動画は使いません。</li>
 <li>オープンチャットボタン：見本の <code>#openchatBtn</code> に、3日間チャレンジ専用のオープンチャット参加URLを入れる。11期のサンキューページ（<code>main-linethx11th</code>）のボタンと同じURLでよい（見本の <code>OPENCHAT_URL</code> に1か所入れる）。「LINEオープンチャットとは？」の画像は <code>img/openchat.webp</code>（11期のサンキューページの画像と同じ）。<code>data-type</code> にタイプが入るので、クリックの計測に使える。LINE登録ボタン（シナリオ <code>GziguupnWBOn</code>）は、今回の流れでは置かない。</li>
 </ol>
 <h2>確認してほしいこと</h2>
