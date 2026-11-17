@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<script>if(new URLSearchParams(location.search).get("embed"))document.documentElement.classList.add("embed")</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
@@ -156,134 +157,105 @@ details{border-bottom:1px solid #eadde3;padding:10px 0}details summary{cursor:po
 .lt-from span{line-height:1.7}
 @media (prefers-reduced-motion:reduce){.env span,.letter{animation:none}}
 
-/* ---- 手紙・封筒のリッチなデザイン（夜空・金・月） ---- */
-.script{font-family:'Great Vibes','Cormorant Garamond','Snell Roundhand',cursive;font-weight:400}
-.quiz-card.night{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#34327a 0%,#17153f 55%,#0d0b26 100%);border:1px solid #c9a96a;color:#ece7fa;box-shadow:0 0 0 4px rgba(201,169,106,.12),0 20px 60px rgba(20,10,60,.55)}
-.quiz-card.night::before,.letter::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.9;
-  background-image:radial-gradient(1.6px 1.6px at 12% 18%,#fff,transparent),radial-gradient(1.2px 1.2px at 78% 12%,#ffe9b0,transparent),radial-gradient(1.8px 1.8px at 42% 30%,#fff,transparent),radial-gradient(1.2px 1.2px at 90% 44%,#fff,transparent),radial-gradient(1.5px 1.5px at 22% 58%,#ffe9b0,transparent),radial-gradient(1.2px 1.2px at 64% 70%,#fff,transparent),radial-gradient(1.8px 1.8px at 8% 86%,#fff,transparent),radial-gradient(1.4px 1.4px at 84% 90%,#ffe9b0,transparent);
-  background-size:100% 520px;animation:twinkle 4s ease-in-out infinite alternate}
-@keyframes twinkle{from{opacity:.45}to{opacity:1}}
-.quiz-card.night>*{position:relative;z-index:1}
-.quiz-card.night .progress{background:rgba(255,255,255,.15)}
-.quiz-card.night .eyebrow{color:#e0c27a;text-align:center;letter-spacing:.3em}
-.quiz-card.night .result-name{color:#f6e3ae;text-align:center;font-family:'Shippori Mincho','Hiragino Mincho ProN','Yu Mincho',serif;font-size:22px}
-.quiz-card.night p{color:#e6e0f8}
-.quiz-card.night .gold{color:#f3d98d;text-align:center;font-size:40px;line-height:1.1;margin:6px 0 4px}
-.quiz-card.night .form{background:rgba(255,255,255,.07);border:1px solid rgba(201,169,106,.45)}
-.quiz-card.night .form label{color:#f3d98d}
-.quiz-card.night .note{color:#b9b3d9}
-.quiz-card.night .btn{background:linear-gradient(135deg,#f8e29c,#d2a653);color:#2a1d05;border:0;box-shadow:0 0 24px rgba(248,226,156,.45);font-weight:700}
-.quiz-card.night .back{color:#b9b3d9}
-.envx{position:relative;width:250px;height:165px;margin:34px auto 18px;perspective:700px;filter:drop-shadow(0 0 28px rgba(255,214,140,.7));animation:floaty 3.4s ease-in-out infinite}
-.envx .ebody{position:absolute;inset:0;border-radius:8px;background:linear-gradient(160deg,#fff4d2,#efd18c)}
-.envx .paper{position:absolute;left:16px;right:16px;top:12px;bottom:12px;border-radius:4px;background:#fffdf5;padding:16px 18px;transition:transform 1s .5s ease}
-.envx .paper i{display:block;height:3px;border-radius:2px;background:#e6d6ad;margin:0 0 9px}
-.envx .front{position:absolute;inset:0;border-radius:8px;background:linear-gradient(150deg,#fbe9b8,#e8c87c);clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%)}
-.envx .flap{position:absolute;left:0;right:0;top:0;height:96px;border-radius:8px 8px 0 0;background:linear-gradient(#fff8df,#f1d691);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top center;transition:transform .9s ease;z-index:3}
-.envx .seal{position:absolute;left:50%;top:70px;width:36px;height:36px;margin-left:-18px;border-radius:50%;z-index:4;text-align:center;line-height:36px;color:#fff;font-size:18px;background:radial-gradient(circle at 35% 30%,#ff9fbd,#b02b5c);box-shadow:0 2px 8px rgba(120,20,60,.5),0 0 14px rgba(255,150,190,.6);transition:opacity .4s}
+
+/* ---- 統一デザイン：バラ色 × クリーム × 金のアクセント（LPと同じ） ---- */
+:root{--cream:#FFF9F1;--gold:#B8925A;--rose:#C2185B;--rose-soft:#FFEAF2}
+.script{font-family:'Great Vibes','Snell Roundhand',cursive;font-weight:400}
+.mincho{font-family:'Shippori Mincho','Hiragino Mincho ProN','Yu Mincho',serif}
+body{background:var(--cream)}
+.shell{max-width:720px;margin:0 auto;padding:16px 14px 70px;position:relative;z-index:1}
+.minihead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 4px 12px;font-size:12px;color:var(--teal-deep);font-weight:700;letter-spacing:.06em}
+html.embed .minihead,html.embed .proto{display:none}
+html.embed .shell{padding-top:10px}
+.quiz-card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:28px 22px;min-height:340px}
+.quiz-card.stage{background:transparent;border:0;box-shadow:none;padding:0;min-height:0}
+/* ふわっと舞う花びら（診断結果の画面全体） */
+.petals{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.petals i{position:absolute;top:-30px;width:13px;height:17px;border-radius:70% 0 70% 0;background:rgba(255,140,185,.5);animation:fall linear infinite}
+.petals i:nth-child(2n){background:rgba(232,196,138,.55);width:11px;height:14px}
+.petals i:nth-child(3n){background:rgba(255,190,214,.6)}
+@keyframes fall{0%{transform:translate3d(0,-30px,0) rotate(0)}50%{transform:translate3d(28px,55vh,0) rotate(180deg)}100%{transform:translate3d(-20px,112vh,0) rotate(360deg)}}
+/* 封筒の画面 */
+.scene{position:relative;border-radius:24px;padding:34px 20px 30px;text-align:center;background:linear-gradient(180deg,#FFF3F8 0%,#FFEAF2 52%,#FFF9F1 100%);border:1px solid #F5D9E6;box-shadow:0 18px 50px rgba(194,24,91,.10);transition:opacity .8s ease,transform .8s ease}
+.scene.leaving{opacity:0;transform:translateY(-14px) scale(.98)}
+.scene .eyebrow{color:var(--gold);letter-spacing:.3em;margin:0 0 6px}
+.scene .big{font-size:26px;line-height:1.5;color:var(--ink);margin:0 0 8px}
+.scene .sub{color:var(--muted);margin:0 0 4px}
+.envwrap{animation:arrive 1.7s cubic-bezier(.2,.7,.2,1) both;margin:22px auto 8px;width:268px}
+@keyframes arrive{from{opacity:0;transform:translateY(60px) scale(.88);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+.envx{position:relative;width:268px;height:176px;perspective:800px;filter:drop-shadow(0 16px 22px rgba(194,24,91,.22));animation:floaty 4.2s 1.7s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-12px) rotate(1.5deg)}}
+.envx .ebody{position:absolute;inset:0;border-radius:10px;background:linear-gradient(160deg,#FFF6E8,#F6DEBE)}
+.envx .paper{position:absolute;left:18px;right:18px;top:14px;bottom:14px;border-radius:5px;background:#fffdf8;padding:18px 20px;transition:transform 1.1s .5s cubic-bezier(.2,.7,.2,1)}
+.envx .paper i{display:block;height:3px;border-radius:2px;background:#f2d9e3;margin:0 0 10px}
+.envx .front{position:absolute;inset:0;border-radius:10px;background:linear-gradient(150deg,#FFF2DE,#F1D5AE);clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%)}
+.envx .flap{position:absolute;left:0;right:0;top:0;height:100px;border-radius:10px 10px 0 0;background:linear-gradient(#FFF9EE,#F4DBB6);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top center;transition:transform 1s ease;z-index:3}
+.envx .seal{position:absolute;left:50%;top:72px;width:38px;height:38px;margin-left:-19px;border-radius:50%;z-index:4;text-align:center;line-height:38px;color:#fff;font-size:18px;background:radial-gradient(circle at 35% 30%,#ff9fbd,#b02b5c);box-shadow:0 2px 8px rgba(120,20,60,.45),0 0 16px rgba(255,150,190,.6);transition:opacity .4s,transform .4s}
 .envx.open{animation:none}
 .envx.open .flap{transform:rotateX(180deg);z-index:0}
-.envx.open .seal{opacity:0}
-.envx.open .paper{transform:translateY(-90px)}
-.letter{position:relative;overflow:hidden;font-family:'Shippori Mincho','Hiragino Mincho ProN','Yu Mincho',serif;background:radial-gradient(ellipse at 50% -10%,#35337a 0%,#1a1844 45%,#0f0d2c 100%);color:#ece7fa;border:1px solid #c9a96a;border-radius:14px;padding:0 0 24px;box-shadow:0 0 0 4px rgba(201,169,106,.14),0 18px 50px rgba(20,10,60,.5)}
-.letter>*{position:relative;z-index:1}
+.envx.open .seal{opacity:0;transform:scale(1.6)}
+.envx.open .paper{transform:translateY(-96px)}
+.scene .form{background:rgba(255,255,255,.85);border:1px solid #F5D9E6;margin-top:22px;text-align:left;animation:fadeup 1.2s 1.4s both}
+.scene .lead2{animation:fadeup 1.2s .9s both;margin:0}
+@keyframes fadeup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+/* 診断結果のお手紙 */
+.letter{position:relative;overflow:hidden;font-family:'Shippori Mincho','Hiragino Mincho ProN','Yu Mincho',serif;background:#FFFDF8;border:1px solid #EBD9BE;border-radius:20px;padding:0 0 26px;margin-top:14px;box-shadow:0 20px 56px rgba(140,40,80,.16);animation:rise 1.7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(90px) scale(.93);filter:blur(10px)}55%{filter:blur(0)}to{opacity:1;transform:none;filter:blur(0)}}
+.letter::before{content:"";display:block;height:6px;background:linear-gradient(90deg,#ffb3d1,#e8c48a,#ffb3d1)}
 .letter>*:not(.arch){margin-left:22px;margin-right:22px}
-.arch{margin:0;padding:30px 16px 26px;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(255,226,160,.2),transparent 70%);border-bottom:1px solid rgba(201,169,106,.4)}
-.arch .moon{width:78px;height:78px;border-radius:50%;margin:0 auto 8px;background:radial-gradient(circle at 38% 34%,#fffbe6,#f6dd9b 60%,#d9b366);box-shadow:0 0 36px rgba(255,224,150,.7),0 0 90px rgba(255,224,150,.3)}
-.arch .script{font-size:42px;color:#f3d98d;margin:0;line-height:1.2}
-.arch .to{font-size:25px;letter-spacing:.2em;margin:6px 0 4px;color:#fff}
-.arch .date{font-size:12px;letter-spacing:.2em;color:#cfc7ee;margin:0}
-.letter p,.letter li,.letter summary{color:#e6e0f8;line-height:2}
-.letter b{color:#fff}
+.arch{margin:0;padding:30px 16px 22px;text-align:center;background:linear-gradient(180deg,#FFF1F7,#FFFDF8);border-bottom:1px solid #F0DFC8}
+.arch .orn{color:var(--gold);letter-spacing:.6em;margin:0 0 4px;font-size:14px}
+.arch .script{font-size:46px;color:var(--rose);margin:0;line-height:1.2}
+.arch .to{font-size:24px;letter-spacing:.18em;margin:6px 0 4px}
+.arch .date{font-size:12px;letter-spacing:.18em;color:var(--muted);margin:0}
+.letter p,.letter li{line-height:2.05}
 .letter .lt-open{margin-top:22px}
-.letter .eyebrow{color:#e0c27a;text-align:center;letter-spacing:.3em;margin-top:26px}
-.letter .result-name{color:#f6e3ae;text-align:center;font-size:26px}
-.letter .type-lead{text-align:center;color:#fff;font-weight:700}
-.letter .rh{border:0;padding:0;margin-top:44px;margin-bottom:14px;text-align:center;color:#f3d98d;font-size:20px}
-.letter .rh::before{content:"✦";display:block;color:#c9a96a;font-size:14px;margin-bottom:6px}
-.letter .rh::after{content:"";display:block;width:70px;height:1px;background:linear-gradient(90deg,transparent,#c9a96a,transparent);margin:10px auto 0}
-.letter .scenes li,.letter .gets li,.letter .steps3 li{background:rgba(255,255,255,.07);border:1px solid rgba(201,169,106,.3)}
-.letter .scenes li::before,.letter .gets li::before{color:#f3d98d}
-.letter .steps3 li::before{background:linear-gradient(135deg,#f8e29c,#d2a653);color:#2a1d05}
-.letter .mini-voice{border-left:3px solid #c9a96a;color:#e6e0f8}
-.letter .mini-voice span{color:#b9b3d9}
-.letter details{border-bottom:1px solid rgba(201,169,106,.3)}
-.letter details summary{color:#f3d98d}
-.letter .lt-from{border-top:1px dashed rgba(201,169,106,.55)}
-.letter .lt-from img{border:2px solid #c9a96a}
-@media (prefers-reduced-motion:reduce){.quiz-card.night::before,.letter::before{animation:none}}
+.letter .eyebrow{color:var(--gold);text-align:center;letter-spacing:.3em;margin-top:26px}
+.letter .result-name{color:var(--rose);text-align:center;font-size:26px}
+.letter .type-lead{text-align:center;font-weight:700}
+.letter .rh{border:0;padding:0;margin-top:46px;margin-bottom:14px;text-align:center;color:var(--rose);font-size:20px}
+.letter .rh::before{content:"✿";display:block;color:var(--gold);font-size:15px;margin-bottom:6px}
+.letter .rh::after{content:"";display:block;width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:10px auto 0}
+.letter .scenes li,.letter .gets li,.letter .steps3 li{background:#FFF5F9;border:1px solid #F5D9E6}
+.letter .steps3 li::before{background:var(--rose)}
+.letter details{border-bottom:1px solid #EBD9BE}
+.letter details summary{color:var(--rose)}
+.letter .lt-from{border-top:1px dashed #D9C3A0}
+.letter .lt-from img{border:2px solid #E8C48A}
+/* ふわっと現れる（スクロールに合わせて） */
+.reveal{opacity:0;transform:translateY(28px);filter:blur(5px);transition:opacity 1.2s ease,transform 1.2s cubic-bezier(.2,.7,.2,1),filter 1.2s ease}
+.reveal.in{opacity:1;transform:none;filter:none}
+/* 先輩の声 */
+.vcards{display:grid;gap:16px;margin:6px 0 0}
+.vcard{margin:0;background:#fff;border:1px solid #F0DFC8;border-radius:18px;overflow:hidden;box-shadow:0 10px 26px rgba(140,40,80,.10)}
+.vplay{position:relative;display:block;width:100%;aspect-ratio:16/9;padding:0;border:0;background:#222;cursor:pointer}
+.vplay img{width:100%;height:100%;object-fit:cover;display:block}
+.vplay iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.pbtn{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:rgba(194,24,91,.92);box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.pbtn::after{content:"";position:absolute;left:25px;top:19px;border-left:21px solid #fff;border-top:13px solid transparent;border-bottom:13px solid transparent}
+.vcard figcaption{padding:12px 16px 14px;font-family:var(--gothic)}
+.vcard figcaption b{display:block;font-size:16px}
+.vcard .vm{display:inline-block;font-size:12px;color:var(--rose);background:var(--rose-soft);border-radius:99px;padding:1px 10px;margin:4px 0}
+.vcard .vl{display:block;font-size:14px;line-height:1.7;color:var(--ink)}
+.qcards{display:grid;gap:12px}
+.qcard{margin:0;background:#FFF5F9;border:1px solid #F5D9E6;border-radius:16px;padding:16px 18px 14px 50px;position:relative;font-family:var(--gothic)}
+.qcard::before{content:"\201C";position:absolute;left:14px;top:2px;font-size:48px;color:#E8A9C4;font-family:serif;line-height:1}
+.qcard p{margin:0 0 6px;line-height:1.85}
+.qcard span{font-size:13px;color:var(--muted)}
+.vnote{font-size:12px;color:var(--muted);margin-top:10px;font-family:var(--gothic)}
+@media (min-width:640px){.vcards{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){.petals i,.envx,.envwrap,.letter,.scene .form,.scene .lead2{animation:none!important}.reveal{opacity:1;transform:none;filter:none;transition:none}}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="proto">組み込み前の見本（スタッフ確認用）です。登録は送信されません。受講生のお名前とお声は、矢場田さんの掲載確認が済むまで公開しません。</div>
-
-<header class="site"><div class="in">
-  <a class="brand" href="#top"><small>ANSHIN ANTEI COUNSELOR</small>安心安定のカウンセラー起業®</a>
-  <nav class="gnav"><a href="#quiz">タイプ診断</a><a href="#profile">矢場田について</a></nav>
-</div></header>
-
-<main id="top">
-
-<section class="hero"><div class="wrap">
-  <p class="tool">聞き上手な人のための カウンセラー起業タイプ診断</p>
-  <h1>やってみたいのに、なぜか止まる。<br><span class="mk">止まっている理由</span>は、どれですか。</h1>
-  <p class="lead">時間、自信、順番、届け方、パソコン。人によって、止まる理由は違い、効く進め方も違います。12の質問に答えると、あなたが止まりやすい理由と、先輩たちの進め方が分かります。</p>
-  <div class="meta"><span>全12問</span><span>約1分</span><span>無料</span><span>登録なしで始められます</span></div>
-  <a class="btn" href="#quiz">診断をはじめる</a>
-</div></section>
-
-<section id="quiz" class="tint"><div class="wrap">
-  <p class="eyebrow">TYPE CHECK</p>
-  <h2>カウンセラー起業タイプ診断</h2>
-  <p class="note">正解はありません。いまのあなたに一番近いものを選んでください。この診断は働き方を考えるためのもので、医学的・心理学的な診断ではありません。</p>
+<div class="proto">組み込み前の見本（スタッフ確認用）です。登録は送信されません。</div>
+<div class="shell">
+  <div class="minihead"><span>ANSHIN ANTEI COUNSELOR　安心安定のカウンセラー起業®</span><span id="miniTitle">タイプ診断</span></div>
   <div class="quiz-card" id="quizCard" aria-live="polite"></div>
-</div></section>
-
-<section id="challenge" class="tint"><div class="wrap">
-  <p class="eyebrow">AFTER THE CHECK</p>
-  <h2>診断のあとの流れ</h2>
-  <ol class="flow">
-    <li><b>診断に答える</b>12問・約2分。ここまでは登録なしで進められます。</li>
-    <li><b>メールアドレスを入れて、結果を見る</b>矢場田さんからのお手紙の形で、あなたのタイプと進め方、同じタイプの先輩の言葉が表示されます。</li>
-    <li><b>オープンチャットに参加する</b>続きのご案内は、オープンチャットでお送りします。</li>
-  </ol>
-  <div class="challenge">
-    <div><b>FREE</b>参加は無料</div>
-    <div><b>ONLINE</b>オンラインで参加</div>
-    <div><b>ARCHIVE</b>アーカイブの配信あり</div>
-  </div>
-  <p class="center"><a class="btn" href="#quiz">まずは診断から</a></p>
-</div></section>
-
-<section id="profile" class="tint"><div class="wrap">
-  <p class="eyebrow">PROFILE</p>
-  <h2>矢場田 勲について</h2>
-  <div class="profile">
-    <img class="profile-photo" src="img/yabata.jpg" alt="矢場田 勲" width="260" height="390">
-    <div>
-      <p><b>カウンセラー専門コンサルタント</b><br>有限会社ライフビジョン 代表</p>
-      <p>十代でうつを経験し、最初は「うつ専門カウンセラー」として活動を始めました。はじめは苦戦しましたが、人間関係、アダルトチルドレン、愛着の悩みなど、相談の分野を広げるうちに、集客のコツをつかんでいきます。</p>
-      <p>カウンセリングを始めたときは初心者でした。自分用のカンニングペーパーとしてまとめた話し方の型が、のちにテンプレートとなり、2018年に始めた「安心安定のカウンセラー起業®」で受講生が使う教材になっています。これまでに、自立型カウンセラーを1000人育成しました。</p>
-      <p style="margin-bottom:4px"><b>著書</b></p>
-      <ul class="books">
-        <li>10秒でこころの悪循環を断ち切る方法（2013年）</li>
-        <li>プロカウンセラー開業＆集客バイブル（2015年・2021年増刷）</li>
-        <li>ダメな自分を救う実践心理学 すごい自己受容（2026年）</li>
-      </ul>
-    </div>
-  </div>
-</div></section>
-
-</main>
-
-<footer>
-  <a href="https://lead-pro1.com/launch/a_counselor9/pra/">プライバシーポリシー</a>
-  <a href="https://lead-pro1.com/launch/a_counselor9-toku/">特定商取引法に基づく表記</a>
-  <p>Copyright(c) 2026 安心安定のカウンセラー起業® All Rights Reserved.</p>
-</footer>
-
+</div>
+<div class="petals" id="petals" hidden></div>
 <script>
 const QUIZ = [{"q": "いま、一番止まっているのは、どれに近いですか？", "kind": "選択", "opts": [{"t": "予定が読めず、時間が取れなくて進まない", "s": {"時間": 3}}, {"t": "自分にできるのか、自信が持てない", "s": {"自信": 3}}, {"t": "何から手をつければいいのか、決められない", "s": {"順番": 3}}, {"t": "発信や学びはしているが、お客さんが来ない", "s": {"集客": 3}}, {"t": "パソコンやネットの作業で、手が止まる", "s": {"IT": 3}}]}, {"q": "家族や仕事の都合で、自分の予定を自由に決めにくい", "kind": "はい/いいえ", "opts": [{"t": "はい", "s": {"時間": 2}}, {"t": "いいえ", "s": {}}]}, {"q": "「自分には、人に伝えられるような経験がない」と感じる", "kind": "はい/いいえ", "opts": [{"t": "はい", "s": {"自信": 2}}, {"t": "いいえ", "s": {}}]}, {"q": "本や動画で調べても、結局、何から始めるか決められない", "kind": "はい/いいえ", "opts": [{"t": "はい", "s": {"順番": 2}}, {"t": "いいえ", "s": {}}]}, {"q": "発信や学びを続けているのに、申し込みにつながらない", "kind": "はい/いいえ", "opts": [{"t": "はい", "s": {"集客": 2}}, {"t": "いいえ", "s": {}}]}, {"q": "ホームページや広告と聞くと、難しそうで手が止まる", "kind": "はい/いいえ", "opts": [{"t": "はい", "s": {"IT": 2}}, {"t": "いいえ", "s": {}}]}, {"q": "始めるとしたら、一番不安なのは、どれですか？", "kind": "選択", "opts": [{"t": "続ける時間があるか", "s": {"時間": 1}}, {"t": "自分に向いているか", "s": {"自信": 1}}, {"t": "何を、どの順番でやればいいか", "s": {"順番": 1}}, {"t": "お客さんが来てくれるか", "s": {"集客": 1}}, {"t": "パソコンの作業ができるか", "s": {"IT": 1}}]}, {"q": "これまで、新しいことを途中でやめた一番の理由は、どれに近いですか？", "kind": "選択", "opts": [{"t": "忙しくなって、時間が取れなくなった", "s": {"時間": 1}}, {"t": "自分には無理だと感じた", "s": {"自信": 1}}, {"t": "やることが多すぎて、混乱した", "s": {"順番": 1}}, {"t": "成果が見えなくて、続かなかった", "s": {"集客": 1}}, {"t": "設定や操作でつまずいた", "s": {"IT": 1}}]}, {"q": "一番叶えたい暮らしは、どれに近いですか？", "kind": "選択", "opts": [{"t": "家族や自分の時間を守りながら、働く", "s": {"時間": 1}}, {"t": "資格や肩書きがなくても、人の役に立つ", "s": {"自信": 1}}, {"t": "迷わず進める、道筋がある", "s": {"順番": 1}}, {"t": "安定して、お客さんに来てもらえる", "s": {"集客": 1}}, {"t": "パソコンが苦手でも、形にできる", "s": {"IT": 1}}]}, {"q": "毎日のSNS発信は、正直しんどい", "kind": "はい/いいえ", "opts": [{"t": "はい", "s": {"時間": 1}}, {"t": "いいえ", "s": {}}]}, {"q": "人に相談されたり、話を聴いたりすることが多い", "kind": "はい/いいえ（採点なし）", "opts": [{"t": "はい", "s": {}}, {"t": "いいえ", "s": {}}]}, {"q": "いまの状況に、一番近いのは、どれですか？", "kind": "選択（採点なし）", "opts": [{"t": "子育てや介護の最中", "s": {}}, {"t": "会社に勤めている", "s": {}}, {"t": "すでに相談や支援の仕事をしている", "s": {}}, {"t": "いまは仕事をしていない、またはこれから", "s": {}}]}];
 const TYPES = {"時間": {"no": "①", "name": "予定が読めず、続けられなくなる人", "lead": "時間をつくるのではなく、いまの暮らしに合う進め方を選べます", "cta": "細切れの時間でも進められた先輩の始め方を、3日間で見てみませんか", "body": ["子育て、仕事、家のこと。自分で決められる時間が細切れにしか取れない人は、「まとまった時間ができたら始めよう」と考えて、そのまま動けなくなりがちです。", "このタイプの先輩たちは、子育てや勤めを続けたまま、在宅で、自分の予定に合わせて進める形を選んでいます。毎日の発信に頼らないので、予定が白紙になる日があっても止まりません。"], "voices": [["AYUMIさん（元保育士）", "自分の子供にはそういった寂しい思いをさせたくないと思っていて"], ["とうげ もとこさん", "夕飯も一緒に家族みんなで食べれるっていったところが"], ["碧海 富子さん", "それも自分のペースだからいいよって言っていただけて"], ["長野 ともさん", "講座に入ったときはお仕事まだしていたので、仕事と両立しながらでしたけど"]]}, "自信": {"no": "②", "name": "自分にできるのか、と手が止まる人", "lead": "特別な経験や自信がなくても、人の話を聴いてきた経験が土台になります", "cta": "自信がなかった先輩が、どう一歩目を出したのか、3日間で見てみませんか", "body": ["「資格もないし、人に伝えられる経験もない」。そう感じて、始める前に手が止まる人は少なくありません。矢場田によると、そう相談する人は受講生の半数ほどいます。", "けれど、生まれたときからの出来事を順に書き出して、ほかの人に話してみると、人の役に立つ経験が見つかります。内向的で、目立つのが苦手な人も、顔を出さずに進めた先輩がいます。"], "voices": [["川上 弘子さん", "できない自分でもいいんだなぁって 思わせてもらえる場所だったので"], ["mariさん", "今が一番自分が落ち着いてきていて"], ["市川 茉里子さん", "始めてみたらいいことだらけだったので"], ["進藤 いちかさん", "失敗も楽しめるようになってきたかなって感じています"]]}, "順番": {"no": "③", "name": "何から始めればいいか、迷っている人", "lead": "足りないのは知識ではなく、「何を、どの順番で」の型です", "cta": "迷わず進める順番を、3日間で確かめてみませんか", "body": ["本を読み、動画を見て、調べるほど、やることが増えていく。それでも何から手をつければいいのか決まらない。それは、あなたの理解力の問題ではなく、順番が見えていないだけです。", "矢場田も、カウンセリングを始めたときは初心者でした。どう話すかを自分用のカンニングペーパーにまとめ、それを見ながらセッションをしたのが始まりです。その紙が、のちに受講生が使うテンプレートになりました。"], "voices": [["平風 かずのぶさん", "まずデビューして売れてから学んでいけばいいという その逆転の発想"], ["大野 貴之さん", "そういうしんどいことをあんまりやらずに ちゃんとお客様が来ていただけてる"], ["あきさん", "こんなにサクッと来るんだ、Google広告すごいなって思っています"]]}, "集客": {"no": "④", "name": "技術はあるのに、届いていない人", "lead": "足りないのは技術より、必要な人に届く仕組みかもしれません", "cta": "技術があるのに予約が増えない原因を、3日間で確かめてみませんか", "body": ["学んできた。資格も取った。発信も続けてきた。それなのに、お客さんがなかなか来ない。このタイプの人は、技術ではなく「届け方」で止まっていることが多いです。", "悩んでいる人は、自分の悩みを言葉にして検索します。「職場の人間関係」「子どもが不登校」。その言葉に合わせて届ける仕組みを作ると、悩みがはっきりした人と出会えるようになります。"], "voices": [["今咲 七海さん", "全然知らないことを教えていただいたことでうまくいくようになったこともあるし"], ["Rieさん", "一人だったらまず広告の出し方もわからないし"], ["加藤 えみさん", "一人だとどうしていいかわからないことが広告がたくさんあるので"], ["南 ユウタさん", "4ヶ月の間に人生が一気に変わったっていう"], ["みらくさん", "本当に気持ちよくやり取りができるので"]]}, "IT": {"no": "⑤", "name": "パソコンが壁になって、止まる人", "lead": "ホームページや広告も、一つずつ教わりながら作れます", "cta": "パソコンが苦手な先輩がどう進めたのか、3日間で見てみませんか", "body": ["ホームページ、広告、オンラインの面談。聞いただけで、自分には無理だと感じる人もいるでしょう。", "受講生の中には、パソコンを初めて買ったという人もいます。設定は購入したお店でしてもらい、その後はZoomで画面を見ながら「ここをクリックしてください」と案内しています。"], "voices": [["佐藤 ちづ子さん", "パソコンとかもあんまり得意じゃなかったので"], ["月森 ゆりさん", "パソコンのスキルが自信がなくて、ものすごい不安だったんですけど"], ["いしかわ ななこさん", "本当に自分でホームページを作るということができたのもすごくよかったです"], ["稲垣 努さん", "ほぼほぼパソコンも触ったことなくて"], ["唐澤 ひとみさん", "私自身があまり得意ではない分野が学べる"]]}};
@@ -301,7 +273,7 @@ function score(a){
   return order.find(t => s[t] === m);
 }
 const REPORT = {"時間": {"scenes": ["子どもの熱や仕事の都合で、立てていた予定が一日で白紙になる", "「時間ができたら始めよう」と思ったまま、何か月も過ぎている", "夜にパソコンを開いても、疲れていて何も進まない", "「毎日発信が必要」と聞いて、始める前から無理だと感じてしまう"], "notYou": "時間が足りないのは、あなたの努力や能力の問題ではありません。子育てや仕事を抱えた暮らしは、自分で予定を決められない日が必ず出てきます。そこに「毎日コツコツ」を前提にした方法を当てはめれば、続かなくて当然です。", "why": ["多くの人は「まとまった時間ができたら始めよう」と考えます。けれど、そのまとまった時間は、なかなか来ません。待っているうちに、気持ちのほうがしぼんでしまいます。", "もう一つは、集客を「毎日の発信」だと思い込んでいることです。矢場田の講座では、月に一度の投稿でも集客できる仕組みを使っています。続けられない暮らしに合わせて、やり方のほうを変えるのです。"], "steps": [["1日15分で、人生経験を書き出す", "生まれたときからの出来事を、順に書き出します。これまで積み重ねてきた「人の話を聴く力」も、ここで見つかります。"], ["話し方の型を使って、聴く練習をする", "どう話すかを型にしたテンプレートがあるので、経験のない人でも、迷わずセッションを進められます。"], ["悩みを言葉にして検索する人に届ける", "毎日投稿する代わりに、悩みの言葉に合わせて届く仕組みを一度つくります。予定が白紙になる日があっても、止まりません。"]], "gets": ["家族や仕事の時間を削らずに、細切れの時間で進める始め方", "待たずに試すための、最初の一歩の決め方"]}, "自信": {"scenes": ["カウンセリングを学んだことがなく、自分が名乗っていいのか迷う", "人の話はよく聴くほうだと言われるが、それが仕事になる実感がない", "目立つのが苦手で、キラキラした起業の話を聞くと、自分には合わないと感じる", "「自分には特別な経験がない」と思って、書き出す前にやめてしまう"], "notYou": "自信が持てないのは、能力が低いからではありません。矢場田によると、そう相談する人は受講生の半数ほどいます。自信は、始める前につくものではなく、始めたあとに積み上がっていくものです。", "why": ["「自信がついてから始めよう」と考えると、始める日が、ずっと来ません。自信は、小さく始めて、お客さんから「ありがとう」と言われた経験の中で育ちます。", "もう一つは、自分の経験を、価値のあるものだと思えていないことです。生まれたときからの出来事を順に書き出して、ほかの人に話してみると、人の役に立つ経験が見つかります。"], "steps": [["生まれたときからの出来事を書き出す", "うれしかったこと、つらかったこと、乗り越えたことを順に並べます。それが、あなたの相談の軸になります。"], ["型を見ながら、話してみる", "矢場田は、どう話すかを自分用のカンニングペーパーにまとめ、それを見ながらセッションをしました。その型が、いまはテンプレートになっています。"], ["小さく始めて、お客さんの声で育てる", "最初から完璧を目指さず、小さく始めます。お客さんの反応を見ながら、整えていけば大丈夫です。"]], "gets": ["資格や経験がなくても始められる、最初の一歩", "内向的でも、顔を出さずに進めた先輩の始め方"]}, "順番": {"scenes": ["本や動画を見るほど、やることが増えて、どれからやればいいか決められない", "講座を探して比較しているうちに、数か月たっている", "完璧に学び終えてから始めたくて、先延ばしにしている", "何か始めても、「これで合っているのか」と不安になって、手が止まる"], "notYou": "決められないのは、あなたの決断力が弱いからではありません。情報が多いほど、順番は見えにくくなります。誰でも最初は、何から始めればいいのか分からないところからのスタートです。", "why": ["順番がないまま情報を集めると、迷いが増えます。知識が足りないのではなく、「何を、どの順番で」が見えていないことが、止まる理由です。", "もう一つは、学び終えてから始めようとすることです。終わりが見えず、一歩目が遠のきます。「まずデビューして、売れてから学んでいけばいい」という、逆の順番で進めた先輩もいます。"], "steps": [["今日やることを、1つだけ決める", "やりたいことを全部書き出し、その中から、今日やる1つだけを選びます。順番を、自分で決めようとしなくて大丈夫です。"], ["型を使って、小さく始める", "どう話すかを型にしたテンプレートを使えば、経験がなくても、迷わずにセッションを進められます。"], ["お客さんの反応を見ながら整える", "最初から完璧を目指さず、反応を見ながら、少しずつ整えていけば十分です。"]], "gets": ["迷わず進めるための、始め方の順番", "型を使って、まず始めるための考え方"]}, "集客": {"scenes": ["学んできたし、資格もあるのに、お客さんがなかなか来ない", "発信は続けているのに、申し込みにつながらない", "ブログやSNSに時間をかけているのに、手応えが薄い", "技術を磨けば集客もうまくいくはずだと思って、また講座を探している"], "notYou": "お客さんが来ないのは、あなたの技術が足りないからではありません。多くの場合、技術ではなく「届け方」の問題です。同じ悩みで止まっている相談者は、少なくありません。", "why": ["悩んでいる人は、自分の悩みを言葉にして検索します。「職場の人間関係」「子どもが不登校」。その言葉に合わない発信は、どれだけ続けても、届きにくいのです。", "もう一つは、毎日の発信で疲れてしまうことです。発信量を増やす前に、悩みの言葉に合わせた届け方に変えると、悩みがはっきりした人と出会えるようになります。"], "steps": [["自分が助けられる悩みを、言葉にする", "得意なことではなく、相談者が実際に検索する言葉で、助けられる悩みを選びます。"], ["その言葉に合わせて、届ける仕組みをつくる", "毎日の投稿に頼らず、悩みの言葉に合わせて届く形を一度つくります。"], ["申し込みまでの流れを整える", "出会った人が、迷わず相談に申し込める流れを整えます。技術はそのまま活かせます。"]], "gets": ["技術を活かしたまま、悩みのある人に届く集客の考え方", "出会ってから申し込みまでの、迷わせない流れ"]}, "IT": {"scenes": ["ホームページや広告と聞くだけで、自分には無理だと感じる", "パソコンの設定でつまずいたら、聞く相手がいなくて止まってしまう", "新しいツールの名前を見るだけで、疲れてしまう", "やってみたい気持ちはあるのに、できない自分を想像してやめてしまう"], "notYou": "パソコンが苦手でも、あなたの価値は少しも減りません。受講生の中には、パソコンを初めて買ったという人もいます。苦手なのは、一人で全部やろうとするからです。", "why": ["苦手な人が止まるのは、技術が低いからではなく、一人で調べて、一人で設定しようとするからです。分からないところで、誰にも聞けないまま時間が過ぎます。", "もう一つは、全部を一度にやろうとすることです。ホームページも広告も、一つずつ教わりながら作れば、順番に進められます。"], "steps": [["必要な作業を、一つずつに分ける", "全部を一度にやらず、必要な作業を一つずつに分けます。次にやることが、1つだけ見えるようにします。"], ["画面を見ながら、教わる", "設定は購入したお店でしてもらい、その後はZoomで画面を見ながら「ここをクリックしてください」と案内します。"], ["できたものを、そのまま使う", "自分でホームページを作れた人もいます。完成度より、まず動かすことを大切にします。"]], "gets": ["パソコンが苦手でも進められる、作業の分け方", "一人で止まらないための、教わり方"]}};
-const COMMON = {"notEnough": ["診断で自分のタイプが分かると、少し気持ちが軽くなります。けれど、分かっただけで暮らしが変わることは、ほとんどありません。", "止まる原因は、気持ちの弱さではなく「何を、どの順番で、誰と」が見えないことです。タイプに合った進め方と、迷ったときに聞ける場所があって、はじめて一歩目が出ます。", "だから矢場田は、診断のあとに、3日間のチャレンジを用意しました。"], "challenge": ["初心者でも安定したセッションができる、カウンセリングのテンプレート", "顔出しや毎日の発信に頼らない、カウンセラー特化の集客の考え方", "1日500円でもできる、初心者向けの集客の考え方"], "faq": [["本当に無料ですか？", "参加は無料です。夜にオンライン（Zoom）で行い、アーカイブの配信もあります。"], ["資格がなくても大丈夫ですか？", "資格がなくても、あなたの人生経験そのものが、相談者にとっての価値になります。"], ["顔を出さずに活動できますか？", "顔出しなしでも活動できます。顔を出さずに活動している先輩もいます。"], ["参加したあと、やめたくなったら？", "オープンチャットは匿名で参加でき、いつでも退出できます。"]]};
+const COMMON = {"notEnough": ["診断で自分のタイプが分かると、少し気持ちが軽くなります。けれど、分かっただけで暮らしが変わることは、ほとんどありません。", "止まる原因は、気持ちの弱さではなく「何を、どの順番で、誰と」が見えないことです。タイプに合った進め方と、迷ったときに聞ける場所があって、はじめて一歩目が出ます。", "診断は、自分の止まり方を知るためのものです。3日間のチャレンジは、そのタイプに合う進め方を、小さく試して、体で覚えるための時間です。", "だから矢場田は、診断のあとに、3日間のチャレンジを用意しました。"], "challenge": ["初心者でも安定したセッションができる、カウンセリングのテンプレート", "顔出しや毎日の発信に頼らない、カウンセラー特化の集客の考え方", "1日500円でもできる、初心者向けの集客の考え方"], "faq": [["本当に無料ですか？", "参加は無料です。夜にオンライン（Zoom）で行い、アーカイブの配信もあります。"], ["資格がなくても大丈夫ですか？", "資格がなくても、あなたの人生経験そのものが、相談者にとっての価値になります。"], ["顔を出さずに活動できますか？", "顔出しなしでも活動できます。顔を出さずに活動している先輩もいます。"], ["参加したあと、やめたくなったら？", "オープンチャットは匿名で参加でき、いつでも退出できます。"]]};
 function scoreMap(a){
   const m = {}; PRIORITY.forEach(t => m[t] = 0);
   a.forEach((i, q) => { const sc = QUIZ[q].opts[i].s; for (const k in sc) m[k] += sc[k]; });
@@ -323,7 +295,7 @@ function reportTail(t){
   + '<h3 class="rh">診断を見ただけでは、変わらない理由</h3>' + COMMON.notEnough.map(x => '<p>' + esc(x) + '</p>').join('')
   + '<h3 class="rh">3日間チャレンジで、あなたが見ること</h3><ol class="steps3">' + DAYS.map(x => '<li><b>' + esc(x[0]) + '</b>' + esc(x[1]) + '</li>').join('') + '</ol>'
   + '<h3 class="rh">3日間チャレンジで、受け取れるもの</h3><ul class="gets">' + r.gets.concat(COMMON.challenge).map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>'
-  + '<h3 class="rh">矢場田からのメッセージ</h3><p>矢場田は、10年間で6,000件以上のカウンセリングを重ねてきました。その経験を、初心者でも同じように使えるテンプレートにしたのが、この講座の土台です。</p><p>特別な経験がなくても、資格がなくても、毎日発信しなくても大丈夫です。あなたがこれまで人の話を聴いてきたことは、すでに、誰かの役に立つ力になっています。</p><p>まずは3日間、無料で見てみてください。</p>'
+  + '<h3 class="rh">矢場田からのメッセージ</h3><p>矢場田は、長年、たくさんの人のカウンセリングに向き合ってきました。その経験を、初心者でも同じように使えるテンプレートにしたのが、この講座の土台です。</p><p>特別な経験がなくても、資格がなくても、毎日発信しなくても大丈夫です。あなたがこれまで人の話を聴いてきたことは、すでに、誰かの役に立つ力になっています。</p><p>まずは3日間、無料で見てみてください。</p>'
   + '<h3 class="rh">よくある質問</h3>' + EXTRA[t].worries.concat(COMMON.faq).map(x => '<details><summary>' + esc(x[0]) + '</summary><p>' + esc(x[1]) + '</p></details>').join('');
 }
 const STORY = {"時間": "同じように時間が細切れだった先輩の中には、子どもが小学校に上がる前に、在宅で働けるようになりたいと考えて始めた元保育士の方がいます。仕事を続けながら、自分のペースで進めた方もいます。みなさん共通して言うのは、家族や仕事の時間を削らずに進められたことが、続ける支えになったということです。", "自信": "カウンセリングを学んだことも、起業したこともない状態から始めた先輩は、たくさんいます。始めてみたら、いいことだらけだったという声や、できない自分でもいいんだと思わせてもらえる場所だったという声があります。最初の一歩は、みなさんとても小さなものでした。", "順番": "何から始めればいいか迷っていた先輩の中には、「まずデビューして、売れてから学んでいけばいい」という逆の順番に、大きな安心を感じたと話す人がいます。しんどいことをあまりやらずに、お客さんが来てくれるようになった人もいます。順番が決まると、動きやすくなります。", "集客": "学んできたのに、お客さんが増えなかった人たちも、届け方を変えて、うまくいくようになっています。自分では知らなかったことを教わって変わったという声もあれば、一人では広告の出し方も分からなかったという声もあります。技術を変えたのではなく、届け方を整えたことが、共通点です。", "IT": "パソコンが苦手で、不安でいっぱいだった先輩も、一つずつ教わりながら進めています。パソコンをほとんど触ったことがなかった人も、自分でホームページを作れるようになりました。苦手な分野を、教わりながら学べたことが、よかったと話す人もいます。"};
@@ -347,51 +319,92 @@ function calc(){
   card.innerHTML = '<div class="calc"><p class="dots"><i></i><i></i><i></i></p><p>回答から、あなたのタイプをまとめています</p></div>';
   setTimeout(gate, 1500);
 }
+
+const VIDEOS = {
+  "時間": [{id:"FqDgJ3MBhaU", name:"下元 深登梨", term:"6期", face:"顔出しOK", line:"受講した頃、お子さんが不登校だった方"}],
+  "自信": [{id:"gjTIhbYgs20", name:"進藤 いちか", term:"8期", face:"顔出しなし", line:"「本当に自分にできるんだろうか」から始めた方"}, {id:"EEpTkpu2V6I", name:"冥加 あまる", term:"8期", face:"顔出しなし", line:"「踏み出す勇気がなかった」ところから始めた方"}],
+  "順番": [{id:"1vU-RkxLl3o", name:"おおの たかゆき", term:"", face:"顔出しOK", line:"SNSなどしんどいことをやらずに、集客を進めた方"}],
+  "集客": [{id:"ykWswvv81eo", name:"今咲 七海", term:"3期", face:"顔出しOK", line:"カウンセリングを何年も学んでから、届け方を整えた方"}, {id:"Eq8Yz9uU6Ro", name:"まちや あやか", term:"8期", face:"顔出しOK", line:"看護師・保健師・助産師のお仕事を経て始めた方"}],
+  "IT": [{id:"CCSQ1TBoDQI", name:"稲垣 努", term:"4期", face:"顔出しなし", line:"「これは一生の職業だな」と感じた方"}]
+};
+function voicesHTML(t, d){
+  const vs = VIDEOS[t] || [];
+  return '<h3 class="rh">同じタイプの先輩の声（動画）</h3>'
+    + '<p>「' + esc(d.name) + '」と感じていた先輩が、どこで思い込みに気づき、どう進めたのか。ご本人の言葉で聞いてみてください。</p>'
+    + '<div class="vcards">' + vs.map(v => '<figure class="vcard"><button class="vplay" data-id="' + v.id + '" aria-label="' + esc(v.name) + 'さんの動画を再生する"><img src="img/voice-' + v.id + '.jpg" alt="' + esc(v.name) + 'さんのインタビュー動画" loading="lazy"><span class="pbtn"></span></button><figcaption><b>' + esc(v.name) + 'さん</b><span class="vm">' + (v.term ? esc(v.term) + '・' : '') + esc(v.face) + '</span><span class="vl">' + esc(v.line) + '</span></figcaption></figure>').join('') + '</div>'
+    + '<p class="vnote">再生ボタンを押すと、YouTubeの動画が始まります。個人の感想であり、成果を保証するものではありません。</p>'
+    + '<h3 class="rh">先輩たちのひとこと</h3>'
+    + '<div class="qcards">' + d.voices.slice(0, 4).map(v => '<figure class="qcard"><p>' + esc(v[1]) + '</p><span>' + esc(v[0]) + '</span></figure>').join('') + '</div>';
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('.vplay');
+  if (!b || b.querySelector('iframe')) return;
+  b.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + b.dataset.id + '?autoplay=1&rel=0" title="先輩の動画" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+});
+function setupReveal(){
+  const els = Array.from(document.querySelectorAll('.letter > *:not(.arch)'));
+  els.forEach(el => el.classList.add('reveal'));
+  if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('in')); return; }
+  const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), {threshold: 0.12, rootMargin: '0px 0px -6% 0px'});
+  els.forEach(el => io.observe(el));
+}
 function resultView(on){
-  // 結果の画面では、診断の入口（「診断をはじめる」）と流れの説明を隠し、見出しを「診断結果を確認する」にする
-  document.querySelector('.hero').style.display = on ? 'none' : '';
-  document.getElementById('challenge').style.display = on ? 'none' : '';
-  const q = document.getElementById('quiz');
-  q.querySelector('.eyebrow').textContent = on ? 'RESULT' : 'TYPE CHECK';
-  q.querySelector('h2').textContent = on ? '診断結果を確認する' : 'カウンセラー起業タイプ診断';
-  const n = q.querySelector('.note'); if (n) n.style.display = on ? 'none' : '';
+  document.getElementById('miniTitle').textContent = on ? '診断結果' : 'タイプ診断';
+}
+function sampleAns(t){
+  // 見本表示用：指定タイプに最も点が入る回答を機械的に作る
+  const a = [];
+  QUIZ.forEach(q => { let best = 0, bs = -1; q.opts.forEach((o, i) => { const v = (o.s && o.s[t]) || 0; if (v > bs) { bs = v; best = i; } }); a.push(best); });
+  return a;
 }
 function gate(){
   resultView(true);
-  card.classList.add('night');
+  card.classList.add('stage');
   const t = score(ans); const d = TYPES[t];
   card.dataset.result = t;
   try{ localStorage.setItem('yabata_diag_type', t); sessionStorage.setItem('yabata_diag_type', t); }catch(e){}
-  card.innerHTML = `<div class="progress"><i style="width:100%"></i></div>
-    <div class="envx" id="envx" aria-hidden="true"><div class="ebody"></div><div class="paper"><i></i><i></i><i></i></div><div class="front"></div><div class="flap"></div><div class="seal">&#9825;</div></div>
-    <p class="script gold">A Letter for You</p>
-    <p class="eyebrow">矢場田からのお手紙</p>
-    <p class="result-name">矢場田から、あなた宛てのお手紙が届いています</p>
-    <p>12の回答をもとに、矢場田からの手紙の形でまとめました。お名前とメールアドレスを入れて、受け取ってください。</p>
+  document.getElementById('petals').hidden = false;
+  card.innerHTML = `<div class="scene" id="scene">
+    <p class="eyebrow">YOUR RESULT</p>
+    <p class="big mincho">診断結果が出ました</p>
+    <p class="sub lead2">矢場田から、あなた宛てのお手紙が届いています。<br>開けて、受け取りますか？</p>
+    <div class="envwrap"><div class="envx" id="envx" aria-hidden="true"><div class="ebody"></div><div class="paper"><i></i><i></i><i></i></div><div class="front"></div><div class="flap"></div><div class="seal">&#9825;</div></div></div>
     <div class="form" id="formSlot">
-      <!-- 【組み込み】ここから：本番では、この div の中身を今の3日間チャレンジ登録フォーム（UTAGE・シナリオ ibCOkeUIFYZI）の埋め込みに差し替える -->
+      <!-- 【組み込み】ここから：本番では、この div の中身をUTAGEの登録フォームの埋め込みに差し替える -->
       <label for="nm">お名前（ニックネームでも大丈夫です）</label>
       <input id="nm" type="text" autocomplete="given-name" placeholder="例：さくら">
       <label for="mail">メールアドレス</label>
       <input id="mail" type="email" placeholder="example@gmail.com" autocomplete="email">
-      <button class="btn" id="go" style="width:100%">手紙を受け取る</button>
+      <button class="btn" id="go" style="width:100%">手紙を開ける</button>
       <p class="note" id="demoNote"><b>見本のため送信しません。</b>本番はUTAGEの登録フォームに差し替えます。</p>
       <!-- 【組み込み】ここまで -->
-      <p class="note">ご登録いただくと、無料の3日間チャレンジプログラムへの参加登録にもなります。登録したメールアドレスにも、結果をお送りします。</p>
+      <p class="note">ご登録のメールアドレスにも、結果をお送りします。携帯メール・iCloudメールは届かないことがあるため、それ以外のアドレスでご登録ください。</p>
     </div>
-    <button class="back" id="again">最初からやり直す</button>`;
-  document.getElementById('go').onclick = () => { const n = document.getElementById('nm'); NAME = n ? n.value.trim().slice(0, 20) : ''; const e = document.getElementById('envx'); if (e) e.classList.add('open'); document.getElementById('go').disabled = true; setTimeout(() => thanks(t), e ? 1700 : 0); };
-  document.getElementById('again').onclick = () => { resultView(false); step = 0; ans.length = 0; render(); };
+    <button class="back" id="again">最初からやり直す</button></div>`;
+  document.getElementById('go').onclick = () => {
+    const n = document.getElementById('nm'); const m = document.getElementById('mail');
+    const nm = n ? n.value.trim().slice(0, 20) : ''; const ml = m ? m.value.trim() : '';
+    let err = document.getElementById('formErr');
+    if (!err) { err = document.createElement('p'); err.id = 'formErr'; err.className = 'note'; err.style.cssText = 'color:#C2185B;font-weight:700;margin:0 0 10px'; document.getElementById('go').before(err); }
+    if (!nm) { err.textContent = 'お名前（ニックネームでも大丈夫です）を入れてください。'; n.focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ml)) { err.textContent = 'メールアドレスの形を確かめてください。例：example@gmail.com'; m.focus(); return; }
+    err.textContent = '';
+    NAME = nm;
+    document.getElementById('go').disabled = true;
+    document.getElementById('envx').classList.add('open');
+    setTimeout(() => document.getElementById('scene').classList.add('leaving'), 1500);
+    setTimeout(() => thanks(t), 2300);
+  };
+  document.getElementById('again').onclick = () => { resultView(false); card.classList.remove('stage'); document.getElementById('petals').hidden = true; step = 0; ans.length = 0; render(); };
+  if (window.parent !== window) { try { window.scrollTo(0, 0); } catch (e) {} }
 }
 let NAME = '';
-const OPENCHAT_URL = '#'; // 【組み込み】本番は3日間チャレンジ専用オープンチャットの参加URL（11期サンキューページのボタンと同じ）
+const OPENCHAT_URL = '#'; // 【組み込み】本番は3日間チャレンジ専用オープンチャットの参加URL
 function thanks(t){
   resultView(true);
-  card.classList.remove('night');
+  card.classList.remove('stage');
   const d = TYPES[t];
-  card.innerHTML = `<ol class="steps"><li class="done">診断</li><li class="done">メール登録</li><li class="now">結果と案内</li><li>オープンチャット</li></ol>
-    <p class="warn">3日間チャレンジへの参加は、まだ完了していません。ページの最後のボタンから、オープンチャットに参加してください。</p>
-    <div class="letter"><div class="arch"><div class="moon"></div><p class="script">A Letter for You</p><p class="to">${NAME ? esc(NAME) + ' 様' : 'あなた 様'}</p><p class="date">${(() => { const n = new Date(); return n.getFullYear() + '.' + (n.getMonth() + 1) + '.' + n.getDate(); })()} ・ 矢場田より</p></div>
+  card.innerHTML = `<div class="letter"><div class="arch"><p class="orn">✿ ✿ ✿</p><p class="script">A Letter for You</p><p class="to">${NAME ? esc(NAME) + ' 様' : 'あなた 様'}</p><p class="date">${(() => { const n = new Date(); return n.getFullYear() + '.' + (n.getMonth() + 1) + '.' + n.getDate(); })()} ・ 矢場田より</p></div>
     <p class="lt-open">診断を受けてくれて、ありがとうございます。矢場田です。12の回答を、読ませてもらいました。一番止まっているのは「${esc(QUIZ[0].opts[ans[0]].t)}」、叶えたいのは「${esc(QUIZ[8].opts[ans[8]].t)}」だと、教えてくれましたね。${ans[10] === 0 ? '人の話を聴くことが多いというあなたは、すでに、この仕事の土台を持っています。' : ''}${ans[11] === 0 ? '子育てや介護のさなかでも、' : ans[11] === 1 ? '会社に勤めながらでも、' : ans[11] === 2 ? '今のお仕事を活かしながら、' : '何も決まっていない今だからこそ、'}あなたに合う進め方を、手紙にまとめます。</p>
     <p class="eyebrow">YOUR TYPE ${d.no}</p>
     <p class="result-name" id="resultName">${esc(d.name)}</p>
@@ -400,8 +413,7 @@ function thanks(t){
     ${reportHTML(t)}
     <h3 class="rh">同じタイプの先輩たちは、どう始めたか</h3>
     <p>${esc(STORY[t])}</p>
-    <h3 class="rh">同じタイプの先輩の言葉</h3>
-    ${d.voices.slice(0, 3).map(v => `<p class="mini-voice">「${esc(v[1])}」<span>${esc(v[0])}</span></p>`).join('')}
+    ${voicesHTML(t, d)}
     ${reportTail(t)}
     <p class="lt-from"><img src="img/yabata.jpg" alt="矢場田 勲" width="56" height="84"><span>${NAME ? esc(NAME) + 'さんの' : 'あなたの'}一歩目を、楽しみにしています。<br><b>矢場田 勲</b></span></p></div>
     <p class="bridgebox">${esc(BRIDGE[t])}</p>
@@ -422,10 +434,11 @@ function thanks(t){
       <div class="challenge"><div><b>FREE</b>参加は無料</div><div><b>ONLINE</b>オンラインで参加</div><div><b>ARCHIVE</b>アーカイブの配信あり</div></div>
       <div class="profile">
         <p class="eyebrow">PROFILE</p>
-        <p><b>矢場田つとむ</b>（株式会社ライフビジョン代表 / カウンセラー専門コンサルタント）</p>
-        <p>高校1年生のときに対人緊張から不眠症、不登校になり、21歳のときには難病の潰瘍性大腸炎に。10〜20代にかけて悩み続け、研究し続けるなかで「こころの悪循環を断ち切るセラピー」を開発しました。その経験をもとに、6000件以上のカウンセリングを実施。ノウハウを体系化したのが「安心安定のカウンセラー起業講座」です。</p>
+        <p><b>矢場田 勲（やばた つとむ）</b>（有限会社ライフビジョン 代表取締役 / カウンセラー専門コンサルタント）</p>
+        <p>高校1年生のときに対人緊張から不眠症、不登校になり、21歳のときには難病の潰瘍性大腸炎に。10〜20代にかけて悩み続け、研究し続けるなかで「こころの悪循環を断ち切るセラピー」を開発しました。その経験をもとに、多くのカウンセリングを重ねてきました。ノウハウを体系化したのが「安心安定のカウンセラー起業講座」です。</p>
       </div>
     </section>
+    <p class="warn">3日間チャレンジへの参加は、まだ完了していません。ページの最後のボタンから、オープンチャットに参加してください。</p>
     <div class="form" id="openchatSlot">
       <p style="margin:0 0 12px"><b>${esc(d.cta)}</b></p>
       <p style="margin:0 0 12px">3日間チャレンジへの参加は、LINEオープンチャットから。下のボタンを押して参加してください。</p>
@@ -434,17 +447,21 @@ function thanks(t){
       <img class="ocimg" src="img/openchat.webp" alt="LINEオープンチャットとは。普段のLINEと分けて使える、LINEのID交換が不要、通報機能がある、すべて無料で使える" width="1197" height="1314" loading="lazy">
       <p class="note"><b>見本のためボタンはつながりません。</b>本番は、いまの3日間チャレンジのサンキューページと同じオープンチャットの参加URLを入れます。</p>
     </div>`;
+  document.getElementById('petals').hidden = false; setupReveal();
   card.scrollIntoView({behavior:'smooth', block:'start'});
+  if (window.parent !== window) { try { window.scrollTo(0, 0); } catch (e) {} }
 }
-function start(){
-  card.innerHTML = `<p class="qtext">全${QUIZ.length}問・約2分です。</p><p>答え終わったら、メールアドレスを入れると結果が表示されます。</p><button class="btn" id="startBtn">診断をはじめる</button>`;
-  document.getElementById('startBtn').onclick = render;
-}
+
+function start(){ render(); }
+(function(){
+  const pet = document.getElementById('petals');
+  pet.innerHTML = Array.from({length: 12}, (_, k) => '<i style="left:' + (k * 8.3 + 2) + '%;animation-duration:' + (11 + (k * 7) % 9) + 's;animation-delay:-' + ((k * 5) % 13) + 's"></i>').join('');
+})();
 const VIEW = new URLSearchParams(location.search).get('view');
 if (VIEW === 'result') {
   let t = AD && TYPES[AD] ? AD : null;
   try { t = t || localStorage.getItem('yabata_diag_type'); } catch (e) {}
-  if (t && TYPES[t]) thanks(t); else start();
+  if (t && TYPES[t]) { ans.length = 0; sampleAns(t).forEach(x => ans.push(x)); thanks(t); } else start();
 } else start();
 </script>
 </body>
