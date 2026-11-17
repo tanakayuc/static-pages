@@ -1,0 +1,1570 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>坪田まゆみ ファネル実装・疎通確認の引き継ぎ - 坪田まゆみ｜ファネル素材集</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-frame { padding:.75rem; border:2px solid #06C755; border-radius:16px; background:#F1FBF4; }
+.material-flow-frame > header { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .6rem; margin-bottom:.75rem; }
+.material-flow-frame > header strong { padding:.2rem .7rem; border-radius:999px; color:#fff; background:#06C755; font-size:.78rem; font-weight:800; }
+.material-flow-frame > header small { color:var(--ink-soft); font-size:.74rem; line-height:1.5; }
+.material-flow-frame .material-flow-stage { width:auto; min-width:0; }
+.material-flow-frame .material-flow-pages { grid-template-columns:repeat(2, 16.5rem); align-items:start; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } .material-flow-frame .material-flow-pages { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+
+.has-sidebar-tree .sidebar { height:auto; position:static; overflow:visible; align-self:stretch; }
+.has-sidebar-tree .sidebar h3 { margin-bottom:.65rem; }
+.tree-root, .tree-group, .tree-section, .tree-subsection { min-width:0; }
+.tree-group > summary { cursor:pointer; list-style:none; user-select:none; }
+.tree-group > summary::-webkit-details-marker { display:none; }
+.tree-group > summary::before { content:'▸'; display:inline-block; width:1.1em; color:var(--sub); }
+.tree-group[open] > summary::before { content:'▾'; }
+.tree-group { margin:.45rem 0; border-top:1px solid var(--line); padding-top:.3rem; }
+.tree-group > summary { padding:.6rem .4rem; color:var(--deep); font-size:.9rem; font-weight:800; line-height:1.5; }
+.tree-group > summary:hover { background:#EAF7F3; border-radius:9px; }
+.tree-group > .tree-section { margin-left:.6rem; }
+.tree-root summary { cursor:pointer; list-style:none; user-select:none; }
+.tree-root summary::-webkit-details-marker { display:none; }
+.tree-root summary::before { content:'▸'; display:inline-block; width:1.1em; color:var(--sub); }
+.tree-root[open] > summary::before, .tree-section[open] > summary::before, .tree-subsection[open] > summary::before { content:'▾'; }
+.tree-root > summary { margin:.55rem .25rem .75rem; padding:.55rem .45rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.88rem; font-weight:800; }
+.tree-section { margin:.3rem 0; }
+.tree-section > summary { padding:.62rem .5rem; border-radius:9px; color:var(--sub); font-size:.86rem; font-weight:800; line-height:1.5; }
+.tree-section > summary:hover, .tree-subsection > summary:hover { background:#EAF7F3; }
+.tree-section.is-current > summary { color:var(--deep); background:#E8F6F1; }
+.tree-subsection { margin:.2rem 0 .45rem .55rem; }
+.tree-subsection > summary { padding:.48rem .4rem; border-radius:8px; color:var(--ink); font-size:.8rem; font-weight:750; line-height:1.45; }
+.tree-subsection.is-current > summary { color:var(--deep); }
+.tree-leaf { margin:.18rem .15rem .2rem 1.4rem; padding:.45rem .55rem; font-size:.78rem; line-height:1.5; }
+.tree-section > .tree-leaf { margin-left:.7rem; }
+.tree-all-link { display:block; margin:1rem .4rem 0; padding:.55rem .25rem; color:var(--sub); font-size:.8rem; font-weight:750; }
+.tree-mobile { display:none; }
+@media (max-width:680px) {
+  .tree-mobile { display:block; margin:0; padding:.8rem 1rem; background:#F8FCFA; border-bottom:1px solid var(--line); }
+  .tree-mobile > summary { cursor:pointer; color:var(--deep); font-size:1rem; font-weight:800; }
+  .tree-mobile > nav { margin-top:.55rem; padding:.45rem 0 .2rem; }
+  .tree-mobile .tree-section > summary { font-size:.95rem; padding:.7rem .5rem; }
+  .tree-mobile .tree-subsection > summary { font-size:.9rem; padding:.62rem .5rem; }
+  .tree-mobile .tree-leaf { font-size:.88rem; padding:.65rem .55rem; }
+}
+</style></head><body class="has-sidebar-tree"><details class="tree-mobile"><summary>素材を探す</summary><nav aria-label="素材集の階層メニュー"><details class="tree-root" open><summary>工程から探す</summary><details class="tree-section"><summary>全体像</summary>
+<details class="tree-subsection"><summary>全体図</summary>
+<a href="001.html" class="sidebar-item tree-leaf">ファネル全体図・素材一覧</a>
+</details>
+</details>
+<details class="tree-section is-current" open><summary>登録</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="002.html" class="sidebar-item tree-leaf">無料セミナー登録LP</a>
+</details>
+<details class="tree-subsection"><summary>フォーム</summary>
+<a href="067.html" class="sidebar-item tree-leaf">登録フォーム｜無料セミナー</a>
+</details>
+<details class="tree-subsection"><summary>登録メール</summary>
+<a href="124.html" class="sidebar-item tree-leaf">【登録完了】無料オンラインセミナーのご案内</a>
+</details>
+<details class="tree-subsection is-current" open><summary>実装引継ぎ</summary>
+<a href="126.html" class="sidebar-item tree-leaf active" aria-current="page">スタッフへの実装・疎通確認の引き継ぎ</a>
+</details>
+</details>
+<details class="tree-section"><summary>診断と待機</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="003.html" class="sidebar-item tree-leaf">登録後の案内・開始待ち</a>
+<a href="013.html" class="sidebar-item tree-leaf">発音診断＆コーチングの案内｜5,980円</a>
+<a href="014.html" class="sidebar-item tree-leaf">診断申込完了・LINE案内</a>
+</details>
+<details class="tree-subsection"><summary>フォーム</summary>
+<a href="065.html" class="sidebar-item tree-leaf">決済フォーム｜発音診断5,980円</a>
+</details>
+<details class="tree-subsection"><summary>決済別メール</summary>
+<a href="071.html" class="sidebar-item tree-leaf">【発音診断＆コーチング】銀行振込のご案内｜5,980円</a>
+<a href="072.html" class="sidebar-item tree-leaf">【発音診断＆コーチング】クレジットカード決済完了｜5,980円</a>
+<a href="073.html" class="sidebar-item tree-leaf">【発音診断＆コーチング】ご入金確認のご連絡｜5,980円</a>
+</details>
+<details class="tree-subsection"><summary>完成動画</summary>
+<a href="004.html" class="sidebar-item tree-leaf">登録後のご案内動画｜ジェットカット・1.1倍速</a>
+</details>
+<details class="tree-subsection"><summary>LINE自動返信</summary>
+<a href="120.html" class="sidebar-item tree-leaf">診断申込後のLINE返信</a>
+</details>
+</details>
+<details class="tree-section"><summary>セミナー</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="005.html" class="sidebar-item tree-leaf">セミナー視聴｜診断未購入者</a>
+<a href="006.html" class="sidebar-item tree-leaf">セミナー視聴｜診断購入者</a>
+</details>
+<details class="tree-subsection"><summary>ステップメール</summary>
+<a href="023.html" class="sidebar-item tree-leaf">［まもなく開始］開始前のご案内｜紙とペンをご用意ください</a>
+<a href="026.html" class="sidebar-item tree-leaf">［視聴中案内］視聴中の講座案内｜39,800円の条件を確認できます</a>
+<a href="027.html" class="sidebar-item tree-leaf">［視聴中案内］診断購入者の講座案内｜追加33,820円の条件</a>
+<a href="030.html" class="sidebar-item tree-leaf">［決済未完了］お申し込み手続きが完了していません</a>
+<a href="031.html" class="sidebar-item tree-leaf">［再放送公開］聞き逃した音をもう一度</a>
+<a href="032.html" class="sidebar-item tree-leaf">［受付開始］一語ずつ読む癖の次に</a>
+<a href="033.html" class="sidebar-item tree-leaf">［受付中］音声変化より先に見ること</a>
+<a href="034.html" class="sidebar-item tree-leaf">［受付中］会議で止まる一言の正体</a>
+<a href="035.html" class="sidebar-item tree-leaf">［受付中］添削で見るのは一音だけ？</a>
+<a href="036.html" class="sidebar-item tree-leaf">［明日〆切］続ける手順を決める</a>
+<a href="037.html" class="sidebar-item tree-leaf">［明日〆切］コーチング回数を確認</a>
+<a href="038.html" class="sidebar-item tree-leaf">［本日〆切］始める前の確認事項</a>
+<a href="039.html" class="sidebar-item tree-leaf">［本日〆切］今回の受付は今夜まで</a>
+<a href="086.html" class="sidebar-item tree-leaf">公式LINEへのご登録はお済みですか？</a>
+<a href="087.html" class="sidebar-item tree-leaf">公式LINEへのご登録はお済みですか？</a>
+</details>
+<details class="tree-subsection"><summary>完成動画</summary>
+<a href="123.html" class="sidebar-item tree-leaf">診断購入者向け完成動画｜65分02秒</a>
+<a href="122.html" class="sidebar-item tree-leaf">診断未購入者向け完成動画｜64分51秒</a>
+</details>
+</details>
+<details class="tree-section"><summary>講座販売</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="008.html" class="sidebar-item tree-leaf">販売ページ｜未購入者・期限内39,800円</a>
+<a href="009.html" class="sidebar-item tree-leaf">販売ページ｜診断購入者・期限内33,820円</a>
+<a href="015.html" class="sidebar-item tree-leaf">販売ページ｜未購入者・期限後49,800円</a>
+<a href="016.html" class="sidebar-item tree-leaf">販売ページ｜診断購入者・期限後43,820円</a>
+<a href="017.html" class="sidebar-item tree-leaf">販売ページ｜診断当日の専用案内33,820円</a>
+<a href="019.html" class="sidebar-item tree-leaf">受付終了</a>
+</details>
+<details class="tree-subsection"><summary>フォーム</summary>
+<a href="066.html" class="sidebar-item tree-leaf">決済フォーム｜コース49,800円</a>
+<a href="068.html" class="sidebar-item tree-leaf">決済フォーム｜コース39,800円</a>
+<a href="069.html" class="sidebar-item tree-leaf">決済フォーム｜診断購入者43,820円</a>
+<a href="070.html" class="sidebar-item tree-leaf">決済フォーム｜診断購入者33,820円</a>
+</details>
+<details class="tree-subsection"><summary>決済別メール</summary>
+<a href="074.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】銀行振込のご案内｜49,800円</a>
+<a href="075.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】クレジットカード決済完了｜49,800円</a>
+<a href="076.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】ご入金確認のご連絡｜49,800円</a>
+<a href="077.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】銀行振込のご案内｜39,800円</a>
+<a href="078.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】クレジットカード決済完了｜39,800円</a>
+<a href="079.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】ご入金確認のご連絡｜39,800円</a>
+<a href="080.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】銀行振込のご案内｜43,820円</a>
+<a href="081.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】クレジットカード決済完了｜43,820円</a>
+<a href="082.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】ご入金確認のご連絡｜43,820円</a>
+<a href="083.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】銀行振込のご案内｜33,820円</a>
+<a href="084.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】クレジットカード決済完了｜33,820円</a>
+<a href="085.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】ご入金確認のご連絡｜33,820円</a>
+</details>
+</details>
+<details class="tree-section"><summary>受講開始と継続</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="018.html" class="sidebar-item tree-leaf">コース申込完了・LINE案内</a>
+</details>
+<details class="tree-subsection"><summary>ステップメール</summary>
+<a href="040.html" class="sidebar-item tree-leaf">［購入確認］お申し込み内容の確認</a>
+<a href="041.html" class="sidebar-item tree-leaf">［ようこそ］21日間の始め方</a>
+<a href="042.html" class="sidebar-item tree-leaf">［Day1］なぜ発音が重要なのか</a>
+<a href="043.html" class="sidebar-item tree-leaf">［Day2］単語のリズムと発音記号</a>
+<a href="044.html" class="sidebar-item tree-leaf">［Day3］内容語と機能語</a>
+<a href="045.html" class="sidebar-item tree-leaf">［Day4］文章のリズム</a>
+<a href="046.html" class="sidebar-item tree-leaf">［Day5］音声変化の全体像</a>
+<a href="047.html" class="sidebar-item tree-leaf">［Day6］連結を聞く</a>
+<a href="048.html" class="sidebar-item tree-leaf">［Day7］脱落を聞く</a>
+<a href="049.html" class="sidebar-item tree-leaf">［Day8］弱形を聞く</a>
+<a href="050.html" class="sidebar-item tree-leaf">［Day9］同化を聞く</a>
+<a href="051.html" class="sidebar-item tree-leaf">［Day10］ラ行化を聞く</a>
+<a href="052.html" class="sidebar-item tree-leaf">［Day11］英語の発声方法</a>
+<a href="053.html" class="sidebar-item tree-leaf">［Day12］雑談とあいさつ</a>
+<a href="054.html" class="sidebar-item tree-leaf">［Day13］買い物の例文</a>
+<a href="055.html" class="sidebar-item tree-leaf">［Day14］レストランの例文</a>
+<a href="056.html" class="sidebar-item tree-leaf">［Day15］予定調整の例文</a>
+<a href="057.html" class="sidebar-item tree-leaf">［Day16］感情とお願い</a>
+<a href="058.html" class="sidebar-item tree-leaf">［Day17］社内コミュニケーション</a>
+<a href="059.html" class="sidebar-item tree-leaf">［Day18］オンライン会議</a>
+<a href="060.html" class="sidebar-item tree-leaf">［Day19］社外とのやり取り</a>
+<a href="061.html" class="sidebar-item tree-leaf">［Day20］会議・提案・交渉</a>
+<a href="062.html" class="sidebar-item tree-leaf">［Day21］旅行・移動・トラブル</a>
+</details>
+<details class="tree-subsection"><summary>LINE</summary>
+<a href="088.html" class="sidebar-item tree-leaf">L00_友だち追加</a>
+<a href="089.html" class="sidebar-item tree-leaf">L01_診断日程</a>
+<a href="090.html" class="sidebar-item tree-leaf">L02_講座未診断の日程</a>
+<a href="091.html" class="sidebar-item tree-leaf">L03_講座診断未実施の日程</a>
+<a href="092.html" class="sidebar-item tree-leaf">L04_診断実施済みの講座購入</a>
+<a href="093.html" class="sidebar-item tree-leaf">L05_予約確定</a>
+<a href="094.html" class="sidebar-item tree-leaf">L06_予約前の案内</a>
+<a href="095.html" class="sidebar-item tree-leaf">L07_受講開始</a>
+<a href="096.html" class="sidebar-item tree-leaf">L08_添削返却</a>
+<a href="097.html" class="sidebar-item tree-leaf">L09_終了後コーチング</a>
+<a href="098.html" class="sidebar-item tree-leaf">L10_日程変更</a>
+<a href="099.html" class="sidebar-item tree-leaf">LD01_受講01日目</a>
+<a href="100.html" class="sidebar-item tree-leaf">LD02_受講02日目</a>
+<a href="101.html" class="sidebar-item tree-leaf">LD03_受講03日目</a>
+<a href="102.html" class="sidebar-item tree-leaf">LD04_受講04日目</a>
+<a href="103.html" class="sidebar-item tree-leaf">LD05_受講05日目</a>
+<a href="104.html" class="sidebar-item tree-leaf">LD06_受講06日目</a>
+<a href="105.html" class="sidebar-item tree-leaf">LD07_受講07日目</a>
+<a href="106.html" class="sidebar-item tree-leaf">LD08_受講08日目</a>
+<a href="107.html" class="sidebar-item tree-leaf">LD09_受講09日目</a>
+<a href="108.html" class="sidebar-item tree-leaf">LD10_受講10日目</a>
+<a href="109.html" class="sidebar-item tree-leaf">LD11_受講11日目</a>
+<a href="110.html" class="sidebar-item tree-leaf">LD12_受講12日目</a>
+<a href="111.html" class="sidebar-item tree-leaf">LD13_受講13日目</a>
+<a href="112.html" class="sidebar-item tree-leaf">LD14_受講14日目</a>
+<a href="113.html" class="sidebar-item tree-leaf">LD15_受講15日目</a>
+<a href="114.html" class="sidebar-item tree-leaf">LD16_受講16日目</a>
+<a href="115.html" class="sidebar-item tree-leaf">LD17_受講17日目</a>
+<a href="116.html" class="sidebar-item tree-leaf">LD18_受講18日目</a>
+<a href="117.html" class="sidebar-item tree-leaf">LD19_受講19日目</a>
+<a href="118.html" class="sidebar-item tree-leaf">LD20_受講20日目</a>
+<a href="119.html" class="sidebar-item tree-leaf">LD21_受講21日目</a>
+</details>
+<details class="tree-subsection"><summary>LINE自動返信</summary>
+<a href="121.html" class="sidebar-item tree-leaf">コース申込後のLINE返信</a>
+</details>
+</details>
+<details class="tree-section"><summary>法務</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="127.html" class="sidebar-item tree-leaf">特定商取引法に基づく表記</a>
+<a href="064.html" class="sidebar-item tree-leaf">プライバシーポリシー</a>
+</details>
+</details>
+<details class="tree-section"><summary>以前の制作資料</summary>
+<details class="tree-subsection"><summary>ステップメール</summary>
+<a href="010.html" class="sidebar-item tree-leaf">以前の資料｜登録直後｜セミナー案内</a>
+<a href="024.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜視聴後｜診断未購入者</a>
+<a href="025.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜視聴後｜診断購入者</a>
+<a href="028.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜価格切替後｜診断未購入者</a>
+<a href="029.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜価格切替後｜診断購入者</a>
+</details>
+<details class="tree-subsection"><summary>パワポスライド</summary>
+<a href="063.html" class="sidebar-item tree-leaf">以前の資料｜登録後案内動画｜5枚のスライド・PPTX</a>
+</details>
+<details class="tree-subsection"><summary>購入後メール</summary>
+<a href="011.html" class="sidebar-item tree-leaf">以前の資料｜診断購入直後｜視聴案内・日程調整</a>
+<a href="012.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜講座購入直後｜受講案内</a>
+</details>
+<details class="tree-subsection"><summary>動画台本</summary>
+<a href="007.html" class="sidebar-item tree-leaf">以前の資料｜坪田さん単独60分</a>
+<a href="022.html" class="sidebar-item tree-leaf">以前の資料｜診断購入者向け｜差し替え収録</a>
+</details>
+<details class="tree-subsection"><summary>パワポ</summary>
+<a href="020.html" class="sidebar-item tree-leaf">以前の資料｜60分構成案</a>
+<a href="021.html" class="sidebar-item tree-leaf">以前の資料｜47枚のスライド・PPTX</a>
+</details>
+</details></details></nav></details>
+<div class="layout"><nav class="sidebar" aria-label="素材集の階層メニュー"><div class="brand">MATERIAL LIBRARY</div><h3>坪田まゆみ｜ファネル素材集</h3><details class="tree-root" open><summary>工程から探す</summary><details class="tree-section"><summary>全体像</summary>
+<details class="tree-subsection"><summary>全体図</summary>
+<a href="001.html" class="sidebar-item tree-leaf">ファネル全体図・素材一覧</a>
+</details>
+</details>
+<details class="tree-section is-current" open><summary>登録</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="002.html" class="sidebar-item tree-leaf">無料セミナー登録LP</a>
+</details>
+<details class="tree-subsection"><summary>フォーム</summary>
+<a href="067.html" class="sidebar-item tree-leaf">登録フォーム｜無料セミナー</a>
+</details>
+<details class="tree-subsection"><summary>登録メール</summary>
+<a href="124.html" class="sidebar-item tree-leaf">【登録完了】無料オンラインセミナーのご案内</a>
+</details>
+<details class="tree-subsection is-current" open><summary>実装引継ぎ</summary>
+<a href="126.html" class="sidebar-item tree-leaf active" aria-current="page">スタッフへの実装・疎通確認の引き継ぎ</a>
+</details>
+</details>
+<details class="tree-section"><summary>診断と待機</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="003.html" class="sidebar-item tree-leaf">登録後の案内・開始待ち</a>
+<a href="013.html" class="sidebar-item tree-leaf">発音診断＆コーチングの案内｜5,980円</a>
+<a href="014.html" class="sidebar-item tree-leaf">診断申込完了・LINE案内</a>
+</details>
+<details class="tree-subsection"><summary>フォーム</summary>
+<a href="065.html" class="sidebar-item tree-leaf">決済フォーム｜発音診断5,980円</a>
+</details>
+<details class="tree-subsection"><summary>決済別メール</summary>
+<a href="071.html" class="sidebar-item tree-leaf">【発音診断＆コーチング】銀行振込のご案内｜5,980円</a>
+<a href="072.html" class="sidebar-item tree-leaf">【発音診断＆コーチング】クレジットカード決済完了｜5,980円</a>
+<a href="073.html" class="sidebar-item tree-leaf">【発音診断＆コーチング】ご入金確認のご連絡｜5,980円</a>
+</details>
+<details class="tree-subsection"><summary>完成動画</summary>
+<a href="004.html" class="sidebar-item tree-leaf">登録後のご案内動画｜ジェットカット・1.1倍速</a>
+</details>
+<details class="tree-subsection"><summary>LINE自動返信</summary>
+<a href="120.html" class="sidebar-item tree-leaf">診断申込後のLINE返信</a>
+</details>
+</details>
+<details class="tree-section"><summary>セミナー</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="005.html" class="sidebar-item tree-leaf">セミナー視聴｜診断未購入者</a>
+<a href="006.html" class="sidebar-item tree-leaf">セミナー視聴｜診断購入者</a>
+</details>
+<details class="tree-subsection"><summary>ステップメール</summary>
+<a href="023.html" class="sidebar-item tree-leaf">［まもなく開始］開始前のご案内｜紙とペンをご用意ください</a>
+<a href="026.html" class="sidebar-item tree-leaf">［視聴中案内］視聴中の講座案内｜39,800円の条件を確認できます</a>
+<a href="027.html" class="sidebar-item tree-leaf">［視聴中案内］診断購入者の講座案内｜追加33,820円の条件</a>
+<a href="030.html" class="sidebar-item tree-leaf">［決済未完了］お申し込み手続きが完了していません</a>
+<a href="031.html" class="sidebar-item tree-leaf">［再放送公開］聞き逃した音をもう一度</a>
+<a href="032.html" class="sidebar-item tree-leaf">［受付開始］一語ずつ読む癖の次に</a>
+<a href="033.html" class="sidebar-item tree-leaf">［受付中］音声変化より先に見ること</a>
+<a href="034.html" class="sidebar-item tree-leaf">［受付中］会議で止まる一言の正体</a>
+<a href="035.html" class="sidebar-item tree-leaf">［受付中］添削で見るのは一音だけ？</a>
+<a href="036.html" class="sidebar-item tree-leaf">［明日〆切］続ける手順を決める</a>
+<a href="037.html" class="sidebar-item tree-leaf">［明日〆切］コーチング回数を確認</a>
+<a href="038.html" class="sidebar-item tree-leaf">［本日〆切］始める前の確認事項</a>
+<a href="039.html" class="sidebar-item tree-leaf">［本日〆切］今回の受付は今夜まで</a>
+<a href="086.html" class="sidebar-item tree-leaf">公式LINEへのご登録はお済みですか？</a>
+<a href="087.html" class="sidebar-item tree-leaf">公式LINEへのご登録はお済みですか？</a>
+</details>
+<details class="tree-subsection"><summary>完成動画</summary>
+<a href="123.html" class="sidebar-item tree-leaf">診断購入者向け完成動画｜65分02秒</a>
+<a href="122.html" class="sidebar-item tree-leaf">診断未購入者向け完成動画｜64分51秒</a>
+</details>
+</details>
+<details class="tree-section"><summary>講座販売</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="008.html" class="sidebar-item tree-leaf">販売ページ｜未購入者・期限内39,800円</a>
+<a href="009.html" class="sidebar-item tree-leaf">販売ページ｜診断購入者・期限内33,820円</a>
+<a href="015.html" class="sidebar-item tree-leaf">販売ページ｜未購入者・期限後49,800円</a>
+<a href="016.html" class="sidebar-item tree-leaf">販売ページ｜診断購入者・期限後43,820円</a>
+<a href="017.html" class="sidebar-item tree-leaf">販売ページ｜診断当日の専用案内33,820円</a>
+<a href="019.html" class="sidebar-item tree-leaf">受付終了</a>
+</details>
+<details class="tree-subsection"><summary>フォーム</summary>
+<a href="066.html" class="sidebar-item tree-leaf">決済フォーム｜コース49,800円</a>
+<a href="068.html" class="sidebar-item tree-leaf">決済フォーム｜コース39,800円</a>
+<a href="069.html" class="sidebar-item tree-leaf">決済フォーム｜診断購入者43,820円</a>
+<a href="070.html" class="sidebar-item tree-leaf">決済フォーム｜診断購入者33,820円</a>
+</details>
+<details class="tree-subsection"><summary>決済別メール</summary>
+<a href="074.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】銀行振込のご案内｜49,800円</a>
+<a href="075.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】クレジットカード決済完了｜49,800円</a>
+<a href="076.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】ご入金確認のご連絡｜49,800円</a>
+<a href="077.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】銀行振込のご案内｜39,800円</a>
+<a href="078.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】クレジットカード決済完了｜39,800円</a>
+<a href="079.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】ご入金確認のご連絡｜39,800円</a>
+<a href="080.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】銀行振込のご案内｜43,820円</a>
+<a href="081.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】クレジットカード決済完了｜43,820円</a>
+<a href="082.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】ご入金確認のご連絡｜43,820円</a>
+<a href="083.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】銀行振込のご案内｜33,820円</a>
+<a href="084.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】クレジットカード決済完了｜33,820円</a>
+<a href="085.html" class="sidebar-item tree-leaf">【21日間チャレンジコース】ご入金確認のご連絡｜33,820円</a>
+</details>
+</details>
+<details class="tree-section"><summary>受講開始と継続</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="018.html" class="sidebar-item tree-leaf">コース申込完了・LINE案内</a>
+</details>
+<details class="tree-subsection"><summary>ステップメール</summary>
+<a href="040.html" class="sidebar-item tree-leaf">［購入確認］お申し込み内容の確認</a>
+<a href="041.html" class="sidebar-item tree-leaf">［ようこそ］21日間の始め方</a>
+<a href="042.html" class="sidebar-item tree-leaf">［Day1］なぜ発音が重要なのか</a>
+<a href="043.html" class="sidebar-item tree-leaf">［Day2］単語のリズムと発音記号</a>
+<a href="044.html" class="sidebar-item tree-leaf">［Day3］内容語と機能語</a>
+<a href="045.html" class="sidebar-item tree-leaf">［Day4］文章のリズム</a>
+<a href="046.html" class="sidebar-item tree-leaf">［Day5］音声変化の全体像</a>
+<a href="047.html" class="sidebar-item tree-leaf">［Day6］連結を聞く</a>
+<a href="048.html" class="sidebar-item tree-leaf">［Day7］脱落を聞く</a>
+<a href="049.html" class="sidebar-item tree-leaf">［Day8］弱形を聞く</a>
+<a href="050.html" class="sidebar-item tree-leaf">［Day9］同化を聞く</a>
+<a href="051.html" class="sidebar-item tree-leaf">［Day10］ラ行化を聞く</a>
+<a href="052.html" class="sidebar-item tree-leaf">［Day11］英語の発声方法</a>
+<a href="053.html" class="sidebar-item tree-leaf">［Day12］雑談とあいさつ</a>
+<a href="054.html" class="sidebar-item tree-leaf">［Day13］買い物の例文</a>
+<a href="055.html" class="sidebar-item tree-leaf">［Day14］レストランの例文</a>
+<a href="056.html" class="sidebar-item tree-leaf">［Day15］予定調整の例文</a>
+<a href="057.html" class="sidebar-item tree-leaf">［Day16］感情とお願い</a>
+<a href="058.html" class="sidebar-item tree-leaf">［Day17］社内コミュニケーション</a>
+<a href="059.html" class="sidebar-item tree-leaf">［Day18］オンライン会議</a>
+<a href="060.html" class="sidebar-item tree-leaf">［Day19］社外とのやり取り</a>
+<a href="061.html" class="sidebar-item tree-leaf">［Day20］会議・提案・交渉</a>
+<a href="062.html" class="sidebar-item tree-leaf">［Day21］旅行・移動・トラブル</a>
+</details>
+<details class="tree-subsection"><summary>LINE</summary>
+<a href="088.html" class="sidebar-item tree-leaf">L00_友だち追加</a>
+<a href="089.html" class="sidebar-item tree-leaf">L01_診断日程</a>
+<a href="090.html" class="sidebar-item tree-leaf">L02_講座未診断の日程</a>
+<a href="091.html" class="sidebar-item tree-leaf">L03_講座診断未実施の日程</a>
+<a href="092.html" class="sidebar-item tree-leaf">L04_診断実施済みの講座購入</a>
+<a href="093.html" class="sidebar-item tree-leaf">L05_予約確定</a>
+<a href="094.html" class="sidebar-item tree-leaf">L06_予約前の案内</a>
+<a href="095.html" class="sidebar-item tree-leaf">L07_受講開始</a>
+<a href="096.html" class="sidebar-item tree-leaf">L08_添削返却</a>
+<a href="097.html" class="sidebar-item tree-leaf">L09_終了後コーチング</a>
+<a href="098.html" class="sidebar-item tree-leaf">L10_日程変更</a>
+<a href="099.html" class="sidebar-item tree-leaf">LD01_受講01日目</a>
+<a href="100.html" class="sidebar-item tree-leaf">LD02_受講02日目</a>
+<a href="101.html" class="sidebar-item tree-leaf">LD03_受講03日目</a>
+<a href="102.html" class="sidebar-item tree-leaf">LD04_受講04日目</a>
+<a href="103.html" class="sidebar-item tree-leaf">LD05_受講05日目</a>
+<a href="104.html" class="sidebar-item tree-leaf">LD06_受講06日目</a>
+<a href="105.html" class="sidebar-item tree-leaf">LD07_受講07日目</a>
+<a href="106.html" class="sidebar-item tree-leaf">LD08_受講08日目</a>
+<a href="107.html" class="sidebar-item tree-leaf">LD09_受講09日目</a>
+<a href="108.html" class="sidebar-item tree-leaf">LD10_受講10日目</a>
+<a href="109.html" class="sidebar-item tree-leaf">LD11_受講11日目</a>
+<a href="110.html" class="sidebar-item tree-leaf">LD12_受講12日目</a>
+<a href="111.html" class="sidebar-item tree-leaf">LD13_受講13日目</a>
+<a href="112.html" class="sidebar-item tree-leaf">LD14_受講14日目</a>
+<a href="113.html" class="sidebar-item tree-leaf">LD15_受講15日目</a>
+<a href="114.html" class="sidebar-item tree-leaf">LD16_受講16日目</a>
+<a href="115.html" class="sidebar-item tree-leaf">LD17_受講17日目</a>
+<a href="116.html" class="sidebar-item tree-leaf">LD18_受講18日目</a>
+<a href="117.html" class="sidebar-item tree-leaf">LD19_受講19日目</a>
+<a href="118.html" class="sidebar-item tree-leaf">LD20_受講20日目</a>
+<a href="119.html" class="sidebar-item tree-leaf">LD21_受講21日目</a>
+</details>
+<details class="tree-subsection"><summary>LINE自動返信</summary>
+<a href="121.html" class="sidebar-item tree-leaf">コース申込後のLINE返信</a>
+</details>
+</details>
+<details class="tree-section"><summary>法務</summary>
+<details class="tree-subsection"><summary>ページ</summary>
+<a href="127.html" class="sidebar-item tree-leaf">特定商取引法に基づく表記</a>
+<a href="064.html" class="sidebar-item tree-leaf">プライバシーポリシー</a>
+</details>
+</details>
+<details class="tree-section"><summary>以前の制作資料</summary>
+<details class="tree-subsection"><summary>ステップメール</summary>
+<a href="010.html" class="sidebar-item tree-leaf">以前の資料｜登録直後｜セミナー案内</a>
+<a href="024.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜視聴後｜診断未購入者</a>
+<a href="025.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜視聴後｜診断購入者</a>
+<a href="028.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜価格切替後｜診断未購入者</a>
+<a href="029.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜価格切替後｜診断購入者</a>
+</details>
+<details class="tree-subsection"><summary>パワポスライド</summary>
+<a href="063.html" class="sidebar-item tree-leaf">以前の資料｜登録後案内動画｜5枚のスライド・PPTX</a>
+</details>
+<details class="tree-subsection"><summary>購入後メール</summary>
+<a href="011.html" class="sidebar-item tree-leaf">以前の資料｜診断購入直後｜視聴案内・日程調整</a>
+<a href="012.html" class="sidebar-item tree-leaf">以前の資料｜旧案｜講座購入直後｜受講案内</a>
+</details>
+<details class="tree-subsection"><summary>動画台本</summary>
+<a href="007.html" class="sidebar-item tree-leaf">以前の資料｜坪田さん単独60分</a>
+<a href="022.html" class="sidebar-item tree-leaf">以前の資料｜診断購入者向け｜差し替え収録</a>
+</details>
+<details class="tree-subsection"><summary>パワポ</summary>
+<a href="020.html" class="sidebar-item tree-leaf">以前の資料｜60分構成案</a>
+<a href="021.html" class="sidebar-item tree-leaf">以前の資料｜47枚のスライド・PPTX</a>
+</details>
+</details></details></nav>
+<main class="content"><article class="article"><h1>坪田まゆみ ファネル実装・疎通確認の引き継ぎ</h1>
+<h2>今回の分担</h2>
+<p>田中さんの指定により、素材集の完成とUTAGEページへの移植を先に終える。フォームの自動連動、配信開始、決済の疎通確認はスタッフが仕上げる。ページがあることと、決済から購入後まで動くことは分けて確認する。</p>
+<p>すべてのMyASPフォームは受付停止、メールは配信停止の状態で渡す。一般配信、実課金、坪田先生への送信は行っていない。スタッフが内容とつながりを確認してから開始する。</p>
+<h2>設置先と正本</h2>
+<p>UTAGE：2号機。ファネルID 2BUMtj1CEXny。<br />
+MyASP：2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/</a> 。グループ「坪田さん案件」ID 2234。<br />
+掲載原稿と実URLは素材集の各素材で確認する。メールとLINEは1通ずつ開ける。秘密情報はこの資料へ書かず、既存の1Passwordを使う。</p>
+<h2>ページの役割と行き先</h2>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>実URL</th>
+<th>スタッフの接続確認</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>無料セミナーLP</td>
+<td><a href="https://utage-system.com/p/akbv3BsI6uDD" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/akbv3BsI6uDD</a></td>
+<td>MyASP無料登録フォームへ送信されるか</td>
+</tr>
+<tr>
+<td>登録後の案内</td>
+<td><a href="https://utage-system.com/p/omskmCv9QVBR" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/omskmCv9QVBR</a></td>
+<td>案内動画と、本人の登録時刻から15分後の開始を接続</td>
+</tr>
+<tr>
+<td>発音診断の案内</td>
+<td><a href="https://utage-system.com/p/VcIfgMAVM0vw" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/VcIfgMAVM0vw</a></td>
+<td>診断5,980円フォームへ</td>
+</tr>
+<tr>
+<td>診断申込完了</td>
+<td><a href="https://utage-system.com/p/pwybM04CRVMz" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/pwybM04CRVMz</a></td>
+<td>新設する公式LINEの実URLへ差し替え</td>
+</tr>
+<tr>
+<td>診断未購入者の視聴</td>
+<td><a href="https://utage-system.com/p/VR7Ask9Z1WiE" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/VR7Ask9Z1WiE</a></td>
+<td>未購入者向け完成動画。購入状態の判定を接続</td>
+</tr>
+<tr>
+<td>診断購入者の視聴</td>
+<td><a href="https://utage-system.com/p/TyOCVVCGWSUE" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/TyOCVVCGWSUE</a></td>
+<td>購入者向け完成動画。銀行振込は入金確認後に振り分け</td>
+</tr>
+<tr>
+<td>未購入者・期限内39,800円</td>
+<td><a href="https://utage-system.com/p/LhiJhO4Iw5Bq" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/LhiJhO4Iw5Bq</a></td>
+<td>期限内フォームへ</td>
+</tr>
+<tr>
+<td>購入者・期限内33,820円</td>
+<td><a href="https://utage-system.com/p/Raj72m5jgWqY" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/Raj72m5jgWqY</a></td>
+<td>診断購入済みを確認し期限内フォームへ</td>
+</tr>
+<tr>
+<td>未購入者・期限後49,800円</td>
+<td><a href="https://utage-system.com/p/S8cXSfQP3aGe" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/S8cXSfQP3aGe</a></td>
+<td>期限後フォームへ</td>
+</tr>
+<tr>
+<td>購入者・期限後43,820円</td>
+<td><a href="https://utage-system.com/p/NyDlYInIP3Kv" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/NyDlYInIP3Kv</a></td>
+<td>診断購入済みを確認し期限後フォームへ</td>
+</tr>
+<tr>
+<td>購入者向け別収録の販売ページ</td>
+<td><a href="https://utage-system.com/p/ePCwe7f7JrY8" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/ePCwe7f7JrY8</a></td>
+<td>購入者向け収録で使う導線を確認。重複購入を防ぐ</td>
+</tr>
+<tr>
+<td>コース申込完了</td>
+<td><a href="https://utage-system.com/p/OaRaWIpJyxD4" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/OaRaWIpJyxD4</a></td>
+<td>新設する公式LINEの実URLへ差し替え</td>
+</tr>
+<tr>
+<td>受付終了</td>
+<td><a href="https://utage-system.com/p/fPatm0uvKTrM" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/fPatm0uvKTrM</a></td>
+<td>終了条件に合わせた遷移</td>
+</tr>
+<tr>
+<td>特商法</td>
+<td><a href="https://utage-system.com/p/moCC7gVKHgLb" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/moCC7gVKHgLb</a></td>
+<td>販売者は株式会社ザ・リード、講師は坪田まゆみ</td>
+</tr>
+<tr>
+<td>プライバシーポリシー</td>
+<td><a href="https://utage-system.com/p/hDoIP9I3NgAZ" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/hDoIP9I3NgAZ</a></td>
+<td>各ページのフッターから開けるか</td>
+</tr>
+</tbody>
+</table>
+<h2>フォームと価格</h2>
+<table>
+<thead>
+<tr>
+<th>商品・価格</th>
+<th>MyASPフォーム</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>無料セミナー登録</td>
+<td><a href="https://lead-sh1.com/p/r/LlvKYtF3" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/LlvKYtF3</a></td>
+</tr>
+<tr>
+<td>発音診断＆コーチング・5,980円</td>
+<td><a href="https://lead-sh1.com/p/r/Za6evTEq" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/Za6evTEq</a></td>
+</tr>
+<tr>
+<td>コース・49,800円</td>
+<td><a href="https://lead-sh1.com/p/r/onH6wi3E" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/onH6wi3E</a></td>
+</tr>
+<tr>
+<td>コース・39,800円</td>
+<td><a href="https://lead-sh1.com/p/r/by8GCzQT" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/by8GCzQT</a></td>
+</tr>
+<tr>
+<td>診断購入者のコース追加額・43,820円</td>
+<td><a href="https://lead-sh1.com/p/r/ZaHQvN5z" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/ZaHQvN5z</a></td>
+</tr>
+<tr>
+<td>診断購入者のコース追加額・33,820円</td>
+<td><a href="https://lead-sh1.com/p/r/4p3ug48T" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/4p3ug48T</a></td>
+</tr>
+</tbody>
+</table>
+<p>有料5フォームはGMOクレジットカードと銀行振込の2方式。税別へ読み替えず、上記は税込・一括の金額。<br />
+期限内価格は放送終了から60分以内。銀行振込は申込時の価格を確保し、申込から3営業日以内に入金。振込手数料はお客様負担。</p>
+<h2>銀行振込の案内</h2>
+<p>銀行名：さわやか信用金庫<br />
+銀行コード：1310<br />
+支店名：赤坂支店<br />
+支店コード：032<br />
+口座種別：普通<br />
+口座番号：1244690<br />
+振込先：カ）ザ．リード</p>
+<h2>決済別メールの接続</h2>
+<p>有料フォームごとに3通、合計15通を保存している。</p>
+<ol>
+<li>銀行振込の申込時：振込先、金額、3営業日以内の期限を案内。</li>
+<li>クレジットカードの決済成功時：決済完了と申込完了ページを案内。</li>
+<li>銀行振込の入金確認後：入金確認と申込完了ページを案内。</li>
+</ol>
+<p>銀行振込の申込だけで「入金確認」や購入者向けの案内が出ないことを確認する。入金後はスタッフがMyASPの受領処理（メールあり）を行う。GMOの成功通知がMyASPに届いて本登録完了扱いになるかも、スタッフが試す。</p>
+<h2>MyASPからUTAGEへの外部連動</h2>
+<p>配信後の外部連動欄で、通常のフォーム送信・UTF-8・データ mail=%mail% を使う。</p>
+<table>
+<thead>
+<tr>
+<th>きっかけ</th>
+<th>送信先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>無料登録完了メール</td>
+<td><a href="https://utage-system.com/r/Z4lot9HD97Md/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/Z4lot9HD97Md/store</a></td>
+</tr>
+<tr>
+<td>診断のカード決済完了／銀行入金確認</td>
+<td><a href="https://utage-system.com/r/tNelORRxrOTN/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/tNelORRxrOTN/store</a></td>
+</tr>
+<tr>
+<td>各価格のコース決済完了／銀行入金確認</td>
+<td><a href="https://utage-system.com/r/RE4SVCdhXapu/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/RE4SVCdhXapu/store</a></td>
+</tr>
+</tbody>
+</table>
+<p>作業時点で、11対象中8件にネイティブの外部連動設定があることをAPIで確認。URL・データの最終照合と実際の受信テストはスタッフが全11件で実施する。<br />
+設定がまだ無いのは、43,820円銀行入金確認 hHGzC5RJ、33,820円カード決済完了 mXhmJhrl、33,820円銀行入金確認 dNvXa4xc の3件。<br />
+メールは停止中なので、設定しただけではUTAGEへ登録されない。受信先のシナリオ登録、購入済みラベル、未購入者向け配信の停止もつながっているか確認する。</p>
+<h2>時刻・購入状態の判定</h2>
+<p>登録から15分後に開始する。ページを開いた時刻を登録時刻の代わりにしない。再読込で残り時間や価格期限をリセットしない。<br />
+放送終了から60分後に、期限内価格から期限後価格へ切り替える。購入者には診断料5,980円を充当した追加額を案内する。<br />
+未購入・診断購入・コース購入の3状態で、メールと視聴先が混ざらないようにする。現状は各状態のページと原稿を用意した段階で、自動判定・時間制御はスタッフが仕上げる。</p>
+<h2>公式LINE</h2>
+<p>この案件用に新しく作る1アカウントをUTAGEと連携する。各申込完了ページのLINEリンクはスタッフが実URLに差し替える。<br />
+診断申込後とコース申込後の自動返信は素材集の「LINE自動返信」で別々に確認する。日程調整など個別のやり取りは坪田先生へ引き継ぐ。<br />
+コースは21日間の練習。教材の閲覧は学習開始日から30日間。開始前の発音診断＆コーチングは60分、終了後コーチングも60分。診断購入者に同じ診断をもう一度受けさせない。</p>
+<h2>疎通確認の順番</h2>
+<table>
+<thead>
+<tr>
+<th>順</th>
+<th>確認する経路</th>
+<th>判定すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>無料登録→登録メール→案内ページ</td>
+<td>原稿・URL・登録時刻が一致</td>
+</tr>
+<tr>
+<td>2</td>
+<td>未購入で開始時刻を迎える</td>
+<td>未購入者の動画と案内へ</td>
+</tr>
+<tr>
+<td>3</td>
+<td>診断をカード決済</td>
+<td>成功後だけ完了メールと購入者動画へ</td>
+</tr>
+<tr>
+<td>4</td>
+<td>診断を銀行振込で申込</td>
+<td>振込案内のみ。未入金で購入者扱いにしない</td>
+</tr>
+<tr>
+<td>5</td>
+<td>スタッフが銀行入金を確認</td>
+<td>入金確認メールと購入者扱いに切り替わる</td>
+</tr>
+<tr>
+<td>6</td>
+<td>期限の前後でコースへ</td>
+<td>4価格と購入状態が正しい。再読込で延長しない</td>
+</tr>
+<tr>
+<td>7</td>
+<td>コース購入→完了ページ→LINE</td>
+<td>参加者が坪田先生と連絡でき、未購入の追客が停止</td>
+</tr>
+<tr>
+<td>8</td>
+<td>学習開始→21日→閲覧期限</td>
+<td>正しい開始日、配信、30日閲覧の扱いを確認</td>
+</tr>
+</tbody>
+</table>
+<p>決済を伴う本番テストはスタッフが管理して実施する。制作作業で顧客へのメール・LINE送信や実課金は行っていない。</p>
+<h2>再点検で追加した開始前の必須確認</h2>
+<ul>
+<li>新規公式LINEの実URLと、全メール・LINEの差し替え欄が埋まるまでフォームを再開しない。素材集に残す <code>{...}</code> は作業用表示であり、そのまま顧客へ送らない。</li>
+<li>実URLのページは未ログインでも閲覧できる。フォーム停止中・告知前であり、ページ設置を運用開始や非公開設定と取り違えない。</li>
+<li>登録時刻を正本にし、再読込で期限が延びないこと、15分後の移動、開始後の遷移を試す。診断5,980円はセミナー開始前までの受付条件も確認する。</li>
+<li>診断を申し込んだだけで未入金の方は購入者扱いにしない。入金後に視聴先・価格条件を再判定する。銀行申込の価格確保はその申込商品に適用する。入金前にコースも申し込みたいケースの精算方法、振込期限超過の扱いは運営判断を確定してから設定する。</li>
+<li>診断実施当日の専用案内は <code>ePCwe7f7JrY8</code> から33,820円フォーム <code>4p3ug48T</code> へ。診断購入者の本編セミナー終了後60分の33,820円と、診断当日中の専用案内は期限判定を別々に検証する。</li>
+<li>登録リマインドを未購入者動画に固定して一斉送信しない。購入状態で視聴先を出し分け、購入者が未購入者動画へ入らないことを試す。</li>
+<li>価格期限前メール、決済失敗メール、診断／コース別のLINE未登録案内もテストする。同じ件名でも対象者を区別する。</li>
+<li>新LINEの友だち追加時の共通返信と、診断／コース申込後の返信は送信順を決める。本人確認の項目は、お名前・申込メールアドレス・申込商品をスタッフが取得し、同じ案内を繰り返し送らない。</li>
+<li>学習アプリの招待、本人との紐付け、学習開始日、30日間の閲覧権限を確認する。Day5・11・17の音声提出と3回のフィードバックを記録し、返却日程は坪田先生と確定する。未確定の返却日を約束しない。</li>
+<li>課題配信は21日間。メールとLINEの併用時は同じ課題が重複しない設定にする。未開始・停止・解除・運営が例外対応した方への課題配信を止める。</li>
+<li>本番テストの実課金は、スタッフがGMO側のテスト方法・取消方法・使用する自社カードを確認して管理する。テスト連絡先で行い、終了後はテスト受講者の配信・ラベル・権限を整理する。</li>
+</ul>
+<h2>全88通の接続対応表</h2>
+<p>本文は素材集の各IDから1通ずつ確認する。次表は接続のための条件整理で、実際の条件設定・送信・受信を検証済みという意味ではない。未確定時刻やURLはスタッフが確定するまで停止を維持する。決済別15通はフォーム（商品・金額）で先に限定し、そのフォーム内で支払方法と入金状態を判定する。</p>
+<p>各素材IDを開くと接続条件が表示されます。</p>
+<details>
+<summary>myasp-optin-mail</summary>
+<p><strong>ツール・接続先：</strong>MyASP・無料登録フォーム <a href="https://lead-sh1.com/p/r/LlvKYtF3" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/LlvKYtF3</a></p>
+<p><strong>送信トリガー・原本条件：</strong>無料登録の完了時</p>
+<p><strong>停止・重複防止：</strong>同一登録の二重送信を防ぐ。停止中は送信しない</p>
+<p><strong>起算点・送信時期：</strong>登録完了時。15分後開始の起点は登録時刻</p>
+</details>
+
+<details>
+<summary>myasp-mail-diagnosis_bank_application</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/Za6evTEq" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/Za6evTEq</a></p>
+<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
+<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
+<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-diagnosis_credit_success</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/Za6evTEq" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/Za6evTEq</a></p>
+<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
+<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
+<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-diagnosis_bank_received</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/Za6evTEq" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/Za6evTEq</a></p>
+<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
+<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
+<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_bank_application</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/onH6wi3E" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/onH6wi3E</a></p>
+<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
+<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
+<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_credit_success</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/onH6wi3E" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/onH6wi3E</a></p>
+<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
+<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
+<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_bank_received</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/onH6wi3E" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/onH6wi3E</a></p>
+<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
+<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
+<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_39800_bank_application</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/by8GCzQT" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/by8GCzQT</a></p>
+<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
+<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
+<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_39800_credit_success</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/by8GCzQT" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/by8GCzQT</a></p>
+<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
+<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
+<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_39800_bank_received</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/by8GCzQT" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/by8GCzQT</a></p>
+<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
+<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
+<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_43820_bank_application</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/ZaHQvN5z" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/ZaHQvN5z</a></p>
+<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
+<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
+<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_43820_credit_success</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/ZaHQvN5z" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/ZaHQvN5z</a></p>
+<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
+<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
+<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_43820_bank_received</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/ZaHQvN5z" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/ZaHQvN5z</a></p>
+<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
+<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
+<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_33820_bank_application</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/4p3ug48T" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/4p3ug48T</a></p>
+<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
+<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
+<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_33820_credit_success</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/4p3ug48T" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/4p3ug48T</a></p>
+<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
+<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
+<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
+</details>
+
+<details>
+<summary>myasp-mail-course_33820_bank_received</summary>
+<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/4p3ug48T" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/4p3ug48T</a></p>
+<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
+<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
+<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
+</details>
+
+<details>
+<summary>tsubota-reminder-mail</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID gZO0fQP1zoTs</p>
+<p><strong>送信トリガー・原本条件：</strong>各配信条件表に従う</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>即時または開始前（起点設定待ち）</p>
+</details>
+
+<details>
+<summary>tsubota-price-before-mail</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID qC0A1FVcDq1A</p>
+<p><strong>送信トリガー・原本条件：</strong>各配信条件表に従う</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>即時または開始前（起点設定待ち）</p>
+</details>
+
+<details>
+<summary>tsubota-price-before-credit-mail</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID TVMipu8z8top</p>
+<p><strong>送信トリガー・原本条件：</strong>各配信条件表に従う</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>即時または開始前（起点設定待ち）</p>
+</details>
+
+<details>
+<summary>tsubota-payment-failed-mail</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID NdJ3ZwGq8ILN</p>
+<p><strong>送信トリガー・原本条件：</strong>各配信条件表に従う</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>即時または開始前（起点設定待ち）</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-00</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID oYI3dkLtXvSD</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>ウェビナー翌日朝。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-01</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID QQ6Op3LK0hSI</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>追客1日目朝。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-02</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID Z2mYAtSopCr3</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>追客1日目夜。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-03</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID ncBKVaNTVetx</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>追客2日目朝。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-04</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID RMI3RqsXEdKA</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>追客2日目夜。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-05</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID VvCqT8Asfvyf</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>追客3日目朝。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-06</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID iF3YzLWGAMlR</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>追客3日目夜。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-07</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 1aN7hfbz2mIq</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>追客4日目朝。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-unpurchased-mail-08</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID k30OtcGyLC8w</p>
+<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
+<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
+<p><strong>起算点・送信時期：</strong>追客4日目夜。基準時刻・期限は【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-00</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID xW32LVDGLFmV</p>
+<p><strong>送信トリガー・原本条件：</strong>講座決済成功</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>購入成功直後、1回だけ</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-01</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID w09VtCuc4ZR2</p>
+<p><strong>送信トリガー・原本条件：</strong>講座決済成功</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>購入成功直後、1回だけ</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-02</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID y1ccQ19Ec8fg</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-03</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 2Fvp9ZCpq0VD</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-04</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID jAa5ABGl09rN</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-05</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID XtyZ6sHlsxRy</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-06</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 4LUINB7SjMh2</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-07</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 9A9gggxOnout</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-08</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID A66SMvqUJ6n3</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-09</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID b1QKXzQ36Ioo</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-10</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID Ne9dTPCNrIMf</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-11</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 7IQTxv6TK6p7</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-12</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID Z82NqdOVd69H</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-13</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 8vzlIkUiRytM</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-14</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID nJuiRZqDHN1g</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-15</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID ZRoct6tIQyFR</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-16</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID i4w0r7BX0gIK</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-17</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID HKjLCQnKjBiC</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-18</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID Pzs5KsmD5bRR</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-19</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID k4F7jw5HosY9</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-20</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID CkmORz6Wqejs</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-21</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID eoTQLmQHNLm9</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>tsubota-purchaser-mail-22</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID kS8IcZ3SOsmo</p>
+<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
+</details>
+
+<details>
+<summary>E39_診断購入_LINE未登録</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID FeKb6iHxH86E</p>
+<p><strong>送信トリガー・原本条件：</strong>該当商品の決済成功後、LINE未連携の場合のみ1回。送信までの時間は運用確認。</p>
+<p><strong>停止・重複防止：</strong>公式LINE本人照合済みの方には送らない。診断と講座の購入商品を区別</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>E40_講座購入_LINE未登録</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID DBRAne15uyBg</p>
+<p><strong>送信トリガー・原本条件：</strong>該当商品の決済成功後、LINE未連携の場合のみ1回。送信までの時間は運用確認。</p>
+<p><strong>停止・重複防止：</strong>公式LINE本人照合済みの方には送らない。診断と講座の購入商品を区別</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L00_友だち追加</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID wawPEFOxswXO</p>
+<p><strong>送信トリガー・原本条件：</strong>友だち追加直後。購入済みとは判定しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L01_診断日程</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID uFAl8d2qZEJZ</p>
+<p><strong>送信トリガー・原本条件：</strong>実決済データで診断5,980円の購入を照合した後。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L02_講座未診断の日程</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 2kDlnLp8P1kk</p>
+<p><strong>送信トリガー・原本条件：</strong>講座決済成功かつ別売診断未購入を照合した後。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L03_講座診断未実施の日程</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID tCsrs3DzapLc</p>
+<p><strong>送信トリガー・原本条件：</strong>講座決済成功＋別売診断購入済み＋診断未実施を照合。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L04_診断実施済みの講座購入</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 4c9GMgaaeaBO</p>
+<p><strong>送信トリガー・原本条件：</strong>診断実施済み＋講座決済成功を照合。開始日を過去に戻さず個別確認。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L05_予約確定</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID FdHM84HLaln4</p>
+<p><strong>送信トリガー・原本条件：</strong>坪田が実際の予約枠・URLを確定してから手動送信。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L06_予約前の案内</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID JUpo8R4daxqo</p>
+<p><strong>送信トリガー・原本条件：</strong>予約が確定し未変更・未取消の場合のみ。送信時刻は運用確定後。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L07_受講開始</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID VgKy86UinlHr</p>
+<p><strong>送信トリガー・原本条件：</strong>坪田が講座購入・受講開始日・アプリ権限・閲覧終了日を確認。Day1当日に送信。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L08_添削返却</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID JoZ1ai0IxjVA</p>
+<p><strong>送信トリガー・原本条件：</strong>Day5/11/17の提出に対して坪田が実際に内容確認・添削した後。AIで所見を捏造しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L09_終了後コーチング</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID T9BsM5WbEKqo</p>
+<p><strong>送信トリガー・原本条件：</strong>21日間の練習後、終了後コーチング未予約者。実施済みには送らない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>L10_日程変更</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID bWKdBNe6JCHa</p>
+<p><strong>送信トリガー・原本条件：</strong>本人から変更連絡があり、坪田が変更先の枠を確定した後。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
+<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
+</details>
+
+<details>
+<summary>LD01_受講01日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID eb4s45oUctLn</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から0日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD02_受講02日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID C5uxrz45WuYr</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から1日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD03_受講03日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID Lws0m3l6TAFT</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から2日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD04_受講04日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID urayFqvWKRPH</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から3日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD05_受講05日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID WAmXJXFzYjr1</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から4日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD06_受講06日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 1n0lXouyLULa</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から5日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD07_受講07日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 2gwaxcTgCMiX</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から6日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD08_受講08日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 234EBYgkIiLM</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から7日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD09_受講09日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID uuioOFCuhrxK</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から8日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD10_受講10日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID NKuiInpkCDMH</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から9日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD11_受講11日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID DRkSRFQWo14E</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から10日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD12_受講12日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID buB2DuFVlcmg</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から11日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD13_受講13日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID N1id0skZeHiE</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から12日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD14_受講14日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID qCO2vBt5IpLG</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から13日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD15_受講15日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID uOU4ZMtC4mJn</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から14日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD16_受講16日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID FrhB0KsyKpSk</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から15日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD17_受講17日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID duXqyhauLHnw</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から16日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD18_受講18日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID y2OjzdOtLQ5u</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から17日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD19_受講19日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID bU0RyVVR3veS</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から18日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD20_受講20日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID gONNrKAs6wfo</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から19日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>LD21_受講21日目</summary>
+<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID zwBIt7a31JSB</p>
+<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から20日後。予約未確定・停止・返金時には配信しない。</p>
+<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
+<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
+</details>
+
+<details>
+<summary>new-line_diagnosis</summary>
+<p><strong>ツール・接続先：</strong>UTAGE連携後の新規公式LINE</p>
+<p><strong>送信トリガー・原本条件：</strong>購入商品を識別した後の案内</p>
+<p><strong>停止・重複防止：</strong>L00と同時に別々の初回返信を送らない。入金前は受講開始案内をしない</p>
+<p><strong>起算点・送信時期：</strong>友だち追加と購入状態を確認後</p>
+</details>
+
+<details>
+<summary>new-line_course</summary>
+<p><strong>ツール・接続先：</strong>UTAGE連携後の新規公式LINE</p>
+<p><strong>送信トリガー・原本条件：</strong>購入商品を識別した後の案内</p>
+<p><strong>停止・重複防止：</strong>L00と同時に別々の初回返信を送らない。入金前は受講開始案内をしない</p>
+<p><strong>起算点・送信時期：</strong>友だち追加と購入状態を確認後</p>
+</details>
+
+<h2>追加修正提案（今回は本文を大きく変えず保留）</h2>
+<p>Claude Codeの全文点検は10分割で実施。各区分で指摘があり、ファネルの稼働合格ではない。分割境界で「本文が空」と判定した箇所は、前後を通して本文の存在を確認して除外した。確定済みの閲覧起算点、移植の照合証跡、商品別メールの対応、スタッフ向けの接続表は今回補った。</p>
+<ul>
+<li>大：診断未入金のままコースを申し込む場合の充当・精算方法、銀行振込期限超過時の扱いを運営で確定する。診断購入の確認なしに値引きフォームへ入れないことをスタッフが確認する。</li>
+<li>大：通常29,800円という表示の根拠、講師実績・体験談の掲載根拠を、運営の正本と照合して保管する。今回のレビューに根拠が含まれていないことを、根拠が存在しないことと同一視しない。</li>
+<li>中：研究で扱った課題と本コースの訴求のつながり、発声の扱い、返却時期の説明、診断購入済みと実施済みの区別を、必要に応じて追記する。訴求や提供条件を変える案は田中さんに提案してから反映する。</li>
+<li>小：参考文献の番号・体裁、改行や文体の揺れ、工程カードの表示名を整理する。本文に現れない番号を、未掲載素材と誤認しないよう、素材集の管理番号には欠番があることを共有する。</li>
+</ul>
+<p>確定済みの主な条件は維持する：21日間の練習、学習開始日から30日間閲覧、開始前と終了後の60分セッション、3回の音声フィードバック、診断購入者の5,980円充当、申込時価格の確保と3営業日以内の銀行振込。</p>
+<h2>再点検で明確化した実装上の定義と原本</h2>
+<ul>
+<li>Day1は発音診断＆コーチング翌日の学習開始日。メール・LINE・アプリで同じ日付を使う。診断実施済みの方は坪田先生が案内した学習開始日をDay1に設定する。「受講開始翌日をDay1」という旧メタデータは使わない。</li>
+<li>88通対応表のUTAGE各IDは、同梱の「仕様/メール40通.json」「仕様/LINE32通.json」の同じ asset_id で追える。発火イベントの大枠は「仕様/引き継ぎと発火条件.csv」。元資料の「各配信条件表に従う」「起点設定待ち」「要確認」は確定済み設定ではない。送信時刻の詳細をUTAGE実装担当スタッフが開始前に確定・記録し、未確定のまま有効にしない。</li>
+<li>診断申込完了とコース申込完了のLINE導線は、hrefを持つ仮リンクではなく、<code>button.line-button</code> の無効ボタン。文言は「公式LINEに登録して日程を調整する」。スタッフがこの位置を実LINE URLへのリンクに差し替え、PC・スマホで開くことを確認してからフォームを再開する。</li>
+<li>移植照合JSONの <code>access_start_text_changed_this_run</code> は「今回の処理で文章を直したか」。falseは不一致ではなく変更なし。<code>access_start_policy</code> を見て、起算点の記載があるページと対象外ページを区別する。</li>
+<li>未購入者本編は64分51秒（管理ID En6aecWfsJB7、視聴ページVR7Ask9Z1WiE）、購入者本編は65分02秒（管理ID d1z4Q34CjhYA、視聴ページTyOCVVCGWSUE）。診断当日専用の ePCwe7f7JrY8 は動画ではなく販売ページ。登録後案内動画は約77.88秒（管理ID nxF9tMLPxg3Y）。開始時刻と対象動画の実尺を使って終了時刻を算出する。</li>
+<li>登録時刻の正本はMyASPの無料登録日時。現在の mail=%mail% の連動だけでは元日時を渡せない。スタッフは元日時をUTAGEの日時項目へ反映する方法と同一人物の照合を実装する。UTAGE受信時刻やページを開いた時刻への置き換えは未検証なので採用しない。メールアドレス不一致はスタッフが注文を照合してから状態を変更する。</li>
+<li>診断未入金時のコース充当・期限超過・再視聴や再登録時の扱いは運営責任者が開始前に確定する。追客の起点はUTAGE実装担当が初回視聴終了との整合を確認して設定する。元の「再放送・追客開始日」は具体の日付設定を意味しない。</li>
+<li>MyASPの決済完了メール、UTAGE購入直後メール00・01、新LINE返信、L01〜L03を同時に一斉有効化しない。スタッフが各購入イベントの通知順と通数を決め、重複する案内を停止する。個別返信と自動配信を混同しない。</li>
+<li>通常29,800円は発音診断の比較表示で、コース通常49,800円とは別商品。表示根拠・講師実績・体験談の掲載根拠は運営責任者が開始前に照合保管する。確認が済むまでフォームを再開しない。</li>
+</ul>
+<h3>照合証跡の所在</h3>
+<ul>
+<li>UTAGE掲載15件：UTAGE15ページ_移植完了照合.json。API本文ハッシュ一致、実URLの可視本文包含、フォームと法務リンクを記録。</li>
+<li>素材集通信88通：素材集_本文とHTMLの全文照合.json。原稿の掲載有無を確認したもので、実送受信成功の証拠ではない。残り26件はページ15・フォーム6・動画3・全体図1・引継ぎ1。実送受信と動画再生の検証は別。</li>
+<li>MyASPメール15通の停止・原稿一致：MyASP15通_スタッフ引継ぎ前本文照合.json。</li>
+<li>外部連動の設定存在：MyASP外部連動_スタッフ引継ぎ時点.json（8件あり／3件なし）。外部連動のURL・データ・受信成功を全件合格とした記録ではない。</li>
+<li>フォーム停止：MyASP受付停止_実URL確認.json。支払方法の設定：MyASP金額とメール条件照合.json／MyASP支払設定結果.json。実課金・GMO成功通知の疎通確認は未実施。</li>
+<li>前回全文レビュー：.task/素材集_Claude独立点検_修正後.md、再点検：.task/スタッフ受渡し資料_Claude再点検.md。どちらもFAILを保持し、稼働合格として扱わない。分割2のoptin本文・分割3のsales本文・分割9のlegal本文は次区分へ続いており、現在のHTMLと原稿で本文の存在を確認している。</li>
+</ul></article></main></div></body></html>
