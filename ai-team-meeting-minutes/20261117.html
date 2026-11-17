@@ -1,0 +1,475 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>AIミーティング 議事録（2026年11月17日） - AIミーティング議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-frame { padding:.75rem; border:2px solid #06C755; border-radius:16px; background:#F1FBF4; }
+.material-flow-frame > header { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .6rem; margin-bottom:.75rem; }
+.material-flow-frame > header strong { padding:.2rem .7rem; border-radius:999px; color:#fff; background:#06C755; font-size:.78rem; font-weight:800; }
+.material-flow-frame > header small { color:var(--ink-soft); font-size:.74rem; line-height:1.5; }
+.material-flow-frame .material-flow-stage { width:auto; min-width:0; }
+.material-flow-frame .material-flow-pages { grid-template-columns:repeat(2, 16.5rem); align-items:start; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } .material-flow-frame .material-flow-pages { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>AIミーティング議事録</h3><a href="20261117.html" class="sidebar-item active"><span class="date">2026年11月17日</span> AIミーティング 議事録（2026年11月17日）</a>
+<a href="20261103.html" class="sidebar-item"><span class="date">2026年11月03日</span> AIミーティング 議事録（2026年11月3日）</a>
+<a href="20261027.html" class="sidebar-item"><span class="date">2026年10月27日</span> AIミーティング 議事録（2026年10月27日）</a>
+<a href="20261006.html" class="sidebar-item"><span class="date">2026年10月06日</span> AIミーティング 議事録（2026年10月6日）</a>
+<a href="20260915.html" class="sidebar-item"><span class="date">2026年09月15日</span> AIミーティング 議事録（2026年9月15日）</a>
+<a href="20260908.html" class="sidebar-item"><span class="date">2026年09月08日</span> AIミーティング 議事録（2026年9月8日）</a>
+<a href="20260609.html" class="sidebar-item"><span class="date">2026年06月09日</span> AIミーティング 議事録（2026年6月9日）</a></nav>
+<main class="content"><article class="article"><h1>AIミーティング 議事録（2026年11月17日）</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/56672a68-4a8e-4120-a7e3-4b33db75bec2/file/bWVkaWEvMjAyNi8xMS8xNy8wNDAwX-eUsOS4reelkOS4gOWAi-S6uk1UR-ODquODs-OCr182NTBiY2FmZmY2L01QNF85ZWY4NGI3Yy0xODM5LTRhZDUtODljNS0yMTFlMzUwN2NhNDMubXA0#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年11月16日 15:16（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>今回は田中祐一とカレンの2名で、今週末のワークショップに向けてカレンが作ったAI動画の制作物（動画の型を選んで動画を作る仕組み）の確認から始まった。論点は、参加者が音声のAPIキー発行まで自力でできるかどうかで、田中は「第1段階はデフォルト音声、第2段階はGeminiなどの安い音声、第3段階はクローン音声」という3段階にして、当日は第1段階だけを体験する案を出した。<br />
+続いて、PLCのAIポータルを「田中祐一AIポータル」に組み替える構想が整理され、田中祐一AIの起動メニューと並びをそろえる方向になった。<br />
+中盤は、田中が途中まで作っているPALMOの作り直し（案件横断の数値管理ポータル）をカレンへ少しずつ移管する話に時間を使い、来週水曜（11月25日）までに「安心安定のカウンセラー」とAIコンサルのデータを入れて動くところまでを共通の目標にした。<br />
+後半はGrok Botの運用の実際（失敗談、向き不向き、1Passwordとチームプランの課題）と、UTAGE操作をAIに任せたときのカレンの役割の変化が話題になった。次回は11月24日（火）13時。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>会議名</td>
+<td>AIミーティング（田中祐一とカレンによる定例MTG。スライド・動画などのスキル開発と、田中祐一AIへの取り込み。既存シリーズ=6/9・9/8・9/15・10/6・10/27・11/3と同一の会議体。11/3議事録で次回を「11月17日（火）13時」と確認した回）</td>
+</tr>
+<tr>
+<td>日時</td>
+<td>2026年11月17日 13時00分頃開始（JST。Zoom開始時刻 04:00:49 UTC）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoom（トピック名は「田中祐一個人MTGリンク」で、別の会議と共用。冒頭から田中とカレンの2名で前回の宿題の続きを確認しており、前回の議事録で決めた日時と一致するためAIミーティングと判断）</td>
+</tr>
+<tr>
+<td>長さ</td>
+<td>書き起こしの最終発話は55分40秒（Zoomの予定枠は60分）</td>
+</tr>
+<tr>
+<td>参加者</td>
+<td>田中祐一、カレン（山岸さんは前回に続き不在）</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/56672a68-4a8e-4120-a7e3-4b33db75bec2" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/56672a68-4a8e-4120-a7e3-4b33db75bec2</a></td>
+</tr>
+<tr>
+<td>公開状況</td>
+<td>議事録作成済み・R2配布用URL発行済み（標準2年）。静的ページの公開とChatwork通知は、この記述の時点では未実施</td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td><code>0_データ原本/2026年/11月/17日/Zoom/202611171300_Zoom_田中祐一個人MTGリンク.md</code>（Zoomトピック名は個人MTGリンクだが、内容はAIミーティング）</td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/AIミーティング/ミーティング履歴/20261117_AIミーティング_書き起こし原本.md</code></td>
+</tr>
+<tr>
+<td>話者なしの生書き起こし</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/AIミーティング/ミーティング履歴/20261117_AIミーティング_生書き起こし.md</code>（Zoom TRANSCRIPT VTT原文）</td>
+</tr>
+<tr>
+<td>話者同定</td>
+<td><code>97_ザ・リード事業/ザ・リード社内ミーティング/AIミーティング/ミーティング履歴/20261117_AIミーティング_話者同定.md</code>（話者同定ゲート合格）</td>
+</tr>
+<tr>
+<td>Zoomチャットログ</td>
+<td>この回はチャットログなし（<code>Zoomチャットログ取得.py --date 2026-11-17</code> が「チャットログはありませんでした」と返した）</td>
+</tr>
+<tr>
+<td>話者ラベルの確認</td>
+<td>Zoom側が参加者ごとの音声から付与した「田中 祐一」「カレン」をそのまま使用。発言内容と話者の食い違いは見つからなかった。聞き違いは文脈から次のように補正した（推定）。「カネさん」はカレンさん、Grok Botの聞き違い数種（原本では表記が割れている）はGrok Bot、ファネルの聞き違いはファネル、W3の聞き違い（ダブルスリー等）はW3、UTAGEの聞き違いはUTAGE、MCP・Claude Code・Codexの聞き違いもそれぞれ正しい名称に直した。聞き取りが崩れた人名・数字は本文で断定せず「要確認」と書いた。Zoomの自動要約も参照し、決定事項（来週水曜・24日13時・ポータル再構成）が書き起こしと一致することを確認した</td>
+</tr>
+</tbody>
+</table>
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1.-今週末のワークショップ向け、AI動画制作物の確認（冒頭〜約6分）">1. 今週末のワークショップ向け、AI動画制作物の確認（冒頭〜約6分）</a></li><li class="toc-sub"><a href="#2.-PLCのAIポータルを「田中祐一AIポータル」に組み替える構想（約6分〜17分）">2. PLCのAIポータルを「田中祐一AIポータル」に組み替える構想（約6分〜17分）</a></li><li class="toc-sub"><a href="#3.-数値管理ポータル（PALMOの作り直し）の構想（約17分〜28分）">3. 数値管理ポータル（PALMOの作り直し）の構想（約17分〜28分）</a></li><li class="toc-sub"><a href="#4.-データの入れ方、権限、他社の広告代理店の場合（約28分〜34分）">4. データの入れ方、権限、他社の広告代理店の場合（約28分〜34分）</a></li><li class="toc-sub"><a href="#5.-共同開発の進め方（Grok-Botのチームプラン、Slack）（約34分〜37分）">5. 共同開発の進め方（Grok Botのチームプラン、Slack）（約34分〜37分）</a></li><li class="toc-sub"><a href="#6.-Grok-Botの運用の実際（約37分〜46分）">6. Grok Botの運用の実際（約37分〜46分）</a></li><li class="toc-sub"><a href="#7.-1Passwordとチームプランの課題（約40分〜44分）">7. 1Passwordとチームプランの課題（約40分〜44分）</a></li><li class="toc-sub"><a href="#8.-UTAGEをAIに任せたときの、カレンの役割（約46分〜50分）">8. UTAGEをAIに任せたときの、カレンの役割（約46分〜50分）</a></li><li class="toc-sub"><a href="#9.-W3の業務の巻き取りと、データの設計（約49分〜54分）">9. W3の業務の巻き取りと、データの設計（約49分〜54分）</a></li><li class="toc-sub"><a href="#10.-締めと次回（約54分〜）">10. 締めと次回（約54分〜）</a></li><li class="toc-main"><a href="#前回（11月3日）の宿題との対応">前回（11月3日）の宿題との対応</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中">田中</a></li><li class="toc-sub"><a href="#カレン">カレン</a></li><li class="toc-main"><a href="#Zoomチャットログ">Zoomチャットログ</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1.-今週末のワークショップ向け、AI動画制作物の確認（冒頭〜約6分）">1. 今週末のワークショップ向け、AI動画制作物の確認（冒頭〜約6分）</h3>
+<p>冒頭、田中は「今依頼している分の確認」から入った。今週末（土曜）のワークショップは参加者があまり集まっておらず、オンライン公開の範囲もまだ分からない。東京会場は開催する。大阪会場の扱いは聞き取りが不明瞭で、開催が難しいという趣旨かもしれない（要確認）。</p>
+<p>カレンが作った動画の制作物の出来を問われると、カレンは次の課題を挙げた。</p>
+<ul>
+<li>音声のAPIキーを発行したり、ほかのツールをつないだりする必要があり、ワークショップの参加者がそこまでできるかどうかが分からない</li>
+<li>標準の音声はGoogle AI Studio（本人のアカウント）で動くため、事前にログインしておく必要がある。デフォルト以外の音声で作ろうとすると、さらにつなぎ込みが増える</li>
+</ul>
+<p>田中は「それはマニュアル化して渡すしかない」と答え、段階を分ける案を出した。</p>
+<table>
+<thead>
+<tr>
+<th>段階</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第1段階</td>
+<td>デフォルトの音声でできるようになる</td>
+</tr>
+<tr>
+<td>第2段階</td>
+<td>Geminiなどの安い一般音声でできるようになる</td>
+</tr>
+<tr>
+<td>第3段階</td>
+<td>ElevenLabsやFish Audioなどのクローン音声でできるようになる（サービス名は聞き取り不明瞭で推定）</td>
+</tr>
+</tbody>
+</table>
+<p>そのうえで、ワークショップ当日は「第1段階だけやってみましょう」という進め方を考えている、と田中は話した。</p>
+<p>画面を見ながらの確認では、次のやり取りがあった。</p>
+<ul>
+<li>田中は「これってプロンプトどうなっているのか」と尋ね、動画を作るプロンプトとは別に、動画の内容を解説する文章が要るのではないかと疑問を出した。カレンは、画面の一番下にコピペする文章があり、動画の型を選ぶとその文章が型専用のものへ全部切り替わると説明した。違いは主に色（青か黒か）と、キャストあり・なしだけで、中身はほとんど変わらない</li>
+<li>田中が「手書きキャラクター型」を選んだあとに「図解スライド型」を選んでも下の文章が変わって見えない、と指摘した。カレンは、図解スライド型が下の見本カードに入っていないため分かりづらいのだと受け止め、「直しましょうか」と申し出た</li>
+<li>田中は、ステップ1で型を選ぶ流れの中で、色の指定はブランドから決まるので最後で指定してもらう形でもよいと提案し、カレンも同意した</li>
+<li>使い方は、原稿を用意して制作物の文章と一緒に貼り付ける形。所要時間はカレンの見立てで10分前後（原稿の量による）</li>
+<li>動作環境について田中が「Claude CodeとCodexで、音声はデフォルトがある、ということか」と確認。カレンは「Google AI Studioのものをつけている」と答え、最初に設定（ログイン）が要ることが確認された。カレンも「マニュアルがそこも要る」と認めた</li>
+</ul>
+<h3 id="2.-PLCのAIポータルを「田中祐一AIポータル」に組み替える構想（約6分〜17分）">2. PLCのAIポータルを「田中祐一AIポータル」に組み替える構想（約6分〜17分）</h3>
+<p>田中は、動画の制作物を選ぶ画面の動線を、自分が昔作ったままでガチャガチャしているので整理してほしい、と依頼した（「お前がやれよという話ですけど」と笑いながら）。そこから、田中祐一AIの起動メニューとポータルの関係へ話が広がった。</p>
+<p>田中の整理は次のとおり。</p>
+<ul>
+<li>田中祐一AIを起動すると最初にメニューを選ぶが、本来は「一般的にAIを使う」と「田中祐一AIを使う」の2つに分かれるはずのものが、今は全部1つになっている。その場その場で直してきたので見直しが必要</li>
+<li>歴史的な背景として、最初はAIをみんなに教えようとして、ナレッジやコンフィグといったAIの使い方を提供してきた。数ヶ月やってみて、みんなには難しいと分かり、その後に田中祐一AIの開発へ力を入れた。そのためPLCのAIポータルの後に田中祐一AIが乗った形で、2つは別々のものだが「AI」というくくりで同じ場所に入っている</li>
+<li>田中祐一AIにつないでおけば最低限の編集やプロモーションが作れる状態になったため、PLCが提供するAI素材自体はあまり熱心に更新しなくなった。今のポータルには、一般的にAIを使うための素材と、田中祐一AIから呼び出せる、カレンや田中が作った素材集の両方が入っている</li>
+</ul>
+<p>田中の方向性は、ポータルを「田中祐一AIポータル」にしてしまうことだった。</p>
+<ul>
+<li>田中祐一AIの使い方（マニュアル）がここに入る</li>
+<li>田中祐一AIで起動するモードの一覧と、補助資料（動画ライブラリー、デザインライブラリー、広告ライブラリ、スライドライブラリなどのテンプレート）が並ぶ</li>
+<li>スキル・ルール・ナレッジは、PLCポータルに紐づくものとして、「コンテンツに学ぶ」の中の「AIブラッシュアップ」に載せればよい</li>
+<li>田中祐一AIの階層の下に、スライド、ウェブデザイン、長尺動画、ショート動画のカレンの制作物へ入れる形にした方が、階層としては分かりやすい。カレンも「そちらの方が分かりやすい」と賛成した</li>
+<li>メニューの順番は、田中祐一AIで起動したときのメニューの順番と一致させる。田中自身は、いまのメニュー順も後から付け足されているのでイマイチだと思っている</li>
+</ul>
+<p>カレンは、田中祐一AIのMCP（コーデックスやClaude Codeから直接使う）とポータル（ビジュアル化されていて、自分でコストを負担してWeb上で使える）の区別を確認し、「つまりポータルを見やすくしたいということですか」と整理した。</p>
+<p>ワークショップ当日の流れとしては、土曜日のマニュアルは、第1段階として「Gemini（Google AI Studio）のAPIをつなぐところからやってみましょう」とし、サンプルの内容とプロンプトを渡して、みんなで組んで生成するところまで見せる、と田中が整理した。次の段階では、カレンがまだ試していないElevenLabsなどの音声（クローン音声）が話題になった。田中は、参加者は「自分の音声でやりたい」と言うはずだと見ている。精度が今はイマイチなら、それをそのまま見せればよい。今後進化するので、クローン音声までは見せないといけないのではないか、というのがもともとの要望だと述べ、カレンは了解した。</p>
+<p>田中は、この会議の書き起こしと画面のキャプチャをもとにポータルを修正する、と話した。カレンには、PLCのポータルサイトを一度チェックしてもらい、カレンが入れるべきところを入れてほしいと依頼した。</p>
+<h3 id="3.-数値管理ポータル（PALMOの作り直し）の構想（約17分〜28分）">3. 数値管理ポータル（PALMOの作り直し）の構想（約17分〜28分）</h3>
+<p>田中は「Grok Botの話題も今日あるが、その前に、今作っているものをカレンに移管したい」と切り出した。来週水曜（11月25日）まで整えたいもので、田中がいまCodexで途中まで作っている。</p>
+<p>構想の中心は次のとおり。</p>
+<ul>
+<li>PALMOの半分ほどを捨てて作り変える。PALMOで生かすのはデータを蓄える部分で、UIで全部を設定しようとしたのは無理だったと考えている（発言は揺れていたが、前回の「UIはなしでデータだけ作る」という反省と一致する）</li>
+<li>PALMOが難しくなったのは、結局、広告の自動取得が難しいから</li>
+<li>野望として、全案件のデータを即時に取得し、横並びで見られるようにしたい。広告ライブラリの状況、セールス分析の状況も同じ場所で見る</li>
+<li>案件を選んで、月ベースで見るか、クール（ファネルの回）ごとのリスト・売上で見るか、他案件とのコスト比較にするかを切り替えて表示する。ダッシュボードに案件が並び、「今日はどのモードで見ますか」→「ファネル分析」→「10月の横並びを出して」で表が出る、というイメージ</li>
+</ul>
+<p>田中は、数字の見方に関する注意点も挙げた。広告費を使った月と、その売上が確定する月は同じではない。チャレンジなどの集計でもよく間違えるポイントで、ファネルごとの売上は遅れてほぼ確定する。そのため、月ベースと、ファネル（クール）ベースで表が切り替わる設計が要る。</p>
+<p>もう一つは、ファネルの扱いである。安心安定のカウンセラー（案件名・聞き取りによる推定）の後にウェビナー型のファネルが走る場合に、第1ファネルだけの数値にするか、第2ファネルだけにするか、合算にするかで表示項目が変わる。田中自身の案件も4つほどのファネルを同時に動かしているので、4つ合算でも個別でも見たい。そのため「数値報告のフォーマットを固定する機能」が必要になる。ただし一度固めても、修正すればまた変わる部分は出る。ファネルによって見たい数値が違う点（ウェビナーかチャレンジか、エバーグリーンかスポットか）も厄介である。</p>
+<p>カレンから、セールス結果は成約・不成約だけか金額も入れているのかを聞かれ、田中は「全部入れる」と答えた。セールス側のデータは個別のデータベースシートを参照しつつ、最終的には決済データを入れる。ただし、この横並びのチェックができるのは今のところW3の案件だけで、W3でもキタムラさんがプロデューサーに週1で埋めてもらっている数値が遅れたり、異常を見つけられず赤字が拡大したまま放置されたりする案件がある。そこで、W3の案件には、オプトインリストと説明会リストをCSVで出し、どのクリエイティブから来たかの情報も必ずPALMOのデータベースに入れてもらう形にしたい。個人名でなくてよい。</p>
+<p>カレンの「ファネルとか固定化しないといけないということですね」という確認に、田中は、案件ごとに見たい形を最初に固めてしまえば表示を切り替えられる、それが一番の理想だと答えた。田中は、この作り込みを少しずつカレンへ移行していくつもりだと話した。</p>
+<h3 id="4.-データの入れ方、権限、他社の広告代理店の場合（約28分〜34分）">4. データの入れ方、権限、他社の広告代理店の場合（約28分〜34分）</h3>
+<p>カレンは、ザ・リード以外の広告代理店の案件では、どう共有してもらうのかを聞いた。</p>
+<ul>
+<li>田中は「困りますよね」と認めたうえで、ある広告代理店（表記が割れており特定できない・要確認）からは、クリエイティブとクリエイティブ番号の一覧をもらっていると答えた</li>
+<li>オプトインのリストにパラメーターが入れば、これを使って、どのクリエイティブから来たかを引っ張り出せるのではないか。カレンも「照合できそうな気がする」と同意した</li>
+<li>「説明会番号からクリエイティブが見つけられない」場合や、「この時期に一番当たったクリエイティブは何か」が紛失状態になっている場合がある、という課題も田中は挙げた</li>
+<li>山岸さんにも、セールス担当の人がどのクリエイティブから来たかが一発で出る仕組みが欲しいと考えている</li>
+</ul>
+<p>田中は、PALMOのUIで全部を設定するのは無理だと分かったので、データの入れ込みはAIを通して、人間がやり取りしながら調整して固め、固まったら自動運転にする、という方針にしたいと述べた。山岸さんの作っている広告レポートの自動化は自分たちのレポート用だろうが、田中側は、広告の数値レポートとクリエイティブ一覧の2つさえもらえばよい。</p>
+<p>権限の考え方としては、田中とカレンだけが全案件を横並びで見られ、プロデューサーやコンテンツホルダーはログインすると自分の案件（例：安心安定のカウンセラーだけ）しか見られない形にする。登録申請などもPALMOで作り込んだが、これもこちら主導で入れればよいと思っている。ログインについては、PLCの田中祐一AIのログイン情報と同じでもよい、「案件サポーター」のフラグを立てれば、数値データ管理ポータルに入れる形も検討している。トップ画面は、ザ・リードが関わる全案件の今月の状況（リストの取得数、データを照合できれば重複リスト数）が分かる形にし、できればコンテンツホルダーの顔を小さく並べたかったという。</p>
+<p>カレンは「私がガチャガチャしすぎました」と、これまでのPALMOの作りを振り返った。田中は、いろいろなものをUIでやろうとしたので作り込みが面倒になった、結果だけをシンプルに出す、という考え方に変えたと話した。閲覧権限の人名の部分は聞き取りが不明瞭で、詳細は割愛する（要確認）。</p>
+<h3 id="5.-共同開発の進め方（Grok-Botのチームプラン、Slack）（約34分〜37分）">5. 共同開発の進め方（Grok Botのチームプラン、Slack）（約34分〜37分）</h3>
+<p>田中は「これをどう共同開発したらいいのかが難しい」と述べた。Grok Botはガス欠（利用上限）を起こしやすい。育てたボットをみんなで共有する「チームプラン」があるらしく、システム担当・開発担当のグループを作り、PLCの共通ポータルサイトのグループにカレンも入れれば、田中とカレンがお互いにボットで指示を出し合えるのではないか、という考えである。チームプランが使えなくても、Slackにデータを出力しさえすれば、カレンが田中のボットに指示を出せるかもしれない。</p>
+<p>その例として田中は、Slackで秘書役のボット（ひーちゃん）に「田中さんの空きカレンダーをチェックして」と入れると、空き時間を即座に返してくれることを挙げた。田中は現在、APIキーを小太郎くんなどに渡しており、返信の多くを田中祐一AIで返している。</p>
+<h3 id="6.-Grok-Botの運用の実際（約37分〜46分）">6. Grok Botの運用の実際（約37分〜46分）</h3>
+<p>田中は、自分の構成を次のように説明した。</p>
+<ul>
+<li>Grok Botはクラウド上にあり、窓口の役割をする。その下にReason Networkという仕組みを入れ、業務を持ち歩いているMacBook Proで行うか、最近セットアップしたMac miniで行うかを振り分け、結果をGrok Botに返している</li>
+<li>プロモーションの制作物以外の事務的なことは全部Grok Bot経由で依頼する。裏の作業は、Mac miniのClaude Codeが議事録を書き、できたらGrok Botが「できました」と知らせてくれる</li>
+<li>ボットは人ごと・用途ごとに分けている（相談用など。数が多い）</li>
+</ul>
+<p>運用上の失敗と改善は次のとおり。</p>
+<ul>
+<li>当初は、PLC開発グループのメンバーをグループにして、ボット同士で会話させようとした。ところが指示を出すと全員が「了解しました」と一気に動き出し、2日ほど（日数は聞き取り要確認）でトークンを使い切って課金することになった</li>
+<li>調べた結果、個別に専用ボットを作り、専用ボットがそれぞれ振り分ける形に変えた。COO（役名）が業務依頼表をまとめ、漏れがないかを確認する形にしたことでトークンが抑えられた。タスク単位だったClaude Codeと違い、「この人にこれを任せる」というイメージで直感的に使えるようになった</li>
+<li>秘書役のAI社員は、PLCポータルを週1で改善する役割、月1の監査、MacBook ProとMac miniそれぞれの利用料を監視して改善する仕組みも持っている</li>
+<li>Claude CodeとCodexのそれぞれについて、毎日おすすめの使い方を調べさせ、前日の使い方をチェックして「これはやった方がいい」という提案を毎日出させている。例として「個別でメッセージを出した方がトークン効率が抑えられる」「Xで流行っているこの仕組みを入れてみては」「今のチェックの仕組みは重すぎるので軽くした方がいい」「1つのスレッドにコンテキストを盛り込みすぎなので、業務別に分けた方がいい」などが返ってくる。カレンは「すごい改善してくれるんですね」と感心した</li>
+</ul>
+<p>向き不向きについての田中の見立ては次のとおり。</p>
+<ul>
+<li>Grok Botは、ブログを書く、といった定着したワークフローに対して自律的に動かすのは向いている。都度指示を出すとトークン効率が悪い</li>
+<li>プロモーション制作で使うと「本当にポンコツで、すぐトークンが来てバテる」ので、自分の作業ならCodexで足りる。カレンの数値取得もCodexで十分だと思う</li>
+<li>PALMOのように数字が入り続け、週に1回、改善点やファネルを自動で出させる使い方は機能しやすい</li>
+<li>LINEマネージャーの監視（届いたメッセージの確認）や特典の配布は、人より先にやってくれるので向いている（担当者名は聞き取り不明瞭）。秘書役のAI社員は昨日からLINE公式アカウントのマネージャー画面も見るようになり、1日4回の確認指示で、必要なものだけ画面キャプチャつきで知らせてくる（返信が必要なものだけという趣旨だが、聞き取りが不明瞭で推定）。昨日まではUTAGEしか見せておらず、うまく動かなかった。ここまで来ると「1人でプロモーション全体を回せるレベル」になる</li>
+</ul>
+<h3 id="7.-1Passwordとチームプランの課題（約40分〜44分）">7. 1Passwordとチームプランの課題（約40分〜44分）</h3>
+<p>田中は、今週あおんぼさん（書き起こしでは「青森さん」と出る。前回の議事録の「あおんぼさん」と同じ人物と推定・要確認）と話す予定で、チームプランについて調べなければならないと述べた。</p>
+<p>課題は次のとおり。</p>
+<ul>
+<li>田中は最近、各種のパスワードやAPIキーを1Password（月額2,000円ほど・金額は聞き取り要確認）にまとめている。承認さえすれば、Grok BotもCodexも必要な認証情報に届く。買い物（週1回のまとめ買い）まで任せている</li>
+<li>チームプランにすると、ボットが共有されるため、1Passwordへのアクセスまで共有されてしまう。カレンは「それは事件ですね」と反応した。何も対策しなければ、個人の認証情報にまで入れてしまう</li>
+<li>そのため、1Passwordを法人用と個人用に分け、個人用にはアクセスできない制御をかける。GitHubなどの法人用の鍵はアクセスできてもよい。ボットも法人用と個人用に分ける。鍵をすべて整理し直す必要があり、これがまず1つめの課題</li>
+<li>個人の用途では、チャンスの雰囲気があるときだけ知らせてくれるボットもあり、普段見ないものを毎日見るモードにならなくて済む、と田中は紹介した（詳細は割愛）</li>
+<li>ボット単位で、チームで使うか個人で使うかを分けられるらしい。あおんぼさんが専用のボットを提供してくれれば、田中祐一AIがボットの中にいて、田中祐一とあおんぼさんがいる環境でも改善計画が回る、という期待も述べた（聞き取りが不明瞭で趣旨を推定）</li>
+</ul>
+<h3 id="8.-UTAGEをAIに任せたときの、カレンの役割（約46分〜50分）">8. UTAGEをAIに任せたときの、カレンの役割（約46分〜50分）</h3>
+<p>田中が「MCPで決済フォームは作れるのか」と聞くと、カレンは「決済フォームはやったことがないが、フォーム関係は作れる。シナリオもほとんど全部作れる」と答えた。田中が素材を渡したときにカレンがやるのは「確認ぐらい」で、田中が「全部組んで」と言えば、どのファネル（空白のファネルなどの箱）に作るかを指定すれば、ある程度仕上げてくれる、という。</p>
+<p>田中は「ディレクターの役割は何になると思うか」と尋ねた。カレンは、自分の立場からすると作業系は本当になくなると思う、と答えた。田中は、カレンがやっている業務もカレンがやる必要がないようにしていきたい、システム開発、デザインポータル開発、共通プラットフォーム開発の時間を増やしてほしい、と話し、カレンも「私もそちらをやりたい」と応じた。</p>
+<p>さらに田中は、Slackに移行すれば、カレンのボットが回ってしまうかもしれない、と想像を述べた。田中が「カレンさん、これをやってください」と入れると、カレンのボットが動き出し、分からない点は内部のグループでカレンさんに聞いてくる。田中・カレン・山岸さんそれぞれのボットがゴールを共有できていれば、3人で作ったものをボット同士がチェックし合い、人間の判断が要るときだけ聞いてくれるようになる。カレンは「理想ですね」と賛同した。ただし今のボットはまだ使いづらい、という前置きも田中はつけた。イーロン・マスク氏が「Grokは3ヶ月ほどでOpus 5.5に能力的に追いつく」と言っている、と田中が紹介し、カレンは「時間の問題ですね」と受けた（他者発言の伝聞・時期とモデル名は要確認）。</p>
+<h3 id="9.-W3の業務の巻き取りと、データの設計（約49分〜54分）">9. W3の業務の巻き取りと、データの設計（約49分〜54分）</h3>
+<p>田中は、W3（ダブルスリー）の案件を担うザ・リード側の野望として、キタムラさんの業務を剥がしていきたいと話した。契約書の送付なども、小太郎くんが全部やってくれてもよい。Grok Botから「次は何が必要ですか」と聞かれるイメージで、W3の担当マニュアルに従って進める。</p>
+<p>データ設計の整理は次のとおり。</p>
+<ul>
+<li>最初にPALMOに設定してもらうものは、UTAGEからの転送URL（オプトインリスト・説明会リスト・各種フォームの出力URL）と、各広告会社からのクリエイティブ一覧だけ</li>
+<li>ベースシート（申込）と決済フォームのシートは、田中側が持っているので、データはそれで揃うはず</li>
+<li>さらに、第1〜第3アンケートと、特典をいつ渡したかも、セールスの横に必要</li>
+<li>「人」の一覧（人のテーブル）を作り、その人がいつ、どこで何をしたかをストックする。セールス担当なら、何月何日にどのセールスで、どのレポートかを、セールス分析の書き起こしとレポートに紐づけて見られるようにする</li>
+<li>案件をまたぐ場合は、その案件の人だけが見える</li>
+</ul>
+<p>田中は、基本はPALMOと変わらないが、ログインしてポータルを見るのはきついと述べ、PALMOの何が良くなかったのかを自問した。データを格納するロジックは良かったはずなのに、自分ですら面倒だと思ってしまう、というのが現時点の見立てである。</p>
+<p>共通プロジェクトとして、安心安定のカウンセラーとAIコンサルのデータを入れて動く状態にするのを、来週水曜までの目標とした。田中は「必要なもの一覧が出ればいいが」と述べ、ファネルによって見たい数値が違う点を再度挙げた。数値の取得方法では、広告はクリエイティブURLごとの数値で、クリエイティブ一覧は山岸さんからもらって入れているようだ、と田中自身が気づく場面もあった。</p>
+<h3 id="10.-締めと次回（約54分〜）">10. 締めと次回（約54分〜）</h3>
+<p>田中は、今週末に向けたPLCポータルの修正に、この会議の書き起こしとキャプチャを使うと述べた。動画の階層については、横動画とショート動画を分け、横動画の中でも「人間が撮るもの」と「自動でコンテンツを生成するもの」に分けていく方向とした（カレンも「分かれている方がいい」）。</p>
+<p>田中は「来週はPPの前に一回ミーティングをやりたい」とし、コンサルと同じ13時で24日（火）の13時を次回とした。カレンは了承した。雑談として、飛行機の遅延で予約の取り直しが必要なときに、カウンターに並んでいる間にボットが電話窓口で20分待ってくれて取り直してくれた、という海外の事例（時間は聞き取り要確認）が紹介されて、会議は終わった。</p>
+<h2 id="前回（11月3日）の宿題との対応">前回（11月3日）の宿題との対応</h2>
+<p>11/3議事録の「やること」について、今回の会話の範囲で触れられた状況を並べる。今回触れられなかった項目は「今回は話題に出ていない」と書き、進んでいる・いないは判断しない。</p>
+<table>
+<thead>
+<tr>
+<th>前回の宿題</th>
+<th>担当</th>
+<th>今回の会話で分かったこと</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLCポータルサイトにカレンのスライド作成ページを組み込む</td>
+<td>田中</td>
+<td>載せ替えの進み具合は今回は話題に出ていない。代わりに、田中祐一AIポータルの階層の下にスライド・ウェブデザイン・長尺・ショート動画を並べる構想が出た</td>
+</tr>
+<tr>
+<td>ショート動画のVSL版が完成次第、カレンに組み込みを依頼する</td>
+<td>田中</td>
+<td>今回は話題に出ていない（動画は横動画とショート動画を分ける案が出た）</td>
+</tr>
+<tr>
+<td>PLCポータルとPALMOのログイン管理を統合する</td>
+<td>田中</td>
+<td>「PLCの田中祐一AIのログイン情報に案件サポーターのフラグを立て、数値ポータルに入れる」案が出た。実装は未着手と見られる</td>
+</tr>
+<tr>
+<td>広告案件を横断する数値ポータルと、セールス案件の分析ポータルの開発を進める</td>
+<td>田中</td>
+<td>田中が途中まで作っているものを、カレンへ少しずつ移管する話になった。来週水曜（11/25）までに、安心安定のカウンセラーとAIコンサルのデータで動くところまでを目標にした</td>
+</tr>
+<tr>
+<td>音声だけでYouTubeコンテンツを作る方法を、坂本さんの課題として与える</td>
+<td>田中</td>
+<td>今回は話題に出ていない</td>
+</tr>
+<tr>
+<td>以前作ったと記憶するLPテンプレートのページを探し、PLCポータルに加える</td>
+<td>田中</td>
+<td>今回は話題に出ていない。田中祐一AIポータルに「デザインライブラリー」などを並べる構想の中で、関連する話が出た</td>
+</tr>
+<tr>
+<td>次のPLCワークショップの課題にいけはやさん型のAI動画を使うかを検討する</td>
+<td>田中</td>
+<td>今週末のワークショップで、AI動画（音声つき）の制作物を使う方向になっている。書き起こしに「いけはやさん」の名前は出ないため、前回の提案と同じものかは断定しない</td>
+</tr>
+<tr>
+<td>スライド作成ページを田中のVercel上へ載せ替える</td>
+<td>カレン</td>
+<td>今回は話題に出ていない</td>
+</tr>
+<tr>
+<td>移植に必要な素材を田中に共有する</td>
+<td>カレン</td>
+<td>今回は話題に出ていない</td>
+</tr>
+<tr>
+<td>22日のあおんぼさんのYouTube動画研修で、長尺動画編集のやり方を確認する</td>
+<td>カレン</td>
+<td>今回は話題に出ていない（研修は会議の数日後）</td>
+</tr>
+<tr>
+<td>いけはやさんのAIクローン動画のような事例の再現に取り組む</td>
+<td>カレン</td>
+<td>ワークショップ向けの動画制作物（型を選んで動画を作る、音声をつける）の確認が冒頭の議題になった。クローン音声（ElevenLabsなど）はカレンがまだ試していない</td>
+</tr>
+</tbody>
+</table>
+<p>新しく生まれた宿題は、末尾の「やること」に記載した。</p>
+<h2 id="決まったこと">決まったこと</h2>
+<ul>
+<li>今週末のワークショップでは、音声は3段階（第1デフォルト、第2Geminiなどの安い一般音声、第3クローン音声）に分け、当日は第1段階だけを体験する方向。Google AI Studioのログインとキー発行の手順は、カレンがマニュアル化する</li>
+<li>PLCのAIポータルを、田中祐一AIの起動メニューと並びをそろえて「田中祐一AIポータル」へ組み替える方向。スキル・ナレッジなどは「コンテンツに学ぶ」の中のAIブラッシュアップへ移し、動画は横動画とショート動画に分ける</li>
+<li>数値管理ポータル（PALMOの作り直し）は、田中がCodexで作っている分をカレンへ少しずつ移管していく。来週水曜（11月25日）までに、安心安定のカウンセラーとAIコンサルのデータが入って動く状態を、2人の共通の目標にする</li>
+<li>データの入れ込みはUIでなくAIを通して行い、固まったら自動運転にする。W3の案件は、オプトインリスト・説明会リスト（CSV）とクリエイティブ情報を必ずPALMOのデータベースに入れてもらう方針</li>
+<li>次回MTG：2026年11月24日（火）13時（PPの前に一度開く）</li>
+</ul>
+<h2 id="やること">やること</h2>
+<h3 id="田中">田中</h3>
+<ul>
+<li>[ ] この会議の書き起こしと画面キャプチャをもとに、今週末に向けてPLCポータルを修正する（田中祐一AIの起動メニューの順に合わせる）</li>
+<li>[ ] カレンへ数値管理ポータルの作りかけを移管し、必要なもの一覧（案件・ファネルごとの見たい項目）を出す</li>
+<li>[ ] 1Passwordを法人用と個人用に分け、個人用にはボットがアクセスできない制御を整理する（チームプラン導入の前提）</li>
+<li>[ ] 今週あおんぼさんと話す予定のため、Grok Botのチームプランの内容を調べる</li>
+<li>[ ] W3の案件にオプトインリスト等の出力ルール（CSV＋クリエイティブ情報）を依頼する（キタムラさん側の運用との調整が必要）</li>
+</ul>
+<h3 id="カレン">カレン</h3>
+<ul>
+<li>[ ] ワークショップ向けに、Google AI StudioのAPIキー発行とログインの手順を含むマニュアルを作る</li>
+<li>[ ] クローン音声（ElevenLabsなど）のデモを見せられるよう、事前に試す</li>
+<li>[ ] 動画の型を選ぶ画面で、図解スライド型を見本カードに出す、色の指定を後に回すなどの直しを行う</li>
+<li>[ ] PLCポータルを一度チェックし、カレンが入れるべきところ（スライド、ウェブデザイン、長尺・ショート動画）を入れる</li>
+<li>[ ] 来週水曜（11月25日）までに、安心安定のカウンセラーとAIコンサルのデータを入れて動く数値管理ポータルにするための作業を進める（2人の共通プロジェクト。田中とカレンの分担は次回確認）</li>
+</ul>
+<h2 id="Zoomチャットログ">Zoomチャットログ</h2>
+<p>この回はチャットログなし。</p>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-11-17)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: QV1Z38KN<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
