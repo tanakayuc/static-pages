@@ -244,6 +244,20 @@ html.embed .shell{padding-top:10px}
 .qcard span{font-size:13px;color:var(--muted)}
 .lpblock .profile{display:block}
 .vnote{font-size:12px;color:var(--muted);margin-top:10px;font-family:var(--gothic)}
+/* ---- 50代でも読みやすい文字の大きさ・PCでは広く ---- */
+body{font-size:18px}
+.shell{max-width:780px}
+@media (min-width:900px){.shell{max-width:900px}.quiz-card{padding:36px 40px}.letter>*:not(.arch){margin-left:48px;margin-right:48px}}
+.letter p,.letter li,.letter details p{font-size:18px}
+.letter .rh{font-size:23px}
+.letter details summary{font-size:18px}
+.note{font-size:15px}.opt{font-size:18px}.qtext{font-size:22px}
+.form label{font-size:16px}.form input{font-size:18px}.btn{font-size:18px}
+.qcard p{font-size:18px}.qcard span{font-size:15px}.vcard .vl{font-size:16px}.vcard .vm{font-size:14px}.vcard figcaption b{font-size:18px}
+.vnote{font-size:14px}.warn{font-size:16px}.steps{font-size:14px}.mini-voice{font-size:17px}.minihead{font-size:13px}
+.lp1img{display:block;width:100%;height:auto;border-radius:16px;border:1px solid #F0DFC8;box-shadow:0 12px 30px rgba(140,40,80,.14);margin:18px 0 8px}
+.lpcatch2{text-align:center;font-weight:700;color:var(--rose);font-size:20px;line-height:1.7;margin:0 0 12px}
+
 @media (min-width:640px){.vcards{grid-template-columns:1fr 1fr}}
 @media (prefers-reduced-motion:reduce){.petals i,.envx,.envwrap,.letter,.scene .form,.scene .lead2{animation:none!important}.reveal{opacity:1;transform:none;filter:none;transition:none}}
 </style>
@@ -294,7 +308,12 @@ function reportTail(t){
   return '<h3 class="rh">このまま、何もしなかったら</h3><p>' + esc(EXTRA[t].ifNot) + '</p>'
   + '<h3 class="rh">まず、ここから始めてみませんか</h3><ul class="gets">' + EXTRA[t].week.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>'
   + '<h3 class="rh">診断を見ただけでは、変わらない理由</h3>' + COMMON.notEnough.map(x => '<p>' + esc(x) + '</p>').join('')
-  + '<h3 class="rh">3日間チャレンジで、あなたが見ること</h3><ol class="steps3">' + DAYS.map(x => '<li><b>' + esc(x[0]) + '</b>' + esc(x[1]) + '</li>').join('') + '</ol>'
+;
+}
+function reportTail2(t){
+  const r = REPORT[t];
+  return ''
+  + '<h3 class="rh">3日間チャレンジで、あなたが得られること</h3><p class="lpcatch2">あなたの“人生”経験が感謝される起業法</p><p>あなたの人生の経験で得た「感情」や「乗り越え方」、そして「未来への想い」は、今、同じように悩む方にとって心強い道標となります。資格がなくても、あなたの人生経験そのものが、お客様にとって非常に高い価値です。3日間では、次のことをお伝えします。</p><ol class="steps3">' + DAYS.map(x => '<li><b>' + esc(x[0]) + '</b>' + esc(x[1]) + '</li>').join('') + '</ol>'
   + '<h3 class="rh">3日間チャレンジで、受け取れるもの</h3><ul class="gets">' + r.gets.concat(COMMON.challenge).map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>'
   + '<h3 class="rh">矢場田からのメッセージ</h3><p>矢場田は、長年、たくさんの人のカウンセリングに向き合ってきました。その経験を、初心者でも同じように使えるテンプレートにしたのが、この講座の土台です。</p><p>特別な経験がなくても、資格がなくても、毎日発信しなくても大丈夫です。あなたがこれまで人の話を聴いてきたことは、すでに、誰かの役に立つ力になっています。</p><p>まずは3日間、無料で見てみてください。</p>'
   + '<h3 class="rh">よくある質問</h3>' + EXTRA[t].worries.concat(COMMON.faq).map(x => '<details><summary>' + esc(x[0]) + '</summary><p>' + esc(x[1]) + '</p></details>').join('');
@@ -417,29 +436,7 @@ function thanks(t){
     <p>${esc(STORY[t])}</p>
     ${voicesHTML(t, d)}
     ${reportTail(t)}
-    <p class="lt-from"><img src="img/yabata.jpg" alt="矢場田 勲" width="56" height="84"><span>${NAME ? esc(NAME) + 'さんの' : 'あなたの'}一歩目を、楽しみにしています。<br><b>矢場田 勲</b></span></p></div>
-    <p class="bridgebox">${esc(BRIDGE[t])}</p>
-    <p class="bridge">そんなあなたに、おすすめなのがこちらです</p>
-    <section class="lpblock" id="lpBlock">
-      <p class="eyebrow" style="margin-top:18px">あなたへの、次の一歩</p>
-      <h2 class="lph2">${esc(d.name)}のあなたに、おすすめしたい3日間です</h2>
-      <h3 class="lph">安心安定のカウンセラー起業 3日間チャレンジプログラム</h3>
-      <p class="lpcatch">あなたの“人生”経験が感謝される起業法</p>
-      <p>あなたの人生の経験で得た「感情」や「乗り越え方」、そして「未来への想い」は、今、同じように悩む方にとって心強い道標となります。資格がなくても、あなたの人生経験そのものが、お客様にとって非常に高い価値です。</p>
-      <ul class="lpcheck">
-        <li>今会社員だけど、スキマ時間に何か副業を始めたい</li>
-        <li>子育て中で外で働きにくいけど、在宅で何か始めたい</li>
-        <li>顔出しせずにコッソリ稼げる副業を探している</li>
-        <li>自分の時間も大切にしながら、やりがいを感じる働き方をしたい</li>
-      </ul>
-      <p>顔出しなしでもOK。生活スタイルに合わせて時間も調整できる秘訣を公開します。カウンセラー特化型の自動集客の仕組みがあれば、SNS投稿が苦手な人でも、本当に悩んでいる人だけが集まるようになります。</p>
-      <div class="challenge"><div><b>FREE</b>参加は無料</div><div><b>ONLINE</b>オンラインで参加</div><div><b>ARCHIVE</b>アーカイブの配信あり</div></div>
-      <div class="profile">
-        <p class="eyebrow">PROFILE</p>
-        <p><b>矢場田 勲（やばた つとむ）</b>（有限会社ライフビジョン 代表取締役 / カウンセラー専門コンサルタント）</p>
-        <p>高校1年生のときに対人緊張から不眠症、不登校になり、21歳のときには難病の潰瘍性大腸炎に。10〜20代にかけて悩み続け、研究し続けるなかで「こころの悪循環を断ち切るセラピー」を開発しました。その経験をもとに、多くのカウンセリングを重ねてきました。ノウハウを体系化したのが「安心安定のカウンセラー起業講座」です。</p>
-      </div>
-    </section>
+    <img class="lp1img" src="img/lp1.jpg" alt="安心安定のカウンセラー起業 3日間チャレンジプログラム（無料）のご案内" width="860" height="1420" loading="lazy">
     <p class="warn">3日間チャレンジへの参加は、まだ完了していません。ページの最後のボタンから、オープンチャットに参加してください。</p>
     <div class="form" id="openchatSlot">
       <p style="margin:0 0 12px"><b>${esc(d.cta)}</b></p>
@@ -448,7 +445,10 @@ function thanks(t){
       <p class="note"><b>匿名で参加でき、いつでも退出できます。</b>入室時に「LINEを悪用した詐欺にご注意ください」と表示されますが、これは全てのオープンチャットで表示されるものです。</p>
       <img class="ocimg" src="img/openchat.webp" alt="LINEオープンチャットとは。普段のLINEと分けて使える、LINEのID交換が不要、通報機能がある、すべて無料で使える" width="1197" height="1314" loading="lazy">
       <p class="note"><b>見本のためボタンはつながりません。</b>本番は、いまの3日間チャレンジのサンキューページと同じオープンチャットの参加URLを入れます。</p>
-    </div>`;
+    </div>
+    ${reportTail2(t)}
+    <p class="lt-from"><img src="img/yabata.jpg" alt="矢場田 勲" width="56" height="84"><span>${NAME ? esc(NAME) + 'さんの' : 'あなたの'}一歩目を、楽しみにしています。<br><b>矢場田 勲</b></span></p></div>
+`;
   document.getElementById('petals').hidden = false; setupReveal();
   card.scrollIntoView({behavior:'smooth', block:'start'});
   if (window.parent !== window) { try { window.scrollTo(0, 0); } catch (e) {} }
