@@ -377,7 +377,7 @@ function gate(){
       <label for="mail">メールアドレス</label>
       <input id="mail" type="email" placeholder="example@gmail.com" autocomplete="email">
       <button class="btn" id="go" style="width:100%">手紙を開ける</button>
-      <p class="note" id="demoNote"><b>見本のため送信しません。</b>本番はUTAGEの登録フォームに差し替えます。</p>
+      <p class="note" id="demoNote"><b>見本のため送信しません。</b>テスト中は、メールアドレスに適当な文字を入れても進めます。本番はUTAGEの登録フォームに差し替えます。</p>
       <!-- 【組み込み】ここまで -->
       <p class="note">ご登録のメールアドレスにも、結果をお送りします。携帯メール・iCloudメールは届かないことがあるため、それ以外のアドレスでご登録ください。</p>
     </div>
@@ -388,7 +388,7 @@ function gate(){
     let err = document.getElementById('formErr');
     if (!err) { err = document.createElement('p'); err.id = 'formErr'; err.className = 'note'; err.style.cssText = 'color:#C2185B;font-weight:700;margin:0 0 10px'; document.getElementById('go').before(err); }
     if (!nm) { err.textContent = 'お名前（ニックネームでも大丈夫です）を入れてください。'; n.focus(); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ml)) { err.textContent = 'メールアドレスの形を確かめてください。例：example@gmail.com'; m.focus(); return; }
+    if (!ml) { err.textContent = 'メールアドレスを入れてください（テスト中は、適当な文字でも進めます）。'; m.focus(); return; }
     err.textContent = '';
     NAME = nm;
     document.getElementById('go').disabled = true;
@@ -400,6 +400,7 @@ function gate(){
   if (window.parent !== window) { try { window.scrollTo(0, 0); } catch (e) {} }
 }
 let NAME = '';
+function demoJoin(e){ if (OPENCHAT_URL !== '#') return true; e.preventDefault(); const c = document.getElementById('quizCard'); c.innerHTML = '<div class="lpblock" style="text-align:center;padding:40px 18px"><p class="orn" style="color:#B8925A;font-size:22px;margin:0 0 10px">✿ ✿ ✿</p><h2 style="font-family:var(--mincho);color:var(--teal-deep);margin:0 0 12px">オープンチャットへの参加ページ（テスト）</h2><p>本番では、ここで3日間チャレンジのオープンチャットが開きます。いまはテスト用のページです。</p><p><b>' + esc(NAME || 'あなた') + ' 様</b>の診断から、ここまでの流れが通しで動きました。</p><button class="back" onclick="location.reload()">最初からやり直す</button></div>'; window.scrollTo(0, 0); return false; }
 const OPENCHAT_URL = '#'; // 【組み込み】本番は3日間チャレンジ専用オープンチャットの参加URL
 function thanks(t){
   resultView(true);
@@ -443,7 +444,7 @@ function thanks(t){
     <div class="form" id="openchatSlot">
       <p style="margin:0 0 12px"><b>${esc(d.cta)}</b></p>
       <p style="margin:0 0 12px">3日間チャレンジへの参加は、LINEオープンチャットから。下のボタンを押して参加してください。</p>
-      <a class="btn line" id="openchatBtn" data-type="${esc(t)}" href="${OPENCHAT_URL}" onclick="return false" style="width:100%;text-align:center">オープンチャットに参加する</a>
+      <a class="btn line" id="openchatBtn" data-type="${esc(t)}" href="${OPENCHAT_URL}" onclick="return demoJoin(event)" style="width:100%;text-align:center">オープンチャットに参加する</a>
       <p class="note"><b>匿名で参加でき、いつでも退出できます。</b>入室時に「LINEを悪用した詐欺にご注意ください」と表示されますが、これは全てのオープンチャットで表示されるものです。</p>
       <img class="ocimg" src="img/openchat.webp" alt="LINEオープンチャットとは。普段のLINEと分けて使える、LINEのID交換が不要、通報機能がある、すべて無料で使える" width="1197" height="1314" loading="lazy">
       <p class="note"><b>見本のためボタンはつながりません。</b>本番は、いまの3日間チャレンジのサンキューページと同じオープンチャットの参加URLを入れます。</p>
