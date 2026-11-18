@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
-<title>坪田案件の実装状況とスタッフの最終接続 - 坪田まゆみ｜ファネル素材集</title><style>
+<title>坪田案件｜開催時刻・待機導線・申込者分岐の実装設計 - 坪田まゆみ｜ファネル素材集</title><style>
 :root {
   --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
   --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
@@ -217,6 +217,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </details>
 <details class="tree-subsection is-current" open><summary>実装引継ぎ</summary>
 <a href="126.html" class="sidebar-item tree-leaf active" aria-current="page">スタッフへの実装・疎通確認の引き継ぎ</a>
+<a href="140.html" class="sidebar-item tree-leaf">大久保さんへの依頼文</a>
 </details>
 </details>
 <details class="tree-section"><summary>診断と待機</summary>
@@ -427,6 +428,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </details>
 <details class="tree-subsection is-current" open><summary>実装引継ぎ</summary>
 <a href="126.html" class="sidebar-item tree-leaf active" aria-current="page">スタッフへの実装・疎通確認の引き継ぎ</a>
+<a href="140.html" class="sidebar-item tree-leaf">大久保さんへの依頼文</a>
 </details>
 </details>
 <details class="tree-section"><summary>診断と待機</summary>
@@ -613,145 +615,209 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <a href="021.html" class="sidebar-item tree-leaf">以前の資料｜47枚のスライド・PPTX</a>
 </details>
 </details></details></nav>
-<main class="content"><article class="article"><h1>坪田案件の実装状況とスタッフの最終接続</h1>
-<p>2026年11月18日の現行引き継ぎです。以下を優先し、末尾の以前の対応表にある旧4日間メールは今回使用しません。顧客へのメール・LINE配信と実課金は行っていません。</p>
-<h2>今回設定したもの</h2>
+<main class="content"><article class="article"><h1>坪田案件｜開催時刻・待機導線・申込者分岐の実装設計</h1>
+<style>.tsubota-design-table{overflow-x:auto;max-width:100%;margin:1.2rem 0}.tsubota-design-table table{min-width:760px;table-layout:auto}.tsubota-design-table td,.tsubota-design-table th{min-width:120px;word-break:normal}.tsubota-design-table a{overflow-wrap:anywhere}</style>
+
+<p>2026年11月18日、田中祐一さんの最新決定に合わせて全面訂正しました。このページを実装の優先仕様とします。過去の「登録から15分後」「実動画尺で放送終了を計算」「診断の銀行入金後に購入者向けへ」は採用しません。</p>
+<h2>まず全体の流れ</h2>
+<p>登録完了 → 次回の15分枠を確定 → サンキューページ → 「ウェビナーを見る」 → ウェビナーページで同じ残り時間を表示 → 開始 → 50分到達で販売案内 → 開始65分後を放送終了 → 終了60分後に特別価格終了。</p>
+<p>サンキューページに留まった方は、開始時刻にウェビナーページへ自動転送します。発音診断の案内・購入・決済画面では転送をかけません。決済中にセミナーが始まっても手続きを中断させません。動画の自動再生・音声再生は設定しません。</p>
+<h2>1．開始日時と残り時間</h2>
+<p>毎時00・15・30・45分に開催します。初回登録完了時点で次の開催枠を確定し、参加回IDと開始日時を読者に保存します。日本時間で表示を統一します。例えば12:03の登録は12:15開始で残り12分、12:11の登録は12:15開始で残り4分、12:16の登録は12:30開始で残り14分です。</p>
+<p>サンキュー・視聴ページ・登録完了メールは同じ開始日時を使います。残り時間は「保存済み開始日時－サーバー基準の現在日時」。移動・再アクセス・再読み込みで15分へ戻したり、参加回を作り直したりしません。開始時刻ちょうどの新規登録は次の枠に割り当てる境界処理を試験します。</p>
+<p>再登録を明示的に受け付ける場合の視聴用参加回と、初回の価格期限は分けて保存します。通常のアクセスでは参加回を変更しません。再登録・再視聴でも初回特別価格期限と送信済み記録は上書きしません。</p>
+<h2>2．ページごとの動き</h2>
+<div class="tsubota-design-table">
+<table>
+<thead>
+<tr>
+<th>ページ・操作</th>
+<th>開始前</th>
+<th>開始時刻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>サンキューページ</td>
+<td>同じ開始日時までカウントダウン。「ウェビナーを見る」で視聴ページへ</td>
+<td>このページに留まっている方だけ視聴ページへ自動転送</td>
+</tr>
+<tr>
+<td>ウェビナーページ</td>
+<td>同じ残り時間で待機。移動してもリセットしない</td>
+<td>待機表示から視聴可能な状態へ切り替え。再生は本人操作</td>
+</tr>
+<tr>
+<td>発音診断の案内・購入ページ</td>
+<td>内容確認・申込を続けられる</td>
+<td>ウェビナーへの自動転送をかけない</td>
+</tr>
+<tr>
+<td>MyASP決済画面</td>
+<td>GMO又は銀行振込の手続きを続けられる</td>
+<td>決済を中断する転送をかけない</td>
+</tr>
+<tr>
+<td>診断申込完了ページ</td>
+<td>公式LINE案内と視聴ページへの導線。確定した開催日時を引き継ぐ</td>
+<td>手動の視聴導線でも同じ参加回へ</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>3．診断申込者の出し分けと入金管理</h2>
+<p>ウェビナーでいう「診断購入者向け」は、クレジットカード決済成功又は銀行振込の申込完了が対象です。銀行入金を待たず、診断申込者向け動画・販売リンク・追加額へ進めます。</p>
+<p>案内資格（診断申込者向け）と、会計上の入金状態（未入金／入金済み）は別項目・別ラベルにします。銀行申込を入金済みと記録したり、入金確認メールを先に送ったりはしません。GMOの失敗・途中キャンセルは申込者向けへの切替対象にしません。</p>
+<div class="tsubota-design-table">
+<table>
+<thead>
+<tr>
+<th>診断の状態</th>
+<th>動画・販売案内</th>
+<th>入金状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>申込なし</td>
+<td>未購入者向け</td>
+<td>診断申込なし</td>
+</tr>
+<tr>
+<td>GMO決済成功</td>
+<td>診断申込者向け</td>
+<td>入金済み</td>
+</tr>
+<tr>
+<td>銀行振込申込完了</td>
+<td>診断申込者向け</td>
+<td>入金待ち</td>
+</tr>
+<tr>
+<td>銀行入金確認後</td>
+<td>診断申込者向けのまま</td>
+<td>入金済みに更新</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>診断料5,980円を差し引いた講座追加額は、期限内33,820円／期限後43,820円です。診断を銀行振込で申し込んだ方の5,980円の支払義務は残り、講座の追加額とは別です。診断未入金でも講座申込は受け付け、重複払い対策を理由に止めません。</p>
+<h2>4．放送枠は両方65分</h2>
+<p>放送終了日時＝確定した初回開始日時＋65分。特別価格終了日時＝放送終了日時＋60分です。どちらの動画を見せる場合も同じ計算です。</p>
+<p>動画ファイルの実尺は未購入者64分51秒、申込者65分02秒のままです。ファイルを切り詰めたり速度変更したりせず、末尾も欠落させません。動画尺と、メール・タイマー・価格計算に使う65分の放送枠を区別します。開始後に診断を申し込んでも初回終了日時と価格期限は変えません。</p>
+<p>例：12:15開始 → 13:20放送終了 → 14:05締切15分前メール → 14:20特別価格終了。</p>
+<h2>5．販売表示と今回の7通</h2>
+<div class="tsubota-design-table">
+<table>
+<thead>
+<tr>
+<th>原稿</th>
+<th>条件・時刻</th>
+<th>通数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M1</td>
+<td>動画の50分到達で下部販売欄を表示し、同じ到達条件で即時案内。申込状態で販売URL・金額を分岐</td>
+<td>2</td>
+</tr>
+<tr>
+<td>M2</td>
+<td>初回放送終了45分後。特別価格終了の15分前</td>
+<td>2</td>
+</tr>
+<tr>
+<td>M3</td>
+<td>初回放送終了60分後。お礼と英語ノウハウ用OpenChatの案内</td>
+<td>1</td>
+</tr>
+<tr>
+<td>N1</td>
+<td>一度も視聴開始していない方だけ、初回放送終了1時間後に再登録案内</td>
+<td>1</td>
+</tr>
+<tr>
+<td>N2</td>
+<td>同じ未視聴者だけ、初回放送終了24時間後に最後の再登録案内</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>50分は動画の再生位置で判定し、ページ滞在50分や開始からの経過時間で代用しません。期限は初回参加回の65分枠を基準に固定します。再読み込みでM1を重複送信しません。M2予定時刻を過ぎて50分到達しても「あと15分」を遡って送らず、期限後にはM1の特別価格案内も送りません。</p>
+<p>コース決済済み又はコース銀行振込申込済みの方は販売フォローを止めます。診断の銀行振込申込はコース購入ではないため、診断申込者向けの販売フォローを続けます。配信解除・送信済みも送信直前に判定します。途中視聴者への再開・再登録案内は追加しません。旧4日間の販売9通と旧価格期限前メールは使用しません。</p>
+<h2>6．実装済みの保存物と、今回の修正が必要な箇所</h2>
+<div class="tsubota-design-table">
 <table>
 <thead>
 <tr>
 <th>工程</th>
-<th>保存・確認した数</th>
-<th>稼働確認</th>
+<th>保存記録で確認した数</th>
+<th>今回の扱い</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>UTAGEページ</td>
-<td>15ページ・実URLとヘッダー画像あり</td>
-<td>ページ閲覧と購入までの疎通は別判定</td>
+<td>15ページ</td>
+<td>ページは存在。今回訂正した待機・日時・銀行申込分岐の稼働確認は未実施</td>
 </tr>
 <tr>
 <td>MyASPフォーム</td>
-<td>無料1・有料5、全6フォーム</td>
-<td>受付停止。公開開始前にスタッフが試験</td>
+<td>無料1・有料5＝6フォーム</td>
+<td>受付停止。GMO／銀行の実経路はスタッフが試験</td>
 </tr>
 <tr>
 <td>MyASP決済別メール</td>
-<td>有料5商品×3通＝15通</td>
-<td>停止中。GMO成功・銀行申込・銀行入金確認を分離</td>
+<td>15通</td>
+<td>停止中。診断銀行申込メールは本素材集で改訂。保存済み本文への差し替えが必要</td>
 </tr>
 <tr>
-<td>MyASPからUTAGEへの外部連動</td>
-<td>無料登録・決済確認11件に、コース銀行申込4件を追加。計15件設定</td>
-<td>全15件を管理画面で再表示し、URL・送信データ・有効チェックを確認。実際の受信試験は未実施</td>
+<td>MyASP→UTAGE外部連動</td>
+<td>既存15件を管理画面で確認した記録あり</td>
+<td>受信試験未実施。診断銀行申込から案内資格を付ける接続が別途必要</td>
 </tr>
 <tr>
-<td>今回のUTAGEメール</td>
-<td>7通を下書き保存し、本文・除外条件をAPI読戻し</td>
-<td>配信停止。発火・日時固定・相対時間モードを接続してから開始</td>
-</tr>
-<tr>
-<td>UTAGE連携用アクション</td>
-<td>6件を作成</td>
-<td>アクションの作成と実際のイベント接続は別</td>
+<td>UTAGEフォロー</td>
+<td>7通の下書き・6アクションの保存記録あり</td>
+<td>M1購入者向け本文と条件を本素材集で訂正。現行保存値への反映・相対日時・実着確認は未実施</td>
 </tr>
 <tr>
 <td>公式LINE・OpenChat</td>
-<td>案内原稿あり</td>
-<td>アカウントと実URLはスタッフが新設</td>
+<td>原稿あり</td>
+<td>新設・実URL差し替えが必要</td>
 </tr>
 </tbody>
 </table>
-<p>UTAGE2号機、MyASP2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/</a> を使用します。MyASPグループは「坪田さん案件」（2234）。クレジットカードはGMOの都度決済、銀行振込も選択できる構成です。全5価格の銀行振込とGMOの料金、特商法・プライバシーポリシーのリンク、株式会社ザ・リードのcopyrightを管理画面で保存後に再表示して確認しました。実カードの成功・失敗・キャンセル通知までは試していません。</p>
-<h2>今回使う7通</h2>
-<ul>
-<li>M1：動画50分到達時。未購入者39,800円／診断決済確認済み33,820円の2通。</li>
-<li>M2：初回放送終了45分後。残り15分の案内を購入状態別に2通。</li>
-<li>M3：初回放送終了60分後。お礼とノウハウ用OpenChatの1通。</li>
-<li>N1：未視聴者に初回放送終了1時間後、再登録の案内1通。</li>
-<li>N2：未視聴者に初回放送終了24時間後、最後の再登録案内1通。</li>
-</ul>
-<p>全7通に配信解除・コース購入済み・コース銀行申込入金待ち・同一メール送信済みの除外条件を設定。N1/N2は視聴開始・50分到達・再登録済みも除外。M1/M2の価格とURLは診断購入状態で分岐します。診断の銀行振込が未入金でも、コース購入は通常どおり受け付けます。この組合せを理由に購入・配信開始を止めません。必要な確認は個別対応とし、取消・返金・充当を自動で決定しません。</p>
-<p>旧「4日間追客9通」と旧「価格期限前メール」は使用しません。素材として残っていますが、今回の7通と同時に動かさないでください。購入後の21日分の学習原稿とLINE原稿は別の目的なので維持します。</p>
-<h2>スタッフが接続して試す箇所</h2>
+</div>
+<p>この素材集更新は設計・掲載予定原稿の訂正です。UTAGEやMyASPの保存値を今回変更した、決済・配信が稼働したという報告ではありません。以前のAPI読戻し・合格記録はその時点の証拠であり、今回改訂した仕様・原稿の実装合格へ流用しません。ページのヘッダー画像も取得時点の実画面を維持しています。</p>
+<h3>大久保さんの接続・確認作業</h3>
 <ol>
-<li>初回登録日時から15分後の開始日時を保存。未購入動画64分51秒／購入者動画65分02秒に合わせ終了日時、終了60分後の価格期限を保存。ページ初回訪問時刻では代用しない。再登録・再視聴でも初回期限を更新しない。</li>
-<li>視聴開始と動画50分到達でUTAGEの該当アクションを発火。現在の視聴ページはカスタムHTMLのため、下部販売欄の50分表示と、読者を識別して配信へ登録する連動は別です。UTAGE動画連動の対応要素に接続し、勝手にAPIキーをページへ埋め込まない。</li>
-<li>銀行申込4件は新設の「坪田｜コース銀行申込受信（入金待ち）」へ接続済みです。ただし受信後アクションは未接続のため、この受け口へ「坪田｜銀行申込・販売案内停止」を設定してください。MyASPからUTAGEへ受信した診断・コース購入情報に、診断購入済み／講座購入済みのラベルと販売メール停止を接続。コース銀行申込では入金待ちにして販売案内を止め、入金前に購入済みにしない。</li>
-<li>M1の期限ガードとM2の遅着ガードは下書きでは未実装です。実装するまではM1/M2を有効化しないでください。M2時刻より遅く到達した人に「あと15分」を遡って送らない。期限後にM1の特別価格案内を送らない。送信済みラベルにより再視聴でも重複しない。</li>
-<li>GMOカード成功・失敗・途中キャンセル、銀行申込・入金確認の各経路で金額・完了ページ・メールを確認。全5金額を確認し、無料登録・購入情報・銀行申込の15外部連動も確認。</li>
-<li>公式LINEとOpenChatのURLをページ・メール・LINE原稿へ差し替える。実URLが入るまで該当メールを有効化しない。</li>
-<li>リマインダの相対時間モードを管理画面で指定。API読戻しではM2・M3・N1が「today」に正規化されており、現在の時分値を相対時間の設定済みとは扱いません。基準項目を「日付時刻」にし、相対時間でM2＝終了45分後、M3/N1＝終了60分後、N2＝終了24時間後を設定し、試験用読者の配信予定日時で一致を確認してください。</li>
-<li>Gmail等で実着・解除・視聴再登録・購入後の販売停止を試し、確認できたものだけ受付と配信を開始。</li>
+<li>MyASP無料登録を受けて次回15分枠を確定。参加回ID・開始日時・65分後の終了日時・終了60分後の価格期限を保存。サンキューと視聴ページと登録メールへ同じ日時を渡す。</li>
+<li>「ウェビナーを見る」を手動の視聴導線に変更。開始時刻の自動転送はサンキューだけ。診断案内・購入・決済には設置しない。ウェビナーページは開始前待機から視聴可能へ切替。</li>
+<li>診断GMO成功と診断銀行申込完了の両方で案内資格を付与。既存の診断決済確認ラベルを未入金へ流用せず、案内資格と入金状態を分離する。診断銀行申込用の受信先は新設又は同等の安全な条件分岐で接続し、メールアドレスだけでなく商品・イベントを識別。未作成URLは捏造しない。</li>
+<li>既存のコース銀行申込受信先には入金待ち・販売停止を接続。銀行入金後は会計状態を更新。実際に受信していないイベントを受信済みにしない。</li>
+<li>視聴開始・50分到達を読者へ接続し、販売表示とM1を同期。M2/M3/N1/N2は終了日時に対する相対時刻を設定。APIの「today」保存値を相対設定済みとは扱わず、試験読者の実際の配信予定時刻を確認。</li>
+<li>登録メールの開始日時、改訂M1、診断銀行申込メール、診断申込者向け販売・フォーム文言を差し替える。素材集の置換欄を顧客へそのまま送らない。</li>
+<li>GMO成功・失敗・キャンセル、銀行申込・入金確認、5金額、無料登録を試験。未入金診断から申込者動画と33,820円へ進めること、入金確認メールは未送信であることを確認。</li>
+<li>公式LINEとOpenChatを新設し、実URLを差し替える。公式LINEはUTAGE連携・坪田先生対応。田中祐一と坪田先生それぞれの管理者招待リンクを各1本発行し、本人へ個別共有。公開素材集には載せない。</li>
 </ol>
-<p>アクション名は「坪田｜視聴開始を記録」「坪田｜50分到達・初回フォローへ」「坪田｜診断決済確認」「坪田｜コース決済確認・販売案内停止」「坪田｜銀行申込・販売案内停止」「坪田｜セミナー再登録を記録」。50分到達後のシナリオは「坪田｜50分到達後フォロー（初回のみ）」です。</p>
-<h2>LINEを2種類作成</h2>
-<p>公式LINEは購入後の照合・日程調整・個別連絡用。坪田先生が対応します。UTAGEへ連携し、診断・コースそれぞれの案内へ接続してください。</p>
-<p>公式LINEの管理者登録リンクを、田中祐一用と坪田先生用に各1本発行してください。二人それぞれが登録できたかも確認してください。招待リンクは本人に個別共有し、公開素材集へは載せません。</p>
-<p>OpenChatは英語ノウハウの継続案内用です。個別の日程調整用公式LINEと分け、M3のお礼メールから任意で参加する導線にします。</p>
-<h2>総点検と変更の扱い</h2>
-<p>Claude Code Sonnetで全素材本文を9分割で読み取り点検しました。判定はFAIL（未解決事項あり）です。旧配信と現行配信の区別、LINE2種と招待2人分の引き継ぎ不足を本版で修正。法的な効果断定の最終判断や商材訴求の大幅な言い換えは行っていません。</p>
-<p>田中祐一AIの全素材点検では利用不能や危険な自動改稿があり、全体の正式合格は取得していません。その後、今回の配信7通は1通ずつ現行本文で再提出し、原稿を変更しないPASSを取得しました。配信7通の原稿点検と、全ファネルの稼働合格を分けて扱います。危険な自動改稿案は一切反映していません。</p>
-<h3>重要度 大</h3>
-<p>「通常29,800円」は発音診断の比較表示のことです。講座の通常価格49,800円とは別です。</p>
+<h3>受け入れ確認</h3>
 <ul>
-<li>登録からの日時固定・読者を識別した50分連動・決済からラベル付与までを実経路で確認するまでは配信開始しない。</li>
-<li>LPの成果表現や「通常29,800円」の比較根拠、引用研究の説明は元資料と突合し、強さを変える修正は田中さんへ提案してから反映。</li>
+<li>12:03・12:11・12:16登録がそれぞれ次の15分枠へ入り、両ページとメールで同じ開始日時になる。</li>
+<li>ページ移動・再読込・診断申込・後日の入金で初回開始日時／価格期限が延長されない。</li>
+<li>開始前の手動移動は同じ残り時間、サンキュー滞在は開始時に自動転送、決済画面滞在は転送なし。意図しない動画再生・音声出力なし。</li>
+<li>銀行申込直後は診断申込者向け、会計は入金待ち。入金後も参加回と期限は変えない。</li>
+<li>両方とも終了は開始65分後、価格期限は開始125分後。動画実尺を終了計算へ使わない。</li>
+<li>50分未到達で販売M1を送らない。途中視聴者へN1/N2を送らない。コース申込後・配信解除後は販売停止。同一メール再送なし。</li>
 </ul>
-<h3>重要度 中</h3>
-<ul>
-<li>途中視聴者への再開メールは追加しません。再視聴のための再登録案内も追加しません。現行N1/N2は未視聴者だけが対象です（2026年11月18日・田中さん決定）。この項目は修正提案・開始前必須対応には含めません。</li>
-<li>期限後も通常価格で受け付ける旨をM3に足すか。現行M3はお礼とOpenChat案内で終えます。</li>
-<li>フィードバック返却の目安、コーチングの変更・実施期限、銀行3営業日を過ぎた扱いを運営で確定する。未合意の期限は勝手に追加しない。</li>
-</ul>
-<h3>重要度 小</h3>
-<ul>
-<li>講師の表示名を「坪田まゆみ」に統一し、参考文献4・5の番号と一覧順を本文の出現順に修正。参照先の研究本文は変えません。「化石化」の前後で重なる説明文を整理し、学習を止める必要はないという説明を残します。大きな流れ・商品条件・申込先は変更しません（2026年11月18日・田中さんの修正指示）。</li>
-</ul>
-<h2>配信設定の対応表</h2>
-<p>free1＝初回放送開始日時、free2＝初回放送終了日時、free3＝初回特別価格終了日時。日本時間で保存・表示を統一し、試験用読者で%free3%の表示を確かめてください。開始後に診断購入状態が変わっても、初回の終了日時と価格期限は上書きしません。</p>
-<table>
-<thead>
-<tr>
-<th>原稿</th>
-<th>所属シナリオ</th>
-<th>登録契機</th>
-<th>目標時刻</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>M1・M2・M3</td>
-<td>5aDePR5bNP64</td>
-<td>50分到達時に初回だけ登録</td>
-<td>M1即時、M2終了45分後、M3終了60分後</td>
-</tr>
-<tr>
-<td>N1・N2</td>
-<td>Z4lot9HD97Md</td>
-<td>初回セミナー登録</td>
-<td>終了1時間後・24時間後</td>
-</tr>
-</tbody>
-</table>
-<p>ラベル対応：診断購入済みKPLougXgl99i、講座購入済みXYOx96z8yjXV、コース申込入金待ちPL1E5FeALFwo、配信停止DNjG9sdDJ14o、視聴開始確認6Zyvs6Zv2Tmn、50分到達AHiGcf8uYkzt、再登録済み5yi72BqEXCjG。</p>
-<p>銀行振込は「申込時の価格を確保、申込から3営業日以内、手数料はお客様負担」で田中さん確認済みです。未確定なのは3営業日を過ぎた場合の取消・再案内の扱いです。</p>
-<p>外部連動は計15件です。無料登録1通＋診断のGMO成功／銀行入金確認2通＋講座4金額のGMO成功／銀行入金確認8通が元の11件、コース銀行申込4通を追加しました。診断の銀行申込時点では購入済みの受け口へ渡しません。診断が未入金でもコース購入は受け付け、これを開始前の必須対策には含めません。診断とコースは別シナリオが受け口なので、mailだけでも商品は受け口で区別します。購入ラベル付与は別途接続が必要です。各価格と全15ページの実URLは、後述の以前の対応表の「ページ」「フォームと価格」で維持しています。</p>
-<p>相対時間モードの設定根拠：<a href="https://help.utage-system.com/archives/1938">UTAGE公式マニュアル</a>、<a href="https://help.utage-system.com/archives/9106">日付時刻項目の設定</a>。</p>
-<p>銀行申込の受信先は <a href="https://utage-system.com/r/0rC7j093UTmS/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/0rC7j093UTmS/store</a> です。決済成功の受信先とは別です。コース銀行申込時メール4通からmail=%mail%で送る設定を保存し、再表示して確認しています。受信後の入金待ちラベル付与・販売案内停止は未接続です。</p>
-<p>田中UIにも既存の本人指示と商品条件を反映して前提確認を終え、重要度大中小の全体点検結果を正式保存しました。これは全体の稼働合格ではありません。</p>
-<p>2026年11月18日・田中さん確認：診断の銀行振込が未入金でも、コース購入自体に問題はありません。旧提案の「重複払い対策」は重要度大・開始前必須対応から撤回しました。必要時は個別対応とします。</p>
-<details>
-<summary>以前の対応表（旧配信部分は使用しない）</summary>
-<h1>坪田まゆみ ファネル実装・疎通確認の引き継ぎ</h1>
-<h2>今回の分担</h2>
-<p>田中さんの指定により、素材集の完成とUTAGEページへの移植を先に終える。フォームの自動連動、配信開始、決済の疎通確認はスタッフが仕上げる。ページがあることと、決済から購入後まで動くことは分けて確認する。</p>
-<p>すべてのMyASPフォームは受付停止、メールは配信停止の状態で渡す。一般配信、実課金、坪田先生への送信は行っていない。スタッフが内容とつながりを確認してから開始する。</p>
-<h2>設置先と正本</h2>
-<p>UTAGE：2号機。ファネルID 2BUMtj1CEXny。<br />
-MyASP：2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/</a> 。グループ「坪田さん案件」ID 2234。<br />
-掲載原稿と実URLは素材集の各素材で確認する。メールとLINEは1通ずつ開ける。秘密情報はこの資料へ書かず、既存の1Passwordを使う。</p>
+<h2>7．LINE・支払い・学習条件</h2>
+<p>公式LINEは個別日程調整用、OpenChatは任意の英語ノウハウ案内用で分けます。診断未入金の方へは振込案内を維持し、入金確認や受講開始と混同しません。</p>
+<p>銀行振込は申込時価格を確保、申込から3営業日以内、手数料はお客様負担。銀行名：さわやか信用金庫（1310）、赤坂支店（032）、普通1244690、振込先カ）ザ．リード。振込期限超過時の運用は別途運営判断とし、勝手に取消・返金を設定しません。</p>
+<p>21日間の学習は発音診断＆コーチングの翌日から。閲覧は学習開始日から30日。診断・コーチングは60分。診断申込者の講座は終了後60分の個別コーチング1回と音声添削3回。購入済み診断を再度実施する商品ではありません。</p>
 <h2>ページの役割と行き先</h2>
+<div class="tsubota-design-table">
 <table>
 <thead>
 <tr>
@@ -769,7 +835,7 @@ MyASP：2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener no
 <tr>
 <td>登録後の案内</td>
 <td><a href="https://utage-system.com/p/omskmCv9QVBR" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/omskmCv9QVBR</a></td>
-<td>案内動画と、本人の登録時刻から15分後の開始を接続</td>
+<td>案内動画と、登録時に確定する次回15分枠の開始を接続</td>
 </tr>
 <tr>
 <td>発音診断の案内</td>
@@ -789,7 +855,7 @@ MyASP：2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener no
 <tr>
 <td>診断購入者の視聴</td>
 <td><a href="https://utage-system.com/p/TyOCVVCGWSUE" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/TyOCVVCGWSUE</a></td>
-<td>購入者向け完成動画。銀行振込は入金確認後に振り分け</td>
+<td>購入者向け完成動画。銀行振込も診断申込完了時点で振り分け</td>
 </tr>
 <tr>
 <td>未購入者・期限内39,800円</td>
@@ -799,7 +865,7 @@ MyASP：2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener no
 <tr>
 <td>購入者・期限内33,820円</td>
 <td><a href="https://utage-system.com/p/Raj72m5jgWqY" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/Raj72m5jgWqY</a></td>
-<td>診断購入済みを確認し期限内フォームへ</td>
+<td>診断申込者向け案内の対象を確認し期限内フォームへ</td>
 </tr>
 <tr>
 <td>未購入者・期限後49,800円</td>
@@ -809,7 +875,7 @@ MyASP：2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener no
 <tr>
 <td>購入者・期限後43,820円</td>
 <td><a href="https://utage-system.com/p/NyDlYInIP3Kv" target="_blank" rel="noopener noreferrer">https://utage-system.com/p/NyDlYInIP3Kv</a></td>
-<td>診断購入済みを確認し期限後フォームへ</td>
+<td>診断申込者向け案内の対象を確認し期限後フォームへ</td>
 </tr>
 <tr>
 <td>購入者向け別収録の販売ページ</td>
@@ -838,7 +904,9 @@ MyASP：2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener no
 </tr>
 </tbody>
 </table>
+</div>
 <h2>フォームと価格</h2>
+<div class="tsubota-design-table">
 <table>
 <thead>
 <tr>
@@ -873,773 +941,17 @@ MyASP：2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener no
 </tr>
 </tbody>
 </table>
+</div>
 <p>有料5フォームはGMOクレジットカードと銀行振込の2方式。税別へ読み替えず、上記は税込・一括の金額。<br />
 期限内価格は放送終了から60分以内。銀行振込は申込時の価格を確保し、申込から3営業日以内に入金。振込手数料はお客様負担。</p>
-<h2>銀行振込の案内</h2>
-<p>銀行名：さわやか信用金庫<br />
-銀行コード：1310<br />
-支店名：赤坂支店<br />
-支店コード：032<br />
-口座種別：普通<br />
-口座番号：1244690<br />
-振込先：カ）ザ．リード</p>
-<h2>決済別メールの接続</h2>
-<p>有料フォームごとに3通、合計15通を保存している。</p>
-<ol>
-<li>銀行振込の申込時：振込先、金額、3営業日以内の期限を案内。</li>
-<li>クレジットカードの決済成功時：決済完了と申込完了ページを案内。</li>
-<li>銀行振込の入金確認後：入金確認と申込完了ページを案内。</li>
-</ol>
-<p>銀行振込の申込だけで「入金確認」や購入者向けの案内が出ないことを確認する。入金後はスタッフがMyASPの受領処理（メールあり）を行う。GMOの成功通知がMyASPに届いて本登録完了扱いになるかも、スタッフが試す。</p>
-<h2>MyASPからUTAGEへの外部連動</h2>
-<p>配信後の外部連動欄で、通常のフォーム送信・UTF-8・データ mail=%mail% を使う。</p>
-<table>
-<thead>
-<tr>
-<th>きっかけ</th>
-<th>送信先</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>無料登録完了メール</td>
-<td><a href="https://utage-system.com/r/Z4lot9HD97Md/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/Z4lot9HD97Md/store</a></td>
-</tr>
-<tr>
-<td>診断のカード決済完了／銀行入金確認</td>
-<td><a href="https://utage-system.com/r/tNelORRxrOTN/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/tNelORRxrOTN/store</a></td>
-</tr>
-<tr>
-<td>各価格のコース決済完了／銀行入金確認</td>
-<td><a href="https://utage-system.com/r/RE4SVCdhXapu/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/RE4SVCdhXapu/store</a></td>
-</tr>
-</tbody>
-</table>
-<p>作業時点で、11対象中8件にネイティブの外部連動設定があることをAPIで確認。URL・データの最終照合と実際の受信テストはスタッフが全11件で実施する。<br />
-設定がまだ無いのは、43,820円銀行入金確認 hHGzC5RJ、33,820円カード決済完了 mXhmJhrl、33,820円銀行入金確認 dNvXa4xc の3件。<br />
-メールは停止中なので、設定しただけではUTAGEへ登録されない。受信先のシナリオ登録、購入済みラベル、未購入者向け配信の停止もつながっているか確認する。</p>
-<h2>時刻・購入状態の判定</h2>
-<p>登録から15分後に開始する。ページを開いた時刻を登録時刻の代わりにしない。再読込で残り時間や価格期限をリセットしない。<br />
-放送終了から60分後に、期限内価格から期限後価格へ切り替える。購入者には診断料5,980円を充当した追加額を案内する。<br />
-未購入・診断購入・コース購入の3状態で、メールと視聴先が混ざらないようにする。現状は各状態のページと原稿を用意した段階で、自動判定・時間制御はスタッフが仕上げる。</p>
-<h2>公式LINE</h2>
-<p>この案件用に新しく作る1アカウントをUTAGEと連携する。各申込完了ページのLINEリンクはスタッフが実URLに差し替える。<br />
-診断申込後とコース申込後の自動返信は素材集の「LINE自動返信」で別々に確認する。日程調整など個別のやり取りは坪田先生へ引き継ぐ。<br />
-コースは21日間の練習。教材の閲覧は学習開始日から30日間。開始前の発音診断＆コーチングは60分、終了後コーチングも60分。診断購入者に同じ診断をもう一度受けさせない。</p>
-<h2>疎通確認の順番</h2>
-<table>
-<thead>
-<tr>
-<th>順</th>
-<th>確認する経路</th>
-<th>判定すること</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>無料登録→登録メール→案内ページ</td>
-<td>原稿・URL・登録時刻が一致</td>
-</tr>
-<tr>
-<td>2</td>
-<td>未購入で開始時刻を迎える</td>
-<td>未購入者の動画と案内へ</td>
-</tr>
-<tr>
-<td>3</td>
-<td>診断をカード決済</td>
-<td>成功後だけ完了メールと購入者動画へ</td>
-</tr>
-<tr>
-<td>4</td>
-<td>診断を銀行振込で申込</td>
-<td>振込案内のみ。未入金で購入者扱いにしない</td>
-</tr>
-<tr>
-<td>5</td>
-<td>スタッフが銀行入金を確認</td>
-<td>入金確認メールと購入者扱いに切り替わる</td>
-</tr>
-<tr>
-<td>6</td>
-<td>期限の前後でコースへ</td>
-<td>4価格と購入状態が正しい。再読込で延長しない</td>
-</tr>
-<tr>
-<td>7</td>
-<td>コース購入→完了ページ→LINE</td>
-<td>参加者が坪田先生と連絡でき、未購入の追客が停止</td>
-</tr>
-<tr>
-<td>8</td>
-<td>学習開始→21日→閲覧期限</td>
-<td>正しい開始日、配信、30日閲覧の扱いを確認</td>
-</tr>
-</tbody>
-</table>
-<p>決済を伴う本番テストはスタッフが管理して実施する。制作作業で顧客へのメール・LINE送信や実課金は行っていない。</p>
-<h2>再点検で追加した開始前の必須確認</h2>
+<h2>8．既存接続先・作業上の注意</h2>
+<p>UTAGE2号機（ファネル2BUMtj1CEXny）、MyASP2号機 <a href="https://lead-sh1.com/" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/</a> 、グループ「坪田さん案件」2234を使用します。</p>
 <ul>
-<li>新規公式LINEの実URLと、全メール・LINEの差し替え欄が埋まるまでフォームを再開しない。素材集に残す <code>{...}</code> は作業用表示であり、そのまま顧客へ送らない。</li>
-<li>実URLのページは未ログインでも閲覧できる。フォーム停止中・告知前であり、ページ設置を運用開始や非公開設定と取り違えない。</li>
-<li>登録時刻を正本にし、再読込で期限が延びないこと、15分後の移動、開始後の遷移を試す。診断5,980円はセミナー開始前までの受付条件も確認する。</li>
-<li>診断を申し込んだだけで未入金の方は購入者扱いにしない。入金後に視聴先・価格条件を再判定する。銀行申込の価格確保はその申込商品に適用する。入金前にコースも申し込みたいケースの精算方法、振込期限超過の扱いは運営判断を確定してから設定する。</li>
-<li>診断実施当日の専用案内は <code>ePCwe7f7JrY8</code> から33,820円フォーム <code>4p3ug48T</code> へ。診断購入者の本編セミナー終了後60分の33,820円と、診断当日中の専用案内は期限判定を別々に検証する。</li>
-<li>登録リマインドを未購入者動画に固定して一斉送信しない。購入状態で視聴先を出し分け、購入者が未購入者動画へ入らないことを試す。</li>
-<li>価格期限前メール、決済失敗メール、診断／コース別のLINE未登録案内もテストする。同じ件名でも対象者を区別する。</li>
-<li>新LINEの友だち追加時の共通返信と、診断／コース申込後の返信は送信順を決める。本人確認の項目は、お名前・申込メールアドレス・申込商品をスタッフが取得し、同じ案内を繰り返し送らない。</li>
-<li>学習アプリの招待、本人との紐付け、学習開始日、30日間の閲覧権限を確認する。Day5・11・17の音声提出と3回のフィードバックを記録し、返却日程は坪田先生と確定する。未確定の返却日を約束しない。</li>
-<li>課題配信は21日間。メールとLINEの併用時は同じ課題が重複しない設定にする。未開始・停止・解除・運営が例外対応した方への課題配信を止める。</li>
-<li>本番テストの実課金は、スタッフがGMO側のテスト方法・取消方法・使用する自社カードを確認して管理する。テスト連絡先で行い、終了後はテスト受講者の配信・ラベル・権限を整理する。</li>
+<li>無料登録受信先：<a href="https://utage-system.com/r/Z4lot9HD97Md/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/Z4lot9HD97Md/store</a></li>
+<li>診断決済確認の既存受信先：<a href="https://utage-system.com/r/tNelORRxrOTN/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/tNelORRxrOTN/store</a></li>
+<li>コース決済確認の既存受信先：<a href="https://utage-system.com/r/RE4SVCdhXapu/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/RE4SVCdhXapu/store</a></li>
+<li>コース銀行申込の既存受信先：<a href="https://utage-system.com/r/0rC7j093UTmS/store" target="_blank" rel="noopener noreferrer">https://utage-system.com/r/0rC7j093UTmS/store</a></li>
 </ul>
-<h2>全88通の接続対応表</h2>
-<p>本文は素材集の各IDから1通ずつ確認する。次表は接続のための条件整理で、実際の条件設定・送信・受信を検証済みという意味ではない。未確定時刻やURLはスタッフが確定するまで停止を維持する。決済別15通はフォーム（商品・金額）で先に限定し、そのフォーム内で支払方法と入金状態を判定する。</p>
-<p>各素材IDを開くと接続条件が表示されます。</p>
-<details>
-<summary>myasp-optin-mail</summary>
-<p><strong>ツール・接続先：</strong>MyASP・無料登録フォーム <a href="https://lead-sh1.com/p/r/LlvKYtF3" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/LlvKYtF3</a></p>
-<p><strong>送信トリガー・原本条件：</strong>無料登録の完了時</p>
-<p><strong>停止・重複防止：</strong>同一登録の二重送信を防ぐ。停止中は送信しない</p>
-<p><strong>起算点・送信時期：</strong>登録完了時。15分後開始の起点は登録時刻</p>
-</details>
-<details>
-<summary>myasp-mail-diagnosis_bank_application</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/Za6evTEq" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/Za6evTEq</a></p>
-<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
-<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
-<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-diagnosis_credit_success</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/Za6evTEq" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/Za6evTEq</a></p>
-<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
-<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
-<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-diagnosis_bank_received</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/Za6evTEq" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/Za6evTEq</a></p>
-<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
-<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
-<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_bank_application</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/onH6wi3E" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/onH6wi3E</a></p>
-<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
-<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
-<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_credit_success</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/onH6wi3E" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/onH6wi3E</a></p>
-<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
-<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
-<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_bank_received</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/onH6wi3E" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/onH6wi3E</a></p>
-<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
-<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
-<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_39800_bank_application</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/by8GCzQT" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/by8GCzQT</a></p>
-<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
-<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
-<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_39800_credit_success</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/by8GCzQT" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/by8GCzQT</a></p>
-<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
-<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
-<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_39800_bank_received</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/by8GCzQT" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/by8GCzQT</a></p>
-<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
-<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
-<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_43820_bank_application</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/ZaHQvN5z" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/ZaHQvN5z</a></p>
-<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
-<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
-<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_43820_credit_success</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/ZaHQvN5z" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/ZaHQvN5z</a></p>
-<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
-<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
-<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_43820_bank_received</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/ZaHQvN5z" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/ZaHQvN5z</a></p>
-<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
-<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
-<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_33820_bank_application</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/4p3ug48T" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/4p3ug48T</a></p>
-<p><strong>送信トリガー・原本条件：</strong>銀行振込を選んだ申込受付時（未入金）</p>
-<p><strong>停止・重複防止：</strong>入金前に入金確認メールや受講開始案内を送らない</p>
-<p><strong>起算点・送信時期：</strong>申込受付時にこの振込案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_33820_credit_success</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/4p3ug48T" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/4p3ug48T</a></p>
-<p><strong>送信トリガー・原本条件：</strong>GMO成功通知でMyASPが決済完了を確定した時</p>
-<p><strong>停止・重複防止：</strong>決済失敗・未確定時には送らない</p>
-<p><strong>起算点・送信時期：</strong>決済完了時にこの完了案内1通</p>
-</details>
-<details>
-<summary>myasp-mail-course_33820_bank_received</summary>
-<p><strong>ツール・接続先：</strong>MyASP・<a href="https://lead-sh1.com/p/r/4p3ug48T" target="_blank" rel="noopener noreferrer">https://lead-sh1.com/p/r/4p3ug48T</a></p>
-<p><strong>送信トリガー・原本条件：</strong>スタッフによる入金受領処理（メールあり）の時</p>
-<p><strong>停止・重複防止：</strong>受領処理前は送らない。申込時の銀行振込案内と区別</p>
-<p><strong>起算点・送信時期：</strong>受領処理時にこの入金確認1通</p>
-</details>
-<details>
-<summary>tsubota-reminder-mail</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID gZO0fQP1zoTs</p>
-<p><strong>送信トリガー・原本条件：</strong>各配信条件表に従う</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>即時または開始前（起点設定待ち）</p>
-</details>
-<details>
-<summary>tsubota-price-before-mail</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID qC0A1FVcDq1A</p>
-<p><strong>送信トリガー・原本条件：</strong>各配信条件表に従う</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>即時または開始前（起点設定待ち）</p>
-</details>
-<details>
-<summary>tsubota-price-before-credit-mail</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID TVMipu8z8top</p>
-<p><strong>送信トリガー・原本条件：</strong>各配信条件表に従う</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>即時または開始前（起点設定待ち）</p>
-</details>
-<details>
-<summary>tsubota-payment-failed-mail</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID NdJ3ZwGq8ILN</p>
-<p><strong>送信トリガー・原本条件：</strong>各配信条件表に従う</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>即時または開始前（起点設定待ち）</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-00</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID oYI3dkLtXvSD</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>ウェビナー翌日朝。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-01</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID QQ6Op3LK0hSI</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>追客1日目朝。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-02</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID Z2mYAtSopCr3</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>追客1日目夜。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-03</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID ncBKVaNTVetx</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>追客2日目朝。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-04</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID RMI3RqsXEdKA</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>追客2日目夜。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-05</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID VvCqT8Asfvyf</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>追客3日目朝。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-06</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID iF3YzLWGAMlR</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>追客3日目夜。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-07</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 1aN7hfbz2mIq</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>追客4日目朝。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-unpurchased-mail-08</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID k30OtcGyLC8w</p>
-<p><strong>送信トリガー・原本条件：</strong>再放送・追客開始日を基準</p>
-<p><strong>停止・重複防止：</strong>購入後は未購入追客を停止。決済失敗は成功後送らない</p>
-<p><strong>起算点・送信時期：</strong>追客4日目夜。基準時刻・期限は【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-00</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID xW32LVDGLFmV</p>
-<p><strong>送信トリガー・原本条件：</strong>講座決済成功</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>購入成功直後、1回だけ</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-01</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID w09VtCuc4ZR2</p>
-<p><strong>送信トリガー・原本条件：</strong>講座決済成功</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>購入成功直後、1回だけ</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-02</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID y1ccQ19Ec8fg</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-03</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 2Fvp9ZCpq0VD</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-04</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID jAa5ABGl09rN</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-05</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID XtyZ6sHlsxRy</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-06</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 4LUINB7SjMh2</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-07</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 9A9gggxOnout</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-08</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID A66SMvqUJ6n3</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-09</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID b1QKXzQ36Ioo</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-10</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID Ne9dTPCNrIMf</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-11</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 7IQTxv6TK6p7</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-12</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID Z82NqdOVd69H</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-13</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID 8vzlIkUiRytM</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-14</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID nJuiRZqDHN1g</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-15</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID ZRoct6tIQyFR</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-16</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID i4w0r7BX0gIK</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-17</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID HKjLCQnKjBiC</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-18</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID Pzs5KsmD5bRR</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-19</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID k4F7jw5HosY9</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-20</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID CkmORz6Wqejs</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-21</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID eoTQLmQHNLm9</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>tsubota-purchaser-mail-22</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID kS8IcZ3SOsmo</p>
-<p><strong>送信トリガー・原本条件：</strong>個別受講開始日を基準</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日をDay1として毎日朝（発音診断＆コーチング翌日）【要確認】</p>
-</details>
-<details>
-<summary>E39_診断購入_LINE未登録</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID FeKb6iHxH86E</p>
-<p><strong>送信トリガー・原本条件：</strong>該当商品の決済成功後、LINE未連携の場合のみ1回。送信までの時間は運用確認。</p>
-<p><strong>停止・重複防止：</strong>公式LINE本人照合済みの方には送らない。診断と講座の購入商品を区別</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>E40_講座購入_LINE未登録</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・mail・管理ID DBRAne15uyBg</p>
-<p><strong>送信トリガー・原本条件：</strong>該当商品の決済成功後、LINE未連携の場合のみ1回。送信までの時間は運用確認。</p>
-<p><strong>停止・重複防止：</strong>公式LINE本人照合済みの方には送らない。診断と講座の購入商品を区別</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L00_友だち追加</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID wawPEFOxswXO</p>
-<p><strong>送信トリガー・原本条件：</strong>友だち追加直後。購入済みとは判定しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L01_診断日程</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID uFAl8d2qZEJZ</p>
-<p><strong>送信トリガー・原本条件：</strong>実決済データで診断5,980円の購入を照合した後。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L02_講座未診断の日程</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 2kDlnLp8P1kk</p>
-<p><strong>送信トリガー・原本条件：</strong>講座決済成功かつ別売診断未購入を照合した後。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L03_講座診断未実施の日程</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID tCsrs3DzapLc</p>
-<p><strong>送信トリガー・原本条件：</strong>講座決済成功＋別売診断購入済み＋診断未実施を照合。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L04_診断実施済みの講座購入</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 4c9GMgaaeaBO</p>
-<p><strong>送信トリガー・原本条件：</strong>診断実施済み＋講座決済成功を照合。開始日を過去に戻さず個別確認。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L05_予約確定</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID FdHM84HLaln4</p>
-<p><strong>送信トリガー・原本条件：</strong>坪田が実際の予約枠・URLを確定してから手動送信。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L06_予約前の案内</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID JUpo8R4daxqo</p>
-<p><strong>送信トリガー・原本条件：</strong>予約が確定し未変更・未取消の場合のみ。送信時刻は運用確定後。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L07_受講開始</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID VgKy86UinlHr</p>
-<p><strong>送信トリガー・原本条件：</strong>坪田が講座購入・受講開始日・アプリ権限・閲覧終了日を確認。Day1当日に送信。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L08_添削返却</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID JoZ1ai0IxjVA</p>
-<p><strong>送信トリガー・原本条件：</strong>Day5/11/17の提出に対して坪田が実際に内容確認・添削した後。AIで所見を捏造しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L09_終了後コーチング</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID T9BsM5WbEKqo</p>
-<p><strong>送信トリガー・原本条件：</strong>21日間の練習後、終了後コーチング未予約者。実施済みには送らない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>L10_日程変更</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID bWKdBNe6JCHa</p>
-<p><strong>送信トリガー・原本条件：</strong>本人から変更連絡があり、坪田が変更先の枠を確定した後。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない</p>
-<p><strong>起算点・送信時期：</strong>登録時刻／学習開始日を条件原本に合わせる</p>
-</details>
-<details>
-<summary>LD01_受講01日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID eb4s45oUctLn</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から0日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD02_受講02日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID C5uxrz45WuYr</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から1日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD03_受講03日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID Lws0m3l6TAFT</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から2日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD04_受講04日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID urayFqvWKRPH</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から3日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD05_受講05日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID WAmXJXFzYjr1</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から4日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD06_受講06日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 1n0lXouyLULa</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から5日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD07_受講07日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 2gwaxcTgCMiX</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から6日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD08_受講08日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID 234EBYgkIiLM</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から7日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD09_受講09日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID uuioOFCuhrxK</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から8日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD10_受講10日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID NKuiInpkCDMH</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から9日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD11_受講11日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID DRkSRFQWo14E</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から10日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD12_受講12日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID buB2DuFVlcmg</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から11日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD13_受講13日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID N1id0skZeHiE</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から12日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD14_受講14日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID qCO2vBt5IpLG</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から13日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD15_受講15日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID uOU4ZMtC4mJn</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から14日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD16_受講16日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID FrhB0KsyKpSk</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から15日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD17_受講17日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID duXqyhauLHnw</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から16日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD18_受講18日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID y2OjzdOtLQ5u</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から17日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD19_受講19日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID bU0RyVVR3veS</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から18日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD20_受講20日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID gONNrKAs6wfo</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から19日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>LD21_受講21日目</summary>
-<p><strong>ツール・接続先：</strong>UTAGE・line・管理ID zwBIt7a31JSB</p>
-<p><strong>送信トリガー・原本条件：</strong>講座購入照合済み＋受講開始確定。Day1の日付から20日後。予約未確定・停止・返金時には配信しない。</p>
-<p><strong>停止・重複防止：</strong>配信停止・解除時は送らない。予約未確定や受講停止時に課題を送らない。メール版とLINE版の同じ課題を二重配信しないよう設定</p>
-<p><strong>起算点・送信時期：</strong>学習開始日＝Day1。DayNはDay1からN−1日後</p>
-</details>
-<details>
-<summary>new-line_diagnosis</summary>
-<p><strong>ツール・接続先：</strong>UTAGE連携後の新規公式LINE</p>
-<p><strong>送信トリガー・原本条件：</strong>購入商品を識別した後の案内</p>
-<p><strong>停止・重複防止：</strong>L00と同時に別々の初回返信を送らない。入金前は受講開始案内をしない</p>
-<p><strong>起算点・送信時期：</strong>友だち追加と購入状態を確認後</p>
-</details>
-<details>
-<summary>new-line_course</summary>
-<p><strong>ツール・接続先：</strong>UTAGE連携後の新規公式LINE</p>
-<p><strong>送信トリガー・原本条件：</strong>購入商品を識別した後の案内</p>
-<p><strong>停止・重複防止：</strong>L00と同時に別々の初回返信を送らない。入金前は受講開始案内をしない</p>
-<p><strong>起算点・送信時期：</strong>友だち追加と購入状態を確認後</p>
-</details>
-<h2>追加修正提案（今回は本文を大きく変えず保留）</h2>
-<p>Claude Codeの全文点検は10分割で実施。各区分で指摘があり、ファネルの稼働合格ではない。分割境界で「本文が空」と判定した箇所は、前後を通して本文の存在を確認して除外した。確定済みの閲覧起算点、移植の照合証跡、商品別メールの対応、スタッフ向けの接続表は今回補った。</p>
-<ul>
-<li>大：診断未入金のままコースを申し込む場合の充当・精算方法、銀行振込期限超過時の扱いを運営で確定する。診断購入の確認なしに値引きフォームへ入れないことをスタッフが確認する。</li>
-<li>大：通常29,800円という表示の根拠、講師実績・体験談の掲載根拠を、運営の正本と照合して保管する。今回のレビューに根拠が含まれていないことを、根拠が存在しないことと同一視しない。</li>
-<li>中：研究で扱った課題と本コースの訴求のつながり、発声の扱い、返却時期の説明、診断購入済みと実施済みの区別を、必要に応じて追記する。訴求や提供条件を変える案は田中さんに提案してから反映する。</li>
-<li>小：参考文献の番号・体裁、改行や文体の揺れ、工程カードの表示名を整理する。本文に現れない番号を、未掲載素材と誤認しないよう、素材集の管理番号には欠番があることを共有する。</li>
-</ul>
-<p>確定済みの主な条件は維持する：21日間の練習、学習開始日から30日間閲覧、開始前と終了後の60分セッション、3回の音声フィードバック、診断購入者の5,980円充当、申込時価格の確保と3営業日以内の銀行振込。</p>
-<h2>再点検で明確化した実装上の定義と原本</h2>
-<ul>
-<li>Day1は発音診断＆コーチング翌日の学習開始日。メール・LINE・アプリで同じ日付を使う。診断実施済みの方は坪田先生が案内した学習開始日をDay1に設定する。「受講開始翌日をDay1」という旧メタデータは使わない。</li>
-<li>88通対応表のUTAGE各IDは、同梱の「仕様/メール40通.json」「仕様/LINE32通.json」の同じ asset_id で追える。発火イベントの大枠は「仕様/引き継ぎと発火条件.csv」。元資料の「各配信条件表に従う」「起点設定待ち」「要確認」は確定済み設定ではない。送信時刻の詳細をUTAGE実装担当スタッフが開始前に確定・記録し、未確定のまま有効にしない。</li>
-<li>診断申込完了とコース申込完了のLINE導線は、hrefを持つ仮リンクではなく、<code>button.line-button</code> の無効ボタン。文言は「公式LINEに登録して日程を調整する」。スタッフがこの位置を実LINE URLへのリンクに差し替え、PC・スマホで開くことを確認してからフォームを再開する。</li>
-<li>移植照合JSONの <code>access_start_text_changed_this_run</code> は「今回の処理で文章を直したか」。falseは不一致ではなく変更なし。<code>access_start_policy</code> を見て、起算点の記載があるページと対象外ページを区別する。</li>
-<li>未購入者本編は64分51秒（管理ID En6aecWfsJB7、視聴ページVR7Ask9Z1WiE）、購入者本編は65分02秒（管理ID d1z4Q34CjhYA、視聴ページTyOCVVCGWSUE）。診断当日専用の ePCwe7f7JrY8 は動画ではなく販売ページ。登録後案内動画は約77.88秒（管理ID nxF9tMLPxg3Y）。開始時刻と対象動画の実尺を使って終了時刻を算出する。</li>
-<li>登録時刻の正本はMyASPの無料登録日時。現在の mail=%mail% の連動だけでは元日時を渡せない。スタッフは元日時をUTAGEの日時項目へ反映する方法と同一人物の照合を実装する。UTAGE受信時刻やページを開いた時刻への置き換えは未検証なので採用しない。メールアドレス不一致はスタッフが注文を照合してから状態を変更する。</li>
-<li>診断未入金時のコース充当・期限超過・再視聴や再登録時の扱いは運営責任者が開始前に確定する。追客の起点はUTAGE実装担当が初回視聴終了との整合を確認して設定する。元の「再放送・追客開始日」は具体の日付設定を意味しない。</li>
-<li>MyASPの決済完了メール、UTAGE購入直後メール00・01、新LINE返信、L01〜L03を同時に一斉有効化しない。スタッフが各購入イベントの通知順と通数を決め、重複する案内を停止する。個別返信と自動配信を混同しない。</li>
-<li>通常29,800円は発音診断の比較表示で、コース通常49,800円とは別商品。表示根拠・講師実績・体験談の掲載根拠は運営責任者が開始前に照合保管する。確認が済むまでフォームを再開しない。</li>
-</ul>
-<h3>照合証跡の所在</h3>
-<ul>
-<li>UTAGE掲載15件：UTAGE15ページ_移植完了照合.json。API本文ハッシュ一致、実URLの可視本文包含、フォームと法務リンクを記録。</li>
-<li>素材集通信88通：素材集_本文とHTMLの全文照合.json。原稿の掲載有無を確認したもので、実送受信成功の証拠ではない。残り26件はページ15・フォーム6・動画3・全体図1・引継ぎ1。実送受信と動画再生の検証は別。</li>
-<li>MyASPメール15通の停止・原稿一致：MyASP15通_スタッフ引継ぎ前本文照合.json。</li>
-<li>外部連動の設定存在：MyASP外部連動_スタッフ引継ぎ時点.json（8件あり／3件なし）。外部連動のURL・データ・受信成功を全件合格とした記録ではない。</li>
-<li>フォーム停止：MyASP受付停止_実URL確認.json。支払方法の設定：MyASP金額とメール条件照合.json／MyASP支払設定結果.json。実課金・GMO成功通知の疎通確認は未実施。</li>
-<li>前回全文レビュー：.task/素材集_Claude独立点検_修正後.md、再点検：.task/スタッフ受渡し資料_Claude再点検.md。どちらもFAILを保持し、稼働合格として扱わない。分割2のoptin本文・分割3のsales本文・分割9のlegal本文は次区分へ続いており、現在のHTMLと原稿で本文の存在を確認している。</li>
-</ul>
-</details></article></main></div></body></html>
+<p>診断銀行申込の案内資格は、上記の決済確認とは別イベントとして接続が必要です。未入金なのに決済確認済みラベルを付けないでください。読者IDとメールアドレスを安全に照合し、ページへAPIキーを埋め込まないでください。</p>
+<p>free1＝初回放送開始、free2＝初回開始65分後、free3＝初回開始125分後を予定する既存項目として使用します。実際の保存形式・タイムゾーン・置換構文は実装環境で検証します。再登録で視聴回を作る場合も、この初回3項目は保持します。</p>
+<p>既存シナリオ「坪田｜50分到達後フォロー（初回のみ）」と6アクションは保存記録がありますが、今回の新しい案内資格条件は再設定が必要です。原稿の独立点検と、フォーム・配信の稼働確認は別判定です。顧客への配信・実課金・坪田先生や大久保さんへの送信は今回実施していません。</p></article></main></div></body></html>
