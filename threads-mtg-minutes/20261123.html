@@ -1,0 +1,416 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Threads攻略ミーティング 議事録（2026-11-23） - Threads攻略ミーティング議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-frame { padding:.75rem; border:2px solid #06C755; border-radius:16px; background:#F1FBF4; }
+.material-flow-frame > header { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .6rem; margin-bottom:.75rem; }
+.material-flow-frame > header strong { padding:.2rem .7rem; border-radius:999px; color:#fff; background:#06C755; font-size:.78rem; font-weight:800; }
+.material-flow-frame > header small { color:var(--ink-soft); font-size:.74rem; line-height:1.5; }
+.material-flow-frame .material-flow-stage { width:auto; min-width:0; }
+.material-flow-frame .material-flow-pages { grid-template-columns:repeat(2, 16.5rem); align-items:start; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } .material-flow-frame .material-flow-pages { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>Threads攻略ミーティング議事録</h3><a href="20261123.html" class="sidebar-item active"><span class="date">2026年11月23日</span> Threads攻略ミーティング 議事録（2026-11-23）</a></nav>
+<main class="content"><article class="article"><h1>Threads攻略ミーティング 議事録（2026-11-23）</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/4aa0fa02-702e-4001-89ed-e1c08e792cae/file/bWVkaWEvMjAyNi8xMS8yMy8wNTAwX-eUsOS4reelkOS4gOWAi-S6uk1UR-ODquODs-OCr185NDZhMjQwNmM2L01QNF80YTE3MzY4NC04OTZlLTRjMWYtOTRmNS0yZmE5YWUwNDgyYzgubXA0#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年11月23日 15:40（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>田中が直接サポートしている3つの案件（子育て・お片付け・風水）で、AIを使ったThreads運用を3か月試す新プロジェクトの、最初の顔合わせ。ライターとして加わる森田さんと、仕組みづくりを受け持つシステム担当のMatsunosakoさんに、田中が狙いと分担を説明した。<br />
+田中の構想は、リサーチとネタ出しは森田さんがAIを使って行い、投稿の一覧と数値の管理、改善案の提案はAIが受け持ち、田中は週に15〜30分のミーティングで見る形。最終的に見る数字は、固定投稿の閲覧数、リンクのクリック、リストインの3段階で、目標は各アカウントでひと月30リスト。3か月たっても登録がごく少なければ撤退する。<br />
+決まったのは、今週は環境づくり（GitHubの登録、3案件共通のGitの新設、素材集・話し口調データの共有）をすること、初回の投稿は約10日後を目指すこと、次回は12月2日（水）20時。アカウントの作り方（先方のInstagramがある案件をどうするか）と、森田さんが使うAIツールの運用は、やりながら決める。</p>
+<h2 id="概要">概要</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年11月23日（月）14:00開始（日本時間。Zoomの会議時間は41分。書き起こしは00:41:54まで）</td>
+</tr>
+<tr>
+<td>形式</td>
+<td>Zoom（Zoomの会議名は「田中祐一個人MTGリンク」。Threads運用の新プロジェクトの顔合わせ）</td>
+</tr>
+<tr>
+<td>参加者（発言あり）</td>
+<td>田中祐一、森田千尋さん（ライター）、Kaoru Matsunosakoさん（システム担当）</td>
+</tr>
+<tr>
+<td>ほか</td>
+<td>Zoomの発言者記録も上の3名のみ</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/4aa0fa02-702e-4001-89ed-e1c08e792cae" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/4aa0fa02-702e-4001-89ed-e1c08e792cae</a></td>
+</tr>
+<tr>
+<td>Zoomチャットログ</td>
+<td>なし（この会議のチャット記録はなかった）</td>
+</tr>
+<tr>
+<td>データ原本</td>
+<td>0_データ原本/2026年/11月/23日/Zoom/202611231400_Zoom_田中祐一個人MTGリンク.md</td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td>21_プロジェクト一覧/tan_田中祐一/SNS運用/Threads運用/ミーティング/データ原本/20261123_Threads攻略ミーティング_書き起こし原本.md</td>
+</tr>
+<tr>
+<td>話者なしの生データ</td>
+<td>同じフォルダの 20261123_Threads攻略ミーティング_Zoom字幕VTT原文.vtt（Zoomの字幕原文）</td>
+</tr>
+<tr>
+<td>話者ラベルの確認</td>
+<td>Zoomのライブキャプションが参加者の表示名で付与したラベル（AIによる自動割当は使っていない）。通読して、自分を三人称で言う、立場と合わない発言をする、といった矛盾は見つからなかった。田中が会議の冒頭で2人を紹介しており（<code>[00:00:25]</code> <code>[00:00:37]</code>）、それが表示名と合う。根拠は同じフォルダの <code>_話者同定.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>Matsunosakoさんの姓は、田中の音声入力辞書で「松之迫」と登録されている（書き起こしでは「松野作」「松野坂」などと崩れて出る。書き起こしだけからは確認できない）。フォルダ名の「Threads攻略」は、田中がこの会議を呼んだ名前による。保存先は、既存の「SNS運用/Threads運用」の下に新しく作った。以降の定例もここに積む。書き起こしは崩れた箇所が多く、固有名詞や数字で断定できないものは、本文で「聞き取り不明瞭」と書き、原本の「書き起こし確認事項」に時刻つきで残した。</p>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#概要">概要</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1.-冒頭：誰が何で入るか">1. 冒頭：誰が何で入るか</a></li><li class="toc-sub"><a href="#2.-なぜThreadsか：広告以外の入り口をAIで作る">2. なぜThreadsか：広告以外の入り口をAIで作る</a></li><li class="toc-sub"><a href="#3.-田中が描く運用の流れ">3. 田中が描く運用の流れ</a></li><li class="toc-sub"><a href="#4.-使うツール：Grok-Bot、ミューズ、そのほか">4. 使うツール：Grok Bot、ミューズ、そのほか</a></li><li class="toc-sub"><a href="#5.-何を見るか：固定投稿からのリストイン">5. 何を見るか：固定投稿からのリストイン</a></li><li class="toc-sub"><a href="#6.-Slackに移す案：Chatworkだと自律運用ができない">6. Slackに移す案：Chatworkだと自律運用ができない</a></li><li class="toc-sub"><a href="#7.-期間と目標：3か月、撤退の条件つき">7. 期間と目標：3か月、撤退の条件つき</a></li><li class="toc-sub"><a href="#8.-対象にする3つの案件">8. 対象にする3つの案件</a></li><li class="toc-sub"><a href="#9.-参考にする売れている人">9. 参考にする売れている人</a></li><li class="toc-sub"><a href="#10.-田中が見ているThreadsの特徴と、投稿の型">10. 田中が見ているThreadsの特徴と、投稿の型</a></li><li class="toc-sub"><a href="#11.-森田さんのAI経験と、最初のフォロー">11. 森田さんのAI経験と、最初のフォロー</a></li><li class="toc-sub"><a href="#12.-田中の管理の仕組みを、Matsunosakoさんに共有">12. 田中の管理の仕組みを、Matsunosakoさんに共有</a></li><li class="toc-sub"><a href="#13.-森田さんの進め方と、素材の渡し方">13. 森田さんの進め方と、素材の渡し方</a></li><li class="toc-sub"><a href="#14.-Threadsの機能：DMと引用">14. Threadsの機能：DMと引用</a></li><li class="toc-sub"><a href="#15.-アカウントの作り方：先方のInstagramがある場合">15. アカウントの作り方：先方のInstagramがある場合</a></li><li class="toc-sub"><a href="#16.-今週の準備：GitHubと素材集">16. 今週の準備：GitHubと素材集</a></li><li class="toc-sub"><a href="#17.-森田さんの質問：固定のリンク先は動画かライブか">17. 森田さんの質問：固定のリンク先は動画かライブか</a></li><li class="toc-sub"><a href="#18.-段取りと次回の日程">18. 段取りと次回の日程</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#田中祐一">田中祐一</a></li><li class="toc-sub"><a href="#森田さん">森田さん</a></li><li class="toc-sub"><a href="#Matsunosakoさん">Matsunosakoさん</a></li><li class="toc-sub"><a href="#担当が発話から確定できないもの">担当が発話から確定できないもの</a></li><li class="toc-main"><a href="#検討中・未確定">検討中・未確定</a></li><li class="toc-main"><a href="#Zoomチャットログ">Zoomチャットログ</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1.-冒頭：誰が何で入るか">1. 冒頭：誰が何で入るか</h3>
+<p>田中は、システム担当のMatsunosakoさんに来てもらっていること、今回、森田さんにThreadsのライターとして入ってもらうことを紹介した。進め方は「中断をしながら」で、途中で質問してよい形にした。</p>
+<h3 id="2.-なぜThreadsか：広告以外の入り口をAIで作る">2. なぜThreadsか：広告以外の入り口をAIで作る</h3>
+<p>田中は背景を次のように話した。</p>
+<ul>
+<li>自分が直接サポートしている案件は、売上を伸ばす手段が広告に偏っている。人の力に頼らず、ほぼAIの力でできないかと考えているのがThreadsである。</li>
+<li>Threadsは今「ボーナス期」で、ほかのSNSに比べてAIで運用しやすく、集客もしやすい。Instagramもできるだろうが、まずThreadsで始める。</li>
+<li>田中の本当の野望は、Threadsは最初のきっかけにすぎず、Instagram、YouTubeなど、いろいろなSNSを統合して管理できる仕組みを作ることである。Matsunosakoさんと作るのは、Threadsだけのシステムではなく、SNS全般のサポートシステムにしたい。</li>
+</ul>
+<h3 id="3.-田中が描く運用の流れ">3. 田中が描く運用の流れ</h3>
+<p>田中が説明した仕組みは、次の流れだった。</p>
+<ol>
+<li>リサーチした結果を見て、案件に合う形に投稿をリライトする（誰がどの工程かは聞き取りが崩れているが、後半で田中は、リサーチ、ネタ出し、ライティングは森田さんの役割と話している）。</li>
+<li>AIにセットすると、投稿される。案件ごとに「投稿一覧」ができる。</li>
+<li>毎週、数値を見て、「こうしたほうがよいのでは」というフィードバックを、田中祐一AI（田中本人のAI）に見させて出す。</li>
+<li>それに対して、人間の田中が週15〜30分のミーティングをする。数値の管理とフィードバックはAIが受け持つ。</li>
+</ol>
+<p>リサーチやネタ出しの部分には、田中も関わりたい。ライター側には、女性の目線で「こうしたほうがよい」と言ってもらうことや、AIが考えた以外のネタを投稿することも期待している（書き起こしでは、この役を「モニターさん」と呼んでおり、森田さんを指すと読めるが確定できない）。</p>
+<h3 id="4.-使うツール：Grok-Bot、ミューズ、そのほか">4. 使うツール：Grok Bot、ミューズ、そのほか</h3>
+<ul>
+<li><strong>Grok Bot</strong>: 田中が使っているボット型のAI。返信までAIが行える。案件の情報を取得して、チームでミーティングしながら「こういう方向がよい」と出してくれる。Matsunosakoさんの側でGrok Botを仕込むかどうかは、まだ考えている段階。</li>
+<li><strong>森田さんの道具</strong>: 田中は、Threadsと一番相性がよいだろうと考えているAIツール（書き起こしでは「ミューズ」。聞き取りが崩れており、製品名は確定できない）を森田さんに使ってもらう案を出した。「やりながら覚えてください」という位置づけ。このツールはInstagramと相性がよく、「このターゲットについて調べて」「この分野でバズっているネタを調べて、投稿のネタを考えて」ができると田中は考えている。田中自身は、このツールにまだ課金しておらず、使い勝手は十分に分かっていない（<code>[00:17:31]</code>）。</li>
+<li><strong>ほかの選択肢</strong>: Threadsの自動投稿は、Claude Code、Codex、Cursorなどでもできるはずで、田中はすでに自動投稿を動かしている。投稿しすぎるとバンされると聞いているため、田中は1日3投稿というルールで動かしている。</li>
+<li><strong>コンテンツホルダーの情報</strong>: 田中は、今回は定期的にライブをしている人の案件がよいと考えている。ライブの内容（コンテンツホルダー側の情報）を、バズっているネタと組み合わせて投稿にする形が理想。</li>
+</ul>
+<h3 id="5.-何を見るか：固定投稿からのリストイン">5. 何を見るか：固定投稿からのリストイン</h3>
+<p>田中は、どのSNSでも、リストインのさせ方は結局同じだと話した。プロフィールか固定投稿を見てもらう投稿に、どれだけアクセスを集められるかの勝負になる。</p>
+<p>そのため、毎月、次の3段階を集計する。</p>
+<ol>
+<li>固定投稿の閲覧数がどれだけ増えたか</li>
+<li>閲覧した人のうち、どれだけがクリックしたか</li>
+<li>クリックした人のうち、どれだけがリストインしたか</li>
+</ol>
+<p>日次で出す仕組みでもよいとし、数値の管理とAIからの「こういうことを試してみては」という提案は、主にMatsunosakoさんの側の仕事、リサーチからネタ出し、ライティングは森田さんの役割、というイメージを田中は示した。PDCAの確認の仕組みは、田中が自社の仕組みとして作りたいとし、共有はChatworkなどで行う。</p>
+<h3 id="6.-Slackに移す案：Chatworkだと自律運用ができない">6. Slackに移す案：Chatworkだと自律運用ができない</h3>
+<p>田中は、自社で作ったAIチームと会話するにはSlackのほうがずっと速く、社内の案件だけSlackに移そうという議論まで出ていると話した。</p>
+<ul>
+<li>Slackなら、人と同じようにボットを入れられる。「森田さんがこれを上げたからチェックしておいて」と言えて、「田中祐一AIはどう言っている？」と聞けば、Slack上で返ってくる。</li>
+<li>Chatworkだと、田中が全部をAIに読み込ませるため、コピーして貼る手間がある。この差が大きく、自律運用ができない。</li>
+<li>ワークフローが確立するまでは、Cursor、Claude Code、Codexなどで組む。それを自律的に動かすのが、Grok Botなどである。</li>
+</ul>
+<p>この案件でSlackを実験するかどうかは、まだ分からない。</p>
+<h3 id="7.-期間と目標：3か月、撤退の条件つき">7. 期間と目標：3か月、撤退の条件つき</h3>
+<ul>
+<li>まず3か月運用する。3か月たって成果が出なければ、おそらく撤退になる、というのが田中の見立て。ここでの成果は、リストインの数で、あまりにも少なすぎる場合を指す。</li>
+<li>3か月の理由は、Threadsのボーナス期がいつまで続くか分からないこと、そして、英語の坪田さんの案件で30〜50リスト程度を運用していること（単位は聞き取り不明瞭）。各アカウントで、1日1リストを送れたらよい、と田中は考えていると読める（「各リスト」と聞こえており、単位は不明瞭）。</li>
+<li>目標は、各アカウントでひと月30リスト（田中は途中で「これ間違ってますけどね」と言い直しており、期間の単位は聞き取りが崩れている）。初月は難しいと見ている。</li>
+<li>田中が人から聞いた特性として、Threadsはアカウントの評価に関係なくバズる（TikTokのような性質）。バズっても売れないので、バズった投稿の中で、気づきを与えてリストインさせる形にする。</li>
+</ul>
+<h3 id="8.-対象にする3つの案件">8. 対象にする3つの案件</h3>
+<p>田中が直接深く関わっている案件から、次の3つを選んだ。</p>
+<ol>
+<li><strong>子育て・知育（グローバルキッズ、ピグマリオンさんの案件）</strong>: 3〜8歳向けの教育。田中が送客してあげたい案件。広告は、男性のマーケッターよりママさんのほうが上手だと見ている（聞き取りが崩れた箇所）ため、女性の目線が活きる案件だと考えている。</li>
+<li><strong>お片付け（中田りょうこさんの案件）</strong>: こちらも送客をしてあげたい案件。</li>
+<li><strong>風水（谷口さんの案件）</strong>: 谷口さんはInstagramが大きく伸びていて、そこから集客しているため、広告も調子がよい、という構造になっている。田中は、先方が自分で運用する前に、こちらで運用して成果を出してしまうという狙いを話した。</li>
+</ol>
+<p>もう1つ、別の案件（書き起こしでは「山田さん」の安心安定のカウンセラー。矢場田さんの案件と読めるが、聞き取りが崩れており断定しない）も、やりたかったが、毎年10月から2月ごろで終わる企画で、頑張るのがもったいないため、今回は見送った。</p>
+<h3 id="9.-参考にする売れている人">9. 参考にする売れている人</h3>
+<ul>
+<li>田中は、Threadsで大きく稼いでいる人（書き起こしでは「しろうさん」。表記は確定できない）を、システム担当に見てもらい、どんな仕組みを作っているかを調べるよう、すでに頼んでいる（呼びかけの名前は崩れているが、Matsunosakoさんと読める）。</li>
+<li>田中がざっくり聞いているところでは、Threadsのアカデミーは、AI系や投資系のアカウントを何十個も量産して運用して稼いでいるらしい。女性向けの分野でThreadsを強く回している人は、おそらくまだいない。最近はAI系、投資系は、演者の女性が出てくるものも多い。副業や占いも稼いでいるようだ。</li>
+<li>でぷれさん（書き起こしでは「デプレさん」）は、Threadsから約1億円売れたと言っていた、と田中は紹介した。これは本人の申告を田中が伝えたもので、田中は検証していない。田中は、でぷれさんを完全に真似して最初の投稿を始めればよいと考えている。そのため、プロフィールと固定投稿は、田中のほうで、AIにでぷれさんを真似させて作る。</li>
+<li>投稿に使うURLの置き方（リンクを1投稿目に貼るのか、あとで足すのか）は、今回の会議では議論していない。</li>
+</ul>
+<h3 id="10.-田中が見ているThreadsの特徴と、投稿の型">10. 田中が見ているThreadsの特徴と、投稿の型</h3>
+<ul>
+<li>Xとは文化圏が違う。Xはマウントの文化で、Xでは全然広がらない投稿がThreadsでは広がるらしい。怒っている人が多いとも聞く（聞き取りが崩れている）。</li>
+<li>情報収集の層に向けた投稿（「問いかけ5選」など）は、バズりやすく、いいねもされるが、その人のファンになる動きにはなりにくい。悩んで実践している人の考え方に気づきを与える投稿は、バズらずにリストインする。このバランスが難しい。</li>
+<li>投稿は、4パターンくらいを決めて、ぐるぐる回す形に近づけたい。</li>
+<li>固定投稿は「最後の一行」が重要。AIで運用すると、バズってもリストが入らない形になりやすいと田中は感じている。</li>
+<li>1案件につき1日15分で、できあがった投稿をチェックし、OKなら出す、という運用を想定している。田中は、自分でも実際にThreadsを見ることが、一番のリサーチになると話した。</li>
+<li>返信のルーティンと、返信の仕方で成果がどう変わるか。さらに、返信の自動化まで、コンテンツホルダーらしい返信の仕方を取り込めるか。例として、Facebookの2年分くらいの投稿と、その人のコメントを探し出させて、返信の仕方を学習させる案が出た。</li>
+</ul>
+<h3 id="11.-森田さんのAI経験と、最初のフォロー">11. 森田さんのAI経験と、最初のフォロー</h3>
+<p>田中が「普段、AIはまったくノータッチですか」と聞くと、森田さんは「あまり触れていない」と答えた。「リサーチして、投稿して」というざっくりした指示では、できるか分からない、という状態。田中は、投稿の良し悪しは森田さんに判断してもらうつもりだと伝え、Matsunosakoさんに一度フォローして、作業会を開いてもらうことを提案した。</p>
+<p>田中は、Matsunosakoさんと森田さんの共同のスプレッドシートに、案件ごとの投稿と数値が書き出され、さらに作ったポータルサイト上で、案件を切り替えながら見られる形になってもよいのでは、と案を出した。</p>
+<h3 id="12.-田中の管理の仕組みを、Matsunosakoさんに共有">12. 田中の管理の仕組みを、Matsunosakoさんに共有</h3>
+<p>田中は画面を共有して、自分が行っているプロモーションの管理を紹介した（画面の動きが重く、途中で止まった）。</p>
+<ul>
+<li>動いている案件のスプレッドシートを全部まとめ、それぞれのファネルごとに「この案件にどの広告が紐づくか」のデータをもらう。各案件で、その広告の時にどんなクリエイティブを出していたかが分かる。</li>
+<li>田中はすべての案件を見られ、各担当者は自分の案件だけを見られる（Matsunosakoさんの言い換えでは「ユーザーで識別して、田中さんはアドミンだから全部見られる」）。例として、山岸さんは、田中の案件を持っている分だけ見られる。広告運用をしていない案件は、山岸さんは見られない（<code>[00:14:41]</code> は「山口さん」と聞こえるが、前後から山岸さんと読める）。</li>
+<li>顧客は今ほぼ99%が広告からの流入。まれにハウスリスト（広告以外のリスト）があり、どこから来たかを追いかけている。</li>
+<li>田中が入れたいのは、流入元に「Threadsの固定投稿、何月何日の登録」のような情報。広告だけでなく、SNSからの流入も細かく追えるようにしたい。</li>
+<li>今後の新しい案件は、広告会社から全クリエイティブのデータ、ディレクターから全シート、セールス担当の全シート、決済シートをもらう。そうすると、「このクリエイティブから、この売上が立った」が即時に分かる構想がある。Threadsについても、「この日の投稿から、これだけ売上が出た。この人はこのThreadsから来た人」と、毎日データを取れるようにしたい。</li>
+<li>システムの作り方は、山岸さんは自分のプロジェクトの中で作っており、広告については、クリエイティブの一覧などのデータベースだけを、田中の管理システムに登録する形にしている。Matsunosakoさんも自分のプロジェクトの中で少し異なる作りだが、データの吐き出し先だけを統一するイメージを、田中は示した。</li>
+</ul>
+<h3 id="13.-森田さんの進め方と、素材の渡し方">13. 森田さんの進め方と、素材の渡し方</h3>
+<ul>
+<li>森田さんは、各案件のチャットで、案件側のデータをもらう。どれだけデータをもらえるかは、案件によってまばらだろうと田中は見ている。</li>
+<li>田中は、AIツールが勝手にリサーチして投稿を考えてくれたと話し、使い方の案を挙げた。例えば、まず競合のInstagramのプロフィールをそのまま取り込んでスタートする、ライバルの情報、Threads、他の人のYouTubeのデータを引っ張ってきて、それらをもとに投稿を作る、といった形。</li>
+<li>例として、収納系のチャンネル（登録者8万人と読めるが不明瞭）を見ながら「この人を狙っていきたいのかな」と考え、その人の投稿を混ぜたものを「中田りょうこ風に書き換えて」とAIに指示する、と説明した。</li>
+<li>「中田りょうこ風」とは何かは、田中の過去のミーティング履歴や、中田さんのYouTubeをダウンロードした履歴をAIに読み込ませれば出せる。森田さんにそのURLを渡して「読み込んで」と言えばできる。</li>
+<li>もっと高度に運用するなら、田中が案件のミーティングや素材集を集めて共有する必要があり、そのために、GitHubに入ってもらう。やったことがないと分かりにくいため、ミーティングで教えたほうがよさそうだ、と田中は話した。</li>
+</ul>
+<h3 id="14.-Threadsの機能：DMと引用">14. Threadsの機能：DMと引用</h3>
+<ul>
+<li>田中は、投稿にコメントするとDMが送られる機能は聞いたことがない。ThreadsからInstagramにDMが送られる形なら、さらにリストインできる。</li>
+<li>Matsunosakoさんは、先週この話が出たので、Threadsのアカウントだけ作ってあった。ThreadsにもDM（受信箱）はあった。</li>
+<li>田中は、固定投稿のほかに、Threadsの引用の機能をどう使うかも、今後見ていきたいとした。</li>
+<li>専用のLPを作ってもらえば集計できる。各案件のプロデューサーに頼んで専用のものを用意してもらい、そこにどうアクセスを集めるかは、別の話になる（聞き取りが崩れている）。</li>
+</ul>
+<h3 id="15.-アカウントの作り方：先方のInstagramがある場合">15. アカウントの作り方：先方のInstagramがある場合</h3>
+<p>田中は、自分たちで勝手にアカウントを作ってよいのか、という問題を先に整理したいと述べた。</p>
+<ul>
+<li>Matsunosakoさんは、谷口さんのようにInstagramがある人は、そのまま別々のアカウントとして始めるほうが、Instagramが人気なら流入も見込めるかもしれない、また、アカウントの作り込みの部分は、人間の森田さんの手が入ったほうがよさそう、と意見を述べた。</li>
+<li>田中は、すでにInstagramがある人に対して、どう頼めばよいのかを問題として挙げた。決まった結論はない。</li>
+<li>画面の途中で、田中は、クライアントに送る提案の文章をAIに作らせる例を見せたが、「こんなものを送っても分からない」と感じる出来だった。田中は、これをさらに仕上げれば、そこから直接Chatworkに送る形にしたいが、今は何も連携しておらず、人の作業でやっている状態だと話した。</li>
+</ul>
+<h3 id="16.-今週の準備：GitHubと素材集">16. 今週の準備：GitHubと素材集</h3>
+<p>田中は、今週のタスクとして、まず環境を整えることを挙げた。</p>
+<ul>
+<li>森田さんは、GitHubに登録する。AIツールからGitHubを見る見方を覚える。</li>
+<li>田中は、素材集を概要欄に貼る。各人の話し口調のデータ（田中が作っているはず、と話した）もまとめて共有する。</li>
+<li>Gitの置き場所について、Matsunosakoさんは、既存のプロモーション用のGitの中に「攻略」のようなものを1つ作り、森田さんがうまくアクセスできるようにしておけばよい、と提案した（「プロモーション」の前の語は聞き取り不明瞭）。田中は、新しいGitを作る必要があるとして、まず、この3案件共通のGitを作ることにした。Matsunosakoさんは、別の場所で作って走らせ、不具合が出るなら統合作業をすればよい、という進め方も出した。</li>
+<li>田中側の課題として、毎月のミーティングの内容が反映されるのは、今は社内用のGitだけ。そのため、SNS運用用のフォルダにもコピーされる（クローンを作る）仕組みを、田中が開発する必要がある。そこに、コンテンツホルダーの情報、ライブの書き起こしなどを用意していく。</li>
+</ul>
+<h3 id="17.-森田さんの質問：固定のリンク先は動画かライブか">17. 森田さんの質問：固定のリンク先は動画かライブか</h3>
+<p>森田さんは、固定投稿に貼るリンクは、動画で走っている分なのか、ライブの分なのかを尋ねた。風水の案件には動画のバージョンもある、収納の案件は先日3日間の企画に入ってみた、という例を挙げた。</p>
+<p>田中は、動画とライブの両方がある場合は、動画のほうを優先すると答えた。もう1つのチーム（名称は聞き取り不明瞭）はライブしかないので、ライブになる。直接リスト取りをしている人たちもいる。プロフィールと固定投稿までは、田中が、AIにでぷれさんを真似させて作る。プロフィールと固定投稿を作っておけば、スタートはできる。あとは投稿の質になる、と田中は話した。</p>
+<h3 id="18.-段取りと次回の日程">18. 段取りと次回の日程</h3>
+<ul>
+<li>森田さんにやってもらうルーティンワークは、田中がまとめて共有する。</li>
+<li>田中と週に1回、15〜30分、すり合わせながら進める。約10日後に最初の投稿ができれば、という目安。</li>
+<li>森田さんは平日の昼は仕事で、15時ごろまで。夜のほうが都合がよく、19〜20時ならよい。</li>
+<li>次回の日程は、田中が「3日の20時」を提案したが、Matsunosakoさんは3日が終日不在のため、2日の20時になった。森田さんも大丈夫。</li>
+<li>Matsunosakoさんは、あとで個別にGitを作る。田中もそこに入れる形にする。</li>
+<li>田中は、新しい扉を開くチームで、どうなるか見当がつかないが、数値を見ながら話していきたい、と締めた。</li>
+</ul>
+<hr />
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<ul>
+<li><strong>Threadsの勝ち方は、バズらせることよりも、固定投稿に至る道をつくること。</strong> どのSNSでも、最後はプロフィールか固定投稿を見てもらう投稿に、どれだけアクセスを集められるかの勝負になる。月ごとに、固定投稿の閲覧数、クリック、リストインの3段階を追う。</li>
+<li><strong>バズっても売れない。</strong> バズった投稿の中で、気づきを与えてリストインさせる形にする。情報収集層向けの投稿（「問いかけ5選」のようなもの）は、いいねはされるが、その人のファンになる動きにはなりにくい。悩んで実践している人の考え方に気づきを与える投稿は、バズらないがリストインする。</li>
+<li><strong>AI運用は、最後の一行（固定投稿）でつまずきやすい。</strong> 投稿の型は4パターンくらいを回し、固定投稿に力を入れる。</li>
+<li><strong>チェックを田中の承認待ちにすると、ボトルネックになる。</strong> ほかのYouTubeの案件でも同じ。まず投稿してしまい、先週の数値を見てから、ミーティングで振り返るほうがよい（<code>[00:11:03]</code> 付近）。</li>
+<li><strong>コンテンツホルダーらしさは、過去のミーティング、動画、投稿から取り込む。</strong> 中田りょうこ風の文章のように、本人の過去のデータをAIに読ませる。そのために、素材をGitHubで共有する。</li>
+<li><strong>SlackのほうがAIチームとの会話は速い。</strong> Chatworkだと、コピーして貼る手間があり、自律運用ができない。</li>
+</ul>
+<h2 id="決まったこと">決まったこと</h2>
+<ul>
+<li>3つの案件（子育て・知育のグローバルキッズ、お片付けの中田りょうこさん、風水の谷口さん）で、Threads運用を3か月試す。3か月たっても登録がごく少ない場合は、撤退になる見込み（田中の見立て）</li>
+<li>役割は、リサーチ・ネタ出し・ライティングが森田さん、数値管理・AIからの改善提案の仕組みがMatsunosakoさん、週15〜30分のミーティングが田中</li>
+<li>今週は、環境づくりを先にする。森田さんはGitHubに登録する。3案件共通のGitを新しく作る（Matsunosakoさんが個別に作り、田中も入れる）</li>
+<li>田中は、素材集と、各人の話し口調のデータをまとめて共有する。固定投稿が動画とライブの両方にある案件は、動画を優先する</li>
+<li>プロフィールと固定投稿は、田中が、AIにでぷれさんを真似させて作る</li>
+<li>最初の投稿は、約10日後を目指す（田中の目安。「できたらなと思う」という言い方）</li>
+<li>次回は2026年12月2日（水）20時（日本時間）。田中、森田さん、Matsunosakoさんで行う</li>
+</ul>
+<h2 id="やること">やること</h2>
+<h3 id="田中祐一">田中祐一</h3>
+<ul>
+<li>森田さんにやってもらうルーティンワークをまとめて共有する</li>
+<li>素材集を概要欄に貼る。各人の話し口調のデータをまとめて共有する</li>
+<li>コンテンツホルダーの情報、ライブの書き起こしなどを用意する</li>
+<li>毎月のミーティングの内容が、SNS運用用のフォルダにもコピーされる仕組みを開発する</li>
+<li>プロフィールと固定投稿を、AIに、でぷれさんを真似させて作る</li>
+<li>各案件のリンク集を作る（<code>[00:25:22]</code>）</li>
+</ul>
+<h3 id="森田さん">森田さん</h3>
+<ul>
+<li>GitHubに登録し、AIツールからGitHubを見る見方を覚える</li>
+<li>各案件のチャットで、案件側のデータをもらう</li>
+<li>リサーチ、ネタ出し、ライティングを行う（AIを使って。投稿の良し悪しの判断も担当）</li>
+</ul>
+<h3 id="Matsunosakoさん">Matsunosakoさん</h3>
+<ul>
+<li>3案件共通のGitを作る（あとで個別に。田中も入れる）</li>
+<li>森田さんの最初のフォロー（一度作業会を開く）</li>
+<li>数値管理と、AIからの改善提案の仕組み、ダッシュボードを作る。田中は、ダッシュボードなどはMatsunosakoさんに任せていくと話した（<code>[00:26:44]</code>。呼びかけの名前は崩れている）。案件ごとの共同スプレッドシートと、切り替えて見られるポータルは、田中の案として出た（下の「検討中」を参照）</li>
+<li>各案件のチャットログを受け取り、取り込む</li>
+<li>Threadsで稼いでいる人（しろうさん）を見て、どんな仕組みか調べる（以前に田中が依頼済み）</li>
+</ul>
+<h3 id="担当が発話から確定できないもの">担当が発話から確定できないもの</h3>
+<ul>
+<li>各案件のプロデューサーに、Threads専用のLPを頼む案（<code>[00:29:57]</code> 付近。誰が頼むかは話されていない）</li>
+</ul>
+<h2 id="検討中・未確定">検討中・未確定</h2>
+<ul>
+<li>森田さんが使うAIツールの名前と、その運用の細かい形（書き起こしでは「ミューズ」。聞き取り不明瞭）</li>
+<li>Grok Botを仕込むかどうか、Slackに移すかどうか（この案件で実験するかも未定）</li>
+<li>すでにInstagramがある先方（谷口さん）に、Threadsのアカウントをどう作り、どう頼むか。自分たちで勝手にアカウントを作ってよいのかという問題を、先に整理する</li>
+<li>運用のスタートに、人のOKを挟むか、投稿してしまうか（田中は、まず投稿して数値で振り返るほうがよい、という考え）</li>
+<li>返信の自動化を、どこまで任せるか</li>
+<li>案件ごとの共同スプレッドシートと、案件を切り替えて見られるポータルサイトを作るか（田中の案）</li>
+<li>ThreadsからInstagramにDMを送る形で、リストインを増やせるか</li>
+</ul>
+<h2 id="Zoomチャットログ">Zoomチャットログ</h2>
+<p>この会議では、Zoomチャットの記録はなかった。</p>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-11-24)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: PQVGRORF<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
