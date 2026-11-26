@@ -1,0 +1,580 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>たかみずMTG 議事録（2026-11-26） - たかみずMTG 議事録</title><style>
+:root {
+  --main: #2CB596; --sub: #189B7D; --deep: #0B7564;
+  --bg: #F0FAF8; --bg-top: #F7FCFB; --ink: #243B36; --ink-soft: #5B726B;
+  --line: #D7ECE5; --card: #FFFFFF;
+  --accent-gradient: linear-gradient(135deg, #49D7B4 0%, var(--main) 48%, var(--deep) 100%);
+  --surface-shadow: 0 18px 55px rgba(21, 102, 83, 0.09); --surface-radius: 22px;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+@media (max-width: 720px) { html { font-size: 16.5px; } }
+html, body { overflow-x: hidden; }
+body {
+  margin: 0; color: var(--ink); line-height: 1.9; letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  background: radial-gradient(circle at 88% -8%, rgba(73, 215, 180, 0.17), transparent 32rem), linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 100%);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--sub); text-decoration: none; word-break: normal; overflow-wrap: anywhere; }
+a:hover { text-decoration: underline; }
+a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34); outline-offset: 3px; border-radius: 8px; }
+.article { background: var(--card); border-radius: var(--surface-radius); padding: clamp(2.2rem, 4vw, 3.35rem) clamp(1.8rem, 4.5vw, 3.5rem) 3.6rem; box-shadow: var(--surface-shadow); border: 1px solid var(--line); font-size: 1.03rem; }
+.article h1 { font-size: clamp(1.6rem, 2.3vw, 1.9rem); font-weight: 800; line-height: 1.5; margin: 0 0 2rem; padding: 0 0 1.2rem; color: var(--ink); border-bottom: 1px solid var(--line); position: relative; }
+.article h1::before { content: ""; display: inline-block; width: 64px; height: 5px; background: var(--accent-gradient); border-radius: 6px; position: absolute; left: 0; bottom: -4.5px; }
+.article h2 { font-size: 1.32rem; font-weight: 700; color: var(--sub); margin: 2.8rem 0 1.1rem; padding: 0.55rem 0 0.55rem 1rem; border-left: 4px solid var(--main); background: linear-gradient(90deg, rgba(73,215,180,0.12), rgba(73,215,180,0)); border-radius: 0 12px 12px 0; }
+.article h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.7rem; padding-left: 0.85rem; border-left: 4px solid var(--line); }
+.article h3.callout-h { border-left: none; padding: 0.6rem 1rem; border-radius: 10px; background: var(--bg); display: flex; align-items: center; gap: 0.5rem; box-shadow: inset 5px 0 0 var(--bar); }
+.article h4 { font-size: 1rem; font-weight: 700; color: var(--ink-soft); margin: 1.4rem 0 0.5rem; }
+.article p { margin: 1.15rem 0; max-width: 42em; }
+.article ul, .article ol { padding-left: 1.4rem; margin: 0.9rem 0; max-width: 42em; }
+.article li { margin: 0.5rem 0; } .article li::marker { color: var(--main); }
+.article strong { color: var(--sub); font-weight: 700; }
+.article hr { border: none; border-top: 1px dashed var(--line); margin: 2.4rem 0; }
+.article img { display: block; max-width: 100%; height: auto; border-radius: 14px; }
+.article blockquote { margin: 1.4rem 0; padding: 1rem 1.2rem; background: #F7FBFA; border-left: 4px solid var(--main); border-radius: 0 12px 12px 0; color: var(--ink); }
+.article blockquote p { margin: 0.4rem 0; }
+.step { display: flex; align-items: center; gap: 0.75rem; margin: 1.6rem 0 0.4rem; padding: 0.6rem 0.9rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 2px 8px rgba(24,155,125,0.06); }
+.step-no { flex: 0 0 auto; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent-gradient); color: #fff; font-weight: 800; border-radius: 9px; }
+.step-name { flex: 1 1 auto; font-weight: 700; }
+.eval { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 1.7rem; padding: 0 0.6rem; border-radius: 999px; font-weight: 800; }
+.eval-ok { background: #E0F4EE; color: #1B8F70; } .eval-warn { background: #FCF0D9; color: #B07A14; } .eval-ng { background: #F7DEDB; color: #B0463B; }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 9px; color: #fff; font-weight: 800; }
+.article table { border-collapse: separate; border-spacing: 0; width: 100%; margin: 1.3rem 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 0.95rem; }
+.article thead th { background: linear-gradient(135deg, var(--sub), var(--deep)); color: #fff; font-weight: 700; text-align: left; padding: 0.8rem 0.95rem; border: none; }
+.article tbody td { padding: 0.7rem 0.95rem; border-top: 1px solid var(--line); vertical-align: top; }
+.article tbody tr:nth-child(even) { background: rgba(44,181,150,0.045); }
+.badge { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+.callout-box { background: #FCF3E6 !important; border-left-color: #E0973E !important; }
+.article code { background: #E6F6F1; color: var(--sub); padding: 0.12rem 0.45rem; border-radius: 5px; font-size: 0.9em; }
+.article pre { background: #1f3b35; color: #e7f5f0; padding: 1rem 1.2rem; border-radius: 12px; overflow-x: auto; }
+.article pre code { background: none; color: inherit; padding: 0; }
+.sidebar-item--cross { margin-top: 0.4rem; border-left: 3px solid var(--line); }
+.article a.ref-link { background: #E6F6F1; padding: 0.1rem 0.5rem; border-radius: 6px; border-bottom: 1px solid var(--main); }
+.article .glossary { margin: 2.6rem 0 0; padding: 0.4rem 1.2rem; background: #F7FBFA; border: 1px solid var(--line); border-radius: 12px; }
+.article .glossary summary { cursor: pointer; font-weight: 700; color: var(--sub); padding: 0.7rem 0; }
+.article .glossary dd { margin: 0.15rem 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+.article .verdict { margin: 0 0 1.8rem; padding: 1.1rem 1.3rem; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.article .src-cite { font-size: 0.72em; color: #9FB1AB; font-weight: 400; line-height: 1.5; }
+.library-overview { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; }
+.library-stat { min-width:0; padding:1rem 1.05rem; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg, #fff, #F4FBF9); }
+.library-stat strong { display:block; font-size:1.45rem; line-height:1.2; color:var(--sub); }
+.library-stat span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.82rem; font-weight:650; }
+.workflow-flow { display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:.75rem; margin:1.4rem 0 2rem; counter-reset:workflow; }
+.workflow-node { position:relative; min-width:0; padding:1rem .9rem .95rem; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 5px 16px rgba(21,102,83,.06); }
+.workflow-node:not(:last-child)::after { content:""; position:absolute; top:1.55rem; right:-.79rem; width:.8rem; height:2px; background:var(--main); z-index:2; }
+.workflow-id { display:inline-flex; align-items:center; min-height:1.55rem; padding:0 .55rem; border-radius:999px; background:#E7F7F2; color:var(--sub); font-size:.72rem; font-weight:850; letter-spacing:.04em; }
+.workflow-node strong { display:block; margin:.68rem 0 .2rem; color:var(--ink); font-size:.95rem; line-height:1.5; }
+.workflow-node p { margin:0; color:var(--ink-soft); font-size:.78rem; line-height:1.55; }
+.funnel-map { margin:1.4rem 0 2.2rem; padding:1.4rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; }
+.funnel-map-entry { display:grid; grid-template-columns:minmax(0,1fr) 2rem minmax(0,1fr); gap:.45rem; align-items:stretch; }
+.funnel-map-arrow { align-self:center; justify-self:center; color:var(--sub); font-size:1.6rem; font-weight:800; line-height:1; }
+.funnel-map-step { display:block; min-width:0; padding:1rem 1.1rem; border:1px solid #C8E5DC; border-radius:13px; background:#fff; color:var(--ink); text-decoration:none; box-shadow:0 4px 14px rgba(21,102,83,.045); }
+.funnel-map-step small { display:block; margin-bottom:.25rem; color:var(--sub); font-size:.76rem; font-weight:850; letter-spacing:.06em; }
+.funnel-map-step strong { display:block; color:var(--ink); font-size:1.02rem; line-height:1.5; }
+.funnel-map-step span { display:block; margin-top:.35rem; color:var(--ink-soft); font-size:.9rem; line-height:1.65; }
+.funnel-map-step:hover { border-color:var(--main); text-decoration:none; }
+.funnel-map-split { margin:.7rem auto .85rem; text-align:center; color:var(--sub); font-size:.88rem; font-weight:800; }
+.funnel-map-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.funnel-map-lane { min-width:0; padding:1rem; border:1px solid var(--line); border-radius:15px; background:#fff; }
+.funnel-map-lane--buyer { border-color:#D8DFC7; background:#FFFEFA; }
+.funnel-map-lane-title { margin:0 0 .85rem; padding-bottom:.65rem; border-bottom:1px solid var(--line); color:var(--sub); font-size:.93rem; font-weight:850; line-height:1.5; }
+.funnel-map-lane--buyer .funnel-map-lane-title { color:#80692C; border-color:#E8E1C8; }
+.funnel-map-lane .funnel-map-step { box-shadow:none; }
+.funnel-map-down { margin:.28rem 0; text-align:center; color:var(--sub); font-size:1.1rem; font-weight:800; line-height:1.2; }
+.funnel-map-note { margin:.65rem 0 0; color:var(--ink-soft); font-size:.86rem; line-height:1.65; }
+.funnel-map-end { margin:1rem auto 0; max-width:34rem; padding:.95rem 1.1rem; border-radius:13px; background:#E6F6F1; text-align:center; color:var(--sub); font-weight:800; line-height:1.6; }
+.funnel-map-end small { display:block; font-size:.75rem; font-weight:600; color:var(--ink-soft); }
+.material-flow-panel { margin:1.4rem 0 2.2rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#F7FCFA; overflow:hidden; }
+.material-flow-heading { display:grid; grid-template-columns:minmax(0,1fr) minmax(18rem,.7fr); gap:1rem; align-items:end; margin-bottom:1rem; }
+.material-flow-heading h2 { margin:.2rem 0 0; }
+.material-flow-heading p { margin:0; color:var(--ink-soft); font-size:.86rem; line-height:1.7; }
+.material-flow-scroll { overflow-x:auto; padding:.2rem .1rem 1rem; }
+.material-flow-grid { display:flex; align-items:flex-start; min-width:max-content; gap:.65rem; }
+.material-flow-stage { width:18rem; min-width:18rem; }
+.material-flow-stage > header { display:flex; align-items:center; gap:.55rem; margin-bottom:.6rem; }
+.material-flow-stage > header span { display:grid; place-items:center; width:1.55rem; height:1.55rem; border-radius:6px; color:#fff; background:var(--sub); font-size:.78rem; font-weight:800; }
+.material-flow-stage > header strong { font-size:.92rem; line-height:1.35; }
+.material-flow-arrow { align-self:center; color:var(--sub); font-size:1.45rem; font-weight:850; }
+.material-flow-pages { display:grid; gap:.7rem; }
+.material-flow-page { overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#fff; box-shadow:0 6px 18px rgba(19,76,65,.06); }
+.material-flow-preview { display:block; aspect-ratio:4/3; overflow:hidden; background:#eef4f1; border-bottom:1px solid var(--line); text-decoration:none; }
+.material-flow-preview img { display:block; width:100%; height:100%; object-fit:cover; object-position:top center; }
+.material-flow-preview-fallback { display:flex; flex-direction:column; justify-content:center; min-height:100%; padding:1rem; color:var(--ink); background:linear-gradient(155deg,#fff 0 55%,#e8f5f0 55%); }
+.material-flow-preview-fallback span { color:var(--sub); font-size:.7rem; font-weight:800; }
+.material-flow-preview-fallback strong { margin:.45rem 0; font-size:1rem; line-height:1.45; }
+.material-flow-preview-fallback small { color:var(--ink-soft); line-height:1.5; }
+.material-flow-page-body { padding:.75rem .8rem; }
+.material-flow-page-body > strong { display:block; font-size:.9rem; line-height:1.5; }
+.material-flow-page-body p { margin:.3rem 0; color:var(--ink-soft); font-size:.75rem; line-height:1.55; }
+.material-flow-page-body a { display:inline-block; margin-top:.35rem; font-size:.78rem; }
+.material-flow-frame { padding:.75rem; border:2px solid #06C755; border-radius:16px; background:#F1FBF4; }
+.material-flow-frame > header { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .6rem; margin-bottom:.75rem; }
+.material-flow-frame > header strong { padding:.2rem .7rem; border-radius:999px; color:#fff; background:#06C755; font-size:.78rem; font-weight:800; }
+.material-flow-frame > header small { color:var(--ink-soft); font-size:.74rem; line-height:1.5; }
+.material-flow-frame .material-flow-stage { width:auto; min-width:0; }
+.material-flow-frame .material-flow-pages { grid-template-columns:repeat(2, 16.5rem); align-items:start; }
+.material-flow-related,.material-flow-unassigned { margin-top:.55rem; padding:.55rem; border:1px solid var(--line); border-radius:9px; background:#edf7f3; }
+.material-flow-related > summary,.material-flow-unassigned > summary { display:block; color:var(--ink); font-size:.72rem; font-weight:750; line-height:1.45; cursor:pointer; }
+.material-flow-support { display:block; margin-top:.38rem; padding:.45rem .5rem; border-radius:7px; color:var(--ink); background:#fff; text-decoration:none; }
+.material-flow-support span { display:block; color:var(--sub); font-size:.72rem; font-weight:750; }
+.material-flow-support strong { display:block; margin-top:.1rem; font-size:.72rem; line-height:1.45; }
+@media (max-width: 1000px) { .material-flow-heading { grid-template-columns:1fr; } }
+.workflow-status { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .62rem; border-radius:999px; font-size:.76rem; font-weight:800; white-space:nowrap; }
+.workflow-status::before { content:""; width:.43rem; height:.43rem; border-radius:50%; background:currentColor; opacity:.8; }
+.workflow-status.complete { color:#13795D; background:#E1F5EE; }
+.workflow-status.current { color:#996515; background:#FFF1CF; }
+.workflow-status.next { color:#426D84; background:#E8F2F7; }
+.workflow-status.pending { color:#6B7773; background:#EEF2F1; }
+.workflow-table td:first-child { color:var(--sub); font-weight:850; white-space:nowrap; }
+.workflow-table td:last-child { white-space:nowrap; }
+.toc { margin: 1.2rem 0 2.2rem; padding: 1rem 1.15rem; background: linear-gradient(135deg, #F7FCFA, #EEF9F6); border: 1px solid var(--line); border-radius: 14px; }
+.toc-title { font-weight: 800; font-size: 0.92rem; color: var(--sub); margin-bottom: 0.45rem; }
+.toc ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.toc li { margin: 0.2rem 0; line-height: 1.55; } .toc li.toc-sub { padding-left: 1.1rem; font-size: 0.92rem; }
+.toc a { color: var(--ink); } h2[id], h3[id] { scroll-margin-top: 1.2rem; }
+
+.layout { display: grid; grid-template-columns: 264px minmax(0, 1fr); min-height: 100vh; }
+.sidebar { width: 264px; min-width: 0; height: 100vh; position: sticky; top: 0; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(240,250,248,0.90)); backdrop-filter: blur(18px); border-right: 1px solid var(--line); padding: 1.65rem 1rem 2rem; overflow-y: auto; }
+.sidebar .brand { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.13em; color: var(--sub); text-transform: uppercase; margin: 0 0.35rem 0.45rem; }
+.sidebar h3 { margin: 0 0.35rem 1.35rem; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sidebar-item { display: block; padding: 0.72rem 0.78rem; margin-bottom: 5px; color: var(--ink); border-radius: 12px; font-size: 0.86rem; line-height: 1.55; border: 1px solid transparent; word-break: normal; overflow-wrap: anywhere; transition: .16s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.88); border-color: var(--line); text-decoration: none; transform: translateX(2px); }
+.sidebar-item.active { background: var(--accent-gradient); color: #fff; box-shadow: 0 10px 24px rgba(17,126,103,0.23); }
+.sidebar .date { display: block; font-size: 0.69rem; color: var(--ink-soft); margin-bottom: 2px; }
+.sidebar-item.active .date { color: rgba(255,255,255,0.85); }
+.sidebar-section { display:flex; align-items:center; gap:.55rem; margin:1.35rem .45rem .4rem; color:var(--sub); font-size:.69rem; font-weight:850; letter-spacing:.11em; }
+.sidebar-section::after { content:""; flex:1; height:1px; background:var(--line); }
+.sidebar-subsection { margin:.8rem .35rem .25rem .9rem; padding:.32rem .55rem; border-left:3px solid var(--main); background:rgba(232,247,242,.72); color:var(--ink); font-size:.76rem; font-weight:800; line-height:1.45; }
+.sidebar-item.is-nested { display:flex; align-items:flex-start; gap:.58rem; margin-left:.2rem; padding:.58rem .68rem; font-size:.82rem; }
+.sidebar-item.is-deep { margin-left:1rem; padding:.46rem .56rem; font-size:.78rem; line-height:1.45; }
+.sidebar-item-mark { flex:0 0 auto; width:5px; height:5px; margin-top:.58rem; border-radius:50%; background:#9CCFC2; }
+.sidebar-item.is-nested.active .sidebar-item-mark { background:#fff; }
+.content { width: 100%; max-width: 1080px; margin: 0 auto; padding: clamp(1.5rem, 3vw, 2.7rem); overflow-wrap: anywhere; }
+.mobile-back { display: none; position: sticky; top: 0; z-index: 200; background: var(--card); border-bottom: 1px solid var(--line); padding: 0.6rem 1rem; }
+.mobile-back a { font-size: 0.9rem; font-weight: 700; color: var(--sub); }
+@media (max-width: 1080px) and (min-width: 681px) { .sidebar { width: 208px; padding: 1.2rem .7rem 1.5rem; font-size: .92em; } }
+@media (max-width: 680px) { .layout { display: block; } .sidebar { display: none; } .mobile-back { display: block; } .content { padding: 1rem; max-width: 100%; } .article { padding: 1.45rem 1.1rem 2.2rem; border-radius: 18px; } .article h1 { font-size: 1.4rem; } .article h2 { font-size: 1.15rem; } .article table { display: block; overflow-x: auto; } .library-overview { grid-template-columns:1fr; } .workflow-flow { grid-template-columns:1fr; } .workflow-node:not(:last-child)::after { top:auto; right:auto; left:1.55rem; bottom:-.79rem; width:2px; height:.8rem; } .funnel-map { padding:.85rem; } .funnel-map-entry { grid-template-columns:1fr; } .funnel-map-entry .funnel-map-arrow { transform:rotate(90deg); } .funnel-map-lanes { grid-template-columns:1fr; } .funnel-map-step { padding:.9rem; } .material-flow-scroll { overflow:visible; } .material-flow-grid { display:grid; min-width:0; } .material-flow-stage { width:auto; min-width:0; } .material-flow-arrow { justify-self:center; transform:rotate(90deg); } .material-flow-frame .material-flow-pages { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion: reduce) { .sidebar-item { transition: none; } }
+</style></head><body><div class="mobile-back"><a href="index.html">← 一覧に戻る</a></div>
+<div class="layout"><nav class="sidebar" aria-label="記事一覧"><div class="brand">MEETING NOTES</div><h3>たかみずMTG 議事録</h3><a href="20261126.html" class="sidebar-item active"><span class="date">2026年11月26日</span> たかみずMTG 議事録（2026-11-26）</a>
+<a href="20261111.html" class="sidebar-item"><span class="date">2026年11月11日</span> たかみずMTG 議事録（2026-11-11）</a>
+<a href="20261028.html" class="sidebar-item"><span class="date">2026年10月28日</span> たかみずMTG 議事録（2026-10-28）</a>
+<a href="20261014.html" class="sidebar-item"><span class="date">2026年10月14日</span> たかみずMTG 議事録（2026-10-14）</a>
+<a href="20260923.html" class="sidebar-item"><span class="date">2026年09月23日</span> たかみずMTG 議事録（2026-09-23）</a>
+<a href="20260907.html" class="sidebar-item"><span class="date">2026年09月07日</span> たかみずMTG 議事録（2026-09-07）</a>
+<a href="20260826.html" class="sidebar-item"><span class="date">2026年08月26日</span> たかみずMTG 議事録（2026-08-26）</a>
+<a href="20260805.html" class="sidebar-item"><span class="date">2026年08月05日</span> たかみずMTG 議事録（2026-08-05）</a>
+<a href="20260723.html" class="sidebar-item"><span class="date">2026年07月23日</span> たかみずMTG 議事録（2026-07-23）</a>
+<a href="20260708.html" class="sidebar-item"><span class="date">2026年07月08日</span> たかみずMTG 議事録（2026-07-08）</a>
+<a href="20260610.html" class="sidebar-item"><span class="date">2026年06月10日</span> たかみずMTG 議事録（2026-06-10）</a>
+<a href="20260527.html" class="sidebar-item"><span class="date">2026年05月27日</span> たかみずMTG 議事録（2026-05-27）</a>
+<a href="20260428.html" class="sidebar-item"><span class="date">2026年04月28日</span> 次世代型AIセールス キックオフMTG 議事録（2026-04-28）</a>
+<a href="20260325.html" class="sidebar-item"><span class="date">2026年03月25日</span> たかみずMTG 議事録（2026-03-25）</a>
+<a href="20260311.html" class="sidebar-item"><span class="date">2026年03月11日</span> 20260311 定期ミーティング 議事録</a>
+<a href="20260302.html" class="sidebar-item"><span class="date">2026年03月02日</span> 20260302 MTG 議事録</a></nav>
+<main class="content"><article class="article"><h1>たかみずMTG 議事録（2026-11-26）</h1>
+<section class="recording-embed" style="margin:1rem 0 1.5rem"><h2>録画</h2><video controls playsinline preload="metadata" src="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/d5cceead-dc61-437f-a72f-eab73cb1bee0/file/bWVkaWEvMjAyNi8xMS8yNi8xMjAwX-eUsOS4reelkOS4gOWAi-S6uk1UR-ODquODs-OCr181NDQ5YTE0NjcyL01QNF8wZWZmNzljMC1kOWMzLTRmNWItODc4Ni0zOTY4YzViMTc2N2YubXA0#t=0.001" aria-label="録画（スピーカービュー）" style="display:block;width:100%;max-width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:8px;background:#000"></video><p style="margin:.5rem 0 0;font-size:.9rem;color:#5e6870">この録画の公開期限は <strong>2028年11月25日 23:02（日本時間）</strong> までです。期限を過ぎると、このページからも見られなくなります。</p></section>
+<h2 id="サマリー">サマリー</h2>
+<p>今回は、広告を見た人が名前で検索したときの見え方を整える「守り」の対策（ホームページ、受講生の声の動画、SNSで検索結果を埋めること）が最初の論点になった。<br />
+続いて、電話の申込が来なくなった理由の仮説、電話動線と体験会を両方回すための予算の組み替え、動画をLPから広告へ移す検証、常識を壊して説明会へつなぐインスタと「やめてください」シリーズの案を話し合った。<br />
+中盤からは、中旬に集客が落ちた今月の数字を受けて、システム費と人件費を中心にした固定費の見直しと、たかみずが話す役に専念してディレクターを入れる案が話題になった。<br />
+持ち帰りは、たかみずがシステム一覧と人件費の内訳を送って田中が確認することと、ディレクターを探すためのコミュニティの面談リンクを田中が手配することの2点。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日時</td>
+<td>2026年11月26日 21:00頃〜22:02頃（約1時間2分）</td>
+</tr>
+<tr>
+<td>発言者</td>
+<td>Yasue Takamizu（たかみず保江）、田中 祐一</td>
+</tr>
+<tr>
+<td>Zoomトピック</td>
+<td>田中祐一個人MTGリンク</td>
+</tr>
+<tr>
+<td>録画URL</td>
+<td><a href="https://thelead-zoom-share.thelead-video-archive.workers.dev/s/d5cceead-dc61-437f-a72f-eab73cb1bee0" target="_blank" rel="noopener noreferrer">https://thelead-zoom-share.thelead-video-archive.workers.dev/s/d5cceead-dc61-437f-a72f-eab73cb1bee0</a></td>
+</tr>
+<tr>
+<td>書き起こし原本</td>
+<td><code>21_プロジェクト一覧/tak_たかみず/MTG履歴/20261126_たかみずMTG_書き起こし原本.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>本文の「」は、発言の趣旨を整えた形で、一字一句の引用ではありません。</p>
+<hr />
+<nav class="toc"><div class="toc-title">目次</div><ul><li class="toc-main"><a href="#サマリー">サマリー</a></li><li class="toc-main"><a href="#議論の流れ・背景">議論の流れ・背景</a></li><li class="toc-sub"><a href="#1.-前回までの宿題との対応">1. 前回までの宿題との対応</a></li><li class="toc-sub"><a href="#2.-広告を見た人は検索する：ホームページは更新されているか">2. 広告を見た人は検索する：ホームページは更新されているか</a></li><li class="toc-sub"><a href="#3.-受講生の声をまとめた動画を、公式の発信先に置く">3. 受講生の声をまとめた動画を、公式の発信先に置く</a></li><li class="toc-sub"><a href="#4.-電話の申込が来なくなった理由の仮説">4. 電話の申込が来なくなった理由の仮説</a></li><li class="toc-sub"><a href="#5.-電話動線と体験会を両方回したい：予算の組み替え案">5. 電話動線と体験会を両方回したい：予算の組み替え案</a></li><li class="toc-sub"><a href="#6.-検証案：教育を広告に移し、LPは申込だけにする">6. 検証案：教育を広告に移し、LPは申込だけにする</a></li><li class="toc-sub"><a href="#7.-インスタの型：常識を壊して、説明会へまっすぐ案内する">7. インスタの型：常識を壊して、説明会へまっすぐ案内する</a></li><li class="toc-sub"><a href="#8.-「やめてください」シリーズ（田中の案）">8. 「やめてください」シリーズ（田中の案）</a></li><li class="toc-sub"><a href="#9.-セールスチェックの結果と、LPの訴求を戻す">9. セールスチェックの結果と、LPの訴求を戻す</a></li><li class="toc-sub"><a href="#10.-セールスという切り口と、インスタのポジション">10. セールスという切り口と、インスタのポジション</a></li><li class="toc-sub"><a href="#11.-今月の数字と、目標の考え方">11. 今月の数字と、目標の考え方</a></li><li class="toc-sub"><a href="#12.-固定費の見直し：中心はシステム費と人件費">12. 固定費の見直し：中心はシステム費と人件費</a></li><li class="toc-sub"><a href="#13.-田中側のダウンセル商品と電話ファネルの状況">13. 田中側のダウンセル商品と電話ファネルの状況</a></li><li class="toc-sub"><a href="#14.-話す役に専念して、ディレクターを入れる">14. 話す役に専念して、ディレクターを入れる</a></li><li class="toc-sub"><a href="#15.-ディレクターを探すコミュニティ">15. ディレクターを探すコミュニティ</a></li><li class="toc-main"><a href="#考え方・マインドセット">考え方・マインドセット</a></li><li class="toc-sub"><a href="#広告を出すなら、調べられたときの守りまで整える">広告を出すなら、調べられたときの守りまで整える</a></li><li class="toc-sub"><a href="#申込ページに着く前に、受けたい気持ちをつくる">申込ページに着く前に、受けたい気持ちをつくる</a></li><li class="toc-sub"><a href="#広告は、回り続ける状態にはならない">広告は、回り続ける状態にはならない</a></li><li class="toc-sub"><a href="#入口の悩みを広くして、中でセールスを渡す">入口の悩みを広くして、中でセールスを渡す</a></li><li class="toc-sub"><a href="#売上が下がったときは、組織を筋肉質にする機会">売上が下がったときは、組織を筋肉質にする機会</a></li><li class="toc-sub"><a href="#苦手なことは人に任せ、得意な「話す」役に集中する">苦手なことは人に任せ、得意な「話す」役に集中する</a></li><li class="toc-main"><a href="#ノウハウ・気づき">ノウハウ・気づき</a></li><li class="toc-sub"><a href="#検索される前提の対策">検索される前提の対策</a></li><li class="toc-sub"><a href="#同じ配信先に複数の広告を出すとき">同じ配信先に複数の広告を出すとき</a></li><li class="toc-sub"><a href="#インスタと広告の台本">インスタと広告の台本</a></li><li class="toc-sub"><a href="#外部の人材を探すとき">外部の人材を探すとき</a></li><li class="toc-main"><a href="#決まったこと">決まったこと</a></li><li class="toc-main"><a href="#やること">やること</a></li><li class="toc-sub"><a href="#たかみず・チーム">たかみず・チーム</a></li><li class="toc-sub"><a href="#田中">田中</a></li><li class="toc-main"><a href="#検討中・方針">検討中・方針</a></li><li class="toc-main"><a href="#聞き取りについての注記">聞き取りについての注記</a></li></ul></nav><h2 id="議論の流れ・背景">議論の流れ・背景</h2>
+<h3 id="1.-前回までの宿題との対応">1. 前回までの宿題との対応</h3>
+<p>前回（11月11日）の持ち帰りと、今回の発言との対応は次のとおり。</p>
+<table>
+<thead>
+<tr>
+<th>前回の持ち帰り</th>
+<th>今回の状況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>申込直後の「電話診断が当たりました」企画を試す</td>
+<td>実施の報告は出なかった。「セールスチェック」の希望者数の共有はあった（項目9）が、同じ企画かどうかは発話で明示されていない</td>
+</tr>
+<tr>
+<td>体験会の来場コストなどの集計、日ごとのLINE登録率の確認</td>
+<td>話題に出なかった</td>
+</tr>
+<tr>
+<td>申込ベースと入金ベースの数字を確認して広告費を判断する</td>
+<td>今月の売上と損益の目安の話はあった（項目11）。入金ベースの確認の報告は出なかった</td>
+</tr>
+<tr>
+<td>期間ごとのリストの説明会誘導CPOの比較（田中の検証）</td>
+<td>話題に出なかった</td>
+</tr>
+<tr>
+<td>たかみずの音声や会議の原本をメルマガに生かす</td>
+<td>話題に出なかった</td>
+</tr>
+<tr>
+<td>本のデータ版づくりとブックローンチの準備（田中）</td>
+<td>話題に出なかった</td>
+</tr>
+</tbody>
+</table>
+<p>以前の田中の提案を受けて続けているインスタの発信は、週3本の投稿を続けていることが今回共有された（項目7）。11月10日に一度止めた電話動線は、今回、もう一度予算をかける案として相談された（項目5）。</p>
+<h3 id="2.-広告を見た人は検索する：ホームページは更新されているか">2. 広告を見た人は検索する：ホームページは更新されているか</h3>
+<p>短いテストのやり取りのあと、田中は「ホームページは持っているか、更新しているか、アクセスは見ているか」と順に尋ねた。たかみずは、持っているが更新しておらず、アクセスはホームページ会社からの報告にたまに目を通している、と答えた。</p>
+<p>あわせて、たかみずは今週ちょうど依頼を出したところだと話した。</p>
+<ul>
+<li>今の内容はB to B向けが中心で、単発の研修や臨店指導が主になっている</li>
+<li>これまでもやってきたコンサルを前に出す見せ方に変えてもらうつもり</li>
+<li>12月の頭に見せ方を変える予定で、依頼先との予定が12月4日にある（予定の中身は原本の聞き取りが不明瞭）</li>
+</ul>
+<p>田中の質問の意図は、広告の面からのものだった。</p>
+<ul>
+<li>広告をかけている人は検索される。電話のLPを置いておけば今すぐの客は申し込むかもしれないが、そこで考えたいのは「なぜあなたは検索されるのか」という点（前半の例えは聞き取りが不明瞭）</li>
+<li>検索結果が汚れていないことが第一条件。業界では、売上に1割ほど影響するとも言われている（何に対する割合かは不明瞭）</li>
+<li>田中は自分の名前で検索すると公式サイトが一番上に出て、1ページ目に汚れはない</li>
+<li>最近はみんなネットで調べて怪しくないかを確かめる。否定的な情報が出ると、広告の反応はじわじわ落ちていく</li>
+</ul>
+<p>たかみずは、検索結果の対策は昨年外部に依頼して取り組んだが、対応しきれていない部分が残っていると話した。</p>
+<p>田中が挙げた対策は次のとおり。</p>
+<ul>
+<li>ホームページに、講座をやっていることと講座の実績をきちんと載せる</li>
+<li>B to B向けとB to C向けは分けるべきだと思う</li>
+<li>調べるときに使われるのは本人の名前ではないか（たかみずも、名前で検索されるだろうと応じた）。田中自身はサイトの名前を「公式ページ」にしている。SEOに強くしてほしいと頼むだけでも、公式と書いてあればインスタやYouTubeより上に出る</li>
+<li>その日に仕入れた話として、トップにはオプトインに加えて説明会（PLC）の案内を置いたほうが売上が上がると聞いた。広告で知った人がその人を調べ、信頼できるかを見たうえで、そこから申し込むパターンがある</li>
+<li>インスタ、YouTube、音声配信などを増やして、検索結果の中で下へ押し下げる。AIに任せたインスタが集客できなくても、検索結果の1枠を取れるなら意味がある</li>
+<li>田中は3か月に1回ほど、公式サイトの内容をこつこつ更新している</li>
+</ul>
+<p>田中は「広告やインスタをやっているときの、調べられたときの対策が弱いのではないか」と問いかけた。たかみずは、今週ちょうど変えようとして連絡したところで、オンラインに入ってからは放置していたので直したい、と受け止めた。以前、オンライン向けのものを担当者が一度作ってくれたが、その担当がいなくなって今はないので、相談してみるとのこと。田中は、守りの弱さは広告の成果や個別説明会のキャンセルにも影響すると述べた。</p>
+<h3 id="3.-受講生の声をまとめた動画を、公式の発信先に置く">3. 受講生の声をまとめた動画を、公式の発信先に置く</h3>
+<p>田中は、別の講座で作った対策の動画を見せた。</p>
+<ul>
+<li>セミナーで「検索して不安になった」という声があった</li>
+<li>そこで受講生の声をまとめた動画を作り、「（講座の名前）は詐欺なのか、評価してみた」のように、不安な人が検索する言葉に当たる題で、講座側のYouTubeと自社サイトに上げてもらうようお願いした</li>
+<li>同じ検索結果の列に出たとき、公式の発信のほうが強い</li>
+<li>構成は、最初に「ネットは詐欺が多いので不安だったが、よかった」という声を持ってきて、いろいろな人の声を並べ、最後に多くの人が受講してきたことが伝わる形にする</li>
+</ul>
+<p>そのうえで「同じような動画を作り、自分のYouTubeに上げるべきでは」と提案した。たかみずは「受講生の成果報告の動画ですね」と確認し、「そういう守りのことは全然やっていないのでは」という問いかけに、「やっていないです。やります」と答えた。</p>
+<h3 id="4.-電話の申込が来なくなった理由の仮説">4. 電話の申込が来なくなった理由の仮説</h3>
+<p>たかみずは、電話動線の理由がなんとなく分かったとして、次を共有した。</p>
+<ul>
+<li>10月27日から28日ごろに始まった体験会の広告5本と、電話動線の広告が、同じ時期に同じ配信先に出ていた（広告の設定画面でも同じ配信先だった）</li>
+<li>広告同士で取り合いになって表示の費用が約3割上がり、申込も体験会の側に流れていたのではないか</li>
+<li>これは、電話の申込が来なかった理由の一つとして考えられるか</li>
+</ul>
+<p>田中の答えは慎重だった。</p>
+<ul>
+<li>CPA（申込単価）が高くなる要因としては分かるが、ぱったり止まる話とは関係ないと思う</li>
+<li>自分も同じ配信先に別々のファネルを出すことがある。両方に登録する人がいて分散することはあるが、常時回しているファネルとキャンペーンの広告が重なるのは普通のこと</li>
+</ul>
+<p>たかみずが「魅力の強い片方に偏ることはないか。両方は表示されないのか」と尋ねると、田中は、広告セットをターゲットごとに分けていれば両方出るはずで、重なりはよくあることだと説明した。同じ広告セットに入れて予算が片方にしか使われず消化されないなら問題だが、予算の枠が別々なら普通のことだと思う、とのこと。原因はこの場では特定されなかった。</p>
+<h3 id="5.-電話動線と体験会を両方回したい：予算の組み替え案">5. 電話動線と体験会を両方回したい：予算の組み替え案</h3>
+<p>たかみずは、どうしても電話動線と体験会の両方をやりたいと話した。</p>
+<ul>
+<li>電話動線は、体験会に比べて経費が3分の1で済み、効率がよい</li>
+<li>申込が入るとメンバーが連絡して日程のやり取りが始まり、場がとても盛り上がる。費用よりもこの点を大事に考えている</li>
+</ul>
+<p>体験会の状況も共有された。</p>
+<ul>
+<li>いつも2名ほどで、翌日の回もぎりぎり2名程度</li>
+<li>12回の日程を組んだが2日分はなくなり、10日ほどで回している（回数と日数の関係は聞き取りが不明瞭）</li>
+<li>金曜日からもう一方の運用先にも日予算2万円で依頼し、クリエイティブの動画も撮って渡したが、そちらからの体験会の申込はまだ1件もない。もう少し様子を見る必要があるかもしれない</li>
+</ul>
+<p>そのうえでの案は、これまでの広告会社の日予算6万円を3万円に下げ、その3万円を電話動線にかけ、もう一方は2万円のままで、1日の上限8万円で一度回す、というものだった。「これまでの広告会社の予算を半分にして、電話動線はすぐにまた回るものか」という質問に、田中は「分からない」と答え、次の検証案を出した。</p>
+<h3 id="6.-検証案：教育を広告に移し、LPは申込だけにする">6. 検証案：教育を広告に移し、LPは申込だけにする</h3>
+<p>田中は、電話動線で検証すべきこととして「LPの動画を外したらどうなるか」を挙げた。</p>
+<ul>
+<li>たかみずが話す5分ぐらいの広告を作り、「電話が気になる方は、次のページから申し込んでください」と案内する</li>
+<li>LPは動画を外し、ヘッダーと電話の場面に「たかみず保江公認 セールス力電話診断を受けてみませんか」と添えて、申込だけにする</li>
+</ul>
+<p>たかみずは「今と何が違うのか」「動画を見たい気持ちにどうやってさせるのか」と尋ねた。田中の説明は次のとおり。</p>
+<ul>
+<li>今は、広告を見て秘密のノウハウがありそうだと思ってクリックし、LPの動画で教育されてはじめて電話診断になる。LPに着いた時点では、電話診断を受けたい気持ちになっていない状態で呼んでいる</li>
+<li>LPに来る前に受けたい気持ちになっていれば、電話診断の申込ページがあるだけで申し込む。その教育を広告の動画でやる</li>
+<li>これは意識レベルのコントロールの話で、広告でどこからどこまで気持ちを持っていくか。最近は3分ほどの広告でも、見てもらえれば大きいと思っている</li>
+</ul>
+<p>たかみずは、教育してどこまでやりたい気持ちにさせるかということ、ちょっとした違いで変わるのですね、と理解した。</p>
+<h3 id="7.-インスタの型：常識を壊して、説明会へまっすぐ案内する">7. インスタの型：常識を壊して、説明会へまっすぐ案内する</h3>
+<p>田中は、ある同業の発信者のインスタを「バックエンドがとても売れそうな作り」として紹介した。たかみずも前日にちょうど見ていた。</p>
+<ul>
+<li>再生数がすごく伸びるわけではないが、説明会の申込に直接つながりそう</li>
+<li>踊る必要がなく効率的。購入する顧客が悩んでいることについて、常識を壊す話をする</li>
+<li>最後に「この内容は講座で教えているので、気になる人はプロフィールから説明会へ」と、まっすぐ案内する</li>
+<li>再生数狙いの内容はせず、悩みを言葉にして拾いにいく。最後まで見るとかなり教育が進む</li>
+<li>たかみずは「重めのジャブを受けるような感じで、勉強になるので、もう少し先に進みたくなる」と受けた</li>
+</ul>
+<p>田中は、この型でインスタも広告も作り、「自分のセールス力を確かめたい人はプロフィールから診断へ」とつなげば申込が取れるのではないか、その発信者ほどの話す力で3分ほどの投稿を作り続ければ、再生数が数百程度でも取れるのではないか、と述べた（再生数の目安は聞き取りが不明瞭）。たかみずは「難しい」と受け止めつつ、インスタから体験会の申込が少しずつ来ていて、前日も2件ほどあったと報告した。田中の提案を受けてから週3本をずっと投稿していて、内容はセールスのことだけ。田中は、色気を出さずに真面目な路線のままのほうがよい、と応じた。</p>
+<h3 id="8.-「やめてください」シリーズ（田中の案）">8. 「やめてください」シリーズ（田中の案）</h3>
+<p>田中は、先ほどの発信を分析して台本を書いた型として「〇〇するのは今すぐやめてください。それは売れません」の形を紹介した。田中も別の講座でこの型の広告を試す準備をしていて、撮影はまだとのこと。1回の撮影で広告とインスタの両方を取り、広告からはセミナーの説明会へ、インスタはプロフィールからセミナーへつなぐ作戦。</p>
+<p>2人で出したセールス版のネタ。</p>
+<table>
+<thead>
+<tr>
+<th>出した人</th>
+<th>ネタ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>たかみず</td>
+<td>クロージングだけ頑張るのはやめてください</td>
+</tr>
+<tr>
+<td>たかみず</td>
+<td>商品の説明やデメリットばかり話すのはやめてください</td>
+</tr>
+<tr>
+<td>田中</td>
+<td>テンションが低いままZoomを開くのはやめてください</td>
+</tr>
+<tr>
+<td>田中</td>
+<td>スライドの画面を共有しながらZoomを開くのはやめてください</td>
+</tr>
+<tr>
+<td>田中</td>
+<td>Zoomのセールスで前髪を隠すのはやめてください</td>
+</tr>
+<tr>
+<td>田中</td>
+<td>散らかった背景でセールスするのは今すぐやめてください</td>
+</tr>
+<tr>
+<td>田中</td>
+<td>ヒアリングで深掘りしていないのに、分かったふりをして次の質問に行くのはやめてください</td>
+</tr>
+<tr>
+<td>田中</td>
+<td>相手の支払い能力を聞かないまま金額を発表するのはやめてください</td>
+</tr>
+<tr>
+<td>たかみず</td>
+<td>お金のブロックを持ったまま金額を言うのはやめてください</td>
+</tr>
+<tr>
+<td>たかみず</td>
+<td>「検討します」と言われた瞬間にZoomを閉じるのはやめてください</td>
+</tr>
+</tbody>
+</table>
+<p>締めの流れの例として、田中は「セールスで必ず押さえるべき33のポイントがあるが、多くの人が押さえられていない。自分は大丈夫かを確認しながらセールス力を上げる電話診断をやっているので、興味がある人はプロフィールから申し込んでほしい」を挙げた（「33」は例文の中の数字で、項目が固まっているかは発話から分からない）。</p>
+<p>たかみずは「また課題が一つ増えた。今の中でも五つぐらいある」と話した。田中は、もともとは画像の広告から来た人が動画を見て電話診断を受ける想定だったが、先ほどの発信を見て、クリエイティブの段階で教育できるのではと考えるようになった、と補足した。</p>
+<h3 id="9.-セールスチェックの結果と、LPの訴求を戻す">9. セールスチェックの結果と、LPの訴求を戻す</h3>
+<p>たかみずは、セールスチェックの状況を共有した。</p>
+<ul>
+<li>体験会の申込は16日に始めた（何月かは発話に出ていない）</li>
+<li>セールスチェックを希望した人は6名、そのうち体験会に参加したのは3名で、成約は0件</li>
+<li>人数をもう少し増やしたいと考えて、広告会社に頼んでLPを修正した。そのとき「検討します」という言葉を前に出したところ、アフィリエイトなど対象外の業種の人が来るようになった</li>
+<li>LPの上部がセールス一色になっているので、集客という切り口をもう一度入れたい</li>
+<li>セールスだけになると、キャッチコピーや高額商品づくりまで教える高額の講座（アカデミー）が売りにくくなり、下のコースになりがち</li>
+<li>そのため、もともとの「集客とセールスに悩む女性起業家」の形に戻す作業を進めている</li>
+</ul>
+<h3 id="10.-セールスという切り口と、インスタのポジション">10. セールスという切り口と、インスタのポジション</h3>
+<p>田中は「売上にコミットするなら」と前置きして、インスタから1件でもバックエンドが売れたかを尋ねた。たかみずは、まだ売れておらず、体験会の申込が来るようになった段階だと答えた。</p>
+<ul>
+<li>田中: インスタでポジションを取ったほうが、間違いなく売上は上がると思う。セールスというコンセプトでいくこと自体が限界ではないか</li>
+<li>たかみず: それは分かる。セールスは皆やりたがらず、集客のほうがまだ関心を持たれる。集客の悩みで来てくれた人には、セールスの話は入れやすい</li>
+</ul>
+<p>田中は、立ち位置の案として「インスタの細かい設定は分からないが、お客様の心をつかむトークなら作れる」を挙げた。講座の主宰者がSNSの運用に詳しくなくても、チームの中に詳しい人がいれば講座は成り立つ、という見立て。</p>
+<p>その後、たかみずが「LPやセールスを常に見て改善し続けるのが仕事なのか、うまく回り続けることはないのか」と尋ねた。田中の答えは次のとおり。</p>
+<ul>
+<li>広告の世界では、それは一生続く。回り続けることはない</li>
+<li>一時期よかった体験会がだんだん悪くなるのは当たり前で、特にビジネス系はそう。次々にLPを出していくことになる（原本の聞き取りが一部不明瞭）。稼ぐ系でないジャンルは比較的長持ちする</li>
+<li>当たるコンセプトを持つジャンルを選べれば、長持ちさせることはできる</li>
+</ul>
+<p>そのうえで田中は、たかみずには「インスタの鬼」になってもらうほうが早いのではと提案した。「1分で売れるトーク術」「3分で売れるトーク術」のような形でインスタから集めれば、セミナー集客の問題はセールスの訴求より反応がよいはず、という考え。ただし、同業者から、インスタ経由の層は初心者が多く、超高単価の商品は売れにくいと聞いている、という留保も添えた。たかみずが「どんなに頑張ってもセールスは難しいのか。それはすごく嫌で悔しい」と話すと、田中は「やめてください」シリーズをやってから考えるのもよいと思う、と応じた。</p>
+<h3 id="11.-今月の数字と、目標の考え方">11. 今月の数字と、目標の考え方</h3>
+<p>たかみずは、経営の状況を話した。</p>
+<ul>
+<li>今月はここまでで1,000万円ほど（売上と読める）。ただ中旬から集客が大きく落ちた。来場が少なくても個別相談に入ってもらえるように、セミナーの参加者や対面かオンラインかに合わせて、話し方を毎回変えている</li>
+<li>メンバーには目標を1,500万円と伝えている。税理士と話した目安では、広告費を400万円ほど回すなら、1,350万円ほどで収支がとんとんになる（単位は文脈から万円と読んだ）</li>
+<li>目標を下げてもよいという気持ちも話した（金額は原本の聞き取りが不明瞭）</li>
+<li>自分が出ないと売れない状態は大変。以前はメンバーがたかみずの動画を使って動いていた。メンバーが自分たちで稼げる方法も必要だと強く思っている</li>
+<li>赤字は避けたい。人件費の削減など縮小もしてきたが、これ以上削るより、1,000万円ほどが見込めるなら、あと300万円ほどを別の形で売れるようにしたい</li>
+<li>前日のランチ会で、受講生からリアルの本講座を望む声が出た。会場費がかかることや忙しさもあって今年は開催できなかったが、やる必要があると感じている</li>
+</ul>
+<h3 id="12.-固定費の見直し：中心はシステム費と人件費">12. 固定費の見直し：中心はシステム費と人件費</h3>
+<p>田中は「そもそも維持費がかかりすぎではないか」と指摘した。たかみずは、人件費がおよそ300万円、そこに広告費と運用の手数料（2割ほど）がかかり、事務局・税理士・LINEの運用やシステムなどで月30万円ほど、と大まかに説明した（費目の範囲と金額は概算で、聞き取りが不明瞭な部分がある）。</p>
+<p>システムについてのやり取り。</p>
+<ul>
+<li>田中が、UTAGEとマイスピーの両方を使う理由を尋ねると、たかみずは、マイスピーはアカデミー側の講座で事務局が使っていると答えた</li>
+<li>田中は、UTAGEに移せるのではと述べた。自社では過去の会員サイトなどのサービスを解約してUTAGEに集約し、システム費を下げた。移す担当を一人決めれば移せると思う、とのこと</li>
+<li>田中は「使っているシステムの一覧をもらえれば、これはいらない、これは重なっている、とは言える」と申し出た。たかみずは事務局に出してもらうと応じた</li>
+</ul>
+<p>制作や人件費についてのやり取り。</p>
+<ul>
+<li>たかみずが、田中のリールは編集担当が作っているのかと尋ね、田中は、最近のチャンネルはテストとしてAIだけで回していて、リールぐらいなら自分でできる状態を目指していると答えた</li>
+<li>たかみずは、新しいセールス担当に時給で教える費用もかかると話した。チームは時給で働くメンバーが中心とのこと</li>
+<li>たかみずには、働き続けるうえでどうしても外せない固定費もある。田中は、必要な経費は無理に削らなくてよく、見直すのは主にシステム費と人件費だと整理した</li>
+</ul>
+<p>田中は、売上がいったん下がった今は、いらないシステムや本当に重要でない人件費を落として「筋肉質な組織体制」にするチャンスで、見直せばまた伸びると思う、と述べた。たかみずが、誰が何をしていくら払っているかも見てもらえるかと尋ねると、田中は、システムは見当がつくが人件費は見て分かるかは分からない、と留保したうえで、送ってもらえれば見ると答えた。</p>
+<h3 id="13.-田中側のダウンセル商品と電話ファネルの状況">13. 田中側のダウンセル商品と電話ファネルの状況</h3>
+<p>たかみずが、田中のセールスチームの報酬の仕組みや、ダウンセル商品を誰が売っているのかを尋ねた（成約報酬以外の仕組みについては、はっきりした答えは出ていない）。田中は次のように話した。</p>
+<ul>
+<li>ダウンセル商品は以前は担当者が売っていた。今は売っていないが、もうすぐ復活すると思う</li>
+<li>30日間でチャレンジローンチを作るダウンセルの商品がもうすぐ完成する。買った日から30日間のトレーニングが始まり、担当者の面談が1回付く</li>
+<li>電話のファネルはLPができ、メールも作ってある（30通ほどと読める）が、動画が上がっておらず、まだ走っていない</li>
+<li>ファネルは今5つ作っていて、どれが当たるかはこれから（たかみずは「前は4つでしたよね」と反応した）</li>
+</ul>
+<h3 id="14.-話す役に専念して、ディレクターを入れる">14. 話す役に専念して、ディレクターを入れる</h3>
+<p>たかみずは「自分はオンラインに向いていないのではないか。広告を見ていても全然楽しくないし、興味が持てない」と打ち明けた。</p>
+<p>田中は「やり方次第」と答え、月30万円ぐらいで頼めるディレクターを入れて、たかみずは話す役に専念する形を勧めた。毎週リールやYouTubeの撮影に呼ばれて話す、公開コンサルや公開ロープレ（原本の聞き取りが不明瞭）の企画で厳しく指導する、対面で開催する、といった動き方。たかみずは「そちらのほうがずっと楽しい」「そういうディレクターがいたら最高にうれしいが、どこにいるのか」と応じた。</p>
+<h3 id="15.-ディレクターを探すコミュニティ">15. ディレクターを探すコミュニティ</h3>
+<p>田中は、お金はかかるが候補はいくつかあるとして、自分も参加している経営者とフリーランスのマッチングコミュニティを紹介した（名称は書き起こし原本を参照）。</p>
+<ul>
+<li>自分が入って、そこでディレクターを引き抜く、という使い方。ほかの人にも紹介していて、ウェブ系の人材を引き抜いた例が何人かある</li>
+<li>年会費は20万円ほどだったと思う（田中の記憶による発言で、要確認）</li>
+<li>フリーランス側が受注した金額の1割ほどを運営に払う仕組みで、発注する側が運営に払うのは会費だけ</li>
+<li>20代から30代の、広告運用やセールス代行をしている人が多く、特に広告の人が多い</li>
+<li>運営者がフリーランスを細かく指導していて、基準を上げている。企業から継続して受注できる適度な料金を目指す考えで、代理店やセールス代行の料金が高いまま続くことには疑問を向ける</li>
+<li>ランチ会などが月に10回から15回ほどあり、全国で開かれるが中心は東京</li>
+<li>運営者と直接仲良くなれば、人を紹介してもらいやすい</li>
+<li>田中は2、3年在籍していて、何人か紹介してもらったが単発の依頼が中心で、チームに完全に入ってもらった例はまだない</li>
+<li>弱点は、コミュニティの連絡がDiscordであること（たかみずは、持っていると思うと答えた）</li>
+</ul>
+<p>入会前にオンライン面談があるので、そのときに探している人の要望を伝える、または一度直接会いに行くのもよい、と田中は説明した。たかみずは「入ります。すぐに」と答え、田中がこの後運営者に連絡して面談のリンクをもらって送ることになった。たかみずは、待っている、こちらからも諸々送る、と伝えて終了した。</p>
+<hr />
+<h2 id="考え方・マインドセット">考え方・マインドセット</h2>
+<h3 id="広告を出すなら、調べられたときの守りまで整える">広告を出すなら、調べられたときの守りまで整える</h3>
+<p>広告で知った人は名前で検索する。公式サイト、講座の実績、受講生の声、複数の発信先で、検索結果の見え方を整える。守りが弱いと、広告の反応や個別説明会のキャンセルに響く。</p>
+<h3 id="申込ページに着く前に、受けたい気持ちをつくる">申込ページに着く前に、受けたい気持ちをつくる</h3>
+<p>LPで初めて教育するのか、広告の動画で気持ちを高めてから申込ページに呼ぶのか。広告でどこからどこまで意識を持っていくかを設計する。</p>
+<h3 id="広告は、回り続ける状態にはならない">広告は、回り続ける状態にはならない</h3>
+<p>よかった企画が落ちてくるのは当たり前で、特にビジネス系は次々に作り直す。当たるコンセプトとジャンルを持てると長持ちする。</p>
+<h3 id="入口の悩みを広くして、中でセールスを渡す">入口の悩みを広くして、中でセールスを渡す</h3>
+<p>セールスの訴求だけでは、来る人が狭くなり、上の商品も売りにくくなる。集客の悩みで来てもらえれば、セールスの話は入れやすい（たかみず）。</p>
+<h3 id="売上が下がったときは、組織を筋肉質にする機会">売上が下がったときは、組織を筋肉質にする機会</h3>
+<p>必要な経費は残し、重なっているシステムや本当に必要でない支出を見直す。</p>
+<h3 id="苦手なことは人に任せ、得意な「話す」役に集中する">苦手なことは人に任せ、得意な「話す」役に集中する</h3>
+<p>楽しくない運用を抱えるより、話す場をたくさん作り、ディレクターに回してもらう。</p>
+<hr />
+<h2 id="ノウハウ・気づき">ノウハウ・気づき</h2>
+<h3 id="検索される前提の対策">検索される前提の対策</h3>
+<ul>
+<li>ホームページに講座と実績を載せ、更新を止めない（田中は3か月に1回ほど更新）</li>
+<li>サイトの名前に本人の名前と「公式」を入れる</li>
+<li>B to B向けとB to C向けは分ける</li>
+<li>トップに、オプトインに加えて説明会の案内を置く</li>
+<li>受講生の声の動画を、不安な人が検索する言葉に当たる題で公式の発信先に置く。最初は「不安だったがよかった」という声から始める</li>
+<li>SNSや音声配信を増やし、検索結果の枠を自分の発信で埋める</li>
+</ul>
+<h3 id="同じ配信先に複数の広告を出すとき">同じ配信先に複数の広告を出すとき</h3>
+<ul>
+<li>広告セットと予算の枠を分けていれば、重なること自体は普通。分散や申込単価の上昇はあり得るが、申込が急に止まる理由にはなりにくい（田中の見立て）</li>
+<li>同じ広告セットに入れると、予算が片方に偏ることがある</li>
+</ul>
+<h3 id="インスタと広告の台本">インスタと広告の台本</h3>
+<ul>
+<li>顧客の悩みについて常識を壊し、最後にプロフィールから説明会や診断へまっすぐ案内する</li>
+<li>「〇〇するのはやめてください。それは売れません」の形で、現場でよくある失敗を並べる</li>
+<li>1回の撮影で、広告用とインスタ用の締めを撮り分ける</li>
+</ul>
+<h3 id="外部の人材を探すとき">外部の人材を探すとき</h3>
+<ul>
+<li>マッチングコミュニティに入り、運営者と直接やり取りして要望を伝える</li>
+<li>料金の水準や継続費用も、紹介元の考え方を含めて確かめる</li>
+</ul>
+<hr />
+<h2 id="決まったこと">決まったこと</h2>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>受講生の声の動画</td>
+<td>たかみずが「やります」と応じた。田中の提案は、自分のYouTubeに上げること</td>
+</tr>
+<tr>
+<td>ホームページ</td>
+<td>コンサルを前に出す見せ方への変更を、たかみずが今週依頼済み（12月の頭に変える予定）</td>
+</tr>
+<tr>
+<td>LPの訴求</td>
+<td>「集客とセールスに悩む女性起業家」に戻す作業を、たかみず側で進めている</td>
+</tr>
+<tr>
+<td>固定費の確認</td>
+<td>たかみずがシステムの一覧を送り、田中が重なりや不要なものを見る。人件費の内訳も、送られれば田中が見る（判断できるかは分からないと留保）</td>
+</tr>
+<tr>
+<td>ディレクター探し</td>
+<td>たかみずはコミュニティに入る意向。田中が面談のリンクをもらって送る</td>
+</tr>
+</tbody>
+</table>
+<h2 id="やること">やること</h2>
+<h3 id="たかみず・チーム">たかみず・チーム</h3>
+<ul>
+<li>[ ] 受講生の声をまとめた動画を作り、公式の発信先（自分のYouTubeなど）に載せる</li>
+<li>[ ] ホームページの見せ方の変更を進める（12月4日に依頼先との予定）</li>
+<li>[ ] LPの上部を、集客とセールスの両方の訴求に戻す</li>
+<li>[ ] 事務局に、使っているシステムと用途の一覧を出してもらい、田中に送る</li>
+<li>[ ] 人件費の内訳（誰が何をして、月にいくらか）を田中に送る</li>
+<li>[ ] 面談のリンクが届いたら面談を受け、探しているディレクターの要望を伝える</li>
+</ul>
+<h3 id="田中">田中</h3>
+<ul>
+<li>[ ] コミュニティの運営者に連絡し、面談のリンクをたかみずに送る（この回の後）</li>
+<li>[ ] 届いたシステムの一覧を見て、重なりや不要なものを伝える。人件費の内訳も確認する</li>
+</ul>
+<h2 id="検討中・方針">検討中・方針</h2>
+<ul>
+<li>日予算の組み替え（これまでの広告会社を6万円から3万円へ、電話動線に3万円、もう一方の運用先は2万円、1日の上限8万円）は、たかみずの案で、実施するかは確定していない</li>
+<li>約5分の広告動画で教育し、LPから動画を外す検証は、田中の提案</li>
+<li>「やめてください」シリーズでインスタと広告を作ることは、田中の提案</li>
+<li>インスタでトークの専門家としてのポジションを取ることは、田中の見立てと提案</li>
+<li>ホームページのB to B向けとB to C向けの分割、トップの説明会案内、検索結果を埋める発信の追加は、田中の提案</li>
+<li>リアルの講座の開催は、たかみずが必要性を感じている段階</li>
+<li>次回の日程は、今回は話に出なかった（10月28日の回で確認した定例は、12月9日（水）21時と12月23日（水））</li>
+</ul>
+<h2 id="聞き取りについての注記">聞き取りについての注記</h2>
+<ul>
+<li>発言者の表記は、Zoomの表示名に従った。音声認識で別の漢字や別の呼び方に聞き取られている箇所（たかみずさんの名前、ファネル、受講生、成約、UTAGEなど）は、文脈から直した</li>
+<li>今月の売上、目標額、損益の目安、人件費やシステム費、日予算の数字は、会話の中の概算で、聞き取りが不明瞭な箇所がある。確定した数字としては扱わない</li>
+<li>12月4日の予定の中身、体験会の回数と日数の関係、体験会の申込を始めた月は、原本からは確定できない</li>
+<li>電話動線の開始時期は、10月28日の回の記録では10月22日。今回の「10月27日から28日ごろ」は、体験会の広告が始まった時期の話と読んだ</li>
+<li>第三者の実名や批評、ほかの案件の数字、個人の報酬、個人的な事情にかかわる話は、載せていないか一般化した</li>
+<li>今回の会議のZoomチャットは記録がなかった</li>
+<li>発言者ラベルはZoomの表示名による付与で、音声からの分離し直しはしていない</li>
+</ul>
+<hr />
+<p>Produced by KATSUO MARKETING<br />
+Version: 1.0 (2026-11-26)<br />
+Licensed to: KATSUO MARKETING Community Member<br />
+Security Trace ID: NFIM79BJ<br />
+Generated by: 田中祐一（Claude Code）</p>
+<hr /></article></main></div></body></html>
