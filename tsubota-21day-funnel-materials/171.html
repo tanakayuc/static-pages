@@ -399,7 +399,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <p>2026年11月28日。田中さん・広告担当・ファネル実装担当・PALMO実装担当向け。</p>
 <h2>1. 完成時の見え方</h2>
 <p>HTMLでページ画像と原稿を確認し、Googleシートで実装先と数値出力先を確認し、PALMOで計測元の接続と日次数値を管理する。同じ台帳からHTMLと一覧を作る。過去の下書き・旧ファネル・停止配信は公開一覧から外し、PC側に履歴を保存する。</p>
-<p>素材がある行では、本番URLの隣の「テスト・原稿URL」からHTML素材集を開く。数値出力先は工程内の「取得元」行で確認する。取得元未登録の行には原稿リンクも付けない。</p>
+<p>素材がある行では、F列の「テスト・原稿URL」からHTML素材集を開く。数値出力先は工程内の「取得元」行で確認する。取得元未登録の行には原稿リンクも付けない。</p>
 <p>今回は素材集・シート・仕様書・更新手順を作成する。PALMO本番への登録、集計の有効化、ファネルの設定変更は今回行わない。</p>
 <h2>2. 一覧の上からの並び</h2>
 <table>
@@ -483,7 +483,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <tr>
 <td>E</td>
 <td>PALMO用途</td>
-<td>取得元だけ日本語の用途</td>
+<td>取得元と商品一覧だけ日本語の用途</td>
 <td>用途</td>
 </tr>
 <tr>
@@ -542,7 +542,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </tr>
 </tbody>
 </table>
-<p>未登録行は全列で平文URL・埋込みリンク・ファイルチップを禁止し、G列に「未登録・未集計」。PALMOがC列以外のリンクも拾うため、この行に素材集リンクを入れない。ページ・メール・台本の用途は空欄。ただしシートURLで用途が空欄なら名称から推定されるので、計測対象外シートを追加した際は推定結果を検査する。商品・価格タブは「商品一覧」と明示する。</p>
+<p>未登録行は全列で平文URL・埋込みリンク・ファイルチップを禁止し、G列に「取得元URL未照合・取込未確認」。PALMOがC列以外のリンクも拾うため、この行に素材集リンクを入れない。ページ・メール・台本の用途は空欄。ただしシートURLで用途が空欄なら名称から推定されるので、計測対象外シートを追加した際は推定結果を検査する。商品・価格タブは「商品一覧」と明示する。</p>
 <h2>4. 更新方法と正本</h2>
 <p>UTAGE・MyASPの現在の設定をGETで読戻し、共通台帳からHTML・権限付き一覧・公開CSV/JSONを生成する。実装済み本文はサービスの読戻しを優先し、古い制作原稿で上書きしない。広告5案は現在の承認・撮影依頼稿であり、配信中のMeta広告IDや実績は未確認。</p>
 <p>一覧はSheets接続ツールで反映・読戻しする。生成器は同じデータの更新リクエストも出力する。現在は手動実行の連続手順であり、無操作の自動同期ではない。新しい定期処理は今回作成しない。</p>
@@ -555,7 +555,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <li><code>/api/projects/{projectUUID}/directory-sources</code> にURLとgidを登録して初回読込する。</li>
 <li><code>sheet-sources</code> の登録だけでは計測は始まらない（<code>ingestConfigured:false</code>）。列・日付・用途・期間・重複判定の設定が別途必要。</li>
 <li>接続照合はシートID＋gid＋用途。同じブックの別タブを接続済みとしない。</li>
-<li>現行の必須用途は広告数値・オプト・登録・説明会・申込・決済申込・経理・セールスの6種。契約行と商品情報も広告開始判定に含む。</li>
+<li>現行の必須用途は「広告数値」「オプト・登録」「説明会・申込」「決済申込」「経理」「セールス」の6種。契約行と商品情報も広告開始判定に含む。</li>
 <li>ディレクトリ定期読込のコード上の予定は03:35 UTC（日本12:35）。本番登録・実行履歴は未確認。数値の取得時刻とは別に表示する。</li>
 <li>読込例外時は失敗状態を保存し、前回スナップショットは更新しない。<code>isDirectorySnapshot</code> は「項目あり、URL付き1件以上、列見出しか区切りあり」を判定するだけで、URLの応答や全件完全性を保証しない。</li>
 </ul>
@@ -621,7 +621,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </ol>
 <p>未合意の担当者名や納期は約束しない。素材集の完成は65素材・81行の対応、公開表示、シート読戻し。計測稼働の完成は2〜7と必要改修・指標定義の確定。両者を分ける。</p>
 <h2>8. 読戻し結果と更新場所</h2>
-<p>UTAGE14ページHTTP200・本文GET、4シナリオ。メッセージは予約メール8、予約アクション1、移設済下書き3、停止LINE2。MyASP5フォームHTTP200・現行メール25通GET。実登録・実決済・実着・動画再生・時刻遷移は今回未検証。</p>
+<p>UTAGE14ページHTTP200・本文GET、4シナリオ。メッセージは予約メール8、予約アクション2、移設済下書き3、停止LINE2。MyASP5フォームHTTP200・現行メール25通GET。実登録・実決済・実着・動画再生・時刻遷移は今回未検証。</p>
 <p>PALMO実パーサーでは81行→72項目・区切り8。未登録6取得元はURLなし。本番登録・数値取込を意味しない。証拠は読戻しJSON、<code>PALMOパーサー照合.json</code>、表示検品結果に保存。</p>
 <ul>
 <li>素材集：<a href="https://tanakayuc.github.io/static-pages/tsubota-21day-funnel-materials/001.html" target="_blank" rel="noopener noreferrer">https://tanakayuc.github.io/static-pages/tsubota-21day-funnel-materials/001.html</a></li>
@@ -633,4 +633,19 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <li><code>python3 capture_headers_silent.py</code>：再生を止めたヘッダー静止画取得。</li>
 <li><code>python3 build_current_library.py</code>：共通生成器でHTML・CSV・JSON・Sheets更新リクエストを作成。</li>
 <li>現シートとの差分照合後にSheets接続ツールで反映。共通公開ツールで既存URLへ反映し、シートと公開ページを再読込する。これが現在の更新手順。</li>
+</ul>
+<h2>9. 更新担当への補足</h2>
+<ul>
+<li>65素材は全体像1＋個別素材64。生成HTMLは索引を加え66本。ディレクトリの72項目は個別素材64＋取得元6＋オプトインURL1＋商品一覧1。</li>
+<li>最新の予約アクション2件は診断ラベル付与と「登録直後｜オプトシート書き出し」。後者の出力先URLはAPIのメッセージ詳細では取得できず、今回の一覧では未照合のまま。出力自体が無いと断定しない。</li>
+<li>取得元6行のIDはH列の <code>source-</code> 接頭辞の固定ハッシュ。5用途・6IDで、決済申込は診断と講座の2IDを要する。クリエイティブの計測接続経路は要確認。未対応なら同用途の参照登録と数値取込を分ける追加改修が必要。</li>
+<li>C列が空の素材行では、F列がPALMOの項目URLになる。取得元未照合の行では全列をURLなしにする。F列は原稿確認用で、独立したテスト環境ではない。</li>
+<li><code>read_at</code> は最終試行時刻。必ず <code>read_status</code> と合わせて成否を見る。翌日の検収は72項目・区切り8、6取得元のID・用途・gid、読込成否、数値の原本一致を確認する。</li>
+<li>申込IDの存在と一意性は実出力で確認し、必要ならフォームIDとの複合キーにする。更新として取り込むのは暫定設計であり、列確認前に有効化しない。</li>
+<li>HTML3工程への対応は「広告・集客→集客・登録」「価値提供→価値提供・セミナー」「診断・販売・決済・商品一覧→販売・申込後」。商品一覧そのものはシートのgid=2001。</li>
+<li>シート差分はH列をキーにC・E・F・Gを比較。取得元もH列のsource IDで比較。既存URLが空になる差分は管理担当が正本を照合するまで反映しない。</li>
+<li>非公開入力のバックアップ先と権限、契約ゲートの扱い、指標定義は、初回接続前にPALMO管理者・広告担当・実装担当・田中さんで確認する。</li>
+<li>共通公開ツールは <code>skills/プロモーション素材集/scripts/publish_library.py</code>、呼出しはリポジトリ内で <code>python3 skills/プロモーション素材集/scripts/publish_library.py tsubota-21day-funnel-materials</code>。生成後、検査・commit/push・公開URL読戻しまで実施する。</li>
+<li>Sheets反映はGoogle Drive接続の <code>batch_update_spreadsheet</code> に <code>sheet-update-request.local.json</code> を渡す。同じブックID・gidを維持し、更新後に <code>get_spreadsheet_cells</code> で81行×8列を照合する。</li>
+<li>フォームの5価格は公開フォームを無音HTTP取得し表示文の金額・IDを照合する。APIのメール読戻しだけで価格再確認済みとしない。</li>
 </ul></article></main></div></body></html>
