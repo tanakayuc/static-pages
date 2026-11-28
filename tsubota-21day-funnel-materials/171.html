@@ -643,9 +643,11 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <li><code>read_at</code> は最終試行時刻。必ず <code>read_status</code> と合わせて成否を見る。翌日の検収は72項目・区切り8、6取得元のID・用途・gid、読込成否、数値の原本一致を確認する。</li>
 <li>申込IDの存在と一意性は実出力で確認し、必要ならフォームIDとの複合キーにする。更新として取り込むのは暫定設計であり、列確認前に有効化しない。</li>
 <li>HTML3工程への対応は「広告・集客→集客・登録」「価値提供→価値提供・セミナー」「診断・販売・決済・商品一覧→販売・申込後」。商品一覧そのものはシートのgid=2001。</li>
-<li>シート差分はH列をキーにC・E・F・Gを比較。取得元もH列のsource IDで比較。既存URLが空になる差分は管理担当が正本を照合するまで反映しない。</li>
+<li>シート差分はH列をキーにA〜H全列と行順を比較。取得元もH列のsource IDで比較。区切り行はB列の区切り名、H列が空のオプトURL行・商品一覧行はB列の固定名を照合キーにする。追加・削除・ID重複・既存ID欠落・既存URLの空欄化はすべて停止して案件管理担当が正本と照合する。反映前のセル値を非公開で退避し、承認された行数削減時だけ旧末尾行を明示的に消去する。</li>
 <li>非公開入力のバックアップ先と権限、契約ゲートの扱い、指標定義は、初回接続前にPALMO管理者・広告担当・実装担当・田中さんで確認する。</li>
 <li>共通公開ツールは <code>skills/プロモーション素材集/scripts/publish_library.py</code>、呼出しはリポジトリ内で <code>python3 skills/プロモーション素材集/scripts/publish_library.py tsubota-21day-funnel-materials</code>。生成後、検査・commit/push・公開URL読戻しまで実施する。</li>
 <li>Sheets反映はGoogle Drive接続の <code>batch_update_spreadsheet</code> に <code>sheet-update-request.local.json</code> を渡す。同じブックID・gidを維持し、更新後に <code>get_spreadsheet_cells</code> で81行×8列を照合する。</li>
 <li>フォームの5価格は公開フォームを無音HTTP取得し表示文の金額・IDを照合する。APIのメール読戻しだけで価格再確認済みとしない。</li>
+<li>初回接続前に、出力シートの有無と生成方法を確認する。存在するものはURL・列を照合し、存在しないものは実装担当が出力接続を作ってから取込設定へ進む。取得元ID保持・案件別必須判定の改修、契約ゲート、指標定義はPALMO管理者の確認条件。非公開入力のバックアップ先は案件管理担当が決め、他担当は確認者とする。</li>
+<li>source IDは初回の取得元名のSHA256先頭12桁を使って付番した固定ID。今後の名称変更ではIDを維持する。全体像1件はディレクトリの個別行ではなく素材集の入口に対応する。</li>
 </ul></article></main></div></body></html>
