@@ -507,38 +507,45 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </tbody>
 </table>
 <p>従って、素材ID・原稿リンク・確認状態は現状Googleシートで見る。PALMOにも見せるには既存ディレクトリへの項目追加が必要で、実装済みとは扱わない。</p>
-<p>取得元は1行＝1タブ＝1用途。対象6行は以下。いずれも現行URL未特定であり、値を捏造しない。</p>
+<p>取得元は1行＝1タブ＝1用途。対象は以下の6行。オプト・診断・講座の3タブは本人提供URLと列見出しを確認済み。残り3件はURL未特定。実URLは権限付きディレクトリに掲載し、公開資料には複製しない。</p>
 <table>
 <thead>
 <tr>
 <th>取得元</th>
 <th>E列</th>
+<th>URL確認</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>広告会社｜クリエイティブ管理シート</td>
 <td>クリエイティブ</td>
+<td>未特定</td>
 </tr>
 <tr>
 <td>広告会社｜広告数値報告シート</td>
 <td>広告数値</td>
+<td>未特定</td>
 </tr>
 <tr>
 <td>オプトイン登録データ出力シート</td>
 <td>オプト・登録</td>
+<td>確認済・オプトタブ（gid=0）</td>
 </tr>
 <tr>
 <td>診断｜申込データ出力シート</td>
 <td>決済申込</td>
+<td>確認済・個別診断タブ</td>
 </tr>
 <tr>
 <td>講座｜申込データ出力シート</td>
 <td>決済申込</td>
+<td>確認済・21日間タブ</td>
 </tr>
 <tr>
 <td>診断・講座｜入金確認・売上出力シート</td>
 <td>経理</td>
+<td>未特定</td>
 </tr>
 </tbody>
 </table>
@@ -612,7 +619,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <h2>7. 接続と検収の順番</h2>
 <ol>
 <li>現行サービス読戻し、HTML・一覧生成、公開PC/スマホ表示、シート読戻し（今回の対象）。</li>
-<li>6取得元の現行URL・gid・出力列・期間を広告担当・実装担当と照合（未特定）。</li>
+<li>6取得元中3件はURL・gid・見出し確認済み。残る3件のURLと、全取得元の取込列・期間を広告担当・実装担当と照合。</li>
 <li>PALMO管理者に実際の読込アカウントを確認し、一覧と各取得元へ閲覧権限を付与（未実施）。</li>
 <li>非公開入力を更新し、シート現値との差分を確認して再生成・反映。</li>
 <li>正しいPALMOプロジェクトUUIDへ一覧登録（今回未実施）。UTAGEのIDを代用しない。</li>
@@ -622,7 +629,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <p>未合意の担当者名や納期は約束しない。素材集の完成は65素材・81行の対応、公開表示、シート読戻し。計測稼働の完成は2〜7と必要改修・指標定義の確定。両者を分ける。</p>
 <h2>8. 読戻し結果と更新場所</h2>
 <p>UTAGE14ページHTTP200・本文GET、4シナリオ。メッセージは予約メール8、予約アクション2、移設済下書き3、停止LINE2。MyASP5フォームHTTP200・現行メール25通GET。実登録・実決済・実着・動画再生・時刻遷移は今回未検証。</p>
-<p>PALMO実パーサーでは81行→72項目・区切り8。未登録6取得元はURLなし。本番登録・数値取込を意味しない。証拠は読戻しJSON、<code>PALMOパーサー照合.json</code>、表示検品結果に保存。</p>
+<p>PALMO実パーサーでは81行→72項目・区切り8。3取得元は正しいgidのURLあり、未特定3件はURLなし。本番登録・数値取込を意味しない。証拠は読戻しJSON、<code>PALMOパーサー照合.json</code>、表示検品結果に保存。</p>
 <ul>
 <li>素材集：<a href="https://tanakayuc.github.io/static-pages/tsubota-21day-funnel-materials/001.html" target="_blank" rel="noopener noreferrer">https://tanakayuc.github.io/static-pages/tsubota-21day-funnel-materials/001.html</a></li>
 <li>一覧：<a href="https://docs.google.com/spreadsheets/d/1aa7t5yueShMiY6w0Aa_RAcRMD2206D3yYQOrzjphi8g/edit?gid=10312026#gid=10312026" target="_blank" rel="noopener noreferrer">https://docs.google.com/spreadsheets/d/1aa7t5yueShMiY6w0Aa_RAcRMD2206D3yYQOrzjphi8g/edit?gid=10312026#gid=10312026</a></li>
@@ -650,4 +657,6 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <li>フォームの5価格は公開フォームを無音HTTP取得し表示文の金額・IDを照合する。APIのメール読戻しだけで価格再確認済みとしない。</li>
 <li>初回接続前に、出力シートの有無と生成方法を確認する。存在するものはURL・列を照合し、存在しないものは実装担当が出力接続を作ってから取込設定へ進む。取得元ID保持・案件別必須判定の改修、契約ゲート、指標定義はPALMO管理者の確認条件。非公開入力のバックアップ先は案件管理担当が決め、他担当は確認者とする。</li>
 <li>source IDは初回の取得元名のSHA256先頭12桁を使って付番した固定ID。今後の名称変更ではIDを維持する。全体像1件はディレクトリの個別行ではなく素材集の入口に対応する。</li>
-</ul></article></main></div></body></html>
+</ul>
+<h2>10. 取得元3タブの追加（2026年11月28日）</h2>
+<p>本人提供の「英語｜数値シート」から、オプト（gid=0）、個別診断（gid=1359872075）、21日間（gid=135802056）を追加。顧客行は取得せず列見出しだけを確認した。オプトは登録日・メールアドレス・イベント日・登録URL。個別診断と21日間は状態・支払方法・注文ID・更新日時を含む。状態値や入金判定の実データは未確認であり、入金用の計測元まで接続済みとはしない。残るURL未特定は広告会社のクリエイティブ管理、広告数値報告、診断・講座共通の入金出力の3件。</p></article></main></div></body></html>
