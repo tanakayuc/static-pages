@@ -399,9 +399,9 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <p>2026年11月28日。田中さん・広告担当・ファネル実装担当・PALMO実装担当向け。</p>
 <h2>1. 完成時の見え方</h2>
 <p>HTMLでページ画像と原稿を確認し、Googleシートで実装先と数値出力先を確認し、PALMOで計測元の接続と日次数値を管理する。同じ台帳からHTMLと一覧を作る。過去の下書き・旧ファネル・停止配信は公開一覧から外し、PC側に履歴を保存する。</p>
-<p>素材がある行では、F列の「テスト・原稿URL」からHTML素材集を開く。数値出力先は工程内の「取得元」行で確認する。取得元未登録の行には原稿リンクも付けない。</p>
+<p>入口は原本と同じ「分類・ページ名・URL・用途・案内元」の4列。入口C列から本番ページへ、別タブ「素材・配信一覧」のC列から原稿へ進む。高度な列と取得元3タブは「PALMO管理」に保持し、入口には混ぜない。</p>
 <p>今回は素材集・シート・仕様書・更新手順を作成する。PALMO本番への登録、集計の有効化、ファネルの設定変更は今回行わない。</p>
-<h2>2. 一覧の上からの並び</h2>
+<h2>2. PALMO管理タブの並び（内部接続用）</h2>
 <table>
 <thead>
 <tr>
@@ -444,8 +444,8 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 </tr>
 </tbody>
 </table>
-<p>この表を順序の正本とする。診断の決済メールも「★決済」に集め、フォームIDと金額で識別する。HTMLのサイドバーは「集客・登録」「価値提供・セミナー」「販売・申込後」の3工程。</p>
-<h2>3. 列の定義</h2>
+<p>この表はPALMO管理の順序の正本。利用者が最初に見る4列の入口は§11の順序とする。診断の決済メールも「★決済」に集め、フォームIDと金額で識別する。HTMLのサイドバーは「集客・登録」「価値提供・セミナー」「販売・申込後」の3工程。</p>
+<h2>3. PALMO管理タブの列の定義</h2>
 <table>
 <thead>
 <tr>
@@ -559,7 +559,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <p>確認基準は <code>promoter-crm origin/main f2b8505c</code>。コードの確認と本番稼働は別。</p>
 <p>既存機能：</p>
 <ul>
-<li><code>/api/projects/{projectUUID}/directory-sources</code> にURLとgidを登録して初回読込する。</li>
+<li><code>/api/projects/{projectUUID}/directory-sources</code> には「PALMO管理」（gid=10312026）のURLを登録して初回読込する。4列の入口（gid=939210896）とは区別する。</li>
 <li><code>sheet-sources</code> の登録だけでは計測は始まらない（<code>ingestConfigured:false</code>）。列・日付・用途・期間・重複判定の設定が別途必要。</li>
 <li>接続照合はシートID＋gid＋用途。同じブックの別タブを接続済みとしない。</li>
 <li>現行の必須用途は「広告数値」「オプト・登録」「説明会・申込」「決済申込」「経理」「セールス」の6種。契約行と商品情報も広告開始判定に含む。</li>
@@ -632,7 +632,7 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <p>PALMO実パーサーでは81行→72項目・区切り8。3取得元は正しいgidのURLあり、未特定3件はURLなし。本番登録・数値取込を意味しない。証拠は読戻しJSON、<code>PALMOパーサー照合.json</code>、表示検品結果に保存。</p>
 <ul>
 <li>素材集：<a href="https://tanakayuc.github.io/static-pages/tsubota-21day-funnel-materials/001.html" target="_blank" rel="noopener noreferrer">https://tanakayuc.github.io/static-pages/tsubota-21day-funnel-materials/001.html</a></li>
-<li>一覧：<a href="https://docs.google.com/spreadsheets/d/1aa7t5yueShMiY6w0Aa_RAcRMD2206D3yYQOrzjphi8g/edit?gid=10312026#gid=10312026" target="_blank" rel="noopener noreferrer">https://docs.google.com/spreadsheets/d/1aa7t5yueShMiY6w0Aa_RAcRMD2206D3yYQOrzjphi8g/edit?gid=10312026#gid=10312026</a></li>
+<li>一覧：<a href="https://docs.google.com/spreadsheets/d/1aa7t5yueShMiY6w0Aa_RAcRMD2206D3yYQOrzjphi8g/edit?gid=939210896#gid=939210896" target="_blank" rel="noopener noreferrer">https://docs.google.com/spreadsheets/d/1aa7t5yueShMiY6w0Aa_RAcRMD2206D3yYQOrzjphi8g/edit?gid=939210896#gid=939210896</a></li>
 <li>作業場所：本案件の <code>20261128_素材集ディレクトリ再整理</code>。</li>
 <li><code>current-registry.json</code> は公開可能な台帳、<code>directory-rows.json</code> は権限付き一覧の生成結果、<code>measurement-sources.local.json</code> は非公開入力（初期空・Git対象外）。</li>
 <li><code>directory-rows.json</code> と <code>sheet-update-request.local.json</code> もGit・公開対象外。公開前に取得元URLの混入を検査する。非公開入力と生成結果は顧客データを保存する用途ではない。バックアップ先の決定は§7の4に進む前の条件とする。</li>
@@ -659,4 +659,14 @@ a:focus-visible, summary:focus-visible { outline: 3px solid rgba(44,181,150,0.34
 <li>source IDは初回の取得元名のSHA256先頭12桁を使って付番した固定ID。今後の名称変更ではIDを維持する。全体像1件はディレクトリの個別行ではなく素材集の入口に対応する。</li>
 </ul>
 <h2>10. 取得元3タブの追加（2026年11月28日）</h2>
-<p>本人提供の「英語｜数値シート」から、オプト（gid=0）、個別診断（gid=1359872075）、21日間（gid=135802056）を追加。顧客行は取得せず列見出しだけを確認した。オプトは登録日・メールアドレス・イベント日・登録URL。個別診断と21日間は状態・支払方法・注文ID・更新日時を含む。状態値や入金判定の実データは未確認であり、入金用の計測元まで接続済みとはしない。残るURL未特定は広告会社のクリエイティブ管理、広告数値報告、診断・講座共通の入金出力の3件。</p></article></main></div></body></html>
+<p>本人提供の「英語｜数値シート」から、オプト（gid=0）、個別診断（gid=1359872075）、21日間（gid=135802056）を追加。顧客行は取得せず列見出しだけを確認した。オプトは登録日・メールアドレス・イベント日・登録URL。個別診断と21日間は状態・支払方法・注文ID・更新日時を含む。状態値や入金判定の実データは未確認であり、入金用の計測元まで接続済みとはしない。残るURL未特定は広告会社のクリエイティブ管理、広告数値報告、診断・講座共通の入金出力の3件。</p>
+<h2>11. 天野さんの原本書式へ完全統一（2026年11月28日）</h2>
+<p>本人の指定により、入口は4列に戻す。参考タブを同じブックへネイティブ複製し、列幅・行高・Arial 10・黄色の表頭・薄橙の工程見出し・点線罫線・太字を継承する。</p>
+<p>入口の順番は「広告シート → オプトLP → サンキューページ → ウェビナーページ → 販売ページ → 決済シート」。ファネル本体は中央の4段。広告シートと決済シートのURL・説明欄は本人が後から入力するため空欄にする。申込データの3URLを決済シートへ勝手に転用しない。</p>
+<ul>
+<li>ディレクトリ一覧（gid=939210896）：4列22行。ページとオプト書き出しリンクを確認する入口。</li>
+<li>素材・配信一覧（gid=2003）：同じ原本書式の4列61行。広告原稿・動画・決済フォーム・メール・LINE・法務・運用資料。</li>
+<li>PALMO管理（gid=10312026）：従来の8列81行を保持。取得元3タブ・用途・実装IDを管理。PALMO登録先はこちら。</li>
+<li>商品・価格（gid=2001）：既存の価格対応表。</li>
+</ul>
+<p><code>build_readable_directory.py</code> が現行台帳から入口と明細を生成する。<code>build_current_library.py</code> のSheets更新リクエストは3タブ（PALMO管理・入口・素材配信）を同じデータから作る。管理列を再び入口へ追加しない。反映前の差分照合は、PALMO管理は81×8、入口は22×4、明細は61×4で行い、広告・決済欄の空欄も検収する。入口と明細は複製元の列幅・行高を維持し、全シートへの自動幅調整や独自の緑色装飾を行わない。</p></article></main></div></body></html>
